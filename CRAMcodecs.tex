@@ -871,7 +871,7 @@ Flag indicating whether to interleave 4 or 32 rANS states.
 Bit field defining order-0 (unset) or order-1 (set) entropy encoding, as described above by the \textsc{RansDecodeNx16\_0} and \textsc{RansDecodeNx16\_1} functions.
 
 \item{\textbf{\textsc{RLE}}:}
-Bit field defining whether Run Length Encoding has been applied to the data.  If set, the reverse transorm will be applied using \textsc{DecodeRLE} after Order-0 or Order-1 uncompression (see Section~\ref{sec:ransRLE}).
+Bit field defining whether Run Length Encoding has been applied to the data.  If set, the reverse transform will be applied using \textsc{DecodeRLE} after Order-0 or Order-1 uncompression (see Section~\ref{sec:ransRLE}).
 
 \item{\textbf{\textsc{Pack}}:}
 Bit field indicating the data was packed prior to compression (see Section~\ref{sec:ranspack}).  If set, unpack the bits after any RLE decoding has been applied (if required) using the \textsc{DecodePack} function.
@@ -1798,7 +1798,7 @@ decode, learning the likelihoods and thus avoiding needing to store
 frequency tables in the data stream covering all possible contexts.
 
 To do this we use a statistical model, containing an array of symbols $S$ and their frequencies $F$.
-The sum of these frequences must be less than $2^{16}-16$ so after adjusting the frequencies it never go above the maximum unsigned 16-bit integer.
+The sum of these frequencies must be less than $2^{16}-16$ so after adjusting the frequencies it never go above the maximum unsigned 16-bit integer.
 When they get too high, they are renormalised by approximately halving the frequencies (ensuring none drop to zero).
 
 Typically an array of models are used where the array index represents the current context.
@@ -2230,7 +2230,7 @@ I17_08765:2:124:45613:16161#9
 We may wish to tokenise each of these into 7 tokens, e.g.
 ``I17\_08765:2:'', ``123'', ``:'', ``61541'', ``:'', ``01763''and
 ``\#9''. Some of these are multi-byte strings, some single characters,
-and some numeric, possibily with a leading zero.  We also observe some
+and some numeric, possibly with a leading zero.  We also observe some
 regularly have values that match the previous line (the initial prefix
 string, colons, ``\#9'') while others are numerically very close to the
 value in the previous line (124 vs 123).
@@ -2312,7 +2312,7 @@ matching the string including its length.
 Fetch one single byte from the value byte stream and append to the name buffer.
 
 \item{\textbf{DIGITS}:}
-Fetch 4 bytes from the value byte stream and intrepret these as a little
+Fetch 4 bytes from the value byte stream and interpret these as a little
 endian unsigned integer.  This is appended to the name buffer as
 string of base-10 digits, most significant digit first.  Larger
 values may be represented, but will require multiple DIGITS tokens.
@@ -2321,7 +2321,7 @@ STRING and storing the absolute value.
 
 \item{\textbf{DIGITS0}, \textbf{DZLEN}:}
 This fetches the 4 byte value from $B_{pos,DIGITS0}$ and a 1 byte
-length from $B_{pos,DZLEN}$.  As per DIGITS, the value is intrepreted as a
+length from $B_{pos,DZLEN}$.  As per DIGITS, the value is interpreted as a
 little endian unsigned integer.  The length indicates the total
 size of the numeric value when displayed in base 10 which must be
 greater than $\log_{10}(value)$ with any remaining length indicating
@@ -2774,7 +2774,7 @@ record.  It may be adjusted by the $dtab$ lookup table and is shifted
 by $dloc$ before adding to the combined context.
 
 The selector value may also be used as a sub-context, if the $do\_sel$
-paramter is set.  The initial context value (reset per record) is
+parameter is set.  The initial context value (reset per record) is
 defined within each parameter set, providing a more general purpose
 alternative to adding the selector value at a defined location
 ($sloc$) into the context.
