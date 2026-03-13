@@ -107,7 +107,7 @@ exons.
 
 chromosome:  
 A sequence of nucleobases with a name. In this specification,
-“chromosome” may also describe a named scaffold that does not fit the
+"chromosome" may also describe a named scaffold that does not fit the
 biological definition of a chromosome. Often, **chromosome**s are
 numbered starting from `1`. There are also often sex **chromosome**s
 such as `W`, `X`, `Y`, and `Z`, mitochondrial **chromosome**s such
@@ -130,7 +130,7 @@ A **line** that contains **feature** data.
 
 feature:  
 A linear region of a **chromosome** with specified properties. For
-example, a **file**’s **feature**s might all be peaks called from
+example, a **file**'s **feature**s might all be peaks called from
 ChIP-seq data, or transcript.
 
 field:  
@@ -392,7 +392,7 @@ system**.
 
 12. <span class="sans-serif">blockStarts</span>: Comma-separated list of
     length <span class="sans-serif">blockCount</span> containing each
-    **block**’s start position, relative
+    **block**'s start position, relative
     to <span class="sans-serif">chromStart</span>. There must not be
     spaces before or after the commas. There may be a trailing comma
     after the last element of the list. Each element
@@ -636,11 +636,11 @@ Zhang (Ontario Institute for Cancer Research); and the
 <span acronym-label="GA4GH" acronym-form="singular+short">GA4GH</span>
 File Formats Task Team for comments on this specification.
 
-[^1]: “Frequently Asked Questions: Data File Formats.”
+[^1]: "Frequently Asked Questions: Data File Formats."
     <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
     Genome Browser FAQ, <https://genome.ucsc.edu/FAQ/FAQformat.html>
 
-[^2]: POSIX/IEEE 1003.1–2017 Extended Regular Expressions, for the “C”
+[^2]: POSIX/IEEE 1003.1–2017 Extended Regular Expressions, for the "C"
     locale. *IEEE Standard for Information Technology—Portable Operating
     System Interface (POSIX) Base Specifications*, IEEE 1003.1–2017,
     2017
@@ -660,38 +660,38 @@ File Formats Task Team for comments on this specification.
     acronym-form="singular+short">regex</span> would
     be `([[:digit:]]+,){3}[[:digit:]]+,?`
 
-[^7]: “Frequently Asked Questions: Data File Formats.”
+[^7]: "Frequently Asked Questions: Data File Formats."
     <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
     Genome Browser FAQ, <https://genome.ucsc.edu/FAQ/FAQformat.html>
 
-[^8]: “Frequently Asked Questions: Data File Formats.”
+[^8]: "Frequently Asked Questions: Data File Formats."
     <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
     Genome Browser FAQ, <https://genome.ucsc.edu/FAQ/FAQformat.html>
 
 [^9]: *IEEE Standard for Binary Floating-Point Arithmetic.* IEEE
     754–1985, 1985
 
-[^10]: Kent, W. James. (2000) “AutoSQL.”
+[^10]: Kent, W. James. (2000) "AutoSQL."
     <https://hgwdev.gi.ucsc.edu/~kent/exe/doc/autoSql.doc>
 
-[^11]: Kent, W. James et al. (2010) “BigWig and BigBed: enabling
-    browsing of large distributed datasets.” *Bioinformatics*
+[^11]: Kent, W. James et al. (2010) "BigWig and BigBed: enabling
+    browsing of large distributed datasets." *Bioinformatics*
     26(17):2204–2207. <https://doi.org/10.1093/bioinformatics/btq351>
 
-[^12]: “bigBed Track Format.” <span acronym-label="UCSC"
+[^12]: "bigBed Track Format." <span acronym-label="UCSC"
     acronym-form="singular+short">UCSC</span> Genome Browser FAQ,
     <https://genome.ucsc.edu/goldenPath/help/bigBed.html>
 
-[^13]: Li H. (2011) “Tabix: fast retrieval of sequence features from
-    generic TAB-delimited files.” *Bioinformatics* 27(5):718–719.
+[^13]: Li H. (2011) "Tabix: fast retrieval of sequence features from
+    generic TAB-delimited files." *Bioinformatics* 27(5):718–719.
     <https://doi.org/10.1093/bioinformatics/btq671>
 
-[^14]: Haeussler, Maximilian et al. (2019) “The
+[^14]: Haeussler, Maximilian et al. (2019) "The
     <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span>
-    Genome Browser database: 2019 update.” *Nucleic Acids Research*
+    Genome Browser database: 2019 update." *Nucleic Acids Research*
     47(D1):D853–D858. <https://doi.org/10.1093/nar/gky1095>
 
-[^15]: “Displaying your own annotations in the Genome Browser.”
+[^15]: "Displaying your own annotations in the Genome Browser."
     <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
     Genome Browser FAQ,
     <https://genome.ucsc.edu/goldenPath/help/customTrack.html#lines>

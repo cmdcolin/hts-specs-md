@@ -14,13 +14,13 @@ This printing is version c101c79 from the [hts-specs](https://github.com/samtool
 
 
 VCF is a text file format (most likely stored in a compressed manner).
-It contains meta-information lines (prefixed with “`##`”), a header line
-(prefixed with “`#`”), and data lines each containing information about
+It contains meta-information lines (prefixed with "`##`"), a header line
+(prefixed with "`#`"), and data lines each containing information about
 a position in the genome and genotype information on samples for each
 position (text fields separated by tabs). Zero length fields are not
-allowed, a dot (“.”) must be used instead. In order to ensure
+allowed, a dot (".") must be used instead. In order to ensure
 interoperability across platforms, VCF compliant implementations must
-support both LF (“`\n`”) and CR+LF (“`\r\n`”) newline conventions.
+support both LF ("`\n`") and CR+LF ("`\r\n`") newline conventions.
 
 ## An example
 
@@ -72,8 +72,8 @@ characters. VCF files must not contain a byte order mark. Note that
 non-printable characters U+0000–U+0008, U+000B–U+000C, U+000E–U+001F are
 disallowed. Line separators must be CR+LF or LF and they are allowed
 only as line separators at end of line. Some characters have a special
-meaning when they appear (such as field delimiters ‘`;`’ in INFO or
-‘`:`’ FORMAT fields), and for any other meaning they must be represented
+meaning when they appear (such as field delimiters '`;`' in INFO or
+'`:`' FORMAT fields), and for any other meaning they must be represented
 with the capitalized percent encoding:
 
 |     |     |                |
@@ -101,7 +101,7 @@ data-reference="BcfTypeEncoding">6.3.3</a>.
 
 ## Meta-information lines
 
-File meta-information lines start with “`##`” and must appear first in
+File meta-information lines start with "`##`" and must appear first in
 the VCF file, before the header line
 (section <a href="#header-line" data-reference-type="ref"
 data-reference="header-line">1.5</a>) and data record lines
@@ -111,7 +111,7 @@ or *structured*.
 
 An *unstructured* meta-information line consists of a *key* (denoting
 the type of meta-information recorded) and a *value* (which may not be
-empty and must not start with a ‘`<`’ character), separated by an ‘`=`’
+empty and must not start with a '`<`' character), separated by an '`=`'
 character:
 
 > `##`*key*`=`*value*
@@ -123,20 +123,20 @@ VCF files. These typically have meanings that are obvious, or they are
 immaterial for processing the file, or both.
 
 A *structured* meta-information line is similar, but the value is itself
-a comma-separated list of key=value pairs, enclosed within ‘`<`’ and
-‘`>`’ characters:
+a comma-separated list of key=value pairs, enclosed within '`<`' and
+'`>`' characters:
 
 > `##`*key*`=<`*key*`=`*value*`,`*key*`=`*value*`,`*key*`=`*value*`,`…`>`
 
 All structured lines require an ID which must be unique within their
 type, i.e., within all the meta-information lines with the same
-“`##`*key*`=`” prefix. For all of the structured lines (`##INFO`,
+"`##`*key*`=`" prefix. For all of the structured lines (`##INFO`,
 `##FORMAT`, `##FILTER`, etc.) described in this specification, extra
 fields can be included after the default fields. For example:
 
     ##INFO=<ID=ALLELEID,Number=A,Type=String,Description="Allele ID",Source="ClinVar",Version="20220804">
 
-In the above example, the extra fields of “Source” and “Version” are
+In the above example, the extra fields of "Source" and "Version" are
 provided. The values of optional fields must be written as quoted
 strings, even for numeric values. Other structured lines not defined by
 this specification may also be used; the only default field for such
@@ -156,7 +156,7 @@ VCF file.
 
 ### File format
 
-A single ‘fileformat’ line is always required, must be the first line in
+A single 'fileformat' line is always required, must be the first line in
 the file, and details the VCF format version number. For VCF version
 4.3, this line is:
 
@@ -195,7 +195,7 @@ define special cases:
 - . (dot): The number of possible values varies, is unknown or
   unbounded.
 
-The ‘Flag’ type indicates that the INFO field does not contain a Value
+The 'Flag' type indicates that the INFO field does not contain a Value
 entry, and hence the Number must be $`0`$ in this case. The Description
 value must be surrounded by double-quotes. Double-quote character must
 be escaped with backslash $`\backslash`$ and backslash as
@@ -280,9 +280,9 @@ additional optional attributes with the following ones reserved:
 
 - length: the length of the sequence
 
-- md5: MD5 checksum of the sequence as defined in SAM’s `@SQ-M5`
+- md5: MD5 checksum of the sequence as defined in SAM's `@SQ-M5`
   field[^2] Briefly, the digest is calculated excluding all characters
-  outside of the inclusive range 33 (‘’) to 126 (‘’) and all lowercase
+  outside of the inclusive range 33 ('') to 126 ('') and all lowercase
   characters converted to uppercase. The MD5 digest is calculated as
   described in [*RFC 1321*](https://tools.ietf.org/html/rfc1321) and
   presented as a 32 character lowercase hexadecimal number.
@@ -293,21 +293,20 @@ For example:
 
     ##contig=<ID=ctg1,length=81195210,URL=ftp://example.com/assembly.fa,md5=f126cdf8a6e0c7f379d618ff66beb2da,...>
 
-Contig names follow the same rules as the SAM format’s reference
+Contig names follow the same rules as the SAM format's reference
 sequence names: they may contain any printable ASCII characters in the
-range `[!-~]` apart from ‘`\```  , "`’ () []  ```{}`` <>`’ and may not
-start with ‘’ or ‘`=`’. Thus they match the following regular
+range `[!-~]` apart from '`\```  , "`' () []  ```{}`` <>`' and may not
+start with '' or '`=`'. Thus they match the following regular
 expression:
 
 <div class="code-math-block">
 
-<span class="code-text">
-\[0-9A-Za-z!#</span>$`%&+./:;?@^_|~-][0-9A-Za-z!#`$<span class="code-text">%&\*+./:;=?@^\_\|~-\]\*</span>
+    \[0-9A-Za-z!#$`%&+./:;?@^_|~-][0-9A-Za-z!#`$%&\*+./:;=?@^\_\|~-\]\*
 
 </div>
 
 In particular, excluding commas facilitates parsing `##contig` lines,
-and excluding the characters ‘`<>[]`’ and initial ‘’ avoids clashes with
+and excluding the characters '`<>[]`' and initial '' avoids clashes with
 symbolic alleles. The contig names must not use a reserved symbolic
 allele name.
 
@@ -359,14 +358,14 @@ no tab characters at the end of the line.
 
 All data lines are tab-delimited with no tab character at the end of the
 line. The last data line must end with a line separator. In all cases,
-missing values are specified with a dot (‘.’).
+missing values are specified with a dot ('.').
 
 ### Fixed fields
 
 There are 8 fixed fields per record. Fixed fields are:
 
 1.  CHROM — chromosome: An identifier from the reference genome or an
-    angle-bracketed ID String (“$`<`$ID$`>`$”) pointing to a contig in
+    angle-bracketed ID String ("$`<`$ID$`>`$") pointing to a contig in
     the assembly file (cf. the \##assembly line in the header). All
     entries for a specific CHROM must form a contiguous block within the
     VCF file. (String, no whitespace permitted, Required).
@@ -397,7 +396,7 @@ There are 8 fixed fields per record. Fixed fields are:
     for e.g. complex substitutions or other events where all alleles
     have at least one base represented in their Strings. If any of the
     ALT alleles is a symbolic allele (an angle-bracketed ID String
-    “$`<`$ID$`>`$”) then the padding base is required and POS denotes
+    "$`<`$ID$`>`$") then the padding base is required and POS denotes
     the coordinate of the base preceding the polymorphism. Tools
     processing VCF files are not required to preserve case in the allele
     Strings. (String, Required).
@@ -411,9 +410,9 @@ There are 8 fixed fields per record. Fixed fields are:
 5.  ALT — alternate base(s): Comma-separated list of alternate
     non-reference alleles. These alleles do not have to be called in any
     of the samples. Options are base Strings made up of the bases
-    A,C,G,T,N (case insensitive) or the ‘\*’ symbol (allele missing due
-    to overlapping deletion) or a MISSING value ‘.’ (no variant) or an
-    angle-bracketed ID String (“$`<`$ID$`>`$”) or a breakend replacement
+    A,C,G,T,N (case insensitive) or the '\*' symbol (allele missing due
+    to overlapping deletion) or a MISSING value '.' (no variant) or an
+    angle-bracketed ID String ("$`<`$ID$`>`$") or a breakend replacement
     string as described in Section
     <a href="#Breakends" data-reference-type="ref"
     data-reference="Breakends">5.4</a>. If there are no alternative
@@ -426,27 +425,27 @@ There are 8 fixed fields per record. Fixed fields are:
     itself)
 
 6.  QUAL — quality: Phred-scaled quality score for the assertion made in
-    ALT. i.e. $`-10log_{10}`$ prob(call in ALT is wrong). If ALT is ‘.’
+    ALT. i.e. $`-10log_{10}`$ prob(call in ALT is wrong). If ALT is '.'
     (no variant) then this is $`-10log_{10}`$ prob(variant), and if ALT
-    is not ‘.’ this is $`-10log_{10}`$ prob(no variant). If unknown, the
+    is not '.' this is $`-10log_{10}`$ prob(no variant). If unknown, the
     MISSING value must be specified. (Float)
 
 7.  FILTER — filter status: PASS if this position has passed all
     filters, i.e., a call is made at this position. Otherwise, if the
     site has not passed all filters, a semicolon-separated list of codes
-    for filters that fail. e.g. “q10;s50” might indicate that at this
+    for filters that fail. e.g. "q10;s50" might indicate that at this
     site the quality is below 10 and the number of samples with data is
-    below 50% of the total number of samples. ‘0’ is reserved and must
+    below 50% of the total number of samples. '0' is reserved and must
     not be used as a filter String. If filters have not been applied,
     then this field must be set to the MISSING value. (String, no
     whitespace or semicolons permitted, duplicate values not allowed.)
 
 8.  INFO — additional information: Semicolon-separated series of
-    additional information fields, or the MISSING value ‘`.`’ if none
+    additional information fields, or the MISSING value '`.`' if none
     are present. Each subfield consists of a short *key* with optional
     *values* in the format: key\[=value\[, …,value\]\]. Literal
-    semicolon (‘`;`’) and equals sign (‘`=`’) characters are not
-    permitted in these values, and literal commas (‘`,`’) are permitted
+    semicolon ('`;`') and equals sign ('`=`') characters are not
+    permitted in these values, and literal commas ('`,`') are permitted
     only as delimiters for lists of values; characters with special
     meaning can be encoded using percent encoding, see
     Section <a href="#character-encoding" data-reference-type="ref"
@@ -454,7 +453,7 @@ There are 8 fixed fields per record. Fixed fields are:
     allowed in values.
 
     INFO keys must match the regular expression
-    `^([A-Za-z_][0-9A-Za-z_.]*|1000G)$`, please note that “1000G” is
+    `^([A-Za-z_][0-9A-Za-z_.]*|1000G)$`, please note that "1000G" is
     allowed as a special legacy value. Duplicate keys are not allowed.
     Arbitrary keys are permitted, although those listed in
     Table <a href="#table:reserved-info" data-reference-type="ref"
@@ -483,20 +482,14 @@ There are 8 fixed fields per record. Fixed fields are:
 </tr>
 </thead>
 <tbody>
-<tr>
-<td colspan="4" style="text-align: left;"><em>…Continued from previous
-page</em></td>
-</tr>
+
 <tr>
 <td style="text-align: left;">Key</td>
 <td style="text-align: left;">Number</td>
 <td style="text-align: left;">Type</td>
 <td style="text-align: left;">Description</td>
 </tr>
-<tr>
-<td colspan="4" style="text-align: right;"><em>Continued on next
-page…</em></td>
-</tr>
+
 <tr>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
@@ -651,7 +644,7 @@ genomics)</td>
   an explicit END INFO field provides variant span information that is
   otherwise unknown.
 
-  This field is used to compute BCF’s `rlen` field
+  This field is used to compute BCF's `rlen` field
   (see <a href="#BcfSiteEncoding" data-reference-type="ref"
   data-reference="BcfSiteEncoding">6.3.1</a>) and is important when
   indexing VCF/BCF files to enable random access and querying by
@@ -672,8 +665,8 @@ however, software support for them is not guaranteed.
 If any of the fields is missing, it is replaced with the MISSING value.
 For example if the FORMAT is GT:GQ:DP:HQ then $`0\mid0:.:23:23,34`$
 indicates that GQ is missing. If a field contains a list of missing
-values, it can be represented either as a single MISSING value (‘.’) or
-as a list of missing values (e.g. ‘.,.,.’ if the field was Number=3).
+values, it can be represented either as a single MISSING value ('.') or
+as a list of missing values (e.g. '.,.,.' if the field was Number=3).
 Trailing fields can be dropped, with the exception of the GT field,
 which should always be present if specified in the FORMAT field.
 
@@ -700,20 +693,14 @@ reserved for structural variants.
 </tr>
 </thead>
 <tbody>
-<tr>
-<td colspan="4" style="text-align: left;"><em>…Continued from previous
-page</em></td>
-</tr>
+
 <tr>
 <td style="text-align: left;">Field</td>
 <td style="text-align: left;">Number</td>
 <td style="text-align: left;">Type</td>
 <td style="text-align: left;">Description</td>
 </tr>
-<tr>
-<td colspan="4" style="text-align: right;"><em>Continued on next
-page…</em></td>
-</tr>
+
 <tr>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
@@ -757,7 +744,7 @@ strand</td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">String</td>
 <td style="text-align: left;">Filter indicating if this genotype was
-“called”</td>
+"called"</td>
 </tr>
 <tr>
 <td style="text-align: left;">GL</td>
@@ -836,15 +823,15 @@ probabilities rounded to the closest integer</td>
   field. Typically used in association analyses.
 
 - FT (String): Sample genotype filter indicating if this genotype was
-  “called” (similar in concept to the FILTER field). Again, use PASS to
+  "called" (similar in concept to the FILTER field). Again, use PASS to
   indicate that all filters have been passed, a semicolon-separated list
-  of codes for filters that fail, or ‘.’ to indicate that filters have
+  of codes for filters that fail, or '.' to indicate that filters have
   not been applied. These values should be described in the
   meta-information in the same way as FILTERs. No whitespace or
   semicolons permitted.
 
 - GQ (Integer): Conditional genotype quality, encoded as a phred quality
-  $`-10log_{10}`$ p(genotype call is wrong, conditioned on the site’s
+  $`-10log_{10}`$ p(genotype call is wrong, conditioned on the site's
   being variant).
 
 - GP (Float): Genotype posterior probabilities in the range 0 to 1 using
@@ -858,9 +845,9 @@ probabilities rounded to the closest integer</td>
   examples could be $`0/1`$, $`1\mid0`$, or $`1/2`$, etc. Haploid calls,
   e.g. on Y, male non-pseudoautosomal X, or mitochondrion, are indicated
   by having only one allele value. A triploid call might look like
-  $`0/0/1`$. If a call cannot be made for a sample at a given locus, ‘.’
+  $`0/0/1`$. If a call cannot be made for a sample at a given locus, '.'
   must be specified for each missing allele in the GT field (for example
-  ‘$`./.`$’ for a diploid genotype and ‘.’ for haploid genotype). The
+  '$`./.`$' for a diploid genotype and '.' for haploid genotype). The
   meanings of the separators are as follows (see the PS field below for
   more details on incorporating phasing information into the genotypes):
 
@@ -884,11 +871,11 @@ probabilities rounded to the closest integer</td>
 
   <div class="code-math-block">
 
-  <span class="code-text"> for </span>$`a_P = 0\ldots N`$
-  <span class="code-text"> for </span>$`a_{P-1} = 0\ldots a_P`$
-  <span class="code-text"> </span>$`\ldots`$
-  <span class="code-text"> for </span>$`a_1 = 0\ldots a_{2}`$
-  <span class="code-text"> println </span>$`a_1 a_2  \ldots  a_P`$
+    for $`a_P = 0\ldots N`$\
+      for $`a_{P-1} = 0\ldots a_P`$\
+          $`\ldots`$\
+          for $`a_1 = 0\ldots a_{2}`$\
+              println $`a_1 a_2  \ldots  a_P`$
 
   </div>
 
@@ -897,18 +884,10 @@ probabilities rounded to the closest integer</td>
 
   <div class="code-math-block">
 
-  <span class="code-text">
-  Ordering(</span>$`P`$<span class="code-text">,
-  </span>$`N`$<span class="code-text">, suffix=""):</span>
-  <span class="code-text"> for </span>$`a`$<span class="code-text"> in
-  </span>$`0\ldots N`$
-  <span class="code-text"> if
-  (</span>$`P == 1`$<span class="code-text">) println
-  str(</span>$`a`$<span class="code-text">) + suffix</span>
-  <span class="code-text"> if (</span>$`P > 1`$<span class="code-text">)
-  Ordering(</span>$`P`$<span class="code-text">-1,
-  </span>$`a`$<span class="code-text">,
-  str(</span>$`a`$<span class="code-text">) + suffix)</span>
+      Ordering($`P`$, $`N`$, suffix=""):\
+          for $`a`$ in $`0\ldots N`$\
+              if ($`P == 1`$) println str($`a`$) + suffix\
+              if ($`P > 1`$) Ordering($`P`$-1, $`a`$, str($`a`$) + suffix)
 
   </div>
 
@@ -917,9 +896,7 @@ probabilities rounded to the closest integer</td>
 
   <div class="code-math-block">
 
-  <span class="code-text">
-  Index(</span>$`k_1/k_2/\ldots/k_P`$<span class="code-text">) =
-  </span>$`\sum_{m=1}^{P} {k_m + m - 1 \choose m}`$
+      Index($`k_1/k_2/\ldots/k_P`$) = $`\sum_{m=1}^{P} {k_m + m - 1 \choose m}`$
 
   </div>
 
@@ -942,7 +919,7 @@ probabilities rounded to the closest integer</td>
 - PQ (Integer): Phasing quality, the phred-scaled probability that
   alleles are ordered incorrectly in a heterozygote (against all other
   members in the phase set). We note that we have not yet included the
-  specific measure for precisely defining “phasing quality”; our
+  specific measure for precisely defining "phasing quality"; our
   intention for now is simply to reserve the PQ tag for future use as a
   measure of phasing quality.
 
@@ -983,17 +960,17 @@ are a-ALT-t for each alternative allele.
 Several tag names follow conventions indicating how their values are
 represented numerically:
 
-- The ‘L’ suffix means *likelihood* as log-likelihood in the sampling
+- The 'L' suffix means *likelihood* as log-likelihood in the sampling
   distribution, $`\log_{10} \Pr(\mathrm{Data}|\mathrm{Model})`$.
   Likelihoods are represented as $`\log_{10}`$ scale, thus they are
   negative numbers (e.g. GL, CNL). The likelihood can be also
   represented in some cases as phred-scale in a separate tag (e.g. PL).
 
-- The ‘P’ suffix means *probability* as linear-scale probability in the
+- The 'P' suffix means *probability* as linear-scale probability in the
   posterior distribution, which is
   $`\Pr(\mathrm{Model}|\mathrm{Data})`$. Examples are GP, CNP.
 
-- The ‘Q’ suffix means *quality* as log-complementary-phred-scale
+- The 'Q' suffix means *quality* as log-complementary-phred-scale
   posterior probability,
   $`-10 \log_{10} \Pr(\mathrm{Data}|\mathrm{Model})`$, where the model
   is the most likely genotype that appears in the GT field. Examples are
@@ -1169,7 +1146,7 @@ bases 2–4. This complex set of allele is represented in VCF as:
 
 Note that in VCF records, the molecular equivalence explicitly listed
 above in the per-base alignment is discarded, so the actual placement of
-equivalent g isn’t retained. For completeness, VCF records are
+equivalent g isn't retained. For completeness, VCF records are
 dynamically typed, so whether a VCF record is a SNP, Indel, Mixed, or
 Reference site depends on the properties of the alleles in the record.
 
@@ -1248,7 +1225,7 @@ following haplotypes:
 | $`2`$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
 
 Note that in all of these examples dashes have been added to make the
-haplotypes clearer but of course the equivalence among bases isn’t
+haplotypes clearer but of course the equivalence among bases isn't
 provided by the VCF. Technically the following is an equivalent
 alignment:
 
@@ -1326,17 +1303,17 @@ two breakends at either end of a novel adjacency are called **mates**.
 
 There is one line of VCF (i.e. one record) for each of the two breakends
 in a novel adjacency. A breakend record is identified with the tag
-“SVTYPE=BND” in the INFO field. The REF field of a breakend record
+"SVTYPE=BND" in the INFO field. The REF field of a breakend record
 indicates a base or sequence s of bases beginning at position POS, as in
 all VCF records. The ALT field of a breakend record indicates a
-replacement for s. This “breakend replacement” has three parts:
+replacement for s. This "breakend replacement" has three parts:
 
 1.  The string t that replaces places s. The string t may be an extended
     version of s if some novel bases are inserted during the formation
     of the novel adjacency.
 
 2.  The position p of the mate breakend, indicated by a string of the
-    form “chr:pos”. This is the location of the first mapped base in the
+    form "chr:pos". This is the location of the first mapped base in the
     piece being joined at this novel adjacency.
 
 3.  The direction that the joined sequence continues in, starting
@@ -1465,7 +1442,7 @@ Two breakends which are connected in the reference genome but
 disconnected in the variants are called partners. Each breakend only has
 one partner, typically one basepair left or right. However, it is not
 uncommon to observe loss of a few basepairs during the rearrangement. A
-breakend’s partner may be explicitly named as in Figure 5:
+breakend's partner may be explicitly named as in Figure 5:
 
 <figure data-latex-placement="ht">
 <img src="img/erosion-400x211.png" style="width:4in;height:2.11in" />
@@ -1587,9 +1564,9 @@ interval of possibility:
 | 2 | 321681 | bnd_V | T | T$`]13:123462]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;CIPOS=0,6 |
 | 13 | 123456 | bnd_U | A | A$`]2:321687]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V;CIPOS=0,6 |
 
-Note that the coordinate in breakend U’s ALT string does not correspond
+Note that the coordinate in breakend U's ALT string does not correspond
 to the designated position of breakend V, but to the position that V
-would take if U’s position were fixed (and vice-versa). The CIPOS tags
+would take if U's position were fixed (and vice-versa). The CIPOS tags
 describe the uncertainty around the positions of U and V.
 
 The fact that breakends U and V are mates is preserved thanks to the
@@ -1658,7 +1635,7 @@ sequence can be provided on that line, in analogy to paired breakends:
 ### Sample mixtures
 
 It may be extremely difficult to obtain clinically perfect samples, with
-only one type of cell. Let’s imagine that two samples are taken from a
+only one type of cell. Let's imagine that two samples are taken from a
 cancer patient: healthy blood, and some tumor tissue with an estimated
 30% stromal contamination. This would then be expressed in the header
 as:
@@ -1733,7 +1710,7 @@ of the form:
 
     ##PEDIGREE=<ID=ChildID,Mother=MotherID,Father=FatherID>
 
-Let’s consider a cancer patient VCF file with 4 genomes: germline,
+Let's consider a cancer patient VCF file with 4 genomes: germline,
 primary_tumor, secondary_tumor1, and secondary_tumor2 as illustrated in
 Figure 10. The primary_tumor is derived from the germline and the
 secondary tumors are each derived independently from the primary tumor,
@@ -1935,14 +1912,14 @@ The BCF2 header contains the following items:
 
 | **Field** | **Type** | **Notes** |
 |:---|:---|:---|
-| magic | char\[3\] | The characters “`BCF`” |
+| magic | char\[3\] | The characters "`BCF`" |
 | major_version | uint8_t | 2 |
 | minor_version | uint8_t | 2 |
-| l_text | uint32_t | Length of the “text” field, including the terminating NUL character |
+| l_text | uint32_t | Length of the "text" field, including the terminating NUL character |
 | text | char\[l_text\] | VCF format header text, NUL-terminated |
 
-The “magic” field and version numbers can be used to quickly examine the
-file to determine that it’s a BCF2.2 file. The “text” field contains the
+The "magic" field and version numbers can be used to quickly examine the
+file to determine that it's a BCF2.2 file. The "text" field contains the
 standard VCF header lines in text format, from `##fileformat=VCFv4.3` to
 `#CHROM ...` inclusive, terminated by a NUL character.
 
@@ -1950,7 +1927,7 @@ Because the type is encoded directly in the header, the recommended
 extension for BCF2 formatted files is *.bcf*. BCF2 supports encoding
 values in a dictionary of strings. The string map is provided by the
 keyword `##dictionary=S0,S1,...,SN` as a comma-separate ordered list of
-strings. See the “Dictionary of strings” section for more details.
+strings. See the "Dictionary of strings" section for more details.
 
 ### Dictionary of strings
 
@@ -1989,14 +1966,14 @@ present also in all other dictionary-defining records. The IDX tag is
 not necessary in newly created BCF files, but if present, the numbering
 must match the implicit dictionary of tags.
 
-Note that the dictionary encoding has the magic prefix ‘s’ here to
-indicate that the field’s value is actually in the dictionary entry
-giving by the subsequent offset. This representation isn’t actually the
+Note that the dictionary encoding has the magic prefix 's' here to
+indicate that the field's value is actually in the dictionary entry
+giving by the subsequent offset. This representation isn't actually the
 one used in BCF2 records but it provides a clean visual guide for the
 above example. Note also how the contig has been recoded as a offset
 into the list of contig declarations.
 
-Note that “PASS” is always implicitly encoded as the first entry in the
+Note that "PASS" is always implicitly encoded as the first entry in the
 header dictionary. This is because VCF allows FILTER fields to be PASS
 without explicitly listing this in the FILTER field itself.
 
@@ -2006,7 +1983,7 @@ The CHROM field in BCF2 is encoded as an integer offset into the list of
 `##contig` field headers in the VCF header. The offsets begin, like the
 dictionary of strings, at 0. So for example if in BCF2 the contig value
 is 10, this indicates that the actual chromosome is the 11th element in
-the ordered list of `##contig` elements. Here’s a more concrete example:
+the ordered list of `##contig` elements. Here's a more concrete example:
 
     ##contig=<ID=20,length=62435964,assembly=B36,md5=f126cdf8a6e0c7f379d618ff66beb2da,species="Homo sapiens">
     ##contig=<ID=21,length=46944323,assembly=B36,md5=f1b74b7f9f4cdbaeb6832ee86cb426c6,species="Homo sapiens">
@@ -2045,7 +2022,7 @@ the VCF file. Compression of a BCF file is recommended but not required.
 data-reference="GenotypeEncoding">6.3.2</a> |
 | ID | typed string | Variant identifier; 0x07 for a missing value |
 | REF+ALT | list of n_allele typed strings | the first allele is REF (mandatory) followed by n_alleles - 1 ALT alleles, all encoded as typed strings |
-| FILTER | Typed vector of integers | a vector of integer offsets into dictionary, one for each FILTER field value. “.” is encoded as MISSING |
+| FILTER | Typed vector of integers | a vector of integer offsets into dictionary, one for each FILTER field value. "." is encoded as MISSING |
 | INFO | field key/value pairs | n_info pairs of typed vectors. The first value must be a typed atomic integer giving the offset of the INFO field key into the dictionary. The second value is a typed vector giving the value of the field |
 | Genotype values | see below | see below |
 
@@ -2138,7 +2115,7 @@ values are reserved for future use: 0x80–0x87, 0x8000–0x8007,
 **Floats** are encoded as single-precision (32 bit) in the basic format
 defined by the IEEE-754-1985 standard. This is the standard
 representation for floating point numbers on modern computers, with
-direct support in programming languages like C and Java (see Java’s
+direct support in programming languages like C and Java (see Java's
 Double class for example). BCF2 supports the full range of values from
 -Infinity to +Infinity, including NaN. BCF2 needs to represent missing
 values for single precision floating point numbers. This is accomplished
@@ -2188,19 +2165,19 @@ version.
 keys these are encoded by integer offsets into the header dictionary.
 For string values, such as found in the ID, REF, ALT, INFO, and FORMAT
 fields, strings are encoded as typed array of ASCII encoded bytes. The
-array isn’t terminated by a NUL byte. The length of the string is given
+array isn't terminated by a NUL byte. The length of the string is given
 by the length of the type descriptor.
 
-Suppose you want to encode the string “`ACAC`”. First, we need the type
-descriptor byte, which is the string type 0x07 or’d with inline size (4)
+Suppose you want to encode the string "`ACAC`". First, we need the type
+descriptor byte, which is the string type 0x07 or'd with inline size (4)
 yielding the type byte of 0x40 $`|`$ 0x07 = 0x47. Immediately following
-the type byte is the four byte ASCII encoding of “`ACAC`”: 0x41 0x43
+the type byte is the four byte ASCII encoding of "`ACAC`": 0x41 0x43
 0x41 0x43. So the final encoding is:
 
 | 0x47 0x41 0x43 0x41 0x43 | String type with inline size of 4 followed by ACAC in ASCII |
 |:---|:---|
 
-Suppose you want to encode the string “`VariantCallFormatSampleText`”, a
+Suppose you want to encode the string "`VariantCallFormatSampleText`", a
 string of size 27. First, we need the type descriptor byte, which is the
 string type 0x07. Because the size exceeds the inline size limit
 ($`27 \geq 15`$) we set the size to overflow, yielding the type byte of
@@ -2216,23 +2193,23 @@ final encoding is:
 | 0x11 0x1B | overflow size encoded as INT8 with value 27 |
 | 0x56 0x61 0x72 0x69 0x61 0x6E 0x74 0x43 0x61 0x6C 0x6C 0x46 0x6F 0x72 0x6D 0x61 0x74 0x53 0x61 0x6D 0x70 0x6C 0x65 0x54 0x65 0x78 0x74 | message in ASCII |
 
-Suppose you want to encode the missing value ‘.’. This is simply a
+Suppose you want to encode the missing value '.'. This is simply a
 string of size 0 = 0x07.
 
 In VCF there are sometimes fields of type list of strings, such as a
 number field of unbounded size encoding the amino acid changes due to a
-mutation. Since BCF2 doesn’t directly support vectors of strings (a
+mutation. Since BCF2 doesn't directly support vectors of strings (a
 vector of character is already a string) we collapse the list of strings
 into a single comma-separated string, encode it as a regular BCF2 vector
 of characters, and on reading explode it back into the list of strings.
-This works because strings in VCF cannot contain ‘`,`’ (it’s a field
-separator) and so we can safely use ‘`,`’ to separate the individual
+This works because strings in VCF cannot contain '`,`' (it's a field
+separator) and so we can safely use '`,`' to separate the individual
 strings.
 
 **Vectors** — The BCF2 type byte may indicate that the upcoming data
 stream contains not a single value but a fixed length vector of values.
 The vector values occur in order (1st, 2nd, 3rd, etc) encoded as
-expected for the type declared in the vector’s type byte. For example, a
+expected for the type declared in the vector's type byte. For example, a
 vector of 3 16-bit integers would be laid out as first the vector type
 byte, followed immediately by 3 2-byte values for each integer,
 including a total of 7 bytes.
@@ -2246,7 +2223,7 @@ and each corresponding BCF2 vector value either set to its present value
 or the type equivalent MISSING value. Alternatively the entire vector of
 values may be missing. In this case the correct encoding is as a type
 byte with size 0 and the appropriate type MISSING. Suppose we are
-encoding the record “AC=\[1,2,3\]” from the INFO field. The AC key is
+encoding the record "AC=\[1,2,3\]" from the INFO field. The AC key is
 encoded in the standard way. This would be immediately followed by a
 typed 8-bit integer vector of size 3, which is encoded by the type
 descriptor 0x31. The type descriptor is immediately followed by the
@@ -2259,14 +2236,14 @@ values, we have to use the long vector encoding. The type of this field
 is 8 bit integer with the size set to 15 to indicate that the size is
 the next stream value, so this has type of 0xF1. The next value in the
 stream is the size, as a typed 8-bit atomic integer: 0x11 with value 16
-0x10. Each integer AC value is represented by it’s value as a 8 bit
+0x10. Each integer AC value is represented by it's value as a 8 bit
 integer. The grand total representation here is:
 
 | 0xF1 0x01 0x10 | 8 bit integer vector with overflow size |
 |:---|:---|
 | 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F 0x10 | 1–16 as hexadecimal 8 bit integers |
 
-Suppose this INFO field contains the “AC=.”, indicating that the AC
+Suppose this INFO field contains the "AC=.", indicating that the AC
 field is missing from a record with two alt alleles. The correct
 representation is as the typed pair of AC followed by a MISSING vector
 of type 8-bit integer: 0x01.
@@ -2305,7 +2282,7 @@ A **Genotype (GT) field** is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
 the maximum ploidy among all samples at a site. For one individual, each
 integer in the vector is organized as $`(allele+1) << 1 \mid phased`$
-where allele is set to $`-1`$ if the allele in GT is a dot ‘.’ (thus the
+where allele is set to $`-1`$ if the allele in GT is a dot '.' (thus the
 higher bits are all 0). The vector is padded with the END_OF_VECTOR
 values if the GT having fewer ploidy. We note specifically that except
 for the END_OF_VECTOR byte, no other negative values are allowed in the
@@ -2330,8 +2307,8 @@ by the END_OF_VECTOR value.
 
 ## Encoding a VCF record example
 
-Let’s encode a realistic (but made-up) VCF record. This is a A/C SNP in
-HM3 (not really) called in 3 samples. In this section we’ll build up the
+Let's encode a realistic (but made-up) VCF record. This is a A/C SNP in
+HM3 (not really) called in 3 samples. In this section we'll build up the
 BCF2 encoding for this record.
 
     #CHROM POS ID REF ALT QUAL FILTER INFO FORMAT NA00001 NA00002 NA00003
@@ -2339,7 +2316,7 @@ BCF2 encoding for this record.
 
 ### Encoding CHROM and POS
 
-First, let’s assume that `chr1` is the second chromosome to appear in
+First, let's assume that `chr1` is the second chromosome to appear in
 the contig list—right after `chrM` (`MT`). So its offset is 1. The `POS`
 BCF2 field value is 101 (obviously). Because these are both typed values
 in the BCF2 record, we encode both in their most compact 8-bit value
@@ -2350,7 +2327,7 @@ byte 0x65. So in total these are represented as:
 | 0x01000000 | CHROM offset is at 1 in 32 bit little endian |
 |:-----------|:---------------------------------------------|
 | 0x64000000 | POS in 0 base 32 bit little endian           |
-| 0x01000000 | rlen = 1 (it’s just a SNP)                   |
+| 0x01000000 | rlen = 1 (it's just a SNP)                   |
 
 ### Encoding QUAL
 
@@ -2386,7 +2363,7 @@ value of 0x54.
 
 ### Encoding FILTER
 
-“PASS” is implicitly encoded as the first entry in the header dictionary
+"PASS" is implicitly encoded as the first entry in the header dictionary
 (see dictionary of strings). Here we encode the PASS FILTER field as a
 vector of size 1 of type 8-bit, which has type byte is 0x11. The value
 is the offset 0:
@@ -2396,7 +2373,7 @@ is the offset 0:
 
 ### Encoding the INFO fields
 
-HM3;AC=3;AN=6;AA=C Let’s assume that the header dictionary elements for
+HM3;AC=3;AN=6;AA=C Let's assume that the header dictionary elements for
 HM3, AC, AN, and AA are at 80, 81, 82, and 83 respectively. All of these
 can be encoded by 1-element INT8 values (0x11), with associated hex
 values of 0x50, 0x51, 0x52, and 0x53 respectively.
@@ -2409,7 +2386,7 @@ Altogether we have:
 | 0x11 0x50 0x00 | HM3 flag is present |
 |:---------------|:--------------------|
 
-Now let’s encode the two atomic 8-bit integer fields AC and AN:
+Now let's encode the two atomic 8-bit integer fields AC and AN:
 
 | 0x11 0x51 | AC key          |
 |:----------|:----------------|
@@ -2438,8 +2415,8 @@ Continuing with our example:
 Here we have the specially encoded GT field. We have two integer fields
 GQ and DP. We have the AD field, which is a vector of 2 values per
 sample. And finally we have the PL field which is 3 values per sample.
-Let’s say that the FORMAT keys for GT, GQ, DP, AD, and PL are at offsets
-1, 2, 3, and 4, 5, respectively. Now let’s encode each of the genotype
+Let's say that the FORMAT keys for GT, GQ, DP, AD, and PL are at offsets
+1, 2, 3, and 4, 5, respectively. Now let's encode each of the genotype
 fields in order of the VCF record (GT, GQ, DP, AD, and then PL):
 
 GT triplet begins with the key: 0x1101. Next is the type of the field,
@@ -2467,7 +2444,7 @@ which are 0x30 and 0x00. Samples two and three are 0x30 0x20 and 0x00
 
 PL is just like AD but with three values per sample. The key is 0x1105.
 Because the PL field is a vector of 3 values for each genotype, the
-value of key/value pair a vector type, and because the size is 3 it’s
+value of key/value pair a vector type, and because the size is 3 it's
 encoded in the size field of the type. Again, because the integer values
 in each PL field of each sample are small they are encoded by 8 bit
 values. So the value type 0x31. For sample one there are three values:
@@ -2505,7 +2482,7 @@ n_fmt = 5 (Number of FORMAT keys)
 | 0x2A000000 | l_indiv as 32-bit little endian hex |
 | 0x01000000 | CHROM offset is at 1 in 32 bit little endian |
 | 0x64000000 | POS in 0-based 32-bit little endian |
-| 0x01000000 | rlen = 1 (it’s just a SNP) |
+| 0x01000000 | rlen = 1 (it's just a SNP) |
 | 0x41 0xF0 0xCC 0xCD | QUAL = 30.1 as 32-bit float |
 | 0x0400 | n_info as 16-bit little-endian |
 | 0x0200 | n_allele as 16-bit little-endian |
@@ -2528,7 +2505,7 @@ n_fmt = 5 (Number of FORMAT keys)
 | 0x1104 0x21 0x300030200040 | AD |
 | 0x1105 0x31 0x000A640A0064640A00 | PL |
 
-That’s quite a lot of information encoded in only 96 bytes!
+That's quite a lot of information encoded in only 96 bytes!
 
 ## BCF2 block gzip and indexing
 
@@ -2549,23 +2526,23 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 ## Changes to VCFv4.3
 
-- More strict language: “should” replaced with “must” where appropriate
+- More strict language: "should" replaced with "must" where appropriate
 
 - Tables with Type and Number definitions for INFO and FORMAT reserved
   keys
 
 - The set of characters allowed in VCF contig names is now the same as
   that allowed in SAM reference sequence names, which was restricted in
-  January 2019. The characters ‘`\```  , "`’ ()  ```{}`’ are now invalid
-  in VCF contig names, while ‘’ is now valid when not the first
-  character. (The characters ‘`[] <>`’ and initial ‘’/‘`=`’ were already
+  January 2019. The characters '`\```  , "`' ()  ```{}`' are now invalid
+  in VCF contig names, while '' is now valid when not the first
+  character. (The characters '`[] <>`' and initial ''/'`=`' were already
   invalid and remain so.)
 
-  The VCF specification previously disallowed colons (‘`:`’) in contig
+  The VCF specification previously disallowed colons ('`:`') in contig
   names to avoid confusion when parsing breakends, but this was
   unnecessary. Even with contig names containing colons, the breakend
   mate position notation can be unambiguously parsed because the
-  “`:`*pos*” part is **always** present.
+  "`:`*pos*" part is **always** present.
 
 - Added PP tag which is the phred-scaled analogue to GP
 
@@ -2579,8 +2556,8 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - Spaces are allowed in INFO field values
 
-- Characters with special meaning (such as ‘;’ in INFO, ‘:’ in FORMAT,
-  and ‘%’ in both) can be encoded using percent encoding (see
+- Characters with special meaning (such as ';' in INFO, ':' in FORMAT,
+  and '%' in both) can be encoded using percent encoding (see
   Section <a href="#character-encoding" data-reference-type="ref"
   data-reference="character-encoding">1.2</a>)
 
@@ -2590,7 +2567,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - Introduced \##META header lines for defining phenotype metadata
 
-- New reserved tag “CNP” analogous to “GP” was added. Both CNP and GP
+- New reserved tag "CNP" analogous to "GP" was added. Both CNP and GP
   use 0 to 1 encoding, which is a change from previous phred-scaled GP.
 
 - In order for VCF and BCF to have the same expressive power, we state
@@ -2603,8 +2580,8 @@ section 4 as BAM files and other block-compressed files with BGZF.
   \##fileformat which must come first.
 
 - All header lines of the form \##key=$`<`$ID=xxx,...$`>`$ must have an
-  ID value that is unique for a given value of “key”. All header lines
-  whose value starts with “$`<`$” must have an ID field. Therefore, also
+  ID value that is unique for a given value of "key". All header lines
+  whose value starts with "$`<`$" must have an ID field. Therefore, also
   \##PEDIGREE newly requires a unique ID.
 
 - We state explicitly that duplicate IDs, FILTER, INFO or FORMAT keys
@@ -2655,7 +2632,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - Allow star allele in the ALT for describing upstream deletion
 
-[^1]: Note Java’s `Double.valueOf` is particular about capitalisation,
+[^1]: Note Java's `Double.valueOf` is particular about capitalisation,
     so additional code is needed to parse all VCF infinite/NaN values.
 
 [^2]: See Reference MD5 calculation section in

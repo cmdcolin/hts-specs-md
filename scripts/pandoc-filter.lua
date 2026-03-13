@@ -100,30 +100,51 @@ end
 function CodeBlock(el)
   -- If it contains $...$, we'll try to split and render math
   if el.text:match("%$.*%$") then
+    local all_content = {}
+    
+    -- Split by newline manually to be safe with whitespace
     local lines = {}
-    -- Split by \n
-    local i = 1
-    for line in el.text:gmatch("([^\n]*)\n?") do
-      local line_content = {}
+    local temp = el.text
+    while true do
+        local nl = temp:find("\n")
+        if nl then
+            table.insert(lines, temp:sub(1, nl-1))
+            temp = temp:sub(nl+1)
+        else
+            table.insert(lines, temp)
+            break
+        end
+    end
+
+    for i, line in enumerate(lines) do
       local last_pos = 1
       for start_pos, content, end_pos in line:gmatch("()%$([^%$]+)%$()") do
         if start_pos > last_pos then
-            -- Use Span with a class instead of Code to avoid background/padding on parts
-            table.insert(line_content, pandoc.Span(line:sub(last_pos, start_pos - 1), {class="code-text"}))
+            table.insert(all_content, pandoc.Str(line:sub(last_pos, start_pos - 1)))
         end
-        table.insert(line_content, pandoc.Math("InlineMath", content))
+        table.insert(all_content, pandoc.Math("InlineMath", content))
         last_pos = end_pos
       end
       if last_pos <= #line then
-        table.insert(line_content, pandoc.Span(line:sub(last_pos), {class="code-text"}))
+        table.insert(all_content, pandoc.Str(line:sub(last_pos)))
       end
       
-      -- Add a manual line break except for the last line
-      table.insert(lines, pandoc.Plain(line_content))
+      if i < #lines then
+        table.insert(all_content, pandoc.LineBreak())
+      end
     end
-    return pandoc.Div(lines, {class="code-math-block"})
+    
+    return pandoc.Div({pandoc.Para(all_content)}, {class="code-math-block"})
   end
   return el
+end
+
+function enumerate(t)
+    local i = 0
+    return function()
+        i = i + 1
+        if t[i] then return i, t[i] end
+    end
 end
 
 -- Pandoc 3.x uses meta to pass metadata

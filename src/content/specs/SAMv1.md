@@ -16,7 +16,7 @@ This printing is version b5341fb from the [hts-specs](https://github.com/samtool
 SAM stands for Sequence Alignment/Map format. It is a TAB-delimited text
 format consisting of a header section, which is optional, and an
 alignment section. If present, the header must be prior to the
-alignments. Header lines start with ‘`@`’, while alignment lines do not.
+alignments. Header lines start with '`@`', while alignment lines do not.
 Each alignment line has 11 mandatory fields for essential alignment
 information such as mapping position, and variable number of optional
 fields for flexible or aligner specific information.
@@ -36,7 +36,7 @@ fields. [^1]
 
 Where it makes a difference, SAM file contents should be read and
 written using the POSIX / C locale. For example, floating-point values
-in SAM always use ‘`.`’ for the decimal-point character.
+in SAM always use '`.`' for the decimal-point character.
 
 The regular expressions in this specification are written using the
 POSIX / IEEE Std 1003.1 extended syntax.
@@ -93,8 +93,8 @@ Chimeric alignment
 An alignment of a read that cannot be represented as a linear alignment.
 A chimeric alignment is represented as a set of linear alignments that
 do not have large overlaps. Typically, one of the linear alignments in a
-chimeric alignment is considered the “representative” alignment, and the
-others are called “supplementary” and are distinguished by the
+chimeric alignment is considered the "representative" alignment, and the
+others are called "supplementary" and are distinguished by the
 supplementary alignment flag. All the SAM records in a chimeric
 alignment have the same QNAME and the same values for 0x40 and 0x80
 flags (see Section <a href="#sec:alnrecord" data-reference-type="ref"
@@ -136,19 +136,19 @@ $`-10\log_{10}p`$, rounded to the closest integer.
 
 Reference sequence names, CIGAR strings, and several other field types
 are used as values or parts of values of other fields in SAM and related
-formats such as VCF. To ensure that these other fields’ representations
+formats such as VCF. To ensure that these other fields' representations
 are unambiguous, these field types disallow particular delimiter
 characters.
 
 Query or read names may contain any printable ASCII characters in the
-range `[!-~]` apart from ‘`@`’, so that SAM alignment lines can be
+range `[!-~]` apart from '`@`', so that SAM alignment lines can be
 easily distinguished from header lines. (They are also limited in
 length.)
 
 Reference sequence names may contain any printable ASCII characters in
 the range `[!-``~``]` apart from backslashes, commas, quotation marks,
-and brackets—i.e., apart from ‘`\```  , "`’ () []  ```{}`` <>`’—and may
-not start with ‘’ or ‘`=`’. [^3]
+and brackets—i.e., apart from '`\```  , "`' () []  ```{}`` <>`'—and may
+not start with '' or '`=`'. [^3]
 
 Thus they match the following regular expression:
 
@@ -160,16 +160,16 @@ Thus they match the following regular expression:
 
 For clarity, elsewhere in this specification we write this set of
 allowed characters as a character class `[]` and extend the POSIX
-regular expression notation to use `=` to indicate the omission of ‘’
-and ‘`=`’ from the character class. Thus this regular expression can be
+regular expression notation to use `=` to indicate the omission of ''
+and '`=`' from the character class. Thus this regular expression can be
 written more clearly as `[=][]*`.
 
 ## The header section
 
-Each header line begins with the character ‘`@`’ followed by one of the
+Each header line begins with the character '`@`' followed by one of the
 two-letter header record type codes defined in this section. In the
 header, each line is TAB-delimited and, apart from `@CO` lines, each
-data field follows a format ‘`TAG:VALUE`’ where `TAG` is a two-character
+data field follows a format '`TAG:VALUE`' where `TAG` is a two-character
 string that defines the format and content of `VALUE`. Thus header lines
 match ` /@(HD|SQ|RG|PG)(92t[A-Za-z][A-Za-z0-9]:[ -]+)+$/` or
 `/@CO92t.*/`. Within each (non-`@CO`) header line, no field tag may
@@ -177,7 +177,7 @@ appear more than once and the order in which the fields appear is not
 significant.
 
 The following table describes the header record types that may be used
-and their predefined tags. Tags listed with ‘\*’ are required; e.g.,
+and their predefined tags. Tags listed with '\*' are required; e.g.,
 every `@SQ` header line must have `SN` and `LN` fields. As with
 alignment optional fields (see
 Section <a href="#sec:alnaux" data-reference-type="ref"
@@ -222,7 +222,7 @@ sort key is the <span>RNAME</span> field, with order defined by the
 order of <span><code>@SQ</code></span> lines in the header. The minor
 sort key is the <span>POS</span> field. For alignments with equal
 <span>RNAME</span> and <span>POS</span>, order is arbitrary. All
-alignments with ‘’ in <span>RNAME</span> field follow alignments with
+alignments with '' in <span>RNAME</span> field follow alignments with
 some other value but otherwise are in arbitrary order. For queryname
 sort, no explicit requirement is made regarding the ordering other than
 that it be applied consistently throughout the entire file. <a
@@ -298,8 +298,8 @@ alternate locus. <a href="#fn3" class="footnote-ref" id="fnref3"
 role="doc-noteref"><sup>3</sup></a> The value is the locus in the
 primary assembly for which this sequence is an alternative, in the
 format
-‘<em>chr</em><span><code>:</code></span><em>start</em><span><code>-</code></span><em>end</em>’,
-‘<em>chr</em>’ (if known), or ‘’ (if unknown), where ‘<em>chr</em>’ is a
+'<em>chr</em><span><code>:</code></span><em>start</em><span><code>-</code></span><em>end</em>',
+'<em>chr</em>' (if known), or '' (if unknown), where '<em>chr</em>' is a
 sequence in the primary assembly. Must not be present on sequences in
 the primary assembly.</td>
 </tr>
@@ -311,7 +311,7 @@ comma-separated list of alternative names that tools may use when
 referring to this reference sequence. <a href="#fn4"
 class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>
 These alternative names are not used elsewhere within the SAM file; in
-particular, they must not appear in alignment records’
+particular, they must not appear in alignment records'
 <span>RNAME</span> or <span>RNEXT</span> fields. <em>Regular
 expression</em>:
 <em>name</em><span><code>(,</code></span><em>name</em><span><code>)*</code></span>
@@ -353,7 +353,7 @@ id="fnref5" role="doc-noteref"><sup>5</sup></a></td>
 <td style="text-align: left;"><span><code>UR</code></span></td>
 <td style="text-align: left;">URI of the sequence. This value may start
 with one of the standard protocols, e.g.,
-‘<span><code>http:</code></span>’ or ‘<span><code>ftp:</code></span>’.
+'<span><code>http:</code></span>' or '<span><code>ftp:</code></span>'.
 If it does not start with one of these protocols, it is assumed to be a
 file-system path.</td>
 </tr>
@@ -381,7 +381,7 @@ library. This value is the expected barcode bases as read by the
 sequencing machine in the absence of errors. If there are several
 barcodes for the sample/library (e.g., one on each end of the template),
 the recommended implementation concatenates all the barcodes separating
-them with hyphens (‘<span><code>-</code></span>’).</td>
+them with hyphens ('<span><code>-</code></span>').</td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-3</span></td>
@@ -500,7 +500,7 @@ used.</td>
 <td style="text-align: left;"><span>2-3</span></td>
 <td style="text-align: left;"><span><code>PP</code></span></td>
 <td style="text-align: left;">Previous <span><code>@PG-ID</code></span>.
-Must match another <span><code>@PG</code></span> header’s
+Must match another <span><code>@PG</code></span> header's
 <span><code>ID</code></span> tag. <span><code>@PG</code></span> records
 may be chained using <span><code>PP</code></span> tag, with the last
 record in the chain having no <span><code>PP</code></span> tag. This
@@ -572,11 +572,11 @@ descriptions of <em>alternate locus</em> and <em>primary
 assembly</em>.<a href="#fnref3" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>For example, given
-‘<span><code>@SQ SN:MT AN:chrMT,M,chrM LN:16569 TP:circular</code></span>’,
-tools can ensure that a user’s request for any of ‘MT’, ‘chrMT’, ‘M’,
-or ‘chrM’ succeeds and refers to the same sequence.<a href="#fnref4"
+'<span><code>@SQ SN:MT AN:chrMT,M,chrM LN:16569 TP:circular</code></span>',
+tools can ensure that a user's request for any of 'MT', 'chrMT', 'M',
+or 'chrM' succeeds and refers to the same sequence.<a href="#fnref4"
 class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>The previous footnote’s example identifies MT as a
+<li id="fn5"><p>The previous footnote's example identifies MT as a
 circular chromosome. The <span><code>TP</code></span> field is often
 omitted, which implies linear.<a href="#fnref5" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
@@ -598,8 +598,8 @@ some terms are predefined with specific meanings.
 
 lexicographical  
 sort order is defined as a character-based dictionary sort with the
-character order as defined by the POSIX C locale. For example “abc”,
-“abc17”, “abc5”, “abc59” and “abcd” are in lexicographical order.
+character order as defined by the POSIX C locale. For example "abc",
+"abc17", "abc5", "abc59" and "abcd" are in lexicographical order.
 
 natural  
 sort order is similar to lexicographical order except that runs of
@@ -608,11 +608,11 @@ string, ordered numerically when compared to each other and ordered as
 single digits when compared to the surrounding non-digit characters.
 Runs that differ only in the number of leading zeros (thus are
 numerically tied) are ordered by more-zeros coming before fewer-zeros.
-The characters ‘`-`’ and ‘`.`’ are considered as ordinary characters, so
+The characters '`-`' and '`.`' are considered as ordinary characters, so
 apparently negative or fractional values are not treated as part of an
-embedded number. For example, “abc”, “abc+5”, “abc-5”, “abc.d”, “abc03”,
-“abc5”, “abc008”, “abc08”, “abc8”, “abc17”, “abc17.+”, “abc17.2”,
-“abc17.d”, “abc59” and “abcd” are in natural order.
+embedded number. For example, "abc", "abc+5", "abc-5", "abc.d", "abc03",
+"abc5", "abc008", "abc08", "abc8", "abc17", "abc17.+", "abc17.2",
+"abc17.d", "abc59" and "abcd" are in natural order.
 
 umi  
 is a lexicographical sort by the UMI tag. The `MI` tag should be used
@@ -625,7 +625,7 @@ The `M5` tag on `@SQ` lines allows reference sequences to be uniquely
 identified through the MD5 digest of the sequence itself. As the digest
 is based on the sequence and nothing else, it can help resolve
 ambiguities with reference naming. For example, it allows a quick way of
-checking that references named ‘1’, ‘Chr1’ and ‘chr1’ in different files
+checking that references named '1', 'Chr1' and 'chr1' in different files
 are in fact the same.
 
 The reference sequence must be in the 7-bit US-ASCII character set. All
@@ -634,11 +634,11 @@ problem of determining exactly which 8-bit representation may have been
 used. Padding characters (See
 Section <a href="#sec:padded-sam" data-reference-type="ref"
 data-reference="sec:padded-sam">3.2</a>) must be represented only using
-the ‘\*’ character.
+the '\*' character.
 
 The digest is calculated as follows:
 
-- All characters outside of the inclusive range 33 (‘’) to 126 (‘’) are
+- All characters outside of the inclusive range 33 ('') to 126 ('') are
   stripped out. This removes all unprintable and whitespace characters
   including spaces and new lines. Everything else is retained, even if
   not a legal nucleotide code.
@@ -665,7 +665,7 @@ then the digest is that of the string
 `M5:dfabdbb36e239a6da88957841f32b8e4`.
 
 In padded SAM files, the padding bases should be inserted into the
-reference as ‘\*’ characters. Taking the example in
+reference as '\*' characters. Taking the example in
 Section <a href="#sec:padded-sam" data-reference-type="ref"
 data-reference="sec:padded-sam">3.2</a>, the padded version of the
 reference is
@@ -680,8 +680,8 @@ In the SAM format, each alignment line typically represents the linear
 alignment of a segment. Each line consists of 11 or more TAB-separated
 fields. The first eleven fields are always present and in the order
 shown below; if the information represented by any of these fields is
-unavailable, that field’s value will be a placeholder, either ‘`0`’
-or ‘’ as determined by the field’s type. The following table gives an
+unavailable, that field's value will be a placeholder, either '`0`'
+or '' as determined by the field's type. The following table gives an
 overview of these mandatory fields in the SAM format:
 
 <div class="center">
@@ -710,7 +710,7 @@ are reversed and thus recorded consistently with the sequence bases as
 represented.
 
 1.  QNAME: Query template NAME. Reads/segments having identical QNAME
-    are regarded to come from the same template. A QNAME ‘’ indicates
+    are regarded to come from the same template. A QNAME '' indicates
     the information is unavailable. In a SAM file, a read may occupy
     multiple alignment lines, when its alignment is chimeric or when
     multiple mappings are given.
@@ -800,7 +800,7 @@ represented.
 
     - For each read/contig in a SAM file, it is required that one and
       only one line associated with the read satisfies
-      ‘FLAG `& 0x900 == 0`’. This line is called the *primary line* of
+      'FLAG `& 0x900 == 0`'. This line is called the *primary line* of
       the read.
 
     - Bit 0x100 marks the alignment not to be used in certain analyses
@@ -840,15 +840,15 @@ represented.
       reading by current software.
 
 3.  RNAME: Reference sequence NAME of the alignment. If ` @SQ` header
-    lines are present, RNAME (if not ‘\*’) must be present in one of the
-    `SQ-SN` tag. An unmapped segment without coordinate has a ‘\*’ at
+    lines are present, RNAME (if not '\*') must be present in one of the
+    `SQ-SN` tag. An unmapped segment without coordinate has a '\*' at
     this field. However, an unmapped segment may also have an ordinary
     coordinate such that it can be placed at a desired position after
-    sorting. If RNAME is ‘\*’, no assumptions can be made about POS and
+    sorting. If RNAME is '\*', no assumptions can be made about POS and
     CIGAR.
 
 4.  POS: 1-based leftmost mapping POSition of the first CIGAR operation
-    that “consumes” a reference base (see table below). The first base
+    that "consumes" a reference base (see table below). The first base
     in a reference sequence has coordinate 1. POS is set as 0 for an
     unmapped read without coordinate. If POS is 0, no assumptions can be
     made about RNAME and CIGAR.
@@ -859,7 +859,7 @@ represented.
     is not available.
 
 6.  CIGAR: CIGAR string. The CIGAR operations are given in the following
-    table (set ‘\*’ if unavailable):
+    table (set '\*' if unavailable):
 
     <div class="center">
 
@@ -880,7 +880,7 @@ represented.
 
     </div>
 
-    - “Consumes query” and “consumes reference” indicate whether the
+    - "Consumes query" and "consumes reference" indicate whether the
       CIGAR operation causes the alignment to step along the query
       sequence and the reference sequence respectively.
 
@@ -898,12 +898,12 @@ represented.
 7.  RNEXT: Reference sequence name of the primary alignment of the NEXT
     read in the template. For the last read, the next read is the first
     read in the template. If `@SQ` header lines are present, RNEXT (if
-    not ‘\*’ or ‘=’) must be present in one of the `SQ-SN` tag. This
-    field is set as ‘\*’ when the information is unavailable, and set as
-    ‘=’ if RNEXT is identical RNAME. If not ‘=’ and the next read in the
+    not '\*' or '=') must be present in one of the `SQ-SN` tag. This
+    field is set as '\*' when the information is unavailable, and set as
+    '=' if RNEXT is identical RNAME. If not '=' and the next read in the
     template has one primary mapping (see also bit 0x100 in FLAG), this
     field is identical to RNAME at the primary line of the next read. If
-    RNEXT is ‘\*’, no assumptions can be made on PNEXT and bit 0x20.
+    RNEXT is '\*', no assumptions can be made on PNEXT and bit 0x20.
 
 8.  PNEXT: 1-based Position of the primary alignment of the NEXT read in
     the template. Set as 0 when the information is unavailable. This
@@ -932,17 +932,17 @@ represented.
     the definitions of the template mapped start and end. Thus the exact
     definitions are implementation-defined. [^8]
 
-10. SEQ: segment SEQuence. This field can be a ‘\*’ when the sequence is
-    not stored. If not a ‘\*’, the length of the sequence must equal the
-    sum of lengths of operations in CIGAR. An ‘=’ denotes the base is
+10. SEQ: segment SEQuence. This field can be a '\*' when the sequence is
+    not stored. If not a '\*', the length of the sequence must equal the
+    sum of lengths of operations in CIGAR. An '=' denotes the base is
     identical to the reference base. No assumptions can be made on the
     letter cases.
 
 11. QUAL: ASCII of base QUALity plus 33 (same as the quality string in
     the Sanger FASTQ format). A base quality is the phred-scaled base
     error probability which equals $`-10\log_{10}\Pr\{\mbox{base is
-      wrong}\}`$. This field can be a ‘\*’ when quality is not
-    stored.[^9] If not a ‘\*’, SEQ must not be a ‘\*’ and the length of
+      wrong}\}`$. This field can be a '\*' when quality is not
+    stored.[^9] If not a '\*', SEQ must not be a '\*' and the length of
     the quality string ought to equal the length of SEQ.
 
 ## The alignment section: optional fields
@@ -968,9 +968,9 @@ lowercase letters is reserved for end users. In an optional field,
 
 </div>
 
-For an integer or numeric array (type ‘`B`’), the first letter indicates
+For an integer or numeric array (type '`B`'), the first letter indicates
 the type of numbers in the following comma separated array. The letter
-can be one of ‘`cCsSiIf`’, corresponding to `int8_t` (signed 8-bit
+can be one of '`cCsSiIf`', corresponding to `int8_t` (signed 8-bit
 integer), `uint8_t` (unsigned 8-bit integer), `int16_t`, `uint16_t`,
 `int32_t`, `uint32_t` and `float`, respectively. During import/export,
 the element type may be changed if the new type is also compatible with
@@ -979,8 +979,8 @@ the array.
 Predefined tags are described in the separate *Sequence Alignment/Map
 Optional Fields Specification*.[^10] See that document for details of
 existing standard tag fields and conventions around creating new tags
-that may be of general interest. Tags starting with ‘`X`’, ‘`Y`’ or
-‘`Z`’ and tags containing lowercase letters in either position are
+that may be of general interest. Tags starting with '`X`', '`Y`' or
+'`Z`' and tags containing lowercase letters in either position are
 reserved for local use and will not be formally defined in any future
 version of these specifications.
 
@@ -1016,7 +1016,7 @@ specific software package for it to function properly.
         its mate.
 
     2.  If all segments in a template are unmapped, their RNAME should
-        be set as ‘\*’ and POS as 0.
+        be set as '\*' and POS as 0.
 
     3.  If POS plus the sum of lengths of operations in CIGAR exceeds
         the length specified in the ` LN` field of the `@SQ` header line
@@ -1035,7 +1035,7 @@ specific software package for it to function properly.
         RNEXT and PNEXT point to the primary line of the next read in
         the template.
 
-    2.  SEQ and QUAL of secondary alignments should be set to ‘\*’ to
+    2.  SEQ and QUAL of secondary alignments should be set to '\*' to
         reduce the file size.
 
 6.  Optional tags:
@@ -1047,12 +1047,12 @@ specific software package for it to function properly.
 
 7.  Circular reference sequences
 
-    Mappings that cross the coordinate ‘join’ in circular reference
+    Mappings that cross the coordinate 'join' in circular reference
     sequences (i.e., those whose `@SQ` headers specify `TP:circular`)
     may be represented as follows:
 
     1.  (Preferred) As usual POS should be between 1 and the `@SQ`
-        header’s `LN` value, but POS plus the sum of the lengths of
+        header's `LN` value, but POS plus the sum of the lengths of
         CIGAR operations may exceed `LN`. Coordinates greater than `LN`
         are interpreted by subtracting `LN` so that bases at
         $`\texttt{LN}+1, \texttt{LN}+2, \texttt{LN}+3, \ldots`$ are
@@ -1124,8 +1124,8 @@ alignments, we say we are using the *unpadded representation*.
 Alternatively, to describe the same alignments, we can modify the
 reference sequence to contain pads that make room for sequences inserted
 relative to the reference. A pad is effectively a gap and conventionally
-represented by an asterisk ‘\*’. A reference sequence containing pads is
-called a *padded reference*. A position which counts the \*’s is
+represented by an asterisk '\*'. A reference sequence containing pads is
+called a *padded reference*. A position which counts the \*'s is
 referred to as a *padded position*. A padded reference sequence may be
 affected by the query alignments and because of gap insertions is
 typically longer than the unpadded reference. The padded position of one
@@ -1153,11 +1153,11 @@ following; see also the discussion in Cock *et al.* [^12]
 In a padded SAM, alignments and coordinates are described with respect
 to the padded reference sequence. Unlike traditional padded
 representations like the ACE file format where pads/gaps are recorded in
-reads using \*’s, we do not write \*’s in the SEQ field of the SAM
+reads using \*'s, we do not write \*'s in the SEQ field of the SAM
 format.[^13] Instead, we describe pads in the query sequences as
-deletions from the padded reference using the CIGAR ‘`D`’ operation. In
-a padded SAM, the insertion and padding CIGAR operations (‘`I`’ and
-‘`P`’) are not used because the padded reference already considers all
+deletions from the padded reference using the CIGAR '`D`' operation. In
+a padded SAM, the insertion and padding CIGAR operations ('`I`' and
+'`P`') are not used because the padded reference already considers all
 the insertions.
 
 The following shows the padded SAM for the example alignment in
@@ -1196,12 +1196,12 @@ annotation tags. [^14]
 BGZF is block compression implemented on top of the standard gzip file
 format.[^15] The goal of BGZF is to provide good compression while
 allowing efficient random access to the BAM file for indexed queries.
-The BGZF format is ‘gunzip compatible’, in the sense that a compliant
+The BGZF format is 'gunzip compatible', in the sense that a compliant
 gunzip utility can decompress a BGZF compressed file.[^16]
 
 A BGZF file is a series of concatenated BGZF blocks, each no larger than
 64 KiB both before and after compression. Each BGZF block is itself a
-spec-compliant gzip archive which contains an “extra field” in the
+spec-compliant gzip archive which contains an "extra field" in the
 format described in RFC1952. The gzip file format allows the inclusion
 of application-specific extra fields and these are ignored by compliant
 decompression implementation. The gzip specification also allows gzip
@@ -1215,7 +1215,7 @@ standard-compliant extensions:
     are present.
 
 2.  The extra field used by BGZF uses the two subfield ID values 66 and
-    67 (ASCII ‘BC’).
+    67 (ASCII 'BC').
 
 3.  The length of the BGZF extra field payload (field LEN in the gzip
     specification) is 2 (two bytes of payload).
@@ -1639,7 +1639,7 @@ class="math inline">=\underline{\sf TLEN}</span>)</td>
 <td colspan="2" style="text-align: left;">read_name</td>
 <td style="text-align: left;">Read name,
 <span><code>NUL</code></span>-terminated (<u>QNAME</u> with trailing
-‘<span><code>\0</code></span>’)</td>
+'<span><code>\0</code></span>')</td>
 <td
 style="text-align: left;"><span><code>char[</code><span><code>l_read_name</code></span><code>]</code></span></td>
 <td style="text-align: right;"></td>
@@ -1649,8 +1649,8 @@ style="text-align: left;"><span><code>char[</code><span><code>l_read_name</code>
 <td colspan="2" style="text-align: left;">cigar</td>
 <td style="text-align: left;">CIGAR:
 <span><span><code>op_len</code></span><code> 4</code></span>.
-‘<span><code>MIDNSHP=X</code></span>’<span
-class="math inline">\to</span>‘012345678’</td>
+'<span><code>MIDNSHP=X</code></span>'<span
+class="math inline">\to</span>'012345678'</td>
 <td
 style="text-align: left;"><span><code>uint32_t[</code><span><code>n_cigar_op</code></span><code>]</code></span></td>
 <td style="text-align: right;"></td>
@@ -1659,7 +1659,7 @@ style="text-align: left;"><span><code>uint32_t[</code><span><code>n_cigar_op</co
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">seq</td>
 <td style="text-align: left;">4-bit encoded read:
-‘<span><code>=ACMGRSVTWYHKDBN</code></span>’<span
+'<span><code>=ACMGRSVTWYHKDBN</code></span>'<span
 class="math inline">\to[0,15]</span>. See Section <a href="#sec:seq"
 data-reference-type="ref" data-reference="sec:seq">4.2.3</a></td>
 <td
@@ -1724,9 +1724,9 @@ Most length and count fields described as `uint32_t` have additional
 constraints on their range: $`\mbox{\sf l\_text} < 2^{31}`$ due to
 implementation limits; $`\mbox{\sf n\_ref} < 2^{31}`$ because refID and
 next_refID are signed; $`\mbox{\sf l\_ref} < 2^{31}`$ because tlen is
-signed; those marked “*limited*” are limited by available memory and the
+signed; those marked "*limited*" are limited by available memory and the
 practical size of the data represented well before they are limited by,
-e.g., Java’s signed 32-bit integer maximum array size.
+e.g., Java's signed 32-bit integer maximum array size.
 
 ### BIN field calculation
 
@@ -1748,9 +1748,9 @@ computed as $`4680`$.
 With 16 bits, n_cigar_op can keep at most 65535 CIGAR operations in BAM
 files. For an alignment with more CIGAR operations, BAM stores the real
 CIGAR, encoded the same way as the cigar field in BAM, in the `CG`
-optional tag of type ‘`B,I`’, and sets CIGAR to ‘*k*`S`*m*`N`’ as a
-placeholder, where ‘*k*’ equals l_seq, ‘*m*’ is the reference sequence
-length in the alignment, and ‘`S`’ and ‘`N`’ are the soft-clipping and
+optional tag of type '`B,I`', and sets CIGAR to '*k*`S`*m*`N`' as a
+placeholder, where '*k*' equals l_seq, '*m*' is the reference sequence
+length in the alignment, and '`S`' and '`N`' are the soft-clipping and
 reference-clip CIGAR operators, respectively—i.e., in the binary form,
 n_cigar_op=2 and cigar=`[`*`k`*` 4,`*`m`*` 4]`. If tag `CG` is present
 and the first CIGAR operation clips the entire read, a BAM parsing
@@ -1762,11 +1762,11 @@ stored in the `CG` tag and remove the now-redundant `CG` tag.
 Sequence is encoded in 4-bit values, with adjacent bases packed into the
 same byte starting with the highest 4 bits first. When l_seq is odd the
 bottom 4 bits of the last byte are undefined, but we recommend writing
-these as zero. The case-insensitive base codes ‘`=ACMGRSVTWYHKDBN`’ are
+these as zero. The case-insensitive base codes '`=ACMGRSVTWYHKDBN`' are
 mapped to $`[0,15]`$ respectively with all other characters mapping to
-‘`N`’ (value 15).
+'`N`' (value 15).
 
-Omitted sequence, represented in SAM as ‘’, is represented by l_seq
+Omitted sequence, represented in SAM as '', is represented by l_seq
 being 0 and seq and qual zero-length.
 
 Base qualities are stored as bytes in the range $`[0,93]`$, without any
@@ -1779,9 +1779,9 @@ Optional alignment fields are stored immediately after each other
 immediately following the qual field, and are included in block_size.
 Each field is represented as a two-character tag followed by a single
 type character and then its value, whose length is determined by the
-field’s type.
+field's type.
 
-Single character ‘`A`’ fields have a total length of 4 bytes, with the
+Single character '`A`' fields have a total length of 4 bytes, with the
 value represented as a single byte:
 
 <div class="center">
@@ -1789,9 +1789,9 @@ value represented as a single byte:
 </div>
 
 While all single (i.e., non-array) integer types are stored in SAM as
-‘`i`’, in BAM any of ‘`cCsSiI`’ may be used together with the
+'`i`', in BAM any of '`cCsSiI`' may be used together with the
 correspondingly-sized binary integer value, chosen according to the
-field value’s magnitude. [^17] Similarly floating point ‘`f`’ fields are
+field value's magnitude. [^17] Similarly floating point '`f`' fields are
 represented as IEEE 754-2008 binary32 values. Thus BAM numeric fields
 have a total length of 4, 5, or 7 bytes:
 
@@ -1820,7 +1820,7 @@ String fields and hex-formatted byte arrays are represented as
 
 <div class="samepage">
 
-The representation of a ‘`B`’ array field starts with a sub-type
+The representation of a '`B`' array field starts with a sub-type
 character similar to the numeric field types above and a *count*
 (`uint32_t`, but limited by memory and block_size) giving the number of
 elements in the array. The array elements follow, encoded as binary
@@ -2131,7 +2131,7 @@ This is stored in an optional extra metadata pseudo-bin for each
 reference sequence, and in the optional trailing n_no_coor field at the
 end of the file.
 
-The pseudo-bins appear in the references’ lists of distinct bins as bin
+The pseudo-bins appear in the references' lists of distinct bins as bin
 number 37450 (which is beyond the normal range) and are laid out so as
 to be compatible with real bins and their chunks:
 
@@ -2159,7 +2159,7 @@ When these functions are called with regions representing unplaced
 unmapped reads, e.g., $`\mbox{\sf reg2bin}(-1, 0)`$, they involve
 operations such as `(-1)>>14` which are undefined or
 implementation-defined in some programming languages. They must be
-implemented as if these operations use the common two’s-complement
+implemented as if these operations use the common two's-complement
 semantics: $`\mbox{\sf reg2bin}(-1, 0) = 4680`$ and
 $`\mbox{\sf reg2bins}(-1, 0, \ldots)`$ returns
 $`[\,0, 0, 8, 72, 584, 4680\,]`$.
@@ -2197,8 +2197,8 @@ $`[\,0, 0, 8, 72, 584, 4680\,]`$.
 Parsing region notation such as *name*`[:`*begin*`[-`*end*`]]` (in which
 omission of the outer bracketed portion indicates a request for the
 entire reference sequence) would be simple if *name* could not itself
-contain ‘`:`’ characters, but this is not the case. (No such notation
-containing an optional ‘`:`’ appears in the SAM format itself, but
+contain '`:`' characters, but this is not the case. (No such notation
+containing an optional '`:`' appears in the SAM format itself, but
 various tools use this notation as a convenient way for their users to
 specify regions of interest.)
 
@@ -2212,9 +2212,9 @@ In pseudocode form, a string *str* can be parsed as follows:
 
 <div class="tabbing">
 
-c̄onsider the rightmost ‘`:`’ character, if any, of *str*\
-if *str* is of the form ‘*prefix*`:NUM`’ ōr ‘*prefix*`:NUM-NUM`’\
-or generally ‘*prefix*`:`*suffix*’ for some plausible interval suffix\
+c̄onsider the rightmost '`:`' character, if any, of *str*\
+if *str* is of the form '*prefix*`:NUM`' ōr '*prefix*`:NUM-NUM`'\
+or generally '*prefix*`:`*suffix*' for some plausible interval suffix\
 then\
 īf both *prefix* and *str* are in the known set then\
 else if *prefix* is in the known set then return (*prefix*,
@@ -2228,7 +2228,7 @@ else
 
 </div>
 
-The check leading to “error: ambiguous representation” is important as
+The check leading to "error: ambiguous representation" is important as
 it prevents confusing interpretations of actually ambiguous input.
 Typically the set of valid reference sequence names will not contain
 names that are prefixes of other names in the set, so in practice this
@@ -2307,7 +2307,7 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
 ## 1.5: 23 May 2013 to November 2017
 
-- Add `@SQ AN` header tag, allowing only alphanumeric and ‘`*+.@_|-`’
+- Add `@SQ AN` header tag, allowing only alphanumeric and '`*+.@_|-`'
   characters in its names. (Jul 2017)
 
 - Add `@SQ AH` header tag. (Mar 2017)
@@ -2359,7 +2359,7 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
 - **Permit IUPAC in SEQ and `MD` auxiliary tag.** (Apr 2011)
 
-- **Permit QNAME “”.** (Apr 2011)
+- **Permit QNAME "".** (Apr 2011)
 
 ## 1.3: July 2010 to April 2011
 
@@ -2367,7 +2367,7 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
 - Add BAM description and index sections. (Nov 2010)
 
-- **Add ‘`=`’ and ‘`X`’ CIGAR operations.** (July 2010)
+- **Add '`=`' and '`X`' CIGAR operations.** (July 2010)
 
 - **Removal of FLAG letters.** (July 2010)
 
@@ -2382,7 +2382,7 @@ Initial edition.
 
 [^1]: Hence in particular SAM files must not begin with a byte order
     mark (BOM) and lines of text are delimited by ASCII line terminator
-    characters only. In addition to the local platform’s text file line
+    characters only. In addition to the local platform's text file line
     termination conventions, implementations may wish to support
     <span class="smallcaps">lf</span> and
     <span class="smallcaps">cr lf</span> for interoperability with other
@@ -2395,9 +2395,9 @@ Initial edition.
     0x93: last (second of a pair)/reverse-complemented/ properly
     aligned/multiple segments.
 
-[^3]: Characters that are *not* disallowed include ‘`|`’, which
+[^3]: Characters that are *not* disallowed include '`|`', which
     historically appeared in reference names derived from NCBI FASTA
-    files, and ‘`:`’, which appears in HLA allele names.
+    files, and '`:`', which appears in HLA allele names.
     Appendix <a href="#sec:parse-region" data-reference-type="ref"
     data-reference="sec:parse-region">6</a> describes approaches for
     parsing *name*`[:`*begin*`-`*end*`]` region notation unambiguously
@@ -2413,12 +2413,12 @@ Initial edition.
     avoided.
 
 [^5]: The manipulation of bitwise flags is described at [Wikipedia (see
-    “Bit field”)](http://en.wikipedia.org/wiki/Bit_field) and elsewhere.
+    "Bit field")](http://en.wikipedia.org/wiki/Bit_field) and elsewhere.
 
 [^6]: For example, in Illumina paired-end sequencing, first (0x40)
-    corresponds to the R1 ‘forward’ read and last (0x80) to the
-    R2 ‘reverse’ read. (Despite the terminology, this is unrelated to
-    the segments’ orientations when they are mapped: either, neither, or
+    corresponds to the R1 'forward' read and last (0x80) to the
+    R2 'reverse' read. (Despite the terminology, this is unrelated to
+    the segments' orientations when they are mapped: either, neither, or
     both may have their reverse flag bits (0x10) set after mapping.)
 
 [^7]: Thus a segment aligning in the forward direction at base 100 for
@@ -2437,11 +2437,11 @@ Initial edition.
 
     </div>
 
-[^9]: In the unlikely case in which SEQ is of length 1 and QUAL is ‘\*’,
+[^9]: In the unlikely case in which SEQ is of length 1 and QUAL is '\*',
     QUAL should be interpreted as quality not stored. Tools should avoid
-    writing a solitary base quality 9 (ASCII ‘’) to SAM, BAM, or CRAM
+    writing a solitary base quality 9 (ASCII '') to SAM, BAM, or CRAM
     files for alignment lines where SEQ is of length 1, instead
-    adjusting the base quality to 10 (ASCII ‘`+`’) to avoid this
+    adjusting the base quality to 10 (ASCII '`+`') to avoid this
     potential ambiguity.
 
 [^10]: See
@@ -2456,7 +2456,7 @@ Initial edition.
     *bioRxiv 020024*;
     [doi:10.1101/020024](http://dx.doi.org/10.1101/020024).
 
-[^13]: Writing pads/gaps as \*’s in the SEQ field might have been more
+[^13]: Writing pads/gaps as \*'s in the SEQ field might have been more
     convenient, but this caused concerns for backward compatibility.
 
 [^14]: See *Annotation and Padding* in
@@ -2474,17 +2474,17 @@ Initial edition.
 [^17]: The signedness and size used for each integer value is an
     implementation choice, but is typically the smallest that suffices.
 
-[^18]: The BAM representation of ‘`H`’ field values as textual
+[^18]: The BAM representation of '`H`' field values as textual
     hexadecimal digits rather than binary data is for historical
-    reasons. Modern applications may prefer to use ‘`B,C`’ array fields
-    rather than ‘`H`’ fields.
+    reasons. Modern applications may prefer to use '`B,C`' array fields
+    rather than '`H`' fields.
 
 [^19]: By *placed unmapped read* we mean a read that is unmapped
     according to its FLAG but whose RNAME and POS fields are filled in,
-    thus “placing” it on a reference sequence (see
+    thus "placing" it on a reference sequence (see
     Section <a href="#sec:recommended-practice" data-reference-type="ref"
     data-reference="sec:recommended-practice">2</a>). In contrast,
-    *unplaced* unmapped reads have ‘\*’ and 0 for RNAME and POS.
+    *unplaced* unmapped reads have '\*' and 0 for RNAME and POS.
 
 [^20]: See Appendix A of
     [`SAMtags.pdf`](http://samtools.github.io/hts-specs/SAMtags.pdf) at

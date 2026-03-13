@@ -148,8 +148,8 @@ formats defined by <span><code>FORMAT</code></span> (table below)</td>
 
 - All multi-byte numbers are little-endian.
 
-- In a string, a missing value ‘.’ is an empty C string “` 0`” (not
-  “`. 0`”)
+- In a string, a missing value '.' is an empty C string "` 0`" (not
+  "`. 0`")
 
 - For `GL` and `PL`, likelihoods of genotypes appear in the order of
   alleles in `REF` and then `ALT`. For example, if ` REF=C`, `ALT=T,A`,
@@ -159,7 +159,7 @@ formats defined by <span><code>FORMAT</code></span> (table below)</td>
 - Predefined `FORMAT` fields can be missing from VCF headers, but custom
   `FORMAT` fields are required to be explicitly defined in the headers.
 
-- A `FORMAT` field with its name starting with ‘`_`’ is specific to BCF
+- A `FORMAT` field with its name starting with '`_`' is specific to BCF
   only. It gives an alternative binary representation of the
   corresponding VCF field, in case the default representation is unable
   to keep the genotype information, for example, when the ploidy is not

@@ -53,8 +53,8 @@ The format has the following properties:
 
 ## Requirements
 
-The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”,
-“SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
 document are to be interpreted as described in .
 
 ## Terminology
@@ -142,18 +142,18 @@ specification.
 
 ### Asymmetric Keys
 
-This specification uses the term “secret key” rather than “private key”
+This specification uses the term "secret key" rather than "private key"
 so that the symbol $`K_s`$ can be used for secret keys and $`K_p`$ for
 public keys.
 
 <div class="description">
 
-Reader’s secret key ($`K_{sr}`$) \
+Reader's secret key ($`K_{sr}`$) \
 This key is used by the reader when decrypting header packets and should
 be kept private. It is generated using a cryptographically-secure random
 number.
 
-Reader’s public key ($`K_{pr}`$) \
+Reader's public key ($`K_{pr}`$) \
 This key is passed to the writer so that they can encrypt header packets
 (section <a href="#header:encryption" data-reference-type="ref"
 data-reference="header:encryption">3.2.1</a>) for the reader. It is
@@ -161,12 +161,12 @@ derived from $`K_{sr}`$ (see
 section <a href="#header:X25519" data-reference-type="ref"
 data-reference="header:X25519">[header:X25519]</a>).
 
-Writer’s secret key ($`K_{sw}`$) \
+Writer's secret key ($`K_{sw}`$) \
 This key is used by the writer to encrypt header packets. It should
 either be kept private, or deleted after use. It is generated using a
 cryptographically-secure random number.
 
-Writer’s public key ($`K_{pw}`$) \
+Writer's public key ($`K_{pw}`$) \
 This key is included in the header packet
 (section <a href="#header:encryption" data-reference-type="ref"
 data-reference="header:encryption">3.2.1</a>) so that the reader can use
@@ -215,10 +215,10 @@ header packet.
 The encrypted file structure, shown in the diagram above, consists of
 the following parts:
 
-- A header containing: a “magic” string, version number and header
+- A header containing: a "magic" string, version number and header
   packet count.
 
-  - A “magic” string for file type identification.
+  - A "magic" string for file type identification.
 
   - A version number.
 
@@ -230,12 +230,12 @@ the following parts:
 
     - The method used to encrypt the header packet data.
 
-    - The writer’s public key ($`K_{pw}`$) used to encrypt the header
-      packet data. This is needed (along with the reader’s secret key
+    - The writer's public key ($`K_{pw}`$) used to encrypt the header
+      packet data. This is needed (along with the reader's secret key
       $`K_{sr}`$) to calculate the shared key used to encrypt the header
       packet.
 
-    - A random “nonce”, also required for decryption.
+    - A random "nonce", also required for decryption.
 
     - The encrypted data for the header packet.
 
@@ -250,7 +250,7 @@ the following parts:
 - The encrypted data. This is the actual application data, stored in a
   sequence of blocks containing:
 
-  - A random “nonce”, needed for decryption.
+  - A random "nonce", needed for decryption.
 
   - 64 kilobytes of encrypted data (the last block may contain less than
     this).
@@ -294,7 +294,7 @@ It is sometimes useful to encrypt files so that they can be accessed
 using more than one secret key ($`K_{sr}`$). For example, multiple
 members of a team may need to access to a file with their own key.
 
-To allow this, the header packet data is encrypted using each reader’s
+To allow this, the header packet data is encrypted using each reader's
 public key ($`K_{pr}`$) and stored in a separate header packet for each
 individual reader.
 
@@ -321,14 +321,14 @@ left, and prefixed with "0x".
 ### Byte Ordering
 
 The basic data size is the byte (8 bits). All multi-byte values are
-stored in least-significant byte first (“little-endian”) order. For
+stored in least-significant byte first ("little-endian") order. For
 example, the value 1234 decimal (0x4d2) is stored as the byte stream
 0xd2 0x04.
 
 ### Integer Types
 
 Integers can be either signed or unsigned. Signed values are stored in
-two’s complement form.
+two's complement form.
 
 ### Multi-byte Integer Types
 
@@ -357,8 +357,8 @@ Structure types may be defined (in C-like notation) for convenience.
 
 When structures are serialised to a file, elements are written in the
 given order with no padding between them. The above structure would be
-written as twenty bytes - eight for the array ‘string’, four for the
-integer ‘number1’, and eight for the integer ‘number2’.
+written as twenty bytes - eight for the array 'string', four for the
+integer 'number1', and eight for the integer 'number2'.
 
 ### Enumerated Types
 
@@ -394,9 +394,9 @@ all contain the same fields.
       };
     };
 
-For the ‘cat’ and ‘dog’ cases, ‘struct AnimalFeatures’ is eight bytes
+For the 'cat' and 'dog' cases, 'struct AnimalFeatures' is eight bytes
 long and contains two unsigned four-byte little-endian values. For the
-‘rabbit’ case it is four bytes long and contains a single four-byte
+'rabbit' case it is four bytes long and contains a single four-byte
 little-endian value.
 
 If the cases are different lengths (as above), then the size of the
@@ -414,7 +414,7 @@ The file starts with a header, with the following structure:
       Encrypted_header_packet       header_packets[header_packet_count]
     };
 
-The is the ASCII representation of the string “crypt4gh”.
+The is the ASCII representation of the string "crypt4gh".
 
 The version number is stored as a four-byte little-endian unsigned
 integer. The current version number is 1.
@@ -546,12 +546,12 @@ encrypt the header packet data using the ChaCha20-IETF-Poly1305
 construction. The elliptic curve algorithm used is X25519, described in
 section 5 of .
 
-Encryption requires the writer’s public and secret keys ($`K_{pw}`$ and
-$`K_{sw}`$), the reader’s public key ($`K_{pr}`$) and a nonce ($`N`$).
+Encryption requires the writer's public and secret keys ($`K_{pw}`$ and
+$`K_{sw}`$), the reader's public key ($`K_{pr}`$) and a nonce ($`N`$).
 
 The nonce is a unique initialisation vector. In ChaCha20-IETF-Poly1305
 it is 12 bytes long. This value MUST be unique for each packet encrypted
-with the same reader’s and writer’s keys. The best way to ensure this is
+with the same reader's and writer's keys. The best way to ensure this is
 to generate a value with a cryptographically-secure random number
 generator.
 
@@ -561,7 +561,7 @@ the method in section 6.1 of .
 
 $`K_p = X25519(K_s, 9)`$
 
-The writer’s secret key and the reader’s public key are used to generate
+The writer's secret key and the reader's public key are used to generate
 a Diffie-Hellman shared key as described in section 6.1 of .
 
 $`K_{dh} = X25519(K_{sw}, K_{pr})`$
@@ -583,24 +583,24 @@ section <a href="#data:chacha20_encryption" data-reference-type="ref"
 data-reference="data:chacha20_encryption">3.4.1</a>. Note that header
 packets are not segmented; they are always encrypted in a single block.
 
-Finally, the packet length, encryption type, writer’s public key
+Finally, the packet length, encryption type, writer's public key
 $`K_{pw}`$, the nonce $`N`$ and the encrypted header packet data are
 combined to make the header packet.
 
-For extra security, writers MAY choose to discard the writer’s secret
+For extra security, writers MAY choose to discard the writer's secret
 key $`K_{sw}`$ after use. Due to the symmetry of the Diffie-Hellman
 algorithm, the holder of either secret key can regenerate the shared key
-as long as the other public key is known. Deleting the writer’s key
-$`K_{sw}`$ ensures only the holder of the reader’s secret key $`K_{sr}`$
+as long as the other public key is known. Deleting the writer's key
+$`K_{sw}`$ ensures only the holder of the reader's secret key $`K_{sr}`$
 can decode the header packet. As long as the writer uses
 randomly-generated keys, it also makes accidental nonce reuse very
 unlikely.
 
 ### X25519_chacha20_ietf_poly1305 Decryption
 
-To decrypt the header packet, the reader obtains the writer’s public key
+To decrypt the header packet, the reader obtains the writer's public key
 $`K_{pw}`$ and the nonce from the beginning of the packet. Also needed
-are the reader’s public and secret keys ($`K_{pr}`$ and $`K_{sr}`$).
+are the reader's public and secret keys ($`K_{pr}`$ and $`K_{sr}`$).
 
 The Diffie-Helman key is obtained using:
 
@@ -746,7 +746,7 @@ right.
 
 <div class="algorithmic">
 
-**return** $`input`$ “” $`0`$ $`pos + discard`$ $`pos + keep`$
+**return** $`input`$ "" $`0`$ $`pos + discard`$ $`pos + keep`$
 **return** $`output`$
 
 </div>
@@ -818,7 +818,7 @@ Which means:
 This format is primarily designed to protect files at rest and in
 transport from accidental disclosure. Attackers are assumed to have read
 access to encrypted files. Even if this is the case, it should not be
-possible to decrypt the file without access to the reader’s secret key
+possible to decrypt the file without access to the reader's secret key
 ($`K_{sr}`$).
 
 Some file formats use supplementary files, for example external indices.
@@ -837,7 +837,7 @@ Attackers with write access to files will not be able to make changes to
 individual blocks as (without access to the decryption key) they will
 not be able to calculate the correct MAC on the new version. Such an
 attacker can, however, make block-level changes such as removing or
-reordering blocks. An attacker with access to the reader’s public key
+reordering blocks. An attacker with access to the reader's public key
 ($`K_{pr}`$) will also be able to add entire blocks by inserting a new
 data_encryption_parameters packet in the header, and using the key
 stored in it to encrypt the new block.
@@ -889,8 +889,8 @@ chance of guessing a key vanishingly small.
 
 ## Nonce selection
 
-All header packets encrypted with the same combination of writer’s
-secret key ($`K_{sw}`$) and reader’s public key ($`K_{pr}`$) MUST use a
+All header packets encrypted with the same combination of writer's
+secret key ($`K_{sw}`$) and reader's public key ($`K_{pr}`$) MUST use a
 unique nonce. If the writer uses the same secret key ($`K_{sw}`$) for
 more than one file then all nonces MUST be unique across all files made
 with that key. As each file will only include a few header packets this
@@ -995,7 +995,7 @@ Bernstein, Daniel J., Lange, Tanja,\
 <https://safecurves.cr.yp.to>,\
 accessed 22 July 2019.
 
-Aumasson, J-P., Neves, S., Wilcox-O’Hearn, Z., Winnerlein, C.,\
+Aumasson, J-P., Neves, S., Wilcox-O'Hearn, Z., Winnerlein, C.,\
 *"BLAKE2: simpler, smaller, fast as MD5"*,\
 <https://eprint.iacr.org/2013/322.pdf>,\
 2013.
@@ -1041,7 +1041,7 @@ encryption were AES-GCM and ChaCha20-Poly1305. Both have good security
 guarantees, and thanks to their use in TLS 1.3 both have good library
 support. ChaCha20-Poly1305 was chosen because it allows much longer
 files to be encrypted. See  for a comparison although note that our
-“messages” are $`2^{16}`$ bytes long, while the figures in the paper are
+"messages" are $`2^{16}`$ bytes long, while the figures in the paper are
 for $`2^{14}`$ bytes.
 
 There are three common ChaCha20-Poly1305 constructions original,
@@ -1052,7 +1052,7 @@ library support thanks to its use in Internet Engineering Task Force
 protocols and the nonce length allows a very large number of messages to
 be encrypted under a single key. The message length restriction of
 ChaCha20-IETF-Poly1305 ($`64*2^{32}-64`$ bytes) is not a problem as our
-“messages” are at most 64 Kbytes long.
+"messages" are at most 64 Kbytes long.
 
 ## Public-key Algorithm
 
@@ -1093,7 +1093,7 @@ to be beyond the requirements of the format. If authentication is
 required, the encrypted file can be signed separately using an existing
 digital signature scheme, for example OpenPGP .
 
-Dividing the header into individually encrypted “packets” allows the
+Dividing the header into individually encrypted "packets" allows the
 data to be decrypted by more than one key, and also allows parts of the
 data to be encrypted using different keys. The former allows files to be
 accessed by more than one user without them having to share keys. The

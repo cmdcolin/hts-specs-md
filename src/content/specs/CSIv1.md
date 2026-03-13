@@ -176,7 +176,7 @@ chunk</td>
 
 The following functions generalise those given in the SAM specification
 for a BAI-style binning scheme. Note that in CSI *depth* refers to the
-scheme’s maximal depth, i.e., the level number of the scheme’s smallest
+scheme's maximal depth, i.e., the level number of the scheme's smallest
 bins, and the single-bin level spanning the entire coordinate range is
 level 0. Hence the BAI-style binning scheme, with six levels in total,
 is represented by $`\mbox{\sf min\_shift} = 14, \mbox{\sf depth} = 5`$.

@@ -29,7 +29,7 @@ minimum, but some are necessary and may be language specific. Due to the
 lack of explicit data types, we also have different division operators
 to symbolise floating point and integer divisions.
 
-The pseudocode doesn’t prescribe any particular programming paradigm -
+The pseudocode doesn't prescribe any particular programming paradigm -
 functional, procedural or object oriented - but it does have a few
 implicit assumptions. Variables are considered to be passed between
 functions via unspecified means. For example the Range Coder sets
@@ -101,8 +101,8 @@ b`$ | Logical AND operator, joining expressions $`a`$, $`b`$ |
 
 Note that string concatenation with the $`\mathbin{+\mkern-10mu+\,}`$
 operator assumes the left and right values are converted to string form.
-For example “level” $`\mathbin{+\mkern-10mu+\,}42`$ will convert the
-integer 42 to “42” and produce the string “level42”.
+For example "level" $`\mathbin{+\mkern-10mu+\,}42`$ will convert the
+integer 42 to "42" and produce the string "level42".
 
 ## Implicit functions
 
@@ -196,12 +196,12 @@ stream itself.
 
 Here "Order" refers to the number of bytes of context used in computing
 the frequencies. It will be 0 or 1. Ignoring punctuation and space, an
-Order-0 analysis of English text may observe that ‘e’ is the most common
-letter (12-13%), and that ‘u’ occurs only around 2.5% of the time. If
+Order-0 analysis of English text may observe that 'e' is the most common
+letter (12-13%), and that 'u' occurs only around 2.5% of the time. If
 instead we consider the frequency of a letter in the context of one
 previous letter (Order-1) then these statistics change considerably; we
-know that if the previous letter was ‘q’ then ‘e’ becomes a rare letter
-while ‘u’ is the most likely.
+know that if the previous letter was 'q' then 'e' becomes a rare letter
+while 'u' is the most likely.
 
 These observed frequencies are inversely related to the amount of
 storage required to encode a symbol (e.g. an alphabet letter)[^2].
@@ -248,9 +248,9 @@ then a counter of how many other non-zero frequency consecutive symbols
 is output directly after the second consecutive symbol, with that many
 symbols being subsequently omitted.
 
-For example for non-zero frequency symbols ‘a’, ‘b’, ‘c’, ‘d’ and ‘e’ we
-would write out symbol ‘a’, ‘b’ and the value 3 (to indicate ‘c’, ‘d’
-and ‘e’ are also present).
+For example for non-zero frequency symbols 'a', 'b', 'c', 'd' and 'e' we
+would write out symbol 'a', 'b' and the value 3 (to indicate 'c', 'd'
+and 'e' are also present).
 
 The frequency is output after every symbol (whether explicit or
 implicit) using ITF8 encoding. This means that frequencies 0-127 are
@@ -311,12 +311,12 @@ context byte we emit the Order-0 table relating to that context.
 
 One last caveat is that we have no context for the first byte in the
 data stream (in fact for 4 equally spaced starting points, see
-“interleaving" below). We use the ASCII value (‘\0’) as the starting
+"interleaving" below). We use the ASCII value ('\0') as the starting
 context for each interleaved rANS state and so need to consider this in
 our frequency table.
 
 Consider `abracadabraabracadabraabracadabraabracadabrad` as example
-input. Note for the additional trailing “d” giving us 45 characters
+input. Note for the additional trailing "d" giving us 45 characters
 instead of 44. This can be broken into 4 approximate equal portions
 `abracadabra abracadabra abracadabra abracadabrad`. We operate one
 independent rANS stream per portion, providing us the opportunity to
@@ -359,12 +359,12 @@ Normalised (per Order-0 statistics):\
 </div>
 
 Note that the above table has redundant entries. While our complete
-string had three cases of two consecutive “a” characters
-(“...cadabr**aa**braca...”), these spanned the junction of our split
+string had three cases of two consecutive "a" characters
+("...cadabr**aa**braca..."), these spanned the junction of our split
 streams and each rANS state is operating independently, starting with
 the same last character of nul (0). Hence during decode we will not need
-to access the table for the frequency of “a” in the context of a
-previous “a”. A similar issue occurs for the very last byte used for
+to access the table for the frequency of "a" in the context of a
+previous "a". A similar issue occurs for the very last byte used for
 each rANS state, which will not be used as a context. In extreme cases
 this may even be the only time that symbols occurs anywhere. While these
 scenarios represent unnecessary data to store, and these frequency
@@ -615,7 +615,7 @@ Run Length Encoding replacing repeated strings of symbols with a symbol
 and count, and bit-packing where reduced alphabets can combine multiple
 symbols into a byte prior to entropy encoding.
 
-The initial “Order” byte is expanded with additional bits to list the
+The initial "Order" byte is expanded with additional bits to list the
 transformations to be applied. The specifics of each sub-format are
 listed below, in the order they are applied.
 
@@ -771,10 +771,10 @@ The Order-1 code is comparable to Order-0 but with an extra dimension
 system for storing the frequencies. The frequencies may also add up to
 either 1024 or 4096 (10 or 12 bits).
 
-The N rANS states don’t operate on interleaved data either, but in
+The N rANS states don't operate on interleaved data either, but in
 distinct regions so they can utilise their previous symbols without
 inter-dependency between the decoded output of the rANS states. This
-makes the handling of data that isn’t a multiple of N is a little more
+makes the handling of data that isn't a multiple of N is a little more
 complex too.
 
 <div class="algorithmic">
@@ -1203,7 +1203,7 @@ symbol (byte) at a time, with the complete compressed data being
 represented by any value within the final range.
 
 This is easiest demonstrated with a worked example, so let us imagine we
-have an alphabet of 4 symbols, ‘t’, ‘c’, ‘g’, and ‘a’ with probabilities
+have an alphabet of 4 symbols, 't', 'c', 'g', and 'a' with probabilities
 0.2, 0.3, 0.3 and 0.2 respectively. We can construct a cumulative
 distribution table and apply probability ranges to each of the symbols:
 
@@ -1218,8 +1218,8 @@ As a *conceptual example* (note: this is not how it is implemented in
 practice, see below) using arbitrary precision floating point
 mathematics this could operate as follows.
 
-If we wish to encode a message, such as “cat” then we will encode one
-symbol at a time (‘c’, ‘a’, ‘t’) successively reducing the initial range
+If we wish to encode a message, such as "cat" then we will encode one
+symbol at a time ('c', 'a', 't') successively reducing the initial range
 of 0.0 to 1.0 by the cumulative distribution for that symbol. At each
 point the new range is adjusted to be the proportion of the previous
 range covered by the cumulative symbol range. See the table footnotes
@@ -1237,7 +1237,7 @@ below for the worked mathematics.
 </div>
 
 Our final range is 0.44 to 0.452 with any value in that range
-representing “cat”, thus 0.45 would suffice. A pictorial example of this
+representing "cat", thus 0.45 would suffice. A pictorial example of this
 process is below.
 
 <figure data-latex-placement="h">
@@ -1246,7 +1246,7 @@ process is below.
 </figure>
 
 Decoding is simply the reverse of this. In the above picture we can see
-that 0.45 would read off ‘c’, ‘a’ and ‘t’ by repeatedly comparing the
+that 0.45 would read off 'c', 'a' and 't' by repeatedly comparing the
 symbol ranges to the current range and using those to identify the
 symbol and produce a new range.
 
@@ -1261,9 +1261,9 @@ symbol and produce a new range.
 <div class="tablenotes">
 
 **a.** 0.45 into range 0.2 to 0.5: $`(0.45-0.2)/(0.5-0.2) = 0.833`$.
-This falls within the 0.8 to 1.0 symbol range for ‘a’.
+This falls within the 0.8 to 1.0 symbol range for 'a'.
 
-**b.** ‘a’ symbol range 0.8 to 1.0 applied to range 0.2 to 0.5:
+**b.** 'a' symbol range 0.8 to 1.0 applied to range 0.2 to 0.5:
 $`0.2+0.8\times(0.5-0.2) = 0.44`$ and $`0.2+1.0\times(0.5-0.2) = 0.5`$.
 
 </div>
@@ -1384,10 +1384,10 @@ $`0`$ $`{}\gets`$ $`0`$
 ## Adaptive Modelling
 
 The probabilities passed to the range coder may be fixed for all
-scenarios (as we had in the “cat” example), or they may be adaptive and
-context aware. For example the letter ‘u’ occurs around 3% of time in
-English text, but if the previous letter was ‘q’ it is close to 100% and
-if the previous letter was ‘u’ it is close to 0%. Using the previous
+scenarios (as we had in the "cat" example), or they may be adaptive and
+context aware. For example the letter 'u' occurs around 3% of time in
+English text, but if the previous letter was 'q' it is close to 100% and
+if the previous letter was 'u' it is close to 0%. Using the previous
 letter is known as an Order-1 entropy encoder, but the context can be
 anything. We can also adaptively adjust our probabilities as we encode
 or decode, learning the likelihoods and thus avoiding needing to store
@@ -1464,7 +1464,7 @@ $`rc \gets`$ $`out_i \gets model\_lit.`$ $`out`$
 
 The Order-1 variant simply uses an array of models and selects the
 appropriate model based on the previous value encoded or decoded. This
-array index is our “context”.
+array index is our "context".
 
 <div class="algorithmic">
 
@@ -1487,13 +1487,13 @@ a series of lengths of no more than 3. If length 3 is decoded it
 indicates we must decode an additional length and add to the current
 one. The context used for the run length model is the symbol itself for
 the initial run, 256 for the first continuation run (if $`\ge 4`$) and
-257 for any further continuation runs. Thus encoding 10 ‘A’ characters
-would first store symbol ‘A’ followed by run length 3 (with context
-‘A’), length 3 (context 256), length 3 (context 257), and length 1
+257 for any further continuation runs. Thus encoding 10 'A' characters
+would first store symbol 'A' followed by run length 3 (with context
+'A'), length 3 (context 256), length 3 (context 257), and length 1
 (context 257).
 
-For example, if we have the string “ABBCCCCDDDDD” we will record
-“A”\<0\> “B”\<1\> “C”\<3,0\> and “D”\<3,1\>.
+For example, if we have the string "ABBCCCCDDDDD" we will record
+"A"\<0\> "B"\<1\> "C"\<3,0\> and "D"\<3,1\>.
 
 <div class="algorithmic">
 
@@ -1696,7 +1696,7 @@ are permitted.
 |:---|:---|:---|:---|
 | 1 | <span class="smallcaps">Order</span> | Order-0 or Order-1 entropy coding |  |
 | 2 | reserved | Reserved (for possible order-2/3) |  |
-| 4 | <span class="smallcaps">Ext</span> | “External” compression via bzip2 |  |
+| 4 | <span class="smallcaps">Ext</span> | "External" compression via bzip2 |  |
 | 8 | <span class="smallcaps">Stripe</span> | N-way interleaving of byte streams |  |
 | 16 | <span class="smallcaps">NoSize</span> | Original size is not recorded (used by <span class="smallcaps">Stripe</span>) |  |
 | 32 | <span class="smallcaps">Cat</span> | Data is uncompressed |  |
@@ -1803,9 +1803,9 @@ The specifics of each sub-format are described below, in the order
 
 - **<span class="smallcaps">Ext</span>**: Instead of using the adaptive
   arithmetic coder for decompression (with or without RLE), this uses an
-  compression codec defined in an “external” library. Currently the only
+  compression codec defined in an "external" library. Currently the only
   supported such codec is Bzip2. In future more may be added, so the
-  “magic number” (the file signature, typically in first few bytes of
+  "magic number" (the file signature, typically in first few bytes of
   data) *must* be validated to check the external codec being used.
 
   Given bzip2 is already supported elsewhere in CRAM, the purpose of
@@ -1848,11 +1848,11 @@ As an example, take a series of names:
     I17_08765:2:124:45613:16161#9
 
 We may wish to tokenise each of these into 7 tokens, e.g.
-“I17_08765:2:”, “123”, “:”, “61541”, “:”, “01763”and “\#9”. Some of
+"I17_08765:2:", "123", ":", "61541", ":", "01763"and "\#9". Some of
 these are multi-byte strings, some single characters, and some numeric,
 possibily with a leading zero. We also observe some regularly have
 values that match the previous line (the initial prefix string, colons,
-“\#9”) while others are numerically very close to the value in the
+"\#9") while others are numerically very close to the value in the
 previous line (124 vs 123).
 
 The name tokeniser compares each name against a previous name (which is
@@ -1907,7 +1907,7 @@ More detail on the token types is given below.
   start of each new identifier. The value is an integer value describing
   how many reads before this (with 1 being the immediately previous
   name) we are comparing against. When we subsequently refer to
-  “previous name” below, we always mean the one indicated by the DIFF
+  "previous name" below, we always mean the one indicated by the DIFF
   field and not the one immediately prior to the current name.
 
   The first record will have a DIFF of zero and no delta or match
@@ -1936,7 +1936,7 @@ More detail on the token types is given below.
   displayed in base 10 which must be greater than $`\log_{10}(value)`$
   with any remaining length indicating the number of leading zeros. For
   example if DIGITS0 value is 123 and DZLEN length is 5 the string
-  “00123” must be appended to the name.
+  "00123" must be appended to the name.
 
   For purposes of the MATCH type, both value and length must match.
 
@@ -1966,8 +1966,8 @@ More detail on the token types is given below.
 
 - **NOP**: This token type does nothing. The purpose of this is simply
   to permit skipping tokens in order to keep token numbers in sync, such
-  as when processing “10” vs “-10” with the latter needing an additional
-  “-” token.
+  as when processing "10" vs "-10" with the latter needing an additional
+  "-" token.
 
 - **END**: Marks the end of the name. A nul byte is added to the name
   output buffer. No value is needed for END tokens.
@@ -1982,7 +1982,7 @@ byte array specified as input.
 
 *(Convert an integer to a string form in base-10 digits, at least
 $`len`$ bytes long with leading zeros)* $`str \gets val`$ $`str \gets`$
-‘$`0`$’ $`\mathbin{+\mkern-10mu+\,}str`$ $`str`$
+'$`0`$' $`\mathbin{+\mkern-10mu+\,}str`$ $`str`$
 
 </div>
 
@@ -2005,7 +2005,7 @@ $`N_n \gets N_m`$ $`T_n \gets T_m`$ $`N_n`$ $`t \gets 1`$ $`type \gets`$
 $`T_{n,t} \gets`$ $`T_{n,t} \gets`$ $`T_{n,t} \gets`$ $`d \gets`$
 $`l \gets`$ $`T_{n,t} \gets`$ $`T_{n,t} \gets T_{m,t} +`$
 $`d \gets T_{m,t} +`$ $`l \gets`$ $`T_{n,t} \gets`$
-$`T_{n,t} \gets T_{m,t}`$ $`T_{n,t} \gets`$ ‘’
+$`T_{n,t} \gets T_{m,t}`$ $`T_{n,t} \gets`$ ''
 $`N_n \gets N_n \mathbin{+\mkern-10mu+\,}T_{n,t}`$ $`t \gets t+1`$
 $`N_n`$
 
@@ -2210,7 +2210,7 @@ quantised further using $`stab`$ (Selector Table) to reduce the selector
 to fewer sets of parameters. This is useful if we wish to use the
 selector bits directly in the context using the same parameters. The
 selector is arbitrary and may be used for distinguishing READ1 from
-READ2, as a precalculated “delta” instead of the running total,
+READ2, as a precalculated "delta" instead of the running total,
 distinguishing perfect alignments from imperfect ones, or any other
 factor that is shown to improve quality predictability and increase
 compression ratio (average quality, number of mismatches, tile, swathe,
@@ -2795,7 +2795,7 @@ a run of length 600 becomes 255 255 90.
 This array $`R`$ is no longer monotonically increasing but may still
 have repeated values, so is run-length encoded by storing the number of
 additional values whenever the last two lengths match. This converts
-$`R`$ to $`R2 = \{1, 1, +0, 0, 1, 1, +2, 4\}`$ where the ‘+’ symbol is
+$`R`$ to $`R2 = \{1, 1, +0, 0, 1, 1, +2, 4\}`$ where the '+' symbol is
 shown purely to indicate the values representing the additional
 run-length copy numbers. (This also now turns the example run of 600
 above into 255 255 0 90.)
@@ -2902,11 +2902,11 @@ $`rec \gets rec+1`$
 [^4]: F. Giesen, *Interleaved entropy coders*,
     <http://arxiv.org/abs/1402.3392>
 
-[^5]: This was why the ‘\0’ $`\to`$ ‘a’ context in the example above had
+[^5]: This was why the '\0' $`\to`$ 'a' context in the example above had
     a frequency of 4 instead of 1.
 
 [^6]: This implementation was designed by Eugene Shelwein, based on
-    Michael Schindler’s earlier work.
+    Michael Schindler's earlier work.
 
 [^7]: For simplicity of algorithm description, we take a flexible
     approach as to whether we read/write $`T`$ in numeric or string

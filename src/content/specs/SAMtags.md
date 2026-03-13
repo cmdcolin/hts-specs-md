@@ -30,7 +30,7 @@ displayed as `TAG:TYPE:VALUE`; the *type* may be one of `A` (character),
 | `BZ` | Z | Phred quality of the unique molecular barcode bases in the `OX` tag |
 | `CB` | Z | Cell identifier |
 | `CC` | Z | Reference name of the next hit |
-| `CG` | B,I | BAM only: CIGAR in BAM’s binary encoding if (and only if) it consists of $`>`$<!-- -->65535 operators |
+| `CG` | B,I | BAM only: CIGAR in BAM's binary encoding if (and only if) it consists of $`>`$<!-- -->65535 operators |
 | `CM` | i | Edit distance between the color sequence and the color reference (see also `NM`) |
 | `CO` | Z | Free-text comments |
 | `CP` | i | Leftmost coordinate of the next hit |
@@ -107,12 +107,12 @@ sequence. At the $`i`$-th read base, $`{\rm BAQ}_i=Q_i-({\rm BQ}_i-64)`$
 where $`Q_i`$ is the $`i`$-th base quality.
 
 CC:Z:  
-Reference name of the next hit; ‘`=`’ for the same chromosome.
+Reference name of the next hit; '`=`' for the same chromosome.
 
 CG:B:I,  
 Real CIGAR in its binary form if (and only if) it contains
 $`>`$<!-- -->65535 operations. This is a BAM file only tag as a
-workaround of BAM’s incapability to store long CIGARs in the standard
+workaround of BAM's incapability to store long CIGARs in the standard
 way. SAM and CRAM files created with updated tools aware of the
 workaround are not expected to contain this tag. See also the footnote
 in Section 4.2 of the SAM spec for details.
@@ -172,18 +172,18 @@ additional delimiter characters:
 
 As shown in the complete regular expression above, numbers alternate
 with the other items. Thus if two mismatches or deletions are adjacent
-without a run of identical bases between them, a ‘`0`’ (indicating a
+without a run of identical bases between them, a '`0`' (indicating a
 0-length run) must be used to separate them in the `MD` string.
 
-Clipping, padding, reference skips, and insertions (‘`H`’, ‘`S`’, ‘`P`’,
-‘`N`’, and ‘`I`’ CIGAR operations) are not represented in the `MD`
+Clipping, padding, reference skips, and insertions ('`H`', '`S`', '`P`',
+'`N`', and '`I`' CIGAR operations) are not represented in the `MD`
 string. When reconstructing the reference sequence, inserted and
-soft-clipped SEQ bases are omitted as determined by tracking ‘`I`’ and
-‘`S`’ operations in the CIGAR string. (If the CIGAR string contains
-‘`N`’ operations, then the corresponding skipped parts of the reference
+soft-clipped SEQ bases are omitted as determined by tracking '`I`' and
+'`S`' operations in the CIGAR string. (If the CIGAR string contains
+'`N`' operations, then the corresponding skipped parts of the reference
 sequence cannot be reconstructed.)
 
-For example, a string ‘`10A5^AC6`’ means from the leftmost reference
+For example, a string '`10A5^AC6`' means from the leftmost reference
 base in the alignment, there are 10 matches followed by an A on the
 reference which is different from the aligned read base; the next 5
 reference bases are matches followed by a 2bp deletion from the
@@ -201,12 +201,12 @@ Number of differences (mismatches plus inserted and deleted bases)
 between the sequence and reference, counting only (case-insensitive) A,
 C, G and T bases in sequence and reference as potential matches, with
 everything else being a mismatch. Note this means that ambiguity codes
-in both sequence and reference that match each other, such as ‘`N`’ in
-both, or compatible codes such as ‘`A`’ and ‘`R`’, are still counted as
-mismatches. The special sequence base ‘`=`’ will always be considered to
+in both sequence and reference that match each other, such as '`N`' in
+both, or compatible codes such as '`A`' and '`R`', are still counted as
+mismatches. The special sequence base '`=`' will always be considered to
 be a match, even if the reference is ambiguous at that point. Alignment
-reference skips, padding, soft and hard clipping (‘`N`’, ‘`P`’, ‘`S`’
-and ‘`H`’ CIGAR operations) do not count as mismatches, but insertions
+reference skips, padding, soft and hard clipping ('`N`', '`P`', '`S`'
+and '`H`' CIGAR operations) do not count as mismatches, but insertions
 and deletions count as one mismatch per base.
 
 Note that historically this has been ill-defined and both data and tools
@@ -228,8 +228,8 @@ SA:Z:
 Other canonical alignments in a chimeric alignment, formatted as a
 semicolon-delimited list. Each element in the list represents a part of
 the chimeric alignment. Conventionally, at a supplementary line, the
-first element points to the primary line. *Strand* is either ‘`+`’ or
-‘`-`’, indicating forward/reverse strand, corresponding to FLAG bit
+first element points to the primary line. *Strand* is either '`+`' or
+'`-`', indicating forward/reverse strand, corresponding to FLAG bit
 0x10. *Pos* is a 1-based coordinate.
 
 SM:i:  
@@ -241,7 +241,7 @@ TC:i:
 The number of segments in the template.
 
 TS:A:  
-Strand (‘`+`’ or ‘`-`’) of the transcript to which the read has been
+Strand ('`+`' or '`-`') of the transcript to which the read has been
 mapped.
 
 U2:Z:  
@@ -285,7 +285,7 @@ co-exist: Sample Barcode, Cell Barcode, and Unique Molecular Identifier
 - Despite its name, the *Sample Barcode* identifies the *Library* and
   allows multiple libraries to be combined and sequenced together. After
   sequencing, the reads can be separated according to this barcode and
-  placed in different “read groups” each corresponding to a library.
+  placed in different "read groups" each corresponding to a library.
   Since the library was generated from a sample, knowing the library
   should inform of the sample. The barcode itself can be included in the
   `PU` field in the `RG` header line. Since the `PU` field should be
@@ -297,7 +297,7 @@ co-exist: Sample Barcode, Cell Barcode, and Unique Molecular Identifier
 - The *Cell Barcode* is similar to the sample barcode but there is
   (normally) no control over the assignment of cells to barcodes (whose
   sequence could be random or predetermined). The Cell Barcode can help
-  identify when reads come from different cells in a “single-cell”
+  identify when reads come from different cells in a "single-cell"
   sequencing experiment.
 
 - The *UMI* is intended to identify the (single- or double-stranded)
@@ -318,7 +318,7 @@ Barcode sequence (Identifying the sample/library), with any quality
 scores (optionally) stored in the `QT` tag. The `BC` tag should match
 the `QT` tag in length. In the case of multiple unique molecular
 identifiers (e.g., one on each end of the template) the recommended
-implementation concatenates all the barcodes and places a hyphen (‘`-`’)
+implementation concatenates all the barcodes and places a hyphen ('`-`')
 between the barcodes from the same template.
 
 QT:Z:  
@@ -326,17 +326,17 @@ Phred quality of the sample barcode sequence in the `BC` tag. Same
 encoding as QUAL, i.e., Phred score + 33. In the case of multiple unique
 molecular identifiers (e.g., one on each end of the template) the
 recommended implementation concatenates all the quality strings with
-spaces (‘’) between the different strings from the same template.
+spaces ('') between the different strings from the same template.
 
 CB:Z:  
 Cell identifier, consisting of the optionally-corrected cellular barcode
 sequence and an optional suffix. The sequence part is similar to the
 `CR` tag, but may have had sequencing errors etc corrected. This may be
-followed by a suffix consisting of a hyphen (‘`-`’) and one or more
+followed by a suffix consisting of a hyphen ('`-`') and one or more
 alphanumeric characters to form an identifier. In the case of the
 cellular barcode (`CR`) being based on multiple barcode sequences the
 recommended implementation concatenates all the (corrected or
-uncorrected) barcodes with a hyphen (‘`-`’) between the different
+uncorrected) barcodes with a hyphen ('`-`') between the different
 barcodes. Sequencing errors etc aside, all reads from a single cell are
 expected to have the same `CB` tag.
 
@@ -347,14 +347,14 @@ quality scores (optionally) stored in `CY`. Sequencing errors etc aside,
 all reads with the same `CR` tag likely derive from the same cell. In
 the case of the cellular barcode being based on multiple barcode
 sequences the recommended implementation concatenates all the barcodes
-with a hyphen (‘`-`’) between the different barcodes.
+with a hyphen ('`-`') between the different barcodes.
 
 CY:Z:  
 Phred quality of the cellular barcode sequence in the `CR` tag. Same
 encoding as QUAL, i.e., Phred score + 33. The lengths of the `CY` and
 `CR` tags must match. In the case of the cellular barcode being based on
 multiple barcode sequences the recommended implementation concatenates
-all the quality strings with with spaces (‘’) between the different
+all the quality strings with with spaces ('') between the different
 strings.
 
 MI:Z:  
@@ -367,7 +367,7 @@ Raw (uncorrected) unique molecular identifier bases, with any quality
 scores (optionally) stored in the `BZ` tag. In the case of multiple
 unique molecular identifiers (e.g., one on each end of the template) the
 recommended implementation concatenates all the barcodes with a hyphen
-(‘`-`’) between the different barcodes.
+('`-`') between the different barcodes.
 
 BZ:Z:  
 Phred quality of the (uncorrected) unique molecular identifier sequence
@@ -375,7 +375,7 @@ in the `OX` tag. Same encoding as QUAL, i.e., Phred score + 33. The `OX`
 tags should match the `BZ` tag in length. In the case of multiple unique
 molecular identifiers (e.g., one on each end of the template) the
 recommended implementation concatenates all the quality strings with a
-space (‘’) between the different strings.
+space ('') between the different strings.
 
 RX:Z:  
 Sequence bases from the unique molecular identifier. These could be
@@ -383,7 +383,7 @@ either corrected or uncorrected. Unlike `MI`, the value may be
 non-unique in the file. Should be comprised of a sequence of bases. In
 the case of multiple unique molecular identifiers (e.g., one on each end
 of the template) the recommended implementation concatenates all the
-barcodes with a hyphen (‘`-`’) between the different barcodes.
+barcodes with a hyphen ('`-`') between the different barcodes.
 
 If the bases represent corrected bases, the original sequence can be
 stored in `OX` (similar to `OQ` storing the original qualities of
@@ -396,7 +396,7 @@ may have been corrected (Raw bases and qualities can be stored in `OX`
 and `BZ` respectively.) The lengths of the `QX` and the `RX` tags must
 match. In the case of multiple unique molecular identifiers (e.g., one
 on each end of the template) the recommended implementation concatenates
-all the quality strings with a space (‘’) between the different strings.
+all the quality strings with a space ('') between the different strings.
 
 ## Original data
 
@@ -404,9 +404,9 @@ OA:Z:
 The original alignment information of the record prior to realignment or
 unalignment by a subsequent tool. Each original alignment entry contains
 the following six field values from the original record, generally in
-their textual SAM representations, separated by commas (‘`,`’) and
-terminated by a semicolon (‘`;`’): RNAME, which must be explicit (unlike
-RNEXT, ‘`=`’ may not be used here); 1-based POS; ‘`+`’ or ‘`-`’,
+their textual SAM representations, separated by commas ('`,`') and
+terminated by a semicolon ('`;`'): RNAME, which must be explicit (unlike
+RNEXT, '`=`' may not be used here); 1-based POS; '`+`' or '`-`',
 indicating forward/reverse strand respectively (as per bit 0x10 of
 FLAG); CIGAR; MAPQ; `NM` tag value, which may be omitted (though the
 preceding comma must be retained).
@@ -451,30 +451,30 @@ features.
 The `CT` tag is intended primarily for annotation dummy reads, and
 consists of a *strand*, *type* and zero or more *key*=*value* pairs,
 each separated with semicolons. The *strand* field has four values as in
-GFF3,[^2] and supplements FLAG bit 0x10 to allow unstranded (‘`.`’), and
-stranded but unknown strand (‘`?`’) annotation. For these and annotation
-on the forward strand (*strand* set to ‘`+`’), do not set FLAG bit 0x10.
-For annotation on the reverse strand, set the *strand* to ‘`-`’ and set
+GFF3,[^2] and supplements FLAG bit 0x10 to allow unstranded ('`.`'), and
+stranded but unknown strand ('`?`') annotation. For these and annotation
+on the forward strand (*strand* set to '`+`'), do not set FLAG bit 0x10.
+For annotation on the reverse strand, set the *strand* to '`-`' and set
 FLAG bit 0x10.
 
 The *type* and any *keys* and their optional *values* are all percent
-encoded according to RFC3986 to escape meta-characters ‘`=`’, ‘`%`’,
-‘`;`’, ‘`|`’ or non-printable characters not matched by the isprint()
-macro (with the C locale). For example a percent sign becomes ‘`%25`’.
+encoded according to RFC3986 to escape meta-characters '`=`', '`%`',
+'`;`', '`|`' or non-printable characters not matched by the isprint()
+macro (with the C locale). For example a percent sign becomes '`%25`'.
 
 PT:Z:  
 where each matches\
 Read annotations for parts of the padded read sequence.
 
 The `PT` tag value has the format of a series of annotation tags
-separated by ‘`|`’, each annotating a sub-region of the read. Each tag
+separated by '`|`', each annotating a sub-region of the read. Each tag
 consists of *start*, *end*, *strand*, *type* and zero or more
 *key*`=`*value* pairs, each separated with semicolons. *Start* and *end*
 are 1-based positions between one and the sum of the CIGAR operators,
 i.e., SEQ length plus any pads. Note any editing of the CIGAR string may
 require updating the `PT` tag coordinates, or even invalidate them. As
-in GFF3, *strand* is one of ‘`+`’ for forward strand tags, ‘`-`’ for
-reverse strand, ‘`.`’ for unstranded or ‘`?`’ for stranded but unknown
+in GFF3, *strand* is one of '`+`' for forward strand tags, '`-`' for
+reverse strand, '`.`' for unstranded or '`?`' for stranded but unknown
 strand.
 
 The *type* and any *keys* and their optional *values* are all percent
@@ -508,7 +508,7 @@ reported by the sequencing instrument. This potentially differs to the
 sequence stored in the main SAM SEQ field if the latter has been reverse
 complemented, in which case SAM FLAG 0x10 must be set. This means
 modification positions are also recorded against the original
-orientation (i.e. starting at the 5’ end), and count the original base
+orientation (i.e. starting at the 5' end), and count the original base
 types.
 
 Each modified base prediction listed also has a quality value associated
@@ -519,11 +519,11 @@ correct.
 
 MM:Z:  
 \
-The first character is the unmodified “fundamental” base as reported by
-the sequencing instrument for the top strand. It must be one of ‘`A`’,
-‘`C`’, ‘`G`’, ‘`T`’, ‘`U`’ (if RNA) or ‘`N`’ for anything else,
+The first character is the unmodified "fundamental" base as reported by
+the sequencing instrument for the top strand. It must be one of '`A`',
+'`C`', '`G`', '`T`', '`U`' (if RNA) or '`N`' for anything else,
 including any IUPAC ambiguity codes in the reported SEQ field. Note
-‘`N`’ may be used to match any base rather than specifically an ‘`N`’
+'`N`' may be used to match any base rather than specifically an '`N`'
 call by the sequencing instrument. This may be used in situations where
 the base modification is not a derivation of a standard base type. This
 is followed by either plus or minus indicating the strand the
@@ -532,34 +532,34 @@ of SEQ with plus meaning same orientation),[^3] and one or more base
 modification codes.
 
 Following the base modification codes is a recommended but optional
-‘`.`’ or ‘`?`’ describing how skipped seq bases of the stated base type
-should be interpreted by downstream tools. When this flag is ‘`?`’ there
+'`.`' or '`?`' describing how skipped seq bases of the stated base type
+should be interpreted by downstream tools. When this flag is '`?`' there
 is no information about the modification status of the skipped bases
-provided. When this flag is not present, or it is ‘`.`’, these bases
+provided. When this flag is not present, or it is '`.`', these bases
 should be assumed to have low probability of modification.[^4]
 
 This is then followed by a comma separated list of how many seq bases of
 the stated base type to skip, stored as a delta to the last and starting
-with 0 as the first (or next) base, starting from the uncomplemented 5’
+with 0 as the first (or next) base, starting from the uncomplemented 5'
 end of the SEQ field. This number series is comparable to the numbers in
 an `MD` tag, albeit counting specific base types only and potentially
 reverse-complemented.
 
-For example ‘`C+m,5,12,0;`’ tells us there are three potential
-5-Methylcytosine bases on the top strand of SEQ. The first 5 ‘`C`’ bases
+For example '`C+m,5,12,0;`' tells us there are three potential
+5-Methylcytosine bases on the top strand of SEQ. The first 5 '`C`' bases
 are unmodified and the 6th, 19th and 20th have modification status
 indicated by the corresponding probabilities in the `ML` tag. The 12
 cytosines between the 6th and 19th cytosine are unmodified. Modification
 probabilities for the 17 skipped cytosines are not provided.
 
-When the ‘`?`’ flag is present the tag ‘`C+m?,5,12,0;`’ tells us the
+When the '`?`' flag is present the tag '`C+m?,5,12,0;`' tells us the
 modification status of the first five cytosine bases is unknown, the
 sixth cytosine is called (as either modified or unmodified), followed by
 12 more unknown cytosines, and the 19th and 20th are called.
 
-Similarly ‘`G-m,14;`’ indicates the 15th ‘`G`’ there might be a
+Similarly '`G-m,14;`' indicates the 15th '`G`' there might be a
 5-Methylcytosine on the opposite strand (still counting using the top
-strand base calls from the 5’ end). When the alignment record is reverse
+strand base calls from the 5' end). When the alignment record is reverse
 complemented (SAM flag 0x10) these two examples do not change since the
 tag always refers to the as-sequenced orientation. See the
 test/SAMtags/MM-orient.sam file for examples.
@@ -572,32 +572,32 @@ base modification field values will be in the opposite orientation to
 SEQ and other derived SAM fields.
 
 Note it is permitted for the coordinate list to be empty (for example
-‘`MM:Z:C+m;`’), which may be used as an explicit indicator that this
+'`MM:Z:C+m;`'), which may be used as an explicit indicator that this
 base modification is not present. It is not permitted for coordinates to
 be beyond the length of the sequence.
 
-When multiple modifications are listed, for example ‘`C+mh,5,12,0;`’, it
+When multiple modifications are listed, for example '`C+mh,5,12,0;`', it
 indicates the modification may be any of the stated bases. The
 associated confidence values in the `ML` tag may be used to determine
 the relative likelihoods between the options. The example above is
-equivalent to ‘`C+m,5,12,0;C+h,5,12,0;`’, although this will have a
+equivalent to '`C+m,5,12,0;C+h,5,12,0;`', although this will have a
 different ordering of confidence values in `ML`. Note ChEBI codes cannot
-be used in the multi-modification form (such as the ‘`C+mh`’ example
+be used in the multi-modification form (such as the '`C+mh`' example
 above).
 
 If the modification is not one of the standard common types (listed
 below) it can be specified as a numeric ChEBI code. For example
-‘`C+76792,57;`’ is the same as ‘`C+h,57;`’.
+'`C+76792,57;`' is the same as '`C+h,57;`'.
 
-An unmodified base of ‘`N`’ means count any base in SEQ, not only those
-of ‘`N`’. Thus ‘`N+n,100;`’ means the 101st base is Xanthosine (n),
+An unmodified base of '`N`' means count any base in SEQ, not only those
+of '`N`'. Thus '`N+n,100;`' means the 101st base is Xanthosine (n),
 irrespective of the sequence composition.
 
 The standard code types and their associated ChEBI values are listed
 below, taken from Viner *et al.* [^5] Additionally ambiguity codes
-‘`A`’, ‘`C`’, ‘`G`’, ‘`T`’ and ‘`U`’ exist to represent unspecified
+'`A`', '`C`', '`G`', '`T`' and '`U`' exist to represent unspecified
 modifications bases of their respective canonical base types, plus code
-‘`N`’ to represent an unspecified modification of any base type.
+'`N`' to represent an unspecified modification of any base type.
 
 <div class="center">
 
@@ -631,17 +631,17 @@ portions to the discrete integers 0 to 255 inclusively. Thus the
 probability range corresponding to integer value $`N`$ is $`N/256`$ to
 $`(N+1)/256`$.
 
-The SAM encoding therefore uses a byte array of type ‘`C`’ with the
+The SAM encoding therefore uses a byte array of type '`C`' with the
 number of elements matching the summation of the number of modifications
 listed as being present in the `MM` tag accounting for
 multi-modifications each having their own probability.
 
-For example ‘`MM:Z:C+m,5,12;C+h,5,12;`’ may have an associated tag of
-‘`ML:B:C,204,89,26,130`’.
+For example '`MM:Z:C+m,5,12;C+h,5,12;`' may have an associated tag of
+'`ML:B:C,204,89,26,130`'.
 
 If the above is rewritten in the multiple-modification form, the
 probabilities are interleaved in the order presented, giving
-‘`MM:Z:C+mh,5,12; ML:B:C,204,26,89,130`’. Note where several possible
+'`MM:Z:C+mh,5,12; ML:B:C,204,26,89,130`'. Note where several possible
 modifications are presented at the same site, the `ML` values represent
 the absolute probabilities of the modification call being correct and
 not the relative likelihood between the alternatives. These
@@ -687,8 +687,8 @@ There are currently no tags with draft status.
 
 # Locally-defined tags
 
-You can freely add new tags. Note that tags starting with ‘`X`’, ‘`Y`’,
-or ‘`Z`’ and tags containing lowercase letters in either position are
+You can freely add new tags. Note that tags starting with '`X`', '`Y`',
+or '`Z`' and tags containing lowercase letters in either position are
 reserved for local use and will not be formally defined in any future
 version of this specification.
 
@@ -795,7 +795,7 @@ Read annotation tags CT and PT added.
 
 ### September 2011
 
-FZ tag’s type changed from `H` to `B,S`-array.
+FZ tag's type changed from `H` to `B,S`-array.
 
 BC and CO tags added.
 
@@ -829,7 +829,7 @@ Tags FI, FS, OC, OP, OQ, and TC added.
 Tags GC:Z, GQ:Z, and GS:Z, briefly proposed for representing
 repeatedly-sequenced reads, noted as reserved for backwards
 compatibility. Existing tags MF:i (MAQ pair flag), SQ:H (suboptimal
-bases), and S2:H (mate’s suboptimal bases) removed and noted as reserved
+bases), and S2:H (mate's suboptimal bases) removed and noted as reserved
 for backwards compatibility.
 
 CC and CP tags temporarily removed.
@@ -838,7 +838,7 @@ CC and CP tags temporarily removed.
 
 <div class="samepage">
 
-The original SAM “0.1.2-draft” specification specified version number
+The original SAM "0.1.2-draft" specification specified version number
 `VN:1.0` and defined a total of thirty standard tags (though SQ and S2
 were already deprecated in favour of E2 and U2):
 

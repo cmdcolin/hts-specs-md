@@ -201,8 +201,8 @@ set</td>
   region is `end`=`beg+1`.
 
 - Example. For `GFF`, `format`=0, `col_seq`=1, ` col_beg`=4,
-  `col_end`=5, `meta`=‘`#`’ and ` skip`=0. For `BED`, `format`=0x10000,
-  `col_seq`=1, ` col_beg`=2, `col_end`=3, `meta`=‘`#`’ and ` skip`=0.
+  `col_end`=5, `meta`='`#`' and ` skip`=0. For `BED`, `format`=0x10000,
+  `col_seq`=1, ` col_beg`=2, `col_end`=3, `meta`='`#`' and ` skip`=0.
 
 - Given a zero-based, half-closed and half-open region ` [beg, end)`,
   the `bin` number is calculated with the following C function:

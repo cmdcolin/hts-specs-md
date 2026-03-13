@@ -142,6 +142,17 @@ This printing is version {commit} from the [hts-specs](https://github.com/samtoo
                 break
 
     final_content = front_matter + "\n".join(lines[start_idx:])
+    
+    # Replace curly quotes with straight quotes for a cleaner look
+    final_content = final_content.replace('‘', "'").replace('’', "'")
+    final_content = final_content.replace('“', '"').replace('”', '"')
+    
+    # Remove PDF artifacts like "Continued on next page"
+    final_content = re.sub(r'<tr>\s*<td[^>]*><em>…Continued from previous.*?</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+    final_content = re.sub(r'<tr>\s*<td[^>]*><em>Continued on next.*?</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+    # Also catch them if they are not in <tr> (pandoc table artifacts)
+    final_content = re.sub(r'<td[^>]*><em>…Continued from previous.*?</td>', '', final_content, flags=re.IGNORECASE)
+    final_content = re.sub(r'<td[^>]*><em>Continued on next.*?</td>', '', final_content, flags=re.IGNORECASE)
 
     with open(output_md, 'w') as f:
         f.write(final_content)

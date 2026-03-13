@@ -78,7 +78,7 @@ bits in the last byte are shifted to the left to complete a whole byte.
 
 ### Example of writing to bit stream
 
-Let’s consider the following example. The table below shows a sequence
+Let's consider the following example. The table below shows a sequence
 of write operations:
 
 | **Operation order** | **Buffer state before** | **Written bits** | **Buffer state after** | **Issued bytes** |
@@ -127,8 +127,8 @@ data types:
 
 Boolean (bool)  
  \
-Boolean is written as 1-byte with 0x0 being ‘false’ and 0x1 being
-‘true’.
+Boolean is written as 1-byte with 0x0 being 'false' and 0x1 being
+'true'.
 
 Integer (int32)  
  \
@@ -145,8 +145,8 @@ similar to UTF-8 encoding and therefore this encoding is called ITF-8
 (Integer Transformation Format - 8 bit).
 
 The most significant bits of the first byte have special meaning and are
-called ‘prefix’. These are 0 to 3 true bits followed by a 0 or 4 true
-bits. The number of 1’s denote the number of bytes to follow. So 0 for
+called 'prefix'. These are 0 to 3 true bits followed by a 0 or 4 true
+bits. The number of 1's denote the number of bytes to follow. So 0 for
 no bytes, 10 for one byte, 110 for two bytes, 1110 for three bytes and
 1111 for four bytes. To accommodate 32 bits such representation requires
 5 bytes with only 4 lower bits used in the last byte 5.
@@ -188,9 +188,9 @@ Subexponential encoding example:
 | 0x0       | itf8     | offset                    |
 | 0x1       | itf8     | K parameter               |
 
-The first byte “0x7” is the codec id.
+The first byte "0x7" is the codec id.
 
-The next byte “0x2” denotes the length of the bytes to follow (2).
+The next byte "0x2" denotes the length of the bytes to follow (2).
 
 The subexponential encoding has 2 parameters: integer (itf8) offset and
 integer (itf8) K.
@@ -214,7 +214,7 @@ are specific to each map.
 String  
  \
 A string is represented as byte arrays using UTF-8 format. Read names,
-reference sequence names and tag values with type ‘Z’ are stored as
+reference sequence names and tag values with type 'Z' are stored as
 UTF-8.
 
 # **Encodings** 
@@ -225,9 +225,9 @@ be a set of constants required to initialize a specific decompression
 algorithm or statistical properties of a data series or, in case of data
 series being stored in an external block, the block content id.
 
-Encoding notation is defined as the keyword ‘encoding’ followed by its
-data type in angular brackets, for example ‘encoding`<`byte`>`’ stands
-for an encoding that operates on a data series of data type ‘byte’.
+Encoding notation is defined as the keyword 'encoding' followed by its
+data type in angular brackets, for example 'encoding`<`byte`>`' stands
+for an encoding that operates on a data series of data type 'byte'.
 
 Encodings may have parameters of different data types, for example the
 EXTERNAL encoding has only one parameter, integer id of the external
@@ -360,7 +360,7 @@ compatibility.
 
 The file definition is followed by one or more containers with the
 following header structure where the container content is stored in the
-‘blocks’ field:
+'blocks' field:
 
 | **Data type** | **Name** | **Value** |
 |:---|:---|:---|
@@ -406,7 +406,7 @@ may optionally be omitted by specifying an array size of zero.
 Containers consist of one or more blocks. Block compression is applied
 independently and in addition to any encodings used to compress data
 within the block. The block have the following header structure with the
-data stored in the ‘block data’ field:
+data stored in the 'block data' field:
 
 | **Data type** | **Name** | **Value** |
 |:---|:---|:---|
@@ -422,7 +422,7 @@ data stored in the ‘block data’ field:
 same value.
 
 Empty blocks may occur in the files. Blocks with a raw (uncompressed)
-size of zero are treated as empty, irrespective of their “method” byte.
+size of zero are treated as empty, irrespective of their "method" byte.
 This is equivalent to interpreting them as having method zero (raw) and
 compressed size of zero.
 
@@ -534,7 +534,7 @@ with byte\[2\] keys and are decoded in approximately this order[^2]:
 | RI | encoding`<`int`>` | reference id | record reference id from the SAM file header |
 | RL | encoding`<`int`>` | read lengths | read lengths |
 | AP | encoding`<`int`>` | in-seq positions | if **AP-Delta** = true: 0-based alignment start delta from the AP value in the previous record. Note this delta may be negative, for example when switching references in a multi-reference slice. When the record is the first in the slice, the previous position used is the slice alignment-start field (hence the first delta should be zero for single-reference slices, or the AP value itself for multi-reference slices). if **AP-Delta** = false: encodes the alignment start position directly (1-based) |
-| RG | encoding`<`int`>` | read groups | read groups. Special value ‘-1’ stands for no group. |
+| RG | encoding`<`int`>` | read groups | read groups. Special value '-1' stands for no group. |
 | RN | encoding`<`byte\[ \]`>` | read names | read names |
 | MF | encoding`<`int`>` | next mate bit flags | see specific section |
 | NS | encoding`<`int`>` | next fragment reference sequence id | reference sequence ids for the next fragment |
@@ -550,7 +550,7 @@ with byte\[2\] keys and are decoded in approximately this order[^2]:
 | QQ | encoding`<`byte\[ \]`>` | stretches of quality scores | quality scores |
 | BS | encoding`<`byte`>` | base substitution codes | base substitution codes |
 | IN | encoding`<`byte\[ \]`>` | insertion | inserted bases |
-| RS | encoding`<`int`>` | reference skip length | number of skipped bases for the ‘N’ read feature |
+| RS | encoding`<`int`>` | reference skip length | number of skipped bases for the 'N' read feature |
 | PD | encoding`<`int`>` | padding | number of padded bases |
 | HC | encoding`<`int`>` | hard clip | number of hard clipped bases |
 | SC | encoding`<`byte\[ \]`>` | soft clip | soft clipped bases |
@@ -593,7 +593,7 @@ Let $`L_{i}=\{T_{i0}, T_{i1}, \ldots, T_{ix}\}`$ be a list of all tag
 ids for a record $`R_{i}`$, where $`i`$ is the sequential record index
 and $`T_{ij}`$ denotes $`j`$-th tag id in the record. The list of unique
 $`L_{i}`$ is stored as the TD value in the preservation map. Maintaining
-the order is not a requirement for encoders (hence “combinations”), but
+the order is not a requirement for encoders (hence "combinations"), but
 it is permissible and thus different permutations, each encoded with
 their own elements in TD, should be supported by the decoder. Each
 $`L_{i}`$ element in TD is assigned a sequential integer number starting
@@ -630,9 +630,9 @@ stream {0xE0, 0x4F, 0x51, 0x5A}.
 Note that tag values are encoded as array of bytes. The routines to
 convert tag values into byte array and back are the same as in BAM with
 the exception of value type being captured in the tag key rather in the
-value. Hence consuming 1 byte for types ‘C’ and ‘c’, 2 bytes for types
-‘S’ and ‘s’, 4 bytes for types ‘I’, ‘i’ and ‘f’, and a variable number
-of bytes for types ‘H’, ‘Z’ and ‘B’.
+value. Hence consuming 1 byte for types 'C' and 'c', 2 bytes for types
+'S' and 's', 4 bytes for types 'I', 'i' and 'f', and a variable number
+of bytes for types 'H', 'Z' and 'B'.
 
 ## **Slice header block**
 
@@ -685,7 +685,7 @@ Embedded references should follow the same capitalisation and
 alphabetical rules as applied to external references prior to MD5sum
 calculations. If an embedded reference is used, it is not a requirement
 that it exactly matches the reference used for sequence alignments. For
-example, it may contain “N” bases where coverage is absent or it could
+example, it may contain "N" bases where coverage is absent or it could
 have different base calls for SNP variants. Hence when embedded
 sequences are used, the MD5sum refers to the checksum of the embedded
 sequence and should not be validated against any external reference
@@ -967,9 +967,9 @@ slice.
 | 0x1 |  | template having multiple segments in sequencing |
 | 0x2 |  | each segment properly aligned according to the aligner |
 | 0x4 |  | segment unmapped |
-| 0x8 | calculated  or stored in the mate’s info | next segment in template unmapped |
+| 0x8 | calculated  or stored in the mate's info | next segment in template unmapped |
 | 0x10 |  | SEQ being reverse complemented |
-| 0x20 | calculated  or stored in the mate’s info | SEQ of the next segment in the template being reverse complemented |
+| 0x20 | calculated  or stored in the mate's info | SEQ of the next segment in the template being reverse complemented |
 | 0x40 |  | the first segment in the template |
 | 0x80 |  | the last segment in the template |
 | 0x100 |  | secondary alignment |
@@ -1010,7 +1010,7 @@ are defined for each CRAM read record:
 | 0x1 | quality scores stored as array | quality scores can be stored as read features or as an array similar to read bases. |
 | 0x2 | detached | mate information is stored verbatim (e.g. because the pair spans multiple slices or the fields differ to the CRAM computed method) |
 | 0x4 | has mate downstream | tells if the next segment should be expected further in the stream |
-| 0x8 | decode sequence as “\*” | informs the decoder that the sequence is unknown and that any encoded reference differences are present only to recreate the CIGAR string. |
+| 0x8 | decode sequence as "\*" | informs the decoder that the sequence is unknown and that any encoded reference differences are present only to recreate the CIGAR string. |
 
 The following pseudocode describes the general process of decoding an
 entire CRAM record. The sequence data itself is in one of two encoding
@@ -1040,7 +1040,7 @@ redundant and is included only as an aide-mémoire.
 Following the bit-wise BAM and CRAM flags, CRAM encodes positional
 related data including reference, alignment positions and length, and
 read-group. Positional data is stored for both mapped and unmapped
-sequences, as unmapped data may still be “placed” at a specific location
+sequences, as unmapped data may still be "placed" at a specific location
 in the genome (without being aligned). Typically this is done to keep a
 sequence pair (paired-end or mate-pair sequencing libraries) together
 when one of the pair aligns and the other does not.
@@ -1106,7 +1106,7 @@ There are two ways in which mate information can be preserved in CRAM.
 If the next fragment is not in the same slice we store verbatim copies
 of the insert size, mate reference chromosome and positions, and mate
 flags (mapped status, orientation) for both records. In this case both
-records are labelled as “detached” in the CF data series using bit 2.
+records are labelled as "detached" in the CF data series using bit 2.
 
 If this and the next fragment are within the same slice, we can derive
 much of this information by comparing the two records. The upstream
@@ -1115,7 +1115,7 @@ records to skip (in the NF data series) between this record and the
 record for the next fragment on this template, with zero meaning the
 next fragment is also the next record. The downstream record has neither
 CF bits 2 (detached) or 4 (mate downstream) set nor does it use the NF
-data series (unless it also has an additional “next fragment” to refer
+data series (unless it also has an additional "next fragment" to refer
 to).
 
 It is not mandatory to use this deduplication approach and optionally
@@ -1187,7 +1187,7 @@ $`template\_size\gets -(rightmost-leftmost+1)`$
 </div>
 
 Note as with the SAM specification a template may be permitted to have
-more than two alignment records. In this case the “mate” for each record
+more than two alignment records. In this case the "mate" for each record
 is considered to be the next record, with the mate for the last record
 being the first to form a circular list. The above algorithm is a
 simplification that does not deal with this scenario. The full method
@@ -1529,10 +1529,10 @@ CRAM format has strict rules about reference sequences.
     MD5 is to remove any non-base symbols (like \n, sequence name or
     length and spaces) and upper case the rest. Here are some examples:
 
-    `> samtools faidx human_g1k_v37.fasta 1 grep -v ’^>’ tr -d ’\n’ tr a-z A-Z md5sum -`\
+    `> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`\
     `1b22b98cdeb4a9304cb5d48026a85128 -`
 
-    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v ’^``>``’ tr -d ’\n’ tr a-z A-Z md5sum -`\
+    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^``>``' tr -d '\n' tr a-z A-Z md5sum -`\
     `0f2a4865e3952676ffad2c3671f14057 -`
 
     Please note that the latter calculates the checksum for 11 bases
@@ -1545,7 +1545,7 @@ CRAM format has strict rules about reference sequences.
     all checksums are injected or checked during compression time.
 
 3.  In some cases reads may be mapped beyond the reference sequence. All
-    out of range reference bases are all assumed to be ‘N’.
+    out of range reference bases are all assumed to be 'N'.
 
 4.  MD5 checksum bytes in slice header should be ignored for unmapped or
     multiref slices.
@@ -1573,7 +1573,7 @@ usually does not require any CRAM records to be read. Indexing
 information can be obtained from container headers, namely sequence id,
 alignment start and span, container start byte offset and slice byte
 offset inside the container (landmarks). The exception to this is with
-multi-reference containers, where the “RI” data series must be read.
+multi-reference containers, where the "RI" data series must be read.
 
 ### CRAM index
 
@@ -1591,7 +1591,7 @@ columns:
 4.  Absolute byte offset of Container header in the file.
 
 5.  Relative byte offset of the Slice header block, from the end of the
-    container header. This is the same as the “landmark” field in the
+    container header. This is the same as the "landmark" field in the
     container header.
 
 6.  Slice size in bytes (including slice header and all blocks).
@@ -1602,7 +1602,7 @@ slices must be listed in the index file.
 Multi-reference slices may need to have multiple lines for the same
 slice; one for each reference contained within that slice. In this case
 the index reference sequence ID will be the actual reference ID (from
-the “RI” data series) and not -2.
+the "RI" data series) and not -2.
 
 Slices containing solely unmapped unplaced data (reference ID -1) still
 require values for all columns, although the alignment start and span
@@ -1695,7 +1695,7 @@ lengths. The general process consists of the following steps.
 - Compute canonical Huffman codewords from code lengths[^5].
 
 - Encode or decode bits as per the symbol to codeword table. Codewords
-  have the “prefix property” that no codeword is a prefix of another
+  have the "prefix property" that no codeword is a prefix of another
   codeword, enabling unambiguous decode bit by bit.
 
 The use of canonical Huffman codes means that we only need to store the
@@ -1713,8 +1713,8 @@ for specifying constant values.
     numerical order of the values.
 
 2.  The first symbol in the list gets assigned a codeword which is the
-    same length as the symbol’s original codeword but all zeros. This
-    will often be a single zero (’0’).
+    same length as the symbol's original codeword but all zeros. This
+    will often be a single zero ('0').
 
 3.  Each subsequent symbol is assigned the next binary number in
     sequence, ensuring that following codes are always higher in value.
@@ -1780,7 +1780,7 @@ The parameter for BYTE_ARRAY_LEN are listed below:
 | encoding`<`byte`>` | values encoding | an encoding describing how the values are captured |
 
 For example, the bytes specifying a BYTE_ARRAY_LEN encoding, including
-the codec and parameters, for a 16-bit X0 auxiliary tag (“X0C”) may use
+the codec and parameters, for a 16-bit X0 auxiliary tag ("X0C") may use
 HUFFMAN encoding to specify the length (always 2 bytes) and an EXTERNAL
 encoding to store the value to an external block with ID 200.
 
@@ -2116,7 +2116,7 @@ First available in CRAM v3.0.
 
 rANS is the range-coder variant of the Asymmetric Numerical System[^8].
 
-“4x8” refers to 4-way interleaving with 8-bit renormalisation.\
+"4x8" refers to 4-way interleaving with 8-bit renormalisation.\
 This variant of rANS first appeared in CRAM v3.0.
 
 Details of this algorithm have been moved to the *CRAMcodecs* document.
@@ -2125,7 +2125,7 @@ Details of this algorithm have been moved to the *CRAMcodecs* document.
 
 First available in CRAM v3.1.
 
-“4x16” refers to 4-way interleaving with 16-bit renormalisation.\
+"4x16" refers to 4-way interleaving with 16-bit renormalisation.\
 This variant of rANS first appeared in CRAM v3.1.
 
 Details of this algorithm are listed in the *CRAMcodecs* document.
@@ -2283,7 +2283,7 @@ Note: the formal draft appeared in 2019, and was initially demonstrated
 in 2016.
 
 This adds new EXTERNAL compression methods, described in the separate
-CRAMcodecs document, and expands the list of permitted “methods” in the
+CRAMcodecs document, and expands the list of permitted "methods" in the
 CRAM Block structure.
 
 The aim of the new compression methods is improved compression, both
@@ -2311,7 +2311,7 @@ The format is otherwise identical to 3.0.
 
 - Robert Buels (UC Berkeley): First JavaScript implementation of CRAM
 
-- Michael Macias (St Jude Children’s Research Hospital): First Rust
+- Michael Macias (St Jude Children's Research Hospital): First Rust
   implementation of CRAM
 
 - Other specification contributors include: John Marshall, Rishi Nag,

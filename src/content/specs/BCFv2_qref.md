@@ -15,7 +15,7 @@ This printing is version 405fa48 from the [hts-specs](https://github.com/samtool
 In BCF2, each key in the FILTER, INFO and FORMAT fields is required to
 be defined in the VCF header. For each record, a key is stored as an
 integer which is the index of its first appearance in the header.
-‘` PASS`’ is always indexed at 0, which is special cased as VCF does not
+'` PASS`' is always indexed at 0, which is special cased as VCF does not
 require the presence of this word.
 
 In BCF2, a typed value consists of a typing byte and the actual value
@@ -35,15 +35,15 @@ types and their missing values:
 |       2 | `int16_t` |      `0x8000` | signed 16-bit integer               |
 |       3 | `int32_t` |  `0x80000000` | signed 32-bit integer               |
 |       5 | `float`   |  `0x7F800001` | IEEE 32-bit floating pointer number |
-|       7 | `char`    |        ‘` 0`’ | character                           |
+|       7 | `char`    |        '` 0`' | character                           |
 
 </div>
 
 A genotype (GT) is encoded as an integer vector with each integer
 describing an allele and its phase w.r.t. the previous allele. The first
 allele does not carry the phase information. In the vector, each integer
-is organized as ‘` allele+1 1 phased`’ where `allele` is set to -1 if
-the allele in GT is a dot ‘.’ (thus the higher bits are all 0). The
+is organized as '` allele+1 1 phased`' where `allele` is set to -1 if
+the allele in GT is a dot '.' (thus the higher bits are all 0). The
 vector is padded with missing values if the GT having fewer ploidy.
 
 A BCF2 file is BGZF compressed and all multi-byte value are little

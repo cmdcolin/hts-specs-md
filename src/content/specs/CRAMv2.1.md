@@ -77,7 +77,7 @@ case the bits in the last byte are shifted to the left.
 
 ### Example of writing to bit stream
 
-Let’s consider the following example. The table below shows a sequence
+Let's consider the following example. The table below shows a sequence
 of write operations:
 
 | **Operation order** | **Buffer state before** | **Written bits** | **Buffer state after** | **Issued bytes** |
@@ -126,8 +126,8 @@ data types:
 
 Boolean (bool)  
  \
-Boolean is written as 1-byte with 0x0 being ‘false’ and 0x1 being
-‘true’.
+Boolean is written as 1-byte with 0x0 being 'false' and 0x1 being
+'true'.
 
 Integer (int32)  
  \
@@ -144,8 +144,8 @@ similar to UTF-8 encoding and therefore this encoding is called ITF-8
 (Integer Transformation Format - 8 bit).
 
 The most significant bits of the first byte have special meaning and are
-called ‘prefix’. These are 0 to 4 true bits followed by a 0. The number
-of 1’s denote the number of bytes the follow. To accommodate 32 bits
+called 'prefix'. These are 0 to 4 true bits followed by a 0. The number
+of 1's denote the number of bytes the follow. To accommodate 32 bits
 such representation requires 5 bytes with only 4 lower bits used in the
 last byte 5.
 
@@ -180,9 +180,9 @@ Subexponential encoding example:
 | 0x0       | itf8     | offset                    |
 | 0x1       | itf8     | K parameter               |
 
-The first byte “0x7” is the codec id.
+The first byte "0x7" is the codec id.
 
-The second 4 bytes “0x0 0x0 0x0 0xD” denote the length of the bytes to
+The second 4 bytes "0x0 0x0 0x0 0xD" denote the length of the bytes to
 follow (13).
 
 The subexponential encoding has 3 parameters: integer (itf8) K, int
@@ -207,7 +207,7 @@ are specific to each map.
 ## **Strings**
 
 Strings are represented as byte arrays using UTF-8 format. Read names,
-reference sequence names and tag values with type ‘Z’ are stored as
+reference sequence names and tag values with type 'Z' are stored as
 UTF-8.
 
 # **Encodings** 
@@ -218,9 +218,9 @@ be a set of constants required to initialize a specific decompression
 algorithm or statistical properties of a data series or, in case of data
 series being stored in an external block, the block content id.
 
-Encoding notation is defined as the keyword ‘encoding’ followed by its
-data type in angular brackets, for example ‘encoding`<`byte`>`’ stands
-for an encoding that operates on a data series of data type ‘byte’.
+Encoding notation is defined as the keyword 'encoding' followed by its
+data type in angular brackets, for example 'encoding`<`byte`>`' stands
+for an encoding that operates on a data series of data type 'byte'.
 
 Encodings may have parameters of different data types, for example the
 external encoding has only one parameter, integer id of the external
@@ -330,7 +330,7 @@ Valid CRAM *major*.*minor* version numbers are as follows:
 
 The file definition is followed by one or more containers with the
 following header structure where the container content is stored in the
-‘blocks’ field:
+'blocks' field:
 
 | **Data type** | **Name** | **Value** |
 |:---|:---|:---|
@@ -359,7 +359,7 @@ block than it is required by the BAM header.
 Containers consist of one or more blocks. Block compression is applied
 independently and in addition to any encodings used to compress data
 within the block. The block have the following header structure with the
-data stored in the ‘block data’ field:
+data stored in the 'block data' field:
 
 | **Data type** | **Name** | **Value** |
 |:---|:---|:---|
@@ -461,7 +461,7 @@ with byte\[2\] keys:
 | FN | encoding`<`int`>` | number of read features | number of read features in each record |
 | BS | encoding`<`byte`>` | base substitution codes | base substitution codes |
 | IN | encoding`<`byte\[ \]`>` | insertion | inserted bases |
-| RG | encoding`<`int`>` | read groups | read groups. Special value ‘-1’ stands for no group. |
+| RG | encoding`<`int`>` | read groups | read groups. Special value '-1' stands for no group. |
 | MQ | encoding`<`int`>` | mapping qualities | mapping quality scores |
 | TL | encoding`<`int`>` | tag ids | list of tag ids, see tag encoding section |
 | RN | encoding`<`byte\[ \]`>` | read names | read names |
@@ -472,7 +472,7 @@ with byte\[2\] keys:
 | CF | encoding`<`int`>` | compression bit flags | see specific section |
 | TM | encoding`<`int`>` | test mark | a prefix expected before every record, for debugging purposes. |
 | RI | encoding`<`int`>` | reference id | record reference id from the BAM file header |
-| RS | encoding`<`int`>` | reference skip length | number of skipped bases for the ‘N’ read feature |
+| RS | encoding`<`int`>` | reference skip length | number of skipped bases for the 'N' read feature |
 | PD | encoding`<`int`>` | padding | number of padded bases |
 | HC | encoding`<`int`>` | hard clip | number of hard clipped bases |
 | SC | encoding`<`byte\[ \]`>` | soft clip | soft clipped bases |
@@ -503,8 +503,8 @@ tag {OQ:Z}.
 
 The encodings used for different tags are stored in a map. The map has
 integer keys composed of the two letter tag abbreviation followed by the
-tag type as defined in the SAM specification, for example ‘OQZ’ for
-‘OQ:Z’. The three bytes form a big endian integer and are written as
+tag type as defined in the SAM specification, for example 'OQZ' for
+'OQ:Z'. The three bytes form a big endian integer and are written as
 ITF8. For example, 3-byte representation of OQ:Z is {0x4F, 0x51, 0x5A}
 and these bytes are interpreted as the integer 0x004F515A. The integer
 is finally written as ITF8.
@@ -757,7 +757,7 @@ data series name corresponds to the data series encoding map.
 | 4 | int | RL | read length | the length of the read |
 | 5 | int | AP | alignment start | the alignment start position \*1 |
 | 6 | int | RG | read group | the read group identifier |
-| 7 | byte | QS | quality scores | quality scores are stored depending on the value of the ‘mapped QS included’ field |
+| 7 | byte | QS | quality scores | quality scores are stored depending on the value of the 'mapped QS included' field |
 | 8 | byte\[ \] | RN | read name | the read names (if preserved) |
 | 9 | \*2 | \*2 | mate record | \*2 (if not the last record) |
 | 10 | int | TL | tag ids | tag ids \*3 |
@@ -803,9 +803,9 @@ The following flags are defined for each CRAM read record:
 | 0x1 | ! 0x40 && ! 0x80 | template having multiple segments in sequencing |
 | 0x2 |  | each segment properly aligned according to the aligner |
 | 0x4 |  | segment unmapped |
-| 0x8 | calculated\* or stored in the mate’s info | next segment in the template unmapped |
+| 0x8 | calculated\* or stored in the mate's info | next segment in the template unmapped |
 | 0x10 |  | SEQ being reverse complemented |
-| 0x20 | calculated\* or stored in the mate’s info | SEQ of the next segment in the template being reverse complemented |
+| 0x20 | calculated\* or stored in the mate's info | SEQ of the next segment in the template being reverse complemented |
 | 0x40 |  | the first segment in the template |
 | 0x80 |  | the last segment in the template |
 | 0x100 |  | secondary alignment |
@@ -970,10 +970,10 @@ CRAM format has strict rules about reference sequences.
     MD5 is to remove any non-base symbols (like \n, sequence name or
     length and spaces) and upper case the rest. Here are some examples:
 
-    `> samtools faidx human_g1k_v37.fasta 1 grep -v ’^>’ tr -d ’\n’ tr a-z A-Z md5sum -`\
+    `> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`\
     `1b22b98cdeb4a9304cb5d48026a85128 -`
 
-    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v ’^``>``’ tr -d ’\n’ tr a-z A-Z md5sum -`\
+    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^``>``' tr -d '\n' tr a-z A-Z md5sum -`\
     `0f2a4865e3952676ffad2c3671f14057 -`
 
     Please note that the latter calculates the checksum for 11 bases
@@ -986,7 +986,7 @@ CRAM format has strict rules about reference sequences.
     all checksums are injected or checked during compression time.
 
 3.  In some cases reads may be mapped beyond the reference sequence. All
-    out of range reference bases are all assumed to be ‘N’.
+    out of range reference bases are all assumed to be 'N'.
 
 4.  MD5 checksum bytes in slice header should be ignored for unmapped or
     multiref slices.
@@ -1025,7 +1025,7 @@ columns:
 
 4.  Container start byte offset in the file
 
-5.  Slice start byte offset in the container data (‘blocks’)
+5.  Slice start byte offset in the container data ('blocks')
 
 6.  Slice bytes
 
@@ -1316,8 +1316,8 @@ $`\bullet`$ Sort the alphabet ascending using bit-lengths and then using
 numerical order of the values.
 
 $`\bullet`$ The first symbol in the list gets assigned a codeword which
-is the same length as the symbol’s original codeword but all zeros. This
-will often be a single zero (’0’).
+is the same length as the symbol's original codeword but all zeros. This
+will often be a single zero ('0').
 
 $`\bullet`$ Each subsequent symbol is assigned the next binary number in
 sequence, ensuring that following codes are always higher in value.
