@@ -117,13 +117,33 @@ function CodeBlock(el)
       local last_pos = 1
       for start_pos, content, end_pos in line:gmatch("()%$([^%$]+)%$()") do
         if start_pos > last_pos then
-            table.insert(all_content, pandoc.Str(line:sub(last_pos, start_pos - 1)))
+            local text = line:sub(last_pos, start_pos - 1)
+            if last_pos == 1 then
+                local spaces = text:match("^( +)")
+                if spaces then
+                    table.insert(all_content, pandoc.RawInline('html', spaces:gsub(" ", "&nbsp;")))
+                    text = text:sub(#spaces + 1)
+                end
+            end
+            if #text > 0 then
+                table.insert(all_content, pandoc.Str(text))
+            end
         end
         table.insert(all_content, pandoc.Math("InlineMath", content))
         last_pos = end_pos
       end
       if last_pos <= #line then
-        table.insert(all_content, pandoc.Str(line:sub(last_pos)))
+        local text = line:sub(last_pos)
+        if last_pos == 1 then
+            local spaces = text:match("^( +)")
+            if spaces then
+                table.insert(all_content, pandoc.RawInline('html', spaces:gsub(" ", "&nbsp;")))
+                text = text:sub(#spaces + 1)
+            end
+        end
+        if #text > 0 then
+            table.insert(all_content, pandoc.Str(text))
+        end
       end
       
       if i < #lines then

@@ -333,7 +333,7 @@ expression:
 
 <div class="code-math-block">
 
-    \[0-9A-Za-z!#$`%&+./:;?@^_|~-][0-9A-Za-z!#`$%&\*+./:;=?@^\_\|~-\]\*
+&nbsp;&nbsp;&nbsp;&nbsp;\[0-9A-Za-z!#$`%&+./:;?@^_|~-][0-9A-Za-z!#`$%&\*+./:;=?@^\_\|~-\]\*
 
 </div>
 
@@ -922,11 +922,11 @@ probabilities rounded to the closest integer</td>
 
   <div class="code-math-block">
 
-    for $`a_P = 0\ldots N`$\
-      for $`a_{P-1} = 0\ldots a_P`$\
-          $`\ldots`$\
-          for $`a_1 = 0\ldots a_{2}`$\
-              println $`a_1 a_2  \ldots  a_P`$
+  &nbsp;&nbsp;for $`a_P = 0\ldots N`$\
+  &nbsp;&nbsp;&nbsp;&nbsp;for $`a_{P-1} = 0\ldots a_P`$\
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$`\ldots`$\
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for $`a_1 = 0\ldots a_{2}`$\
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println $`a_1 a_2  \ldots  a_P`$
 
   </div>
 
@@ -935,10 +935,10 @@ probabilities rounded to the closest integer</td>
 
   <div class="code-math-block">
 
-      Ordering($`P`$, $`N`$, suffix=""):\
-          for $`a`$ in $`0\ldots N`$\
-              if ($`P == 1`$) println str($`a`$) + suffix\
-              if ($`P > 1`$) Ordering($`P`$-1, $`a`$, str($`a`$) + suffix)
+  &nbsp;&nbsp;&nbsp;&nbsp;Ordering($`P`$, $`N`$, suffix=""):\
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for $`a`$ in $`0\ldots N`$\
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($`P == 1`$) println str($`a`$) + suffix\
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($`P > 1`$) Ordering($`P`$-1, $`a`$, str($`a`$) + suffix)
 
   </div>
 
@@ -947,7 +947,7 @@ probabilities rounded to the closest integer</td>
 
   <div class="code-math-block">
 
-      Index($`k_1/k_2/\ldots/k_P`$) = $`\sum_{m=1}^{P} {k_m + m - 1 \choose m}`$
+  &nbsp;&nbsp;&nbsp;&nbsp;Index($`k_1/k_2/\ldots/k_P`$) = $`\sum_{m=1}^{P} {k_m + m - 1 \choose m}`$
 
   </div>
 
