@@ -16,6 +16,8 @@ allowed, a dot (".") must be used instead. In order to ensure
 interoperability across platforms, VCF compliant implementations must
 support both LF ("`\n`") and CR+LF ("`\r\n`") newline conventions.
 
+<a id="an-example"></a>
+
 ## An example
 
     ##fileformat=VCFv4.4
@@ -55,6 +57,8 @@ with per sample genotype quality, depth and haplotype qualities (the
 latter only for the phased samples) given as well as the genotypes. The
 microsatellite calls are unphased.
 
+<a id="character-encoding"></a>
+
 ## Character encoding, non-printable characters and characters with special meaning
 
 The character encoding of VCF files is UTF-8. UTF-8 is a multi-byte
@@ -80,6 +84,8 @@ with the capitalized percent encoding:
 | %0A | LF  |                |
 | %09 | TAB |                |
 
+<a id="data-types"></a>
+
 ## Data types
 
 Data types supported by VCF are: Integer (32-bit, signed), Float (32-bit
@@ -88,19 +94,16 @@ IEEE-754, formatted to match one of the regular expressions
 `^[-+]?(INF|INFINITY|NAN)$` case insensitively), [^1] Flag, Character,
 and String. For the Integer type, the values from $-2^{31}$ to
 $-2^{31}+7$ cannot be stored in the binary version and therefore are
-disallowed in both VCF and BCF, see
-<a href="#BcfTypeEncoding" data-reference-type="ref"
-data-reference="BcfTypeEncoding">6.3.3</a>.
+disallowed in both VCF and BCF, see [6.3.3](#BcfTypeEncoding).
+
+<a id="meta-information-lines"></a>
 
 ## Meta-information lines
 
 File meta-information lines start with "`##`" and must appear first in
-the VCF file, before the header line
-(section <a href="#header-line" data-reference-type="ref"
-data-reference="header-line">1.5</a>) and data record lines
-(section <a href="#data-lines" data-reference-type="ref"
-data-reference="data-lines">1.6</a>). They may be either *unstructured*
-or *structured*.
+the VCF file, before the header line (section [1.5](#header-line)) and
+data record lines (section [1.6](#data-lines)). They may be either
+*unstructured* or *structured*.
 
 An *unstructured* meta-information line consists of a *key* (denoting
 the type of meta-information recorded) and a *value* (which may not be
@@ -152,6 +155,8 @@ requires that all entries are present. It is recommended to include
 meta-information lines describing the entries used in the body of the
 VCF file.
 
+<a id="file-format"></a>
+
 ### File format
 
 A single 'fileformat' line is always required, must be the first line in
@@ -159,6 +164,8 @@ the file, and details the VCF format version number. For VCF version
 4.4, this line is:
 
     ##fileformat=VCFv4.4
+
+<a id="information-field-format"></a>
 
 ### Information field format
 
@@ -178,8 +185,7 @@ cases:
 
 - A: The field has one value per alternate allele. The values must be in
   the same order as listed in the ALT column (described in section
-  <a href="#data-lines" data-reference-type="ref"
-  data-reference="data-lines">1.6</a>).
+  [1.6](#data-lines)).
 
 - R: The field has one value for each possible allele, including the
   reference. The order of the values must be the reference allele first,
@@ -187,8 +193,7 @@ cases:
 
 - G: The field has one value for each possible genotype. The values must
   be in the same order as prescribed in section
-  <a href="#genotype-fields:genotype-ordering" data-reference-type="ref"
-  data-reference="genotype-fields:genotype-ordering">[genotype-fields:genotype-ordering]</a>
+  [\[genotype-fields:genotype-ordering\]](#genotype-fields:genotype-ordering)
   (see [Genotype Ordering]{.smallcaps}).
 
 - . (dot): The number of possible values varies, is unknown or
@@ -203,6 +208,8 @@ surrounded by double-quotes and specify the annotation source
 (case-insensitive, e.g. `"dbsnp"`) and exact version (e.g. `"138"`),
 respectively for computational use.
 
+<a id="filter-field-format"></a>
+
 ### Filter field format
 
 FILTER meta-information lines are structured lines with required fields
@@ -210,6 +217,8 @@ ID and Description that define the possible content of the FILTER column
 in the VCF records:
 
     ##FILTER=<ID=ID,Description="description">
+
+<a id="individual-format-field-format"></a>
 
 ### Individual format field format
 
@@ -226,6 +235,8 @@ following additional possibilities:
 
 - P: The field has one value for each allele value defined in `GT`.
 
+<a id="altfield"></a>
+
 ### Alternative allele field format
 
 ALT meta-information lines are structured lines with require fields of
@@ -239,10 +250,8 @@ In symbolic alternate alleles for structural variants, the ID field
 indicates the type of structural variant, and can be a colon-separated
 list of types and subtypes. ID values are case sensitive strings and
 must not contain whitespace, commas or angle brackets (See
-<a href="#fixed-fields" data-reference-type="ref"
-data-reference="fixed-fields">1.6.1</a>.<a href="#fixed-fields-alt" data-reference-type="ref"
-data-reference="fixed-fields-alt">[fixed-fields-alt]</a>) The first
-level type must be one of the following:
+[1.6.1](#fixed-fields).[\[fixed-fields-alt\]](#fixed-fields-alt)) The
+first level type must be one of the following:
 
 - DEL Region of lowered copy number relative to the reference, or a
   deletion breakpoint
@@ -265,9 +274,7 @@ subtype does not change either the copy number or breakpoint
 interpretation of a symbolic structural variant allele. The following
 subtypes are recommended:
 
-- CNV:TR Tandem repeat. See
-  <a href="#tandem-repeats" data-reference-type="ref"
-  data-reference="tandem-repeats">5.7</a> for further details.
+- CNV:TR Tandem repeat. See [5.7](#tandem-repeats) for further details.
 
 - DUP:TANDEM Tandem duplication
 
@@ -285,6 +292,8 @@ in VCF, for example:
         ##ALT=<ID=R,Description="IUPAC code R = A/G">
         ##ALT=<ID=M,Description="IUPAC code M = A/C">
 
+<a id="assembly-field-format"></a>
+
 ### Assembly field format
 
 Breakpoint assemblies for structural variations may use an external
@@ -295,6 +304,8 @@ file:
 The URL field specifies the location of a fasta file containing
 breakpoint assemblies referenced in the VCF records for structural
 variants via the BKPTID INFO key.
+
+<a id="sec-contig-field"></a>
 
 ### Contig field format
 
@@ -335,6 +346,8 @@ and excluding the characters '`<>[]`' and initial '' avoids clashes with
 symbolic alleles. The contig names must not use a reserved symbolic
 allele name.
 
+<a id="sample-field-format"></a>
+
 ### Sample field format
 
 It is possible to define sample to genome mappings as shown below:
@@ -345,6 +358,8 @@ It is possible to define sample to genome mappings as shown below:
     ##META=<ID=Tissue,Type=String,Number=.,Values=[Blood, Breast, Colon, Lung, ?]>
     ##SAMPLE=<ID=Sample1,Assay=WholeGenome,Ethnicity=AFR,Disease=None,Description="Patient germline genome from unaffected",DOI=url>
     ##SAMPLE=<ID=Sample2,Assay=Exome,Ethnicity=CEU,Disease=Cancer,Tissue=Breast,Description="European patient exome from breast cancer">
+
+<a id="pedigree-field-format"></a>
 
 ### Pedigree field format
 
@@ -360,8 +375,9 @@ or a link to a database:
 
     ##pedigreeDB=URL
 
-See <a href="#PedigreeInDetail" data-reference-type="ref"
-data-reference="PedigreeInDetail">5.4.11</a> for details.
+See [5.4.11](#PedigreeInDetail) for details.
+
+<a id="header-line"></a>
 
 ## Header line syntax
 
@@ -379,11 +395,15 @@ column header, then an arbitrary number of sample IDs. Duplicate sample
 IDs are not allowed. The header line is tab-delimited and there must be
 no tab characters at the end of the line.
 
+<a id="data-lines"></a>
+
 ## Data lines
 
 All data lines are tab-delimited with no tab character at the end of the
 line. The last data line must end with a line separator. In all cases,
 missing values are specified with a dot ('.').
+
+<a id="fixed-fields"></a>
 
 ### Fixed fields
 
@@ -442,11 +462,8 @@ There are 8 fixed fields per record. Fixed fields are:
     symbol (allele missing due to overlapping deletion); the MISSING
     value '.' (no variant); an angle-bracketed ID String ("$<$ID$>$");
     the unspecified allele "$<$\*$>$" as described in Section
-    <a href="#unspecified-allele" data-reference-type="ref"
-    data-reference="unspecified-allele">5.5</a>; or a breakend
-    replacement string as described in Section
-    <a href="#Breakends" data-reference-type="ref"
-    data-reference="Breakends">5.4</a>. If there are no alternative
+    [5.5](#unspecified-allele); or a breakend replacement string as
+    described in Section [5.4](#Breakends). If there are no alternative
     alleles, then the MISSING value must be used. Tools processing VCF
     files are not required to preserve case in the allele String, except
     for IDs, which are case sensitive. (String; no whitespace, commas,
@@ -476,26 +493,22 @@ There are 8 fixed fields per record. Fixed fields are:
     permitted in these values, and literal commas ('`,`') are permitted
     only as delimiters for lists of values; characters with special
     meaning can be encoded using percent encoding, see
-    Section <a href="#character-encoding" data-reference-type="ref"
-    data-reference="character-encoding">1.2</a>. Space characters are
-    allowed in values.
+    Section [1.2](#character-encoding). Space characters are allowed in
+    values.
 
     INFO keys must match the regular expression
     `^([A-Za-z_][0-9A-Za-z_.]*|1000G)$`, please note that "1000G" is
     allowed as a special legacy value. Duplicate keys are not allowed.
     Arbitrary keys are permitted, although those listed in
-    Table <a href="#table:reserved-info" data-reference-type="ref"
-    data-reference="table:reserved-info">1</a> and described below are
-    reserved (albeit optional).
+    Table [1](#table:reserved-info) and described below are reserved
+    (albeit optional).
 
     The exact format of each INFO key should be specified in the
     meta-information (as described above). Example of a complete INFO
     field: `DP=154;MQ=52;H2`. Keys without corresponding values may be
     used to indicate group membership (e.g. H2 indicates the SNP is
-    found in HapMap 2). See
-    Section <a href="#sv-info-keys" data-reference-type="ref"
-    data-reference="sv-info-keys">3</a> for additional reserved INFO
-    keys used to encode structural variants.
+    found in HapMap 2). See Section [3](#sv-info-keys) for additional
+    reserved INFO keys used to encode structural variants.
 
 <div id="table:reserved-info">
 
@@ -662,15 +675,13 @@ genomics)</td>
   an explicit END INFO field provides variant span information that is
   otherwise unknown. If a record containing a symbolic structural
   variant allele does not have an END field, it must be computed from
-  the SVLEN field as per Section
-  <a href="#sv-info-keys" data-reference-type="ref"
-  data-reference="sv-info-keys">3</a>.
+  the SVLEN field as per Section [3](#sv-info-keys).
 
   This field is used to compute BCF's `rlen` field
-  (see <a href="#BcfSiteEncoding" data-reference-type="ref"
-  data-reference="BcfSiteEncoding">6.3.1</a>) and is important when
-  indexing VCF/BCF files to enable random access and querying by
-  position.
+  (see [6.3.1](#BcfSiteEncoding)) and is important when indexing VCF/BCF
+  files to enable random access and querying by position.
+
+<a id="genotype-fields"></a>
 
 ### Genotype fields
 
@@ -694,13 +705,10 @@ which should always be present if specified in the FORMAT field.
 
 As with the INFO field, there are several common, reserved keywords that
 are standards across the community. See their detailed definitions
-below, as well as
-Table <a href="#table:reserved-genotypes" data-reference-type="ref"
-data-reference="table:reserved-genotypes">2</a> for their reference
-Number, Type and Description. See also
-Section <a href="#sv-format-keys" data-reference-type="ref"
-data-reference="sv-format-keys">4</a> for a list of genotype keys
-reserved for structural variants.
+below, as well as Table [2](#table:reserved-genotypes) for their
+reference Number, Type and Description. See also
+Section [4](#sv-format-keys) for a list of genotype keys reserved for
+structural variants.
 
 <div id="table:reserved-genotypes">
 
@@ -1034,6 +1042,8 @@ probabilities rounded to the closest integer</td>
   corresponding PSL value is missing, or when the phasing is of unknown
   quality.
 
+<a id="understanding-the-vcf-format-and-the-haplotype-representation"></a>
+
 # Understanding the VCF format and the haplotype representation
 
 VCF records use a single general system for representing genetic
@@ -1054,6 +1064,8 @@ constructed from the REF haplotype by taking the REF allele bases at the
 POS in the reference genotype and replacing them with the ALT bases. In
 essence, the VCF record specifies a-REF-t and the alternative haplotypes
 are a-ALT-t for each alternative allele.
+
+<a id="vcf-tag-naming-conventions"></a>
 
 ## VCF tag naming conventions
 
@@ -1076,6 +1088,8 @@ represented numerically:
   the most likely genotype that appears in the GT field. Examples are
   GQ, CNQ. The fixed site-level QUAL field follows the same convention
   (represented as a phred-scaled number).
+
+<a id="sv-info-keys"></a>
 
 # INFO keys used for structural variants
 
@@ -1127,9 +1141,8 @@ as the record end position for indexing purposes.
     ##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
 
 This field has been deprecated due to redundancy with ALT. Refer to
-section <a href="#altfield" data-reference-type="ref"
-data-reference="altfield">1.4.5</a> for the set of valid ALT field
-symbolic structural variant alleles.
+section [1.4.5](#altfield) for the set of valid ALT field symbolic
+structural variant alleles.
 
     ##INFO=<ID=SVLEN,Number=A,Type=Integer,Description="Length of structural variant">
 
@@ -1370,8 +1383,7 @@ the purposes of determining RUS, RUL, RB, CIRB, RUC and CIRUC lengths,
 the missing value "." should be treated as 0. If this field is missing,
 the RN for each $<$CNV:TR$>$ allele is assumed to be 1 and 0 otherwise.
 
-See section <a href="#tandem-repeats" data-reference-type="ref"
-data-reference="tandem-repeats">5.7</a> for further details.
+See section [5.7](#tandem-repeats) for further details.
 
     ##INFO=<ID=RUS,Number=.,Type=String,Description="Repeat unit sequence of the corresponding repeat sequence">
     ##INFO=<ID=RUL,Number=.,Type=Integer,Description="Repeat unit length of the corresponding repeat sequence">
@@ -1402,9 +1414,7 @@ approximately equal RUL\*RUC but is not required to match exactly. If
 RUS is present but RUL is not, RUL should be inferred to be equal to the
 length of the corresponding RUS.
 
-See section <a href="#tandem-repeats" data-reference-type="ref"
-data-reference="tandem-repeats">5.7</a> for an example and further
-details.
+See section [5.7](#tandem-repeats) for an example and further details.
 
     ##INFO=<ID=CIRUC,Number=.,Type=Float,Description="Confidence interval around RUC">
     ##INFO=<ID=CIRB,Number=.,Type=Integer,Description="Confidence interval around RB">
@@ -1423,9 +1433,7 @@ unbounded estimate. That is, the length of repeat has been determined to
 be at least a certain length but a reasonable limit of total length of
 the repeat could not be determined.
 
-See section <a href="#tandem-repeats" data-reference-type="ref"
-data-reference="tandem-repeats">5.7</a> for an example and further
-details.
+See section [5.7](#tandem-repeats) for an example and further details.
 
     ##INFO=<ID=RUB,Number=.,Type=Integer,Description="Number of bases in each individual repeat unit">
 
@@ -1443,9 +1451,9 @@ For the vast majority of tandem repeats, this field can be omitted and
 is only required in complex situations such as when a VNTR contains one
 or more variable length STRs.
 
-See section <a href="#tandem-repeats" data-reference-type="ref"
-data-reference="tandem-repeats">5.7</a> for an example and further
-details.
+See section [5.7](#tandem-repeats) for an example and further details.
+
+<a id="sv-format-keys"></a>
 
 # FORMAT keys used for structural variants
 
@@ -1469,9 +1477,15 @@ probabilities (and otherwise defined precisely as the CNL field),
 intended to store imputed genotype probabilities. When possible,
 GT/GQ/GL/GP should be used instead of (or in addition to) these keys.
 
+<a id="representing-variation-in-vcf-records"></a>
+
 # Representing variation in VCF records
 
+<a id="creating-vcf-entries-for-snps-and-small-indels"></a>
+
 ## Creating VCF entries for SNPs and small indels
+
+<a id="example-1"></a>
 
 ### Example 1
 
@@ -1501,6 +1515,8 @@ Note that the positions must be sorted in increasing order:
 | $20$    | $3$ | .   | C   | G   | .    | PASS   | DP=100 |
 | $20$    | $3$ | .   | C   | CA  | .    | PASS   | DP=100 |
 
+<a id="example-2"></a>
+
 ### Example 2
 
 Suppose I see a the following in a population of individuals and want to
@@ -1518,6 +1534,8 @@ corresponding VCF record:
 | \#CHROM | POS | ID  | REF | ALT  | QUAL | FILTER | INFO   |
 |:--------|:----|:----|:----|:-----|:-----|:-------|:-------|
 | $20$    | $2$ | .   | TC  | TG,T | .    | PASS   | DP=100 |
+
+<a id="example-3"></a>
 
 ### Example 3
 
@@ -1543,7 +1561,11 @@ equivalent g isn't retained. For completeness, VCF records are
 dynamically typed, so whether a VCF record is a SNP, Indel, Mixed, or
 Reference site depends on the properties of the alleles in the record.
 
+<a id="decoding-vcf-entries-for-snps-and-small-indels"></a>
+
 ## Decoding VCF entries for SNPs and small indels
+
+<a id="snp-vcf-record"></a>
 
 ### SNP VCF record
 
@@ -1560,6 +1582,8 @@ two alleles so I have the two following segregating haplotypes:
 |:--------|:------------|:----------------------------------|
 | Ref     | `a t C g a` | C is the reference base           |
 | $1$     | `a t T g a` | C base is a T in some individuals |
+
+<a id="insertion-vcf-record"></a>
 
 ### Insertion VCF record
 
@@ -1578,6 +1602,8 @@ only two alleles so I have the two following segregating haplotypes:
 | Ref     | `a t C - - - g a` | C is the reference base                         |
 | $1$     | `a t C T A G g a` | following the C base is an insertion of 3 bases |
 
+<a id="deletion-vcf-record"></a>
+
 ### Deletion VCF record
 
 Suppose I receive the following VCF record:
@@ -1594,6 +1620,8 @@ only two alleles so I have the two following segregating haplotypes:
 |:--------|:------------|:----------------------------------------------|
 | Ref     | `a T C G a` | T is the (first) reference base               |
 | $1$     | `a T - - a` | following the T base is a deletion of 2 bases |
+
+<a id="mixed-vcf-record-for-a-microsatellite"></a>
 
 ### Mixed VCF record for a microsatellite
 
@@ -1623,6 +1651,8 @@ alignment:
 | Ref | `a t c G - - C G a` | G is the (first) reference base |
 | $1$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
 | $2$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
+
+<a id="encoding-structural-variants"></a>
 
 ## Encoding Structural Variants
 
@@ -1682,6 +1712,8 @@ The sequence of $chrA$ in this example is ATGCGAAAAAAATGT.
 
 </div>
 
+<a id="Breakends"></a>
+
 ## Specifying complex rearrangements with breakends
 
 An arbitrary rearrangement can be summarized as a set of novel
@@ -1727,14 +1759,16 @@ style="width:4in;height:2.96in" />
 <figcaption>All possible orientations of breakends</figcaption>
 </figure>
 
-| \#CHROM | POS      | ID    | REF | ALT                               | QUAL | FILTER | INFO |
-|:--------|:---------|:------|:----|:----------------------------------|:-----|:-------|:-----|
-| $2$     | $321681$ | bnd_W | G   | G$]17$:$198982]$                  | $6$  | PASS   | .    |
-| $2$     | $321682$ | bnd_V | T   | $]$`<!-- -->`{=html}13:123456$]$T | 6    | PASS   | .    |
-| $13$    | $123456$ | bnd_U | C   | C$[$`<!-- -->`{=html}2:321682$[$  | 6    | PASS   | .    |
-| $13$    | $123457$ | bnd_X | A   | $[$`<!-- -->`{=html}17:198983$[$A | 6    | PASS   | .    |
-| $17$    | $198982$ | bnd_Y | A   | A$]$`<!-- -->`{=html}2:321681$]$  | 6    | PASS   | .    |
-| $17$    | $198983$ | bnd_Z | C   | $[$`<!-- -->`{=html}13:123457$[$C | 6    | PASS   | .    |
+| \#CHROM | POS      | ID    | REF | ALT                      | QUAL | FILTER | INFO |
+|:--------|:---------|:------|:----|:-------------------------|:-----|:-------|:-----|
+| $2$     | $321681$ | bnd_W | G   | G$]17$:$198982]$         | $6$  | PASS   | .    |
+| $2$     | $321682$ | bnd_V | T   | $]$<!-- -->13:123456$]$T | 6    | PASS   | .    |
+| $13$    | $123456$ | bnd_U | C   | C$[$<!-- -->2:321682$[$  | 6    | PASS   | .    |
+| $13$    | $123457$ | bnd_X | A   | $[$<!-- -->17:198983$[$A | 6    | PASS   | .    |
+| $17$    | $198982$ | bnd_Y | A   | A$]$<!-- -->2:321681$]$  | 6    | PASS   | .    |
+| $17$    | $198983$ | bnd_Z | C   | $[$<!-- -->13:123457$[$C | 6    | PASS   | .    |
+
+<a id="inserted-sequence"></a>
 
 ### Inserted Sequence
 
@@ -1751,6 +1785,8 @@ style="width:4in;height:1.89in" />
 |:--------|:---------|:------|:----|:-------------------------|:-----|:-------|:-------------|
 | $2$     | $321682$ | bnd_V | T   | $]13:123456]$AGTNNNNNCAT | $6$  | PASS   | MATEID=bnd_U |
 | $13$    | $123456$ | bnd_U | C   | CAGTNNNNNCA$[2:321682[$  | $6$  | PASS   | MATEID=bnd_V |
+
+<a id="large-insertions"></a>
 
 ### Large Insertions
 
@@ -1796,6 +1832,8 @@ is represented by adding a circular adjacency:
 | $<$ctg$1>$ | 1 | bnd_X | A | $]<$ctg$1>:329]$A | 6 | PASS | MATEID=bnd_Y;EVENT=INS0 |
 | $<$ctg$1>$ | 329 | bnd_Y | T | T$[<$ctg$1>:1[$ | 6 | PASS | MATEID=bnd_C;EVENT=INS0 |
 
+<a id="multiple-mates"></a>
+
 ### Multiple mates
 
 If a breakend has multiple mates such as in Figure 4 (either because of
@@ -1813,6 +1851,8 @@ style="width:4in;height:2.8in" />
 | $2$ | $321682$ | bnd_V | T | $]13:123456]$T | 6 | PASS | MATEID=bnd_U |
 | $13$ | $123456$ | bnd_U | C | C$[2:321682[$,C$[17:198983[$ | 6 | PASS | MATEID=bnd_V,bnd_Z |
 | $17$ | $198983$ | bnd_Z | A | $]13:123456]$A | 6 | PASS | MATEID=bnd_U |
+
+<a id="explicit-partners"></a>
 
 ### Explicit partners
 
@@ -1833,6 +1873,8 @@ breakend's partner may be explicitly named as in Figure 5:
 | 2       | 321682 | bnd_V | T   | $]13:123456]$T | 6    | PASS   | PARID=bnd_W;MATEID=bnd_U |
 | 13      | 123456 | bnd_U | C   | C$[2:321682[$  | 6    | PASS   | PARID=bnd_X;MATEID=bnd_V |
 | 13      | 123460 | bnd_X | A   | $]2:321681]$A  | 6    | PASS   | PARID=bnd_U;MATEID=bnd_W |
+
+<a id="telomeres"></a>
 
 ### Telomeres
 
@@ -1858,6 +1900,8 @@ the records would look like:
 | 13      | 123456 | bnd_U | C   | C$[1:1[$       | 6    | PASS   | MATEID=bnd_Y |
 | 13      | 123457 | bnd_V | A   | $]1:0]$A       | 6    | PASS   | MATEID=bnd_X |
 
+<a id="event-modifiers"></a>
+
 ### Event modifiers
 
 As mentioned previously, a single rearrangement event can be described
@@ -1878,6 +1922,8 @@ would be described as:
 | 2       | 321682 | bnd_V | T   | $]13:123456]$T | 6    | PASS   | MATEID=bnd_U;EVENT=RR0 |
 | 13      | 123456 | bnd_U | C   | C$[2:321682[$  | 6    | PASS   | MATEID=bnd_V;EVENT=RR0 |
 | 13      | 123457 | bnd_X | A   | $]2:321681]$A  | 6    | PASS   | MATEID=bnd_W;EVENT=RR0 |
+
+<a id="inversions"></a>
 
 ### Inversions
 
@@ -1903,6 +1949,8 @@ or one describes the breakends:
 | 2       | 321682 | bnd_V | T   | $[2:421682[$T | 6    | PASS   | MATEID=bnd_X;EVENT=INV0 |
 | 2       | 421681 | bnd_U | A   | A$]2:321681]$ | 6    | PASS   | MATEID=bnd_W;EVENT=INV0 |
 | 2       | 421682 | bnd_X | C   | $[2:321682[$C | 6    | PASS   | MATEID=bnd_V;EVENT=INV0 |
+
+<a id="uncertainty-around-breakend-location"></a>
 
 ### Uncertainty around breakend location
 
@@ -1948,6 +1996,8 @@ relationship can be specified explicitly with the tag PARID=bnd_X in the
 VCF line for breakend V and PARID=bnd_Y in the VCF line for breakend U,
 and vice versa.
 
+<a id="single-breakends"></a>
+
 ### Single breakends
 
 We allow for the definition of a breakend that is not part of a novel
@@ -1974,10 +2024,9 @@ occurred as in Figure 7, then even if we have no evidence for the (W,X)
 adjacency, for accounting purposes an adjacency between W and X may also
 be recorded in the VCF file. These two breakends W and X can still be
 crossed-referenced as mates. The 4 VCF records describing this situation
-would look exactly as in section
-<a href="#explicit-partners" data-reference-type="ref"
-data-reference="explicit-partners">5.4.4</a>, but perhaps with a special
-quality or filter value for the breakends W and X.
+would look exactly as in section [5.4.4](#explicit-partners), but
+perhaps with a special quality or filter value for the breakends W and
+X.
 
 Another possible reason for calling single breakends is an observed but
 unexplained change in copy number along a chromosome.
@@ -1997,6 +2046,8 @@ sequence can be provided on that line, in analogy to paired breakends:
 | 3 | 12665 | bnd_X | A | .TGCA | 6 | PASS | CIPOS=-50,50 |
 | 3 | 12665 | . | A | $<$DUP$>$ | 14 | PASS | END=13686;CIPOS=-50,50;CIEND=-50,50 |
 | 3 | 13686 | bnd_Y | T | TCC. | 6 | PASS | CIPOS=-50,50 |
+
+<a id="sample-mixtures"></a>
 
 ### Sample mixtures
 
@@ -2039,6 +2090,8 @@ data:
 | 13 | 421682 | bnd_X | C | $[2:321682[$C | 6 | PASS | MATEID=bnd_V | GT:CN | 0:1 | 1:1 |
 
 </div>
+
+<a id="PedigreeInDetail"></a>
 
 ### Clonal derivation relationships
 
@@ -2120,6 +2173,8 @@ others are considered to be novel haplotypes with their own unique
 identifiers. All these novel haplotypes have in common their **haplotype
 ancestor** in the parent genome.
 
+<a id="unspecified-allele"></a>
+
 ## Representing unspecified alleles and REF-only blocks (gVCF)
 
 In order to report sequencing data evidence for both variant and
@@ -2148,6 +2203,8 @@ Example records are given below:
 | 1 | 4397 | . | T | $<$\*$>$ | . | . | END=4416 | GT:DP:GQ:MIN_DP:PL | 0/0:22:14:22:0,15,593 |
 
 </div>
+
+<a id="cnv"></a>
 
 ## Representing copy number variation
 
@@ -2188,6 +2245,8 @@ segments, be at a highly granular megabase level of resolution, or
 anywhere in between. When the bounds of a copy number segment is not
 known precisely, this should be encoded in the CIPOS and CILEN INFO
 fields.
+
+<a id="tandem-repeats"></a>
 
 ## Representing tandem repeats
 
@@ -2370,6 +2429,8 @@ repeat 500bp longer than the previous can be encoded as follows:
 
     chr1 1000000 . T <CNV:TR> . . END=20000;SVLEN=20000;CN=1.25;RUL=10000;RUC=5;RUB=10000,10500,11000,11500,12000 GT ./.
 
+<a id="bcf-specification"></a>
+
 # BCF specification
 
 VCF is very expressive, accommodates multiple samples, and is widely
@@ -2386,6 +2447,8 @@ a subset of VCF, in that all info and genotype fields must have their
 full types specified. That is, BCF2 requires that if e.g. an info field
 `AC` is present then it must contain an equivalent VCF header line
 noting that `AC` is an allele indexed array of type integer.
+
+<a id="overall-file-organization"></a>
 
 ## Overall file organization
 
@@ -2409,6 +2472,8 @@ extensions/restrictions:
   be thrown when converting a VCF to BCF2 when an unknown or not fully
   specified field is encountered in the records.
 
+<a id="header"></a>
+
 ## Header
 
 The BCF2 header contains the following items:
@@ -2431,6 +2496,8 @@ extension for BCF2 formatted files is *.bcf*. BCF2 supports encoding
 values in a dictionary of strings. The string map is provided by the
 keyword `##dictionary=S0,S1,...,SN` as a comma-separate ordered list of
 strings. See the "Dictionary of strings" section for more details.
+
+<a id="dictionary-of-strings"></a>
 
 ### Dictionary of strings
 
@@ -2480,6 +2547,8 @@ Note that "PASS" is always implicitly encoded as the first entry in the
 header dictionary. This is because VCF allows FILTER fields to be PASS
 without explicitly listing this in the FILTER field itself.
 
+<a id="dictionary-of-contigs"></a>
+
 ### Dictionary of contigs
 
 The CHROM field in BCF2 is encoded as an integer offset into the list of
@@ -2499,6 +2568,8 @@ the ordered list of `##contig` elements. Here's a more concrete example:
 the actual CHROM field values in the encoded BCF2 records would be 0, 1,
 and 2 corresponding to the first (offset 0) `##contig` element, etc.
 
+<a id="bcf2-records"></a>
+
 ## BCF2 records
 
 In BCF2, the original VCF records are converted to binary and encoded as
@@ -2507,6 +2578,8 @@ information (chr, pos, INFO field). Immediately after the sites data is
 the genotype data for every sample in the BCF2 file. The genotype data
 may be omitted entirely from the record if there is no genotype data in
 the VCF file. Compression of a BCF file is recommended but not required.
+
+<a id="BcfSiteEncoding"></a>
 
 ### Site encoding
 
@@ -2521,13 +2594,14 @@ the VCF file. Compression of a BCF file is recommended but not required.
 | n_info | uint16_t | The number of INFO fields in this record |
 | n_allele | uint16_t | The number of REF+ALT alleles in this record |
 | n_sample | uint24_t | The number of samples in this record, stored as a **three** byte little-endian value. Note that n_sample must be equal to the number of samples in the header |
-| n_fmt | uint8_t | The number of FORMAT keys. See <a href="#GenotypeEncoding" data-reference-type="ref"
-data-reference="GenotypeEncoding">6.3.2</a> |
+| n_fmt | uint8_t | The number of FORMAT keys. See [6.3.2](#GenotypeEncoding) |
 | ID | typed string | Variant identifier; 0x07 for a missing value |
 | REF+ALT | list of n_allele typed strings | the first allele is REF (mandatory) followed by n_alleles - 1 ALT alleles, all encoded as typed strings |
 | FILTER | Typed vector of integers | a vector of integer offsets into dictionary, one for each FILTER field value. "." is encoded as MISSING |
 | INFO | field key/value pairs | n_info pairs of typed vectors. The first value must be a typed atomic integer giving the offset of the INFO field key into the dictionary. The second value is a typed vector giving the value of the field |
 | Genotype values | see below | see below |
+
+<a id="GenotypeEncoding"></a>
 
 ### Genotype encoding
 
@@ -2570,6 +2644,8 @@ VCF/BCF2 file, but parsers should not rely on a specific ordering.
 
 If there are no sample records (genotype data) in this VCF/BCF2 file,
 the size of the genotypes block will be 0.
+
+<a id="BcfTypeEncoding"></a>
 
 ### Type encoding
 
@@ -2651,8 +2727,7 @@ future use:
 
 **Character** values are not explicitly typed in BCF2. Instead, VCF
 Character values must be encoded by a single character string. See also
-<a href="#character-encoding" data-reference-type="ref"
-data-reference="character-encoding">1.2</a>.
+[1.2](#character-encoding).
 
 **Flags** values --- which can only appear in INFO fields --- in BCF2
 should be encoded by any non-reserved value. The recommended best
@@ -2808,6 +2883,8 @@ The final example is something seen on chrX when we have a haploid male
 and a diploid female. The male genotype vector is terminated prematurely
 by the END_OF_VECTOR value.
 
+<a id="encoding-a-vcf-record-example"></a>
+
 ## Encoding a VCF record example
 
 Let's encode a realistic (but made-up) VCF record. This is a A/C SNP in
@@ -2816,6 +2893,8 @@ BCF2 encoding for this record.
 
     #CHROM POS ID REF ALT QUAL FILTER INFO FORMAT NA00001 NA00002 NA00003
     chr1 101 rs123 A C 30.1 PASS HM3;AC=3;AN=6;AA=C GT:GQ:DP:AD:PL 0/0:10:32:32,0:0,10,100 0/1:10:48:32,16:10,0,100 1/1:10:64:0,64:100,10,0
+
+<a id="encoding-chrom-and-pos"></a>
 
 ### Encoding CHROM and POS
 
@@ -2832,6 +2911,8 @@ single byte 0x65. So in total these are represented as:
 | 0x64000000 | POS in 0 base 32 bit little endian           |
 | 0x01000000 | rlen = 1 (it's just a SNP)                   |
 
+<a id="encoding-qual"></a>
+
 ### Encoding QUAL
 
 The QUAL field value is 30.1, which we encode as an untyped single
@@ -2839,6 +2920,8 @@ precision 32-bit float:
 
 | 0x41 0xF0 0xCC 0xCD | QUAL = 30.1 as 32-bit float |
 |:--------------------|:----------------------------|
+
+<a id="encoding-id"></a>
 
 ### Encoding ID
 
@@ -2848,6 +2931,8 @@ This ID value is a 5-element string, so is encoded as type descriptor
 
 | 0x57 0x72 0x73 0x31 0x32 0x33 | ID = rs123 |
 |:------------------------------|:-----------|
+
+<a id="encoding-refalt-fields"></a>
 
 ### Encoding REF/ALT fields
 
@@ -2864,6 +2949,8 @@ thing that could change is that there would be another typed string
 following immediately after C encoding 0x17 (1 element string) with the
 value of 0x54.
 
+<a id="encoding-filter"></a>
+
 ### Encoding FILTER
 
 "PASS" is implicitly encoded as the first entry in the header dictionary
@@ -2873,6 +2960,8 @@ is the offset 0:
 
 | 0x11 0x00 | FILTER field PASS |
 |:----------|:------------------|
+
+<a id="encoding-the-info-fields"></a>
 
 ### Encoding the INFO fields
 
@@ -2905,6 +2994,8 @@ key/value pair is:
 | 0x11 0x53 | AA key          |
 |:----------|:----------------|
 | 0x17 0x43 | with value of C |
+
+<a id="encoding-genotypes"></a>
 
 ### Encoding Genotypes
 
@@ -3009,6 +3100,8 @@ n_fmt = 5 (Number of FORMAT keys)
 
 That's quite a lot of information encoded in only 96 bytes!
 
+<a id="bcf2-block-gzip-and-indexing"></a>
+
 ## BCF2 block gzip and indexing
 
 These raw binary records may be subsequently encoded into BGZF blocks
@@ -3024,11 +3117,17 @@ files.
 BCF2 files are expected to be indexed through the same index scheme,
 section 4 as BAM files and other block-compressed files with BGZF.
 
+<a id="list-of-changes"></a>
+
 # List of changes
+
+<a id="vcfv4.4-errata"></a>
 
 ## VCFv4.4 Errata
 
 - Type=P added to FORMAT field type list (used by PSL/PSO fields)
+
+<a id="changes-between-vcfv4.4-and-vcfv4.3"></a>
 
 ## Changes between VCFv4.4 and VCFv4.3
 
@@ -3095,6 +3194,8 @@ section 4 as BAM files and other block-compressed files with BGZF.
 - BCF parsers should perform BGZF encoding and must support both raw and
   BGZF encoded files.
 
+<a id="changes-to-vcfv4.3"></a>
+
 ## Changes to VCFv4.3
 
 - More strict language: "should" replaced with "must" where appropriate
@@ -3117,6 +3218,8 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - Added PP tag which is the phred-scaled analogue to GP
 
+<a id="changes-between-vcfv4.2-and-vcfv4.3"></a>
+
 ## Changes between VCFv4.2 and VCFv4.3
 
 - VCF compliant implementations must support both LF and CR+LF newline
@@ -3129,8 +3232,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - Characters with special meaning (such as ';' in INFO, ':' in FORMAT,
   and '%' in both) can be encoded using percent encoding (see
-  Section <a href="#character-encoding" data-reference-type="ref"
-  data-reference="character-encoding">1.2</a>)
+  Section [1.2](#character-encoding))
 
 - The character encoding of VCF files is UTF-8.
 
@@ -3168,13 +3270,13 @@ section 4 as BAM files and other block-compressed files with BGZF.
 - Removed unused and ill-defined GLE FORMAT tag.
 
 - Chromosome names cannot use reserved symbolic alleles and contain
-  characters used by breakpoints
-  (Section <a href="#sec-contig-field" data-reference-type="ref"
-  data-reference="sec-contig-field">1.4.7</a>).
+  characters used by breakpoints (Section [1.4.7](#sec-contig-field)).
 
 - IUPAC ambiguity codes should be converted to a concrete base.
 
 - Symbolic ALTs for IUPAC codes.
+
+<a id="changes-between-bcfv2.1-and-bcfv2.2"></a>
 
 ## Changes between BCFv2.1 and BCFv2.2
 
@@ -3192,6 +3294,8 @@ section 4 as BAM files and other block-compressed files with BGZF.
 - The implicit filter PASS was described inconsistently throughout
   BCFv2.1: It is encoded as the first entry in the dictionary, not the
   last.
+
+<a id="changes-between-vcfv4.1-and-vcfv4.2"></a>
 
 ## Changes between VCFv4.1 and VCFv4.2
 

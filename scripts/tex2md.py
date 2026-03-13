@@ -91,7 +91,7 @@ def main():
     cmd = [
         "pandoc",
         temp_tex,
-        "-t", "commonmark_x-attributes-fenced_divs+tex_math_dollars",
+        "-t", "commonmark_x-attributes-fenced_divs-raw_attribute+tex_math_dollars",
         "--lua-filter", lua_filter,
         "--markdown-headings=atx",
         "--mathjax",

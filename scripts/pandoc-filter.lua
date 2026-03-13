@@ -216,8 +216,24 @@ function Math(el)
   return el
 end
 
+function Header(el)
+  if el.identifier ~= "" then
+    -- Return a list with a raw HTML anchor block and the header
+    -- This ensures the anchor is OUTSIDE the header text, so it doesn't affect TOC text
+    local anchor = pandoc.RawBlock('html', '<a id="' .. el.identifier .. '"></a>')
+    return { anchor, el }
+  end
+  return el
+end
+
+function Link(el)
+  -- Strip all attributes to avoid raw HTML output with data-reference-type
+  el.attributes = {}
+  return el
+end
+
 -- Pandoc 3.x uses meta to pass metadata
 return {
   { Meta = get_vars },
-  { RawInline = RawInline, Inline = Inline, Div = Div, Code = Code, CodeBlock = CodeBlock, Table = Table, Math = Math }
+  { RawInline = RawInline, Inline = Inline, Div = Div, Code = Code, CodeBlock = CodeBlock, Table = Table, Math = Math, Header = Header, Link = Link }
 }
