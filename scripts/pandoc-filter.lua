@@ -190,13 +190,24 @@ function Table(el)
     end
   end
 
-  -- Ensure header has enough columns for the alignment row
+  -- Ensure ALL rows (header and body) have enough columns for the alignment row
   -- Pandoc GFM/Commonmark uses el.colspecs for the alignment row count
   local col_count = #el.colspecs
+  
+  -- Pad header
   if #el.head.rows > 0 then
     local hrow = el.head.rows[1]
     while #hrow.cells < col_count do
         table.insert(hrow.cells, pandoc.Cell({}))
+    end
+  end
+
+  -- Pad all body rows
+  for _, body in ipairs(el.bodies) do
+    for _, row in ipairs(body.body) do
+      while #row.cells < col_count do
+        table.insert(row.cells, pandoc.Cell({}))
+      end
     end
   end
 
@@ -205,6 +216,11 @@ end
 
 function Math(el)
   if el.mathtype == "InlineMath" then
+    -- Handle special case for < and > which are often written as math in LaTeX
+    if el.text == "<" or el.text == ">" then
+      return pandoc.Str(el.text)
+    end
+
     -- Convert all-caps math of length 2 or more to code literals `CIPOS`
     -- This handles field names like $CIPOS$ and also assignments like $CIPOS=-5,5,0,0$ or $GT=0/1$
     -- We allow uppercase, underscores, digits, and common assignment/list punctuation.

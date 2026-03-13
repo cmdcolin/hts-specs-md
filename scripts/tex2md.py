@@ -91,7 +91,7 @@ def main():
     cmd = [
         "pandoc",
         temp_tex,
-        "-t", "commonmark_x-attributes-fenced_divs-raw_attribute+tex_math_dollars",
+        "-t", "gfm-tex_math_gfm+tex_math_dollars",
         "--lua-filter", lua_filter,
         "--markdown-headings=atx",
         "--mathjax",
@@ -163,10 +163,6 @@ This printing is version {commit} from the [hts-specs](https://github.com/samtoo
     
     # Remove duplicate headers (HTML style)
     final_content = re.sub(r'<tr>\s*<td[^>]*>(?:Key|Field)</td>\s*<td[^>]*>Number</td>\s*<td[^>]*>Type</td>\s*<td[^>]*>Description</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
-    
-    # Remove empty rows
-    final_content = re.sub(r'<tr>\s*<td[^>]*></td>\s*<td[^>]*></td>\s*<td[^>]*></td>\s*<td[^>]*></td>\s*</tr>', '', final_content, flags=re.DOTALL)
-    final_content = re.sub(r'\| +\| +\| +\| +\|\n', '', final_content)
     
     # Final cleanup of any remaining snippets
     final_content = re.sub(r'<em>…Continued from previous.*?</em>', '', final_content, flags=re.IGNORECASE)
