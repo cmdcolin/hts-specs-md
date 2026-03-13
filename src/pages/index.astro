@@ -6,13 +6,12 @@ const specList = await getAllPosts();
 ---
 
 <Layout title="HTS Specifications">
-  <h1>HTS Specifications</h1>
   <p>This site provides Markdown renderings of the HTS file format specifications.</p>
   <ul>
     {specList.map((spec) => (
       <li>
-        <a href={`${import.meta.env.BASE_URL}/${spec.id}`}>{spec.title}</a>
-        {spec.date && <span> ({spec.date})</span>}
+        {spec.date && <span>{spec.date} - </span>}
+        <a href={`${import.meta.env.BASE_URL}/${spec.id}`}>{spec.id}</a>
       </li>
     ))}
   </ul>

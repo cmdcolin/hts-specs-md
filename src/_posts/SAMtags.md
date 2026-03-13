@@ -373,9 +373,8 @@ correct</td>
 
 </div>
 
-<a id="additional-template-and-mapping-data"></a>
-
-## 1.1 Additional Template and Mapping data
+## 1.1 Additional Template and Mapping data <a href="#additional-template-and-mapping-data"
+class="header-anchor">#</a>
 
 AM:i:  
 The smallest template-independent mapping quality of any segment in the
@@ -536,9 +535,7 @@ UQ:i:
 Phred likelihood of the segment, conditional on the mapping being
 correct.
 
-<a id="metadata"></a>
-
-## 1.2 Metadata
+## 1.2 Metadata <a href="#metadata" class="header-anchor">#</a>
 
 RG:Z:  
 The read group to which the read belongs. If `@RG` headers are present,
@@ -560,9 +557,7 @@ headers.
 CO:Z:  
 Free-text comments.
 
-<a id="barcodes"></a>
-
-## 1.3 Barcodes
+## 1.3 Barcodes <a href="#barcodes" class="header-anchor">#</a>
 
 DNA barcodes can be used to identify the provenance of the underlying
 reads. There are currently three varieties of barcodes that may
@@ -685,9 +680,7 @@ match. In the case of multiple unique molecular identifiers (e.g., one
 on each end of the template) the recommended implementation concatenates
 all the quality strings with a space ('') between the different strings.
 
-<a id="original-data"></a>
-
-## 1.4 Original data
+## 1.4 Original data <a href="#original-data" class="header-anchor">#</a>
 
 OA:Z:  
 The original alignment information of the record prior to realignment or
@@ -724,9 +717,7 @@ OQ:Z:
 Original base quality, usually before recalibration. Same encoding as
 QUAL.
 
-<a id="annotation-and-padding"></a>
-
-## 1.5 Annotation and Padding
+## 1.5 Annotation and Padding <a href="#annotation-and-padding" class="header-anchor">#</a>
 
 The SAM format can be used to represent *de novo* assemblies, generally
 by using padded reference sequences and the annotation tags described
@@ -771,17 +762,13 @@ strand.
 The *type* and any *keys* and their optional *values* are all percent
 encoded as in the `CT` tag.
 
-<a id="technology-specific-data"></a>
-
-## 1.6 Technology-specific data
+## 1.6 Technology-specific data <a href="#technology-specific-data" class="header-anchor">#</a>
 
 FZ:B:S,  
 Flow signal intensities on the original strand of the read, stored as
 `(uint16_t) round(value * 100.0)`.
 
-<a id="color-space"></a>
-
-### 1.6.1 Color space
+### 1.6.1 Color space <a href="#color-space" class="header-anchor">#</a>
 
 CM:i:  
 Edit distance between the color sequence and the color reference (see
@@ -795,9 +782,7 @@ CQ:Z:
 Color read quality on the original strand of the read. Same encoding as
 QUAL; same length as `CS`.
 
-<a id="base-modifications"></a>
-
-## 1.7 Base modifications
+## 1.7 Base modifications <a href="#base-modifications" class="header-anchor">#</a>
 
 Base modifications, including base methylation, are represented as a
 series of edits from the primary unmodified sequence as originally
@@ -1079,9 +1064,7 @@ then there is an implicit assumption that the `MM` data is valid unless
 evidence implies otherwise (e.g., by having coordinates beyond the end
 of the sequence).
 
-<a id="draft-tags"></a>
-
-# 2 Draft tags
+# 2 Draft tags <a href="#draft-tags" class="header-anchor">#</a>
 
 These are tags which have been proposed and are broadly accepted to
 become standard tags, but a review or probationary period has been
@@ -1091,9 +1074,7 @@ purposes.
 
 There are currently no tags with draft status.
 
-<a id="locally-defined-tags"></a>
-
-# 3 Locally-defined tags
+# 3 Locally-defined tags <a href="#locally-defined-tags" class="header-anchor">#</a>
 
 You can freely add new tags. Note that tags starting with '`X`', '`Y`',
 or '`Z`' and tags containing lowercase letters in either position are
@@ -1107,112 +1088,82 @@ sending email to .
 
 <div class="appendices">
 
-<a id="tag-history"></a>
-
-# 4 Tag History
+# 4 Tag History <a href="#tag-history" class="header-anchor">#</a>
 
 This appendix lists when standard tags were initially defined or
 significantly changed, and other historical events that affect how tags
 are interpreted or what files they may appear in.
 
-<a id="september-2024"></a>
-
-### 4.0.1 September 2024
+### 4.0.1 September 2024 <a href="#september-2024" class="header-anchor">#</a>
 
 Added the MN tag for validating base modification tag consistency.
 
-<a id="february-2022"></a>
-
-### 4.0.2 February 2022
+### 4.0.2 February 2022 <a href="#february-2022" class="header-anchor">#</a>
 
 Base modification tags changed to use the predefined standard names MM
 and ML, as their review period has finished. Programs outputting the
 draft Mm and Ml tags should be changed to use MM and ML instead.
 
-<a id="december-2021"></a>
-
-### 4.0.3 December 2021
+### 4.0.3 December 2021 <a href="#december-2021" class="header-anchor">#</a>
 
 Amended draft Mm tag to provide hints about the modification status of
 skipped sequence bases.
 
-<a id="july-2021"></a>
-
-### 4.0.4 July 2021
+### 4.0.4 July 2021 <a href="#july-2021" class="header-anchor">#</a>
 
 Added the Mm and Ml draft tags describing base modifications.
 
-<a id="march-2020"></a>
-
-### 4.0.5 March 2020
+### 4.0.5 March 2020 <a href="#march-2020" class="header-anchor">#</a>
 
 Transcript strand tag TS added, equivalent to the locally-defined XS tag
 produced by several RNA aligners.
 
-<a id="january-2019"></a>
-
-### 4.0.6 January 2019
+### 4.0.6 January 2019 <a href="#january-2019" class="header-anchor">#</a>
 
 Added the OA tag for recording original/previous alignment information.
 
 Deprecated the OC and OP tags.
 
-<a id="july-2018"></a>
-
-### 4.0.7 July 2018
+### 4.0.7 July 2018 <a href="#july-2018" class="header-anchor">#</a>
 
 Clarified the calculation of NM score.
 
-<a id="may-2018"></a>
-
-### 4.0.8 May 2018
+### 4.0.8 May 2018 <a href="#may-2018" class="header-anchor">#</a>
 
 Cellular barcode tags CB, CR, and CY added.
 
 Removed the RT:Z tag, which was a long-deprecated synonym for BC.
 
-<a id="november-2017"></a>
-
-### 4.0.9 November 2017
+### 4.0.9 November 2017 <a href="#november-2017" class="header-anchor">#</a>
 
 SAM version number `VN:1.6` introduced, indicating the addition of the
 CG tag representation of very long CIGAR strings. Files that contain
 records with more than 65,535 CIGAR operators should not declare a
 version number lower than 1.6 in their `@HD` headers.
 
-<a id="august-2017"></a>
-
-### 4.0.10 August 2017
+### 4.0.10 August 2017 <a href="#august-2017" class="header-anchor">#</a>
 
 Unique molecular identifier tags BZ, MI, OX, QX, and RX added.
 
 Usage of sample barcode tag BC clarified.
 
-<a id="june-2017"></a>
-
-### 4.0.11 June 2017
+### 4.0.11 June 2017 <a href="#june-2017" class="header-anchor">#</a>
 
 Corrected the description of the E2 (second-most-likely bases) tag,
 which was previously unclear as to whether it contains bases or base
 qualities.
 
-<a id="september-2016"></a>
-
-### 4.0.12 September 2016
+### 4.0.12 September 2016 <a href="#september-2016" class="header-anchor">#</a>
 
 Predefined tags, previously listed as a brief table within the main SAM
 specification, have been split out into this new document. There is now
 space for clearer and more complete tag descriptions.
 
-<a id="february-2014"></a>
-
-### 4.0.13 February 2014
+### 4.0.13 February 2014 <a href="#february-2014" class="header-anchor">#</a>
 
 MC tag added.
 
-<a id="may-2013"></a>
-
-### 4.0.14 May 2013
+### 4.0.14 May 2013 <a href="#may-2013" class="header-anchor">#</a>
 
 SAM version number `VN:1.5` introduced, with limited impact for tags
 other than indicating that the CT/PT annotation tag definitions are
@@ -1220,32 +1171,24 @@ considered finalised.
 
 SA tag added.
 
-<a id="march-2012"></a>
-
-### 4.0.15 March 2012
+### 4.0.15 March 2012 <a href="#march-2012" class="header-anchor">#</a>
 
 Descriptions of CT and PT annotation tags significantly clarified.
 
-<a id="october-2011"></a>
-
-### 4.0.16 October 2011
+### 4.0.16 October 2011 <a href="#october-2011" class="header-anchor">#</a>
 
 Sample barcode tags QT and RT added, with RT being identified as a
 deprecated alternative to BC.
 
 Read annotation tags CT and PT added.
 
-<a id="september-2011"></a>
-
-### 4.0.17 September 2011
+### 4.0.17 September 2011 <a href="#september-2011" class="header-anchor">#</a>
 
 FZ tag's type changed from `H` to `B,S`-array.
 
 BC and CO tags added.
 
-<a id="april-2011"></a>
-
-### 4.0.18 April 2011
+### 4.0.18 April 2011 <a href="#april-2011" class="header-anchor">#</a>
 
 SAM version number `VN:1.4` introduced, indicating the addition of the
 `B`-array tag type. Files that contain records with `B`-array fields
@@ -1257,21 +1200,15 @@ FZ tag added, with type `H`.
 MD tag description changed to allow IUPAC ambiguity codes in addition to
 `ACGTN`.
 
-<a id="march-2011"></a>
-
-### 4.0.19 March 2011
+### 4.0.19 March 2011 <a href="#march-2011" class="header-anchor">#</a>
 
 CC and CP tags reinstated with their original meanings.
 
-<a id="november-2010"></a>
-
-### 4.0.20 November 2010
+### 4.0.20 November 2010 <a href="#november-2010" class="header-anchor">#</a>
 
 BQ tag added.
 
-<a id="july-2010"></a>
-
-### 4.0.21 July 2010
+### 4.0.21 July 2010 <a href="#july-2010" class="header-anchor">#</a>
 
 The specification was rewritten as a LaTeX document specifying SAM
 version number `VN:1.3`.
@@ -1286,9 +1223,7 @@ for backwards compatibility.
 
 CC and CP tags temporarily removed.
 
-<a id="july-2009"></a>
-
-### 4.0.22 July 2009
+### 4.0.22 July 2009 <a href="#july-2009" class="header-anchor">#</a>
 
 The original SAM "0.1.2-draft" specification specified version number
 `VN:1.0` and defined a total of thirty standard tags (though SQ and S2

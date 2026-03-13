@@ -170,11 +170,6 @@ function CodeBlock(el)
   return el
 end
 
--- Convert Pandoc AST elements to HTML string
-local function to_html(content)
-  return pandoc.utils.stringify(pandoc.write(pandoc.Pandoc({pandoc.Para(content)}), 'html'))
-end
-
 -- More precise conversion that preserves math and code tags
 local function blocks_to_html(blocks)
   local doc = pandoc.Pandoc(blocks)
@@ -350,16 +345,20 @@ function Header(el)
   table.insert(el.content, 1, pandoc.Str(section_num .. " "))
 
   if el.identifier ~= "" then
-    -- Return a list with a raw HTML anchor block and the header
-    -- This ensures the anchor is OUTSIDE the header text, so it doesn't affect TOC text
-    local anchor = pandoc.RawBlock('html', '<a id="' .. el.identifier .. '"></a>')
-    return { anchor, el }
+    -- Add clickable # link inside the header
+    table.insert(el.content, pandoc.Str(" "))
+    local anchor_link = pandoc.Link({pandoc.Str("#")}, "#" .. el.identifier)
+    anchor_link.attributes = { class = "header-anchor" }
+    table.insert(el.content, anchor_link)
   end
   return el
 end
 
 function Link(el)
-  -- Strip all attributes to avoid raw HTML output with data-reference-type
+  -- Strip all attributes except header-anchor to avoid raw HTML output with data-reference-type
+  if el.classes:includes("header-anchor") then
+    return el
+  end
   el.attributes = {}
   return el
 end

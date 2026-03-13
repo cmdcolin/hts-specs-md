@@ -7,9 +7,7 @@ date: 3 Feb 2023
 This printing is version 778115b from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 3 Feb 2023.
 
 
-<a id="purpose"></a>
-
-## 1.1 Purpose
+## 1.1 Purpose <a href="#purpose" class="header-anchor">#</a>
 
 By its nature, genomic data can include information of a confidential
 nature about the health of individuals. It is important that such
@@ -47,17 +45,13 @@ The format has the following properties:
 
   The format does not provide any way of authenticating files.
 
-<a id="requirements"></a>
-
-## 1.2 Requirements
+## 1.2 Requirements <a href="#requirements" class="header-anchor">#</a>
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
 document are to be interpreted as described in .
 
-<a id="terminology"></a>
-
-## 1.3 Terminology
+## 1.3 Terminology <a href="#terminology" class="header-anchor">#</a>
 
 cipher-text  
  \
@@ -131,22 +125,16 @@ A byte pattern that can be used for file format identification. Usually
 put at the start of a file so that software can probe the first few
 bytes to determine what sort of file it is reading.
 
-<a id="encrypted-format-overview"></a>
+# 2 Encrypted Format Overview <a href="#encrypted-format-overview" class="header-anchor">#</a>
 
-# 2 Encrypted Format Overview
-
-<a id="keys"></a>
-
-## 2.1 Keys
+## 2.1 Keys <a href="#keys" class="header-anchor">#</a>
 
 A number of cryptographic keys are required by the format. The type and
 function of each key is listed here, along with symbols ($K_x$ where
 $_x$ is the key type) used to refer to the key in the rest of this
 specification.
 
-<a id="asymmetric-keys"></a>
-
-### 2.1.1 Asymmetric Keys
+### 2.1.1 Asymmetric Keys <a href="#asymmetric-keys" class="header-anchor">#</a>
 
 This specification uses the term "secret key" rather than "private key"
 so that the symbol $K_s$ can be used for secret keys and $K_p$ for
@@ -178,9 +166,7 @@ section [\[header:X25519\]](#header:X25519)).
 
 </div>
 
-<a id="symmetric-keys"></a>
-
-### 2.1.2 Symmetric keys
+### 2.1.2 Symmetric keys <a href="#symmetric-keys" class="header-anchor">#</a>
 
 <div class="description">
 
@@ -205,9 +191,7 @@ will be stored in a separate data_encryption_parameters header packet.
 
 </div>
 
-<a id="file-structure"></a>
-
-## 2.2 File Structure
+## 2.2 File Structure <a href="#file-structure" class="header-anchor">#</a>
 
 <div class="center">
 
@@ -256,9 +240,7 @@ the following parts:
 
   - A MAC calculated over the encrypted data.
 
-<a id="overview:header_packet_types"></a>
-
-## 2.3 Header Packet Types
+## 2.3 Header Packet Types <a href="#overview:header_packet_types" class="header-anchor">#</a>
 
 There are two types of header packet:
 
@@ -289,9 +271,8 @@ There are two types of header packet:
   reading, the data blocks are decrypted and then the edit list is used
   to find out which parts of the unencrypted data should be discarded.
 
-<a id="encoding-for-multiple-publicsecret-key-pairs"></a>
-
-## 2.4 Encoding For Multiple Public/Secret Key Pairs
+## 2.4 Encoding For Multiple Public/Secret Key Pairs <a href="#encoding-for-multiple-publicsecret-key-pairs"
+class="header-anchor">#</a>
 
 It is sometimes useful to encrypt files so that they can be accessed
 using more than one secret key ($K_{sr}$). For example, multiple members
@@ -311,41 +292,29 @@ NOT cause an error to be reported; however an error MUST be raised if,
 on reaching the end of the header, it has not been possible to decrypt
 at least one data encryption key packet.
 
-<a id="detailed-specification"></a>
+# 3 Detailed Specification <a href="#detailed-specification" class="header-anchor">#</a>
 
-# 3 Detailed Specification
+## 3.1 Overall Conventions <a href="#overall-conventions" class="header-anchor">#</a>
 
-<a id="overall-conventions"></a>
-
-## 3.1 Overall Conventions
-
-<a id="hexadecimal-numbers"></a>
-
-### 3.1.1 Hexadecimal Numbers
+### 3.1.1 Hexadecimal Numbers <a href="#hexadecimal-numbers" class="header-anchor">#</a>
 
 Hexadecimal values are written using the digits 0-9, and letters a-f for
 values 10-15. Values are written with the most-significant digit on the
 left, and prefixed with "0x".
 
-<a id="byte-ordering"></a>
-
-### 3.1.2 Byte Ordering
+### 3.1.2 Byte Ordering <a href="#byte-ordering" class="header-anchor">#</a>
 
 The basic data size is the byte (8 bits). All multi-byte values are
 stored in least-significant byte first ("little-endian") order. For
 example, the value 1234 decimal (0x4d2) is stored as the byte stream
 0xd2 0x04.
 
-<a id="integer-types"></a>
-
-### 3.1.3 Integer Types
+### 3.1.3 Integer Types <a href="#integer-types" class="header-anchor">#</a>
 
 Integers can be either signed or unsigned. Signed values are stored in
 two's complement form.
 
-<a id="multi-byte-integer-types"></a>
-
-### 3.1.4 Multi-byte Integer Types
+### 3.1.4 Multi-byte Integer Types <a href="#multi-byte-integer-types" class="header-anchor">#</a>
 
 <div class="center">
 
@@ -400,9 +369,7 @@ two's complement form.
 
 </div>
 
-<a id="structures"></a>
-
-### 3.1.5 Structures
+### 3.1.5 Structures <a href="#structures" class="header-anchor">#</a>
 
 Structure types may be defined (in C-like notation) for convenience.
 
@@ -417,9 +384,7 @@ given order with no padding between them. The above structure would be
 written as twenty bytes - eight for the array 'string', four for the
 integer 'number1', and eight for the integer 'number2'.
 
-<a id="enumerated-types"></a>
-
-### 3.1.6 Enumerated Types
+### 3.1.6 Enumerated Types <a href="#enumerated-types" class="header-anchor">#</a>
 
 Enumerated types may only take one of a given set of values. The data
 type used to store the enumerated value is given in angle brackets after
@@ -433,9 +398,7 @@ except to compare for (in)equality.
       rabbit = 3;
     };
 
-<a id="variants"></a>
-
-### 3.1.7 Variants
+### 3.1.7 Variants <a href="#variants" class="header-anchor">#</a>
 
 Parts of structures may vary depending on information available at the
 time of decoding. Which variant to use is selected by an enumerated
@@ -464,9 +427,7 @@ If the cases are different lengths (as above), then the size of the
 overall structure depends on the variant chosen. There is NO padding to
 make the cases the same length unless it is explicitly defined.
 
-<a id="header"></a>
-
-## 3.2 Header
+## 3.2 Header <a href="#header" class="header-anchor">#</a>
 
 The file starts with a header, with the following structure:
 
@@ -489,9 +450,7 @@ The current byte representation of the magic number and version is:
 
 is the number of header packets that follow.
 
-<a id="header:encryption"></a>
-
-### 3.2.1 Header Packets
+### 3.2.1 Header Packets <a href="#header:encryption" class="header-anchor">#</a>
 
 The header packets are defined as:
 
@@ -536,9 +495,7 @@ Implementations should ignore any header packets that they cannot
 decrypt successfully, as these may have been intended for a different
 reader.
 
-<a id="header-packet-encrypted-payload"></a>
-
-### 3.2.2 Header packet encrypted payload
+### 3.2.2 Header packet encrypted payload <a href="#header-packet-encrypted-payload" class="header-anchor">#</a>
 
 The part of the header packet contains the following plain-text:
 
@@ -570,9 +527,7 @@ The part of the header packet contains the following plain-text:
 
 defines what sort of data packet this is.
 
-<a id="header:data_encryption_parameters"></a>
-
-### 3.2.3 data_encryption_parameters packet
+### 3.2.3 data_encryption_parameters packet <a href="#header:data_encryption_parameters" class="header-anchor">#</a>
 
 This packet contains the parameters needed to decrypt the data part of
 the file.
@@ -586,9 +541,7 @@ keys, more than one of this packet type may be present. If there is more
 than one, the MUST be the same for all of them to prevent problems with
 random access in the encrypted file.
 
-<a id="data_edit_list-packet"></a>
-
-### 3.2.4 data_edit_list packet
+### 3.2.4 data_edit_list packet <a href="#data_edit_list-packet" class="header-anchor">#</a>
 
 This packet contains a list of edits that should be applied to the
 plain-text data following decryption.
@@ -603,13 +556,10 @@ section [4.2](#data:edit_list).
 It is not permitted to have more than one edit list. If more than one
 edit list is present, the file SHOULD be rejected.
 
-<a id="header-packet-encryption"></a>
+## 3.3 Header packet encryption <a href="#header-packet-encryption" class="header-anchor">#</a>
 
-## 3.3 Header packet encryption
-
-<a id="x25519_chacha20_ietf_poly1305-encryption"></a>
-
-### 3.3.1 X25519_chacha20_ietf_poly1305 Encryption
+### 3.3.1 X25519_chacha20_ietf_poly1305 Encryption <a href="#x25519_chacha20_ietf_poly1305-encryption"
+class="header-anchor">#</a>
 
  <span id="header:X25519" label="header:X25519"></span>
 
@@ -667,9 +617,8 @@ $K_{sw}$ ensures only the holder of the reader's secret key $K_{sr}$ can
 decode the header packet. As long as the writer uses randomly-generated
 keys, it also makes accidental nonce reuse very unlikely.
 
-<a id="x25519_chacha20_ietf_poly1305-decryption"></a>
-
-### 3.3.2 X25519_chacha20_ietf_poly1305 Decryption
+### 3.3.2 X25519_chacha20_ietf_poly1305 Decryption <a href="#x25519_chacha20_ietf_poly1305-decryption"
+class="header-anchor">#</a>
 
 To decrypt the header packet, the reader obtains the writer's public key
 $K_{pw}$ and the nonce from the beginning of the packet. Also needed are
@@ -691,9 +640,7 @@ If the header packet was intended for a different reader, the reader
 will be unable to decode the header packet as the Poly1305 MAC will be
 incorrect. This should not be considered an error.
 
-<a id="reading-the-header"></a>
-
-### 3.3.3 Reading the header
+### 3.3.3 Reading the header <a href="#reading-the-header" class="header-anchor">#</a>
 
 The reader should check that the and in the header match the expected
 values.
@@ -711,13 +658,9 @@ If a packet is found, the reader should store it for use while
 processing the data blocks. If more than one packet is present, the file
 SHOULD be rejected.
 
-<a id="data:encryption"></a>
+## 3.4 Encrypted Data <a href="#data:encryption" class="header-anchor">#</a>
 
-## 3.4 Encrypted Data
-
-<a id="data:chacha20_encryption"></a>
-
-### 3.4.1 chacha20_ietf_poly1305 Encryption
+### 3.4.1 chacha20_ietf_poly1305 Encryption <a href="#data:chacha20_encryption" class="header-anchor">#</a>
 
 ChaCha20 is a stream cipher which maps a 256-bit key, nonce and counter
 to a 512-bit key-stream block. In IETF mode the nonce is 96 bits long
@@ -735,9 +678,7 @@ in section 2.8 of . This construction allows additional authenticated
 data (AAD) to be included in the Poly1305 MAC calculation. For the
 purposes of this format, the AAD is zero bytes long.
 
-<a id="segmenting-the-input"></a>
-
-### 3.4.2 Segmenting the input
+### 3.4.2 Segmenting the input <a href="#segmenting-the-input" class="header-anchor">#</a>
 
 To allow random access without having to authenticate the entire file,
 the plain-text is divided into 65536-byte (64KiB) segments. If the
@@ -760,13 +701,9 @@ chacha20_ietf_poly1305, this expansion will be 28 bytes, so a 65536 byte
 plain-text input will become a 65564 byte encrypted and authenticated
 cipher-text output.
 
-<a id="decryption"></a>
+# 4 Decryption <a href="#decryption" class="header-anchor">#</a>
 
-# 4 Decryption
-
-<a id="chacha20_ietf_poly1305-decryption"></a>
-
-## 4.1 chacha20_ietf_poly1305 Decryption
+## 4.1 chacha20_ietf_poly1305 Decryption <a href="#chacha20_ietf_poly1305-decryption" class="header-anchor">#</a>
 
 The cipher-text is decrypted by authenticating and decrypting the
 segment(s) enclosing the requested byte range $[P;Q]$, where $P<Q$. For
@@ -805,9 +742,7 @@ each key for every block (although this may still be vulnerable to
 timing attacks which try to detect which key was successful); or simply
 insist that only one key is used for the whole file.
 
-<a id="data:edit_list"></a>
-
-## 4.2 Edit List
+## 4.2 Edit List <a href="#data:edit_list" class="header-anchor">#</a>
 
 The edit list is designed to assist splicing of encrypted files (for
 example to remove parts that are not needed for later analysis) without
@@ -837,9 +772,7 @@ $output$
 
 </div>
 
-<a id="example"></a>
-
-### 4.2.1 Example
+### 4.2.1 Example <a href="#example" class="header-anchor">#</a>
 
 Imagine that for some reason we have made an encrypted copy of
 ERR2436651. [^1]
@@ -899,13 +832,9 @@ Which means:
 - Keep 38 bytes (EOF block). This could actually be left out as it
   extends all the way to the end of the file.
 
-<a id="security-considerations"></a>
+# 5 Security Considerations <a href="#security-considerations" class="header-anchor">#</a>
 
-# 5 Security Considerations
-
-<a id="threat-analysis"></a>
-
-## 5.1 Threat Analysis
+## 5.1 Threat Analysis <a href="#threat-analysis" class="header-anchor">#</a>
 
 This format is primarily designed to protect files at rest and in
 transport from accidental disclosure. Attackers are assumed to have read
@@ -971,9 +900,7 @@ exhaustive.
   in a sand-box environment) on a machine where encrypted data is being
   processed.
 
-<a id="selection-of-keys"></a>
-
-## 5.2 Selection of Keys
+## 5.2 Selection of Keys <a href="#selection-of-keys" class="header-anchor">#</a>
 
 The security of the format depends on attackers not being able to guess
 secret keys ($K_{sr}$ and $K_{sw}$) or the data encryption key
@@ -981,9 +908,7 @@ secret keys ($K_{sr}$ and $K_{sw}$) or the data encryption key
 cryptographically-secure pseudo-random number generator. This makes the
 chance of guessing a key vanishingly small.
 
-<a id="nonce-selection"></a>
-
-## 5.3 Nonce selection
+## 5.3 Nonce selection <a href="#nonce-selection" class="header-anchor">#</a>
 
 All header packets encrypted with the same combination of writer's
 secret key ($K_{sw}$) and reader's public key ($K_{pr}$) MUST use a
@@ -1009,9 +934,7 @@ problem, this method will have a non-zero (but very small) probability
 of failing. For example, a file of 24 Terabytes will have a reused nonce
 with probability of approximately $10^{-12}$
 
-<a id="message-forgery"></a>
-
-## 5.4 Message Forgery
+## 5.4 Message Forgery <a href="#message-forgery" class="header-anchor">#</a>
 
 Using ChaCha20-IETF-Poly1305 authenticates the content of each header
 packet and each segment of the encrypted cipher-text. It does not
@@ -1020,9 +943,7 @@ addition, removal or rearrangement of data segments. crypt4gh files are
 not signed, so there is no direct way to prove that a file was created
 by a given writer.
 
-<a id="no-file-updates-permitted"></a>
-
-## 5.5 No File Updates Permitted
+## 5.5 No File Updates Permitted <a href="#no-file-updates-permitted" class="header-anchor">#</a>
 
 Implementations MUST NOT update encrypted files. Once written, a section
 of the file must never be altered.
@@ -1031,9 +952,7 @@ of the file must never be altered.
 
 XXXXXXX
 
-<a id="normative-references"></a>
-
-## 5.6 Normative References
+## 5.6 Normative References <a href="#normative-references" class="header-anchor">#</a>
 
 Bradner, S.,\
 *"Key words for use in RFCs to Indicate Requirement Levels", BCP 14, RFC
@@ -1063,9 +982,7 @@ Y. Nir, Dell EMC, A. Langley, Google, Inc.,\
 <https://tools.ietf.org/html/rfc8439>,\
 June 2018
 
-<a id="informational-references"></a>
-
-## 5.7 Informational References
+## 5.7 Informational References <a href="#informational-references" class="header-anchor">#</a>
 
 Callas, J., PGP Corporation, Donnerhacke, L., IKS GmbH, Finney, H., PGP
 Corporation, Shaw, D., Thayer, R.,\
@@ -1121,9 +1038,7 @@ securely streaming genomic data"*
 
 </div>
 
-<a id="rationale"></a>
-
-# 6 Rationale
+# 6 Rationale <a href="#rationale" class="header-anchor">#</a>
 
 Using authenticated encryption in individual segments mirrors solutions
 like Transport Layer Security (TLS) as described in  and prevents
@@ -1140,9 +1055,7 @@ found to have any vulnerabilities. The criteria for choosing encryption
 methods included having strong security guarantees, good library support
 and being used in other common standards like TLS version 1.3.
 
-<a id="symmetric-encryption"></a>
-
-## 6.1 Symmetric Encryption
+## 6.1 Symmetric Encryption <a href="#symmetric-encryption" class="header-anchor">#</a>
 
 For symmetric encryption, the main candidates for authenticated
 encryption were AES-GCM and ChaCha20-Poly1305. Both have good security
@@ -1162,9 +1075,7 @@ be encrypted under a single key. The message length restriction of
 ChaCha20-IETF-Poly1305 ($64*2^{32}-64$ bytes) is not a problem as our
 "messages" are at most 64 Kbytes long.
 
-<a id="public-key-algorithm"></a>
-
-## 6.2 Public-key Algorithm
+## 6.2 Public-key Algorithm <a href="#public-key-algorithm" class="header-anchor">#</a>
 
 For public-key encryption Elliptic Curve Diffie-Hellman using X25519 was
 chosen. Elliptic Curve Diffie-Hellman is faster and uses smaller keys
@@ -1194,9 +1105,7 @@ algorithms are undergoing standardisation . A future revision of this
 specification will add quantum-computing resistant algorithms once this
 process is complete and a suitable replacement becomes widely available.
 
-<a id="other-considerations"></a>
-
-## 6.3 Other Considerations
+## 6.3 Other Considerations <a href="#other-considerations" class="header-anchor">#</a>
 
 This specification provides no way of authenticating files by signing
 them. Implementing such a scheme would also involve creating

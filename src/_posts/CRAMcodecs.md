@@ -14,9 +14,7 @@ introduced in CRAM v3.1.
 It does not cover the CRAM format itself. For that see
 <http://samtools.github.io/hts-specs/>.
 
-<a id="pseudocode-introduction"></a>
-
-## 1.1 Pseudocode introduction
+## 1.1 Pseudocode introduction <a href="#pseudocode-introduction" class="header-anchor">#</a>
 
 Various parts of this specification are written in a simplistic
 pseudocode. This intentionally does not make explicit use of data types
@@ -47,9 +45,7 @@ length*`)`, but the calling code may assign a single variable to this
 result. In this case the first value *value* will be used and *length*
 will be discarded.
 
-<a id="mathematical-operators"></a>
-
-## 1.2 Mathematical operators
+## 1.2 Mathematical operators <a href="#mathematical-operators" class="header-anchor">#</a>
 
 <table>
 <thead>
@@ -192,9 +188,7 @@ operator assumes the left and right values are converted to string form.
 For example "level" $\mathbin{+\mkern-10mu+\,}42$ will convert the
 integer 42 to "42" and produce the string "level42".
 
-<a id="implicit-functions"></a>
-
-## 1.3 Implicit functions
+## 1.3 Implicit functions <a href="#implicit-functions" class="header-anchor">#</a>
 
 <table>
 <thead>
@@ -294,9 +288,7 @@ but also have forms that may decode from specified inputs / buffers.
 They both consume their input sources in the same manner, using an
 implicit offset of how many bytes so far have been read.
 
-<a id="other-basic-functions"></a>
-
-## 1.4 Other basic functions
+## 1.4 Other basic functions <a href="#other-basic-functions" class="header-anchor">#</a>
 
 7-bit integer encoding stores values 7-bits at a time with the top bit
 set if further bytes are required.
@@ -348,9 +340,8 @@ $\mathbin{<\mkern-3mu<\,}8)$ $v \gets v +$ $v \gets (v\ %
 
 </div>
 
-<a id="rans-4x8---asymmetric-numeral-systems"></a>
-
-# 2 rANS 4x8 - Asymmetric Numeral Systems
+# 2 rANS 4x8 - Asymmetric Numeral Systems <a href="#rans-4x8---asymmetric-numeral-systems"
+class="header-anchor">#</a>
 
 This is the rANS format first defined in CRAM v3.0.
 
@@ -374,9 +365,8 @@ while 'u' is the most likely.
 These observed frequencies are inversely related to the amount of
 storage required to encode a symbol (e.g. an alphabet letter)[^2].
 
-<a id="rans-4x8-compressed-data-structure"></a>
-
-### 2.0.1 **rANS 4x8 compressed data structure**
+### 2.0.1 **rANS 4x8 compressed data structure** <a href="#rans-4x8-compressed-data-structure"
+class="header-anchor">#</a>
 
 A compressed data block consists of the following logical parts:
 
@@ -417,9 +407,7 @@ A compressed data block consists of the following logical parts:
 </tbody>
 </table>
 
-<a id="frequency-table"></a>
-
-## 2.1 **Frequency table**
+## 2.1 **Frequency table** <a href="#frequency-table" class="header-anchor">#</a>
 
 The alphabet used here has a maximum of 256 possible symbols (all byte
 values), but alphabets where fewer symbols are permitted too.
@@ -436,9 +424,7 @@ Formally, this is an ordered alphabet $\mathbb{A}$ containing symbols
 $s$ where $s_{i}$ with the $i$-th symbol in $\mathbb{A}$, occurring with
 the frequency $freq_{i}$.
 
-<a id="order-0-encoding"></a>
-
-### 2.1.1 Order-0 encoding
+### 2.1.1 Order-0 encoding <a href="#order-0-encoding" class="header-anchor">#</a>
 
 The normalised symbol frequencies are then written out as {symbol,
 frequency} pairs in ascending order of symbol (0 to 255 inclusive). If a
@@ -547,9 +533,7 @@ Encoded as:
     0x72      0x82 0xe8      # `r'            <744>
     0x00                     # <0>
 
-<a id="order-1-encoding"></a>
-
-### 2.1.2 Order-1 encoding
+### 2.1.2 Order-1 encoding <a href="#order-1-encoding" class="header-anchor">#</a>
 
 To encode Order-1 statistics typically requires a larger table as for an
 $N$ sized alphabet we need to potentially store an $N$x$N$ matrix. We
@@ -744,9 +728,7 @@ The above tables are encoded as:
 
     0x00                 # end of contexts
 
-<a id="rans-entropy-encoding"></a>
-
-## 2.2 rANS entropy encoding
+## 2.2 rANS entropy encoding <a href="#rans-entropy-encoding" class="header-anchor">#</a>
 
 The encoder takes a symbol $s$ and a current state $x$ (initially $L$
 below) to produce a new state $x'$ with function $C$.
@@ -826,9 +808,7 @@ $x$.
 After every decoded $D(x')$ we renormalise $x'$, shifting in the bottom
 8 bits until $x \geq \mathtt{0x800000}$.
 
-<a id="interleaving"></a>
-
-### 2.2.1 Interleaving
+### 2.2.1 Interleaving <a href="#interleaving" class="header-anchor">#</a>
 
 For efficiency, we interleave 4 separate rANS codecs at the same
 time[^4]. For the Order-0 codecs these simply encode or decode the 4
@@ -848,9 +828,7 @@ state.
 
 We do not permit Order-1 encoding of data streams smaller than 4 bytes.
 
-<a id="rans-decode-pseudocode"></a>
-
-## 2.3 rANS decode pseudocode
+## 2.3 rANS decode pseudocode <a href="#rans-decode-pseudocode" class="header-anchor">#</a>
 
 A naïve implementation of a rANS decoder follows. This pseudocode is for
 clarity only and is not expected to be performant and we would normally
@@ -867,9 +845,7 @@ ${}\gets$ ${}\gets$ ${}\gets$
 
 </div>
 
-<a id="rans-order-0"></a>
-
-### 2.3.1 rANS order-0
+### 2.3.1 rANS order-0 <a href="#rans-order-0" class="header-anchor">#</a>
 
 The Order-0 code is the simplest variant. Here we also define some of
 the functions for manipulating the rANS state, which are shared between
@@ -900,9 +876,7 @@ $output_i \gets s$ $R_j \gets$  $R_j \gets$ 
 
 </div>
 
-<a id="rans-order-1"></a>
-
-### 2.3.2 rANS order-1
+### 2.3.2 rANS order-1 <a href="#rans-order-1" class="header-anchor">#</a>
 
 As described above, the decode logic is very similar to rANS Order-0
 except we have a two dimensional array of frequencies to read and the
@@ -933,9 +907,7 @@ $R_3 \gets$  $L_3 \gets s$
 
 </div>
 
-<a id="rans-nx16"></a>
-
-# 3 rANS Nx16
+# 3 rANS Nx16 <a href="#rans-nx16" class="header-anchor">#</a>
 
 CRAM version 3.1 defines an additional rANS entropy encoder, using
 16-bit renormalisation instead of the 8-bit used in CRAM 3.0 and with
@@ -1003,9 +975,7 @@ listed below, in the order they are applied.
   required) using the <span class="smallcaps">DecodePack</span>
   function.
 
-<a id="frequency-tables"></a>
-
-## 3.1 Frequency tables
+## 3.1 Frequency tables <a href="#frequency-tables" class="header-anchor">#</a>
 
 Frequency tables in rANS Nx16 separate the list of symbols from their
 frequencies. The symbol list must be stored in ascending ASCII order,
@@ -1081,9 +1051,7 @@ $C_{i,j+1} \gets C_{i,j} + F_{i,j}$
 
 </div>
 
-<a id="rans-nx16-order-0"></a>
-
-## 3.2 rANS Nx16 Order-0
+## 3.2 rANS Nx16 Order-0 <a href="#rans-nx16-order-0" class="header-anchor">#</a>
 
 To decode an Order-0 encoded byte stream we first decode the symbol
 frequencies as described above and then decode the N interleaved rANS
@@ -1110,9 +1078,7 @@ $R_j \gets$  $out$
 
 </div>
 
-<a id="rans-nx16-order-1"></a>
-
-## 3.3 rANS Nx16 Order-1
+## 3.3 rANS Nx16 Order-1 <a href="#rans-nx16-order-1" class="header-anchor">#</a>
 
 The Order-1 code is comparable to Order-0 but with an extra dimension
 (the previous value) to the $F$ and $C$ matrices and a more complex
@@ -1136,9 +1102,7 @@ $out$
 
 </div>
 
-<a id="sec:ransRLE"></a>
-
-## 3.4 rANS Nx16 Run Length Encoding
+## 3.4 rANS Nx16 Run Length Encoding <a href="#sec:ransRLE" class="header-anchor">#</a>
 
 For symbols that occur many times in succession, we can replace them
 with a single symbol and a count. In this specification, run lengths are
@@ -1227,9 +1191,7 @@ $j \gets j + 1$ $out$
 
 </div>
 
-<a id="sec:ranspack"></a>
-
-## 3.5 rANS Nx16 Bit Packing
+## 3.5 rANS Nx16 Bit Packing <a href="#sec:ranspack" class="header-anchor">#</a>
 
 If the alphabet of used symbols in the uncompressed data stream is
 small - no more than 16 - then we can pack multiple symbols together to
@@ -1317,9 +1279,7 @@ $out_i \gets P_{(v %
 
 </div>
 
-<a id="sec:ransstripe"></a>
-
-## 3.6 Striped rANS Nx16
+## 3.6 Striped rANS Nx16 <a href="#sec:ransstripe" class="header-anchor">#</a>
 
 If we have a series of 32-bit values, we can often get better
 compression by treating it as a series of 4 8-bit values representing
@@ -1388,9 +1348,7 @@ $out_{i \times N + j} \gets T_{j,i}$ $out$
 
 </div>
 
-<a id="combined-rans-nx16-format"></a>
-
-## 3.7 Combined rANS Nx16 Format
+## 3.7 Combined rANS Nx16 Format <a href="#combined-rans-nx16-format" class="header-anchor">#</a>
 
 We combine the Order-0 and Order-1 rANS Nx16 encoder with optional
 run-length encoding, bit-packing and four-way interleaving into a single
@@ -1664,9 +1622,7 @@ $data \gets$ $data \gets$ $data$
 
 </div>
 
-<a id="range-coding"></a>
-
-# 4 Range coding
+# 4 Range coding <a href="#range-coding" class="header-anchor">#</a>
 
 The range coder is a byte-wise arithmetic coder that operates by
 repeatedly reducing a probability range (for example 0.0 to 1.0) one
@@ -1952,9 +1908,7 @@ $0$
 
 </div>
 
-<a id="adaptive-modelling"></a>
-
-## 4.1 Adaptive Modelling
+## 4.1 Adaptive Modelling <a href="#adaptive-modelling" class="header-anchor">#</a>
 
 The probabilities passed to the range coder may be fixed for all
 scenarios (as we had in the "cat" example), or they may be adaptive and
@@ -2022,9 +1976,7 @@ $total\_freq \gets 0$ $F_i \gets F_i - (F_i %
 
 </div>
 
-<a id="order-0-and-order-1-encoding"></a>
-
-## 4.2 Order-0 and Order-1 Encoding
+## 4.2 Order-0 and Order-1 Encoding <a href="#order-0-and-order-1-encoding" class="header-anchor">#</a>
 
 We can combine the model defined above and the range coder to provide a
 simple function to perform Order-0 entropy decoder.
@@ -2047,9 +1999,8 @@ $last \gets 0$ $out_i \gets model\_lit_{last}.$ $last \gets out_i$ $out$
 
 </div>
 
-<a id="rle-with-order-0-and-order-1-encoding"></a>
-
-## 4.3 RLE with Order-0 and Order-1 Encoding
+## 4.3 RLE with Order-0 and Order-1 Encoding <a href="#rle-with-order-0-and-order-1-encoding"
+class="header-anchor">#</a>
 
 The <span class="smallcaps">DecodeOrder0</span> and
 <span class="smallcaps">DecodeOrder1</span> codecs can be expanded to
@@ -2448,9 +2399,7 @@ The specifics of each sub-format are described below, in the order
   section. The same <span class="smallcaps">DecodePackMeta</span> and
   <span class="smallcaps">DecodePack</span> functions are used.
 
-<a id="name-tokenisation-codec"></a>
-
-# 5 Name tokenisation codec
+# 5 Name tokenisation codec <a href="#name-tokenisation-codec" class="header-anchor">#</a>
 
 Sequence names (identifiers) typically follow a structured pattern and
 compression based on columns within those structures usually leads to
@@ -2886,9 +2835,7 @@ $N_n \gets$ $N$
 
 </div>
 
-<a id="fqzcomp-quality-codec"></a>
-
-# 6 FQZComp quality codec
+# 6 FQZComp quality codec <a href="#fqzcomp-quality-codec" class="header-anchor">#</a>
 
 The FQZComp quality codec uses an adaptive statistical model to predict
 the next quality value in a given context (comprised of previous quality
@@ -2909,9 +2856,7 @@ described in *Compression of FASTQ and SAM Format Sequencing Data* by
 Bonfield JK, Mahoney MV (2013). PLoS ONE 8(3): e59190.
 <https://doi.org/10.1371/journal.pone.0059190>
 
-<a id="fqzcomp-models"></a>
-
-## 6.1 FQZComp Models
+## 6.1 FQZComp Models <a href="#fqzcomp-models" class="header-anchor">#</a>
 
 The FQZComp process utilises knowledge of the read lengths, complement
 (qualities reversed) status, and a generic parameter selector, but in
@@ -3087,9 +3032,7 @@ are defined.</td>
 </tbody>
 </table>
 
-<a id="fqzcomp-data-stream"></a>
-
-## 6.2 FQZComp Data Stream
+## 6.2 FQZComp Data Stream <a href="#fqzcomp-data-stream" class="header-anchor">#</a>
 
 The start of an FQZComp data stream consists of the parameters used by
 the decoder. The data layout is as follows.

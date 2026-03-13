@@ -133,6 +133,22 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
         align-items: baseline;
         gap: 0.5rem;
       }
+      .header-anchor {
+        opacity: 0;
+        text-decoration: none;
+        color: #ccc;
+        font-size: 0.8em;
+        transition: opacity 0.2s;
+      }
+      h1:hover .header-anchor,
+      h2:hover .header-anchor,
+      h3:hover .header-anchor,
+      h4:hover .header-anchor {
+        opacity: 1;
+      }
+      .header-anchor:hover {
+        color: #0366d6;
+      }
       .toc {
         background: #f6f8fa;
         padding: 0.75rem;
