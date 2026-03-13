@@ -56,137 +56,134 @@ will be discarded.
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline"><em>a</em> + <em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a + b</annotation></semantics></math></td>
 <td>Addition</td>
 </tr>
 <tr>
-<td><span class="math inline"><em>a</em> − <em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>−</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a - b</annotation></semantics></math></td>
 <td>Subtraction</td>
 </tr>
 <tr>
-<td><span class="math inline"><em>a</em> × <em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>×</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \times b</annotation></semantics></math></td>
 <td>Multiplication</td>
 </tr>
 <tr>
-<td><span class="math inline"><em>a</em> / <em>b</em></span></td>
-<td>Floating point division <span
-class="math inline"><em>a</em>/<em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mspace width="0.222em"></mspace><mi>/</mi><mspace width="0.222em"></mspace><mi>b</mi></mrow><annotation encoding="application/x-tex">a\ /\ b</annotation></semantics></math></td>
+<td>Floating point division
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">a/b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline">$a %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-b$</span></td>
-<td>Integer division <span class="math inline"><em>a</em>/<em>b</em></span>,
-equivalent to <span class="math inline">⌊<em>a</em>/<em>b</em>⌋</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="normal">div</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \text{div} b</annotation></semantics></math></td>
+<td>Integer division
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">a/b</annotation></semantics></math>,
+equivalent to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">⌊</mo><mrow><mi>a</mi><mi>/</mi><mi>b</mi></mrow><mo stretchy="false" form="postfix">⌋</mo></mrow><annotation encoding="application/x-tex">\lfloor{a/b}\rfloor</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline"><em>a</em> mod  <em>b</em></span></td>
-<td>Integer modulo (remainder) <span class="math inline">$a - b\times(a %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-b)$</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>b</mi></mrow></mrow><annotation encoding="application/x-tex">a \bmod b</annotation></semantics></math></td>
+<td>Integer modulo (remainder)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>−</mo><mi>b</mi><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mtext mathvariant="normal">div</mtext><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">a - b\times(a \text{div} b)</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline"><em>a</em> = <em>b</em></span></td>
-<td>Compares <span class="math inline"><em>a</em></span> and <span
-class="math inline"><em>b</em></span> variables, yielding true if they
-match, false otherwise</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a = b</annotation></semantics></math></td>
+<td>Compares
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+variables, yielding true if they match, false otherwise</td>
 </tr>
 <tr>
-<td><span class="math inline"><em>a</em> ← <em>b</em></span></td>
-<td>Assigns value of <span class="math inline"><em>b</em></span> to variable
-<span class="math inline"><em>a</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>←</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \gets b</annotation></semantics></math></td>
+<td>Assigns value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+to variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline">$a \mathbin{&lt;\mkern-3mu&lt;\,}b$</span></td>
-<td>Bit-wise left shift <span class="math inline"><em>a</em></span> by <span
-class="math inline"><em>b</em></span> bits, shifting in zeros</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>≪</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \ll b</annotation></semantics></math></td>
+<td>Bit-wise left shift
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+bits, shifting in zeros</td>
 </tr>
 <tr>
-<td><span class="math inline">$a \mathbin{&gt;\mkern-3mu&gt;\,}b$</span></td>
-<td>Bit-wise right shift <span class="math inline"><em>a</em></span> by
-<span class="math inline"><em>b</em></span> bits, shifting in zeros</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>≫</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \gg b</annotation></semantics></math></td>
+<td>Bit-wise right shift
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+bits, shifting in zeros</td>
 </tr>
 <tr>
-<td><span class="math inline">$a %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-b$</span></td>
-<td>Bit-wise AND operator, joining values <span
-class="math inline"><em>a</em></span>, <span
-class="math inline"><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="normal">AND</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \text{AND} b</annotation></semantics></math></td>
+<td>Bit-wise AND operator, joining values
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline">$a %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font OR}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-b$</span></td>
-<td>Bit-wise OR operator, joining values <span
-class="math inline"><em>a</em></span>, <span
-class="math inline"><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="normal">OR</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \text{OR} b</annotation></semantics></math></td>
+<td>Bit-wise OR operator, joining values
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline">$a % keyword rather than mathematical operator
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font \textbf{or}}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-b$</span></td>
-<td>Logical OR operator, joining expressions <span
-class="math inline"><em>a</em></span>, <span
-class="math inline"><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="bold">𝐨𝐫</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \textbf{or} b</annotation></semantics></math></td>
+<td>Logical OR operator, joining expressions
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline">$a % keyword rather than mathematical operator
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font \textbf{and}}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-b$</span></td>
-<td>Logical AND operator, joining expressions <span
-class="math inline"><em>a</em></span>, <span
-class="math inline"><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="bold">𝐚𝐧𝐝</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \textbf{and} b</annotation></semantics></math></td>
+<td>Logical AND operator, joining expressions
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline">$a \mathbin{+\mkern-10mu+\,}b$</span></td>
-<td>String concatenation of <span class="math inline"><em>a</em></span> and
-<span class="math inline"><em>b</em></span>: <span
-class="math inline"><em>a</em><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mrow><mi>+</mi><mo>+</mo></mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">a \mathbin{++}b</annotation></semantics></math></td>
+<td>String concatenation of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">ab</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="math inline"><em>V</em><sub><em>i</em></sub></span></td>
-<td>Element <span class="math inline"><em>i</em></span> of vector <span
-class="math inline"><em>V</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>i</mi></msub><annotation encoding="application/x-tex">V_i</annotation></semantics></math></td>
+<td>Element
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+of vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math></td>
 </tr>
 <tr>
 <td></td>
-<td>The entire vector <span class="math inline"><em>V</em></span> may be
-passed into a function</td>
+<td>The entire vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
+may be passed into a function</td>
 </tr>
 <tr>
-<td><span
-class="math inline"><em>W</em><sub><em>i</em>, <em>j</em></sub></span></td>
-<td>Element <span class="math inline"><em>i</em>, <em>j</em></span> of
-two-dimensional vector <span class="math inline"><em>W</em></span>.</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>W</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">W_{i,j}</annotation></semantics></math></td>
+<td>Element
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i,j</annotation></semantics></math>
+of two-dimensional vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>.</td>
 </tr>
 <tr>
 <td></td>
-<td>The entire vector <span class="math inline"><em>W</em></span> or a one
-dimensional slice <span
-class="math inline"><em>W</em><sub><em>i</em></sub></span> (of size
-<span class="math inline"><em>j</em></span>) may be passed into a
-function.</td>
+<td>The entire vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
+or a one dimensional slice
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>W</mi><mi>i</mi></msub><annotation encoding="application/x-tex">W_i</annotation></semantics></math>
+(of size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>)
+may be passed into a function.</td>
 </tr>
 </tbody>
 </table>
 
-Note that string concatenation with the $\mathbin{+\mkern-10mu+\,}$
-operator assumes the left and right values are converted to string form.
-For example "level" $\mathbin{+\mkern-10mu+\,}42$ will convert the
-integer 42 to "42" and produce the string "level42".
+Note that string concatenation with the $\mathbin{++}$ operator assumes
+the left and right values are converted to string form. For example
+"level" $\mathbin{++}42$ will convert the integer 42 to "42" and produce
+the string "level42".
 
 ## 1.3 Implicit functions <a href="#implicit-functions" class="header-anchor">#</a>
 
@@ -199,16 +196,20 @@ integer 42 to "42" and produce the string "level42".
 </thead>
 <tbody>
 <tr>
-<td><span class="smallcaps">Min</span><span
-class="math inline">(<em>a</em>, <em>b</em>)</span></td>
-<td>Smaller of <span class="math inline"><em>a</em></span> and <span
-class="math inline"><em>b</em></span></td>
+<td><span
+class="smallcaps">Min</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(a,\ b)</annotation></semantics></math></td>
+<td>Smaller of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="smallcaps">Max</span><span
-class="math inline">(<em>a</em>, <em>b</em>)</span></td>
-<td>Larger of <span class="math inline"><em>a</em></span> and <span
-class="math inline"><em>b</em></span></td>
+<td><span
+class="smallcaps">Max</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(a,\ b)</annotation></semantics></math></td>
+<td>Larger of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span class="smallcaps">ReadUint8</span></td>
@@ -220,63 +221,70 @@ class="math inline"><em>b</em></span></td>
 source</td>
 </tr>
 <tr>
-<td><span class="smallcaps">ReadUint8</span><span
-class="math inline">(<em>s</em><em>r</em><em>c</em>)</span></td>
-<td>Read an 8-bit unsigned integer (1 byte) from input <span
-class="math inline"><em>s</em><em>r</em><em>c</em></span></td>
+<td><span
+class="smallcaps">ReadUint8</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(src)</annotation></semantics></math></td>
+<td>Read an 8-bit unsigned integer (1 byte) from input
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="smallcaps">ReadUint32</span><span
-class="math inline">(<em>s</em><em>r</em><em>c</em>)</span></td>
-<td>Read a 32-bit unsigned little-endian integer from input <span
-class="math inline"><em>s</em><em>r</em><em>c</em></span></td>
+<td><span
+class="smallcaps">ReadUint32</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(src)</annotation></semantics></math></td>
+<td>Read a 32-bit unsigned little-endian integer from input
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="smallcaps">ReadData</span><span
-class="math inline">(<em>l</em><em>e</em><em>n</em>)</span></td>
-<td>Read <span class="math inline"><em>l</em><em>e</em><em>n</em></span>
+<td><span
+class="smallcaps">ReadData</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(len)</annotation></semantics></math></td>
+<td>Read
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math>
 bytes (8-bit unsigned) from an unspecified input source</td>
 </tr>
 <tr>
-<td><span class="smallcaps">ReadData</span><span
-class="math inline">(<em>l</em><em>e</em><em>n</em>, <em>s</em><em>r</em><em>c</em>)</span></td>
-<td>Read <span class="math inline"><em>l</em><em>e</em><em>n</em></span>
-bytes (8-bit unsigned) from input <span
-class="math inline"><em>s</em><em>r</em><em>c</em></span></td>
+<td><span
+class="smallcaps">ReadData</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo>,</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(len, src)</annotation></semantics></math></td>
+<td>Read
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math>
+bytes (8-bit unsigned) from input
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="smallcaps">ReadChar</span><span
-class="math inline">(<em>s</em><em>r</em><em>c</em>)</span></td>
-<td>Read a single character from input <span
-class="math inline"><em>s</em><em>r</em><em>c</em></span></td>
+<td><span
+class="smallcaps">ReadChar</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(src)</annotation></semantics></math></td>
+<td>Read a single character from input
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span class="smallcaps">ReadString</span><span
-class="math inline">(<em>s</em><em>r</em><em>c</em>)</span></td>
-<td>Read a nul-terminated string from input <span
-class="math inline"><em>s</em><em>r</em><em>c</em></span></td>
+<td><span
+class="smallcaps">ReadString</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(src)</annotation></semantics></math></td>
+<td>Read a nul-terminated string from input
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span class="smallcaps">EOF</span></td>
 <td>Returns true if the input source is exhausted.</td>
 </tr>
 <tr>
-<td><span class="smallcaps">Char</span><span
-class="math inline">(<em>a</em>)</span></td>
-<td>Converts integer <span class="math inline"><em>a</em></span> to a single
-character of appropriate ASCII value</td>
+<td><span
+class="smallcaps">Char</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(a)</annotation></semantics></math></td>
+<td>Converts integer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+to a single character of appropriate ASCII value</td>
 </tr>
 <tr>
-<td><span class="smallcaps">Length</span><span
-class="math inline">(<em>a</em>)</span></td>
-<td>Returns length of string <span class="math inline"><em>a</em></span>
+<td><span
+class="smallcaps">Length</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(a)</annotation></semantics></math></td>
+<td>Returns length of string
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
 excluding any nul-termination bytes</td>
 </tr>
 <tr>
-<td><span class="smallcaps">Swap</span><span
-class="math inline">(<em>a</em>, <em>b</em>)</span></td>
-<td>Swaps the contents of <span class="math inline"><em>a</em></span> and
-<span class="math inline"><em>b</em></span> variables</td>
+<td><span
+class="smallcaps">Swap</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(a,\ b)</annotation></semantics></math></td>
+<td>Swaps the contents of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+variables</td>
 </tr>
 </tbody>
 </table>
@@ -297,11 +305,8 @@ set if further bytes are required.
 
 (Read a variable sized unsigned integer 7-bits at a time. Returns the
 value.) $value \gets 0$ $length \gets 0$ $c \gets$
-$value \gets (value \mathbin{<\mkern-3mu<\,}7) + (c %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-127)$ $length \gets length + 1$ $value$
+$value \gets (value \ll 7) + (c \text{AND} 127)$
+$length \gets length + 1$ $value$
 
 </div>
 
@@ -313,30 +318,14 @@ specification for more details.
 <div class="algorithmic">
 
 (Read a variable sized unsigned integer with ITF8 encoding. Returns the
-value.) $v \gets$ $v \gets (v\ %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-\mathtt{0x0f}) \mathbin{<\mkern-3mu<\,}28$ $v \gets v + ($
-$\mathbin{<\mkern-3mu<\,}20)$ $v \gets v + ($
-$\mathbin{<\mkern-3mu<\,}12)$ $v \gets v + ($
-$\mathbin{<\mkern-3mu<\,}4)$ $v \gets v + ($
-$\mathbin{>\mkern-3mu>\,}4)$ $v \gets (v\ %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-\mathtt{0x0f}) \mathbin{<\mkern-3mu<\,}24$ $v \gets v + ($
-$\mathbin{<\mkern-3mu<\,}16)$ $v \gets v + ($
-$\mathbin{<\mkern-3mu<\,}8)$ $v \gets v +$ $v \gets (v\ %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-\mathtt{0x1f}) \mathbin{<\mkern-3mu<\,}16$ $v \gets v + ($
-$\mathbin{<\mkern-3mu<\,}8)$ $v \gets v +$ $v \gets (v\ %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-\mathtt{0x3f}) \mathbin{<\mkern-3mu<\,}8$ $v \gets v +$ $v$
+value.) $v \gets$ $v \gets (v\ \text{AND} \mathtt{0x0f}) \ll 28$
+$v \gets v + ($ $\ll 20)$ $v \gets v + ($ $\ll 12)$ $v \gets v + ($
+$\ll 4)$ $v \gets v + ($ $\gg 4)$
+$v \gets (v\ \text{AND} \mathtt{0x0f}) \ll 24$ $v \gets v + ($ $\ll 16)$
+$v \gets v + ($ $\ll 8)$ $v \gets v +$
+$v \gets (v\ \text{AND} \mathtt{0x1f}) \ll 16$ $v \gets v + ($ $\ll 8)$
+$v \gets v +$ $v \gets (v\ \text{AND} \mathtt{0x3f}) \ll 8$
+$v \gets v +$ $v$
 
 </div>
 
@@ -765,18 +754,12 @@ Recall $freq_{i}$ is the frequency of the $i$-th symbol $s_{i}$ in
 alphabet $\mathbb{A}$. We define $cfreq_i$ to be cumulative frequency of
 all symbols up to but not including $s_{i}$:
 
-$cfreq_{i} = \left\{
-\begin{array}{l l}
-0 & \quad \textrm{if $i < 1$} \\
-cfreq_{i-1} + freq_{i-1} & \quad \textrm{if $i \geq 1$}
-\end{array}
-\right.$
+$cfreq_{i} = \left\{ \begin{array}{l l} 0 & \quad \textrm{if $i < 1$} \\ cfreq_{i-1} + freq_{i-1} & \quad \textrm{if $i \geq 1$} \end{array} \right.$
 
 We have a reverse lookup table $cfreq\_to\_sym_c$ from 0 to 4095 (0xfff)
 that maps a cumulative frequency $c$ to a symbol $s$.
 
-$cfreq\_to\_sym_c = s_{i} \quad where \quad c: \enskip cfreq_i \leq c <
-cfreq_i + freq_i$
+$cfreq\_to\_sym_c = s_{i} \quad where \quad c: \enskip cfreq_i \leq c < cfreq_i + freq_i$
 
 The $x' = C(s,x)$ function used for the $i$-th symbol $s$ is:
 
@@ -785,11 +768,7 @@ $x' = (x/freq_i) \times \mathtt{0x1000} + cfreq_i + (x \bmod freq_i)$
 The $D(x') = (s,x)$ function used to produce the $i$-th symbol $s$ and a
 new state $x$ is:
 
-$c = x' %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-\mathtt{0xfff}$\
+$c = x' \text{AND} \mathtt{0xfff}$\
 \* $s_{i} = cfreq\_to\_sym_{c}$\
 \* $x = freq_{i} (x' / \mathtt{0x1000}) + c - cfreq_{i}$
 
@@ -818,8 +797,8 @@ interleaved).
 
 For the Order-1 codec we cannot do this as we need to know the previous
 byte value as the context for the next byte. We therefore split the
-input data into 4 approximately equal sized fragments[^5] starting at
-$0$, $\lfloor{}len/4\rfloor{}$, $\lfloor{}len/4\rfloor{}\times2$ and
+input data into 4 approximately equal sized fragments[^5] starting at 0,
+$\lfloor{}len/4\rfloor{}$, $\lfloor{}len/4\rfloor{}\times2$ and
 $\lfloor{}len/4\rfloor{}\times 3$. Each Order-1 codec operates in a
 cyclic fashion as with Order-0, all starting with 0 as their state and
 sharing the same compressed output buffer. Any remainder, when the input
@@ -859,20 +838,15 @@ $last\_sym \gets s$ $rle \gets 0$ ${}\gets$ ${}\gets$ $rle-1$ ${}\gets$
 $s+1$ $s \gets$ $rle \gets$ $last\_sym \gets s$  (Compute cumulative
 frequencies $C_i$ from $F_i$) $C_0 \gets 0$ $C_{s+1} \gets C_s + F_s$
 
-(Bottom 12 bits of our rANS state $R$ are our frequency) $R\ %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip$ 0xfff (Convert frequency to a symbol.
-Find $s$ such that $C_s \le f < C_{s+1}$) (We would normally implement
-this via a lookup table) $s \gets 0$ $s \gets s+1$ $s$ (Compute the next
-rANS state $R$ given frequency $f$ and cumulative freq $c$)
-$f \times (R \mathbin{>\mkern-3mu>\,}12) + (R\ %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip$ 0xfff$) - c$ (If too small, feed in more
-bytes to the rANS state $R$) $R \gets (R \mathbin{<\mkern-3mu<\,}8) +$ 
-$R$ $R_j \gets$ $j \gets i \bmod 4$ $f \gets$ $s \gets$
-$output_i \gets s$ $R_j \gets$  $R_j \gets$ 
+(Bottom 12 bits of our rANS state $R$ are our frequency) $R\ \text{AND}$
+0xfff (Convert frequency to a symbol. Find $s$ such that
+$C_s \le f < C_{s+1}$) (We would normally implement this via a lookup
+table) $s \gets 0$ $s \gets s+1$ $s$ (Compute the next rANS state $R$
+given frequency $f$ and cumulative freq $c$)
+$f \times (R \gg 12) + (R\ \text{AND}$ 0xfff$) - c$ (If too small, feed
+in more bytes to the rANS state $R$) $R \gets (R \ll 8) +$  $R$
+$R_j \gets$ $j \gets i \bmod 4$ $f \gets$ $s \gets$ $output_i \gets s$
+$R_j \gets$  $R_j \gets$ 
 
 </div>
 
@@ -1006,9 +980,8 @@ ${}\gets$ $s+1$ $s \gets$ $rle \gets$ $last\_sym \gets s$ $A$
 
 (Reads a table of Order-0 symbol frequencies $F_i$) (and sets the
 cumulative frequency table $C_{i+1} = C_i+F_i$) $F \gets (0,\ ...)$ (Set
-to zero for all $i \in \{0, 1,
-  ..., 255\}$) $A \gets$ $F_i \gets$ $C_0 \gets 0$
-$C_{s+1} \gets C_s + F_s$
+to zero for all $i \in \{0, 1, ..., 255\}$) $A \gets$ $F_i \gets$
+$C_0 \gets 0$ $C_{s+1} \gets C_s + F_s$
 
 </div>
 
@@ -1016,8 +989,7 @@ $C_{s+1} \gets C_s + F_s$
 
 (Normalises a table of frequencies $F_i$ to sum to a specified power of
 2.) $tot \gets 0$ $tot \gets tot + F_i$ $shift \gets 0$
-$tot \gets tot*2$ $shift \gets shift+1$
-$F_i \gets F_i \mathbin{<\mkern-3mu<\,}shift$
+$tot \gets tot*2$ $shift \gets shift+1$ $F_i \gets F_i \ll shift$
 
 </div>
 
@@ -1042,11 +1014,11 @@ the number of bits used for the frequency tables. Permitted values are
 
 (Reads a table of Order-1 symbol frequencies $F_{i,j}$) (and sets the
 cumulative frequency table $C_{i,j+1} = C_{i,j}+F_{i,j}$) $comp \gets$
-$bits \gets comp \mathbin{>\mkern-3mu>\,}4$ $u\_size \gets$
-$c\_size \gets$ $c\_data \gets$ $source \gets$ (define $source$ to be
-the default input stream) $F \gets ((0,\ ...),\ ...)$ (Set to zero for
-all $i$ and $j  \in \{0, 1, ..., 255\}$) $A \gets$ $run \gets 0$
-$run \gets run-1$ $F_{i,j} \gets$ $run \gets$ $C_{i,0} \gets 0$
+$bits \gets comp \gg 4$ $u\_size \gets$ $c\_size \gets$ $c\_data \gets$
+$source \gets$ (define $source$ to be the default input stream)
+$F \gets ((0,\ ...),\ ...)$ (Set to zero for all $i$ and
+$j \in \{0, 1, ..., 255\}$) $A \gets$ $run \gets 0$ $run \gets run-1$
+$F_{i,j} \gets$ $run \gets$ $C_{i,0} \gets 0$
 $C_{i,j+1} \gets C_{i,j} + F_{i,j}$
 
 </div>
@@ -1062,19 +1034,10 @@ can interleave to different amounts.
 
 <div class="algorithmic">
 
-$R\ %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-((1 \mathbin{<\mkern-3mu<\,}bits) -1)$
-$f \times (R \mathbin{>\mkern-3mu>\,}bits) + (R\ %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-((1 \mathbin{<\mkern-3mu<\,}bits) -1) - c$
-$R \gets (R \mathbin{<\mkern-3mu<\,}16) +$  $R$ $R_j \gets$
-$j \gets i \bmod N$ $f \gets$ $s \gets$ $out_i \gets s$ $R_j \gets$ 
-$R_j \gets$  $out$
+$R\ \text{AND} ((1 \ll bits) -1)$
+$f \times (R \gg bits) + (R\ \text{AND} ((1 \ll bits) -1) - c$
+$R \gets (R \ll 16) +$  $R$ $R_j \gets$ $j \gets i \bmod N$ $f \gets$
+$s \gets$ $out_i \gets s$ $R_j \gets$  $R_j \gets$  $out$
 
 </div>
 
@@ -1125,38 +1088,33 @@ run-lengths and the run-removed data itself.
 <tr>
 <td>?</td>
 <td>uint7</td>
-<td><span
-class="math inline"><em>r</em><em>l</em><em>e</em>_<em>m</em><em>e</em><em>t</em><em>a</em>_<em>l</em><em>e</em><em>n</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">rle\_meta\_len</annotation></semantics></math></td>
 <td>RLE meta-data-size times 2. The bottom bit is a flag to indicate whether
-<span
-class="math inline"><em>r</em><em>l</em><em>e</em>_<em>m</em><em>e</em><em>t</em><em>a</em></span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">rle\_meta</annotation></semantics></math>
 is uncompressed (1) or compressed (0).</td>
 </tr>
 <tr>
 <td>?</td>
 <td>uint7</td>
-<td><span
-class="math inline"><em>r</em><em>l</em><em>e</em>_<em>l</em><em>e</em><em>n</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">rle\_len</annotation></semantics></math></td>
 <td>Size of uncompressed data before <span
 class="smallcaps">DecodeRLE</span> is applied</td>
 </tr>
 <tr>
 <td>?</td>
 <td>uint7</td>
-<td><span
-class="math inline">(<em>c</em><em>o</em><em>m</em><em>p</em>_<em>m</em><em>e</em><em>t</em><em>a</em>_<em>l</em><em>e</em><em>n</em>)</span></td>
-<td>Only stored if bottom bit of <span
-class="math inline"><em>r</em><em>l</em><em>e</em>_<em>m</em><em>e</em><em>t</em><em>a</em>_<em>l</em><em>e</em><em>n</em></span>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(comp\_meta\_len)</annotation></semantics></math></td>
+<td>Only stored if bottom bit of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">rle\_meta\_len</annotation></semantics></math>
 is unset. Size of compressed RLE meta data.</td>
 </tr>
 <tr>
 <td>?</td>
 <td>uint8[]</td>
-<td><span
-class="math inline"><em>r</em><em>l</em><em>e</em>_<em>m</em><em>e</em><em>t</em><em>a</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">rle\_meta</annotation></semantics></math></td>
 <td>RLE meta-data. Decompress with <span
-class="smallcaps">RansDecodeNx16_0</span> if bottom bit of <span
-class="math inline"><em>r</em><em>l</em><em>e</em>_<em>m</em><em>e</em><em>t</em><em>a</em>_<em>l</em><em>e</em><em>n</em></span>
+class="smallcaps">RansDecodeNx16_0</span> if bottom bit of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">rle\_meta\_len</annotation></semantics></math>
 is unset.</td>
 </tr>
 </tbody>
@@ -1171,8 +1129,8 @@ as variable sized integers in the *uint7* format.
 
 (Reads and optionally uncompresses the blob of run-lengths and the array
 $L$) (indicating which symbols have associates run-lengths.)
-$L \gets (0,\ ...)$ (Set to zero for all $i \in \{0, 1,
-  ..., 255\}$) $rle\_meta\_len \gets$ $len \gets$ $rle\_meta \gets$
+$L \gets (0,\ ...)$ (Set to zero for all $i \in \{0, 1, ..., 255\}$)
+$rle\_meta\_len \gets$ $len \gets$ $rle\_meta \gets$
 $comp\_meta\_len \gets$ $rle\_meta \gets$ $rle\_meta \gets$
 
 $n \gets$ $n \gets 256$ $s \gets$ $L_s \gets 1$ ($L$, $rle\_meta$,
@@ -1216,21 +1174,19 @@ compressed packed data.
 <tr>
 <td>1</td>
 <td>byte</td>
-<td><span
-class="math inline"><em>n</em><em>s</em><em>y</em><em>m</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">nsym</annotation></semantics></math></td>
 <td>Number of distinct symbols</td>
 </tr>
 <tr>
-<td><span
-class="math inline"><em>n</em><em>s</em><em>y</em><em>m</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">nsym</annotation></semantics></math></td>
 <td>byte[]</td>
-<td><span class="math inline"><em>P</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math></td>
 <td>Symbol map</td>
 </tr>
 <tr>
 <td>?</td>
 <td>uint7</td>
-<td><span class="math inline"><em>l</em><em>e</em><em>n</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math></td>
 <td>Length of packed data</td>
 </tr>
 </tbody>
@@ -1261,21 +1217,10 @@ stream is packed data as described above.
 <div class="algorithmic">
 
 $j \gets 0$ $out_i \gets P_0$ $v \gets data_j$ $j \gets j+1$
-$out_i \gets P_{(v %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-1)}$ $v = v \mathbin{>\mkern-3mu>\,}1$ $v \gets data_j$ $j \gets j+1$
-$out_i \gets P_{(v %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-3)}$ $v = v \mathbin{>\mkern-3mu>\,}2$ $v \gets data_j$ $j \gets j+1$
-$out_i \gets P_{(v %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-15)}$ $v = v \mathbin{>\mkern-3mu>\,}4$ out
+$out_i \gets P_{(v \text{AND} 1)}$ $v = v \gg 1$ $v \gets data_j$
+$j \gets j+1$ $out_i \gets P_{(v \text{AND} 3)}$ $v = v \gg 2$
+$v \gets data_j$ $j \gets j+1$ $out_i \gets P_{(v \text{AND} 15)}$
+$v = v \gg 4$ out
 
 </div>
 
@@ -1318,12 +1263,12 @@ be 1 byte shorter.
 As an example starting with input data $D$ we define the transposed data
 $T$ as:
 
-$D = aA\underline{A}bB\underline{B}cC\underline{C}dD\underline{D}e$
+$D = aAAbBBcCCdDDe$
 
-$T = [\ abcde,\ ABCD,\ \underline{A}\underline{B}\underline{C}\underline{D}\ ]$
+$T = [\ abcde,\ ABCD,\ ABCD\ ]$
 
-Note our example data is not a multiple of $N$ long, missing
-$E\underline{E}$, which gives $T$ fragments of length \[5, 4, 4\].
+Note our example data is not a multiple of $N$ long, missing `EE`, which
+gives $T$ fragments of length \[5, 4, 4\].
 
 If $D_i$ is the $i^{th}$ character in $D$ and $T_{j,i}$ is the $i^{th}$
 character of the $j^{th}$ substring in $T$, transformations between $D$
@@ -1331,19 +1276,12 @@ and $T$ are defined as:
 
 $T_{j,i} = D_{i N +j}$
 
-$D_i = T_{(i \bmod N),\ (i %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-N)}$
+$D_i = T_{(i \bmod N),\ (i \text{div} N)}$
 
 <div class="algorithmic">
 
-$N \gets$ $clen_j \gets$ $ulen_j \gets (len %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-N) + ((len \bmod N) > j)$ $T_j \gets$
+$N \gets$ $clen_j \gets$
+$ulen_j \gets (len \text{div} N) + ((len \bmod N) > j)$ $T_j \gets$
 $out_{i \times N + j} \gets T_{j,i}$ $out$
 
 </div>
@@ -1368,8 +1306,7 @@ data stream.
 <tr>
 <td>8</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>f</em><em>l</em><em>a</em><em>g</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi></mrow><annotation encoding="application/x-tex">flag</annotation></semantics></math></td>
 <td>Data format bit field</td>
 <td></td>
 </tr>
@@ -1703,8 +1640,8 @@ below for the worked mathematics.
 <td>c</td>
 <td>0.2</td>
 <td>0.5</td>
-<td><span class="math inline">0 + (1 − 0) × .2</span></td>
-<td><span class="math inline">0 + (1 − 0) × .5</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>.2</mn></mrow><annotation encoding="application/x-tex">0+(1-0)\times.2</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>.5</mn></mrow><annotation encoding="application/x-tex">0+(1-0)\times.5</annotation></semantics></math></td>
 </tr>
 <tr>
 <td>0.200</td>
@@ -1712,8 +1649,8 @@ below for the worked mathematics.
 <td>a</td>
 <td>0.8</td>
 <td>1.0</td>
-<td><span class="math inline">.2 + (.5 − .2) × .8</span></td>
-<td><span class="math inline">.2 + (.5 − .2) × 1</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>.2</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>.5</mn><mo>−</mo><mn>.2</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>.8</mn></mrow><annotation encoding="application/x-tex">.2+(.5-.2)\times.8</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>.2</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>.5</mn><mo>−</mo><mn>.2</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">.2+(.5-.2)\times 1</annotation></semantics></math></td>
 </tr>
 <tr>
 <td>0.440</td>
@@ -1721,8 +1658,8 @@ below for the worked mathematics.
 <td>t</td>
 <td>0.0</td>
 <td>0.2</td>
-<td><span class="math inline">.44 + (.5 − .44) × 0</span></td>
-<td><span class="math inline">.44 + (.5 − .44) × .2</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>.44</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>.5</mn><mo>−</mo><mn>.44</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">.44+(.5-.44)\times 0</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>.44</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>.5</mn><mo>−</mo><mn>.44</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>.2</mn></mrow><annotation encoding="application/x-tex">.44+(.5-.44)\times .2</annotation></semantics></math></td>
 </tr>
 <tr>
 <td>0.440</td>
@@ -1817,12 +1754,8 @@ coder, reading the first bytes of the compressed data stream.
 
 <div class="algorithmic">
 
-${}\gets$ $2^{32}-1$ ${}\gets$ $0$
-$code \gets (code \mathbin{<\mkern-3mu<\,}8) +$ $code \gets code %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-2^{32}-1$ this range coder ($range$, $code$)
+${}\gets$ $2^{32}-1$ ${}\gets$ 0 $code \gets (code \ll 8) +$
+$code \gets code \text{AND} 2^{32}-1$ this range coder ($range$, $code$)
 
 </div>
 
@@ -1831,15 +1764,7 @@ updating the range.
 
 <div class="algorithmic">
 
-$range \gets range %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-tot\_freq$ $code %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-range$
+$range \gets range \text{div} tot\_freq$ $code \text{div} range$
 
 </div>
 
@@ -1848,8 +1773,7 @@ range$
 ${}\gets$ $code - sym\_low \times range$ ${}\gets$
 $range \times sym\_freq$
 
-${}\gets$ $range \mathbin{<\mkern-3mu<\,}8$ ${}\gets$
-$(code\mathbin{<\mkern-3mu<\,}8) +$
+${}\gets$ $range \ll 8$ ${}\gets$ $(code\ll 8) +$
 
 </div>
 
@@ -1870,14 +1794,10 @@ $low$ variable.
 
 <div class="algorithmic">
 
-${}\gets$ $low$ ${}\gets$ $range %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-tot\_freq$ ${}\gets$ $low + sym\_low \times range$ ${}\gets$
-$range \times sym\_freq$
+${}\gets$ $low$ ${}\gets$ $range \text{div} tot\_freq$ ${}\gets$
+$low + sym\_low \times range$ ${}\gets$ $range \times sym\_freq$
 
-$carry \gets 1$ ${}\gets$ $range \mathbin{<\mkern-3mu<\,}8$
+$carry \gets 1$ ${}\gets$ $range \ll 8$
 
 </div>
 
@@ -1888,9 +1808,8 @@ values.
 
 <div class="algorithmic">
 
-$FFnum \gets FFnum - 1$ $FFnum \gets FFnum - 1$
-$cache \gets low \mathbin{>\mkern-3mu>\,}24$ $carry \gets 0$
-$FFnum \gets FFnum + 1$ $low \gets low \mathbin{<\mkern-3mu<\,}8$
+$FFnum \gets FFnum - 1$ $FFnum \gets FFnum - 1$ $cache \gets low \gg 24$
+$carry \gets 0$ $FFnum \gets FFnum + 1$ $low \gets low \ll 8$
 
 </div>
 
@@ -1899,8 +1818,7 @@ below.
 
 <div class="algorithmic">
 
-${}\gets$ $0$ ${}\gets$ $2^{32}-1$ ${}\gets$ $0$ ${}\gets$ $0$ ${}\gets$
-$0$
+${}\gets$ 0 ${}\gets$ $2^{32}-1$ ${}\gets$ 0 ${}\gets$ 0 ${}\gets$ 0
 
 </div>
 
@@ -1968,11 +1886,8 @@ to avoid any zero frequencies being created.
 
 <div class="algorithmic">
 
-$total\_freq \gets 0$ $F_i \gets F_i - (F_i %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-2)$ $total\_freq \gets total\_freq + F_i$
+$total\_freq \gets 0$ $F_i \gets F_i - (F_i \text{div} 2)$
+$total\_freq \gets total\_freq + F_i$
 
 </div>
 
@@ -2069,8 +1984,7 @@ and N-way interleaving of the 8-bit components of a 32-bit value.
 <tr>
 <td>8</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>f</em><em>l</em><em>a</em><em>g</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi></mrow><annotation encoding="application/x-tex">flag</annotation></semantics></math></td>
 <td>Data format bit field</td>
 <td></td>
 </tr>
@@ -2331,11 +2245,8 @@ The specifics of each sub-format are described below, in the order
 
   <div class="algorithmic">
 
-  $N \gets$ $clen_j \gets$ $ulen_j \gets (len %
-    \nonscript\mskip-\medmuskip\mkern 5mu%
-    \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-    \nonscript\mskip-\medmuskip
-  N) + ((len \bmod N) > j)$ $T_j \gets$
+  $N \gets$ $clen_j \gets$
+  $ulen_j \gets (len \text{div} N) + ((len \bmod N) > j)$ $T_j \gets$
   $out_{i \times N + j} \gets T_{j,i}$ $out$
 
   </div>
@@ -2472,15 +2383,17 @@ only</td>
 <tr>
 <td>7</td>
 <td>DIGITS</td>
-<td><span class="math inline">0≤</span> Int <span
-class="math inline"> &lt; 2<sup>32</sup></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo></mrow><annotation encoding="application/x-tex">0 \le</annotation></semantics></math>
+Int
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>32</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{32}</annotation></semantics></math></td>
 <td>A numerical value, not containing a leadng zero</td>
 </tr>
 <tr>
 <td>3</td>
 <td>DIGITS0</td>
-<td><span class="math inline">0≤</span> Int <span
-class="math inline"> &lt; 2<sup>32</sup></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo></mrow><annotation encoding="application/x-tex">0 \le</annotation></semantics></math>
+Int
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>32</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{32}</annotation></semantics></math></td>
 <td>A numerical value possibly starting in leading zeros</td>
 </tr>
 <tr>
@@ -2492,16 +2405,18 @@ class="math inline"> &lt; 2<sup>32</sup></span></td>
 <tr>
 <td>8</td>
 <td>DELTA</td>
-<td><span class="math inline">0≤</span> Int <span
-class="math inline"> &lt; 256</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo></mrow><annotation encoding="application/x-tex">0 \le</annotation></semantics></math>
+Int
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">&lt; 256</annotation></semantics></math></td>
 <td>A numeric value being stored as the difference to the numeric value of
 this token on the previous name</td>
 </tr>
 <tr>
 <td>9</td>
 <td>DELTA0</td>
-<td><span class="math inline">0≤</span> Int <span
-class="math inline"> &lt; 256</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo></mrow><annotation encoding="application/x-tex">0 \le</annotation></semantics></math>
+Int
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">&lt; 256</annotation></semantics></math></td>
 <td>As DELTA, but for numeric values starting with leading zeros</td>
 </tr>
 <tr>
@@ -2628,8 +2543,8 @@ byte array specified as input.
 <div class="algorithmic">
 
 *(Convert an integer to a string form in base-10 digits, at least $len$
-bytes long with leading zeros)* $str \gets val$ $str \gets$ '$0$'
-$\mathbin{+\mkern-10mu+\,}str$ $str$
+bytes long with leading zeros)* $str \gets val$ $str \gets$ '0'
+$\mathbin{++}str$ $str$
 
 </div>
 
@@ -2651,7 +2566,7 @@ $T_n \gets T_m$ $N_n$ $t \gets 1$ $type \gets$ $T_{n,t} \gets$
 $T_{n,t} \gets$ $T_{n,t} \gets$ $d \gets$ $l \gets$ $T_{n,t} \gets$
 $T_{n,t} \gets T_{m,t} +$ $d \gets T_{m,t} +$ $l \gets$ $T_{n,t} \gets$
 $T_{n,t} \gets T_{m,t}$ $T_{n,t} \gets$ ''
-$N_n \gets N_n \mathbin{+\mkern-10mu+\,}T_{n,t}$ $t \gets t+1$ $N_n$
+$N_n \gets N_n \mathbin{++}T_{n,t}$ $t \gets t+1$ $N_n$
 
 </div>
 
@@ -2695,8 +2610,7 @@ order to determine when the token types finish.
 <tr>
 <td>4</td>
 <td>uint32</td>
-<td><span
-class="math inline"><em>u</em><em>n</em><em>c</em><em>o</em><em>m</em><em>p</em>_<em>l</em><em>e</em><em>n</em><em>g</em><em>t</em><em>h</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi>n</mi><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>h</mi></mrow><annotation encoding="application/x-tex">uncomp\_length</annotation></semantics></math></td>
 <td>Length of uncompressed name buffer</td>
 <td></td>
 <td></td>
@@ -2704,8 +2618,7 @@ class="math inline"><em>u</em><em>n</em><em>c</em><em>o</em><em>m</em><em>p</em>
 <tr>
 <td>4</td>
 <td>uint32</td>
-<td><span
-class="math inline"><em>n</em><em>u</em><em>m</em>_<em>r</em><em>e</em><em>a</em><em>d</em><em>s</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>u</mi><mi>m</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">num\_reads</annotation></semantics></math></td>
 <td>Number of read names</td>
 <td></td>
 <td></td>
@@ -2713,8 +2626,7 @@ class="math inline"><em>n</em><em>u</em><em>m</em>_<em>r</em><em>e</em><em>a</em
 <tr>
 <td>1</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>u</em><em>s</em><em>e</em>_<em>a</em><em>r</em><em>i</em><em>t</em><em>h</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi>s</mi><mi>e</mi><mi>_</mi><mi>a</mi><mi>r</mi><mi>i</mi><mi>t</mi><mi>h</mi></mrow><annotation encoding="application/x-tex">use\_arith</annotation></semantics></math></td>
 <td>Whether compression is arithmetic (1) or rANS Nx16 (0)</td>
 <td></td>
 <td></td>
@@ -2731,8 +2643,7 @@ class="math inline"><em>u</em><em>s</em><em>e</em>_<em>a</em><em>r</em><em>i</em
 <td><span>2-6</span></td>
 <td>1</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>t</em><em>t</em><em>y</em><em>p</em><em>e</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">ttype</annotation></semantics></math></td>
 <td>Token type code plus flags (64=duplicate, 128=next token position).</td>
 <td></td>
 </tr>
@@ -2749,8 +2660,7 @@ class="math inline"><em>t</em><em>t</em><em>y</em><em>p</em><em>e</em></span></t
 <td></td>
 <td>1</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>d</em><em>u</em><em>p</em>_<em>p</em><em>o</em><em>s</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>u</mi><mi>p</mi><mi>_</mi><mi>p</mi><mi>o</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dup\_pos</annotation></semantics></math></td>
 <td>Duplicate from this token position</td>
 </tr>
 <tr>
@@ -2758,8 +2668,7 @@ class="math inline"><em>d</em><em>u</em><em>p</em>_<em>p</em><em>o</em><em>s</em
 <td></td>
 <td>1</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>d</em><em>u</em><em>p</em>_<em>t</em><em>y</em><em>p</em><em>e</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>u</mi><mi>p</mi><mi>_</mi><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">dup\_type</annotation></semantics></math></td>
 <td>Duplicate from this token type ID</td>
 </tr>
 <tr>
@@ -2775,18 +2684,15 @@ class="math inline"><em>d</em><em>u</em><em>p</em>_<em>t</em><em>y</em><em>p</em
 <td></td>
 <td>?</td>
 <td>uint7</td>
-<td><span
-class="math inline"><em>c</em><em>l</em><em>e</em><em>n</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">clen</annotation></semantics></math></td>
 <td>compressed length</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td><span
-class="math inline"><em>c</em><em>l</em><em>e</em><em>n</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">clen</annotation></semantics></math></td>
 <td>uint8[]</td>
-<td><span
-class="math inline"><em>c</em><em>d</em><em>a</em><em>t</em><em>a</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">cdata</annotation></semantics></math></td>
 <td>compressed data stream</td>
 </tr>
 </tbody>
@@ -2806,19 +2712,10 @@ encoder section above (rANS or arithmetic coding).
 <div class="algorithmic">
 
 *(Decodes and uncompresses the serialised token byte streams)*
-$sz \gets 0$ $t \gets -1$ $ttype \gets$ $tok\_new \gets ttype %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-128$ $tok\_dup \gets ttype %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-64$ $type \gets ttype %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-63$ $t \gets t+1$
+$sz \gets 0$ $t \gets -1$ $ttype \gets$
+$tok\_new \gets ttype \text{AND} 128$
+$tok\_dup \gets ttype \text{AND} 64$ $type \gets ttype \text{AND} 63$
+$t \gets t+1$
 $B_{t,\texttt{TYPE}} \gets (type, \texttt{TOK\_MATCH}, \texttt{TOK\_MATCH}, ...)$
 $dup\_pos \gets$ $dup\_type \gets$
 $B_{t,type} \gets B_{dup\_pos,dup\_type}$ $clen \gets$ $data \gets$
@@ -2953,20 +2850,12 @@ updateable.
 
 (Add quality $q$ to produce and return a new context $ctx$)
 $ctx \gets params.context$
-$qctx \gets (qctx \mathbin{<\mkern-3mu<\,}params.qshift) + qtab_q$
-$ctx   \gets ctx + ((qctx %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-(2^{params.qbits}-1)) \mathbin{<\mkern-3mu<\,}params.qloc)$ $p \gets$
-$ctx \gets ctx + (ptab_p \mathbin{<\mkern-3mu<\,}params.ploc)$ $d \gets$
-$ctx \gets ctx + (dtab_d \mathbin{<\mkern-3mu<\,}params.dloc)$
-$delta \gets delta+1$ $prevq \gets q$
-$ctx \gets ctx + (sel \mathbin{<\mkern-3mu<\,}params.sloc)$ $ctx%
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font AND}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-(2^{16}-1)$
+$qctx \gets (qctx \ll params.qshift) + qtab_q$
+$ctx \gets ctx + ((qctx \text{AND} (2^{params.qbits}-1)) \ll params.qloc)$
+$p \gets$ $ctx \gets ctx + (ptab_p \ll params.ploc)$ $d \gets$
+$ctx \gets ctx + (dtab_d \ll params.dloc)$ $delta \gets delta+1$
+$prevq \gets q$ $ctx \gets ctx + (sel \ll params.sloc)$
+$ctx \text{AND} (2^{16}-1)$
 
 </div>
 
@@ -2983,50 +2872,43 @@ In summary context is produced using the following models:
 </thead>
 <tbody>
 <tr>
-<td><span
-class="math inline"><em>m</em><em>o</em><em>d</em><em>e</em><em>l</em>_<em>q</em><em>u</em><em>a</em><em>l</em></span></td>
-<td><span
-class="math inline"><em>m</em><em>a</em><em>x</em>_<em>s</em><em>y</em><em>m</em></span></td>
-<td><span class="math inline">2<sup>16</sup></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>q</mi><mi>u</mi><mi>a</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">model\_qual</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">max\_sym</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>16</mn></msup><annotation encoding="application/x-tex">2^{16}</annotation></semantics></math></td>
 <td>Primary model for quality values</td>
 </tr>
 <tr>
-<td><span
-class="math inline"><em>m</em><em>o</em><em>d</em><em>e</em><em>l</em>_<em>l</em><em>e</em><em>n</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">model\_len</annotation></semantics></math></td>
 <td>256</td>
 <td>4</td>
 <td>Read length models with the context 0-3 being successive byte numbers
 (little endian order)</td>
 </tr>
 <tr>
-<td><span
-class="math inline"><em>m</em><em>o</em><em>d</em><em>e</em><em>l</em>_<em>r</em><em>e</em><em>v</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">model\_rev</annotation></semantics></math></td>
 <td>2</td>
 <td>none</td>
-<td>Used if <span
-class="math inline"><em>p</em><em>f</em><em>l</em><em>a</em><em>g</em><em>s</em>.<em>d</em><em>o</em>_<em>r</em><em>e</em><em>v</em></span>
+<td>Used if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi><mi>.</mi><mi>d</mi><mi>o</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">pflags.do\_rev</annotation></semantics></math>
 is defined. Indicating which strings to reverse.</td>
 </tr>
 <tr>
-<td><span
-class="math inline"><em>m</em><em>o</em><em>d</em><em>e</em><em>l</em>_<em>d</em><em>u</em><em>p</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>d</mi><mi>u</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">model\_dup</annotation></semantics></math></td>
 <td>2</td>
 <td>none</td>
-<td>Used if <span
-class="math inline"><em>p</em><em>f</em><em>l</em><em>a</em><em>g</em><em>s</em>.<em>d</em><em>o</em>_<em>d</em><em>u</em><em>p</em></span>
+<td>Used if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi><mi>.</mi><mi>d</mi><mi>o</mi><mi>_</mi><mi>d</mi><mi>u</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">pflags.do\_dup</annotation></semantics></math>
 is defined. Indicates if this whole string is a duplicate of the last
 one</td>
 </tr>
 <tr>
-<td><span
-class="math inline"><em>m</em><em>o</em><em>d</em><em>e</em><em>l</em>_<em>s</em><em>e</em><em>l</em></span></td>
-<td><span
-class="math inline"><em>m</em><em>a</em><em>x</em>_<em>s</em><em>e</em><em>l</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">model\_sel</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">max\_sel</annotation></semantics></math></td>
 <td>none</td>
-<td>Used if <span
-class="math inline"><em>g</em><em>f</em><em>l</em><em>a</em><em>g</em><em>s</em>.<em>m</em><em>u</em><em>l</em><em>t</em><em>i</em>_<em>p</em><em>a</em><em>r</em><em>a</em><em>m</em></span>
-or <span
-class="math inline"><em>p</em><em>f</em><em>l</em><em>a</em><em>g</em><em>s</em>.<em>d</em><em>o</em>_<em>s</em><em>e</em><em>l</em></span>
+<td>Used if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi><mi>.</mi><mi>m</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>_</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">gflags.multi\_param</annotation></semantics></math>
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi><mi>.</mi><mi>d</mi><mi>o</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">pflags.do\_sel</annotation></semantics></math>
 are defined.</td>
 </tr>
 </tbody>
@@ -3052,8 +2934,7 @@ the decoder. The data layout is as follows.
 <tr>
 <td>8</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>v</em><em>e</em><em>r</em><em>s</em><em>i</em><em>o</em><em>n</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi>e</mi><mi>r</mi><mi>s</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">version</annotation></semantics></math></td>
 <td>FQZComp format version: must be 5</td>
 <td></td>
 <td></td>
@@ -3061,8 +2942,7 @@ class="math inline"><em>v</em><em>e</em><em>r</em><em>s</em><em>i</em><em>o</em>
 <tr>
 <td>8</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>g</em><em>f</em><em>l</em><em>a</em><em>g</em><em>s</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">gflags</annotation></semantics></math></td>
 <td>Global FQZcomp bit-flags. From lowest bit to highest:</td>
 <td></td>
 <td></td>
@@ -3071,10 +2951,10 @@ class="math inline"><em>g</em><em>f</em><em>l</em><em>a</em><em>g</em><em>s</em>
 <td></td>
 <td></td>
 <td></td>
-<td>1: <span
-class="math inline"><em>m</em><em>u</em><em>l</em><em>t</em><em>i</em>_<em>p</em><em>a</em><em>r</em><em>a</em><em>m</em></span>:
-indicates more than one parameter block is present. Otherwise set <span
-class="math inline"><em>n</em><em>p</em><em>a</em><em>r</em><em>a</em><em>m</em> = 1</span></td>
+<td>1:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>_</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">multi\_param</annotation></semantics></math>:
+indicates more than one parameter block is present. Otherwise set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">nparam = 1</annotation></semantics></math></td>
 <td></td>
 <td></td>
 </tr>
@@ -3082,12 +2962,12 @@ class="math inline"><em>n</em><em>p</em><em>a</em><em>r</em><em>a</em><em>m</em>
 <td></td>
 <td></td>
 <td></td>
-<td>2: <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>s</em><em>t</em><em>a</em><em>b</em></span>:
-indicates the parameter selector is mapped through <span
-class="math inline"><em>s</em><em>t</em><em>a</em><em>b</em></span>.
-Otherwise set <span
-class="math inline"><em>s</em><em>t</em><em>a</em><em>b</em><sub><em>i</em></sub> = <em>i</em></span></td>
+<td>2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_stab</annotation></semantics></math>:
+indicates the parameter selector is mapped through
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">stab</annotation></semantics></math>.
+Otherwise set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><msub><mi>b</mi><mi>i</mi></msub><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">stab_i = i</annotation></semantics></math></td>
 <td></td>
 <td></td>
 </tr>
@@ -3095,10 +2975,9 @@ class="math inline"><em>s</em><em>t</em><em>a</em><em>b</em><sub><em>i</em></sub
 <td></td>
 <td></td>
 <td></td>
-<td>4: <span
-class="math inline"><em>d</em><em>o</em>_<em>r</em><em>e</em><em>v</em></span>:
-<span
-class="math inline"><em>m</em><em>o</em><em>d</em><em>e</em><em>l</em>_<em>r</em><em>e</em><em>v</em><em>c</em><em>o</em><em>m</em><em>p</em></span>
+<td>4:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>o</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">do\_rev</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>v</mi><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">model\_revcomp</annotation></semantics></math>
 will be used (CRAM v3.1)</td>
 <td></td>
 <td></td>
@@ -3112,8 +2991,8 @@ will be used (CRAM v3.1)</td>
 <td></td>
 </tr>
 <tr>
-<td><em>If <span
-class="math inline"><em>m</em><em>u</em><em>l</em><em>t</em><em>i</em>_<em>p</em><em>a</em><em>r</em><em>a</em><em>m</em></span>
+<td><em>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>_</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">multi\_param</annotation></semantics></math>
 gflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3125,8 +3004,7 @@ gflag is set:</em></td>
 <td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>n</em><em>p</em><em>a</em><em>r</em><em>a</em><em>m</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">nparam</annotation></semantics></math></td>
 <td>Number of parameter blocks (defaults to 1)</td>
 <td></td>
 </tr>
@@ -3139,8 +3017,8 @@ class="math inline"><em>n</em><em>p</em><em>a</em><em>r</em><em>a</em><em>m</em>
 <td></td>
 </tr>
 <tr>
-<td><em>If <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>s</em><em>t</em><em>a</em><em>b</em></span>
+<td><em>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_stab</annotation></semantics></math>
 gflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3152,8 +3030,7 @@ gflag is set:</em></td>
 <td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>m</em><em>a</em><em>x</em>_<em>s</em><em>e</em><em>l</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">max\_sel</annotation></semantics></math></td>
 <td>Maximum parameter selector value</td>
 <td></td>
 </tr>
@@ -3161,8 +3038,7 @@ class="math inline"><em>m</em><em>a</em><em>x</em>_<em>s</em><em>e</em><em>l</em
 <td></td>
 <td>variable</td>
 <td>array</td>
-<td><span
-class="math inline"><em>s</em><em>t</em><em>a</em><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">stab</annotation></semantics></math></td>
 <td>Parameter selector table</td>
 <td></td>
 </tr>
@@ -3183,12 +3059,12 @@ class="math inline"><em>s</em><em>t</em><em>a</em><em>b</em></span></td>
 <td></td>
 </tr>
 <tr>
-<td><em>Parameter block: repeated <span
-class="math inline"><em>n</em><em>p</em><em>a</em><em>r</em><em>a</em><em>m</em></span>
-times: (selected via <span
-class="math inline"><em>m</em><em>o</em><em>d</em><em>e</em><em>l</em>_<em>s</em><em>e</em><em>l</em></span>
-and <span
-class="math inline"><em>s</em><em>t</em><em>a</em><em>b</em></span>)</em></td>
+<td><em>Parameter block: repeated
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">nparam</annotation></semantics></math>
+times: (selected via
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">model\_sel</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">stab</annotation></semantics></math>)</em></td>
 <td></td>
 <td></td>
 <td></td>
@@ -3199,8 +3075,7 @@ class="math inline"><em>s</em><em>t</em><em>a</em><em>b</em></span>)</em></td>
 <td><span>2-7</span></td>
 <td>16</td>
 <td>uint16</td>
-<td><span
-class="math inline"><em>c</em><em>o</em><em>n</em><em>t</em><em>e</em><em>x</em><em>t</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>x</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">context</annotation></semantics></math></td>
 <td>Starting context value</td>
 <td></td>
 </tr>
@@ -3208,8 +3083,7 @@ class="math inline"><em>c</em><em>o</em><em>n</em><em>t</em><em>e</em><em>x</em>
 <td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>p</em><em>f</em><em>l</em><em>a</em><em>g</em><em>s</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">pflags</annotation></semantics></math></td>
 <td>Per-parameter block bit-flags. From lowest bit to highest:</td>
 <td></td>
 </tr>
@@ -3226,8 +3100,8 @@ class="math inline"><em>p</em><em>f</em><em>l</em><em>a</em><em>g</em><em>s</em>
 <td></td>
 <td></td>
 <td></td>
-<td>2: <span
-class="math inline"><em>d</em><em>o</em>_<em>d</em><em>e</em><em>d</em><em>u</em><em>p</em></span>:
+<td>2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>o</mi><mi>_</mi><mi>d</mi><mi>e</mi><mi>d</mi><mi>u</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">do\_dedup</annotation></semantics></math>:
 model_dup will be used</td>
 <td></td>
 </tr>
@@ -3236,8 +3110,8 @@ model_dup will be used</td>
 <td></td>
 <td></td>
 <td></td>
-<td>4: <span
-class="math inline"><em>d</em><em>o</em>_<em>l</em><em>e</em><em>n</em></span>:
+<td>4:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>o</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">do\_len</annotation></semantics></math>:
 model_len will be used for every record</td>
 <td></td>
 </tr>
@@ -3246,8 +3120,8 @@ model_len will be used for every record</td>
 <td></td>
 <td></td>
 <td></td>
-<td>8: <span
-class="math inline"><em>d</em><em>o</em>_<em>s</em><em>e</em><em>l</em></span>:
+<td>8:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>o</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">do\_sel</annotation></semantics></math>:
 model_sel will be used</td>
 <td></td>
 </tr>
@@ -3256,8 +3130,8 @@ model_sel will be used</td>
 <td></td>
 <td></td>
 <td></td>
-<td>16: <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>q</em><em>m</em><em>a</em><em>p</em></span>:
+<td>16:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>q</mi><mi>m</mi><mi>a</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">have\_qmap</annotation></semantics></math>:
 indicates quality map is present</td>
 <td></td>
 </tr>
@@ -3266,10 +3140,10 @@ indicates quality map is present</td>
 <td></td>
 <td></td>
 <td></td>
-<td>32: <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>p</em><em>t</em><em>a</em><em>b</em></span>:
-Load <span
-class="math inline"><em>p</em><em>t</em><em>a</em><em>b</em></span>,
+<td>32:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>p</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_ptab</annotation></semantics></math>:
+Load
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">ptab</annotation></semantics></math>,
 otherwise position contexts are unused</td>
 <td></td>
 </tr>
@@ -3278,10 +3152,10 @@ otherwise position contexts are unused</td>
 <td></td>
 <td></td>
 <td></td>
-<td>64: <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>d</em><em>t</em><em>a</em><em>b</em></span>:
-Load <span
-class="math inline"><em>d</em><em>t</em><em>a</em><em>b</em></span>,
+<td>64:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>d</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_dtab</annotation></semantics></math>:
+Load
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">dtab</annotation></semantics></math>,
 otherwise delta contexts are unused</td>
 <td></td>
 </tr>
@@ -3290,20 +3164,19 @@ otherwise delta contexts are unused</td>
 <td></td>
 <td></td>
 <td></td>
-<td>128: <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>q</em><em>t</em><em>a</em><em>b</em></span>:
-Load <span
-class="math inline"><em>q</em><em>t</em><em>a</em><em>b</em></span>,
-otherwise set <span
-class="math inline"><em>q</em><em>t</em><em>a</em><em>b</em><sub><em>i</em></sub> = <em>i</em></span></td>
+<td>128:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>q</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_qtab</annotation></semantics></math>:
+Load
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">qtab</annotation></semantics></math>,
+otherwise set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>t</mi><mi>a</mi><msub><mi>b</mi><mi>i</mi></msub><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">qtab_i = i</annotation></semantics></math></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
-<td><span
-class="math inline"><em>m</em><em>a</em><em>x</em>_<em>s</em><em>y</em><em>m</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">max\_sym</annotation></semantics></math></td>
 <td>Total number of distinct quality values</td>
 <td></td>
 </tr>
@@ -3311,8 +3184,7 @@ class="math inline"><em>m</em><em>a</em><em>x</em>_<em>s</em><em>y</em><em>m</em
 <td><span>2-7</span></td>
 <td>4</td>
 <td>uint4 (high)</td>
-<td><span
-class="math inline"><em>q</em><em>b</em><em>i</em><em>t</em><em>s</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>b</mi><mi>i</mi><mi>t</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">qbits</annotation></semantics></math></td>
 <td>Total number of bits for quality context</td>
 <td></td>
 </tr>
@@ -3320,8 +3192,7 @@ class="math inline"><em>q</em><em>b</em><em>i</em><em>t</em><em>s</em></span></t
 <td></td>
 <td>4</td>
 <td>uint4 (low)</td>
-<td><span
-class="math inline"><em>q</em><em>s</em><em>h</em><em>i</em><em>f</em><em>t</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>s</mi><mi>h</mi><mi>i</mi><mi>f</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">qshift</annotation></semantics></math></td>
 <td>Left bit shift per successive quality in quality context</td>
 <td></td>
 </tr>
@@ -3329,8 +3200,7 @@ class="math inline"><em>q</em><em>s</em><em>h</em><em>i</em><em>f</em><em>t</em>
 <td></td>
 <td>4</td>
 <td>uint4 (high)</td>
-<td><span
-class="math inline"><em>q</em><em>l</em><em>o</em><em>c</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>l</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">qloc</annotation></semantics></math></td>
 <td>Bit position of quality context</td>
 <td></td>
 </tr>
@@ -3338,8 +3208,7 @@ class="math inline"><em>q</em><em>l</em><em>o</em><em>c</em></span></td>
 <td></td>
 <td>4</td>
 <td>uint4 (low)</td>
-<td><span
-class="math inline"><em>s</em><em>l</em><em>o</em><em>c</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>l</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">sloc</annotation></semantics></math></td>
 <td>Bit position of selector context</td>
 <td></td>
 </tr>
@@ -3347,8 +3216,7 @@ class="math inline"><em>s</em><em>l</em><em>o</em><em>c</em></span></td>
 <td></td>
 <td>4</td>
 <td>uint4 (high)</td>
-<td><span
-class="math inline"><em>p</em><em>l</em><em>o</em><em>c</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>l</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">ploc</annotation></semantics></math></td>
 <td>Bit position of position context</td>
 <td></td>
 </tr>
@@ -3356,8 +3224,7 @@ class="math inline"><em>p</em><em>l</em><em>o</em><em>c</em></span></td>
 <td></td>
 <td>4</td>
 <td>uint4 (low)</td>
-<td><span
-class="math inline"><em>d</em><em>l</em><em>o</em><em>c</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>l</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">dloc</annotation></semantics></math></td>
 <td>Bit position of delta context</td>
 <td></td>
 </tr>
@@ -3371,8 +3238,8 @@ class="math inline"><em>d</em><em>l</em><em>o</em><em>c</em></span></td>
 </tr>
 <tr>
 <td></td>
-<td><em>If <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>q</em><em>m</em><em>a</em><em>p</em></span>
+<td><em>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>q</mi><mi>m</mi><mi>a</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">have\_qmap</annotation></semantics></math>
 pflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3383,10 +3250,8 @@ pflag is set:</em></td>
 <td><span>3-6</span></td>
 <td></td>
 <td>variable</td>
-<td>uint8[<span
-class="math inline"><em>m</em><em>a</em><em>x</em>_<em>s</em><em>y</em><em>m</em></span>]</td>
-<td><span
-class="math inline"><em>q</em><em>m</em><em>a</em><em>p</em></span></td>
+<td>uint8[<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">max\_sym</annotation></semantics></math>]</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>m</mi><mi>a</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">qmap</annotation></semantics></math></td>
 <td>Map for unbinning quality values.</td>
 </tr>
 <tr>
@@ -3399,8 +3264,8 @@ class="math inline"><em>q</em><em>m</em><em>a</em><em>p</em></span></td>
 </tr>
 <tr>
 <td></td>
-<td><em>If <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>q</em><em>t</em><em>a</em><em>b</em></span>
+<td><em>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>q</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_qtab</annotation></semantics></math>
 pflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3412,8 +3277,7 @@ pflag is set:</em></td>
 <td></td>
 <td>variable</td>
 <td>array</td>
-<td><span
-class="math inline"><em>q</em><em>t</em><em>a</em><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">qtab</annotation></semantics></math></td>
 <td>Quality context lookup table</td>
 </tr>
 <tr>
@@ -3426,8 +3290,8 @@ class="math inline"><em>q</em><em>t</em><em>a</em><em>b</em></span></td>
 </tr>
 <tr>
 <td></td>
-<td><em>If <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>t</em><em>a</em><em>b</em></span>
+<td><em>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_tab</annotation></semantics></math>
 pflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3439,8 +3303,7 @@ pflag is set:</em></td>
 <td></td>
 <td>variable</td>
 <td>array</td>
-<td><span
-class="math inline"><em>p</em><em>t</em><em>a</em><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">ptab</annotation></semantics></math></td>
 <td>Position context lookup table</td>
 </tr>
 <tr>
@@ -3453,8 +3316,8 @@ class="math inline"><em>p</em><em>t</em><em>a</em><em>b</em></span></td>
 </tr>
 <tr>
 <td></td>
-<td><em>If <span
-class="math inline"><em>h</em><em>a</em><em>v</em><em>e</em>_<em>t</em><em>a</em><em>b</em></span>
+<td><em>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_tab</annotation></semantics></math>
 pflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3466,8 +3329,7 @@ pflag is set:</em></td>
 <td></td>
 <td>variable</td>
 <td>array</td>
-<td><span
-class="math inline"><em>d</em><em>t</em><em>a</em><em>b</em></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">dtab</annotation></semantics></math></td>
 <td>Delta context lookup table</td>
 </tr>
 <tr>
@@ -3502,21 +3364,11 @@ $max\_sym \gets 0$ $param_p \gets$ $max\_sym \gets param_p.max\_sym$
 
 <div class="algorithmic">
 
-${}\gets$ ${}\gets$ ${}\gets$ ${}\gets$ $1$
+${}\gets$ ${}\gets$ ${}\gets$ ${}\gets$ 1
 
-${}\gets$ ${}\gets$ $x %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-16$ ${}\gets$ $x \bmod 16$ ${}\gets$ ${}\gets$ $x %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-16$ ${}\gets$ $x \bmod 16$ ${}\gets$ ${}\gets$ $x %
-  \nonscript\mskip-\medmuskip\mkern 5mu%
-  \mathbin{\operator@font div}\penalty 900\mkern 5mu%
-  \nonscript\mskip-\medmuskip
-16$ ${}\gets$ $x \bmod 16$
+${}\gets$ ${}\gets$ $x \text{div} 16$ ${}\gets$ $x \bmod 16$ ${}\gets$
+${}\gets$ $x \text{div} 16$ ${}\gets$ $x \bmod 16$ ${}\gets$ ${}\gets$
+$x \text{div} 16$ ${}\gets$ $x \bmod 16$
 
 $p.qmap_i \gets$
 
@@ -3551,10 +3403,10 @@ run length encoding.
 
 Assuming $m < n$ there will be runs of the same value. We measure run
 lengths for all values (even if they are zero). For example an array
-$A = \{0,1,3,4,5,6,7,7,7,7\}$ may be converted to run lengths $R =
-\{1,1,0,1,1,1,1,4\}$. To keep values in this array fitting within one
-byte, long runs are broken down in a successive series of 255 values, so
-a run of length 600 becomes 255 255 90.
+$A = \{0,1,3,4,5,6,7,7,7,7\}$ may be converted to run lengths
+$R = \{1,1,0,1,1,1,1,4\}$. To keep values in this array fitting within
+one byte, long runs are broken down in a successive series of 255
+values, so a run of length 600 becomes 255 255 90.
 
 This array $R$ is no longer monotonically increasing but may still have
 repeated values, so is run-length encoded by storing the number of
@@ -3626,10 +3478,9 @@ Read lengths are encoded as 4 8-bit bytes, each having its own model.
 <div class="algorithmic">
 
 $rec\_len \gets model\_len_0.$
-$rec\_len \gets rec\_len + (model\_len_1.$$\mathbin{<\mkern-3mu<\,}8)$
-$rec\_len \gets rec\_len + (model\_len_2.$$\mathbin{<\mkern-3mu<\,}16)$
-$rec\_len \gets rec\_len + (model\_len_3.$$\mathbin{<\mkern-3mu<\,}24)$
-$rec\_len$
+$rec\_len \gets rec\_len + (model\_len_1.$$\ll 8)$
+$rec\_len \gets rec\_len + (model\_len_2.$$\ll 16)$
+$rec\_len \gets rec\_len + (model\_len_3.$$\ll 24)$ $rec\_len$
 
 </div>
 

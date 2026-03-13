@@ -5,8 +5,8 @@ import Layout from '../layouts/Layout.astro';
 const specList = await getAllPosts();
 ---
 
-<Layout title="HTS Specifications">
-  <p>This site provides Markdown renderings of the HTS file format specifications.</p>
+<Layout title="hts-specs-md">
+  <p>This site provides Markdown renderings of the <a href="https://github.com/samtools/hts-specs">hts-specs</a> specifications.</p>
   <ul>
     {specList.map((spec) => (
       <li>

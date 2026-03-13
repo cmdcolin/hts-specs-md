@@ -163,12 +163,12 @@ for a BAI-style binning scheme. Note that in CSI *depth* refers to the
 scheme's maximal depth, i.e., the level number of the scheme's smallest
 bins, and the single-bin level spanning the entire coordinate range is
 level 0. Hence the BAI-style binning scheme, with six levels in total,
-is represented by $\mbox{\sf min\_shift} = 14, \mbox{\sf depth} = 5$.
+is represented by $\mathsf{min}\_shift = 14, \mathsf{depth} = 5$.
 
 CSI index files may contain metadata pseudo-bins for each reference
 sequence, with the same contents as BAI pseudo-bins. In CSI, the
 pseudo-bins have bin number
-$\mbox{\sf bin\_limit}(\mbox{\sf min\_shift}, \mbox{\sf depth}) + 1$.
+$\mathsf{bin}\_limit(\mathsf{min}\_shift, \mathsf{depth}) + 1$.
 
     /* calculate bin given an alignment covering [beg,end) (zero-based, half-close-half-open) */
     int reg2bin(int64_t beg, int64_t end, int min_shift, int depth)

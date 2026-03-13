@@ -606,10 +606,13 @@ data series</td>
 <tr>
 <td>byte[ ]</td>
 <td>block data</td>
-<td>the data stored in the block: <span class="math inline">•</span> bit
-stream of CRAM records (core data block) <span
-class="math inline">•</span> byte stream (external data block) <span
-class="math inline">•</span> additional fields ( header blocks)</td>
+<td>the data stored in the block:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>•</mi><annotation encoding="application/x-tex">\bullet</annotation></semantics></math>
+bit stream of CRAM records (core data block)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>•</mi><annotation encoding="application/x-tex">\bullet</annotation></semantics></math>
+byte stream (external data block)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>•</mi><annotation encoding="application/x-tex">\bullet</annotation></semantics></math>
+additional fields ( header blocks)</td>
 </tr>
 </tbody>
 </table>
@@ -2095,13 +2098,13 @@ value.
 
 1.  Write it in binary.
 
-2.  Subtract $1$ from the number of bits written in step 1 and prepend
+2.  Subtract 1 from the number of bits written in step 1 and prepend
     that many zeros.
 
 3.  An equivalent way to express the same process:
 
-4.  Separate the integer into the highest power of $2$ it contains
-    ($2N$) and the remaining $N$ binary digits of the integer.
+4.  Separate the integer into the highest power of 2 it contains ($2N$)
+    and the remaining $N$ binary digits of the integer.
 
 5.  Encode $N$ in unary; that is, as $N$ zeroes followed by a one.
 
@@ -2297,7 +2300,7 @@ $n$ it increases logarithmically.
 
 2.  Form a run of 0s of length
 
-    1.  $0$, if $i = 0$
+    1.  0, if $i = 0$
 
     2.  $2^{i+k-1}$, otherwise
 

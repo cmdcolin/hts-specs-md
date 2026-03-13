@@ -367,7 +367,8 @@ encoding<code>&lt;</code>byte<code>></code> bytes</td>
 <tr>
 <td>Deprecated (GOLOMB_RICE)</td>
 <td>8</td>
-<td>int offset, int log<span class="math inline"><sub>2</sub></span>m</td>
+<td>int offset, int
+log<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi></mi><mtext mathvariant="normal">2</mtext></msub><annotation encoding="application/x-tex">_{\text{2}}</annotation></semantics></math>m</td>
 <td>Golomb-Rice coding</td>
 </tr>
 <tr>
@@ -666,10 +667,13 @@ data series</td>
 <tr>
 <td>byte[ ]</td>
 <td>block data</td>
-<td>the data stored in the block: <span class="math inline">•</span> bit
-stream of CRAM records (core data block) <span
-class="math inline">•</span> byte stream (external data block) <span
-class="math inline">•</span> additional fields ( header blocks)</td>
+<td>the data stored in the block:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>•</mi><annotation encoding="application/x-tex">\bullet</annotation></semantics></math>
+bit stream of CRAM records (core data block)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>•</mi><annotation encoding="application/x-tex">\bullet</annotation></semantics></math>
+byte stream (external data block)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>•</mi><annotation encoding="application/x-tex">\bullet</annotation></semantics></math>
+additional fields ( header blocks)</td>
 </tr>
 <tr>
 <td>byte[4]</td>
@@ -3255,13 +3259,13 @@ value.
 
 1.  Write it in binary.
 
-2.  Subtract $1$ from the number of bits written in step 1 and prepend
+2.  Subtract 1 from the number of bits written in step 1 and prepend
     that many zeros.
 
 3.  An equivalent way to express the same process:
 
-4.  Separate the integer into the highest power of $2$ it contains
-    ($2N$) and the remaining $N$ binary digits of the integer.
+4.  Separate the integer into the highest power of 2 it contains ($2N$)
+    and the remaining $N$ binary digits of the integer.
 
 5.  Encode $N$ in unary; that is, as $N$ zeroes followed by a one.
 
@@ -3576,24 +3580,24 @@ We have 10,000 unmapped short reads (100bp) with read names,
 recalibrated and original quality scores. We estimate 0.4 bits/base
 (read names) + 0.4 bits/base (bases) + 3 bits/base (recalibrated quality
 scores) + 3 bits/base (original quality scores) $\approx$ 7 bits/base.
-Space estimate is $10\,000 \times 100 \times 7 \bits
-\approx 0.9 \MB$. Data could be stored in a single container.
+Space estimate is $10\,000 \times 100 \times 7 \bits \approx 0.9 \MB$.
+Data could be stored in a single container.
 
 **Unmapped long reads with bases, read names and quality scores**
 
 We have 10,000 unmapped long reads (10kb) with read names and quality
 scores. We estimate: 0.4 bits/base (bases) + 3 bits/base (original
 quality scores) $\approx$ 3.5 bits/base. Space estimate is
-$10\,000 \times 10\,000 \times 3.5 \bits
-\approx 42 \MB$. Data could be stored in $42 \times 1\MB$ containers.
+$10\,000 \times 10\,000 \times 3.5 \bits \approx 42 \MB$. Data could be
+stored in $42 \times 1\MB$ containers.
 
 **Mapped short reads with bases, pairing and mapping information**
 
 We have 250,000 mapped short reads (100bp) with bases, pairing and
 mapping information. We estimate the compression to be 0.2 bits/base.
-Space estimate is $250\,000 \times 100
-\times 0.2 \bits \approx 0.6 \MB$. Data could be stored in a single
-container.
+Space estimate is
+$250\,000 \times 100 \times 0.2 \bits \approx 0.6 \MB$. Data could be
+stored in a single container.
 
 **Embedded reference sequences**
 

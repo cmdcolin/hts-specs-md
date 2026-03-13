@@ -24,7 +24,7 @@ This printing is version 38f353f from the [hts-specs](https://github.com/samtool
 <td><code>magic</code></td>
 <td>Magic string</td>
 <td><span><code>char[4]</code></span></td>
-<td>TBI<span class="math inline">∖</span>1</td>
+<td>TBI<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∖</mi><annotation encoding="application/x-tex">\backslash</annotation></semantics></math>1</td>
 <td></td>
 <td></td>
 </tr>

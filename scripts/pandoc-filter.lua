@@ -171,9 +171,11 @@ function CodeBlock(el)
 end
 
 -- More precise conversion that preserves math and code tags
+local mathml_opts = pandoc.WriterOptions({html_math_method = "mathml"})
+
 local function blocks_to_html(blocks)
   local doc = pandoc.Pandoc(blocks)
-  local html = pandoc.write(doc, 'html')
+  local html = pandoc.write(doc, 'html', mathml_opts)
   -- Strip the surrounding paragraph tags if it's just one para
   if #blocks == 1 and blocks[1].t == "Para" then
     html = html:gsub("^<p>", ""):gsub("</p>%s*$", "")
@@ -309,10 +311,53 @@ function Table(el)
   return pandoc.RawBlock('html', table.concat(html, "\n"))
 end
 
+-- Simplify custom hts-specs LaTeX operators into standard LaTeX/text
+local function simplify_math_text(text)
+  -- Remove % comments (everything from % to end of line, including the newline)
+  text = text:gsub("%%[^\n]*\n%s*", " ")
+  text = text:gsub("%%[^\n]*$", "")
+  -- Remove spacing macros: \nonscript\mskip-\medmuskip\mkern 5mu
+  text = text:gsub("\\nonscript\\mskip%-\\medmuskip\\mkern%s*5mu", " ")
+  -- Remove standalone \nonscript\mskip-\medmuskip
+  text = text:gsub("\\nonscript\\mskip%-\\medmuskip", " ")
+  -- Remove \penalty NNN\mkern 5mu
+  text = text:gsub("\\penalty%s*%d+\\mkern%s*5mu", " ")
+  -- Replace \mathbin{\operator@font \textbf{word}} with the word
+  text = text:gsub("\\mathbin{\\operator@font%s+\\textbf{(%w+)}}", " \\textbf{%1} ")
+  -- Replace \mathbin{\operator@font WORD} with the word
+  text = text:gsub("\\mathbin{\\operator@font%s+(%w+)}", " \\text{%1} ")
+  -- Replace shift operators: \mathbin{<\mkern-3mu<\,} -> \ll
+  text = text:gsub("\\mathbin{<\\mkern%-3mu<\\,}", "\\ll ")
+  -- Replace shift operators: \mathbin{>\mkern-3mu>\,} -> \gg
+  text = text:gsub("\\mathbin{>\\mkern%-3mu>\\,}", "\\gg ")
+  -- Replace concat: \mathbin{+\mkern-10mu+\,} -> ++
+  text = text:gsub("\\mathbin{%+\\mkern%-10mu%+\\,}", "\\mathbin{++}")
+  -- Replace \underline{content} with content (pandoc can't do underline in math)
+  text = text:gsub("\\underline{([^}]*)}", "%1")
+  -- Replace \mbox{content} with content (not supported in pandoc math)
+  text = text:gsub("\\mbox{([^}]*)}", "%1")
+  -- Replace {\sf content} with \mathsf{content} (pandoc doesn't support \sf in math)
+  text = text:gsub("{\\sf%s+([^}]*)}", "\\mathsf{%1}")
+  -- Replace bare \sf WORD with \mathsf{WORD}
+  text = text:gsub("\\sf%s+([%w_]+)", "\\mathsf{%1}")
+  -- Clean up multiple spaces
+  text = text:gsub("%s+", " ")
+  text = text:gsub("^%s+", ""):gsub("%s+$", "")
+  return text
+end
+
 function Math(el)
   if el.mathtype == "InlineMath" then
+    -- Simplify custom LaTeX operators
+    el.text = simplify_math_text(el.text)
+
     -- Handle special case for < and > which are often written as math in LaTeX
     if el.text == "<" or el.text == ">" then
+      return pandoc.Str(el.text)
+    end
+
+    -- Pure numbers don't need math rendering
+    if el.text:match("^%d+$") then
       return pandoc.Str(el.text)
     end
 

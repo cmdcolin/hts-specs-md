@@ -78,17 +78,17 @@ INFO fields should be described as follows (all keys are required):
 Possible Types for INFO fields are: Integer, Float, Flag, Character, and
 String. The Number entry is an Integer that describes the number of
 values that can be included with the INFO field. For example, if the
-INFO field contains a single number, then this value should be $1$; if
-the INFO field describes a pair of numbers, then this value should be
-$2$ and so on. If the field has one value per alternate allele then this
-value should be 'A'; if the field has one value for each possible
-genotype (more relevant to the FORMAT tags) then this value should be
-'G'. If the number of possible values varies, is unknown, or is
-unbounded, then this value should be '.'. The 'Flag' type indicates that
-the INFO field does not contain a Value entry, and hence the Number
-should be $0$ in this case. The Description value must be surrounded by
-double-quotes. Double-quote character can be escaped with backslash
-$\backslash$ and backslash as $\backslash\backslash$.
+INFO field contains a single number, then this value should be 1; if the
+INFO field describes a pair of numbers, then this value should be 2 and
+so on. If the field has one value per alternate allele then this value
+should be 'A'; if the field has one value for each possible genotype
+(more relevant to the FORMAT tags) then this value should be 'G'. If the
+number of possible values varies, is unknown, or is unbounded, then this
+value should be '.'. The 'Flag' type indicates that the INFO field does
+not contain a Value entry, and hence the Number should be 0 in this
+case. The Description value must be surrounded by double-quotes.
+Double-quote character can be escaped with backslash $\backslash$ and
+backslash as $\backslash\backslash$.
 
 ### 1.2.3 Filter field format <a href="#filter-field-format" class="header-anchor">#</a>
 
@@ -610,8 +610,8 @@ Representing these as VCF records would be done as follows:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">3</span></td>
+<td>20</td>
+<td>3</td>
 <td>.</td>
 <td>C</td>
 <td>G</td>
@@ -620,8 +620,8 @@ Representing these as VCF records would be done as follows:
 <td>DP=100</td>
 </tr>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">2</span></td>
+<td>20</td>
+<td>2</td>
 <td>.</td>
 <td>TC</td>
 <td>T</td>
@@ -630,8 +630,8 @@ Representing these as VCF records would be done as follows:
 <td>DP=100</td>
 </tr>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">2</span></td>
+<td>20</td>
+<td>2</td>
 <td>.</td>
 <td>TC</td>
 <td>TCA</td>
@@ -662,12 +662,12 @@ represent these three segregating alleles:
 <td>C is the reference base</td>
 </tr>
 <tr>
-<td><span class="math inline">1</span></td>
+<td>1</td>
 <td>a t G g a</td>
 <td>C base is a G in some individuals</td>
 </tr>
 <tr>
-<td><span class="math inline">2</span></td>
+<td>2</td>
 <td>a t  -  g a</td>
 <td>C base is deleted w.r.t. the reference sequence</td>
 </tr>
@@ -692,8 +692,8 @@ corresponding VCF record:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">2</span></td>
+<td>20</td>
+<td>2</td>
 <td>.</td>
 <td>TC</td>
 <td>TG,T</td>
@@ -723,17 +723,17 @@ Now suppose I have this more complex example:
 <td>C is the reference base</td>
 </tr>
 <tr>
-<td><span class="math inline">1</span></td>
+<td>1</td>
 <td>a t  -  g a</td>
 <td>C base is is deleted w.r.t. the reference sequence</td>
 </tr>
 <tr>
-<td><span class="math inline">2</span></td>
+<td>2</td>
 <td>a t  - -  a</td>
 <td>C and G bases are deleted w.r.t. the reference sequence</td>
 </tr>
 <tr>
-<td><span class="math inline">3</span></td>
+<td>3</td>
 <td>a t CAg a</td>
 <td>A base is inserted w.r.t. the reference sequence</td>
 </tr>
@@ -758,8 +758,8 @@ bases 2-4. This complex set of allele is represented in VCF as:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">2</span></td>
+<td>20</td>
+<td>2</td>
 <td>.</td>
 <td>TCG</td>
 <td>TG,T,TCAG</td>
@@ -798,8 +798,8 @@ Suppose I receive the following VCF record:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">3</span></td>
+<td>20</td>
+<td>3</td>
 <td>.</td>
 <td>C</td>
 <td>T</td>
@@ -828,7 +828,7 @@ two alleles so I have the two following segregating haplotypes:
 <td>C is the reference base</td>
 </tr>
 <tr>
-<td><span class="math inline">1</span></td>
+<td>1</td>
 <td><code>a t T g a</code></td>
 <td>C base is a T in some individuals</td>
 </tr>
@@ -854,8 +854,8 @@ Suppose I receive the following VCF record:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">3</span></td>
+<td>20</td>
+<td>3</td>
 <td>.</td>
 <td>C</td>
 <td>CTAG</td>
@@ -885,7 +885,7 @@ only two alleles so I have the two following segregating haplotypes:
 <td>C is the reference base</td>
 </tr>
 <tr>
-<td><span class="math inline">1</span></td>
+<td>1</td>
 <td><code>a t C T A G g a</code></td>
 <td>following the C base is an insertion of 3 bases</td>
 </tr>
@@ -911,8 +911,8 @@ Suppose I receive the following VCF record:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">2</span></td>
+<td>20</td>
+<td>2</td>
 <td>.</td>
 <td>TCG</td>
 <td>T</td>
@@ -942,7 +942,7 @@ only two alleles so I have the two following segregating haplotypes:
 <td>T is the (first) reference base</td>
 </tr>
 <tr>
-<td><span class="math inline">1</span></td>
+<td>1</td>
 <td><code>a T - - a</code></td>
 <td>following the T base is a deletion of 2 bases</td>
 </tr>
@@ -969,8 +969,8 @@ Suppose I receive the following VCF record:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">20</span></td>
-<td><span class="math inline">4</span></td>
+<td>20</td>
+<td>4</td>
 <td>.</td>
 <td>GCG</td>
 <td>G,GCGCG</td>
@@ -1000,12 +1000,12 @@ following haplotypes:
 <td>G is the (first) reference base</td>
 </tr>
 <tr>
-<td><span class="math inline">1</span></td>
+<td>1</td>
 <td><code>a t c G - - - - a</code></td>
 <td>following the G base is a deletion of 2 bases</td>
 </tr>
 <tr>
-<td><span class="math inline">2</span></td>
+<td>2</td>
 <td><code>a t c G C G C G a</code></td>
 <td>following the G base is a insertion of 2 bases</td>
 </tr>
@@ -1032,12 +1032,12 @@ alignment:
 <td>G is the (first) reference base</td>
 </tr>
 <tr>
-<td><span class="math inline">1</span></td>
+<td>1</td>
 <td><code>a t c G - - - - a</code></td>
 <td>following the G base is a deletion of 2 bases</td>
 </tr>
 <tr>
-<td><span class="math inline">2</span></td>
+<td>2</td>
 <td><code>a t c G C G C G a</code></td>
 <td>following the G base is a insertion of 2 bases</td>
 </tr>
@@ -1110,7 +1110,7 @@ The example shows in order:
 class="header-anchor">#</a>
 
 An arbitrary rearrangement event can be summarized as a set of novel
-**adjacencies**. Each adjacency ties together $2$ **breakends**. The two
+**adjacencies**. Each adjacency ties together 2 **breakends**. The two
 breakends at either end of a novel adjacency are called **mates**.
 
 There is one line of VCF (i.e. one record) for each of the two breakends
@@ -1147,22 +1147,22 @@ then some piece starting at position p is joined to t. The cases are:
 <tbody>
 <tr>
 <td>s</td>
-<td>t<span class="math inline">[</span>p<span class="math inline">[</span></td>
+<td>t<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math>p<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math></td>
 <td>piece extending to the right of p is joined after t</td>
 </tr>
 <tr>
 <td>s</td>
-<td>t<span class="math inline">]</span>p<span class="math inline">]</span></td>
+<td>t<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="postfix">]</mo><annotation encoding="application/x-tex">]</annotation></semantics></math>p<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="postfix">]</mo><annotation encoding="application/x-tex">]</annotation></semantics></math></td>
 <td>reverse comp piece extending left of p is joined after t</td>
 </tr>
 <tr>
 <td>s</td>
-<td><span class="math inline">]</span>p<span class="math inline">]</span>t</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="postfix">]</mo><annotation encoding="application/x-tex">]</annotation></semantics></math>p<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="postfix">]</mo><annotation encoding="application/x-tex">]</annotation></semantics></math>t</td>
 <td>piece extending to the left of p is joined before t</td>
 </tr>
 <tr>
 <td>s</td>
-<td><span class="math inline">[</span>p<span class="math inline">[</span>t</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math>p<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math>t</td>
 <td>reverse comp piece extending right of p is joined before t</td>
 </tr>
 </tbody>
@@ -1193,67 +1193,61 @@ style="width:4in;height:2.96in" />
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">2</span></td>
-<td><span class="math inline">321681</span></td>
+<td>2</td>
+<td>321681</td>
 <td>bnd_W</td>
 <td>G</td>
-<td>G<span class="math inline">]17</span>:<span
-class="math inline">198982]</span></td>
-<td><span class="math inline">6</span></td>
+<td>G<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">]17</annotation></semantics></math>:<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>198982</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">198982]</annotation></semantics></math></td>
+<td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td><span class="math inline">2</span></td>
-<td><span class="math inline">321682</span></td>
+<td>2</td>
+<td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">]</span>13:123456<span
-class="math inline">]</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="postfix">]</mo><annotation encoding="application/x-tex">]</annotation></semantics></math>13:123456<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="postfix">]</mo><annotation encoding="application/x-tex">]</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123456</span></td>
+<td>13</td>
+<td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[</span>2:321682<span
-class="math inline">[</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math>2:321682<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123457</span></td>
+<td>13</td>
+<td>123457</td>
 <td>bnd_X</td>
 <td>A</td>
-<td><span class="math inline">[</span>17:198983<span
-class="math inline">[</span>A</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math>17:198983<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math>A</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td><span class="math inline">17</span></td>
-<td><span class="math inline">198982</span></td>
+<td>17</td>
+<td>198982</td>
 <td>bnd_Y</td>
 <td>A</td>
-<td>A<span class="math inline">]</span>2:321681<span
-class="math inline">]</span></td>
+<td>A<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="postfix">]</mo><annotation encoding="application/x-tex">]</annotation></semantics></math>2:321681<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="postfix">]</mo><annotation encoding="application/x-tex">]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td><span class="math inline">17</span></td>
-<td><span class="math inline">198983</span></td>
+<td>17</td>
+<td>198983</td>
 <td>bnd_Z</td>
 <td>C</td>
-<td><span class="math inline">[</span>13:123457<span
-class="math inline">[</span>C</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math>13:123457<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo stretchy="false" form="prefix">[</mo><annotation encoding="application/x-tex">[</annotation></semantics></math>C</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
@@ -1287,22 +1281,22 @@ style="width:4in;height:1.89in" />
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">2</span></td>
-<td><span class="math inline">321682</span></td>
+<td>2</td>
+<td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">]13 : 123456]</span>AGTNNNNNCAT</td>
-<td><span class="math inline">6</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>13</mn><mo>:</mo><mn>123456</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]13:123456]</annotation></semantics></math>AGTNNNNNCAT</td>
+<td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U</td>
 </tr>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123456</span></td>
+<td>13</td>
+<td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>CAGTNNNNNCA<span class="math inline">[2 : 321682[</span></td>
-<td><span class="math inline">6</span></td>
+<td>CAGTNNNNNCA<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>321682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:321682[</annotation></semantics></math></td>
+<td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V</td>
 </tr>
@@ -1336,24 +1330,22 @@ style="width:4in;height:2.47in" />
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123456</span></td>
+<td>13</td>
+<td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[&lt;</span>ctg1<span
-class="math inline"> &gt;  : 1[</span></td>
-<td><span class="math inline">6</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">[&lt;</annotation></semantics></math>ctg1<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mo>:</mo><mn>1</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">&gt;:1[</annotation></semantics></math></td>
+<td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123457</span></td>
+<td>13</td>
+<td>123457</td>
 <td>bnd_V</td>
 <td>A</td>
-<td><span class="math inline">]&lt;</span>ctg<span
-class="math inline">1 &gt;  : 329]</span>A</td>
-<td><span class="math inline">6</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">]&lt;</annotation></semantics></math>ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo><mo>:</mo><mn>329</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">1&gt;:329]</annotation></semantics></math>A</td>
+<td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
@@ -1379,20 +1371,20 @@ described above:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">321682</span></td>
+<td>13</td>
+<td>321682</td>
 <td>INS0</td>
 <td>T</td>
-<td>C&lt;ctg<span class="math inline">1&gt;</span></td>
-<td><span class="math inline">6</span></td>
+<td>C&lt;ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">1&gt;</annotation></semantics></math></td>
+<td>6</td>
 <td>PASS</td>
 <td>SVTYPE=INS</td>
 </tr>
 </tbody>
 </table>
 
-If only a portion of \<ctg$1>$, say from position $7$ to position $214$,
-is inserted, the VCF would be:
+If only a portion of \<ctg$1>$, say from position 7 to position 214, is
+inserted, the VCF would be:
 
 <table>
 <thead>
@@ -1409,24 +1401,22 @@ is inserted, the VCF would be:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123456</span></td>
+<td>13</td>
+<td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[&lt;</span>ctg1<span
-class="math inline"> &gt;  : 7[</span></td>
-<td><span class="math inline">6</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">[&lt;</annotation></semantics></math>ctg1<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mo>:</mo><mn>7</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">&gt;:7[</annotation></semantics></math></td>
+<td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123457</span></td>
+<td>13</td>
+<td>123457</td>
 <td>bnd_V</td>
 <td>A</td>
-<td><span class="math inline">]&lt;</span>ctg<span
-class="math inline">1 &gt;  : 214]</span>A</td>
-<td><span class="math inline">6</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">]&lt;</annotation></semantics></math>ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo><mo>:</mo><mn>214</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">1&gt;:214]</annotation></semantics></math>A</td>
+<td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
@@ -1452,45 +1442,41 @@ is represented by adding a circular adjacency:
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123456</span></td>
+<td>13</td>
+<td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[&lt;</span>ctg<span
-class="math inline">1 &gt;  : 229[</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">[&lt;</annotation></semantics></math>ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo><mo>:</mo><mn>229</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">1&gt;:229[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123457</span></td>
+<td>13</td>
+<td>123457</td>
 <td>bnd_V</td>
 <td>A</td>
-<td><span class="math inline">]&lt;</span>ctg<span
-class="math inline">1 &gt;  : 45]</span>A</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">]&lt;</annotation></semantics></math>ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo><mo>:</mo><mn>45</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">1&gt;:45]</annotation></semantics></math>A</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td>&lt;ctg<span class="math inline">1&gt;</span></td>
+<td>&lt;ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">1&gt;</annotation></semantics></math></td>
 <td>1</td>
 <td>bnd_X</td>
 <td>A</td>
-<td><span class="math inline">]&lt;</span>ctg<span
-class="math inline">1 &gt;  : 329]</span>A</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">]&lt;</annotation></semantics></math>ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo><mo>:</mo><mn>329</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">1&gt;:329]</annotation></semantics></math>A</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
 </tr>
 <tr>
-<td>&lt;ctg<span class="math inline">1&gt;</span></td>
+<td>&lt;ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">1&gt;</annotation></semantics></math></td>
 <td>329</td>
 <td>bnd_Y</td>
 <td>T</td>
-<td>T<span class="math inline">[&lt;</span>ctg<span
-class="math inline">1 &gt;  : 1[</span></td>
+<td>T<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">[&lt;</annotation></semantics></math>ctg<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&gt;</mo><mo>:</mo><mn>1</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">1&gt;:1[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND</td>
@@ -1525,32 +1511,31 @@ style="width:4in;height:2.8in" />
 </thead>
 <tbody>
 <tr>
-<td><span class="math inline">2</span></td>
-<td><span class="math inline">321682</span></td>
+<td>2</td>
+<td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">]13 : 123456]</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>13</mn><mo>:</mo><mn>123456</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]13:123456]</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U</td>
 </tr>
 <tr>
-<td><span class="math inline">13</span></td>
-<td><span class="math inline">123456</span></td>
+<td>13</td>
+<td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[2 : 321682[</span>,C<span
-class="math inline">[17 : 198983[</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>321682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:321682[</annotation></semantics></math>,C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>17</mn><mo>:</mo><mn>198983</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[17:198983[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V,bnd_Z</td>
 </tr>
 <tr>
-<td><span class="math inline">17</span></td>
-<td><span class="math inline">198983</span></td>
+<td>17</td>
+<td>198983</td>
 <td>bnd_Z</td>
 <td>A</td>
-<td><span class="math inline">]13 : 123456]</span>A</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>13</mn><mo>:</mo><mn>123456</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]13:123456]</annotation></semantics></math>A</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U</td>
@@ -1591,7 +1576,7 @@ Figure 5.:
 <td>321681</td>
 <td>bnd_W</td>
 <td>G</td>
-<td>G<span class="math inline">[13 : 123460[</span></td>
+<td>G<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>13</mn><mo>:</mo><mn>123460</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[13:123460[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>PARID=bnd_V;MATEID=bnd_X</td>
@@ -1601,7 +1586,7 @@ Figure 5.:
 <td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">]13 : 123456]</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>13</mn><mo>:</mo><mn>123456</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]13:123456]</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>PARID=bnd_W;MATEID=bnd_U</td>
@@ -1611,7 +1596,7 @@ Figure 5.:
 <td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[2 : 321682[</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>321682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:321682[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>PARID=bnd_X;MATEID=bnd_V</td>
@@ -1621,7 +1606,7 @@ Figure 5.:
 <td>123460</td>
 <td>bnd_X</td>
 <td>A</td>
-<td><span class="math inline">]2 : 321681]</span>A</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>321681</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:321681]</annotation></semantics></math>A</td>
 <td>6</td>
 <td>PASS</td>
 <td>PARID=bnd_U;MATEID=bnd_W</td>
@@ -1665,7 +1650,7 @@ the records would look like:
 <td>0</td>
 <td>bnd_X</td>
 <td>N</td>
-<td><span class="math inline">.[13 : 123457[</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mo stretchy="false" form="prefix">[</mo><mn>13</mn><mo>:</mo><mn>123457</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">.[13:123457[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V</td>
@@ -1675,7 +1660,7 @@ the records would look like:
 <td>1</td>
 <td>bnd_Y</td>
 <td>T</td>
-<td><span class="math inline">]13 : 123456]</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>13</mn><mo>:</mo><mn>123456</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]13:123456]</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U</td>
@@ -1685,7 +1670,7 @@ the records would look like:
 <td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[1 : 1[</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>:</mo><mn>1</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[1:1[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_Y</td>
@@ -1695,7 +1680,7 @@ the records would look like:
 <td>123457</td>
 <td>bnd_V</td>
 <td>A</td>
-<td><span class="math inline">]1 : 0]</span>A</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>1</mn><mo>:</mo><mn>0</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]1:0]</annotation></semantics></math>A</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_X</td>
@@ -1736,7 +1721,7 @@ would be described as:
 <td>321681</td>
 <td>bnd_W</td>
 <td>G</td>
-<td>G<span class="math inline">[13 : 123457[</span></td>
+<td>G<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>13</mn><mo>:</mo><mn>123457</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[13:123457[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_X;EVENT=RR0</td>
@@ -1746,7 +1731,7 @@ would be described as:
 <td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">]13 : 123456]</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>13</mn><mo>:</mo><mn>123456</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]13:123456]</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U;EVENT=RR0</td>
@@ -1756,7 +1741,7 @@ would be described as:
 <td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[2 : 321682[</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>321682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:321682[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V;EVENT=RR0</td>
@@ -1766,7 +1751,7 @@ would be described as:
 <td>123457</td>
 <td>bnd_X</td>
 <td>A</td>
-<td><span class="math inline">]2 : 321681]</span>A</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>321681</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:321681]</annotation></semantics></math>A</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_W;EVENT=RR0</td>
@@ -1834,7 +1819,7 @@ or one describes the breakends:
 <td>321681</td>
 <td>bnd_W</td>
 <td>G</td>
-<td>G<span class="math inline">]2 : 421681]</span></td>
+<td>G<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>421681</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:421681]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U;EVENT=INV0</td>
@@ -1844,7 +1829,7 @@ or one describes the breakends:
 <td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">[2 : 421682[</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>421682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:421682[</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_X;EVENT=INV0</td>
@@ -1854,7 +1839,7 @@ or one describes the breakends:
 <td>421681</td>
 <td>bnd_U</td>
 <td>A</td>
-<td>A<span class="math inline">]2 : 321681]</span></td>
+<td>A<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>321681</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:321681]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_W;EVENT=INV0</td>
@@ -1864,7 +1849,7 @@ or one describes the breakends:
 <td>421682</td>
 <td>bnd_X</td>
 <td>C</td>
-<td><span class="math inline">[2 : 321682[</span>C</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>321682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:321682[</annotation></semantics></math>C</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V;EVENT=INV0</td>
@@ -1915,7 +1900,7 @@ interval of possibility:
 <td>321681</td>
 <td>bnd_V</td>
 <td>T</td>
-<td>T<span class="math inline">]13 : 123462]</span></td>
+<td>T<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>13</mn><mo>:</mo><mn>123462</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]13:123462]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U;CIPOS=0,6</td>
@@ -1925,7 +1910,7 @@ interval of possibility:
 <td>123456</td>
 <td>bnd_U</td>
 <td>A</td>
-<td>A<span class="math inline">]2 : 321687]</span></td>
+<td>A<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>321687</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:321687]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V;CIPOS=0,6</td>
@@ -1993,7 +1978,7 @@ situation would be:
 <td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">]13 : 123456]</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>13</mn><mo>:</mo><mn>123456</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]13:123456]</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U</td>
@@ -2003,7 +1988,7 @@ situation would be:
 <td>123456</td>
 <td>bnd_U</td>
 <td>C</td>
-<td>C<span class="math inline">[2 : 321682[</span></td>
+<td>C<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>321682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:321682[</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V</td>
@@ -2170,52 +2155,52 @@ the example of the inversion just above, the VCF code could become:
 <td>321681</td>
 <td>bnd_W</td>
 <td>G</td>
-<td>G<span class="math inline">]2 : 421681]</span></td>
+<td>G<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>421681</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:421681]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U</td>
 <td>GT:DPADJ</td>
 <td>0:32</td>
-<td><span class="math inline">0|1 : 9, 21</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo stretchy="false" form="prefix">|</mo><mn>1</mn><mo>:</mo><mn>9</mn><mo>,</mo><mn>21</mn></mrow><annotation encoding="application/x-tex">0|1:9,21</annotation></semantics></math></td>
 </tr>
 <tr>
 <td>2</td>
 <td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">[2 : 421682[</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>421682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:421682[</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_X</td>
 <td>GT:DPADJ</td>
 <td>0:29</td>
-<td><span class="math inline">0|1 : 11, 25</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo stretchy="false" form="prefix">|</mo><mn>1</mn><mo>:</mo><mn>11</mn><mo>,</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">0|1:11,25</annotation></semantics></math></td>
 </tr>
 <tr>
 <td>13</td>
 <td>421681</td>
 <td>bnd_U</td>
 <td>A</td>
-<td>A<span class="math inline">]2 : 321681]</span></td>
+<td>A<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>321681</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:321681]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_W</td>
 <td>GT:DPADJ</td>
 <td>0:34</td>
-<td><span class="math inline">0|1 : 10, 23</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo stretchy="false" form="prefix">|</mo><mn>1</mn><mo>:</mo><mn>10</mn><mo>,</mo><mn>23</mn></mrow><annotation encoding="application/x-tex">0|1:10,23</annotation></semantics></math></td>
 </tr>
 <tr>
 <td>13</td>
 <td>421682</td>
 <td>bnd_X</td>
 <td>C</td>
-<td><span class="math inline">[2 : 321682[</span>C</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>321682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:321682[</annotation></semantics></math>C</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V</td>
 <td>GT:DPADJ</td>
 <td>0:31</td>
-<td><span class="math inline">0|1 : 8, 20</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo stretchy="false" form="prefix">|</mo><mn>1</mn><mo>:</mo><mn>8</mn><mo>,</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">0|1:8,20</annotation></semantics></math></td>
 </tr>
 </tbody>
 </table>
@@ -2250,7 +2235,7 @@ data:
 <td>321681</td>
 <td>bnd_W</td>
 <td>G</td>
-<td>G<span class="math inline">]2 : 421681]</span></td>
+<td>G<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>421681</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:421681]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_U</td>
@@ -2263,7 +2248,7 @@ data:
 <td>321682</td>
 <td>bnd_V</td>
 <td>T</td>
-<td><span class="math inline">[2 : 421682[</span>T</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>421682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:421682[</annotation></semantics></math>T</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_X</td>
@@ -2276,7 +2261,7 @@ data:
 <td>421681</td>
 <td>bnd_U</td>
 <td>A</td>
-<td>A<span class="math inline">]2 : 321681]</span></td>
+<td>A<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">]</mo><mn>2</mn><mo>:</mo><mn>321681</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">]2:321681]</annotation></semantics></math></td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_W</td>
@@ -2289,7 +2274,7 @@ data:
 <td>421682</td>
 <td>bnd_X</td>
 <td>C</td>
-<td><span class="math inline">[2 : 321682[</span>C</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>2</mn><mo>:</mo><mn>321682</mn><mo stretchy="false" form="prefix">[</mo></mrow><annotation encoding="application/x-tex">[2:321682[</annotation></semantics></math>C</td>
 <td>6</td>
 <td>PASS</td>
 <td>SVTYPE=BND;MATEID=bnd_V</td>
@@ -3181,9 +3166,10 @@ Examples:
 <thead>
 <tr>
 <th>0/1</th>
-<th>in standard format <span
-class="math inline">(0 + 1) &lt;  &lt; 1 ∣ 0</span> followed by <span
-class="math inline">(1 + 1) &lt;  &lt; 1 ∣ 0</span></th>
+<th>in standard format
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><mo>&lt;</mo><mn>1</mn><mo>∣</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">(0 + 1) &lt;&lt; 1 \mid 0</annotation></semantics></math>
+followed by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><mo>&lt;</mo><mn>1</mn><mo>∣</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">(1 + 1) &lt;&lt; 1 \mid 0</annotation></semantics></math></th>
 <th>0x02 04</th>
 </tr>
 </thead>
@@ -3194,9 +3180,9 @@ class="math inline">(1 + 1) &lt;  &lt; 1 ∣ 0</span></th>
 <td>0x02 04 04 04 02 02</td>
 </tr>
 <tr>
-<td><span class="math inline">0 ∣ 1</span></td>
-<td><span class="math inline">(1 + 1) &lt;  &lt; 1 ∣ 1</span> = 0x05
-preceded by the standard first byte value 0x02</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>∣</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0\mid1</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><mo>&lt;</mo><mn>1</mn><mo>∣</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">(1 + 1) &lt;&lt; 1 \mid 1</annotation></semantics></math>
+= 0x05 preceded by the standard first byte value 0x02</td>
 <td>0x02 05</td>
 </tr>
 <tr>
@@ -3220,7 +3206,7 @@ preceded by the standard first byte value 0x02</td>
 <td>0x02 04 06</td>
 </tr>
 <tr>
-<td><span class="math inline">0/1 ∣ 2</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>1</mn><mo>∣</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">0/1\mid2</annotation></semantics></math></td>
 <td>is tetraploid with a single phased allele</td>
 <td>0x02 04 07</td>
 </tr>

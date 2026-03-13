@@ -9,7 +9,7 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{title} - HTS Specs</title>
+    <title>{title} - hts-specs-md</title>
     <style is:global>
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -189,6 +189,10 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
       nav {
         margin-bottom: 2rem;
       }
+      nav {
+        display: flex;
+        gap: 1rem;
+      }
       nav a {
         text-decoration: none;
         color: #0366d6;
@@ -197,7 +201,8 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
   </head>
   <body>
     <nav>
-      <a href={base}>HTS Specs</a>
+      <a href={base}>hts-specs-md</a>
+      <a href={`${base}/about`}>About</a>
     </nav>
     <main>
       <h1>{title}</h1>

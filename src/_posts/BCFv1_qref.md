@@ -128,9 +128,9 @@ This printing is version 39feb09 from the [hts-specs](https://github.com/samtool
 <tr>
 <td><span><code>GL</code></span></td>
 <td><span><code>float[n*G]</code></span></td>
-<td>Log10 likelihood of data; <span
-class="math inline">$G=\frac{A(A+1)}{2}$</span>, <span
-class="math inline"><em>A</em> = #{<em>a</em><em>l</em><em>l</em><em>e</em><em>l</em><em>e</em><em>s</em>}</span></td>
+<td>Log10 likelihood of data;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mfrac><mrow><mi>A</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">G=\frac{A(A+1)}{2}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>#</mi><mo stretchy="false" form="prefix">{</mo><mi>a</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>l</mi><mi>e</mi><mi>s</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">A=\#\{alleles\}</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span><code>GT</code></span></td>
@@ -140,10 +140,10 @@ class="math inline"><em>A</em> = #{<em>a</em><em>l</em><em>l</em><em>e</em><
 <tr>
 <td><span><code>_GT</code></span></td>
 <td><span><code>uint8_t+uint8_t[n*P]</code></span></td>
-<td><span>Generic GT; the first int equals the max ploidy <span
-class="math inline"><em>P</em></span>. If the highest bit is set, the
-allele is not present (e.g. due to different ploidy between
-samples).</span></td>
+<td><span>Generic GT; the first int equals the max ploidy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>.
+If the highest bit is set, the allele is not present (e.g. due to
+different ploidy between samples).</span></td>
 </tr>
 <tr>
 <td><span><code>GQ</code></span></td>
@@ -183,8 +183,9 @@ samples).</span></td>
 <tr>
 <td><em>Integer</em></td>
 <td><span><code>int32_t[n*X]</code></span></td>
-<td><span>Fix-sized custom Integer; <span
-class="math inline"><em>X</em></span> defined in the header</span></td>
+<td><span>Fix-sized custom Integer;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+defined in the header</span></td>
 </tr>
 <tr>
 <td><em>Numeric</em></td>

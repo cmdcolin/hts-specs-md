@@ -296,8 +296,8 @@ field is used in the alignment records in <span>RNAME</span> and
 <tr>
 <td><span>2-3</span></td>
 <td><span><code>LN</code></span>*</td>
-<td>Reference sequence length. <em>Range</em>: <span
-class="math inline">[1, 2<sup>31</sup> − 1]</span></td>
+<td>Reference sequence length. <em>Range</em>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[1,\,2^{31}-1]</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span>2-3</span></td>
@@ -701,7 +701,7 @@ overview of these mandatory fields in the SAM format:
 <td>2</td>
 <td><span>FLAG</span></td>
 <td>Int</td>
-<td><span class="math inline">[0, 2<sup>16</sup> − 1]</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mspace width="0.167em"></mspace><msup><mn>2</mn><mn>16</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,\,2^{16}-1]</annotation></semantics></math></td>
 <td>bitwise FLAG</td>
 </tr>
 <tr>
@@ -715,14 +715,14 @@ overview of these mandatory fields in the SAM format:
 <td>4</td>
 <td><span>POS</span></td>
 <td>Int</td>
-<td><span class="math inline">[0, 2<sup>31</sup> − 1]</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mspace width="0.167em"></mspace><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,\,2^{31}-1]</annotation></semantics></math></td>
 <td>1-based leftmost mapping POSition</td>
 </tr>
 <tr>
 <td>5</td>
 <td><span>MAPQ</span></td>
 <td>Int</td>
-<td><span class="math inline">[0, 2<sup>8</sup> − 1]</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mspace width="0.167em"></mspace><msup><mn>2</mn><mn>8</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,\,2^8-1]</annotation></semantics></math></td>
 <td>MAPping Quality</td>
 </tr>
 <tr>
@@ -743,15 +743,14 @@ overview of these mandatory fields in the SAM format:
 <td>8</td>
 <td><span>PNEXT</span></td>
 <td>Int</td>
-<td><span class="math inline">[0, 2<sup>31</sup> − 1]</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mspace width="0.167em"></mspace><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,\,2^{31}-1]</annotation></semantics></math></td>
 <td>Position of the mate/next read</td>
 </tr>
 <tr>
 <td>9</td>
 <td><span>TLEN</span></td>
 <td>Int</td>
-<td><span
-class="math inline">[−2<sup>31</sup> + 1, 2<sup>31</sup> − 1]</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mi>−</mi><msup><mn>2</mn><mn>31</mn></msup><mo>+</mo><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-2^{31}+1,\,2^{31}-1]</annotation></semantics></math></td>
 <td>observed Template LENgth</td>
 </tr>
 <tr>
@@ -922,9 +921,9 @@ represented.
     made about RNAME and CIGAR.
 
 5.  MAPQ: MAPping Quality. It equals
-    $-10\log_{10}\Pr\{\mbox{mapping position is wrong}\}$, rounded to
-    the nearest integer. A value 255 indicates that the mapping quality
-    is not available.
+    $-10\log_{10}\Pr\{mapping position is wrong\}$, rounded to the
+    nearest integer. A value 255 indicates that the mapping quality is
+    not available.
 
 6.  CIGAR: CIGAR string. The CIGAR operations are given in the following
     table (set '\*' if unavailable):
@@ -1058,17 +1057,17 @@ represented.
     primary alignments of all reads in the template are mapped to the
     same reference sequence, the absolute value of TLEN equals the
     distance between the mapped end of the template and the mapped start
-    of the template, inclusively (i.e., $\mbox{end}-\mbox{start}+1$).
-    [^7] Note that *mapped base* is defined to be one that aligns to the
-    reference as described by CIGAR, hence excludes soft-clipped bases.
-    The TLEN field is positive for the leftmost segment of the template,
-    negative for the rightmost, and the sign for any middle segment is
-    undefined. If segments cover the same coordinates then the choice of
-    which is leftmost and rightmost is arbitrary, but the two ends must
-    still have differing signs. It is set as 0 for a single-segment
-    template or when the information is unavailable (e.g., when the
-    first or last segment of a multi-segment template is unmapped or
-    when the two are mapped to different reference sequences).
+    of the template, inclusively (i.e., $end-start+1$). [^7] Note that
+    *mapped base* is defined to be one that aligns to the reference as
+    described by CIGAR, hence excludes soft-clipped bases. The TLEN
+    field is positive for the leftmost segment of the template, negative
+    for the rightmost, and the sign for any middle segment is undefined.
+    If segments cover the same coordinates then the choice of which is
+    leftmost and rightmost is arbitrary, but the two ends must still
+    have differing signs. It is set as 0 for a single-segment template
+    or when the information is unavailable (e.g., when the first or last
+    segment of a multi-segment template is unmapped or when the two are
+    mapped to different reference sequences).
 
     The intention of this field is to indicate where the other end of
     the template has been aligned without needing to read the remainder
@@ -1084,10 +1083,10 @@ represented.
 
 11. QUAL: ASCII of base QUALity plus 33 (same as the quality string in
     the Sanger FASTQ format). A base quality is the phred-scaled base
-    error probability which equals $-10\log_{10}\Pr\{\mbox{base is
-      wrong}\}$. This field can be a '\*' when quality is not
-    stored.[^9] If not a '\*', SEQ must not be a '\*' and the length of
-    the quality string ought to equal the length of SEQ.
+    error probability which equals $-10\log_{10}\Pr\{base is wrong\}$.
+    This field can be a '\*' when quality is not stored.[^9] If not a
+    '\*', SEQ must not be a '\*' and the length of the quality string
+    ought to equal the length of SEQ.
 
 ## 1.5 The alignment section: optional fields <a href="#sec:alnaux" class="header-anchor">#</a>
 
@@ -1275,7 +1274,9 @@ specific software package for it to function properly.
         </thead>
         <tbody>
         <tr>
-        <td>The <span class="math inline">5<sup>′</sup></span> fragment</td>
+        <td>The
+        <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>5</mn><mo>′</mo></msup><annotation encoding="application/x-tex">5&#39;</annotation></semantics></math>
+        fragment</td>
         <td>883 (0x373)</td>
         <td>86097</td>
         <td><code>188M </code></td>
@@ -1289,7 +1290,9 @@ specific software package for it to function properly.
         <td><code>FI:i:2TC:i:3 </code></td>
         </tr>
         <tr>
-        <td>The <span class="math inline">3<sup>′</sup></span> fragment</td>
+        <td>The
+        <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mo>′</mo></msup><annotation encoding="application/x-tex">3&#39;</annotation></semantics></math>
+        fragment</td>
         <td>947 (0x3B3)</td>
         <td>85052</td>
         <td><code>303M </code></td>
@@ -1691,7 +1694,7 @@ underlined word in uppercase denotes a field in the SAM format.
 <td>Length of the header text, including any <span><code>NUL</code></span>
 padding</td>
 <td><span><code>uint32_t</code></span></td>
-<td><span class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></td>
 <td></td>
 </tr>
 <tr>
@@ -1706,7 +1709,7 @@ padding</td>
 <td><span>1-6</span></td>
 <td># reference sequences</td>
 <td><span><code>uint32_t</code></span></td>
-<td><span class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></td>
 <td></td>
 </tr>
 <tr>
@@ -1736,7 +1739,7 @@ padding</td>
 <td>l_ref</td>
 <td>Length of the reference sequence</td>
 <td><span><code>uint32_t</code></span></td>
-<td><span class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span>1-6</span></td>
@@ -1755,24 +1758,25 @@ padding</td>
 <tr>
 <td><span>2-6</span></td>
 <td>refID</td>
-<td>Reference sequence ID, <span class="math inline">$-1\leq{\sf
-refID}&lt;{\sf n\_ref}$</span>; -1 for a read without a mapping position</td>
+<td>Reference sequence ID,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>≤</mo><mrow><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖿</mi><mi mathvariant="sans-serif">𝖨</mi><mi mathvariant="sans-serif">𝖣</mi></mrow><mo>&lt;</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">_</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖿</mi></mrow></mrow><annotation encoding="application/x-tex">-1\leq\mathsf{refID}&lt;\mathsf{n\_ref}</annotation></semantics></math>;
+-1 for a read without a mapping position</td>
 <td><span><code>int32_t</code></span></td>
 <td>[-1]</td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>pos</td>
-<td>0-based leftmost coordinate (<span class="math inline">$=\underline{\sf
-POS}-1$</span>)</td>
+<td>0-based leftmost coordinate
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mrow><mi mathvariant="sans-serif">𝖯</mi><mi mathvariant="sans-serif">𝖮</mi><mi mathvariant="sans-serif">𝖲</mi></mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">=\mathsf{POS}-1</annotation></semantics></math>)</td>
 <td><span><code>int32_t</code></span></td>
 <td>[-1]</td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>l_read_name</td>
-<td>Length of <span>read_name</span> below (<span class="math inline">$={\sf
-length}(\underline{\sf QNAME})+1$</span>)</td>
+<td>Length of <span>read_name</span> below
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mrow><mi mathvariant="sans-serif">𝗅</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">𝗀</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">𝗁</mi></mrow><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="sans-serif">𝖰</mi><mi mathvariant="sans-serif">𝖭</mi><mi mathvariant="sans-serif">𝖠</mi><mi mathvariant="sans-serif">𝖬</mi><mi mathvariant="sans-serif">𝖤</mi></mrow><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">=\mathsf{length}(\mathsf{QNAME})+1</annotation></semantics></math>)</td>
 <td><span><code>uint8_t</code></span></td>
 <td></td>
 </tr>
@@ -1815,24 +1819,24 @@ href="#sec:ncigar">4.2.2</a></td>
 <tr>
 <td><span>2-6</span></td>
 <td>next_refID</td>
-<td>Ref-ID of the next segment (<span class="math inline">$-1\le{\sf
-next\_refID}&lt;{\sf n\_ref}$</span>)</td>
+<td>Ref-ID of the next segment
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>≤</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗑</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">_</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖿</mi><mi mathvariant="sans-serif">𝖨</mi><mi mathvariant="sans-serif">𝖣</mi></mrow><mo>&lt;</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">_</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖿</mi></mrow></mrow><annotation encoding="application/x-tex">-1\le\mathsf{next\_refID}&lt;\mathsf{n\_ref}</annotation></semantics></math>)</td>
 <td><span><code>int32_t</code></span></td>
 <td>[-1]</td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>next_pos</td>
-<td>0-based leftmost pos of the next segment (<span
-class="math inline">$=\underline{\sf PNEXT}-1$</span>)</td>
+<td>0-based leftmost pos of the next segment
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mrow><mi mathvariant="sans-serif">𝖯</mi><mi mathvariant="sans-serif">𝖭</mi><mi mathvariant="sans-serif">𝖤</mi><mi mathvariant="sans-serif">𝖷</mi><mi mathvariant="sans-serif">𝖳</mi></mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">=\mathsf{PNEXT}-1</annotation></semantics></math>)</td>
 <td><span><code>int32_t</code></span></td>
 <td>[-1]</td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>tlen</td>
-<td>Template length (<span class="math inline">$=\underline{\sf
-TLEN}$</span>)</td>
+<td>Template length
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mrow><mi mathvariant="sans-serif">𝖳</mi><mi mathvariant="sans-serif">𝖫</mi><mi mathvariant="sans-serif">𝖤</mi><mi mathvariant="sans-serif">𝖭</mi></mrow></mrow><annotation encoding="application/x-tex">=\mathsf{TLEN}</annotation></semantics></math>)</td>
 <td><span><code>int32_t</code></span></td>
 <td>[0]</td>
 </tr>
@@ -1848,17 +1852,16 @@ trailing '<span><code>\0</code></span>')</td>
 <td><span>2-6</span></td>
 <td>cigar</td>
 <td>CIGAR: <span><span><code>op_len</code></span><code> 4</code></span>.
-'<span><code>MIDNSHP=X</code></span>'<span
-class="math inline">→</span>'012345678'</td>
+'<span><code>MIDNSHP=X</code></span>'<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>'012345678'</td>
 <td><span><code>uint32_t[</code><span><code>n_cigar_op</code></span><code>]</code></span></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>seq</td>
-<td>4-bit encoded read: '<span><code>=ACMGRSVTWYHKDBN</code></span>'<span
-class="math inline"> → [0, 15]</span>. See Section <a
-href="#sec:seq">4.2.3</a></td>
+<td>4-bit encoded read:
+'<span><code>=ACMGRSVTWYHKDBN</code></span>'<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>15</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\to[0,15]</annotation></semantics></math>.
+See Section <a href="#sec:seq">4.2.3</a></td>
 <td><span><code>uint8_t[(</code><span><code>l_seq</code></span><code>+1)/2]</code></span></td>
 <td></td>
 </tr>
@@ -1910,9 +1913,9 @@ href="#sec:aux-type-codes">4.2.4</a></td>
 </table>
 
 Most length and count fields described as `uint32_t` have additional
-constraints on their range: $\mbox{\sf l\_text} < 2^{31}$ due to
-implementation limits; $\mbox{\sf n\_ref} < 2^{31}$ because refID and
-next_refID are signed; $\mbox{\sf l\_ref} < 2^{31}$ because tlen is
+constraints on their range: $\mathsf{l}\_text < 2^{31}$ due to
+implementation limits; $\mathsf{n}\_ref < 2^{31}$ because refID and
+next_refID are signed; $\mathsf{l}\_ref < 2^{31}$ because tlen is
 signed; those marked "*limited*" are limited by available memory and the
 practical size of the data represented well before they are limited by,
 e.g., Java's signed 32-bit integer maximum array size.
@@ -1920,14 +1923,14 @@ e.g., Java's signed 32-bit integer maximum array size.
 ### 4.2.1 BIN field calculation <a href="#sec:bin-field" class="header-anchor">#</a>
 
 BIN is calculated using the reg2bin() function in
-Section [5.3](#sec:code). For mapped reads this uses $\mbox{\sf POS}-1$
+Section [5.3](#sec:code). For mapped reads this uses $\mathsf{POS}-1$
 (i.e., 0-based left position) and the alignment end point using the
 alignment length from the CIGAR string. For unmapped reads
 (e.g., paired-end reads where only one part is mapped, see
 Section [2](#sec:recommended-practice)) and reads whose CIGAR strings
 consume no reference bases at all, the alignment is treated as being of
-length one. Note unmapped reads with POS $0$ (which becomes $-1$ in BAM)
-therefore use $\mbox{\sf reg2bin}(-1, 0)$ which is computed as $4680$.
+length one. Note unmapped reads with POS 0 (which becomes $-1$ in BAM)
+therefore use $\mathsf{reg2bin}(-1, 0)$ which is computed as 4680.
 
 ### 4.2.2 N_CIGAR_OP field <a href="#sec:ncigar" class="header-anchor">#</a>
 
@@ -2230,7 +2233,7 @@ class="header-anchor">#</a>
 <td><span>1-7</span></td>
 <td># reference sequences</td>
 <td><span><code>uint32_t</code></span></td>
-<td><span class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></td>
 <td></td>
 <td></td>
 </tr>
@@ -2247,7 +2250,7 @@ class="header-anchor">#</a>
 <td>n_bin</td>
 <td># distinct bins (for the binning index)</td>
 <td><span><code>uint32_t</code></span></td>
-<td><span class="math inline"> ≤ 37451</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>37451</mn></mrow><annotation encoding="application/x-tex">\le 37451</annotation></semantics></math></td>
 <td></td>
 </tr>
 <tr>
@@ -2265,7 +2268,7 @@ class="header-anchor">#</a>
 <td>bin</td>
 <td>Distinct bin</td>
 <td><span><code>uint32_t</code></span></td>
-<td><span class="math inline"> ≤ 37450</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>37450</mn></mrow><annotation encoding="application/x-tex">\le 37450</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span>3-7</span></td>
@@ -2304,7 +2307,7 @@ class="header-anchor">#</a>
 <td>n_intv</td>
 <td># 16kbp intervals (for the linear index)</td>
 <td><span><code>uint32_t</code></span></td>
-<td><span class="math inline"> ≤ 2<sup>17</sup></span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><msup><mn>2</mn><mn>17</mn></msup></mrow><annotation encoding="application/x-tex">\le 2^{17}</annotation></semantics></math></td>
 <td></td>
 </tr>
 <tr>
@@ -2404,18 +2407,17 @@ respectively.
 ## 5.3 C source code for computing bin number and overlapping bins <a href="#sec:code" class="header-anchor">#</a>
 
 The following functions compute bin numbers and overlaps for a BAI-style
-binning scheme with $6$ levels and a minimum bin size of $2^{14}$ bp.
-See the CSI specification for generalisations of these functions
-designed for binning schemes with arbitrary depth and sizes.
+binning scheme with 6 levels and a minimum bin size of $2^{14}$ bp. See
+the CSI specification for generalisations of these functions designed
+for binning schemes with arbitrary depth and sizes.
 
 When these functions are called with regions representing unplaced
-unmapped reads, e.g., $\mbox{\sf reg2bin}(-1, 0)$, they involve
-operations such as `(-1)>>14` which are undefined or
-implementation-defined in some programming languages. They must be
-implemented as if these operations use the common two's-complement
-semantics: $\mbox{\sf reg2bin}(-1, 0) = 4680$ and
-$\mbox{\sf reg2bins}(-1, 0, \ldots)$ returns
-$[\,0, 0, 8, 72, 584, 4680\,]$.
+unmapped reads, e.g., $\mathsf{reg2bin}(-1, 0)$, they involve operations
+such as `(-1)>>14` which are undefined or implementation-defined in some
+programming languages. They must be implemented as if these operations
+use the common two's-complement semantics:
+$\mathsf{reg2bin}(-1, 0) = 4680$ and $\mathsf{reg2bins}(-1, 0, \ldots)$
+returns $[\,0, 0, 8, 72, 584, 4680\,]$.
 
     /* calculate bin given an alignment covering [beg,end) (zero-based, half-closed-half-open) */
     int reg2bin(int beg, int end)
@@ -2538,8 +2540,8 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
   We recommend that implementations validating reference sequence names
   do so using the rules in Section [1.2.1](#sec:charset); are more
-  lenient for files declaring $\mbox{\tt @HD VN} \leq 1.5$; and validate
-  `AN` only against these rules, not the previous more restrictive `AN`
+  lenient for files declaring $\tt @HD VN \leq 1.5$; and validate `AN`
+  only against these rules, not the previous more restrictive `AN`
   rules.
 
 - Add `@HD SS` sorting details header tag. (Oct 2018)
