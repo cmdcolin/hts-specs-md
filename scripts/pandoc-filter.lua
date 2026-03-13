@@ -1,4 +1,4 @@
--- Pandoc filter to handle hts-specs custom LaTeX commands and section numbering
+-- Pandoc filter to handle hts-specs custom LaTeX commands, section numbering, and HTML tables
 
 local commit = "unknown"
 local date = "unknown"
@@ -170,26 +170,20 @@ function CodeBlock(el)
   return el
 end
 
-local function escape_pipes(content)
-  if not content then return end
-  for i, el in ipairs(content) do
-    if el.t == "Str" then
-      el.text = el.text:gsub("|", "&#124;")
-      content[i] = el
-    elseif el.t == "Code" then
-      if el.text:match("^%s*$") then
-        content[i] = pandoc.Str(el.text)
-      else
-        -- Convert Code element to raw HTML <code> tag to protect pipes
-        local html = el.text:gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("|", "&#124;")
-        content[i] = pandoc.RawInline('html', '<code>' .. html .. '</code>')
-      end
-    elseif el.content then
-      escape_pipes(el.content)
-    elseif el.caption and el.caption.content then
-      escape_pipes(el.caption.content)
-    end
+-- Convert Pandoc AST elements to HTML string
+local function to_html(content)
+  return pandoc.utils.stringify(pandoc.write(pandoc.Pandoc({pandoc.Para(content)}), 'html'))
+end
+
+-- More precise conversion that preserves math and code tags
+local function blocks_to_html(blocks)
+  local doc = pandoc.Pandoc(blocks)
+  local html = pandoc.write(doc, 'html')
+  -- Strip the surrounding paragraph tags if it's just one para
+  if #blocks == 1 and blocks[1].t == "Para" then
+    html = html:gsub("^<p>", ""):gsub("</p>%s*$", "")
   end
+  return html
 end
 
 function Table(el)
@@ -215,34 +209,37 @@ function Table(el)
     end
   end
 
-  -- Ensure ALL rows (header and body) have enough columns for the alignment row
-  -- Pandoc GFM/Commonmark uses el.colspecs for the alignment row count
-  local col_count = #el.colspecs
+  -- Build HTML table
+  local html = {"<table>"}
   
-  -- Pad header and escape pipes
+  -- Header
   if #el.head.rows > 0 then
-    local hrow = el.head.rows[1]
-    while #hrow.cells < col_count do
-        table.insert(hrow.cells, pandoc.Cell({}))
+    table.insert(html, "<thead>")
+    for _, row in ipairs(el.head.rows) do
+      table.insert(html, "<tr>")
+      for _, cell in ipairs(row.cells) do
+        table.insert(html, "<th>" .. blocks_to_html(cell.contents) .. "</th>")
+      end
+      table.insert(html, "</tr>")
     end
-    for _, cell in ipairs(hrow.cells) do
-      escape_pipes(cell.contents)
-    end
+    table.insert(html, "</thead>")
   end
-
-  -- Pad all body rows and escape pipes
+  
+  -- Body
+  table.insert(html, "<tbody>")
   for _, body in ipairs(el.bodies) do
     for _, row in ipairs(body.body) do
-      while #row.cells < col_count do
-        table.insert(row.cells, pandoc.Cell({}))
-      end
+      table.insert(html, "<tr>")
       for _, cell in ipairs(row.cells) do
-        escape_pipes(cell.contents)
+        table.insert(html, "<td>" .. blocks_to_html(cell.contents) .. "</td>")
       end
+      table.insert(html, "</tr>")
     end
   end
-
-  return el
+  table.insert(html, "</tbody>")
+  table.insert(html, "</table>")
+  
+  return pandoc.RawBlock('html', table.concat(html, "\n"))
 end
 
 function Math(el)

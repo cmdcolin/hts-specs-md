@@ -74,15 +74,52 @@ meaning when they appear (such as field delimiters '`;`' in INFO or
 '`:`' FORMAT fields), and for any other meaning they must be represented
 with the capitalized percent encoding:
 
-| %3A | :   | (colon)        |
-|:----|:----|:---------------|
-| %3B | ;   | (semicolon)    |
-| %3D | =   | (equal sign)   |
-| %25 | %   | (percent sign) |
-| %2C | ,   | (comma)        |
-| %0D | CR  |                |
-| %0A | LF  |                |
-| %09 | TAB |                |
+<table>
+<thead>
+<tr>
+<th>%3A</th>
+<th>:</th>
+<th>(colon)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%3B</td>
+<td>;</td>
+<td>(semicolon)</td>
+</tr>
+<tr>
+<td>%3D</td>
+<td>=</td>
+<td>(equal sign)</td>
+</tr>
+<tr>
+<td>%25</td>
+<td>%</td>
+<td>(percent sign)</td>
+</tr>
+<tr>
+<td>%2C</td>
+<td>,</td>
+<td>(comma)</td>
+</tr>
+<tr>
+<td>%0D</td>
+<td>CR</td>
+<td></td>
+</tr>
+<tr>
+<td>%0A</td>
+<td>LF</td>
+<td></td>
+</tr>
+<tr>
+<td>%09</td>
+<td>TAB</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 <a id="data-types"></a>
 
@@ -513,13 +550,12 @@ There are 8 fixed fields per record. Fixed fields are:
 <div id="table:reserved-info">
 
 <table>
-<caption>Reserved INFO keys</caption>
 <thead>
 <tr>
-<th style="text-align: left;">Key</th>
-<th style="text-align: left;">Number</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
+<th>Key</th>
+<th>Number</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -527,145 +563,139 @@ There are 8 fixed fields per record. Fixed fields are:
 
 
 <tr>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;">AA</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">String</td>
-<td style="text-align: left;">Ancestral allele</td>
+<td>AA</td>
+<td>1</td>
+<td>String</td>
+<td>Ancestral allele</td>
 </tr>
 <tr>
-<td style="text-align: left;">AC</td>
-<td style="text-align: left;">A</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Allele count in genotypes, for each ALT
-allele, in the same order as listed</td>
+<td>AC</td>
+<td>A</td>
+<td>Integer</td>
+<td>Allele count in genotypes, for each ALT allele, in the same order as
+listed</td>
 </tr>
 <tr>
-<td style="text-align: left;">AD</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Total read depth for each allele</td>
+<td>AD</td>
+<td>R</td>
+<td>Integer</td>
+<td>Total read depth for each allele</td>
 </tr>
 <tr>
-<td style="text-align: left;">ADF</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Read depth for each allele on the forward
-strand</td>
+<td>ADF</td>
+<td>R</td>
+<td>Integer</td>
+<td>Read depth for each allele on the forward strand</td>
 </tr>
 <tr>
-<td style="text-align: left;">ADR</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Read depth for each allele on the reverse
-strand</td>
+<td>ADR</td>
+<td>R</td>
+<td>Integer</td>
+<td>Read depth for each allele on the reverse strand</td>
 </tr>
 <tr>
-<td style="text-align: left;">AF</td>
-<td style="text-align: left;">A</td>
-<td style="text-align: left;">Float</td>
-<td style="text-align: left;">Allele frequency for each ALT allele in
-the same order as listed (estimated from primary data, not called
-genotypes)</td>
+<td>AF</td>
+<td>A</td>
+<td>Float</td>
+<td>Allele frequency for each ALT allele in the same order as listed
+(estimated from primary data, not called genotypes)</td>
 </tr>
 <tr>
-<td style="text-align: left;">AN</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Total number of alleles in called
-genotypes</td>
+<td>AN</td>
+<td>1</td>
+<td>Integer</td>
+<td>Total number of alleles in called genotypes</td>
 </tr>
 <tr>
-<td style="text-align: left;">BQ</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Float</td>
-<td style="text-align: left;">RMS base quality</td>
+<td>BQ</td>
+<td>1</td>
+<td>Float</td>
+<td>RMS base quality</td>
 </tr>
 <tr>
-<td style="text-align: left;">CIGAR</td>
-<td style="text-align: left;">A</td>
-<td style="text-align: left;">String</td>
-<td style="text-align: left;">Cigar string describing how to align an
-alternate allele to the reference allele</td>
+<td>CIGAR</td>
+<td>A</td>
+<td>String</td>
+<td>Cigar string describing how to align an alternate allele to the
+reference allele</td>
 </tr>
 <tr>
-<td style="text-align: left;">DB</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">Flag</td>
-<td style="text-align: left;">dbSNP membership</td>
+<td>DB</td>
+<td>0</td>
+<td>Flag</td>
+<td>dbSNP membership</td>
 </tr>
 <tr>
-<td style="text-align: left;">DP</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Combined depth across samples</td>
+<td>DP</td>
+<td>1</td>
+<td>Integer</td>
+<td>Combined depth across samples</td>
 </tr>
 <tr>
-<td style="text-align: left;">END</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">End position on CHROM (used with symbolic
-alleles; see below)</td>
+<td>END</td>
+<td>1</td>
+<td>Integer</td>
+<td>End position on CHROM (used with symbolic alleles; see below)</td>
 </tr>
 <tr>
-<td style="text-align: left;">H2</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">Flag</td>
-<td style="text-align: left;">HapMap2 membership</td>
+<td>H2</td>
+<td>0</td>
+<td>Flag</td>
+<td>HapMap2 membership</td>
 </tr>
 <tr>
-<td style="text-align: left;">H3</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">Flag</td>
-<td style="text-align: left;">HapMap3 membership</td>
+<td>H3</td>
+<td>0</td>
+<td>Flag</td>
+<td>HapMap3 membership</td>
 </tr>
 <tr>
-<td style="text-align: left;">MQ</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Float</td>
-<td style="text-align: left;">RMS mapping quality</td>
+<td>MQ</td>
+<td>1</td>
+<td>Float</td>
+<td>RMS mapping quality</td>
 </tr>
 <tr>
-<td style="text-align: left;">MQ0</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Number of MAPQ == 0 reads</td>
+<td>MQ0</td>
+<td>1</td>
+<td>Integer</td>
+<td>Number of MAPQ == 0 reads</td>
 </tr>
 <tr>
-<td style="text-align: left;">NS</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Number of samples with data</td>
+<td>NS</td>
+<td>1</td>
+<td>Integer</td>
+<td>Number of samples with data</td>
 </tr>
 <tr>
-<td style="text-align: left;">SB</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Strand bias</td>
+<td>SB</td>
+<td>4</td>
+<td>Integer</td>
+<td>Strand bias</td>
 </tr>
 <tr>
-<td style="text-align: left;">SOMATIC</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">Flag</td>
-<td style="text-align: left;">Somatic mutation (for cancer
-genomics)</td>
+<td>SOMATIC</td>
+<td>0</td>
+<td>Flag</td>
+<td>Somatic mutation (for cancer genomics)</td>
 </tr>
 <tr>
-<td style="text-align: left;">VALIDATED</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">Flag</td>
-<td style="text-align: left;">Validated by follow-up experiment</td>
+<td>VALIDATED</td>
+<td>0</td>
+<td>Flag</td>
+<td>Validated by follow-up experiment</td>
 </tr>
 <tr>
-<td style="text-align: left;">1000G</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">Flag</td>
-<td style="text-align: left;">1000 Genomes membership</td>
+<td>1000G</td>
+<td>0</td>
+<td>Flag</td>
+<td>1000 Genomes membership</td>
 </tr>
 </tbody>
 </table>
@@ -718,13 +748,12 @@ structural variants.
 <div id="table:reserved-genotypes">
 
 <table>
-<caption>Reserved genotype keys</caption>
 <thead>
 <tr>
-<th style="text-align: left;">Field</th>
-<th style="text-align: left;">Number</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
+<th>Field</th>
+<th>Number</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -732,129 +761,125 @@ structural variants.
 
 
 <tr>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;">AD</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Read depth for each allele</td>
+<td>AD</td>
+<td>R</td>
+<td>Integer</td>
+<td>Read depth for each allele</td>
 </tr>
 <tr>
-<td style="text-align: left;">ADF</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Read depth for each allele on the forward
-strand</td>
+<td>ADF</td>
+<td>R</td>
+<td>Integer</td>
+<td>Read depth for each allele on the forward strand</td>
 </tr>
 <tr>
-<td style="text-align: left;">ADR</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Read depth for each allele on the reverse
-strand</td>
+<td>ADR</td>
+<td>R</td>
+<td>Integer</td>
+<td>Read depth for each allele on the reverse strand</td>
 </tr>
 <tr>
-<td style="text-align: left;">DP</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Read depth</td>
+<td>DP</td>
+<td>1</td>
+<td>Integer</td>
+<td>Read depth</td>
 </tr>
 <tr>
-<td style="text-align: left;">EC</td>
-<td style="text-align: left;">A</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Expected alternate allele counts</td>
+<td>EC</td>
+<td>A</td>
+<td>Integer</td>
+<td>Expected alternate allele counts</td>
 </tr>
 <tr>
-<td style="text-align: left;">FT</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">String</td>
-<td style="text-align: left;">Filter indicating if this genotype was
-"called"</td>
+<td>FT</td>
+<td>1</td>
+<td>String</td>
+<td>Filter indicating if this genotype was "called"</td>
 </tr>
 <tr>
-<td style="text-align: left;">GL</td>
-<td style="text-align: left;">G</td>
-<td style="text-align: left;">Float</td>
-<td style="text-align: left;">Genotype likelihoods</td>
+<td>GL</td>
+<td>G</td>
+<td>Float</td>
+<td>Genotype likelihoods</td>
 </tr>
 <tr>
-<td style="text-align: left;">GP</td>
-<td style="text-align: left;">G</td>
-<td style="text-align: left;">Float</td>
-<td style="text-align: left;">Genotype posterior probabilities</td>
+<td>GP</td>
+<td>G</td>
+<td>Float</td>
+<td>Genotype posterior probabilities</td>
 </tr>
 <tr>
-<td style="text-align: left;">GQ</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Conditional genotype quality</td>
+<td>GQ</td>
+<td>1</td>
+<td>Integer</td>
+<td>Conditional genotype quality</td>
 </tr>
 <tr>
-<td style="text-align: left;">GT</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">String</td>
-<td style="text-align: left;">Genotype</td>
+<td>GT</td>
+<td>1</td>
+<td>String</td>
+<td>Genotype</td>
 </tr>
 <tr>
-<td style="text-align: left;">HQ</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Haplotype quality</td>
+<td>HQ</td>
+<td>2</td>
+<td>Integer</td>
+<td>Haplotype quality</td>
 </tr>
 <tr>
-<td style="text-align: left;">MQ</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">RMS mapping quality</td>
+<td>MQ</td>
+<td>1</td>
+<td>Integer</td>
+<td>RMS mapping quality</td>
 </tr>
 <tr>
-<td style="text-align: left;">PL</td>
-<td style="text-align: left;">G</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Phred-scaled genotype likelihoods rounded
-to the closest integer</td>
+<td>PL</td>
+<td>G</td>
+<td>Integer</td>
+<td>Phred-scaled genotype likelihoods rounded to the closest integer</td>
 </tr>
 <tr>
-<td style="text-align: left;">PP</td>
-<td style="text-align: left;">G</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Phred-scaled genotype posterior
-probabilities rounded to the closest integer</td>
+<td>PP</td>
+<td>G</td>
+<td>Integer</td>
+<td>Phred-scaled genotype posterior probabilities rounded to the closest
+integer</td>
 </tr>
 <tr>
-<td style="text-align: left;">PQ</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Phasing quality</td>
+<td>PQ</td>
+<td>1</td>
+<td>Integer</td>
+<td>Phasing quality</td>
 </tr>
 <tr>
-<td style="text-align: left;">PS</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Phase set</td>
+<td>PS</td>
+<td>1</td>
+<td>Integer</td>
+<td>Phase set</td>
 </tr>
 <tr>
-<td style="text-align: left;">PSL</td>
-<td style="text-align: left;">P</td>
-<td style="text-align: left;">String</td>
-<td style="text-align: left;">Phase set list</td>
+<td>PSL</td>
+<td>P</td>
+<td>String</td>
+<td>Phase set list</td>
 </tr>
 <tr>
-<td style="text-align: left;">PSO</td>
-<td style="text-align: left;">P</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Phase set list ordinal</td>
+<td>PSO</td>
+<td>P</td>
+<td>Integer</td>
+<td>Phase set list ordinal</td>
 </tr>
 <tr>
-<td style="text-align: left;">PSQ</td>
-<td style="text-align: left;">P</td>
-<td style="text-align: left;">Integer</td>
-<td style="text-align: left;">Phase set list quality</td>
+<td>PSQ</td>
+<td>P</td>
+<td>Integer</td>
+<td>Phase set list quality</td>
 </tr>
 </tbody>
 </table>
@@ -1016,11 +1041,60 @@ probabilities rounded to the closest integer</td>
 
   Example:
 
-  | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | SAMPLE1 |
-  |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-  | chr19 | $5$ | . | T | G | . | PASS | DP=100 | GT:PSL | <code>&#124;0/1:chr19*5*1,.</code> |
-  | chr20 | $10$ | . | A | T,G | . | PASS | DP=100 | GT:PSL | <code>&#124;1/2&#124;3:chr20*10*1,.,chr19*5*1</code>  |
-  | chr20 | $15$ | . | G | C | . | PASS | DP=100 | GT:PSL | <code>1&#124;2:.,chr20*10*1</code> |
+  <table>
+  <thead>
+  <tr>
+  <th>#CHROM</th>
+  <th>POS</th>
+  <th>ID</th>
+  <th>REF</th>
+  <th>ALT</th>
+  <th>QUAL</th>
+  <th>FILTER</th>
+  <th>INFO</th>
+  <th>FORMAT</th>
+  <th>SAMPLE1</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td>chr19</td>
+  <td><span class="math inline">5</span></td>
+  <td>.</td>
+  <td>T</td>
+  <td>G</td>
+  <td>.</td>
+  <td>PASS</td>
+  <td>DP=100</td>
+  <td>GT:PSL</td>
+  <td><span><code>|0/1:chr19*5*1,.</code></span></td>
+  </tr>
+  <tr>
+  <td>chr20</td>
+  <td><span class="math inline">10</span></td>
+  <td>.</td>
+  <td>A</td>
+  <td>T,G</td>
+  <td>.</td>
+  <td>PASS</td>
+  <td>DP=100</td>
+  <td>GT:PSL</td>
+  <td><span><code>|1/2|3:chr20*10*1,.,chr19*5*1</code></span><code> </code></td>
+  </tr>
+  <tr>
+  <td>chr20</td>
+  <td><span class="math inline">15</span></td>
+  <td>.</td>
+  <td>G</td>
+  <td>C</td>
+  <td>.</td>
+  <td>PASS</td>
+  <td>DP=100</td>
+  <td>GT:PSL</td>
+  <td><span><code>1|2:.,chr20*10*1</code></span></td>
+  </tr>
+  </tbody>
+  </table>
 
 - PSO (List of integers): List of phase set ordinals. For each phase-set
   name, defines the order in which variants are encountered when
@@ -1036,11 +1110,60 @@ probabilities rounded to the closest integer</td>
   Take for example this tandem duplication in a triploid organism with
   SNVs (ID/QUAL/FILTER columns removed for clarity):
 
-  | \#CHROM | POS | REF | ALT | INFO | FORMAT | SAMPLE1 |  |  |  |
-  |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-  | chr1 | $10$ | T | \<DUP\> | SVCLAIM=DJ | GT:PSL:PSO | <code>/0/0&#124;1:.,.,chr1*10*3:.,.,3</code> |  |  |  |
-  | chr1 | $20$ | A | G | . | GT:PSL:PSO | <code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code>  |  |  |  |
-  | chr1 | $30$ | G | T | . | GT:PSL:PSO | <code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code>  |  |  |  |
+  <table>
+  <thead>
+  <tr>
+  <th>#CHROM</th>
+  <th>POS</th>
+  <th>REF</th>
+  <th>ALT</th>
+  <th>INFO</th>
+  <th>FORMAT</th>
+  <th>SAMPLE1</th>
+  <th></th>
+  <th></th>
+  <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td>chr1</td>
+  <td><span class="math inline">10</span></td>
+  <td>T</td>
+  <td>&lt;DUP&gt;</td>
+  <td>SVCLAIM=DJ</td>
+  <td>GT:PSL:PSO</td>
+  <td><span><code>/0/0|1:.,.,chr1*10*3:.,.,3</code></span></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  </tr>
+  <tr>
+  <td>chr1</td>
+  <td><span class="math inline">20</span></td>
+  <td>A</td>
+  <td>G</td>
+  <td>.</td>
+  <td>GT:PSL:PSO</td>
+  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code></span><code> </code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  </tr>
+  <tr>
+  <td>chr1</td>
+  <td><span class="math inline">30</span></td>
+  <td>G</td>
+  <td>T</td>
+  <td>.</td>
+  <td>GT:PSL:PSO</td>
+  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code></span><code> </code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  </tr>
+  </tbody>
+  </table>
 
   Without defining PSO, it would be ambiguous as to which copy of the
   duplicated region the SNVs occur on. In this example, the presence of
@@ -1502,12 +1625,37 @@ GT/GQ/GL/GP should be used instead of (or in addition to) these keys.
 
 For example, suppose we are looking at a locus in the genome:
 
-| Example | Sequence    | Alteration                                       |
-|:--------|:------------|:-------------------------------------------------|
-| Ref     | a t C g a   | C is the reference base                          |
-| 1       | a t G g a   | C base is a G in some individuals                |
-| 2       | a t  -  g a | C base is deleted w.r.t. the reference sequence  |
-| 3       | a t CAg a   | A base is inserted w.r.t. the reference sequence |
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Sequence</th>
+<th>Alteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ref</td>
+<td>a t C g a</td>
+<td>C is the reference base</td>
+</tr>
+<tr>
+<td>1</td>
+<td>a t G g a</td>
+<td>C base is a G in some individuals</td>
+</tr>
+<tr>
+<td>2</td>
+<td>a t  -  g a</td>
+<td>C base is deleted w.r.t. the reference sequence</td>
+</tr>
+<tr>
+<td>3</td>
+<td>a t CAg a</td>
+<td>A base is inserted w.r.t. the reference sequence</td>
+</tr>
+</tbody>
+</table>
 
 Representing these as VCF records would be done as follows:
 
@@ -1520,11 +1668,52 @@ Representing these as VCF records would be done as follows:
 
 Note that the positions must be sorted in increasing order:
 
-| \#CHROM | POS | ID  | REF | ALT | QUAL | FILTER | INFO   |
-|:--------|:----|:----|:----|:----|:-----|:-------|:-------|
-| $20$    | $2$ | .   | TC  | T   | .    | PASS   | DP=100 |
-| $20$    | $3$ | .   | C   | G   | .    | PASS   | DP=100 |
-| $20$    | $3$ | .   | C   | CA  | .    | PASS   | DP=100 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">2</span></td>
+<td>.</td>
+<td>TC</td>
+<td>T</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">3</span></td>
+<td>.</td>
+<td>C</td>
+<td>G</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">3</span></td>
+<td>.</td>
+<td>C</td>
+<td>CA</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+</tbody>
+</table>
 
 <a id="example-2"></a>
 
@@ -1533,18 +1722,62 @@ Note that the positions must be sorted in increasing order:
 Suppose I see a the following in a population of individuals and want to
 represent these three segregating alleles:
 
-| Example | Sequence    | Alteration                                      |
-|:--------|:------------|:------------------------------------------------|
-| Ref     | a t C g a   | C is the reference base                         |
-| $1$     | a t G g a   | C base is a G in some individuals               |
-| $2$     | a t  -  g a | C base is deleted w.r.t. the reference sequence |
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Sequence</th>
+<th>Alteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ref</td>
+<td>a t C g a</td>
+<td>C is the reference base</td>
+</tr>
+<tr>
+<td><span class="math inline">1</span></td>
+<td>a t G g a</td>
+<td>C base is a G in some individuals</td>
+</tr>
+<tr>
+<td><span class="math inline">2</span></td>
+<td>a t  -  g a</td>
+<td>C base is deleted w.r.t. the reference sequence</td>
+</tr>
+</tbody>
+</table>
 
 In this case there are three segregating alleles: $\{tC,tG,t\}$ with a
 corresponding VCF record:
 
-| \#CHROM | POS | ID  | REF | ALT  | QUAL | FILTER | INFO   |
-|:--------|:----|:----|:----|:-----|:-----|:-------|:-------|
-| $20$    | $2$ | .   | TC  | TG,T | .    | PASS   | DP=100 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">2</span></td>
+<td>.</td>
+<td>TC</td>
+<td>TG,T</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+</tbody>
+</table>
 
 <a id="example-3"></a>
 
@@ -1552,19 +1785,67 @@ corresponding VCF record:
 
 Now suppose I have this more complex example:
 
-| Example | Sequence | Alteration |
-|:---|:---|:---|
-| Ref | a t C g a | C is the reference base |
-| $1$ | a t  -  g a | C base is deleted w.r.t. the reference sequence |
-| $2$ | a t  - -  a | C and G bases are deleted w.r.t. the reference sequence |
-| $3$ | a t CAg a | A base is inserted w.r.t. the reference sequence |
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Sequence</th>
+<th>Alteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ref</td>
+<td>a t C g a</td>
+<td>C is the reference base</td>
+</tr>
+<tr>
+<td><span class="math inline">1</span></td>
+<td>a t  -  g a</td>
+<td>C base is deleted w.r.t. the reference sequence</td>
+</tr>
+<tr>
+<td><span class="math inline">2</span></td>
+<td>a t  - -  a</td>
+<td>C and G bases are deleted w.r.t. the reference sequence</td>
+</tr>
+<tr>
+<td><span class="math inline">3</span></td>
+<td>a t CAg a</td>
+<td>A base is inserted w.r.t. the reference sequence</td>
+</tr>
+</tbody>
+</table>
 
 There are actually four segregating alleles: $\{tCg,tg,t,tCAg\}$ over
 bases 2–4. This complex set of allele is represented in VCF as:
 
-| \#CHROM | POS | ID  | REF | ALT       | QUAL | FILTER | INFO   |
-|:--------|:----|:----|:----|:----------|:-----|:-------|:-------|
-| $20$    | $2$ | .   | TCG | TG,T,TCAG | .    | PASS   | DP=100 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">2</span></td>
+<td>.</td>
+<td>TCG</td>
+<td>TG,T,TCAG</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+</tbody>
+</table>
 
 Note that in VCF records, the molecular equivalence explicitly listed
 above in the per-base alignment is discarded, so the actual placement of
@@ -1582,17 +1863,57 @@ Reference site depends on the properties of the alleles in the record.
 
 Suppose I receive the following VCF record:
 
-| \#CHROM | POS | ID  | REF | ALT | QUAL | FILTER | INFO   |
-|:--------|:----|:----|:----|:----|:-----|:-------|:-------|
-| $20$    | $3$ | .   | C   | T   | .    | PASS   | DP=100 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">3</span></td>
+<td>.</td>
+<td>C</td>
+<td>T</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+</tbody>
+</table>
 
 This is a SNP since its only single base substitution and there are only
 two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence               | Alteration                        |
-|:--------|:-----------------------|:----------------------------------|
-| Ref     | <code>a t C g a</code> | C is the reference base           |
-| $1$     | <code>a t T g a</code> | C base is a T in some individuals |
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Sequence</th>
+<th>Alteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ref</td>
+<td><code>a t C g a</code></td>
+<td>C is the reference base</td>
+</tr>
+<tr>
+<td><span class="math inline">1</span></td>
+<td><code>a t T g a</code></td>
+<td>C base is a T in some individuals</td>
+</tr>
+</tbody>
+</table>
 
 <a id="insertion-vcf-record"></a>
 
@@ -1600,18 +1921,58 @@ two alleles so I have the two following segregating haplotypes:
 
 Suppose I receive the following VCF record:
 
-| \#CHROM | POS | ID  | REF | ALT  | QUAL | FILTER | INFO   |
-|:--------|:----|:----|:----|:-----|:-----|:-------|:-------|
-| $20$    | $3$ | .   | C   | CTAG | .    | PASS   | DP=100 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">3</span></td>
+<td>.</td>
+<td>C</td>
+<td>CTAG</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+</tbody>
+</table>
 
 This is a insertion since the reference base C is being replaced by C
 \[the reference base\] plus three insertion bases TAG. Again there are
 only two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence | Alteration |
-|:---|:---|:---|
-| Ref | <code>a t C - - - g a</code> | C is the reference base |
-| $1$ | <code>a t C T A G g a</code> | following the C base is an insertion of 3 bases |
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Sequence</th>
+<th>Alteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ref</td>
+<td><code>a t C - - - g a</code></td>
+<td>C is the reference base</td>
+</tr>
+<tr>
+<td><span class="math inline">1</span></td>
+<td><code>a t C T A G g a</code></td>
+<td>following the C base is an insertion of 3 bases</td>
+</tr>
+</tbody>
+</table>
 
 <a id="deletion-vcf-record"></a>
 
@@ -1619,18 +1980,58 @@ only two alleles so I have the two following segregating haplotypes:
 
 Suppose I receive the following VCF record:
 
-| \#CHROM | POS | ID  | REF | ALT | QUAL | FILTER | INFO   |
-|:--------|:----|:----|:----|:----|:-----|:-------|:-------|
-| $20$    | $2$ | .   | TCG | T   | .    | PASS   | DP=100 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">2</span></td>
+<td>.</td>
+<td>TCG</td>
+<td>T</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+</tbody>
+</table>
 
 This is a deletion of two reference bases since the reference allele TCG
 is being replaced by just the T \[the reference base\]. Again there are
 only two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence | Alteration |
-|:---|:---|:---|
-| Ref | <code>a T C G a</code> | T is the (first) reference base |
-| $1$ | <code>a T - - a</code> | following the T base is a deletion of 2 bases |
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Sequence</th>
+<th>Alteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ref</td>
+<td><code>a T C G a</code></td>
+<td>T is the (first) reference base</td>
+</tr>
+<tr>
+<td><span class="math inline">1</span></td>
+<td><code>a T - - a</code></td>
+<td>following the T base is a deletion of 2 bases</td>
+</tr>
+</tbody>
+</table>
 
 <a id="mixed-vcf-record-for-a-microsatellite"></a>
 
@@ -1638,30 +2039,95 @@ only two alleles so I have the two following segregating haplotypes:
 
 Suppose I receive the following VCF record:
 
-| \#CHROM | POS | ID  | REF | ALT     | QUAL | FILTER | INFO   |
-|:--------|:----|:----|:----|:--------|:-----|:-------|:-------|
-| $20$    | $4$ | .   | GCG | G,GCGCG | .    | PASS   | DP=100 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">20</span></td>
+<td><span class="math inline">4</span></td>
+<td>.</td>
+<td>GCG</td>
+<td>G,GCGCG</td>
+<td>.</td>
+<td>PASS</td>
+<td>DP=100</td>
+</tr>
+</tbody>
+</table>
 
 This is a mixed type record containing a 2 base insertion and a 2 base
 deletion. There are are three segregating alleles so I have the three
 following haplotypes:
 
-| Example | Sequence | Alteration |
-|:---|:---|:---|
-| Ref | <code>a t c G C G - - a</code> | G is the (first) reference base |
-| $1$ | <code>a t c G - - - - a</code> | following the G base is a deletion of 2 bases |
-| $2$ | <code>a t c G C G C G a</code> | following the G base is an insertion of 2 bases |
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Sequence</th>
+<th>Alteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ref</td>
+<td><code>a t c G C G - - a</code></td>
+<td>G is the (first) reference base</td>
+</tr>
+<tr>
+<td><span class="math inline">1</span></td>
+<td><code>a t c G - - - - a</code></td>
+<td>following the G base is a deletion of 2 bases</td>
+</tr>
+<tr>
+<td><span class="math inline">2</span></td>
+<td><code>a t c G C G C G a</code></td>
+<td>following the G base is an insertion of 2 bases</td>
+</tr>
+</tbody>
+</table>
 
 Note that in all of these examples dashes have been added to make the
 haplotypes clearer but of course the equivalence among bases isn't
 provided by the VCF. Technically the following is an equivalent
 alignment:
 
-| Example | Sequence | Alteration |
-|:---|:---|:---|
-| Ref | <code>a t c G - - C G a</code> | G is the (first) reference base |
-| $1$ | <code>a t c G - - - - a</code> | following the G base is a deletion of 2 bases |
-| $2$ | <code>a t c G C G C G a</code> | following the G base is an insertion of 2 bases |
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Sequence</th>
+<th>Alteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ref</td>
+<td><code>a t c G - - C G a</code></td>
+<td>G is the (first) reference base</td>
+</tr>
+<tr>
+<td><span class="math inline">1</span></td>
+<td><code>a t c G - - - - a</code></td>
+<td>following the G base is a deletion of 2 bases</td>
+</tr>
+<tr>
+<td><span class="math inline">2</span></td>
+<td><code>a t c G C G C G a</code></td>
+<td>following the G base is an insertion of 2 bases</td>
+</tr>
+</tbody>
+</table>
 
 <a id="encoding-structural-variants"></a>
 
@@ -1753,12 +2219,37 @@ These 3 elements are combined in 4 possible ways to create the ALT. In
 each of the 4 cases, the assertion is that s is replaced with t, and
 then some piece starting at position p is joined to t. The cases are:
 
-| REF | ALT      | Meaning                                                    |
-|:----|:---------|:-----------------------------------------------------------|
-| s   | t$[$p$[$ | piece extending to the right of p is joined after t        |
-| s   | t$]$p$]$ | reverse comp piece extending left of p is joined after t   |
-| s   | $]$p$]$t | piece extending to the left of p is joined before t        |
-| s   | $[$p$[$t | reverse comp piece extending right of p is joined before t |
+<table>
+<thead>
+<tr>
+<th>REF</th>
+<th>ALT</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s</td>
+<td>t<span class="math inline">[</span>p<span class="math inline">[</span></td>
+<td>piece extending to the right of p is joined after t</td>
+</tr>
+<tr>
+<td>s</td>
+<td>t<span class="math inline">]</span>p<span class="math inline">]</span></td>
+<td>reverse comp piece extending left of p is joined after t</td>
+</tr>
+<tr>
+<td>s</td>
+<td><span class="math inline">]</span>p<span class="math inline">]</span>t</td>
+<td>piece extending to the left of p is joined before t</td>
+</tr>
+<tr>
+<td>s</td>
+<td><span class="math inline">[</span>p<span class="math inline">[</span>t</td>
+<td>reverse comp piece extending right of p is joined before t</td>
+</tr>
+</tbody>
+</table>
 
 The example in Figure 1 shows a 3-break operation involving 6 breakends.
 It exemplifies all possible orientations of breakends in adjacencies.
@@ -1770,14 +2261,88 @@ style="width:4in;height:2.96in" />
 <figcaption>All possible orientations of breakends</figcaption>
 </figure>
 
-| \#CHROM | POS      | ID    | REF | ALT                      | QUAL | FILTER | INFO |
-|:--------|:---------|:------|:----|:-------------------------|:-----|:-------|:-----|
-| $2$     | $321681$ | bnd_W | G   | G$]17$:$198982]$         | $6$  | PASS   | .    |
-| $2$     | $321682$ | bnd_V | T   | $]$<!-- -->13:123456$]$T | 6    | PASS   | .    |
-| $13$    | $123456$ | bnd_U | C   | C$[$<!-- -->2:321682$[$  | 6    | PASS   | .    |
-| $13$    | $123457$ | bnd_X | A   | $[$<!-- -->17:198983$[$A | 6    | PASS   | .    |
-| $17$    | $198982$ | bnd_Y | A   | A$]$<!-- -->2:321681$]$  | 6    | PASS   | .    |
-| $17$    | $198983$ | bnd_Z | C   | $[$<!-- -->13:123457$[$C | 6    | PASS   | .    |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">2</span></td>
+<td><span class="math inline">321681</span></td>
+<td>bnd_W</td>
+<td>G</td>
+<td>G<span class="math inline">]17</span>:<span
+class="math inline">198982]</span></td>
+<td><span class="math inline">6</span></td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+<tr>
+<td><span class="math inline">2</span></td>
+<td><span class="math inline">321682</span></td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">]</span>13:123456<span
+class="math inline">]</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123456</span></td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[</span>2:321682<span
+class="math inline">[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123457</span></td>
+<td>bnd_X</td>
+<td>A</td>
+<td><span class="math inline">[</span>17:198983<span
+class="math inline">[</span>A</td>
+<td>6</td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+<tr>
+<td><span class="math inline">17</span></td>
+<td><span class="math inline">198982</span></td>
+<td>bnd_Y</td>
+<td>A</td>
+<td>A<span class="math inline">]</span>2:321681<span
+class="math inline">]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+<tr>
+<td><span class="math inline">17</span></td>
+<td><span class="math inline">198983</span></td>
+<td>bnd_Z</td>
+<td>C</td>
+<td><span class="math inline">[</span>13:123457<span
+class="math inline">[</span>C</td>
+<td>6</td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+</tbody>
+</table>
 
 <a id="inserted-sequence"></a>
 
@@ -1792,10 +2357,42 @@ style="width:4in;height:1.89in" />
 <figcaption>Inserted sequence between breakends</figcaption>
 </figure>
 
-| \#CHROM | POS      | ID    | REF | ALT                      | QUAL | FILTER | INFO         |
-|:--------|:---------|:------|:----|:-------------------------|:-----|:-------|:-------------|
-| $2$     | $321682$ | bnd_V | T   | $]13:123456]$AGTNNNNNCAT | $6$  | PASS   | MATEID=bnd_U |
-| $13$    | $123456$ | bnd_U | C   | CAGTNNNNNCA$[2:321682[$  | $6$  | PASS   | MATEID=bnd_V |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">2</span></td>
+<td><span class="math inline">321682</span></td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">]13 : 123456]</span>AGTNNNNNCAT</td>
+<td><span class="math inline">6</span></td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+</tr>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123456</span></td>
+<td>bnd_U</td>
+<td>C</td>
+<td>CAGTNNNNNCA<span class="math inline">[2 : 321682[</span></td>
+<td><span class="math inline">6</span></td>
+<td>PASS</td>
+<td>MATEID=bnd_V</td>
+</tr>
+</tbody>
+</table>
 
 <a id="large-insertions"></a>
 
@@ -1811,37 +2408,182 @@ style="width:4in;height:2.47in" />
 <figcaption>Inserted contig</figcaption>
 </figure>
 
-| \#CHROM | POS      | ID    | REF | ALT               | QUAL | FILTER | INFO         |
-|:--------|:---------|:------|:----|:------------------|:-----|:-------|:-------------|
-| $13$    | $123456$ | bnd_U | C   | C$[<$ctg1$>:1[$   | $6$  | PASS   | MATEID=bnd_V |
-| $13$    | $123457$ | bnd_V | A   | $]<$ctg$1>:329]$A | $6$  | PASS   | MATEID=bnd_U |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123456</span></td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[&lt;</span>ctg1<span
+class="math inline"> &gt;  : 1[</span></td>
+<td><span class="math inline">6</span></td>
+<td>PASS</td>
+<td>MATEID=bnd_V</td>
+</tr>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123457</span></td>
+<td>bnd_V</td>
+<td>A</td>
+<td><span class="math inline">]&lt;</span>ctg<span
+class="math inline">1 &gt;  : 329]</span>A</td>
+<td><span class="math inline">6</span></td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+</tr>
+</tbody>
+</table>
 
 **Note**: In the special case of the complete insertion of a sequence
 between two base pairs, it is recommended to use the shorthand notation
 described below:
 
-| \#CHROM | POS      | ID   | REF | ALT       | QUAL | FILTER | INFO |
-|:--------|:---------|:-----|:----|:----------|:-----|:-------|:-----|
-| $13$    | $123456$ | INS0 | C   | \<ctg$1>$ | $6$  | PASS   | .    |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123456</span></td>
+<td>INS0</td>
+<td>C</td>
+<td>&lt;ctg<span class="math inline">1&gt;</span></td>
+<td><span class="math inline">6</span></td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+</tbody>
+</table>
 
 If only a portion of \<ctg$1>$, say from position $7$ to position $214$,
 is inserted, the VCF would be:
 
-| \#CHROM | POS      | ID    | REF | ALT               | QUAL | FILTER | INFO         |
-|:--------|:---------|:------|:----|:------------------|:-----|:-------|:-------------|
-| $13$    | $123456$ | bnd_U | C   | C$[<$ctg1$>:7[$   | $6$  | PASS   | MATEID=bnd_U |
-| $13$    | $123457$ | bnd_V | A   | $]<$ctg$1>:214]$A | $6$  | PASS   | MATEID=bnd_V |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123456</span></td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[&lt;</span>ctg1<span
+class="math inline"> &gt;  : 7[</span></td>
+<td><span class="math inline">6</span></td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+</tr>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123457</span></td>
+<td>bnd_V</td>
+<td>A</td>
+<td><span class="math inline">]&lt;</span>ctg<span
+class="math inline">1 &gt;  : 214]</span>A</td>
+<td><span class="math inline">6</span></td>
+<td>PASS</td>
+<td>MATEID=bnd_V</td>
+</tr>
+</tbody>
+</table>
 
 If \<ctg$1>$ is circular and a segment from position 229 to position 45
 is inserted, i.e., continuing from position 329 on to position 1, this
 is represented by adding a circular adjacency:
 
-| \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-|:---|:---|:---|:---|:---|:---|:---|:---|
-| $13$ | $123456$ | bnd_U | C | C$[<$ctg$1>:229[$ | 6 | PASS | MATEID=bnd_U;EVENT=INS0 |
-| $13$ | $123457$ | bnd_V | A | $]<$ctg$1>:45]$A | 6 | PASS | MATEID=bnd_V;EVENT=INS0 |
-| \<ctg$1>$ | 1 | bnd_X | A | $]<$ctg$1>:329]$A | 6 | PASS | MATEID=bnd_Y;EVENT=INS0 |
-| \<ctg$1>$ | 329 | bnd_Y | T | T$[<$ctg$1>:1[$ | 6 | PASS | MATEID=bnd_C;EVENT=INS0 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123456</span></td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[&lt;</span>ctg<span
+class="math inline">1 &gt;  : 229[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U;EVENT=INS0</td>
+</tr>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123457</span></td>
+<td>bnd_V</td>
+<td>A</td>
+<td><span class="math inline">]&lt;</span>ctg<span
+class="math inline">1 &gt;  : 45]</span>A</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V;EVENT=INS0</td>
+</tr>
+<tr>
+<td>&lt;ctg<span class="math inline">1&gt;</span></td>
+<td>1</td>
+<td>bnd_X</td>
+<td>A</td>
+<td><span class="math inline">]&lt;</span>ctg<span
+class="math inline">1 &gt;  : 329]</span>A</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_Y;EVENT=INS0</td>
+</tr>
+<tr>
+<td>&lt;ctg<span class="math inline">1&gt;</span></td>
+<td>329</td>
+<td>bnd_Y</td>
+<td>T</td>
+<td>T<span class="math inline">[&lt;</span>ctg<span
+class="math inline">1 &gt;  : 1[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_C;EVENT=INS0</td>
+</tr>
+</tbody>
+</table>
 
 <a id="multiple-mates"></a>
 
@@ -1857,11 +2599,53 @@ style="width:4in;height:2.8in" />
 <figcaption>Breakend with multiple mates</figcaption>
 </figure>
 
-| \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-|:---|:---|:---|:---|:---|:---|:---|:---|
-| $2$ | $321682$ | bnd_V | T | $]13:123456]$T | 6 | PASS | MATEID=bnd_U |
-| $13$ | $123456$ | bnd_U | C | C$[2:321682[$,C$[17:198983[$ | 6 | PASS | MATEID=bnd_V,bnd_Z |
-| $17$ | $198983$ | bnd_Z | A | $]13:123456]$A | 6 | PASS | MATEID=bnd_U |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">2</span></td>
+<td><span class="math inline">321682</span></td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">]13 : 123456]</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+</tr>
+<tr>
+<td><span class="math inline">13</span></td>
+<td><span class="math inline">123456</span></td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[2 : 321682[</span>,C<span
+class="math inline">[17 : 198983[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V,bnd_Z</td>
+</tr>
+<tr>
+<td><span class="math inline">17</span></td>
+<td><span class="math inline">198983</span></td>
+<td>bnd_Z</td>
+<td>A</td>
+<td><span class="math inline">]13 : 123456]</span>A</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+</tr>
+</tbody>
+</table>
 
 <a id="explicit-partners"></a>
 
@@ -1878,12 +2662,62 @@ breakend's partner may be explicitly named as in Figure 5:
 <figcaption>Partner breakends</figcaption>
 </figure>
 
-| \#CHROM | POS    | ID    | REF | ALT            | QUAL | FILTER | INFO                     |
-|:--------|:-------|:------|:----|:---------------|:-----|:-------|:-------------------------|
-| 2       | 321681 | bnd_W | G   | G$[13:123460[$ | 6    | PASS   | PARID=bnd_V;MATEID=bnd_X |
-| 2       | 321682 | bnd_V | T   | $]13:123456]$T | 6    | PASS   | PARID=bnd_W;MATEID=bnd_U |
-| 13      | 123456 | bnd_U | C   | C$[2:321682[$  | 6    | PASS   | PARID=bnd_X;MATEID=bnd_V |
-| 13      | 123460 | bnd_X | A   | $]2:321681]$A  | 6    | PASS   | PARID=bnd_U;MATEID=bnd_W |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>321681</td>
+<td>bnd_W</td>
+<td>G</td>
+<td>G<span class="math inline">[13 : 123460[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>PARID=bnd_V;MATEID=bnd_X</td>
+</tr>
+<tr>
+<td>2</td>
+<td>321682</td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">]13 : 123456]</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>PARID=bnd_W;MATEID=bnd_U</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123456</td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[2 : 321682[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>PARID=bnd_X;MATEID=bnd_V</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123460</td>
+<td>bnd_X</td>
+<td>A</td>
+<td><span class="math inline">]2 : 321681]</span>A</td>
+<td>6</td>
+<td>PASS</td>
+<td>PARID=bnd_U;MATEID=bnd_W</td>
+</tr>
+</tbody>
+</table>
 
 <a id="telomeres"></a>
 
@@ -1904,12 +2738,62 @@ chromosome 1 into chromosome 13, as illustrated in Figure 6:
 
 the records would look like:
 
-| \#CHROM | POS    | ID    | REF | ALT            | QUAL | FILTER | INFO         |
-|:--------|:-------|:------|:----|:---------------|:-----|:-------|:-------------|
-| 1       | 0      | bnd_X | N   | $.[13:123457[$ | 6    | PASS   | MATEID=bnd_V |
-| 1       | 1      | bnd_Y | T   | $]13:123456]$T | 6    | PASS   | MATEID=bnd_U |
-| 13      | 123456 | bnd_U | C   | C$[1:1[$       | 6    | PASS   | MATEID=bnd_Y |
-| 13      | 123457 | bnd_V | A   | $]1:0]$A       | 6    | PASS   | MATEID=bnd_X |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>bnd_X</td>
+<td>N</td>
+<td><span class="math inline">.[13 : 123457[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>bnd_Y</td>
+<td>T</td>
+<td><span class="math inline">]13 : 123456]</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123456</td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[1 : 1[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_Y</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123457</td>
+<td>bnd_V</td>
+<td>A</td>
+<td><span class="math inline">]1 : 0]</span>A</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_X</td>
+</tr>
+</tbody>
+</table>
 
 <a id="event-modifiers"></a>
 
@@ -1927,12 +2811,62 @@ style="width:4in;height:1.92in" />
 
 would be described as:
 
-| \#CHROM | POS    | ID    | REF | ALT            | QUAL | FILTER | INFO                   |
-|:--------|:-------|:------|:----|:---------------|:-----|:-------|:-----------------------|
-| 2       | 321681 | bnd_W | G   | G$[13:123457[$ | 6    | PASS   | MATEID=bnd_X;EVENT=RR0 |
-| 2       | 321682 | bnd_V | T   | $]13:123456]$T | 6    | PASS   | MATEID=bnd_U;EVENT=RR0 |
-| 13      | 123456 | bnd_U | C   | C$[2:321682[$  | 6    | PASS   | MATEID=bnd_V;EVENT=RR0 |
-| 13      | 123457 | bnd_X | A   | $]2:321681]$A  | 6    | PASS   | MATEID=bnd_W;EVENT=RR0 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>321681</td>
+<td>bnd_W</td>
+<td>G</td>
+<td>G<span class="math inline">[13 : 123457[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_X;EVENT=RR0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>321682</td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">]13 : 123456]</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U;EVENT=RR0</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123456</td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[2 : 321682[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V;EVENT=RR0</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123457</td>
+<td>bnd_X</td>
+<td>A</td>
+<td><span class="math inline">]2 : 321681]</span>A</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_W;EVENT=RR0</td>
+</tr>
+</tbody>
+</table>
 
 <a id="inversions"></a>
 
@@ -1948,18 +2882,91 @@ Similarly an inversion such as in Figure 8:
 can be described equivalently in two ways. Either one uses the short
 hand notation described previously (recommended for simple cases):
 
-| \#CHROM | POS    | ID   | REF | ALT     | QUAL | FILTER | INFO       |
-|:--------|:-------|:-----|:----|:--------|:-----|:-------|:-----------|
-| 2       | 321681 | INV0 | G   | \<INV\> | 6    | PASS   | END=421681 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>321681</td>
+<td>INV0</td>
+<td>G</td>
+<td>&lt;INV&gt;</td>
+<td>6</td>
+<td>PASS</td>
+<td>END=421681</td>
+</tr>
+</tbody>
+</table>
 
 or one describes the breakends:
 
-| \#CHROM | POS    | ID    | REF | ALT           | QUAL | FILTER | INFO                    |
-|:--------|:-------|:------|:----|:--------------|:-----|:-------|:------------------------|
-| 2       | 321681 | bnd_W | G   | G$]2:421681]$ | 6    | PASS   | MATEID=bnd_U;EVENT=INV0 |
-| 2       | 321682 | bnd_V | T   | $[2:421682[$T | 6    | PASS   | MATEID=bnd_X;EVENT=INV0 |
-| 2       | 421681 | bnd_U | A   | A$]2:321681]$ | 6    | PASS   | MATEID=bnd_W;EVENT=INV0 |
-| 2       | 421682 | bnd_X | C   | $[2:321682[$C | 6    | PASS   | MATEID=bnd_V;EVENT=INV0 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>321681</td>
+<td>bnd_W</td>
+<td>G</td>
+<td>G<span class="math inline">]2 : 421681]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U;EVENT=INV0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>321682</td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">[2 : 421682[</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_X;EVENT=INV0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>421681</td>
+<td>bnd_U</td>
+<td>A</td>
+<td>A<span class="math inline">]2 : 321681]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_W;EVENT=INV0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>421682</td>
+<td>bnd_X</td>
+<td>C</td>
+<td><span class="math inline">[2 : 321682[</span>C</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V;EVENT=INV0</td>
+</tr>
+</tbody>
+</table>
 
 <a id="uncertainty-around-breakend-location"></a>
 
@@ -1986,10 +2993,42 @@ recombination events which are allowed by the sequence evidence
 available. We therefore place both U and V arbitrarily within the
 interval of possibility:
 
-| \#CHROM | POS    | ID    | REF | ALT            | QUAL | FILTER | INFO                   |
-|:--------|:-------|:------|:----|:---------------|:-----|:-------|:-----------------------|
-| 2       | 321681 | bnd_V | T   | T$]13:123462]$ | 6    | PASS   | MATEID=bnd_U;CIPOS=0,6 |
-| 13      | 123456 | bnd_U | A   | A$]2:321687]$  | 6    | PASS   | MATEID=bnd_V;CIPOS=0,6 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>321681</td>
+<td>bnd_V</td>
+<td>T</td>
+<td>T<span class="math inline">]13 : 123462]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U;CIPOS=0,6</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123456</td>
+<td>bnd_U</td>
+<td>A</td>
+<td>A<span class="math inline">]2 : 321687]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V;CIPOS=0,6</td>
+</tr>
+</tbody>
+</table>
 
 Note that the coordinate in breakend U's ALT string does not correspond
 to the designated position of breakend V, but to the position that V
@@ -2023,12 +3062,62 @@ the partner W of V exist and are breakends. In this case we can specify
 these as single breakends, with unknown mates. The 4 lines of VCF
 representing this situation would be:
 
-| \#CHROM | POS    | ID    | REF | ALT            | QUAL | FILTER | INFO         |
-|:--------|:-------|:------|:----|:---------------|:-----|:-------|:-------------|
-| 2       | 321681 | bnd_W | G   | G.             | 6    | PASS   | .            |
-| 2       | 321682 | bnd_V | T   | $]13:123456]$T | 6    | PASS   | MATEID=bnd_U |
-| 13      | 123456 | bnd_U | C   | C$[2:321682[$  | 6    | PASS   | MATEID=bnd_V |
-| 13      | 123457 | bnd_X | A   | .A             | 6    | PASS   | .            |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>321681</td>
+<td>bnd_W</td>
+<td>G</td>
+<td>G.</td>
+<td>6</td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>321682</td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">]13 : 123456]</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123456</td>
+<td>bnd_U</td>
+<td>C</td>
+<td>C<span class="math inline">[2 : 321682[</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V</td>
+</tr>
+<tr>
+<td>13</td>
+<td>123457</td>
+<td>bnd_X</td>
+<td>A</td>
+<td>.A</td>
+<td>6</td>
+<td>PASS</td>
+<td>.</td>
+</tr>
+</tbody>
+</table>
 
 On the other hand, if we know a simple reciprocal translocation has
 occurred as in Figure 7, then even if we have no evidence for the (W,X)
@@ -2042,21 +3131,103 @@ X.
 Another possible reason for calling single breakends is an observed but
 unexplained change in copy number along a chromosome.
 
-| \#CHROM | POS   | ID    | REF | ALT     | QUAL | FILTER | INFO                                |
-|:--------|:------|:------|:----|:--------|:-----|:-------|:------------------------------------|
-| 3       | 12665 | bnd_X | A   | .A      | 6    | PASS   | CIPOS=-50,50                        |
-| 3       | 12665 | .     | A   | \<DUP\> | 14   | PASS   | END=13686;CIPOS=-50,50;CIEND=-50,50 |
-| 3       | 13686 | bnd_Y | T   | T.      | 6    | PASS   | CIPOS=-50,50                        |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>12665</td>
+<td>bnd_X</td>
+<td>A</td>
+<td>.A</td>
+<td>6</td>
+<td>PASS</td>
+<td>CIPOS=-50,50</td>
+</tr>
+<tr>
+<td>3</td>
+<td>12665</td>
+<td>.</td>
+<td>A</td>
+<td>&lt;DUP&gt;</td>
+<td>14</td>
+<td>PASS</td>
+<td>END=13686;CIPOS=-50,50;CIEND=-50,50</td>
+</tr>
+<tr>
+<td>3</td>
+<td>13686</td>
+<td>bnd_Y</td>
+<td>T</td>
+<td>T.</td>
+<td>6</td>
+<td>PASS</td>
+<td>CIPOS=-50,50</td>
+</tr>
+</tbody>
+</table>
 
 Finally, if an insertion is detected but only the first few base-pairs
 provided by overhanging reads could be assembled, then this inserted
 sequence can be provided on that line, in analogy to paired breakends:
 
-| \#CHROM | POS   | ID    | REF | ALT     | QUAL | FILTER | INFO                                |
-|:--------|:------|:------|:----|:--------|:-----|:-------|:------------------------------------|
-| 3       | 12665 | bnd_X | A   | .TGCA   | 6    | PASS   | CIPOS=-50,50                        |
-| 3       | 12665 | .     | A   | \<DUP\> | 14   | PASS   | END=13686;CIPOS=-50,50;CIEND=-50,50 |
-| 3       | 13686 | bnd_Y | T   | TCC.    | 6    | PASS   | CIPOS=-50,50                        |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>12665</td>
+<td>bnd_X</td>
+<td>A</td>
+<td>.TGCA</td>
+<td>6</td>
+<td>PASS</td>
+<td>CIPOS=-50,50</td>
+</tr>
+<tr>
+<td>3</td>
+<td>12665</td>
+<td>.</td>
+<td>A</td>
+<td>&lt;DUP&gt;</td>
+<td>14</td>
+<td>PASS</td>
+<td>END=13686;CIPOS=-50,50;CIEND=-50,50</td>
+</tr>
+<tr>
+<td>3</td>
+<td>13686</td>
+<td>bnd_Y</td>
+<td>T</td>
+<td>TCC.</td>
+<td>6</td>
+<td>PASS</td>
+<td>CIPOS=-50,50</td>
+</tr>
+</tbody>
+</table>
 
 <a id="sample-mixtures"></a>
 
@@ -2078,12 +3249,77 @@ the example of the inversion just above, the VCF code could become:
 
 <div class="flushleft">
 
-| \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | Blood | TissueSample |
-|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| 2 | 321681 | bnd_W | G | G$]2:421681]$ | 6 | PASS | MATEID=bnd_U | GT:AD | 0:32,0 | $0|1:9,21$ |
-| 2 | 321682 | bnd_V | T | $[2:421682[$T | 6 | PASS | MATEID=bnd_X | GT:AD | 0:29,0 | $0|1:11,25$ |
-| 13 | 421681 | bnd_U | A | A$]2:321681]$ | 6 | PASS | MATEID=bnd_W | GT:AD | 0:34,0 | $0|1:10,23$ |
-| 13 | 421682 | bnd_X | C | $[2:321682[$C | 6 | PASS | MATEID=bnd_V | GT:AD | 0:31,0 | $0|1:8,20$ |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+<th>FORMAT</th>
+<th>Blood</th>
+<th>TissueSample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>321681</td>
+<td>bnd_W</td>
+<td>G</td>
+<td>G<span class="math inline">]2 : 421681]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+<td>GT:AD</td>
+<td>0:32,0</td>
+<td><span class="math inline">0|1 : 9, 21</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>321682</td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">[2 : 421682[</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_X</td>
+<td>GT:AD</td>
+<td>0:29,0</td>
+<td><span class="math inline">0|1 : 11, 25</span></td>
+</tr>
+<tr>
+<td>13</td>
+<td>421681</td>
+<td>bnd_U</td>
+<td>A</td>
+<td>A<span class="math inline">]2 : 321681]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_W</td>
+<td>GT:AD</td>
+<td>0:34,0</td>
+<td><span class="math inline">0|1 : 10, 23</span></td>
+</tr>
+<tr>
+<td>13</td>
+<td>421682</td>
+<td>bnd_X</td>
+<td>C</td>
+<td><span class="math inline">[2 : 321682[</span>C</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V</td>
+<td>GT:AD</td>
+<td>0:31,0</td>
+<td><span class="math inline">0|1 : 8, 20</span></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -2093,12 +3329,77 @@ data:
 
 <div class="flushleft">
 
-| \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | Blood | TumorSample |
-|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| 2 | 321681 | bnd_W | G | G$]2:421681]$ | 6 | PASS | MATEID=bnd_U | GT:CN | 0:1 | 1:1 |
-| 2 | 321682 | bnd_V | T | $[2:421682[$T | 6 | PASS | MATEID=bnd_X | GT:CN | 0:1 | 1:1 |
-| 13 | 421681 | bnd_U | A | A$]2:321681]$ | 6 | PASS | MATEID=bnd_W | GT:CN | 0:1 | 1:1 |
-| 13 | 421682 | bnd_X | C | $[2:321682[$C | 6 | PASS | MATEID=bnd_V | GT:CN | 0:1 | 1:1 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+<th>FORMAT</th>
+<th>Blood</th>
+<th>TumorSample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>321681</td>
+<td>bnd_W</td>
+<td>G</td>
+<td>G<span class="math inline">]2 : 421681]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_U</td>
+<td>GT:CN</td>
+<td>0:1</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>321682</td>
+<td>bnd_V</td>
+<td>T</td>
+<td><span class="math inline">[2 : 421682[</span>T</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_X</td>
+<td>GT:CN</td>
+<td>0:1</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>13</td>
+<td>421681</td>
+<td>bnd_U</td>
+<td>A</td>
+<td>A<span class="math inline">]2 : 321681]</span></td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_W</td>
+<td>GT:CN</td>
+<td>0:1</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>13</td>
+<td>421682</td>
+<td>bnd_X</td>
+<td>C</td>
+<td><span class="math inline">[2 : 321682[</span>C</td>
+<td>6</td>
+<td>PASS</td>
+<td>MATEID=bnd_V</td>
+<td>GT:CN</td>
+<td>0:1</td>
+<td>1:1</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -2203,15 +3504,108 @@ Example records are given below:
 
 <div class="flushleft">
 
-| \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | Sample |
-|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| 1 | 4370 | . | G | \<\*\> | . | . | END=4383 | GT:DP:GQ:MIN_DP:PL | 0/0:25:60:23:0,60,900 |
-| 1 | 4384 | . | C | \<\*\> | . | . | END=4388 | GT:DP:GQ:MIN_DP:PL | 0/0:25:45:25:0,42,630 |
-| 1 | 4389 | . | T | TC,\<\*\> | 213.73 | . | . | GT:DP:GQ:PL | 0/1:23:99:51,0,36,93,92,86 |
-| 1 | 4390 | . | C | \<\*\> | . | . | END=4390 | GT:DP:GQ:MIN_DP:PL | 0/0:26:0:26:0,0,315 |
-| 1 | 4391 | . | C | \<\*\> | . | . | END=4395 | GT:DP:GQ:MIN_DP:PL | 0/0:27:63:27:0,63,945 |
-| 1 | 4396 | . | G | C,\<\*\> | 0 | . | . | GT:DP:GQ:P | 0/0:24:52:0,52,95,66,95,97 |
-| 1 | 4397 | . | T | \<\*\> | . | . | END=4416 | GT:DP:GQ:MIN_DP:PL | 0/0:22:14:22:0,15,593 |
+<table>
+<thead>
+<tr>
+<th>#CHROM</th>
+<th>POS</th>
+<th>ID</th>
+<th>REF</th>
+<th>ALT</th>
+<th>QUAL</th>
+<th>FILTER</th>
+<th>INFO</th>
+<th>FORMAT</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>4370</td>
+<td>.</td>
+<td>G</td>
+<td>&lt;*&gt;</td>
+<td>.</td>
+<td>.</td>
+<td>END=4383</td>
+<td>GT:DP:GQ:MIN_DP:PL</td>
+<td>0/0:25:60:23:0,60,900</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4384</td>
+<td>.</td>
+<td>C</td>
+<td>&lt;*&gt;</td>
+<td>.</td>
+<td>.</td>
+<td>END=4388</td>
+<td>GT:DP:GQ:MIN_DP:PL</td>
+<td>0/0:25:45:25:0,42,630</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4389</td>
+<td>.</td>
+<td>T</td>
+<td>TC,&lt;*&gt;</td>
+<td>213.73</td>
+<td>.</td>
+<td>.</td>
+<td>GT:DP:GQ:PL</td>
+<td>0/1:23:99:51,0,36,93,92,86</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4390</td>
+<td>.</td>
+<td>C</td>
+<td>&lt;*&gt;</td>
+<td>.</td>
+<td>.</td>
+<td>END=4390</td>
+<td>GT:DP:GQ:MIN_DP:PL</td>
+<td>0/0:26:0:26:0,0,315</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4391</td>
+<td>.</td>
+<td>C</td>
+<td>&lt;*&gt;</td>
+<td>.</td>
+<td>.</td>
+<td>END=4395</td>
+<td>GT:DP:GQ:MIN_DP:PL</td>
+<td>0/0:27:63:27:0,63,945</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4396</td>
+<td>.</td>
+<td>G</td>
+<td>C,&lt;*&gt;</td>
+<td>0</td>
+<td>.</td>
+<td>.</td>
+<td>GT:DP:GQ:P</td>
+<td>0/0:24:52:0,52,95,66,95,97</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4397</td>
+<td>.</td>
+<td>T</td>
+<td>&lt;*&gt;</td>
+<td>.</td>
+<td>.</td>
+<td>END=4416</td>
+<td>GT:DP:GQ:MIN_DP:PL</td>
+<td>0/0:22:14:22:0,15,593</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -2485,13 +3879,42 @@ extensions/restrictions:
 
 The BCF2 header contains the following items:
 
-| **Field** | **Type** | **Notes** |
-|:---|:---|:---|
-| magic | char\[3\] | The characters "<code>BCF</code>" |
-| major_version | uint8_t | 2 |
-| minor_version | uint8_t | 2 |
-| l_text | uint32_t | Length of the "text" field, including the terminating NUL character |
-| text | char\[l_text\] | VCF format header text, NUL-terminated |
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>magic</td>
+<td>char[3]</td>
+<td>The characters "<span><code>BCF</code></span>"</td>
+</tr>
+<tr>
+<td>major_version</td>
+<td>uint8_t</td>
+<td>2</td>
+</tr>
+<tr>
+<td>minor_version</td>
+<td>uint8_t</td>
+<td>2</td>
+</tr>
+<tr>
+<td>l_text</td>
+<td>uint32_t</td>
+<td>Length of the "text" field, including the terminating NUL character</td>
+</tr>
+<tr>
+<td>text</td>
+<td>char[l_text]</td>
+<td>VCF format header text, NUL-terminated</td>
+</tr>
+</tbody>
+</table>
 
 The "magic" field and version numbers can be used to quickly examine the
 file to determine that it's a BCF2.2 file. The "text" field contains the
@@ -2590,23 +4013,100 @@ the VCF file. Compression of a BCF file is recommended but not required.
 
 ### 6.3.1 Site encoding
 
-| **Field** | **Type** | **Notes** |
-|:---|:---|:---|
-| l_shared | uint32_t | Data length from CHROM to the end of INFO |
-| l_indiv | uint32_t | Data length of FORMAT and individual genotype fields |
-| CHROM | int32_t | Given as an offset into the mandatory contig dictionary |
-| POS | int32_t | 0-based leftmost coordinate |
-| rlen | int32_t | Length of the record as projected onto the reference sequence. Must be the maximum of the length of the REF allele and the lengths inferred from the SVLEN/END of any symbolic alleles |
-| QUAL | float | Variant quality; 0x7F800001 for a missing value |
-| n_info | uint16_t | The number of INFO fields in this record |
-| n_allele | uint16_t | The number of REF+ALT alleles in this record |
-| n_sample | uint24_t | The number of samples in this record, stored as a **three** byte little-endian value. Note that n_sample must be equal to the number of samples in the header |
-| n_fmt | uint8_t | The number of FORMAT keys. See [6.3.2](#GenotypeEncoding) |
-| ID | typed string | Variant identifier; 0x07 for a missing value |
-| REF+ALT | list of n_allele typed strings | the first allele is REF (mandatory) followed by n_alleles - 1 ALT alleles, all encoded as typed strings |
-| FILTER | Typed vector of integers | a vector of integer offsets into dictionary, one for each FILTER field value. "." is encoded as MISSING |
-| INFO | field key/value pairs | n_info pairs of typed vectors. The first value must be a typed atomic integer giving the offset of the INFO field key into the dictionary. The second value is a typed vector giving the value of the field |
-| Genotype values | see below | see below |
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>l_shared</td>
+<td>uint32_t</td>
+<td>Data length from CHROM to the end of INFO</td>
+</tr>
+<tr>
+<td>l_indiv</td>
+<td>uint32_t</td>
+<td>Data length of FORMAT and individual genotype fields</td>
+</tr>
+<tr>
+<td>CHROM</td>
+<td>int32_t</td>
+<td>Given as an offset into the mandatory contig dictionary</td>
+</tr>
+<tr>
+<td>POS</td>
+<td>int32_t</td>
+<td>0-based leftmost coordinate</td>
+</tr>
+<tr>
+<td>rlen</td>
+<td>int32_t</td>
+<td>Length of the record as projected onto the reference sequence. Must be
+the maximum of the length of the REF allele and the lengths inferred
+from the SVLEN/END of any symbolic alleles</td>
+</tr>
+<tr>
+<td>QUAL</td>
+<td>float</td>
+<td>Variant quality; 0x7F800001 for a missing value</td>
+</tr>
+<tr>
+<td>n_info</td>
+<td>uint16_t</td>
+<td>The number of INFO fields in this record</td>
+</tr>
+<tr>
+<td>n_allele</td>
+<td>uint16_t</td>
+<td>The number of REF+ALT alleles in this record</td>
+</tr>
+<tr>
+<td>n_sample</td>
+<td>uint24_t</td>
+<td>The number of samples in this record, stored as a <strong>three</strong>
+byte little-endian value. Note that n_sample must be equal to the number
+of samples in the header</td>
+</tr>
+<tr>
+<td>n_fmt</td>
+<td>uint8_t</td>
+<td>The number of FORMAT keys. See <a href="#GenotypeEncoding">6.3.2</a></td>
+</tr>
+<tr>
+<td>ID</td>
+<td>typed string</td>
+<td>Variant identifier; 0x07 for a missing value</td>
+</tr>
+<tr>
+<td>REF+ALT</td>
+<td>list of n_allele typed strings</td>
+<td>the first allele is REF (mandatory) followed by n_alleles - 1 ALT
+alleles, all encoded as typed strings</td>
+</tr>
+<tr>
+<td>FILTER</td>
+<td>Typed vector of integers</td>
+<td>a vector of integer offsets into dictionary, one for each FILTER field
+value. "." is encoded as MISSING</td>
+</tr>
+<tr>
+<td>INFO</td>
+<td>field key/value pairs</td>
+<td>n_info pairs of typed vectors. The first value must be a typed atomic
+integer giving the offset of the INFO field key into the dictionary. The
+second value is a typed vector giving the value of the field</td>
+</tr>
+<tr>
+<td>Genotype values</td>
+<td>see below</td>
+<td>see below</td>
+</tr>
+</tbody>
+</table>
 
 <a id="GenotypeEncoding"></a>
 
@@ -2616,26 +4116,81 @@ Genotype fields are encoded not by sample as in VCF but rather by field,
 with a vector of values for each sample following each field. In BCF2,
 the following VCF line:
 
-| FORMAT   | NA00001  | NA00002 | NA00003  |
-|:---------|:---------|:--------|:---------|
-| GT:GQ:DP | 0/0:48:1 | 0/1:9:8 | 1/1:43:5 |
+<table>
+<thead>
+<tr>
+<th>FORMAT</th>
+<th>NA00001</th>
+<th>NA00002</th>
+<th>NA00003</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GT:GQ:DP</td>
+<td>0/0:48:1</td>
+<td>0/1:9:8</td>
+<td>1/1:43:5</td>
+</tr>
+</tbody>
+</table>
 
 would encoded as the equivalent of:
 
-| GT=0/0,0/1,1/1 | GQ=48,9,43 | DP=1,8,5 |     |
-|:---------------|:-----------|:---------|:----|
+<table>
+<thead>
+<tr>
+<th>GT=0/0,0/1,1/1</th>
+<th>GQ=48,9,43</th>
+<th>DP=1,8,5</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 Suppose there are i genotype fields in a specific record. Each i is
 encoded by a triplet:
 
 BCF2 site information encoding
 
-| Field | Type | Notes |
-|:---|:---|:---|
-| fmt_key | typed int | Format key as an offset into the dictionary |
-| fmt_type | uint8_t+ | Typing byte of each individual value, possibly followed by a typed int for the vector length. In effect this is the same as the typing value for a single vector, but for genotype values it appears only once before the array of genotype field values |
-|  |  |  |
-| (by fmt type) | Array of values | The information of each individual is concatenated in the vector. Every value is of the same fmt type. Variable-length vectors are padded with END_OF_VECTOR values; a string is stored as a vector of char |
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fmt_key</td>
+<td>typed int</td>
+<td>Format key as an offset into the dictionary</td>
+</tr>
+<tr>
+<td>fmt_type</td>
+<td>uint8_t+</td>
+<td>Typing byte of each individual value, possibly followed by a typed int
+for the vector length. In effect this is the same as the typing value
+for a single vector, but for genotype values it appears only once before
+the array of genotype field values</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(by fmt type)</td>
+<td>Array of values</td>
+<td>The information of each individual is concatenated in the vector. Every
+value is of the same fmt type. Variable-length vectors are padded with
+END_OF_VECTOR values; a string is stored as a vector of char</td>
+</tr>
+</tbody>
+</table>
 
 The value is always implicitly a vector of N values, where N is the
 number of samples. The type byte of the value field indicates the type
@@ -2663,24 +4218,77 @@ as the number of elements in the value. The encoding is as follows:
 
 **BCF2 type descriptor byte**
 
-| Bit | Meaning |
-|:---|:---|
-| 5,6,7,8 bits | The number of elements of the upcoming type. For atomic values, the size must be 1. If the size is set to 15, this indicates that the vector has 15 or more elements, and that the subsequent BCF2 byte stream contains a typed Integer indicating the true size of the vector. If the size is between 2–14, then this Integer is omitted from the stream and the upcoming stream begins immediately with the first value of the vector. A size of 0 indicates that the value is MISSING. |
-| 1,2,3,4 bits | Type |
+<table>
+<thead>
+<tr>
+<th>Bit</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5,6,7,8 bits</td>
+<td>The number of elements of the upcoming type. For atomic values, the size
+must be 1. If the size is set to 15, this indicates that the vector has
+15 or more elements, and that the subsequent BCF2 byte stream contains a
+typed Integer indicating the true size of the vector. If the size is
+between 2–14, then this Integer is omitted from the stream and the
+upcoming stream begins immediately with the first value of the vector. A
+size of 0 indicates that the value is MISSING.</td>
+</tr>
+<tr>
+<td>1,2,3,4 bits</td>
+<td>Type</td>
+</tr>
+</tbody>
+</table>
 
 The final four bits encodes an unsigned integer that indicates the type
 of the upcoming value in the data stream.
 
 **BCF2 types**
 
-| Lowest 4 bits | Hexadecimal encoding | Corresponding atomic type |
-|:---|:---|:---|
-| 0 | 0x00 | A MISSING value without an explicit type provided |
-| 1 | 0x?1 | Integer \[8 bit\] |
-| 2 | 0x?2 | Integer \[16 bit\] |
-| 3 | 0x?3 | Integer \[32 bit\] |
-| 5 | 0x?5 | Float \[32 bit\] |
-| 7 | 0x?7 | Character, ASCII encoded in 8 bits |
+<table>
+<thead>
+<tr>
+<th>Lowest 4 bits</th>
+<th>Hexadecimal encoding</th>
+<th>Corresponding atomic type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0x00</td>
+<td>A MISSING value without an explicit type provided</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0x?1</td>
+<td>Integer [8 bit]</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0x?2</td>
+<td>Integer [16 bit]</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0x?3</td>
+<td>Integer [32 bit]</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0x?5</td>
+<td>Float [32 bit]</td>
+</tr>
+<tr>
+<td>7</td>
+<td>0x?7</td>
+<td>Character, ASCII encoded in 8 bits</td>
+</tr>
+</tbody>
+</table>
 
 In BCF2 strings are type=7 with an appropriate length. Single characters
 are represented as strings with length=1. Type codes 4,6,8–15 are
@@ -2723,14 +4331,47 @@ the END_OF_VECTOR byte is not part of the vector itself and only
 END_OF_VECTOR bytes can follow. In total, eight values are reserved for
 future use:
 
-| **Value** | **32-bit precision** | **Hexadecimal representation** |
-|:---|:--:|:---|
-| NaN | 0b0111 1111 1100 0000 0000 0000 0000 0000 | 0x7FC00000 |
-| MISSING | 0b0111 1111 1000 0000 0000 0000 0000 0001 | 0x7F800001 |
-| END_OF_VECTOR | 0b0111 1111 1000 0000 0000 0000 0000 0010 | 0x7F800002 |
-| reserved | 0b0111 1111 1000 0000 0000 0000 0000 0011 | 0x7F800003 |
-| $\ldots$ | $\ldots$ | $\ldots$ |
-| reserved | 0b0111 1111 1000 0000 0000 0000 0000 0111 | 0x7F800007 |
+<table>
+<thead>
+<tr>
+<th><strong>Value</strong></th>
+<th><strong>32-bit precision</strong></th>
+<th><strong>Hexadecimal representation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NaN</td>
+<td>0b0111 1111 1100 0000 0000 0000 0000 0000</td>
+<td>0x7FC00000</td>
+</tr>
+<tr>
+<td>MISSING</td>
+<td>0b0111 1111 1000 0000 0000 0000 0000 0001</td>
+<td>0x7F800001</td>
+</tr>
+<tr>
+<td>END_OF_VECTOR</td>
+<td>0b0111 1111 1000 0000 0000 0000 0000 0010</td>
+<td>0x7F800002</td>
+</tr>
+<tr>
+<td>reserved</td>
+<td>0b0111 1111 1000 0000 0000 0000 0000 0011</td>
+<td>0x7F800003</td>
+</tr>
+<tr>
+<td><span class="math inline">…</span></td>
+<td><span class="math inline">…</span></td>
+<td><span class="math inline">…</span></td>
+</tr>
+<tr>
+<td>reserved</td>
+<td>0b0111 1111 1000 0000 0000 0000 0000 0111</td>
+<td>0x7F800007</td>
+</tr>
+</tbody>
+</table>
 
 **Character** values are not explicitly typed in BCF2. Instead, VCF
 Character values must be encoded by a single character string. See also
@@ -2757,8 +4398,16 @@ yielding the type byte of 0x40 $|$ 0x07 = 0x47. Immediately following
 the type byte is the four byte ASCII encoding of "`ACAC`": 0x41 0x43
 0x41 0x43. So the final encoding is:
 
-| 0x47 0x41 0x43 0x41 0x43 | String type with inline size of 4 followed by ACAC in ASCII |
-|:---|:---|
+<table>
+<thead>
+<tr>
+<th>0x47 0x41 0x43 0x41 0x43</th>
+<th>String type with inline size of 4 followed by ACAC in ASCII</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 Suppose you want to encode the string "`VariantCallFormatSampleText`", a
 string of size 27. First, we need the type descriptor byte, which is the
@@ -2771,10 +4420,25 @@ the actual size 0x1B. Finally comes the actual bytes of the string: 0x56
 0x61 0x74 0x53 0x61 0x6D 0x70 0x6C 0x65 0x54 0x65 0x78 0x74. So the
 final encoding is:
 
-| 0xF7 | string with overflow size |
-|:---|:---|
-| 0x11 0x1B | overflow size encoded as INT8 with value 27 |
-| 0x56 0x61 0x72 0x69 0x61 0x6E 0x74 0x43 0x61 0x6C 0x6C 0x46 0x6F 0x72 0x6D 0x61 0x74 0x53 0x61 0x6D 0x70 0x6C 0x65 0x54 0x65 0x78 0x74 | message in ASCII |
+<table>
+<thead>
+<tr>
+<th>0xF7</th>
+<th>string with overflow size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x11 0x1B</td>
+<td>overflow size encoded as INT8 with value 27</td>
+</tr>
+<tr>
+<td>0x56 0x61 0x72 0x69 0x61 0x6E 0x74 0x43 0x61 0x6C 0x6C 0x46 0x6F 0x72
+0x6D 0x61 0x74 0x53 0x61 0x6D 0x70 0x6C 0x65 0x54 0x65 0x78 0x74</td>
+<td>message in ASCII</td>
+</tr>
+</tbody>
+</table>
 
 Suppose you want to encode the missing value '.'. This is simply a
 string of size 0 = 0x07.
@@ -2822,9 +4486,21 @@ stream is the size, as a typed 8-bit atomic integer: 0x11 with value 16
 0x10. Each integer AC value is represented by it's value as a 8 bit
 integer. The grand total representation here is:
 
-| 0xF1 0x01 0x10 | 8 bit integer vector with overflow size |
-|:---|:---|
-| 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F 0x10 | 1–16 as hexadecimal 8 bit integers |
+<table>
+<thead>
+<tr>
+<th>0xF1 0x01 0x10</th>
+<th>8 bit integer vector with overflow size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E
+0x0F 0x10</td>
+<td>1–16 as hexadecimal 8 bit integers</td>
+</tr>
+</tbody>
+</table>
 
 Suppose this INFO field contains the "AC=.", indicating that the AC
 field is missing from a record with two alt alleles. The correct
@@ -2855,11 +4531,28 @@ Next we have the type of the each format field, which here is a 2
 element INT8 vector: 0x21. Next we have the encoding for each sample, A
 = 0x01 0x81 followed by B = 0x02 0x03. All together we have:
 
-| 0x11 0x03 | X dictionary offset                  |
-|:----------|:-------------------------------------|
-| 0x21      | each value is a 2 element INT8 value |
-| 0x01 0x81 | A is \[1, END_OF_VECTOR\]            |
-| 0x02 0x03 | B is \[2, 3\]                        |
+<table>
+<thead>
+<tr>
+<th>0x11 0x03</th>
+<th>X dictionary offset</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x21</td>
+<td>each value is a 2 element INT8 value</td>
+</tr>
+<tr>
+<td>0x01 0x81</td>
+<td>A is [1, END_OF_VECTOR]</td>
+</tr>
+<tr>
+<td>0x02 0x03</td>
+<td>B is [2, 3]</td>
+</tr>
+</tbody>
+</table>
 
 A **Genotype (GT) field** is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
@@ -2875,16 +4568,60 @@ remaining alleles.
 
 Examples:
 
-| 0/1 | in standard format $(0 + 1) << 1 \mid 0$ followed by $(1 + 1) << 1 \mid 0$ | 0x02 04 |
-|:---|:---|:---|
-| 0/1, 1/1, and 0/0 | three samples encoded consecutively | 0x02 04 04 04 02 02 |
-| $0\mid1$ | $(1 + 1) << 1 \mid 1$ = 0x05 preceded by the phased first byte value 0x03 | 0x03 05 |
-| ./. | where both alleles are missing | 0x00 00 |
-| 0 | as an implicitly phased haploid it is represented by a single byte | 0x03 |
-| 1 | as an implicitly phased haploid it is represented by a single byte | 0x05 |
-| 0/1/2 | is triploid, with alleles | 0x02 04 06 |
-| $0/1\mid2$ | is triploid with a single phased allele | 0x02 04 07 |
-| 0 and 0/1 | pad out the final allele for the haploid individual | 0x03 81 02 04 |
+<table>
+<thead>
+<tr>
+<th>0/1</th>
+<th>in standard format <span
+class="math inline">(0 + 1) &lt;  &lt; 1 ∣ 0</span> followed by <span
+class="math inline">(1 + 1) &lt;  &lt; 1 ∣ 0</span></th>
+<th>0x02 04</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0/1, 1/1, and 0/0</td>
+<td>three samples encoded consecutively</td>
+<td>0x02 04 04 04 02 02</td>
+</tr>
+<tr>
+<td><span class="math inline">0 ∣ 1</span></td>
+<td><span class="math inline">(1 + 1) &lt;  &lt; 1 ∣ 1</span> = 0x05
+preceded by the phased first byte value 0x03</td>
+<td>0x03 05</td>
+</tr>
+<tr>
+<td>./.</td>
+<td>where both alleles are missing</td>
+<td>0x00 00</td>
+</tr>
+<tr>
+<td>0</td>
+<td>as an implicitly phased haploid it is represented by a single byte</td>
+<td>0x03</td>
+</tr>
+<tr>
+<td>1</td>
+<td>as an implicitly phased haploid it is represented by a single byte</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0/1/2</td>
+<td>is triploid, with alleles</td>
+<td>0x02 04 06</td>
+</tr>
+<tr>
+<td><span class="math inline">0/1 ∣ 2</span></td>
+<td>is triploid with a single phased allele</td>
+<td>0x02 04 07</td>
+</tr>
+<tr>
+<td>0 and 0/1</td>
+<td>pad out the final allele for the haploid individual</td>
+<td>0x03 81 02 04</td>
+</tr>
+</tbody>
+</table>
 
 The final example is something seen on chrX when we have a haploid male
 and a diploid female. The male genotype vector is terminated prematurely
@@ -2913,10 +4650,24 @@ form. The type byte for an atomic 8-bit integer is 0x11. The value for
 the contig offset is 1 = 0x01. The value 101 is encoded as the single
 byte 0x65. So in total these are represented as:
 
-| 0x01000000 | CHROM offset is at 1 in 32 bit little endian |
-|:-----------|:---------------------------------------------|
-| 0x64000000 | POS in 0 base 32 bit little endian           |
-| 0x01000000 | rlen = 1 (it's just a SNP)                   |
+<table>
+<thead>
+<tr>
+<th>0x01000000</th>
+<th>CHROM offset is at 1 in 32 bit little endian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x64000000</td>
+<td>POS in 0 base 32 bit little endian</td>
+</tr>
+<tr>
+<td>0x01000000</td>
+<td>rlen = 1 (it's just a SNP)</td>
+</tr>
+</tbody>
+</table>
 
 <a id="encoding-qual"></a>
 
@@ -2925,8 +4676,16 @@ byte 0x65. So in total these are represented as:
 The QUAL field value is 30.1, which we encode as an untyped single
 precision 32-bit float:
 
-| 0x41 0xF0 0xCC 0xCD | QUAL = 30.1 as 32-bit float |
-|:--------------------|:----------------------------|
+<table>
+<thead>
+<tr>
+<th>0x41 0xF0 0xCC 0xCD</th>
+<th>QUAL = 30.1 as 32-bit float</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 <a id="encoding-id"></a>
 
@@ -2936,8 +4695,16 @@ This ID value is a 5-element string, so is encoded as type descriptor
 0x57 followed by the five bytes for the string of
 `0x72 0x73 0x31 0x32 0x33`. The full encoding is:
 
-| 0x57 0x72 0x73 0x31 0x32 0x33 | ID = rs123 |
-|:------------------------------|:-----------|
+<table>
+<thead>
+<tr>
+<th>0x57 0x72 0x73 0x31 0x32 0x33</th>
+<th>ID = rs123</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 <a id="encoding-refalt-fields"></a>
 
@@ -2947,9 +4714,20 @@ We encode each of REF and ALT as typed strings, first REF followed
 immediately by ALT. Each is a 1 element string (0x17), which would then
 be followed by the single bytes for the bases of 0x43 and 0x41:
 
-| 0x17 0x41 | REF A |
-|:----------|:------|
-| 0x17 0x43 | ALT C |
+<table>
+<thead>
+<tr>
+<th>0x17 0x41</th>
+<th>REF A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x17 0x43</td>
+<td>ALT C</td>
+</tr>
+</tbody>
+</table>
 
 Just for discussion, suppose instead that ALT was ALT=C,T. The only
 thing that could change is that there would be another typed string
@@ -2965,8 +4743,16 @@ value of 0x54.
 vector of size 1 of type 8-bit, which has type byte is 0x11. The value
 is the offset 0:
 
-| 0x11 0x00 | FILTER field PASS |
-|:----------|:------------------|
+<table>
+<thead>
+<tr>
+<th>0x11 0x00</th>
+<th>FILTER field PASS</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 <a id="encoding-the-info-fields"></a>
 
@@ -2982,25 +4768,61 @@ a flag with no associated value and therefore the rest of the entry is
 the special case of a missing value without an explicit type provided.
 Altogether we have:
 
-| 0x11 0x50 0x00 | HM3 flag is present |
-|:---------------|:--------------------|
+<table>
+<thead>
+<tr>
+<th>0x11 0x50 0x00</th>
+<th>HM3 flag is present</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 Now let's encode the two atomic 8-bit integer fields AC and AN:
 
-| 0x11 0x51 | AC key          |
-|:----------|:----------------|
-| 0x11 0x03 | with value of 3 |
-| 0x11 0x52 | AN key          |
-| 0x11 0x06 | with value of 6 |
+<table>
+<thead>
+<tr>
+<th>0x11 0x51</th>
+<th>AC key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x11 0x03</td>
+<td>with value of 3</td>
+</tr>
+<tr>
+<td>0x11 0x52</td>
+<td>AN key</td>
+</tr>
+<tr>
+<td>0x11 0x06</td>
+<td>with value of 6</td>
+</tr>
+</tbody>
+</table>
 
 The ancestral allele (AA) tell us that among other primates the original
 allele is C, a Character here. Because we represent Characters as single
 element strings in BCF2 (0x17) with value 0x43 (C). So the entire
 key/value pair is:
 
-| 0x11 0x53 | AA key          |
-|:----------|:----------------|
-| 0x17 0x43 | with value of C |
+<table>
+<thead>
+<tr>
+<th>0x11 0x53</th>
+<th>AA key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x17 0x43</td>
+<td>with value of C</td>
+</tr>
+</tbody>
+</table>
 
 <a id="encoding-genotypes"></a>
 
@@ -3008,9 +4830,24 @@ key/value pair is:
 
 Continuing with our example:
 
-| FORMAT | NA00001 | NA00002 | NA00003 |
-|:---|:---|:---|:---|
-| GT:GQ:DP:AD:PL | 0/0:10:32:32,0:0,10,100 | 0/1:10:48:32,16:10,0,100 | 1/1:10:64:0,64:100,10,0 |
+<table>
+<thead>
+<tr>
+<th>FORMAT</th>
+<th>NA00001</th>
+<th>NA00002</th>
+<th>NA00003</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GT:GQ:DP:AD:PL</td>
+<td>0/0:10:32:32,0:0,10,100</td>
+<td>0/1:10:48:32,16:10,0,100</td>
+<td>1/1:10:64:0,64:100,10,0</td>
+</tr>
+</tbody>
+</table>
 
 Here we have the specially encoded GT field. We have two integer fields
 GQ and DP. We have the AD field, which is a vector of 2 values per
@@ -3054,12 +4891,32 @@ the PL field is encoded as 0x1105 0x31 0x000A64 0x0A0064 0x640A00
 
 So the genotype block contains:
 
-| 0x1101 0x21 0x020202040404       | GT  |
-|:---------------------------------|:----|
-| 0x1102 0x11 0x0A0A0A             | GQ  |
-| 0x1103 0x11 0x203040             | DP  |
-| 0x1104 0x21 0x300030200040       | AD  |
-| 0x1105 0x31 0x000A640A0064640A00 | PL  |
+<table>
+<thead>
+<tr>
+<th>0x1101 0x21 0x020202040404</th>
+<th>GT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x1102 0x11 0x0A0A0A</td>
+<td>GQ</td>
+</tr>
+<tr>
+<td>0x1103 0x11 0x203040</td>
+<td>DP</td>
+</tr>
+<tr>
+<td>0x1104 0x21 0x300030200040</td>
+<td>AD</td>
+</tr>
+<tr>
+<td>0x1105 0x31 0x000A640A0064640A00</td>
+<td>PL</td>
+</tr>
+</tbody>
+</table>
 
 **Putting it all together**
 
@@ -3077,33 +4934,116 @@ n_sample = 3 (Number of samples)
 
 n_fmt = 5 (Number of FORMAT keys)
 
-| 0x33000000 | l_shared as 32-bit little endian hex |
-|:---|:---|
-| 0x2A000000 | l_indiv as 32-bit little endian hex |
-| 0x01000000 | CHROM offset is at 1 in 32 bit little endian |
-| 0x64000000 | POS in 0-based 32-bit little endian |
-| 0x01000000 | rlen = 1 (it's just a SNP) |
-| 0x41 0xF0 0xCC 0xCD | QUAL = 30.1 as 32-bit float |
-| 0x0400 | n_info as 16-bit little-endian |
-| 0x0200 | n_allele as 16-bit little-endian |
-| 0x030000 | n_sample as 24-bit little-endian |
-| 0x05 | n_fmt |
-| 0x57 0x72 0x73 0x31 0x32 0x33 | ID = rs123 |
-| 0x17 0x41 | REF A |
-| 0x17 0x43 | ALT C |
-| 0x11 0x00 | FILTER field PASS |
-| 0x11 0x50 0x00 | HM3 flag is present |
-| 0x11 0x51 | AC key |
-| 0x11 0x03 | with value of 3 |
-| 0x11 0x52 | AN key |
-| 0x11 0x06 | with value of 6 |
-| 0x11 0x53 | AA key |
-| 0x17 0x43 | with value of C |
-| 0x1101 0x21 0x020202040404 | GT |
-| 0x1102 0x11 0x0A0A0A | GQ |
-| 0x1103 0x11 0x203040 | DP |
-| 0x1104 0x21 0x300030200040 | AD |
-| 0x1105 0x31 0x000A640A0064640A00 | PL |
+<table>
+<thead>
+<tr>
+<th>0x33000000</th>
+<th>l_shared as 32-bit little endian hex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x2A000000</td>
+<td>l_indiv as 32-bit little endian hex</td>
+</tr>
+<tr>
+<td>0x01000000</td>
+<td>CHROM offset is at 1 in 32 bit little endian</td>
+</tr>
+<tr>
+<td>0x64000000</td>
+<td>POS in 0-based 32-bit little endian</td>
+</tr>
+<tr>
+<td>0x01000000</td>
+<td>rlen = 1 (it's just a SNP)</td>
+</tr>
+<tr>
+<td>0x41 0xF0 0xCC 0xCD</td>
+<td>QUAL = 30.1 as 32-bit float</td>
+</tr>
+<tr>
+<td>0x0400</td>
+<td>n_info as 16-bit little-endian</td>
+</tr>
+<tr>
+<td>0x0200</td>
+<td>n_allele as 16-bit little-endian</td>
+</tr>
+<tr>
+<td>0x030000</td>
+<td>n_sample as 24-bit little-endian</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>n_fmt</td>
+</tr>
+<tr>
+<td>0x57 0x72 0x73 0x31 0x32 0x33</td>
+<td>ID = rs123</td>
+</tr>
+<tr>
+<td>0x17 0x41</td>
+<td>REF A</td>
+</tr>
+<tr>
+<td>0x17 0x43</td>
+<td>ALT C</td>
+</tr>
+<tr>
+<td>0x11 0x00</td>
+<td>FILTER field PASS</td>
+</tr>
+<tr>
+<td>0x11 0x50 0x00</td>
+<td>HM3 flag is present</td>
+</tr>
+<tr>
+<td>0x11 0x51</td>
+<td>AC key</td>
+</tr>
+<tr>
+<td>0x11 0x03</td>
+<td>with value of 3</td>
+</tr>
+<tr>
+<td>0x11 0x52</td>
+<td>AN key</td>
+</tr>
+<tr>
+<td>0x11 0x06</td>
+<td>with value of 6</td>
+</tr>
+<tr>
+<td>0x11 0x53</td>
+<td>AA key</td>
+</tr>
+<tr>
+<td>0x17 0x43</td>
+<td>with value of C</td>
+</tr>
+<tr>
+<td>0x1101 0x21 0x020202040404</td>
+<td>GT</td>
+</tr>
+<tr>
+<td>0x1102 0x11 0x0A0A0A</td>
+<td>GQ</td>
+</tr>
+<tr>
+<td>0x1103 0x11 0x203040</td>
+<td>DP</td>
+</tr>
+<tr>
+<td>0x1104 0x21 0x300030200040</td>
+<td>AD</td>
+</tr>
+<tr>
+<td>0x1105 0x31 0x000A640A0064640A00</td>
+<td>PL</td>
+</tr>
+</tbody>
+</table>
 
 That's quite a lot of information encoded in only 96 bytes!
 
