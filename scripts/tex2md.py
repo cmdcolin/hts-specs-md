@@ -37,12 +37,30 @@ def main():
 
     commit, date = get_version_info(input_tex)
     
+    # Ensure .ver file exists for pandoc to include if it's referenced in the TeX file
+    ver_file = input_tex.replace(".tex", ".ver")
+    if not os.path.exists(ver_file):
+        with open(ver_file, 'w') as f:
+            f.write(f"\\newcommand*\\commitdesc{{{commit}}}\n")
+            f.write(f"\\newcommand*\\headdate{{{date}}}\n")
+
     # Extract title from TeX file
     with open(input_tex, 'r') as f:
         content = f.read()
     
-    title_match = re.search(r'\\title\{(.*?)\}', content, re.DOTALL)
-    title_raw = title_match.group(1) if title_match else input_tex
+    title_raw = input_tex
+    title_start = content.find(r'\title{')
+    if title_start != -1:
+        start_pos = title_start + 7
+        brace_count = 1
+        for i in range(start_pos, len(content)):
+            if content[i] == '{':
+                brace_count += 1
+            elif content[i] == '}':
+                brace_count -= 1
+            if brace_count == 0:
+                title_raw = content[start_pos:i]
+                break
     
     # Use pandoc to clean up the title
     title_proc = subprocess.run(["pandoc", "-f", "latex", "-t", "plain"], input=title_raw, capture_output=True, text=True)
@@ -50,26 +68,45 @@ def main():
     title = title.replace('\n', ' ').strip()
     # Normalize spaces
     title = re.sub(r'\s+', ' ', title)
+    # Remove any stray { or } that might have been left over if pandoc failed to clean them
+    title = title.replace('{', '').replace('}', '').strip()
 
     # We'll use a lua filter to handle some custom commands
     lua_filter = "scripts/pandoc-filter.lua"
     
+    # Create a temporary TeX file without the preamble to avoid complex macro errors
+    temp_tex = input_tex + ".tmp.tex"
+    doc_start_match = re.search(r'\\begin\{document\}', content)
+    if doc_start_match:
+        body = content[doc_start_match.start():]
+        # Strip problematic macros that confuse pandoc but aren't needed for MD
+        body = re.sub(r'\\algblockdefx\[Foreach\].*?\n', '', body)
+        body = re.sub(r'\\algnewcommand.*?\n', '', body)
+        with open(temp_tex, 'w') as f:
+            f.write(body)
+    else:
+        temp_tex = input_tex
+
     # Generate the Markdown
     cmd = [
         "pandoc",
-        input_tex,
+        temp_tex,
         "-t", "gfm+gfm_auto_identifiers-tex_math_dollars-smart",
         "--lua-filter", lua_filter,
         "--markdown-headings=atx",
+        "--katex",
         "-M", f"commit={commit}",
         "-M", f"date={date}",
     ]
     
-    md_content = run_command(cmd)
+    try:
+        md_content = run_command(cmd)
+    finally:
+        if temp_tex != input_tex and os.path.exists(temp_tex):
+            os.remove(temp_tex)
 
     # Add Jekyll front matter
     front_matter = f"""---
-layout: default
 title: "{title}"
 commit: {commit}
 date: {date}

@@ -1,11 +1,17 @@
 ---
-layout: default
 title: "Sequence Alignment/Map Format Specification"
 commit: b5341fb
 date: 12 Aug 2025
 ---
 
-# The SAM Format Specification
+# Sequence Alignment/Map Format Specification
+{:.no_toc}
+
+This printing is version b5341fb from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 12 Aug 2025.
+
+* Do not remove this line (it will not be displayed)
+{:toc}
+
 
 SAM stands for Sequence Alignment/Map format. It is a TAB-delimited text
 format consisting of a header section, which is optional, and an
@@ -153,11 +159,10 @@ Thus they match the following regular expression:
 </div>
 
 For clarity, elsewhere in this specification we write this set of
-allowed characters as a character class `[``:rname:``]` and extend the
-POSIX regular expression notation to use <sup>$`\wedge`$</sup>`*=` to
-indicate the omission of ‘’ and ‘`=`’ from the character class. Thus
-this regular expression can be written more clearly as
-`[``:rname:`<sup>$`\wedge`$</sup>`*=][``:rname:``]*`.
+allowed characters as a character class `[]` and extend the POSIX
+regular expression notation to use `=` to indicate the omission of ‘’
+and ‘`=`’ from the character class. Thus this regular expression can be
+written more clearly as `[=][]*`.
 
 ## The header section
 
@@ -277,15 +282,13 @@ order.</td>
 <span><code>AN</code></span> names in all <span><code>@SQ</code></span>
 lines must be distinct. The value of this field is used in the alignment
 records in <span>RNAME</span> and <span>RNEXT</span> fields. Regular
-expression:
-<span><code>[</code><span><code>:rname:</code></span><sup><span
-class="math inline">∧</span></sup><code>*=][</code><span><code>:rname:</code></span><code>]*</code></span></td>
+expression: <span><code>[=][]*</code></span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-3</span></td>
 <td style="text-align: left;"><span><code>LN</code></span>*</td>
 <td style="text-align: left;">Reference sequence length. <em>Range</em>:
-<span class="math inline">[1, 2<sup>31</sup> − 1]</span></td>
+<span class="math inline">[1,\,2^{31}-1]</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-3</span></td>
@@ -312,9 +315,7 @@ particular, they must not appear in alignment records’
 <span>RNAME</span> or <span>RNEXT</span> fields. <em>Regular
 expression</em>:
 <em>name</em><span><code>(,</code></span><em>name</em><span><code>)*</code></span>
-where <em>name</em> is
-<span><code>[</code><span><code>:rname:</code></span><sup><span
-class="math inline">∧</span></sup><code>*=][</code><span><code>:rname:</code></span><code>]*</code></span></td>
+where <em>name</em> is <span><code>[=][]*</code></span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-3</span></td>
@@ -689,11 +690,11 @@ overview of these mandatory fields in the SAM format:
 |---:|:---|:---|:---|:---|
 | 1 | QNAME | String | `[!-?A-~]{1,254}` | Query template NAME |
 | 2 | FLAG | Int | $`[0,\,2^{16}-1]`$ | bitwise FLAG |
-| 3 | RNAME | String | `\*``|[``:rname:`<sup>$`\wedge`$</sup>`*=][``:rname:``]*` | Reference sequence NAME |
+| 3 | RNAME | String | `\*``|[=][]*` | Reference sequence NAME |
 | 4 | POS | Int | $`[0,\,2^{31}-1]`$ | 1-based leftmost mapping POSition |
 | 5 | MAPQ | Int | $`[0,\,2^8-1]`$ | MAPping Quality |
 | 6 | CIGAR | String | `*|([0-9]+[MIDNSHP=X])+` | CIGAR string |
-| 7 | RNEXT | String | `\*``|=|[``:rname:`<sup>$`\wedge`$</sup>`*=][``:rname:``]*` | Reference name of the mate/next read |
+| 7 | RNEXT | String | `\*``|=|[=][]*` | Reference name of the mate/next read |
 | 8 | PNEXT | Int | $`[0,\,2^{31}-1]`$ | Position of the mate/next read |
 | 9 | TLEN | Int | $`[-2^{31}+1,\,2^{31}-1]`$ | observed Template LENgth |
 | 10 | SEQ | String | `*|[A-Za-z=.]+` | segment SEQuence |
@@ -708,223 +709,241 @@ unmapped sequence and CIGAR, QUAL, and strand-sensitive optional fields
 are reversed and thus recorded consistently with the sequence bases as
 represented.
 
-<div class="enumerate">
+1.  QNAME: Query template NAME. Reads/segments having identical QNAME
+    are regarded to come from the same template. A QNAME ‘’ indicates
+    the information is unavailable. In a SAM file, a read may occupy
+    multiple alignment lines, when its alignment is chimeric or when
+    multiple mappings are given.
 
-QNAME: Query template NAME. Reads/segments having identical QNAME are
-regarded to come from the same template. A QNAME ‘’ indicates the
-information is unavailable. In a SAM file, a read may occupy multiple
-alignment lines, when its alignment is chimeric or when multiple
-mappings are given.
+2.  FLAG: Combination of bitwise FLAGs.[^5] Each bit is explained in the
+    following table:
 
-FLAG: Combination of bitwise FLAGs.[^5] Each bit is explained in the
-following table:
+    <div class="center">
 
-<div class="center">
+    <table>
+    <thead>
+    <tr>
+    <th colspan="2" style="text-align: center;">Bit</th>
+    <th style="text-align: left;">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td style="text-align: right;">1</td>
+    <td style="text-align: right;">0x1</td>
+    <td style="text-align: left;">template having multiple segments in
+    sequencing</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">2</td>
+    <td style="text-align: right;">0x2</td>
+    <td style="text-align: left;">each segment properly aligned according to
+    the aligner</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">4</td>
+    <td style="text-align: right;">0x4</td>
+    <td style="text-align: left;">segment unmapped</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">8</td>
+    <td style="text-align: right;">0x8</td>
+    <td style="text-align: left;">next segment in the template unmapped</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">16</td>
+    <td style="text-align: right;">0x10</td>
+    <td style="text-align: left;"><span>SEQ</span> being reverse
+    complemented</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">32</td>
+    <td style="text-align: right;">0x20</td>
+    <td style="text-align: left;"><span>SEQ</span> of the next segment in
+    the template being reverse complemented</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">64</td>
+    <td style="text-align: right;">0x40</td>
+    <td style="text-align: left;">the first segment in the template</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">128</td>
+    <td style="text-align: right;">0x80</td>
+    <td style="text-align: left;">the last segment in the template</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">256</td>
+    <td style="text-align: right;">0x100</td>
+    <td style="text-align: left;">secondary alignment</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">512</td>
+    <td style="text-align: right;">0x200</td>
+    <td style="text-align: left;">not passing filters, such as
+    platform/vendor quality controls</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">1024</td>
+    <td style="text-align: right;">0x400</td>
+    <td style="text-align: left;">PCR or optical duplicate</td>
+    </tr>
+    <tr>
+    <td style="text-align: right;">2048</td>
+    <td style="text-align: right;">0x800</td>
+    <td style="text-align: left;">supplementary alignment</td>
+    </tr>
+    </tbody>
+    </table>
 
-<table>
-<thead>
-<tr>
-<th colspan="2" style="text-align: center;">Bit</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0x1</td>
-<td style="text-align: left;">template having multiple segments in
-sequencing</td>
-</tr>
-<tr>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0x2</td>
-<td style="text-align: left;">each segment properly aligned according to
-the aligner</td>
-</tr>
-<tr>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0x4</td>
-<td style="text-align: left;">segment unmapped</td>
-</tr>
-<tr>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0x8</td>
-<td style="text-align: left;">next segment in the template unmapped</td>
-</tr>
-<tr>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0x10</td>
-<td style="text-align: left;"><span>SEQ</span> being reverse
-complemented</td>
-</tr>
-<tr>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">0x20</td>
-<td style="text-align: left;"><span>SEQ</span> of the next segment in
-the template being reverse complemented</td>
-</tr>
-<tr>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">0x40</td>
-<td style="text-align: left;">the first segment in the template</td>
-</tr>
-<tr>
-<td style="text-align: right;">128</td>
-<td style="text-align: right;">0x80</td>
-<td style="text-align: left;">the last segment in the template</td>
-</tr>
-<tr>
-<td style="text-align: right;">256</td>
-<td style="text-align: right;">0x100</td>
-<td style="text-align: left;">secondary alignment</td>
-</tr>
-<tr>
-<td style="text-align: right;">512</td>
-<td style="text-align: right;">0x200</td>
-<td style="text-align: left;">not passing filters, such as
-platform/vendor quality controls</td>
-</tr>
-<tr>
-<td style="text-align: right;">1024</td>
-<td style="text-align: right;">0x400</td>
-<td style="text-align: left;">PCR or optical duplicate</td>
-</tr>
-<tr>
-<td style="text-align: right;">2048</td>
-<td style="text-align: right;">0x800</td>
-<td style="text-align: left;">supplementary alignment</td>
-</tr>
-</tbody>
-</table>
+    </div>
 
-</div>
+    - For each read/contig in a SAM file, it is required that one and
+      only one line associated with the read satisfies
+      ‘FLAG `& 0x900 == 0`’. This line is called the *primary line* of
+      the read.
 
-- For each read/contig in a SAM file, it is required that one and only
-  one line associated with the read satisfies ‘FLAG `& 0x900 == 0`’.
-  This line is called the *primary line* of the read.
+    - Bit 0x100 marks the alignment not to be used in certain analyses
+      when the tools in use are aware of this bit. It is typically used
+      to flag alternative mappings when multiple mappings are presented
+      in a SAM.
 
-- Bit 0x100 marks the alignment not to be used in certain analyses when
-  the tools in use are aware of this bit. It is typically used to flag
-  alternative mappings when multiple mappings are presented in a SAM.
+    - Bit 0x800 indicates that the corresponding alignment line is part
+      of a chimeric alignment. A line flagged with 0x800 is called as a
+      *supplementary line*.
 
-- Bit 0x800 indicates that the corresponding alignment line is part of a
-  chimeric alignment. A line flagged with 0x800 is called as a
-  *supplementary line*.
+    - Bit 0x4 is the only reliable place to tell whether the read is
+      unmapped. If 0x4 is set, no assumptions can be made about RNAME,
+      POS, CIGAR, MAPQ, and bits 0x2, 0x100, and 0x800.
 
-- Bit 0x4 is the only reliable place to tell whether the read is
-  unmapped. If 0x4 is set, no assumptions can be made about RNAME, POS,
-  CIGAR, MAPQ, and bits 0x2, 0x100, and 0x800.
+    - Bit 0x10 indicates whether SEQ has been reverse complemented and
+      QUAL reversed. When bit 0x4 is unset, this corresponds to the
+      strand to which the segment has been mapped: bit 0x10 unset
+      indicates the forward strand, while set indicates the reverse
+      strand. When 0x4 is set, this indicates whether the unmapped read
+      is stored in its original orientation as it came off the
+      sequencing machine.
 
-- Bit 0x10 indicates whether SEQ has been reverse complemented and QUAL
-  reversed. When bit 0x4 is unset, this corresponds to the strand to
-  which the segment has been mapped: bit 0x10 unset indicates the
-  forward strand, while set indicates the reverse strand. When 0x4 is
-  set, this indicates whether the unmapped read is stored in its
-  original orientation as it came off the sequencing machine.
+    - Bits 0x40 and 0x80 reflect the read ordering within each template
+      inherent in the sequencing technology used.[^6] If 0x40 and 0x80
+      are both set, the read is part of a linear template, but it is
+      neither the first nor the last read. If both 0x40 and 0x80 are
+      unset, the index of the read in the template is unknown. This may
+      happen for a non-linear template or when this information is lost
+      during data processing.
 
-- Bits 0x40 and 0x80 reflect the read ordering within each template
-  inherent in the sequencing technology used.[^6] If 0x40 and 0x80 are
-  both set, the read is part of a linear template, but it is neither the
-  first nor the last read. If both 0x40 and 0x80 are unset, the index of
-  the read in the template is unknown. This may happen for a non-linear
-  template or when this information is lost during data processing.
+    - If 0x1 is unset, no assumptions can be made about 0x2, 0x8, 0x20,
+      0x40 and 0x80.
 
-- If 0x1 is unset, no assumptions can be made about 0x2, 0x8, 0x20, 0x40
-  and 0x80.
+    - Bits that are not listed in the table are reserved for future use.
+      They should not be set when writing and should be ignored on
+      reading by current software.
 
-- Bits that are not listed in the table are reserved for future use.
-  They should not be set when writing and should be ignored on reading
-  by current software.
+3.  RNAME: Reference sequence NAME of the alignment. If ` @SQ` header
+    lines are present, RNAME (if not ‘\*’) must be present in one of the
+    `SQ-SN` tag. An unmapped segment without coordinate has a ‘\*’ at
+    this field. However, an unmapped segment may also have an ordinary
+    coordinate such that it can be placed at a desired position after
+    sorting. If RNAME is ‘\*’, no assumptions can be made about POS and
+    CIGAR.
 
-RNAME: Reference sequence NAME of the alignment. If ` @SQ` header lines
-are present, RNAME (if not ‘\*’) must be present in one of the `SQ-SN`
-tag. An unmapped segment without coordinate has a ‘\*’ at this field.
-However, an unmapped segment may also have an ordinary coordinate such
-that it can be placed at a desired position after sorting. If RNAME is
-‘\*’, no assumptions can be made about POS and CIGAR.
+4.  POS: 1-based leftmost mapping POSition of the first CIGAR operation
+    that “consumes” a reference base (see table below). The first base
+    in a reference sequence has coordinate 1. POS is set as 0 for an
+    unmapped read without coordinate. If POS is 0, no assumptions can be
+    made about RNAME and CIGAR.
 
-POS: 1-based leftmost mapping POSition of the first CIGAR operation that
-“consumes” a reference base (see table below). The first base in a
-reference sequence has coordinate 1. POS is set as 0 for an unmapped
-read without coordinate. If POS is 0, no assumptions can be made about
-RNAME and CIGAR.
+5.  MAPQ: MAPping Quality. It equals
+    $`-10\log_{10}\Pr\{\mbox{mapping position is wrong}\}`$, rounded to
+    the nearest integer. A value 255 indicates that the mapping quality
+    is not available.
 
-MAPQ: MAPping Quality. It equals
-$`-10\log_{10}\Pr\{\mbox{mapping position is wrong}\}`$, rounded to the
-nearest integer. A value 255 indicates that the mapping quality is not
-available.
+6.  CIGAR: CIGAR string. The CIGAR operations are given in the following
+    table (set ‘\*’ if unavailable):
 
-CIGAR: CIGAR string. The CIGAR operations are given in the following
-table (set ‘\*’ if unavailable):
+    <div class="center">
 
-<div class="center">
+    |           |     |                                                       |     |     |
+    |:---------:|:---:|:------------------------------------------------------|:---:|:---:|
+    |    Op     | BAM | Description                                           |     |     |
+    |   query   |     |                                                       |     |     |
+    | reference |     |                                                       |     |     |
+    |    `M`    |  0  | alignment match (can be a sequence match or mismatch) | yes | yes |
+    |    `I`    |  1  | insertion to the reference                            | yes | no  |
+    |    `D`    |  2  | deletion from the reference                           | no  | yes |
+    |    `N`    |  3  | skipped region from the reference                     | no  | yes |
+    |    `S`    |  4  | soft clipping (clipped sequences present in SEQ)      | yes | no  |
+    |    `H`    |  5  | hard clipping (clipped sequences NOT present in SEQ)  | no  | no  |
+    |    `P`    |  6  | padding (silent deletion from padded reference)       | no  | no  |
+    |    `=`    |  7  | sequence match                                        | yes | yes |
+    |    `X`    |  8  | sequence mismatch                                     | yes | yes |
 
-|           |     |                                                       |     |     |
-|:---------:|:---:|:------------------------------------------------------|:---:|:---:|
-|    Op     | BAM | Description                                           |     |     |
-|   query   |     |                                                       |     |     |
-| reference |     |                                                       |     |     |
-|    `M`    |  0  | alignment match (can be a sequence match or mismatch) | yes | yes |
-|    `I`    |  1  | insertion to the reference                            | yes | no  |
-|    `D`    |  2  | deletion from the reference                           | no  | yes |
-|    `N`    |  3  | skipped region from the reference                     | no  | yes |
-|    `S`    |  4  | soft clipping (clipped sequences present in SEQ)      | yes | no  |
-|    `H`    |  5  | hard clipping (clipped sequences NOT present in SEQ)  | no  | no  |
-|    `P`    |  6  | padding (silent deletion from padded reference)       | no  | no  |
-|    `=`    |  7  | sequence match                                        | yes | yes |
-|    `X`    |  8  | sequence mismatch                                     | yes | yes |
+    </div>
 
-</div>
+    - “Consumes query” and “consumes reference” indicate whether the
+      CIGAR operation causes the alignment to step along the query
+      sequence and the reference sequence respectively.
 
-RNEXT: Reference sequence name of the primary alignment of the NEXT read
-in the template. For the last read, the next read is the first read in
-the template. If `@SQ` header lines are present, RNEXT (if not ‘\*’ or
-‘=’) must be present in one of the `SQ-SN` tag. This field is set as
-‘\*’ when the information is unavailable, and set as ‘=’ if RNEXT is
-identical RNAME. If not ‘=’ and the next read in the template has one
-primary mapping (see also bit 0x100 in FLAG), this field is identical to
-RNAME at the primary line of the next read. If RNEXT is ‘\*’, no
-assumptions can be made on PNEXT and bit 0x20.
+    - `H` can only be present as the first and/or last operation.
 
-PNEXT: 1-based Position of the primary alignment of the NEXT read in the
-template. Set as 0 when the information is unavailable. This field
-equals POS at the primary line of the next read. If PNEXT is 0, no
-assumptions can be made on RNEXT and bit 0x20.
+    - `S` may only have `H` operations between them and the ends of the
+      CIGAR string.
 
-TLEN: signed observed Template LENgth. For primary reads where the
-primary alignments of all reads in the template are mapped to the same
-reference sequence, the absolute value of TLEN equals the distance
-between the mapped end of the template and the mapped start of the
-template, inclusively (i.e., $`\mbox{end}-\mbox{start}+1`$). [^7] Note
-that *mapped base* is defined to be one that aligns to the reference as
-described by CIGAR, hence excludes soft-clipped bases. The TLEN field is
-positive for the leftmost segment of the template, negative for the
-rightmost, and the sign for any middle segment is undefined. If segments
-cover the same coordinates then the choice of which is leftmost and
-rightmost is arbitrary, but the two ends must still have differing
-signs. It is set as 0 for a single-segment template or when the
-information is unavailable (e.g., when the first or last segment of a
-multi-segment template is unmapped or when the two are mapped to
-different reference sequences).
+    - For mRNA-to-genome alignment, an `N` operation represents an
+      intron. For other types of alignments, the interpretation of `N`
+      is not defined.
 
-The intention of this field is to indicate where the other end of the
-template has been aligned without needing to read the remainder of the
-SAM file. Unfortunately there has been no clear consensus on the
-definitions of the template mapped start and end. Thus the exact
-definitions are implementation-defined. [^8]
+    - Sum of lengths of the operations shall equal the length of SEQ.
 
-SEQ: segment SEQuence. This field can be a ‘\*’ when the sequence is not
-stored. If not a ‘\*’, the length of the sequence must equal the sum of
-lengths of
-`M`/`I`/`S`/`=`/`X`///////`o`/`p`/`e`/`r`/`a`/`t`/`i`/`o`/`n`/`s`/`i`/`n`//`C`/`I`/`G`/`A`/`R`/`.`/`A`/`n`/`‘`/`=`/`’`/`d`/`e`/`n`/`o`/`t`/`e`/`s`/`t`/`h`/`e`/`b`/`a`/`s`/`e`/`i`/`s`/`i`/`d`/`e`/`n`/`t`/`i`/`c`/`a`/`l`/`t`/`o`/`t`/`h`/`e`/`r`/`e`/`f`/`e`/`r`/`e`/`n`/`c`/`e`/`b`/`a`/`s`/`e`/`.`/`N`/`o`/`a`/`s`/`s`/`u`/`m`/`p`/`t`/`i`/`o`/`n`/`s`/`c`/`a`/`n`/`b`/`e`/`m`/`a`/`d`/`e`/`o`/`n`/`t`/`h`/`e`/`l`/`e`/`t`/`t`/`e`/`r`/`c`/`a`/`s`/`e`/`s`/`.`/
+7.  RNEXT: Reference sequence name of the primary alignment of the NEXT
+    read in the template. For the last read, the next read is the first
+    read in the template. If `@SQ` header lines are present, RNEXT (if
+    not ‘\*’ or ‘=’) must be present in one of the `SQ-SN` tag. This
+    field is set as ‘\*’ when the information is unavailable, and set as
+    ‘=’ if RNEXT is identical RNAME. If not ‘=’ and the next read in the
+    template has one primary mapping (see also bit 0x100 in FLAG), this
+    field is identical to RNAME at the primary line of the next read. If
+    RNEXT is ‘\*’, no assumptions can be made on PNEXT and bit 0x20.
 
-//`Q`/`U`/`A`/`L`/`:`/`A`/`S`/`C`/`I`/`I`/`o`/`f`/`b`/`a`/`s`/`e`/`Q`/`U`/`A`/`L`/`i`/`t`/`y`/`p`/`l`/`u`/`s`/`3`/`3`/`(`/`s`/`a`/`m`/`e`/`a`/`s`/`t`/`h`/`e`/`q`/`u`/`a`/`l`/`i`/`t`/`y`/`s`/`t`/`r`/`i`/`n`/`g`/`i`/`n`/`t`/`h`/`e`/`S`/`a`/`n`/`g`/`e`/`r`/`F`/`A`/`S`/`T`/`Q`/`f`/`o`/`r`/`m`/`a`/`t`/`)`/`.`/`A`/`b`/`a`/`s`/`e`/`q`/`u`/`a`/`l`/`i`/`t`/`y`/`i`/`s`/`t`/`h`/`e`/`p`/`h`/`r`/`e`/`d`/`-`/`s`/`c`/`a`/`l`/`e`/`d`/`b`/`a`/`s`/`e`/`e`/`r`/`r`/`o`/`r`/`p`/`r`/`o`/`b`/`a`/`b`/`i`/`l`/`i`/`t`/`y`/`w`/`h`/`i`/`c`/`h`/`e`/`q`/`u`/`a`/`l`/`s`/
-$`-10\log_10\Pr\{\mbox base is
-  wrong\}`$. This field can be a ‘\*’ when quality is not stored.[^9] If
-not a ‘\*’, SEQ must not be a ‘\*’ and the length of the quality string
-ought to equal the length of SEQ.
+8.  PNEXT: 1-based Position of the primary alignment of the NEXT read in
+    the template. Set as 0 when the information is unavailable. This
+    field equals POS at the primary line of the next read. If PNEXT is
+    0, no assumptions can be made on RNEXT and bit 0x20.
 
-</div>
+9.  TLEN: signed observed Template LENgth. For primary reads where the
+    primary alignments of all reads in the template are mapped to the
+    same reference sequence, the absolute value of TLEN equals the
+    distance between the mapped end of the template and the mapped start
+    of the template, inclusively (i.e., $`\mbox{end}-\mbox{start}+1`$).
+    [^7] Note that *mapped base* is defined to be one that aligns to the
+    reference as described by CIGAR, hence excludes soft-clipped bases.
+    The TLEN field is positive for the leftmost segment of the template,
+    negative for the rightmost, and the sign for any middle segment is
+    undefined. If segments cover the same coordinates then the choice of
+    which is leftmost and rightmost is arbitrary, but the two ends must
+    still have differing signs. It is set as 0 for a single-segment
+    template or when the information is unavailable (e.g., when the
+    first or last segment of a multi-segment template is unmapped or
+    when the two are mapped to different reference sequences).
+
+    The intention of this field is to indicate where the other end of
+    the template has been aligned without needing to read the remainder
+    of the SAM file. Unfortunately there has been no clear consensus on
+    the definitions of the template mapped start and end. Thus the exact
+    definitions are implementation-defined. [^8]
+
+10. SEQ: segment SEQuence. This field can be a ‘\*’ when the sequence is
+    not stored. If not a ‘\*’, the length of the sequence must equal the
+    sum of lengths of operations in CIGAR. An ‘=’ denotes the base is
+    identical to the reference base. No assumptions can be made on the
+    letter cases.
+
+11. QUAL: ASCII of base QUALity plus 33 (same as the quality string in
+    the Sanger FASTQ format). A base quality is the phred-scaled base
+    error probability which equals $`-10\log_{10}\Pr\{\mbox{base is
+      wrong}\}`$. This field can be a ‘\*’ when quality is not
+    stored.[^9] If not a ‘\*’, SEQ must not be a ‘\*’ and the length of
+    the quality string ought to equal the length of SEQ.
 
 ## The alignment section: optional fields
 
@@ -992,6 +1011,22 @@ specific software package for it to function properly.
 
 4.  Unmapped reads
 
+    1.  For a unmapped paired-end or mate-pair read whose mate is
+        mapped, the unmapped read should have RNAME and POS identical to
+        its mate.
+
+    2.  If all segments in a template are unmapped, their RNAME should
+        be set as ‘\*’ and POS as 0.
+
+    3.  If POS plus the sum of lengths of operations in CIGAR exceeds
+        the length specified in the ` LN` field of the `@SQ` header line
+        (if exists) with an SN equal to RNAME, the alignment should be
+        unmapped, unless the reference sequence is circular (see below).
+
+    4.  Unmapped reads should be stored in the orientation in which they
+        came off the sequencing machine and have their reverse flag
+        bit (0x10) correspondingly unset.
+
 5.  Multiple mapping
 
     1.  When one segment is present in multiple lines to represent a
@@ -1015,6 +1050,23 @@ specific software package for it to function properly.
     Mappings that cross the coordinate ‘join’ in circular reference
     sequences (i.e., those whose `@SQ` headers specify `TP:circular`)
     may be represented as follows:
+
+    1.  (Preferred) As usual POS should be between 1 and the `@SQ`
+        header’s `LN` value, but POS plus the sum of the lengths of
+        CIGAR operations may exceed `LN`. Coordinates greater than `LN`
+        are interpreted by subtracting `LN` so that bases at
+        $`\texttt{LN}+1, \texttt{LN}+2, \texttt{LN}+3, \ldots`$ are
+        considered to be mapped at positions $`1,2,3,\ldots`$; thus each
+        (1-based) position $`p`$ is interpreted as
+        $`((p-1)\bmod\texttt{LN})+1`$. [^11]
+
+    2.  Alternatively, such alignments may be split across several
+        records: one record representing the initial portion of the
+        segment ending at `LN`, one representing the final portion
+        starting from 1, and any other records representing additional
+        portions in between spanning the entire reference sequence. One
+        record (chosen arbitrarily) is considered primary and the
+        remainder have their supplementary flag bit (0x800) set.
 
 8.  Annotation dummy reads: These have SEQ set to , FLAG bits 0x100 and
     0x200 set (secondary and filtered), and a `CT` tag.
@@ -1096,13 +1148,13 @@ against a padded reference. In the latter case, we say we are using a
 *padded SAM*. A padded SAM is a valid SAM, but with the difference that
 the reference and positions in use are padded. There may be more than
 one way to describe the padded representation. We recommend the
-following; see also the discussion in Cock *et al.* [^11]
+following; see also the discussion in Cock *et al.* [^12]
 
 In a padded SAM, alignments and coordinates are described with respect
 to the padded reference sequence. Unlike traditional padded
 representations like the ACE file format where pads/gaps are recorded in
 reads using \*’s, we do not write \*’s in the SEQ field of the SAM
-format.[^12] Instead, we describe pads in the query sequences as
+format.[^13] Instead, we describe pads in the query sequences as
 deletions from the padded reference using the CIGAR ‘`D`’ operation. In
 a padded SAM, the insertion and padding CIGAR operations (‘`I`’ and
 ‘`P`’) are not used because the padded reference already considers all
@@ -1135,17 +1187,17 @@ hold the annotation information; see the discussion of dummy reads in
 Section <a href="#sec:recommended-practice" data-reference-type="ref"
 data-reference="sec:recommended-practice">2</a>. See also the separate
 *Optional Fields Specification* for full details of the `CT` and `PT`
-annotation tags. [^13]
+annotation tags. [^14]
 
 # The BAM Format Specification
 
 ## The BGZF compression format
 
 BGZF is block compression implemented on top of the standard gzip file
-format.[^14] The goal of BGZF is to provide good compression while
+format.[^15] The goal of BGZF is to provide good compression while
 allowing efficient random access to the BAM file for indexed queries.
 The BGZF format is ‘gunzip compatible’, in the sense that a compliant
-gunzip utility can decompress a BGZF compressed file.[^15]
+gunzip utility can decompress a BGZF compressed file.[^16]
 
 A BGZF file is a series of concatenated BGZF blocks, each no larger than
 64 KiB both before and after compression. Each BGZF block is itself a
@@ -1420,8 +1472,8 @@ underlined word in uppercase denotes a field in the SAM format.
 <td style="text-align: left;">Length of the header text, including any
 <span><code>NUL</code></span> padding</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span
-class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td style="text-align: left;"><span class="math inline">&lt;
+2^{31}</span></td>
 <td style="text-align: left;"></td>
 <td style="text-align: right;"></td>
 </tr>
@@ -1439,8 +1491,8 @@ style="text-align: left;"><span><code>char[</code><span><code>l_text</code></spa
 <td style="text-align: left;"><span>1-6</span></td>
 <td style="text-align: left;"># reference sequences</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span
-class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td style="text-align: left;"><span class="math inline">&lt;
+2^{31}</span></td>
 <td style="text-align: left;"></td>
 <td style="text-align: right;"></td>
 </tr>
@@ -1458,8 +1510,7 @@ class="math inline"> &lt; 2<sup>31</sup></span></td>
 <td style="text-align: left;">Length of the reference name plus 1
 (including <span><code>NUL</code></span>)</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span
-style="color: gray"><em>limited</em></span></td>
+<td style="text-align: right;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-6</span></td>
@@ -1475,8 +1526,8 @@ style="text-align: left;"><span><code>char[</code><span><code>l_name</code></spa
 <td colspan="2" style="text-align: left;">l_ref</td>
 <td style="text-align: left;">Length of the reference sequence</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span
-class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td style="text-align: right;"><span class="math inline">&lt;
+2^{31}</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>1-6</span></td>
@@ -1492,14 +1543,13 @@ class="math inline"> &lt; 2<sup>31</sup></span></td>
 <td style="text-align: left;">Total length of the alignment record,
 excluding this field</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span
-style="color: gray"><em>limited</em></span></td>
+<td style="text-align: right;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">refID</td>
 <td style="text-align: left;">Reference sequence ID, <span
-class="math inline">$-1\leq{\sf refID}&lt;{\sf n\_ref}$</span>; -1 for a
+class="math inline">-1\leq{\sf refID}&lt;{\sf n\_ref}</span>; -1 for a
 read without a mapping position</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[-1]</td>
@@ -1508,7 +1558,7 @@ read without a mapping position</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">pos</td>
 <td style="text-align: left;">0-based leftmost coordinate (<span
-class="math inline">$=\underline{\sf POS}-1$</span>)</td>
+class="math inline">=\underline{\sf POS}-1</span>)</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[-1]</td>
 </tr>
@@ -1516,8 +1566,8 @@ class="math inline">$=\underline{\sf POS}-1$</span>)</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">l_read_name</td>
 <td style="text-align: left;">Length of <span>read_name</span> below
-(<span class="math inline">$={\sf length}(\underline{\sf
-QNAME})+1$</span>)</td>
+(<span class="math inline">={\sf length}(\underline{\sf
+QNAME})+1</span>)</td>
 <td style="text-align: left;"><span><code>uint8_t</code></span></td>
 <td style="text-align: right;"></td>
 </tr>
@@ -1558,15 +1608,13 @@ data-reference="sec:ncigar">4.2.2</a></td>
 <td colspan="2" style="text-align: left;">l_seq</td>
 <td style="text-align: left;">Length of <u>SEQ</u></td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span
-style="color: gray"><em>limited</em></span></td>
+<td style="text-align: right;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">next_refID</td>
 <td style="text-align: left;">Ref-ID of the next segment (<span
-class="math inline">$-1\le{\sf next\_refID}&lt;{\sf
-n\_ref}$</span>)</td>
+class="math inline">-1\le{\sf next\_refID}&lt;{\sf n\_ref}</span>)</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[-1]</td>
 </tr>
@@ -1574,7 +1622,7 @@ n\_ref}$</span>)</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">next_pos</td>
 <td style="text-align: left;">0-based leftmost pos of the next segment
-(<span class="math inline">$=\underline{\sf PNEXT}-1$</span>)</td>
+(<span class="math inline">=\underline{\sf PNEXT}-1</span>)</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[-1]</td>
 </tr>
@@ -1582,7 +1630,7 @@ n\_ref}$</span>)</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">tlen</td>
 <td style="text-align: left;">Template length (<span
-class="math inline">$=\underline{\sf TLEN}$</span>)</td>
+class="math inline">=\underline{\sf TLEN}</span>)</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[0]</td>
 </tr>
@@ -1602,7 +1650,7 @@ style="text-align: left;"><span><code>char[</code><span><code>l_read_name</code>
 <td style="text-align: left;">CIGAR:
 <span><span><code>op_len</code></span><code> 4</code></span>.
 ‘<span><code>MIDNSHP=X</code></span>’<span
-class="math inline">→</span>‘012345678’</td>
+class="math inline">\to</span>‘012345678’</td>
 <td
 style="text-align: left;"><span><code>uint32_t[</code><span><code>n_cigar_op</code></span><code>]</code></span></td>
 <td style="text-align: right;"></td>
@@ -1612,7 +1660,7 @@ style="text-align: left;"><span><code>uint32_t[</code><span><code>n_cigar_op</co
 <td colspan="2" style="text-align: left;">seq</td>
 <td style="text-align: left;">4-bit encoded read:
 ‘<span><code>=ACMGRSVTWYHKDBN</code></span>’<span
-class="math inline"> → [0, 15]</span>. See Section <a href="#sec:seq"
+class="math inline">\to[0,15]</span>. See Section <a href="#sec:seq"
 data-reference-type="ref" data-reference="sec:seq">4.2.3</a></td>
 <td
 style="text-align: left;"><span><code>uint8_t[(</code><span><code>l_seq</code></span><code>+1)/2]</code></span></td>
@@ -1738,235 +1786,35 @@ value represented as a single byte:
 
 <div class="center">
 
-<div class="picture">
-
-(2,) (0,0)(0,)2(1,0)2 (0,0)(0,1) (2,0)(0,1) (0,) (,0)(,0)(0,1)3pt
-
-</div>
-
-<div class="picture">
-
-(1,) (0,0)(0,)2(1,0)1
-
-(1,0)(0,1) (0,) (,0)(,0)(0,1)3pt
-
-</div>
-
-<div class="picture">
-
-(1,) (0,0)(0,)2(1,0)1
-
-(1,0)(0,1) (0,) (,0)(,0)(0,1)3pt
-
-</div>
-
 </div>
 
 While all single (i.e., non-array) integer types are stored in SAM as
 ‘`i`’, in BAM any of ‘`cCsSiI`’ may be used together with the
 correspondingly-sized binary integer value, chosen according to the
-field value’s magnitude. [^16] Similarly floating point ‘`f`’ fields are
+field value’s magnitude. [^17] Similarly floating point ‘`f`’ fields are
 represented as IEEE 754-2008 binary32 values. Thus BAM numeric fields
 have a total length of 4, 5, or 7 bytes:
 
 <div class="center">
 
-<table>
-<tbody>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<p>(i.e., <span><code>int8_t</code></span>)</p></td>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<p>(i.e., <span><code>uint8_t</code></span>)</p></td>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span></p>
-<p>(2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span></p>
-<p>(2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
+|                   |     |
+|:------------------|:----|
+| (i.e., `int8_t`)  |     |
+| (i.e., `uint8_t`) |     |
+|                   |     |
+|                   |     |
 
 </div>
 
 String fields and hex-formatted byte arrays are represented as
-`NUL`-terminated text strings: [^17]
+`NUL`-terminated text strings: [^18]
 
 <div class="center">
 
-<table>
-<tbody>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span>
-(0,0)<span>(0,1)</span> (1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span></p>
-<p>(2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span></p>
-<p>(2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-</tbody>
-</table>
+|     |
+|:----|
+|     |
+|     |
 
 </div>
 
@@ -1980,271 +1828,15 @@ integers or IEEE floats sized according to the sub-type:
 
 <div class="center">
 
-<table>
-<tbody>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span>
-(0,0)<span>(0,1)</span> (1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<p>(i.e., <span><code>int8_t</code></span> elements)</p></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span>
-(0,0)<span>(0,1)</span> (1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<p>(i.e., <span><code>uint8_t</code></span> elements)</p></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span></p>
-<p>(2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span></p>
-<p>(2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span></p>
-<p>(2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span></p>
-<p>(2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span>
-(0,0)<span>(0,1)</span> (4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span>
-(0,0)<span>(0,1)</span> (4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-<tr>
-<td style="text-align: left;"><div class="picture">
-<p>(2,) (0,0)(0,)<span>2</span><span>(1,0)<span>2</span></span>
-(0,0)<span>(0,1)</span> (2,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(1,) (0,0)(0,)<span>2</span><span>(1,0)<span>1</span></span></p>
-<p>(1,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span></p>
-<p>(4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div>
-<div class="picture">
-<p>(4,) (0,0)(0,)<span>2</span><span>(1,0)<span>4</span></span>
-(0,0)<span>(0,1)</span> (4,0)<span>(0,1)</span> (0,)
-(,0)(,0)<span>(0,1)<span>3pt</span></span></p>
-</div></td>
-</tr>
-</tbody>
-</table>
+|                            |
+|:---------------------------|
+| (i.e., `int8_t` elements)  |
+| (i.e., `uint8_t` elements) |
+|                            |
+|                            |
+|                            |
+|                            |
+|                            |
 
 </div>
 
@@ -2415,8 +2007,8 @@ seek call can thus be saved.
 <td style="text-align: left;"><span>1-7</span></td>
 <td style="text-align: left;"># reference sequences</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span
-class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td style="text-align: left;"><span class="math inline">&lt;
+2^{31}</span></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: right;"></td>
@@ -2436,8 +2028,8 @@ class="math inline"> &lt; 2<sup>31</sup></span></td>
 <td style="text-align: left;"># distinct bins (for the binning
 index)</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span
-class="math inline"> ≤ 37451</span></td>
+<td style="text-align: right;"><span class="math inline">\le
+37451</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-7</span></td>
@@ -2450,8 +2042,8 @@ style="color: gray"><em>List of distinct bins (n=n_bin)</em></span></td>
 <td colspan="2" style="text-align: left;">bin</td>
 <td style="text-align: left;">Distinct bin</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span
-class="math inline"> ≤ 37450</span></td>
+<td style="text-align: right;"><span class="math inline">\le
+37450</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>3-7</span></td>
@@ -2459,8 +2051,7 @@ class="math inline"> ≤ 37450</span></td>
 <td colspan="2" style="text-align: left;">n_chunk</td>
 <td style="text-align: left;"># chunks</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span
-style="color: gray"><em>limited</em></span></td>
+<td style="text-align: right;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>3-7</span></td>
@@ -2494,8 +2085,8 @@ chunk</td>
 <td style="text-align: left;"># 16kbp intervals (for the linear
 index)</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span
-class="math inline"> ≤ 2<sup>17</sup></span></td>
+<td style="text-align: right;"><span class="math inline">\le
+2^{17}</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-7</span></td>
@@ -2535,7 +2126,7 @@ alignment in the interval</td>
 
 The index file may optionally contain additional metadata providing a
 summary of the number of mapped and placed unmapped read-segments per
-reference sequence, and of any unplaced unmapped read-segments.[^18]
+reference sequence, and of any unplaced unmapped read-segments.[^19]
 This is stored in an optional extra metadata pseudo-bin for each
 reference sequence, and in the optional trailing n_no_coor field at the
 end of the file.
@@ -2657,7 +2248,7 @@ have been made while that version was current. The key changes that
 caused the version number to change are shown in bold.
 
 Additions and changes to the standard predefined tags are listed in the
-separate *Sequence Alignment/Map Optional Fields Specification*. [^19]
+separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
 ## 1.6: 28 November 2017 to current
 
@@ -2857,41 +2448,44 @@ Initial edition.
     [`SAMtags.pdf`](http://samtools.github.io/hts-specs/SAMtags.pdf) at
     <https://github.com/samtools/hts-specs>.
 
-[^11]: Peter J. A. Cock, James K. Bonfield, Bastien Chevreux, and Heng
+[^11]: The impact of this representation on indexing and random access
+    is yet to be explored by implementations.
+
+[^12]: Peter J. A. Cock, James K. Bonfield, Bastien Chevreux, and Heng
     Li, **SAM/BAM format v1.5 extensions for *de novo* assemblies**,
     *bioRxiv 020024*;
     [doi:10.1101/020024](http://dx.doi.org/10.1101/020024).
 
-[^12]: Writing pads/gaps as \*’s in the SEQ field might have been more
+[^13]: Writing pads/gaps as \*’s in the SEQ field might have been more
     convenient, but this caused concerns for backward compatibility.
 
-[^13]: See *Annotation and Padding* in
+[^14]: See *Annotation and Padding* in
     [`SAMtags.pdf`](http://samtools.github.io/hts-specs/SAMtags.pdf).
 
-[^14]: L. Peter Deutsch, **GZIP file format specification version 4.3**,
+[^15]: L. Peter Deutsch, **GZIP file format specification version 4.3**,
     [*RFC 1952*](http://tools.ietf.org/html/rfc1952).
 
-[^15]: It is worth noting that there is a known bug in the Java
+[^16]: It is worth noting that there is a known bug in the Java
     GZIPInputStream class that concatenated gzip archives cannot be
     successfully decompressed by this class. BGZF files can be created
     and manipulated using the built-in Java util.zip package, but naive
     use of GZIPInputStream on a BGZF file will not work due to this bug.
 
-[^16]: The signedness and size used for each integer value is an
+[^17]: The signedness and size used for each integer value is an
     implementation choice, but is typically the smallest that suffices.
 
-[^17]: The BAM representation of ‘`H`’ field values as textual
+[^18]: The BAM representation of ‘`H`’ field values as textual
     hexadecimal digits rather than binary data is for historical
     reasons. Modern applications may prefer to use ‘`B,C`’ array fields
     rather than ‘`H`’ fields.
 
-[^18]: By *placed unmapped read* we mean a read that is unmapped
+[^19]: By *placed unmapped read* we mean a read that is unmapped
     according to its FLAG but whose RNAME and POS fields are filled in,
     thus “placing” it on a reference sequence (see
     Section <a href="#sec:recommended-practice" data-reference-type="ref"
     data-reference="sec:recommended-practice">2</a>). In contrast,
     *unplaced* unmapped reads have ‘\*’ and 0 for RNAME and POS.
 
-[^19]: See Appendix A of
+[^20]: See Appendix A of
     [`SAMtags.pdf`](http://samtools.github.io/hts-specs/SAMtags.pdf) at
     <https://github.com/samtools/hts-specs>.

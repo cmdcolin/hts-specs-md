@@ -1,5 +1,4 @@
 ---
-layout: default
 title: "The Variant Call Format Specification VCFv4.5 and BCFv2.2"
 commit: e821e4f
 date: 25 Feb 2026
@@ -417,7 +416,12 @@ range `[!-~]` apart from ‘`\```  , "`’ () []  ```{}`` <>`’ and
 start with ‘’ or ‘`=`’. Thus they match the following regular
 expression:
 
-        [0-9A-Za-z!#$%&+./:;?@^_|~-][0-9A-Za-z!#$%&*+./:;=?@^_|~-]*
+<div class="code-math-block">
+
+<span class="code-text">
+\[0-9A-Za-z!#</span>$`%&+./:;?@^_|~-][0-9A-Za-z!#`$<span class="code-text">%&\*+./:;=?@^\_\|~-\]\*</span>
+
+</div>
 
 In particular, excluding commas facilitates parsing `##contig` lines,
 and excluding the characters ‘`<>[]`’ and initial ‘’ avoids clashes with
@@ -1312,24 +1316,46 @@ probabilities rounded to the closest integer</td>
   be expressed by the following pseudocode with as many nested loops as
   ploidy: [^3]
 
-        for $a_P = 0\ldots N$
-          for $a_{P-1} = 0\ldots a_P$
-              $\ldots$
-              for $a_1 = 0\ldots a_{2}$
-                  println $a_1 a_2  \ldots  a_P$
+  <div class="code-math-block">
+
+  <span class="code-text"> for </span>$`a_P = 0\ldots N`$
+  <span class="code-text"> for </span>$`a_{P-1} = 0\ldots a_P`$
+  <span class="code-text"> </span>$`\ldots`$
+  <span class="code-text"> for </span>$`a_1 = 0\ldots a_{2}`$
+  <span class="code-text"> println </span>$`a_1 a_2  \ldots  a_P`$
+
+  </div>
 
   Alternatively, the same can be achieved recursively with the following
   pseudocode:
 
-          Ordering($P$, $N$, suffix=""):
-              for $a$ in $0\ldots N$
-                  if ($P == 1$) println str($a$) + suffix
-                  if ($P > 1$) Ordering($P$-1, $a$, str($a$) + suffix)
+  <div class="code-math-block">
+
+  <span class="code-text">
+  Ordering(</span>$`P`$<span class="code-text">,
+  </span>$`N`$<span class="code-text">, suffix=""):</span>
+  <span class="code-text"> for </span>$`a`$<span class="code-text"> in
+  </span>$`0\ldots N`$
+  <span class="code-text"> if
+  (</span>$`P == 1`$<span class="code-text">) println
+  str(</span>$`a`$<span class="code-text">) + suffix</span>
+  <span class="code-text"> if (</span>$`P > 1`$<span class="code-text">)
+  Ordering(</span>$`P`$<span class="code-text">-1,
+  </span>$`a`$<span class="code-text">,
+  str(</span>$`a`$<span class="code-text">) + suffix)</span>
+
+  </div>
 
   Conversely, the index of the value corresponding to the genotype
   $`k_1\le k_2\le\ldots\le k_P`$ is
 
-          Index($k_1/k_2/\ldots/k_P$) = $\sum_{m=1}^{P} {k_m + m - 1 \choose m}$
+  <div class="code-math-block">
+
+  <span class="code-text">
+  Index(</span>$`k_1/k_2/\ldots/k_P`$<span class="code-text">) =
+  </span>$`\sum_{m=1}^{P} {k_m + m - 1 \choose m}`$
+
+  </div>
 
   Examples:
 
