@@ -88,10 +88,30 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
       .code-math-block math {
         font-size: 1em;
       }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem 0;
+      }
+      a[href^="http"]:not([href*="localhost"]):not([href*="cmdcolin.github.io"])::after {
+        content: " ↗";
+        font-size: 0.8em;
+        opacity: 0.7;
+      }
+      /* Prevent anchor tags used for section links from affecting layout */
+      a[id] {
+        display: block;
+        position: relative;
+        top: -2rem; /* Offset for header/nav if any, though here we just want it to exist */
+        visibility: hidden;
+      }
       table {
         border-collapse: collapse;
         width: 100%;
         margin-bottom: 1rem;
+        display: block;
+        overflow-x: auto;
       }
       th, td {
         border: 1px solid #ddd;

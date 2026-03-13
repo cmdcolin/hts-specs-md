@@ -18,7 +18,7 @@ support both LF ("`\n`") and CR+LF ("`\r\n`") newline conventions.
 
 <a id="an-example"></a>
 
-## An example
+## 1.1 An example
 
     ##fileformat=VCFv4.3
     ##fileDate=20090805
@@ -59,7 +59,7 @@ microsatellite calls are unphased.
 
 <a id="character-encoding"></a>
 
-## Character encoding, non-printable characters and characters with special meaning
+## 1.2 Character encoding, non-printable characters and characters with special meaning
 
 The character encoding of VCF files is UTF-8. UTF-8 is a multi-byte
 character encoding that is a strict superset of 7-bit ASCII and has the
@@ -86,7 +86,7 @@ with the capitalized percent encoding:
 
 <a id="data-types"></a>
 
-## Data types
+## 1.3 Data types
 
 Data types supported by VCF are: Integer (32-bit, signed), Float (32-bit
 IEEE-754, formatted to match one of the regular expressions
@@ -98,7 +98,7 @@ disallowed in both VCF and BCF, see [6.3.3](#BcfTypeEncoding).
 
 <a id="meta-information-lines"></a>
 
-## Meta-information lines
+## 1.4 Meta-information lines
 
 File meta-information lines start with "`##`" and must appear first in
 the VCF file, before the header line (section [1.5](#header-line)) and
@@ -152,7 +152,7 @@ VCF file.
 
 <a id="file-format"></a>
 
-### File format
+### 1.4.1 File format
 
 A single 'fileformat' line is always required, must be the first line in
 the file, and details the VCF format version number. For VCF version
@@ -162,7 +162,7 @@ the file, and details the VCF format version number. For VCF version
 
 <a id="information-field-format"></a>
 
-### Information field format
+### 1.4.2 Information field format
 
 INFO fields are described as follows (first four keys are required,
 source and version are recommended):
@@ -204,7 +204,7 @@ respectively for computational use.
 
 <a id="filter-field-format"></a>
 
-### Filter field format
+### 1.4.3 Filter field format
 
 FILTERs that have been applied to the data are described as follows:
 
@@ -212,7 +212,7 @@ FILTERs that have been applied to the data are described as follows:
 
 <a id="individual-format-field-format"></a>
 
-### Individual format field format
+### 1.4.4 Individual format field format
 
 Genotype fields specified in the FORMAT field are described as follows:
 
@@ -223,7 +223,7 @@ String (this field is otherwise defined precisely as the INFO field).
 
 <a id="alternative-allele-field-format"></a>
 
-### Alternative allele field format
+### 1.4.5 Alternative allele field format
 
 Symbolic alternate alleles are described as follows:
 
@@ -266,7 +266,7 @@ in VCF, for example:
 
 <a id="assembly-field-format"></a>
 
-### Assembly field format
+### 1.4.6 Assembly field format
 
 Breakpoint assemblies for structural variations may use an external
 file:
@@ -279,7 +279,7 @@ variants via the BKPTID INFO key.
 
 <a id="sec-contig-field"></a>
 
-### Contig field format
+### 1.4.7 Contig field format
 
 It is recommended for VCF, and required for BCF, that the header
 includes tags describing the contigs referred to in the file. The
@@ -320,7 +320,7 @@ allele name.
 
 <a id="sample-field-format"></a>
 
-### Sample field format
+### 1.4.8 Sample field format
 
 It is possible to define sample to genome mappings as shown below:
 
@@ -333,7 +333,7 @@ It is possible to define sample to genome mappings as shown below:
 
 <a id="pedigree-field-format"></a>
 
-### Pedigree field format
+### 1.4.9 Pedigree field format
 
 It is possible to record relationships between genomes using the
 following syntax:
@@ -351,7 +351,7 @@ See [5.4.11](#PedigreeInDetail) for details.
 
 <a id="header-line"></a>
 
-## Header line syntax
+## 1.5 Header line syntax
 
 The header line names the 8 fixed, mandatory columns. These columns are
 as follows:
@@ -369,7 +369,7 @@ no tab characters at the end of the line.
 
 <a id="data-lines"></a>
 
-## Data lines
+## 1.6 Data lines
 
 All data lines are tab-delimited with no tab character at the end of the
 line. The last data line must end with a line separator. In all cases,
@@ -377,7 +377,7 @@ missing values are specified with a dot ('.').
 
 <a id="fixed-fields"></a>
 
-### Fixed fields
+### 1.6.1 Fixed fields
 
 There are 8 fixed fields per record. Fixed fields are:
 
@@ -656,7 +656,7 @@ genomics)</td>
 
 <a id="genotype-fields"></a>
 
-### Genotype fields
+### 1.6.2 Genotype fields
 
 If genotype information is present, then the same types of data must be
 present for all samples. First a FORMAT field is given specifying the
@@ -934,7 +934,7 @@ probabilities rounded to the closest integer</td>
 
 <a id="understanding-the-vcf-format-and-the-haplotype-representation"></a>
 
-# Understanding the VCF format and the haplotype representation
+# 2 Understanding the VCF format and the haplotype representation
 
 VCF records use a single general system for representing genetic
 variation data composed of:
@@ -957,7 +957,7 @@ are a-ALT-t for each alternative allele.
 
 <a id="vcf-tag-naming-conventions"></a>
 
-## VCF tag naming conventions
+## 2.1 VCF tag naming conventions
 
 Several tag names follow conventions indicating how their values are
 represented numerically:
@@ -981,7 +981,7 @@ represented numerically:
 
 <a id="sv-info-keys"></a>
 
-# INFO keys used for structural variants
+# 3 INFO keys used for structural variants
 
 The following INFO keys are reserved for encoding structural variants.
 In general, when these keys are used by imprecise variants, the values
@@ -1053,7 +1053,7 @@ the characteristics of the alt allele contigs.
 
 <a id="sv-format-keys"></a>
 
-# FORMAT keys used for structural variants
+# 4 FORMAT keys used for structural variants
 
     ##FORMAT=<ID=CN,Number=1,Type=Integer,Description="Copy number genotype for imprecise events">
     ##FORMAT=<ID=CNQ,Number=1,Type=Float,Description="Copy number genotype quality for imprecise events">
@@ -1077,15 +1077,15 @@ these keys.
 
 <a id="representing-variation-in-vcf-records"></a>
 
-# Representing variation in VCF records
+# 5 Representing variation in VCF records
 
 <a id="creating-vcf-entries-for-snps-and-small-indels"></a>
 
-## Creating VCF entries for SNPs and small indels
+## 5.1 Creating VCF entries for SNPs and small indels
 
 <a id="example-1"></a>
 
-### Example 1
+### 5.1.1 Example 1
 
 For example, suppose we are looking at a locus in the genome:
 
@@ -1115,7 +1115,7 @@ Note that the positions must be sorted in increasing order:
 
 <a id="example-2"></a>
 
-### Example 2
+### 5.1.2 Example 2
 
 Suppose I see a the following in a population of individuals and want to
 represent these three segregating alleles:
@@ -1135,7 +1135,7 @@ corresponding VCF record:
 
 <a id="example-3"></a>
 
-### Example 3
+### 5.1.3 Example 3
 
 Now suppose I have this more complex example:
 
@@ -1161,11 +1161,11 @@ Reference site depends on the properties of the alleles in the record.
 
 <a id="decoding-vcf-entries-for-snps-and-small-indels"></a>
 
-## Decoding VCF entries for SNPs and small indels
+## 5.2 Decoding VCF entries for SNPs and small indels
 
 <a id="snp-vcf-record"></a>
 
-### SNP VCF record
+### 5.2.1 SNP VCF record
 
 Suppose I receive the following VCF record:
 
@@ -1183,7 +1183,7 @@ two alleles so I have the two following segregating haplotypes:
 
 <a id="insertion-vcf-record"></a>
 
-### Insertion VCF record
+### 5.2.2 Insertion VCF record
 
 Suppose I receive the following VCF record:
 
@@ -1202,7 +1202,7 @@ only two alleles so I have the two following segregating haplotypes:
 
 <a id="deletion-vcf-record"></a>
 
-### Deletion VCF record
+### 5.2.3 Deletion VCF record
 
 Suppose I receive the following VCF record:
 
@@ -1221,7 +1221,7 @@ only two alleles so I have the two following segregating haplotypes:
 
 <a id="mixed-vcf-record-for-a-microsatellite"></a>
 
-### Mixed VCF record for a microsatellite
+### 5.2.4 Mixed VCF record for a microsatellite
 
 Suppose I receive the following VCF record:
 
@@ -1252,7 +1252,7 @@ alignment:
 
 <a id="encoding-structural-variants"></a>
 
-## Encoding Structural Variants
+## 5.3 Encoding Structural Variants
 
 The following page contains examples of structural variants encoded in
 VCF, showing in order:
@@ -1314,7 +1314,7 @@ VCF, showing in order:
 
 <a id="Breakends"></a>
 
-## Specifying complex rearrangements with breakends
+## 5.4 Specifying complex rearrangements with breakends
 
 An arbitrary rearrangement event can be summarized as a set of novel
 **adjacencies**. Each adjacency ties together $2$ **breakends**. The two
@@ -1371,7 +1371,7 @@ style="width:4in;height:2.96in" />
 
 <a id="inserted-sequence"></a>
 
-### Inserted Sequence
+### 5.4.1 Inserted Sequence
 
 Sometimes, as shown in Figure 2, some bases are inserted between the two
 breakends, this information is also carried in the ALT column:
@@ -1389,7 +1389,7 @@ style="width:4in;height:1.89in" />
 
 <a id="large-insertions"></a>
 
-### Large Insertions
+### 5.4.2 Large Insertions
 
 If the insertion is too long to be conveniently stored in the ALT
 column, as in the 329 base insertion shown in Figure 3, it can be
@@ -1435,7 +1435,7 @@ is represented by adding a circular adjacency:
 
 <a id="multiple-mates"></a>
 
-### Multiple mates
+### 5.4.3 Multiple mates
 
 If a breakend has multiple mates such as in Figure 4 (either because of
 breakend reuse or of uncertainty in the measurement), these alternate
@@ -1455,7 +1455,7 @@ style="width:4in;height:2.8in" />
 
 <a id="explicit-partners"></a>
 
-### Explicit partners
+### 5.4.4 Explicit partners
 
 Two breakends which are connected in the reference genome but
 disconnected in the variants are called partners. Each breakend only has
@@ -1477,7 +1477,7 @@ breakend's partner may be explicitly named as in Figure 5:
 
 <a id="telomeres"></a>
 
-### Telomeres
+### 5.4.5 Telomeres
 
 For a rearrangement involving the telomere end of a reference
 chromosome, we define a virtual telomeric breakend that serves as a
@@ -1503,7 +1503,7 @@ the records would look like:
 
 <a id="event-modifiers"></a>
 
-### Event modifiers
+### 5.4.6 Event modifiers
 
 As mentioned previously, a single rearrangement event can be described
 as a set of novel adjacencies. For example, a reciprocal rearrangement
@@ -1526,7 +1526,7 @@ would be described as:
 
 <a id="inversions"></a>
 
-### Inversions
+### 5.4.7 Inversions
 
 Similarly an inversion such as in Figure 8:
 
@@ -1553,7 +1553,7 @@ or one describes the breakends:
 
 <a id="uncertainty-around-breakend-location"></a>
 
-### Uncertainty around breakend location
+### 5.4.8 Uncertainty around breakend location
 
 It sometimes is difficult to determine the exact position of a break,
 generally because of homologies between the sequences being modified,
@@ -1599,7 +1599,7 @@ and vice versa.
 
 <a id="single-breakends"></a>
 
-### Single breakends
+### 5.4.9 Single breakends
 
 We allow for the definition of a breakend that is not part of a novel
 adjacency, also identified by the tag SVTYPE=BND. We call these single
@@ -1650,7 +1650,7 @@ sequence can be provided on that line, in analogy to paired breakends:
 
 <a id="sample-mixtures"></a>
 
-### Sample mixtures
+### 5.4.10 Sample mixtures
 
 It may be extremely difficult to obtain clinically perfect samples, with
 only one type of cell. Let's imagine that two samples are taken from a
@@ -1694,7 +1694,7 @@ data:
 
 <a id="PedigreeInDetail"></a>
 
-### Clonal derivation relationships
+### 5.4.11 Clonal derivation relationships
 
 In cancer, each VCF file represents several genomes from a patient, but
 one genome is special in that it represents the germline genome of the
@@ -1776,7 +1776,7 @@ ancestor** in the parent genome.
 
 <a id="phasing-adjacencies-in-an-aneuploid-context"></a>
 
-### Phasing adjacencies in an aneuploid context
+### 5.4.12 Phasing adjacencies in an aneuploid context
 
 In a cancer genome, due to duplication followed by mutation, there can
 in principle exist any number of haplotypes in the sampled genome for a
@@ -1853,7 +1853,7 @@ table as follows.
 
 <a id="representing-unspecified-alleles-and-ref-only-blocks-gvcf"></a>
 
-## Representing unspecified alleles and REF-only blocks (gVCF)
+## 5.5 Representing unspecified alleles and REF-only blocks (gVCF)
 
 In order to report sequencing data evidence for both variant and
 non-variant positions in the genome, the VCF specification allows to
@@ -1884,7 +1884,7 @@ Example records are given below:
 
 <a id="bcf-specification"></a>
 
-# BCF specification
+# 6 BCF specification
 
 VCF is very expressive, accommodates multiple samples, and is widely
 used in the community. Its biggest drawback is that it is big and slow.
@@ -1903,7 +1903,7 @@ noting that `AC` is an allele indexed array of type integer.
 
 <a id="overall-file-organization"></a>
 
-## Overall file organization
+## 6.1 Overall file organization
 
 A BCF2 file is composed of a mandatory header, followed by a series of
 BGZF compressed blocks of binary BCF2 records. The BGZF blocks allow
@@ -1927,7 +1927,7 @@ extensions/restrictions:
 
 <a id="header"></a>
 
-## Header
+## 6.2 Header
 
 The BCF2 header contains the following items:
 
@@ -1952,7 +1952,7 @@ strings. See the "Dictionary of strings" section for more details.
 
 <a id="dictionary-of-strings"></a>
 
-### Dictionary of strings
+### 6.2.1 Dictionary of strings
 
 Throughout the BCF file most string values are be specified by integer
 reference to their dictionary values. For example, the following VCF
@@ -2002,7 +2002,7 @@ without explicitly listing this in the FILTER field itself.
 
 <a id="dictionary-of-contigs"></a>
 
-### Dictionary of contigs
+### 6.2.2 Dictionary of contigs
 
 The CHROM field in BCF2 is encoded as an integer offset into the list of
 `##contig` field headers in the VCF header. The offsets begin, like the
@@ -2023,7 +2023,7 @@ and 2 corresponding to the first (offset 0) `##contig` element, etc.
 
 <a id="bcf2-records"></a>
 
-## BCF2 records
+## 6.3 BCF2 records
 
 In BCF2, the original VCF records are converted to binary and encoded as
 BGZF blocks. Each record is conceptually two parts. First is the site
@@ -2034,7 +2034,7 @@ the VCF file. Compression of a BCF file is recommended but not required.
 
 <a id="BcfSiteEncoding"></a>
 
-### Site encoding
+### 6.3.1 Site encoding
 
 | **Field** | **Type** | **Notes** |
 |:---|:---|:---|
@@ -2056,7 +2056,7 @@ the VCF file. Compression of a BCF file is recommended but not required.
 
 <a id="GenotypeEncoding"></a>
 
-### Genotype encoding
+### 6.3.2 Genotype encoding
 
 Genotype fields are encoded not by sample as in VCF but rather by field,
 with a vector of values for each sample following each field. In BCF2,
@@ -2100,7 +2100,7 @@ the size of the genotypes block will be 0.
 
 <a id="BcfTypeEncoding"></a>
 
-### Type encoding
+### 6.3.3 Type encoding
 
 In BCF2 values are all strongly typed in the file. The type information
 is encoded in a prefix byte before the value, which contains information
@@ -2336,7 +2336,7 @@ by the END_OF_VECTOR value.
 
 <a id="encoding-a-vcf-record-example"></a>
 
-## Encoding a VCF record example
+## 6.4 Encoding a VCF record example
 
 Let's encode a realistic (but made-up) VCF record. This is a A/C SNP in
 HM3 (not really) called in 3 samples. In this section we'll build up the
@@ -2347,7 +2347,7 @@ BCF2 encoding for this record.
 
 <a id="encoding-chrom-and-pos"></a>
 
-### Encoding CHROM and POS
+### 6.4.1 Encoding CHROM and POS
 
 First, let's assume that `chr1` is the second chromosome to appear in
 the contig list—right after `chrM` (`MT`). So its offset is 1. The `POS`
@@ -2364,7 +2364,7 @@ byte 0x65. So in total these are represented as:
 
 <a id="encoding-qual"></a>
 
-### Encoding QUAL
+### 6.4.2 Encoding QUAL
 
 The QUAL field value is 30.1, which we encode as an untyped single
 precision 32-bit float:
@@ -2374,7 +2374,7 @@ precision 32-bit float:
 
 <a id="encoding-id"></a>
 
-### Encoding ID
+### 6.4.3 Encoding ID
 
 This ID value is a 5-element string, so is encoded as type descriptor
 0x57 followed by the five bytes for the string of
@@ -2385,7 +2385,7 @@ This ID value is a 5-element string, so is encoded as type descriptor
 
 <a id="encoding-refalt-fields"></a>
 
-### Encoding REF/ALT fields
+### 6.4.4 Encoding REF/ALT fields
 
 We encode each of REF and ALT as typed strings, first REF followed
 immediately by ALT. Each is a 1 element string (0x17), which would then
@@ -2402,7 +2402,7 @@ value of 0x54.
 
 <a id="encoding-filter"></a>
 
-### Encoding FILTER
+### 6.4.5 Encoding FILTER
 
 "PASS" is implicitly encoded as the first entry in the header dictionary
 (see dictionary of strings). Here we encode the PASS FILTER field as a
@@ -2414,7 +2414,7 @@ is the offset 0:
 
 <a id="encoding-the-info-fields"></a>
 
-### Encoding the INFO fields
+### 6.4.6 Encoding the INFO fields
 
 HM3;AC=3;AN=6;AA=C Let's assume that the header dictionary elements for
 HM3, AC, AN, and AA are at 80, 81, 82, and 83 respectively. All of these
@@ -2448,7 +2448,7 @@ key/value pair is:
 
 <a id="encoding-genotypes"></a>
 
-### Encoding Genotypes
+### 6.4.7 Encoding Genotypes
 
 Continuing with our example:
 
@@ -2553,7 +2553,7 @@ That's quite a lot of information encoded in only 96 bytes!
 
 <a id="bcf2-block-gzip-and-indexing"></a>
 
-## BCF2 block gzip and indexing
+## 6.5 BCF2 block gzip and indexing
 
 These raw binary records may be subsequently encoded into BGZF blocks
 following the BGZF compression format, section 3 of the SAM format
@@ -2570,11 +2570,11 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 <a id="list-of-changes"></a>
 
-# List of changes
+# 7 List of changes
 
 <a id="changes-to-vcfv4.3"></a>
 
-## Changes to VCFv4.3
+## 7.1 Changes to VCFv4.3
 
 - More strict language: "should" replaced with "must" where appropriate
 
@@ -2598,7 +2598,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 <a id="changes-between-vcfv4.2-and-vcfv4.3"></a>
 
-## Changes between VCFv4.2 and VCFv4.3
+## 7.2 Changes between VCFv4.2 and VCFv4.3
 
 - VCF compliant implementations must support both LF and CR+LF newline
   conventions
@@ -2655,7 +2655,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 <a id="changes-between-bcfv2.1-and-bcfv2.2"></a>
 
-## Changes between BCFv2.1 and BCFv2.2
+## 7.3 Changes between BCFv2.1 and BCFv2.2
 
 - BCF header lines can include optional IDX field
 
@@ -2674,7 +2674,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 <a id="changes-between-vcfv4.1-and-vcfv4.2"></a>
 
-## Changes between VCFv4.1 and VCFv4.2
+## 7.4 Changes between VCFv4.1 and VCFv4.2
 
 - In the HEADER the INFO definition allow additional field after the 4
   first mandatory fields

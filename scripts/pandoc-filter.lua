@@ -1,7 +1,10 @@
--- Pandoc filter to handle hts-specs custom LaTeX commands
+-- Pandoc filter to handle hts-specs custom LaTeX commands and section numbering
 
 local commit = "unknown"
 local date = "unknown"
+
+-- Counters for section numbering
+local section_counters = {0, 0, 0, 0, 0, 0}
 
 function get_vars(meta)
   if meta.commit then
@@ -233,6 +236,22 @@ function Math(el)
 end
 
 function Header(el)
+  -- Update section numbering
+  local level = el.level
+  section_counters[level] = section_counters[level] + 1
+  for i = level + 1, #section_counters do
+    section_counters[i] = 0
+  end
+  
+  local num_parts = {}
+  for i = 1, level do
+    table.insert(num_parts, tostring(section_counters[i]))
+  end
+  local section_num = table.concat(num_parts, ".")
+  
+  -- Prepend section number to header content
+  table.insert(el.content, 1, pandoc.Str(section_num .. " "))
+
   if el.identifier ~= "" then
     -- Return a list with a raw HTML anchor block and the header
     -- This ensures the anchor is OUTSIDE the header text, so it doesn't affect TOC text
