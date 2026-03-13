@@ -4,16 +4,12 @@ commit: 778115b
 date: 3 Feb 2023
 ---
 
-# GA4GH File Encryption Standard
-{:.no_toc}
-
 This printing is version 778115b from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 3 Feb 2023.
 
-* Do not remove this line (it will not be displayed)
-{:toc}
 
+<a id="purpose"></a>
 
-## Purpose
+## 1.1 Purpose
 
 By its nature, genomic data can include information of a confidential
 nature about the health of individuals. It is important that such
@@ -51,13 +47,17 @@ The format has the following properties:
 
   The format does not provide any way of authenticating files.
 
-## Requirements
+<a id="requirements"></a>
+
+## 1.2 Requirements
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
 document are to be interpreted as described in .
 
-## Terminology
+<a id="terminology"></a>
+
+## 1.3 Terminology
 
 cipher-text  
  \
@@ -131,82 +131,83 @@ A byte pattern that can be used for file format identification. Usually
 put at the start of a file so that software can probe the first few
 bytes to determine what sort of file it is reading.
 
-# Encrypted Format Overview
+<a id="encrypted-format-overview"></a>
 
-## Keys
+# 2 Encrypted Format Overview
+
+<a id="keys"></a>
+
+## 2.1 Keys
 
 A number of cryptographic keys are required by the format. The type and
-function of each key is listed here, along with symbols ($`K_x`$ where
-$`_x`$ is the key type) used to refer to the key in the rest of this
+function of each key is listed here, along with symbols ($K_x$ where
+$_x$ is the key type) used to refer to the key in the rest of this
 specification.
 
-### Asymmetric Keys
+<a id="asymmetric-keys"></a>
+
+### 2.1.1 Asymmetric Keys
 
 This specification uses the term "secret key" rather than "private key"
-so that the symbol $`K_s`$ can be used for secret keys and $`K_p`$ for
+so that the symbol $K_s$ can be used for secret keys and $K_p$ for
 public keys.
 
 <div class="description">
 
-Reader's secret key ($`K_{sr}`$) \
+Reader's secret key ($K_{sr}$) \
 This key is used by the reader when decrypting header packets and should
 be kept private. It is generated using a cryptographically-secure random
 number.
 
-Reader's public key ($`K_{pr}`$) \
+Reader's public key ($K_{pr}$) \
 This key is passed to the writer so that they can encrypt header packets
-(section <a href="#header:encryption" data-reference-type="ref"
-data-reference="header:encryption">3.2.1</a>) for the reader. It is
-derived from $`K_{sr}`$ (see
-section <a href="#header:X25519" data-reference-type="ref"
-data-reference="header:X25519">[header:X25519]</a>).
+(section [3.2.1](#header:encryption)) for the reader. It is derived from
+$K_{sr}$ (see section [\[header:X25519\]](#header:X25519)).
 
-Writer's secret key ($`K_{sw}`$) \
+Writer's secret key ($K_{sw}$) \
 This key is used by the writer to encrypt header packets. It should
 either be kept private, or deleted after use. It is generated using a
 cryptographically-secure random number.
 
-Writer's public key ($`K_{pw}`$) \
+Writer's public key ($K_{pw}$) \
 This key is included in the header packet
-(section <a href="#header:encryption" data-reference-type="ref"
-data-reference="header:encryption">3.2.1</a>) so that the reader can use
-it to derive the shared key ($`K_{shared}`$, see below) needed to
-decrypt header packet data. It is derived from $`K_{sw}`$ (see
-section <a href="#header:X25519" data-reference-type="ref"
-data-reference="header:X25519">[header:X25519]</a>).
+(section [3.2.1](#header:encryption)) so that the reader can use it to
+derive the shared key ($K_{shared}$, see below) needed to decrypt header
+packet data. It is derived from $K_{sw}$ (see
+section [\[header:X25519\]](#header:X25519)).
 
 </div>
 
-### Symmetric keys
+<a id="symmetric-keys"></a>
+
+### 2.1.2 Symmetric keys
 
 <div class="description">
 
-Diffie-Hellman key ($`K_{dh}`$) \
-This is generated as part of the derivation of $`K_{shared}`$.
+Diffie-Hellman key ($K_{dh}$) \
+This is generated as part of the derivation of $K_{shared}$.
 
-Shared key ($`K_{shared}`$) \
+Shared key ($K_{shared}$) \
 This key is used to encrypt header packet data. It can be derived either
-from ($`K_{sw}`$ and $`K_{pr}`$) or from ($`K_{sr}`$ and $`K_{pw}`$) -
-see section <a href="#header:X25519" data-reference-type="ref"
-data-reference="header:X25519">[header:X25519]</a>. The writer will use
-the first of these derivations and the reader will use the second.
+from ($K_{sw}$ and $K_{pr}$) or from ($K_{sr}$ and $K_{pw}$) - see
+section [\[header:X25519\]](#header:X25519). The writer will use the
+first of these derivations and the reader will use the second.
 
-Data key ($`K_{data}`$) \
+Data key ($K_{data}$) \
 This key is used to encrypt the actual file data
-(section <a href="#data:encryption" data-reference-type="ref"
-data-reference="data:encryption">3.4</a>). It is generated using a
+(section [3.4](#data:encryption)). It is generated using a
 cryptographically-secure random number. The data key SHOULD be generated
 uniquely for each file. This key is stored in a
 data_encryption_parameters header packet (see
-section <a href="#header:data_encryption_parameters" data-reference-type="ref"
-data-reference="header:data_encryption_parameters">3.2.3</a>). It is
-possible to encrypt parts of a file with different data keys, in which
-case each key will be stored in a separate data_encryption_parameters
-header packet.
+section [3.2.3](#header:data_encryption_parameters)). It is possible to
+encrypt parts of a file with different data keys, in which case each key
+will be stored in a separate data_encryption_parameters header packet.
 
 </div>
 
-## File Structure
+<a id="file-structure"></a>
+
+## 2.2 File Structure
 
 <div class="center">
 
@@ -230,9 +231,9 @@ the following parts:
 
     - The method used to encrypt the header packet data.
 
-    - The writer's public key ($`K_{pw}`$) used to encrypt the header
+    - The writer's public key ($K_{pw}$) used to encrypt the header
       packet data. This is needed (along with the reader's secret key
-      $`K_{sr}`$) to calculate the shared key used to encrypt the header
+      $K_{sr}$) to calculate the shared key used to encrypt the header
       packet.
 
     - A random "nonce", also required for decryption.
@@ -243,9 +244,7 @@ the following parts:
 
     The first item in the encrypted header packet data is a code
     indicating the packet type. This is followed by type-specific data,
-    described in
-    section <a href="#overview:header_packet_types" data-reference-type="ref"
-    data-reference="overview:header_packet_types">2.3</a>.
+    described in section [2.3](#overview:header_packet_types).
 
 - The encrypted data. This is the actual application data, stored in a
   sequence of blocks containing:
@@ -257,7 +256,9 @@ the following parts:
 
   - A MAC calculated over the encrypted data.
 
-## Header Packet Types
+<a id="overview:header_packet_types"></a>
+
+## 2.3 Header Packet Types
 
 There are two types of header packet:
 
@@ -265,7 +266,7 @@ There are two types of header packet:
 
   These describe the parameters used to encrypt one or more of the data
   blocks. They contain a code indicating the type of encryption, and the
-  symmetric key ($`K_{data}`$) needed to decrypt the data.
+  symmetric key ($K_{data}$) needed to decrypt the data.
 
   If parts of the data have been encrypted with different keys, more
   than one of this packet type will be present.
@@ -288,18 +289,20 @@ There are two types of header packet:
   reading, the data blocks are decrypted and then the edit list is used
   to find out which parts of the unencrypted data should be discarded.
 
-## Encoding For Multiple Public/Secret Key Pairs
+<a id="encoding-for-multiple-publicsecret-key-pairs"></a>
+
+## 2.4 Encoding For Multiple Public/Secret Key Pairs
 
 It is sometimes useful to encrypt files so that they can be accessed
-using more than one secret key ($`K_{sr}`$). For example, multiple
-members of a team may need to access to a file with their own key.
+using more than one secret key ($K_{sr}$). For example, multiple members
+of a team may need to access to a file with their own key.
 
 To allow this, the header packet data is encrypted using each reader's
-public key ($`K_{pr}`$) and stored in a separate header packet for each
+public key ($K_{pr}$) and stored in a separate header packet for each
 individual reader.
 
 Where this is done, it is likely that anyone reading the file will only
-have the correct secret key ($`K_{sr}`$) for a subset of the header
+have the correct secret key ($K_{sr}$) for a subset of the header
 packets. Attempting to decode a header packet with the wrong key will
 result in a failure to verify the MAC stored in the file. When this
 happens, implementations should ignore the undecodable header packet and
@@ -308,44 +311,98 @@ NOT cause an error to be reported; however an error MUST be raised if,
 on reaching the end of the header, it has not been possible to decrypt
 at least one data encryption key packet.
 
-# Detailed Specification
+<a id="detailed-specification"></a>
 
-## Overall Conventions
+# 3 Detailed Specification
 
-### Hexadecimal Numbers
+<a id="overall-conventions"></a>
+
+## 3.1 Overall Conventions
+
+<a id="hexadecimal-numbers"></a>
+
+### 3.1.1 Hexadecimal Numbers
 
 Hexadecimal values are written using the digits 0-9, and letters a-f for
 values 10-15. Values are written with the most-significant digit on the
 left, and prefixed with "0x".
 
-### Byte Ordering
+<a id="byte-ordering"></a>
+
+### 3.1.2 Byte Ordering
 
 The basic data size is the byte (8 bits). All multi-byte values are
 stored in least-significant byte first ("little-endian") order. For
 example, the value 1234 decimal (0x4d2) is stored as the byte stream
 0xd2 0x04.
 
-### Integer Types
+<a id="integer-types"></a>
+
+### 3.1.3 Integer Types
 
 Integers can be either signed or unsigned. Signed values are stored in
 two's complement form.
 
-### Multi-byte Integer Types
+<a id="multi-byte-integer-types"></a>
+
+### 3.1.4 Multi-byte Integer Types
 
 <div class="center">
 
-| **Name**  | **Byte Ordering** | **Integer Type** | **Size (bytes)** |
-|:----------|:------------------|:-----------------|:-----------------|
-| byte      |                   | unsigned         | 1                |
-| le_int32  | little-endian     | signed           | 4                |
-| le_uint32 | little-endian     | unsigned         | 4                |
-| le_int64  | little-endian     | signed           | 8                |
-| le_uint64 | little-endian     | unsigned         | 8                |
-| le_uint96 | little-endian     | unsigned         | 12               |
+<table>
+<thead>
+<tr>
+<th><strong>Name</strong></th>
+<th><strong>Byte Ordering</strong></th>
+<th><strong>Integer Type</strong></th>
+<th><strong>Size (bytes)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td></td>
+<td>unsigned</td>
+<td>1</td>
+</tr>
+<tr>
+<td>le_int32</td>
+<td>little-endian</td>
+<td>signed</td>
+<td>4</td>
+</tr>
+<tr>
+<td>le_uint32</td>
+<td>little-endian</td>
+<td>unsigned</td>
+<td>4</td>
+</tr>
+<tr>
+<td>le_int64</td>
+<td>little-endian</td>
+<td>signed</td>
+<td>8</td>
+</tr>
+<tr>
+<td>le_uint64</td>
+<td>little-endian</td>
+<td>unsigned</td>
+<td>8</td>
+</tr>
+<tr>
+<td>le_uint96</td>
+<td>little-endian</td>
+<td>unsigned</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
-### Structures
+<a id="structures"></a>
+
+### 3.1.5 Structures
 
 Structure types may be defined (in C-like notation) for convenience.
 
@@ -360,7 +417,9 @@ given order with no padding between them. The above structure would be
 written as twenty bytes - eight for the array 'string', four for the
 integer 'number1', and eight for the integer 'number2'.
 
-### Enumerated Types
+<a id="enumerated-types"></a>
+
+### 3.1.6 Enumerated Types
 
 Enumerated types may only take one of a given set of values. The data
 type used to store the enumerated value is given in angle brackets after
@@ -374,7 +433,9 @@ except to compare for (in)equality.
       rabbit = 3;
     };
 
-### Variants
+<a id="variants"></a>
+
+### 3.1.7 Variants
 
 Parts of structures may vary depending on information available at the
 time of decoding. Which variant to use is selected by an enumerated
@@ -403,7 +464,9 @@ If the cases are different lengths (as above), then the size of the
 overall structure depends on the variant chosen. There is NO padding to
 make the cases the same length unless it is explicitly defined.
 
-## Header
+<a id="header"></a>
+
+## 3.2 Header
 
 The file starts with a header, with the following structure:
 
@@ -426,7 +489,9 @@ The current byte representation of the magic number and version is:
 
 is the number of header packets that follow.
 
-### Header Packets
+<a id="header:encryption"></a>
+
+### 3.2.1 Header Packets
 
 The header packets are defined as:
 
@@ -460,7 +525,7 @@ in a suitable manner (for example by setting it to zero) and encrypted.
 
 is the encryption method used for this header packet.
 
-($`K_{pw}`$) and are parameters needed to decrypt the in the packet.
+($K_{pw}$) and are parameters needed to decrypt the in the packet.
 
 is the encrypted part of the header packet, for which the plain-text is
 described below.
@@ -471,7 +536,9 @@ Implementations should ignore any header packets that they cannot
 decrypt successfully, as these may have been intended for a different
 reader.
 
-### Header packet encrypted payload
+<a id="header-packet-encrypted-payload"></a>
+
+### 3.2.2 Header packet encrypted payload
 
 The part of the header packet contains the following plain-text:
 
@@ -503,21 +570,25 @@ The part of the header packet contains the following plain-text:
 
 defines what sort of data packet this is.
 
-### data_encryption_parameters packet
+<a id="header:data_encryption_parameters"></a>
+
+### 3.2.3 data_encryption_parameters packet
 
 This packet contains the parameters needed to decrypt the data part of
 the file.
 
 is an enumerated type that describes the type of encryption used.
 
-is the symmetric key $`K_{data}`$ used to decode the data section.
+is the symmetric key $K_{data}$ used to decode the data section.
 
-To allow parts of the data to be encrypted with different $`K_{data}`$
+To allow parts of the data to be encrypted with different $K_{data}$
 keys, more than one of this packet type may be present. If there is more
 than one, the MUST be the same for all of them to prevent problems with
 random access in the encrypted file.
 
-### data_edit_list packet
+<a id="data_edit_list-packet"></a>
+
+### 3.2.4 data_edit_list packet
 
 This packet contains a list of edits that should be applied to the
 plain-text data following decryption.
@@ -527,27 +598,29 @@ is the number of items in the array.
 is an array of byte counts.
 
 Application of the edit list to the plain-text is described in
-section <a href="#data:edit_list" data-reference-type="ref"
-data-reference="data:edit_list">4.2</a>.
+section [4.2](#data:edit_list).
 
 It is not permitted to have more than one edit list. If more than one
 edit list is present, the file SHOULD be rejected.
 
-## Header packet encryption
+<a id="header-packet-encryption"></a>
 
-### X25519_chacha20_ietf_poly1305 Encryption
+## 3.3 Header packet encryption
+
+<a id="x25519_chacha20_ietf_poly1305-encryption"></a>
+
+### 3.3.1 X25519_chacha20_ietf_poly1305 Encryption
 
  <span id="header:X25519" label="header:X25519"></span>
 
 This method uses Elliptic Curve Diffie-Hellman key exchange with
-additional hashing to generate a shared key ($`K_{shared}`$).
-$`K_{shared}`$ is then used along with a randomly-generated nonce to
-encrypt the header packet data using the ChaCha20-IETF-Poly1305
-construction. The elliptic curve algorithm used is X25519, described in
-section 5 of .
+additional hashing to generate a shared key ($K_{shared}$). $K_{shared}$
+is then used along with a randomly-generated nonce to encrypt the header
+packet data using the ChaCha20-IETF-Poly1305 construction. The elliptic
+curve algorithm used is X25519, described in section 5 of .
 
-Encryption requires the writer's public and secret keys ($`K_{pw}`$ and
-$`K_{sw}`$), the reader's public key ($`K_{pr}`$) and a nonce ($`N`$).
+Encryption requires the writer's public and secret keys ($K_{pw}$ and
+$K_{sw}$), the reader's public key ($K_{pr}$) and a nonce ($N$).
 
 The nonce is a unique initialisation vector. In ChaCha20-IETF-Poly1305
 it is 12 bytes long. This value MUST be unique for each packet encrypted
@@ -559,66 +632,68 @@ The secret keys MUST be generated using a cryptographically-secure
 random number generator. The corresponding public keys are derived using
 the method in section 6.1 of .
 
-$`K_p = X25519(K_s, 9)`$
+$K_p = X25519(K_s, 9)$
 
 The writer's secret key and the reader's public key are used to generate
 a Diffie-Hellman shared key as described in section 6.1 of .
 
-$`K_{dh} = X25519(K_{sw}, K_{pr})`$
+$K_{dh} = X25519(K_{sw}, K_{pr})$
 
 As the X25519 algorithm does not produce a completely uniform bit
-distribution, and many possible $`(K_{sw}, K_{pr})`$ pairs can produce
-the same output, the Diffie-Hellman key is hashed along with the two
-public keys to produce the final shared key. The hash function used to
-do this is Blake2b, as described in .
+distribution, and many possible $(K_{sw}, K_{pr})$ pairs can produce the
+same output, the Diffie-Hellman key is hashed along with the two public
+keys to produce the final shared key. The hash function used to do this
+is Blake2b, as described in .
 
-$`K_{shared} = Blake2b(K_{dh} || K_{pr} || K_{pw})`$
+$K_{shared} = Blake2b(K_{dh} || K_{pr} || K_{pw})$
 
-As ChaCha20 uses a 32-byte key, only the first 32 bytes of
-$`K_{shared}`$ are used; the rest are discarded.
+As ChaCha20 uses a 32-byte key, only the first 32 bytes of $K_{shared}$
+are used; the rest are discarded.
 
 The header packet type, data and any padding is then encrypted using the
 method described in the chacha20_ietf_poly1305 Encryption
-section <a href="#data:chacha20_encryption" data-reference-type="ref"
-data-reference="data:chacha20_encryption">3.4.1</a>. Note that header
-packets are not segmented; they are always encrypted in a single block.
+section [3.4.1](#data:chacha20_encryption). Note that header packets are
+not segmented; they are always encrypted in a single block.
 
 Finally, the packet length, encryption type, writer's public key
-$`K_{pw}`$, the nonce $`N`$ and the encrypted header packet data are
+$K_{pw}$, the nonce $N$ and the encrypted header packet data are
 combined to make the header packet.
 
 For extra security, writers MAY choose to discard the writer's secret
-key $`K_{sw}`$ after use. Due to the symmetry of the Diffie-Hellman
+key $K_{sw}$ after use. Due to the symmetry of the Diffie-Hellman
 algorithm, the holder of either secret key can regenerate the shared key
 as long as the other public key is known. Deleting the writer's key
-$`K_{sw}`$ ensures only the holder of the reader's secret key $`K_{sr}`$
-can decode the header packet. As long as the writer uses
-randomly-generated keys, it also makes accidental nonce reuse very
-unlikely.
+$K_{sw}$ ensures only the holder of the reader's secret key $K_{sr}$ can
+decode the header packet. As long as the writer uses randomly-generated
+keys, it also makes accidental nonce reuse very unlikely.
 
-### X25519_chacha20_ietf_poly1305 Decryption
+<a id="x25519_chacha20_ietf_poly1305-decryption"></a>
+
+### 3.3.2 X25519_chacha20_ietf_poly1305 Decryption
 
 To decrypt the header packet, the reader obtains the writer's public key
-$`K_{pw}`$ and the nonce from the beginning of the packet. Also needed
-are the reader's public and secret keys ($`K_{pr}`$ and $`K_{sr}`$).
+$K_{pw}$ and the nonce from the beginning of the packet. Also needed are
+the reader's public and secret keys ($K_{pr}$ and $K_{sr}$).
 
 The Diffie-Helman key is obtained using:
 
-$`K_{dh} = X25519(K_{sr}, K_{pw})`$
+$K_{dh} = X25519(K_{sr}, K_{pw})$
 
 This is then hashed to obtain the shared key (again only the first 32
 bytes are retained):
 
-$`K_{shared} = Blake2b(K_{dh} || K_{pr} || K_{pw})`$
+$K_{shared} = Blake2b(K_{dh} || K_{pr} || K_{pw})$
 
-The resulting key $`K_{shared}`$ and nonce $`N`$ are then used to
-decrypt the remainder of the packet.
+The resulting key $K_{shared}$ and nonce $N$ are then used to decrypt
+the remainder of the packet.
 
 If the header packet was intended for a different reader, the reader
 will be unable to decode the header packet as the Poly1305 MAC will be
 incorrect. This should not be considered an error.
 
-### Reading the header
+<a id="reading-the-header"></a>
+
+### 3.3.3 Reading the header
 
 The reader should check that the and in the header match the expected
 values.
@@ -636,9 +711,13 @@ If a packet is found, the reader should store it for use while
 processing the data blocks. If more than one packet is present, the file
 SHOULD be rejected.
 
-## Encrypted Data
+<a id="data:encryption"></a>
 
-### chacha20_ietf_poly1305 Encryption
+## 3.4 Encrypted Data
+
+<a id="data:chacha20_encryption"></a>
+
+### 3.4.1 chacha20_ietf_poly1305 Encryption
 
 ChaCha20 is a stream cipher which maps a 256-bit key, nonce and counter
 to a 512-bit key-stream block. In IETF mode the nonce is 96 bits long
@@ -656,7 +735,9 @@ in section 2.8 of . This construction allows additional authenticated
 data (AAD) to be included in the Poly1305 MAC calculation. For the
 purposes of this format, the AAD is zero bytes long.
 
-### Segmenting the input
+<a id="segmenting-the-input"></a>
+
+### 3.4.2 Segmenting the input
 
 To allow random access without having to authenticate the entire file,
 the plain-text is divided into 65536-byte (64KiB) segments. If the
@@ -679,16 +760,19 @@ chacha20_ietf_poly1305, this expansion will be 28 bytes, so a 65536 byte
 plain-text input will become a 65564 byte encrypted and authenticated
 cipher-text output.
 
-# Decryption
+<a id="decryption"></a>
 
-## chacha20_ietf_poly1305 Decryption
+# 4 Decryption
+
+<a id="chacha20_ietf_poly1305-decryption"></a>
+
+## 4.1 chacha20_ietf_poly1305 Decryption
 
 The cipher-text is decrypted by authenticating and decrypting the
-segment(s) enclosing the requested byte range $`[P;Q]`$, where $`P<Q`$.
-For a range starting at position $`P`$, the location of the segment
-containing that position must first be found. For the
-chacha20_ietf_poly1305 method, when no edit list is in use, this can be
-done using the formula:
+segment(s) enclosing the requested byte range $[P;Q]$, where $P<Q$. For
+a range starting at position $P$, the location of the segment containing
+that position must first be found. For the chacha20_ietf_poly1305
+method, when no edit list is in use, this can be done using the formula:
 
     seg_start = header_len + floor(P/65536) * 65564
 
@@ -699,19 +783,19 @@ and finally the MAC are read.
 An authentication tag is calculated over the cipher-text from that
 segment, and bit-wise compared to the MAC. The cipher-text is
 authenticated if and only if the tags match. If more than one key
-($`K_{data}`$) was included in the header, each should be tried in turn
+($K_{data}$) was included in the header, each should be tried in turn
 until either one authenticates correctly or no keys are left to try. An
 error MUST be reported if the cipher-text is not authenticated.
 
-The key $`K_{data}`$ and nonce $`N`$ are then used to decrypt the
+The key $K_{data}$ and nonce $N$ are then used to decrypt the
 cipher-text for the segment, returning the plain-text. Successive
-segments are decrypted, until the segment containing position $`Q`$ is
+segments are decrypted, until the segment containing position $Q$ is
 reached. The plain-text segments are concatenated to form the resulting
-output, discarding $`P \mathbin{\%} 65536`$ bytes from the beginning of
-the first segment and retaining $`Q \mathbin{\%} 65536`$ bytes of the
-last one.
+output, discarding $P \mathbin{\%} 65536$ bytes from the beginning of
+the first segment and retaining $Q \mathbin{\%} 65536$ bytes of the last
+one.
 
-If more than one key ($`K_{data}`$) is in use, readers can speed up
+If more than one key ($K_{data}$) is in use, readers can speed up
 decryption by trying the previous successful key first when attempting
 to authenticate each block. However, this does open up a possible timing
 attack where an observer watching the decoding process can find out
@@ -721,7 +805,9 @@ each key for every block (although this may still be vulnerable to
 timing attacks which try to detect which key was successful); or simply
 insist that only one key is used for the whole file.
 
-## Edit List
+<a id="data:edit_list"></a>
+
+## 4.2 Edit List
 
 The edit list is designed to assist splicing of encrypted files (for
 example to remove parts that are not needed for later analysis) without
@@ -731,10 +817,10 @@ list can be used to work around this limitation by describing which
 parts of the unencrypted blocks should be discarded to give the final
 desired plain-text.
 
-The following algorithm describes how to apply the edit list $`edlist`$
-to unencrypted text $`input`$ to return the desired edited plain-text.
-In this algorithm, function <span class="smallcaps">IsEmpty</span>
-returns true if a list is empty and false if not. Function
+The following algorithm describes how to apply the edit list $edlist$ to
+unencrypted text $input$ to return the desired edited plain-text. In
+this algorithm, function <span class="smallcaps">IsEmpty</span> returns
+true if a list is empty and false if not. Function
 <span class="smallcaps">RemoveFirst</span> removes the first item from a
 list and returns it. <span class="smallcaps">length</span> returns the
 length of a string. <span class="smallcaps">substr</span> returns part
@@ -746,12 +832,14 @@ right.
 
 <div class="algorithmic">
 
-**return** $`input`$ "" $`0`$ $`pos + discard`$ $`pos + keep`$
-**return** $`output`$
+**return** $input$ "" $0$ $pos + discard$ $pos + keep$ **return**
+$output$
 
 </div>
 
-### Example
+<a id="example"></a>
+
+### 4.2.1 Example
 
 Imagine that for some reason we have made an encrypted copy of
 ERR2436651. [^1]
@@ -790,7 +878,7 @@ case to obtain the desired data the edit list will contain the values:
 
 <div class="center">
 
-$`[0, 7853, 71721, 307929, 51299, 38]`$
+$[0, 7853, 71721, 307929, 51299, 38]$
 
 </div>
 
@@ -811,15 +899,19 @@ Which means:
 - Keep 38 bytes (EOF block). This could actually be left out as it
   extends all the way to the end of the file.
 
-# Security Considerations
+<a id="security-considerations"></a>
 
-## Threat Analysis
+# 5 Security Considerations
+
+<a id="threat-analysis"></a>
+
+## 5.1 Threat Analysis
 
 This format is primarily designed to protect files at rest and in
 transport from accidental disclosure. Attackers are assumed to have read
 access to encrypted files. Even if this is the case, it should not be
 possible to decrypt the file without access to the reader's secret key
-($`K_{sr}`$).
+($K_{sr}$).
 
 Some file formats use supplementary files, for example external indices.
 In some cases it may be possible to deduce information about the data
@@ -838,7 +930,7 @@ individual blocks as (without access to the decryption key) they will
 not be able to calculate the correct MAC on the new version. Such an
 attacker can, however, make block-level changes such as removing or
 reordering blocks. An attacker with access to the reader's public key
-($`K_{pr}`$) will also be able to add entire blocks by inserting a new
+($K_{pr}$) will also be able to add entire blocks by inserting a new
 data_encryption_parameters packet in the header, and using the key
 stored in it to encrypt the new block.
 
@@ -879,24 +971,28 @@ exhaustive.
   in a sand-box environment) on a machine where encrypted data is being
   processed.
 
-## Selection of Keys
+<a id="selection-of-keys"></a>
+
+## 5.2 Selection of Keys
 
 The security of the format depends on attackers not being able to guess
-secret keys ($`K_{sr}`$ and $`K_{sw}`$) or the data encryption key
-($`K_{data}`$). The keys MUST be generated using a
+secret keys ($K_{sr}$ and $K_{sw}$) or the data encryption key
+($K_{data}$). The keys MUST be generated using a
 cryptographically-secure pseudo-random number generator. This makes the
 chance of guessing a key vanishingly small.
 
-## Nonce selection
+<a id="nonce-selection"></a>
+
+## 5.3 Nonce selection
 
 All header packets encrypted with the same combination of writer's
-secret key ($`K_{sw}`$) and reader's public key ($`K_{pr}`$) MUST use a
-unique nonce. If the writer uses the same secret key ($`K_{sw}`$) for
-more than one file then all nonces MUST be unique across all files made
-with that key. As each file will only include a few header packets this
+secret key ($K_{sw}$) and reader's public key ($K_{pr}$) MUST use a
+unique nonce. If the writer uses the same secret key ($K_{sw}$) for more
+than one file then all nonces MUST be unique across all files made with
+that key. As each file will only include a few header packets this
 restriction can be fulfilled by generating each nonce using a
 cryptographically-secure random number generator. If the writer uses a
-randomly-generated $`K_{sw}`$ for each file, or even each header packet,
+randomly-generated $K_{sw}$ for each file, or even each header packet,
 the risk of nonce reuse in the header is almost completely eliminated.
 
 All data segments encrypted with the same key MUST use a unique nonce.
@@ -911,9 +1007,11 @@ taken to ensure that the random number generator is capable of
 generating a long enough stream of unique values. Due to the birthday
 problem, this method will have a non-zero (but very small) probability
 of failing. For example, a file of 24 Terabytes will have a reused nonce
-with probability of approximately $`10^{-12}`$
+with probability of approximately $10^{-12}$
 
-## Message Forgery
+<a id="message-forgery"></a>
+
+## 5.4 Message Forgery
 
 Using ChaCha20-IETF-Poly1305 authenticates the content of each header
 packet and each segment of the encrypted cipher-text. It does not
@@ -922,7 +1020,9 @@ addition, removal or rearrangement of data segments. crypt4gh files are
 not signed, so there is no direct way to prove that a file was created
 by a given writer.
 
-## No File Updates Permitted
+<a id="no-file-updates-permitted"></a>
+
+## 5.5 No File Updates Permitted
 
 Implementations MUST NOT update encrypted files. Once written, a section
 of the file must never be altered.
@@ -931,7 +1031,9 @@ of the file must never be altered.
 
 XXXXXXX
 
-## Normative References
+<a id="normative-references"></a>
+
+## 5.6 Normative References
 
 Bradner, S.,\
 *"Key words for use in RFCs to Indicate Requirement Levels", BCP 14, RFC
@@ -961,7 +1063,9 @@ Y. Nir, Dell EMC, A. Langley, Google, Inc.,\
 <https://tools.ietf.org/html/rfc8439>,\
 June 2018
 
-## Informational References
+<a id="informational-references"></a>
+
+## 5.7 Informational References
 
 Callas, J., PGP Corporation, Donnerhacke, L., IKS GmbH, Finney, H., PGP
 Corporation, Shaw, D., Thayer, R.,\
@@ -1017,7 +1121,9 @@ securely streaming genomic data"*
 
 </div>
 
-# Rationale
+<a id="rationale"></a>
+
+# 6 Rationale
 
 Using authenticated encryption in individual segments mirrors solutions
 like Transport Layer Security (TLS) as described in  and prevents
@@ -1034,15 +1140,17 @@ found to have any vulnerabilities. The criteria for choosing encryption
 methods included having strong security guarantees, good library support
 and being used in other common standards like TLS version 1.3.
 
-## Symmetric Encryption
+<a id="symmetric-encryption"></a>
+
+## 6.1 Symmetric Encryption
 
 For symmetric encryption, the main candidates for authenticated
 encryption were AES-GCM and ChaCha20-Poly1305. Both have good security
 guarantees, and thanks to their use in TLS 1.3 both have good library
 support. ChaCha20-Poly1305 was chosen because it allows much longer
 files to be encrypted. See  for a comparison although note that our
-"messages" are $`2^{16}`$ bytes long, while the figures in the paper are
-for $`2^{14}`$ bytes.
+"messages" are $2^{16}$ bytes long, while the figures in the paper are
+for $2^{14}$ bytes.
 
 There are three common ChaCha20-Poly1305 constructions original,
 ChaCha20-IETF-Poly1305, and XChaCha20-Poly1305. The main differences are
@@ -1051,10 +1159,12 @@ single nonce. ChaCha20-IETF-Poly1305 was chosen because it has the best
 library support thanks to its use in Internet Engineering Task Force
 protocols and the nonce length allows a very large number of messages to
 be encrypted under a single key. The message length restriction of
-ChaCha20-IETF-Poly1305 ($`64*2^{32}-64`$ bytes) is not a problem as our
+ChaCha20-IETF-Poly1305 ($64*2^{32}-64$ bytes) is not a problem as our
 "messages" are at most 64 Kbytes long.
 
-## Public-key Algorithm
+<a id="public-key-algorithm"></a>
+
+## 6.2 Public-key Algorithm
 
 For public-key encryption Elliptic Curve Diffie-Hellman using X25519 was
 chosen. Elliptic Curve Diffie-Hellman is faster and uses smaller keys
@@ -1073,9 +1183,9 @@ secure hash function. The chosen hash function (Blake2b) has good
 library support, is faster than SHA-2 and has similar security to that
 of SHA-3 .
 
-The generated shared key $`K_{shared}`$ is used as the secret material
-for symmetric encryption of the header packet data. As it is already
-used for encrypting the data blocks, the method chosen for this is
+The generated shared key $K_{shared}$ is used as the secret material for
+symmetric encryption of the header packet data. As it is already used
+for encrypting the data blocks, the method chosen for this is
 ChaCha20-IETF-Poly1305.
 
 Like other ECDH schemes, X25519 is not resistant to attack using a
@@ -1084,7 +1194,9 @@ algorithms are undergoing standardisation . A future revision of this
 specification will add quantum-computing resistant algorithms once this
 process is complete and a suitable replacement becomes widely available.
 
-## Other Considerations
+<a id="other-considerations"></a>
+
+## 6.3 Other Considerations
 
 This specification provides no way of authenticating files by signing
 them. Implementing such a scheme would also involve creating

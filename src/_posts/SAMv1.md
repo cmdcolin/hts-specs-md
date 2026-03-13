@@ -4,13 +4,7 @@ commit: b5341fb
 date: 12 Aug 2025
 ---
 
-# Sequence Alignment/Map Format Specification
-{:.no_toc}
-
 This printing is version b5341fb from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 12 Aug 2025.
-
-* Do not remove this line (it will not be displayed)
-{:toc}
 
 
 SAM stands for Sequence Alignment/Map format. It is a TAB-delimited text
@@ -23,9 +17,7 @@ fields for flexible or aligner specific information.
 
 This specification is for version 1.6 of the SAM and BAM formats. Each
 SAM and BAM file may optionally specify the version being used via the
-`@HD VN` tag. For full version history see
-Appendix <a href="#sec:history" data-reference-type="ref"
-data-reference="sec:history">7</a>.
+`@HD VN` tag. For full version history see Appendix [7](#sec:history).
 
 SAM file contents are 7-bit US-ASCII, except for certain field values as
 individually specified which may contain other Unicode characters
@@ -41,7 +33,9 @@ in SAM always use '`.`' for the decimal-point character.
 The regular expressions in this specification are written using the
 POSIX / IEEE Std 1003.1 extended syntax.
 
-## An example
+<a id="sec:example"></a>
+
+## 1.1 An example
 
 Suppose we have the following alignment with bases in lowercase clipped
 from the alignment. Read `r001/1` and `r001/2` constitute a read pair;
@@ -68,7 +62,9 @@ The corresponding SAM format is:[^2]
 >     r003 2064 ref 29 17 6H5M       *  0   0 TAGGC             * SA:Z:ref,9,+,5S6M,30,1;
 >     r001  147 ref 37 30 9M         =  7 -39 CAGCGGCAT         * NM:i:1
 
-## Terminologies and Concepts
+<a id="terminologies-and-concepts"></a>
+
+## 1.2 Terminologies and Concepts
 
 Template  
 A DNA/RNA sequence part of which is sequenced on a sequencing machine or
@@ -97,8 +93,7 @@ chimeric alignment is considered the "representative" alignment, and the
 others are called "supplementary" and are distinguished by the
 supplementary alignment flag. All the SAM records in a chimeric
 alignment have the same QNAME and the same values for 0x40 and 0x80
-flags (see Section <a href="#sec:alnrecord" data-reference-type="ref"
-data-reference="sec:alnrecord">1.4</a>). The decision regarding which
+flags (see Section [1.4](#sec:alnrecord)). The decision regarding which
 linear alignment is representative is arbitrary.
 
 Read alignment  
@@ -118,21 +113,23 @@ best alignment, but the decision may be arbitrary.
 A coordinate system where the first base of a sequence is one. In this
 coordinate system, a region is specified by a closed interval. For
 example, the region between the 3rd and the 7th bases inclusive is
-$`[3,7]`$. The SAM, VCF, GFF and Wiggle formats are using the 1-based
+$[3,7]$. The SAM, VCF, GFF and Wiggle formats are using the 1-based
 coordinate system.
 
 0-based coordinate system  
 A coordinate system where the first base of a sequence is zero. In this
 coordinate system, a region is specified by a half-closed-half-open
 interval. For example, the region between the 3rd and the 7th bases
-inclusive is $`[2,7)`$. The BAM, BCFv2, BED, and PSL formats are using
-the 0-based coordinate system.
+inclusive is $[2,7)$. The BAM, BCFv2, BED, and PSL formats are using the
+0-based coordinate system.
 
 Phred scale  
-Given a probability $`0<p\le 1`$, the phred scale of $`p`$ equals
-$`-10\log_{10}p`$, rounded to the closest integer.
+Given a probability $0<p\le 1$, the phred scale of $p$ equals
+$-10\log_{10}p$, rounded to the closest integer.
 
-### Character set restrictions
+<a id="sec:charset"></a>
+
+### 1.2.1 Character set restrictions
 
 Reference sequence names, CIGAR strings, and several other field types
 are used as values or parts of values of other fields in SAM and related
@@ -164,7 +161,9 @@ regular expression notation to use `=` to indicate the omission of ''
 and '`=`' from the character class. Thus this regular expression can be
 written more clearly as `[=][]*`.
 
-## The header section
+<a id="the-header-section"></a>
+
+## 1.3 The header section
 
 Each header line begins with the character '`@`' followed by one of the
 two-letter header record type codes defined in this section. In the
@@ -179,43 +178,40 @@ significant.
 The following table describes the header record types that may be used
 and their predefined tags. Tags listed with '\*' are required; e.g.,
 every `@SQ` header line must have `SN` and `LN` fields. As with
-alignment optional fields (see
-Section <a href="#sec:alnaux" data-reference-type="ref"
-data-reference="sec:alnaux">1.5</a>), you can freely add new tags for
-further data fields. Tags containing lowercase letters are reserved for
-local use and will not be formally defined in any future version of this
-specification. [^4]
+alignment optional fields (see Section [1.5](#sec:alnaux)), you can
+freely add new tags for further data fields. Tags containing lowercase
+letters are reserved for local use and will not be formally defined in
+any future version of this specification. [^4]
 
 <div class="center">
 
 <table>
 <thead>
 <tr>
-<th style="text-align: left;"><span>1-3</span></th>
-<th
-style="text-align: left;"><span><strong>Description</strong></span></th>
-<th style="text-align: left;"></th>
+<th><span>1-3</span></th>
+<th><span><strong>Description</strong></span></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span>1-3</span></td>
-<td style="text-align: left;">File-level metadata. Optional. If present,
-there must be only one <span><code>@HD</code></span> line and it must be
-the first line of the file.</td>
-<td style="text-align: left;"></td>
+<td><span>1-3</span></td>
+<td>File-level metadata. Optional. If present, there must be only one
+<span><code>@HD</code></span> line and it must be the first line of the
+file.</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>VN</code></span>*</td>
-<td style="text-align: left;">Format version. <em>Accepted format</em>:
+<td><span>2-3</span></td>
+<td><span><code>VN</code></span>*</td>
+<td>Format version. <em>Accepted format</em>:
 <span><code>/[0-9]+.[0-9]+$/</code></span>.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>SO</code></span></td>
-<td style="text-align: left;">Sorting order of alignments. <em>Valid
-values</em>: <span><code>unknown</code></span> (default),
+<td><span>2-3</span></td>
+<td><span><code>SO</code></span></td>
+<td>Sorting order of alignments. <em>Valid values</em>:
+<span><code>unknown</code></span> (default),
 <span><code> unsorted</code></span>, <span><code>queryname</code></span>
 and <span><code>coordinate</code></span>. For coordinate sort, the major
 sort key is the <span>RNAME</span> field, with order defined by the
@@ -227,37 +223,46 @@ some other value but otherwise are in arbitrary order. For queryname
 sort, no explicit requirement is made regarding the ordering other than
 that it be applied consistently throughout the entire file. <a
 href="#fn1" class="footnote-ref" id="fnref1"
-role="doc-noteref"><sup>1</sup></a></td>
+role="doc-noteref"><sup>1</sup></a>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>It is known that widely used software libraries have
+differing definitions of the queryname sort order, meaning care should
+be taken when operating on multiple files of varying provenance. Tools
+may wish to use the sub-sort field to explicitly distinguish between
+natural and lexicographical ordering. See Section <a
+href="#sec:sub-sort">1.3.1</a>.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>GO</code></span></td>
-<td style="text-align: left;">Grouping of alignments, indicating that
-similar alignment records are grouped together but the file is not
-necessarily sorted overall. <em>Valid values</em>:
-<span><code>none</code></span> (default),
+<td><span>2-3</span></td>
+<td><span><code>GO</code></span></td>
+<td>Grouping of alignments, indicating that similar alignment records are
+grouped together but the file is not necessarily sorted overall.
+<em>Valid values</em>: <span><code>none</code></span> (default),
 <span><code>query</code></span> (alignments are grouped by
 <span>QNAME</span>), and <span><code>reference</code></span> (alignments
 are grouped by <span>RNAME</span>/<span>POS</span>).</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>SS</code></span></td>
-<td style="text-align: left;">Sub-sorting order of alignments. Valid
-values are of the form
+<td><span>2-3</span></td>
+<td><span><code>SS</code></span></td>
+<td>Sub-sorting order of alignments. Valid values are of the form
 <em>sort-order</em><span><code>:</code></span><em>sub-sort</em>, where
 <em>sort-order</em> is the same value stored in the
 <span><code>SO</code></span> tag and <em>sub-sort</em> is an
 implementation-dependent colon-separated string further describing the
 sort order, but with some predefined terms defined in Section <a
-href="#sec:sub-sort" data-reference-type="ref"
-data-reference="sec:sub-sort">1.3.1</a>. For example, if an algorithm
-relies on a <span><code>coordinate</code></span> sort that, at each
-coordinate, is further sorted by query name then the header could
-contain
+href="#sec:sub-sort">1.3.1</a>. For example, if an algorithm relies on a
+<span><code>coordinate</code></span> sort that, at each coordinate, is
+further sorted by query name then the header could contain
 <span><code>@HD SO:coordinate SS:coordinate:queryname</code></span>. <a
-href="#fn2" class="footnote-ref" id="fnref2"
-role="doc-noteref"><sup>2</sup></a> If the primary sort is not one of
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a> If the primary sort is not one of
 the predefined primary sort orders, then
 <span><code>unsorted</code></span> should be used and the sub-sort is
 effectively the major sort. For example, if sorted by an auxiliary tag
@@ -265,252 +270,296 @@ effectively the major sort. For example, if sorted by an auxiliary tag
 contain
 <span><code>@HD SO:unsorted SS:unsorted:MI:coordinate</code></span>.<br />
 <em>Regular expression</em>:
-<span><code>(coordinate|queryname|unsorted)(:[</code><code>A-Za-z0-9_-</code><code>]+)+</code></span></td>
+<span><code>(coordinate&#124;queryname&#124;unsorted)(:[</code><code>A-Za-z0-9_-</code><code>]+)+</code></span>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The repetition of <em>sort-order</em> enables a limited
+form of validation. For example,
+<span><code>@HD SO:queryname SS:coordinate:TLEN</code></span> would
+indicate that the data has been re-sorted (by query name) by a
+non-<span><code>SS</code></span>-aware tool and the
+<span><code>SS</code></span> field should be ignored.<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-3</span></td>
-<td style="text-align: left;">Reference sequence dictionary. The order
-of <span><code>@SQ</code></span> lines defines the alignment sorting
-order.</td>
-<td style="text-align: left;"></td>
+<td><span>1-3</span></td>
+<td>Reference sequence dictionary. The order of
+<span><code>@SQ</code></span> lines defines the alignment sorting order.</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>SN</code></span>*</td>
-<td style="text-align: left;">Reference sequence name. The
-<span><code>SN</code></span> tags and all individual
-<span><code>AN</code></span> names in all <span><code>@SQ</code></span>
-lines must be distinct. The value of this field is used in the alignment
-records in <span>RNAME</span> and <span>RNEXT</span> fields. Regular
-expression: <span><code>[=][]*</code></span></td>
+<td><span>2-3</span></td>
+<td><span><code>SN</code></span>*</td>
+<td>Reference sequence name. The <span><code>SN</code></span> tags and all
+individual <span><code>AN</code></span> names in all
+<span><code>@SQ</code></span> lines must be distinct. The value of this
+field is used in the alignment records in <span>RNAME</span> and
+<span>RNEXT</span> fields. Regular expression:
+<span><code>[=][]*</code></span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>LN</code></span>*</td>
-<td style="text-align: left;">Reference sequence length. <em>Range</em>:
-<span class="math inline">\([1,\,2^{31}-1]\)</span></td>
+<td><span>2-3</span></td>
+<td><span><code>LN</code></span>*</td>
+<td>Reference sequence length. <em>Range</em>: <span
+class="math inline">[1, 2<sup>31</sup> − 1]</span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>AH</code></span></td>
-<td style="text-align: left;">Indicates that this sequence is an
-alternate locus. <a href="#fn3" class="footnote-ref" id="fnref3"
-role="doc-noteref"><sup>3</sup></a> The value is the locus in the
-primary assembly for which this sequence is an alternative, in the
-format
+<td><span>2-3</span></td>
+<td><span><code>AH</code></span></td>
+<td>Indicates that this sequence is an alternate locus. <a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The
+value is the locus in the primary assembly for which this sequence is an
+alternative, in the format
 '<em>chr</em><span><code>:</code></span><em>start</em><span><code>-</code></span><em>end</em>',
 '<em>chr</em>' (if known), or '' (if unknown), where '<em>chr</em>' is a
 sequence in the primary assembly. Must not be present on sequences in
-the primary assembly.</td>
+the primary assembly.
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>See <a
+href="https://www.ncbi.nlm.nih.gov/grc/help/definitions"
+class="uri">https://www.ncbi.nlm.nih.gov/grc/help/definitions</a> for
+descriptions of <em>alternate locus</em> and <em>primary
+assembly</em>.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>AN</code></span></td>
-<td style="text-align: left;">Alternative reference sequence names. A
-comma-separated list of alternative names that tools may use when
-referring to this reference sequence. <a href="#fn4"
-class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>
-These alternative names are not used elsewhere within the SAM file; in
-particular, they must not appear in alignment records'
-<span>RNAME</span> or <span>RNEXT</span> fields. <em>Regular
-expression</em>:
+<td><span>2-3</span></td>
+<td><span><code>AN</code></span></td>
+<td>Alternative reference sequence names. A comma-separated list of
+alternative names that tools may use when referring to this reference
+sequence. <a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a> These alternative names are not used
+elsewhere within the SAM file; in particular, they must not appear in
+alignment records' <span>RNAME</span> or <span>RNEXT</span> fields.
+<em>Regular expression</em>:
 <em>name</em><span><code>(,</code></span><em>name</em><span><code>)*</code></span>
-where <em>name</em> is <span><code>[=][]*</code></span></td>
+where <em>name</em> is <span><code>[=][]*</code></span>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>For example, given
+'<span><code>@SQ SN:MT AN:chrMT,M,chrM LN:16569 TP:circular</code></span>',
+tools can ensure that a user's request for any of 'MT', 'chrMT', 'M',
+or 'chrM' succeeds and refers to the same sequence.<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>AS</code></span></td>
-<td style="text-align: left;">Genome assembly identifier.</td>
+<td><span>2-3</span></td>
+<td><span><code>AS</code></span></td>
+<td>Genome assembly identifier.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>DS</code></span></td>
-<td style="text-align: left;">Description. UTF-8 encoding may be
-used.</td>
+<td><span>2-3</span></td>
+<td><span><code>DS</code></span></td>
+<td>Description. UTF-8 encoding may be used.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>M5</code></span></td>
-<td style="text-align: left;">MD5 checksum of the sequence. See
-Section <a href="#sec:ref-md5" data-reference-type="ref"
-data-reference="sec:ref-md5">1.3.2</a></td>
+<td><span>2-3</span></td>
+<td><span><code>M5</code></span></td>
+<td>MD5 checksum of the sequence. See Section <a
+href="#sec:ref-md5">1.3.2</a></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>SP</code></span></td>
-<td style="text-align: left;">Species.</td>
+<td><span>2-3</span></td>
+<td><span><code>SP</code></span></td>
+<td>Species.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>TP</code></span></td>
-<td style="text-align: left;">Molecule topology. <em>Valid values</em>:
+<td><span>2-3</span></td>
+<td><span><code>TP</code></span></td>
+<td>Molecule topology. <em>Valid values</em>:
 <span><code>linear</code></span> (default) and
-<span><code>circular</code></span>. <a href="#fn5" class="footnote-ref"
-id="fnref5" role="doc-noteref"><sup>5</sup></a></td>
+<span><code>circular</code></span>. <a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The previous footnote's example identifies MT as a
+circular chromosome. The <span><code>TP</code></span> field is often
+omitted, which implies linear.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>UR</code></span></td>
-<td style="text-align: left;">URI of the sequence. This value may start
-with one of the standard protocols, e.g.,
-'<span><code>http:</code></span>' or '<span><code>ftp:</code></span>'.
-If it does not start with one of these protocols, it is assumed to be a
-file-system path.</td>
+<td><span>2-3</span></td>
+<td><span><code>UR</code></span></td>
+<td>URI of the sequence. This value may start with one of the standard
+protocols, e.g., '<span><code>http:</code></span>' or
+'<span><code>ftp:</code></span>'. If it does not start with one of these
+protocols, it is assumed to be a file-system path.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-3</span></td>
-<td style="text-align: left;">Read group. Unordered multiple
-<span><code>@RG</code></span> lines are allowed.</td>
-<td style="text-align: left;"></td>
+<td><span>1-3</span></td>
+<td>Read group. Unordered multiple <span><code>@RG</code></span> lines are
+allowed.</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>ID</code></span>*</td>
-<td style="text-align: left;">Read group identifier. Each
-<span><code>@RG</code></span> line must have a unique
-<span><code>ID</code></span>. The value of <span><code>ID</code></span>
-is used in the RG tags of alignment records. Must be unique among all
-read groups in header section. Read group IDs may be modified when
-merging SAM files in order to handle collisions.</td>
+<td><span>2-3</span></td>
+<td><span><code>ID</code></span>*</td>
+<td>Read group identifier. Each <span><code>@RG</code></span> line must have
+a unique <span><code>ID</code></span>. The value of
+<span><code>ID</code></span> is used in the RG tags of alignment
+records. Must be unique among all read groups in header section. Read
+group IDs may be modified when merging SAM files in order to handle
+collisions.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>BC</code></span></td>
-<td style="text-align: left;">Barcode sequence identifying the sample or
-library. This value is the expected barcode bases as read by the
-sequencing machine in the absence of errors. If there are several
-barcodes for the sample/library (e.g., one on each end of the template),
-the recommended implementation concatenates all the barcodes separating
-them with hyphens ('<span><code>-</code></span>').</td>
+<td><span>2-3</span></td>
+<td><span><code>BC</code></span></td>
+<td>Barcode sequence identifying the sample or library. This value is the
+expected barcode bases as read by the sequencing machine in the absence
+of errors. If there are several barcodes for the sample/library (e.g.,
+one on each end of the template), the recommended implementation
+concatenates all the barcodes separating them with hyphens
+('<span><code>-</code></span>').</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>CN</code></span></td>
-<td style="text-align: left;">Name of sequencing center producing the
-read.</td>
+<td><span>2-3</span></td>
+<td><span><code>CN</code></span></td>
+<td>Name of sequencing center producing the read.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>DS</code></span></td>
-<td style="text-align: left;">Description. UTF-8 encoding may be
-used.</td>
+<td><span>2-3</span></td>
+<td><span><code>DS</code></span></td>
+<td>Description. UTF-8 encoding may be used.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>DT</code></span></td>
-<td style="text-align: left;">Date the run was produced (ISO8601 date or
-date/time).</td>
+<td><span>2-3</span></td>
+<td><span><code>DT</code></span></td>
+<td>Date the run was produced (ISO8601 date or date/time).</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>FO</code></span></td>
-<td style="text-align: left;">Flow order. The array of nucleotide bases
-that correspond to the nucleotides used for each flow of each read.
-Multi-base flows are encoded in IUPAC format, and non-nucleotide flows
-by various other characters. <em>Format</em>:
-<span><code>/*|[ACMGRSVTWYHKDBN]+/</code></span></td>
+<td><span>2-3</span></td>
+<td><span><code>FO</code></span></td>
+<td>Flow order. The array of nucleotide bases that correspond to the
+nucleotides used for each flow of each read. Multi-base flows are
+encoded in IUPAC format, and non-nucleotide flows by various other
+characters. <em>Format</em>:
+<span><code>/*&#124;[ACMGRSVTWYHKDBN]+/</code></span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>KS</code></span></td>
-<td style="text-align: left;">The array of nucleotide bases that
-correspond to the key sequence of each read.</td>
+<td><span>2-3</span></td>
+<td><span><code>KS</code></span></td>
+<td>The array of nucleotide bases that correspond to the key sequence of
+each read.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>LB</code></span></td>
-<td style="text-align: left;">Library.</td>
+<td><span>2-3</span></td>
+<td><span><code>LB</code></span></td>
+<td>Library.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>PG</code></span></td>
-<td style="text-align: left;">Programs used for processing the read
-group.</td>
+<td><span>2-3</span></td>
+<td><span><code>PG</code></span></td>
+<td>Programs used for processing the read group.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>PI</code></span></td>
-<td style="text-align: left;">Predicted median insert size, rounded to
-the nearest integer.</td>
+<td><span>2-3</span></td>
+<td><span><code>PI</code></span></td>
+<td>Predicted median insert size, rounded to the nearest integer.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>PL</code></span></td>
-<td style="text-align: left;">Platform/technology used to produce the
-reads. <em>Valid values</em>: <span><code>CAPILLARY</code></span>,
-<span><code>DNBSEQ</code></span> (MGI/BGI),
-<span><code>ELEMENT</code></span>, <span><code>HELICOS</code></span>,
-<span><code>ILLUMINA</code></span>,
+<td><span>2-3</span></td>
+<td><span><code>PL</code></span></td>
+<td>Platform/technology used to produce the reads. <em>Valid values</em>:
+<span><code>CAPILLARY</code></span>, <span><code>DNBSEQ</code></span>
+(MGI/BGI), <span><code>ELEMENT</code></span>,
+<span><code>HELICOS</code></span>, <span><code>ILLUMINA</code></span>,
 <span><code>IONTORRENT</code></span>, <span><code>LS454</code></span>,
 <span><code>ONT</code></span> (Oxford Nanopore),
 <span><code>PACBIO</code></span> (Pacific Biosciences),
 <span><code>SINGULAR</code></span>, <span><code>SOLID</code></span>, and
-<span><code>ULTIMA</code></span>. <a href="#fn6" class="footnote-ref"
-id="fnref6" role="doc-noteref"><sup>6</sup></a> This field should be
+<span><code>ULTIMA</code></span>. <a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a> This field should be
 omitted when the technology is not in this list (though the
 <span><code>PM</code></span> field may still be present in this case) or
-is unknown.</td>
+is unknown.
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The <span><code>PL</code></span> value should be written
+in uppercase exactly as shown in this list of valid values. Tools should
+also accept lowercase when reading the <span><code>@RG PL</code></span>
+field, due to the existence of public data files with lowercase
+<span><code>PL</code></span> values.<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>PM</code></span></td>
-<td style="text-align: left;">Platform model. Free-form text providing
-further details of the platform/technology used.</td>
+<td><span>2-3</span></td>
+<td><span><code>PM</code></span></td>
+<td>Platform model. Free-form text providing further details of the
+platform/technology used.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>PU</code></span></td>
-<td style="text-align: left;">Platform unit (e.g., flowcell-barcode.lane
-for Illumina or slide for SOLiD). Unique identifier.</td>
+<td><span>2-3</span></td>
+<td><span><code>PU</code></span></td>
+<td>Platform unit (e.g., flowcell-barcode.lane for Illumina or slide for
+SOLiD). Unique identifier.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>SM</code></span></td>
-<td style="text-align: left;">Sample. Use pool name where a pool is
-being sequenced.</td>
+<td><span>2-3</span></td>
+<td><span><code>SM</code></span></td>
+<td>Sample. Use pool name where a pool is being sequenced.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-3</span></td>
-<td style="text-align: left;">Program.</td>
-<td style="text-align: left;"></td>
+<td><span>1-3</span></td>
+<td>Program.</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>ID</code></span>*</td>
-<td style="text-align: left;">Program record identifier. Each
-<span><code>@PG</code></span> line must have a unique
-<span><code>ID</code></span>. The value of <span><code>ID</code></span>
-is used in the alignment <span><code>PG</code></span> tag and
-<span><code>PP</code></span> tags of other <span><code>@PG</code></span>
-lines. <span><code>PG</code></span> IDs may be modified when merging SAM
-files in order to handle collisions.</td>
+<td><span>2-3</span></td>
+<td><span><code>ID</code></span>*</td>
+<td>Program record identifier. Each <span><code>@PG</code></span> line must
+have a unique <span><code>ID</code></span>. The value of
+<span><code>ID</code></span> is used in the alignment
+<span><code>PG</code></span> tag and <span><code>PP</code></span> tags
+of other <span><code>@PG</code></span> lines.
+<span><code>PG</code></span> IDs may be modified when merging SAM files
+in order to handle collisions.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>PN</code></span></td>
-<td style="text-align: left;">Program name</td>
+<td><span>2-3</span></td>
+<td><span><code>PN</code></span></td>
+<td>Program name</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>CL</code></span></td>
-<td style="text-align: left;">Command line. UTF-8 encoding may be
-used.</td>
+<td><span>2-3</span></td>
+<td><span><code>CL</code></span></td>
+<td>Command line. UTF-8 encoding may be used.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>PP</code></span></td>
-<td style="text-align: left;">Previous <span><code>@PG-ID</code></span>.
-Must match another <span><code>@PG</code></span> header's
-<span><code>ID</code></span> tag. <span><code>@PG</code></span> records
-may be chained using <span><code>PP</code></span> tag, with the last
-record in the chain having no <span><code>PP</code></span> tag. This
-chain defines the order of programs that have been applied to the
-alignment. <span><code>PP</code></span> values may be modified when
-merging SAM files in order to handle collisions of
-<span><code>PG</code></span> <span><code>ID</code></span>s. The first
-<span><code>PG</code></span> record in a chain (i.e., the one referred
-to by the <span><code>PG</code></span> tag in a SAM record) describes
-the most recent program that operated on the SAM record. The next
+<td><span>2-3</span></td>
+<td><span><code>PP</code></span></td>
+<td>Previous <span><code>@PG-ID</code></span>. Must match another
+<span><code>@PG</code></span> header's <span><code>ID</code></span> tag.
+<span><code>@PG</code></span> records may be chained using
+<span><code>PP</code></span> tag, with the last record in the chain
+having no <span><code>PP</code></span> tag. This chain defines the order
+of programs that have been applied to the alignment.
+<span><code>PP</code></span> values may be modified when merging SAM
+files in order to handle collisions of <span><code>PG</code></span>
+<span><code>ID</code></span>s. The first <span><code>PG</code></span>
+record in a chain (i.e., the one referred to by the
+<span><code>PG</code></span> tag in a SAM record) describes the most
+recent program that operated on the SAM record. The next
 <span><code>PG</code></span> record in the chain describes the next most
 recent program that operated on the SAM record. The
 <span><code>PG</code></span> <span><code>ID</code></span> on a SAM
@@ -522,76 +571,34 @@ record has been operated on by the program in that
 the <span><code>PP</code></span> tag.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>DS</code></span></td>
-<td style="text-align: left;">Description. UTF-8 encoding may be
-used.</td>
+<td><span>2-3</span></td>
+<td><span><code>DS</code></span></td>
+<td>Description. UTF-8 encoding may be used.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-3</span></td>
-<td style="text-align: left;"><span><code>VN</code></span></td>
-<td style="text-align: left;">Program version</td>
+<td><span>2-3</span></td>
+<td><span><code>VN</code></span></td>
+<td>Program version</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-3</span></td>
-<td style="text-align: left;">One-line text comment. Unordered multiple
-<span><code>@CO</code></span> lines are allowed. UTF-8 encoding may be
-used.</td>
-<td style="text-align: left;"></td>
+<td><span>1-3</span></td>
+<td>One-line text comment. Unordered multiple <span><code>@CO</code></span>
+lines are allowed. UTF-8 encoding may be used.</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-3</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td><span>1-3</span></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<section id="footnotes" class="footnotes footnotes-end-of-document"
-role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1"><p>It is known that widely used software libraries have
-differing definitions of the queryname sort order, meaning care should
-be taken when operating on multiple files of varying provenance. Tools
-may wish to use the sub-sort field to explicitly distinguish between
-natural and lexicographical ordering. See Section <a
-href="#sec:sub-sort" data-reference-type="ref"
-data-reference="sec:sub-sort">1.3.1</a>.<a href="#fnref1"
-class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>The repetition of <em>sort-order</em> enables a limited
-form of validation. For example,
-<span><code>@HD SO:queryname SS:coordinate:TLEN</code></span> would
-indicate that the data has been re-sorted (by query name) by a
-non-<span><code>SS</code></span>-aware tool and the
-<span><code>SS</code></span> field should be ignored.<a href="#fnref2"
-class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>See <a
-href="https://www.ncbi.nlm.nih.gov/grc/help/definitions"
-class="uri">https://www.ncbi.nlm.nih.gov/grc/help/definitions</a> for
-descriptions of <em>alternate locus</em> and <em>primary
-assembly</em>.<a href="#fnref3" class="footnote-back"
-role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>For example, given
-'<span><code>@SQ SN:MT AN:chrMT,M,chrM LN:16569 TP:circular</code></span>',
-tools can ensure that a user's request for any of 'MT', 'chrMT', 'M',
-or 'chrM' succeeds and refers to the same sequence.<a href="#fnref4"
-class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>The previous footnote's example identifies MT as a
-circular chromosome. The <span><code>TP</code></span> field is often
-omitted, which implies linear.<a href="#fnref5" class="footnote-back"
-role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>The <span><code>PL</code></span> value should be written
-in uppercase exactly as shown in this list of valid values. Tools should
-also accept lowercase when reading the <span><code>@RG PL</code></span>
-field, due to the existence of public data files with lowercase
-<span><code>PL</code></span> values.<a href="#fnref6"
-class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
 
 </div>
 
-### Defined sub-sort terms
+<a id="sec:sub-sort"></a>
+
+### 1.3.1 Defined sub-sort terms
 
 While the `SS` sub-sort field allows implementation-defined keywords,
 some terms are predefined with specific meanings.
@@ -619,7 +626,9 @@ is a lexicographical sort by the UMI tag. The `MI` tag should be used
 for comparing UMIs. The RX tag may be used in its absence but is not
 guaranteed to be unique across multiple libraries.
 
-### Reference MD5 calculation
+<a id="sec:ref-md5"></a>
+
+### 1.3.2 Reference MD5 calculation
 
 The `M5` tag on `@SQ` lines allows reference sequences to be uniquely
 identified through the MD5 digest of the sequence itself. As the digest
@@ -631,10 +640,8 @@ are in fact the same.
 The reference sequence must be in the 7-bit US-ASCII character set. All
 valid reference bases can be represented in this set, and it avoids the
 problem of determining exactly which 8-bit representation may have been
-used. Padding characters (See
-Section <a href="#sec:padded-sam" data-reference-type="ref"
-data-reference="sec:padded-sam">3.2</a>) must be represented only using
-the '\*' character.
+used. Padding characters (See Section [3.2](#sec:padded-sam)) must be
+represented only using the '\*' character.
 
 The digest is calculated as follows:
 
@@ -666,15 +673,15 @@ then the digest is that of the string
 
 In padded SAM files, the padding bases should be inserted into the
 reference as '\*' characters. Taking the example in
-Section <a href="#sec:padded-sam" data-reference-type="ref"
-data-reference="sec:padded-sam">3.2</a>, the padded version of the
-reference is
+Section [3.2](#sec:padded-sam), the padded version of the reference is
 
     AGCATGTTAGATAA**GATAGCTGTGCTAGTAGGCAGTCAGCGCCAT
 
 and the corresponding tag is `M5:caad65b937c4bc0b33c08f62a9fb5411`.
 
-## The alignment section: mandatory fields
+<a id="sec:alnrecord"></a>
+
+## 1.4 The alignment section: mandatory fields
 
 In the SAM format, each alignment line typically represents the linear
 alignment of a segment. Each line consists of 11 or more TAB-separated
@@ -686,19 +693,97 @@ overview of these mandatory fields in the SAM format:
 
 <div class="center">
 
-| **Col** | **Field** | **Type** | **Regexp/Range** | **Brief description** |
-|---:|:---|:---|:---|:---|
-| 1 | QNAME | String | `[!-?A-~]{1,254}` | Query template NAME |
-| 2 | FLAG | Int | $`[0,\,2^{16}-1]`$ | bitwise FLAG |
-| 3 | RNAME | String | `\*``|[=][]*` | Reference sequence NAME |
-| 4 | POS | Int | $`[0,\,2^{31}-1]`$ | 1-based leftmost mapping POSition |
-| 5 | MAPQ | Int | $`[0,\,2^8-1]`$ | MAPping Quality |
-| 6 | CIGAR | String | `*|([0-9]+[MIDNSHP=X])+` | CIGAR string |
-| 7 | RNEXT | String | `\*``|=|[=][]*` | Reference name of the mate/next read |
-| 8 | PNEXT | Int | $`[0,\,2^{31}-1]`$ | Position of the mate/next read |
-| 9 | TLEN | Int | $`[-2^{31}+1,\,2^{31}-1]`$ | observed Template LENgth |
-| 10 | SEQ | String | `*|[A-Za-z=.]+` | segment SEQuence |
-| 11 | QUAL | String | `[!-]+` | ASCII of Phred-scaled base QUALity+33 |
+<table>
+<thead>
+<tr>
+<th><span><strong>Col</strong></span></th>
+<th><span><strong>Field</strong></span></th>
+<th><span><strong>Type</strong></span></th>
+<th><span><strong>Regexp/Range</strong></span></th>
+<th><span><strong>Brief description</strong></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><span>QNAME</span></td>
+<td>String</td>
+<td><code>[!-?A-~]{1,254}</code></td>
+<td>Query template NAME</td>
+</tr>
+<tr>
+<td>2</td>
+<td><span>FLAG</span></td>
+<td>Int</td>
+<td><span class="math inline">[0, 2<sup>16</sup> − 1]</span></td>
+<td>bitwise FLAG</td>
+</tr>
+<tr>
+<td>3</td>
+<td><span>RNAME</span></td>
+<td>String</td>
+<td><span><code>\*</code><code>&#124;[=][]*</code></span></td>
+<td>Reference sequence NAME</td>
+</tr>
+<tr>
+<td>4</td>
+<td><span>POS</span></td>
+<td>Int</td>
+<td><span class="math inline">[0, 2<sup>31</sup> − 1]</span></td>
+<td>1-based leftmost mapping POSition</td>
+</tr>
+<tr>
+<td>5</td>
+<td><span>MAPQ</span></td>
+<td>Int</td>
+<td><span class="math inline">[0, 2<sup>8</sup> − 1]</span></td>
+<td>MAPping Quality</td>
+</tr>
+<tr>
+<td>6</td>
+<td><span>CIGAR</span></td>
+<td>String</td>
+<td><span><code>*&#124;([0-9]+[MIDNSHP=X])+</code></span></td>
+<td>CIGAR string</td>
+</tr>
+<tr>
+<td>7</td>
+<td><span>RNEXT</span></td>
+<td>String</td>
+<td><span><code>\*</code><code>&#124;=&#124;[=][]*</code></span></td>
+<td>Reference name of the mate/next read</td>
+</tr>
+<tr>
+<td>8</td>
+<td><span>PNEXT</span></td>
+<td>Int</td>
+<td><span class="math inline">[0, 2<sup>31</sup> − 1]</span></td>
+<td>Position of the mate/next read</td>
+</tr>
+<tr>
+<td>9</td>
+<td><span>TLEN</span></td>
+<td>Int</td>
+<td><span
+class="math inline">[−2<sup>31</sup> + 1, 2<sup>31</sup> − 1]</span></td>
+<td>observed Template LENgth</td>
+</tr>
+<tr>
+<td>10</td>
+<td><span>SEQ</span></td>
+<td>String</td>
+<td><span><code>*&#124;[A-Za-z=.]+</code></span></td>
+<td>segment SEQuence</td>
+</tr>
+<tr>
+<td>11</td>
+<td><span>QUAL</span></td>
+<td>String</td>
+<td><span><code>[!-]+</code></span></td>
+<td>ASCII of Phred-scaled base QUALity+33</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -723,75 +808,72 @@ represented.
     <table>
     <thead>
     <tr>
-    <th colspan="2" style="text-align: center;">Bit</th>
-    <th style="text-align: left;">Description</th>
+    <th>Bit</th>
+    <th>Description</th>
+    <th></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-    <td style="text-align: right;">1</td>
-    <td style="text-align: right;">0x1</td>
-    <td style="text-align: left;">template having multiple segments in
-    sequencing</td>
+    <td>1</td>
+    <td>0x1</td>
+    <td>template having multiple segments in sequencing</td>
     </tr>
     <tr>
-    <td style="text-align: right;">2</td>
-    <td style="text-align: right;">0x2</td>
-    <td style="text-align: left;">each segment properly aligned according to
-    the aligner</td>
+    <td>2</td>
+    <td>0x2</td>
+    <td>each segment properly aligned according to the aligner</td>
     </tr>
     <tr>
-    <td style="text-align: right;">4</td>
-    <td style="text-align: right;">0x4</td>
-    <td style="text-align: left;">segment unmapped</td>
+    <td>4</td>
+    <td>0x4</td>
+    <td>segment unmapped</td>
     </tr>
     <tr>
-    <td style="text-align: right;">8</td>
-    <td style="text-align: right;">0x8</td>
-    <td style="text-align: left;">next segment in the template unmapped</td>
+    <td>8</td>
+    <td>0x8</td>
+    <td>next segment in the template unmapped</td>
     </tr>
     <tr>
-    <td style="text-align: right;">16</td>
-    <td style="text-align: right;">0x10</td>
-    <td style="text-align: left;"><span>SEQ</span> being reverse
+    <td>16</td>
+    <td>0x10</td>
+    <td><span>SEQ</span> being reverse complemented</td>
+    </tr>
+    <tr>
+    <td>32</td>
+    <td>0x20</td>
+    <td><span>SEQ</span> of the next segment in the template being reverse
     complemented</td>
     </tr>
     <tr>
-    <td style="text-align: right;">32</td>
-    <td style="text-align: right;">0x20</td>
-    <td style="text-align: left;"><span>SEQ</span> of the next segment in
-    the template being reverse complemented</td>
+    <td>64</td>
+    <td>0x40</td>
+    <td>the first segment in the template</td>
     </tr>
     <tr>
-    <td style="text-align: right;">64</td>
-    <td style="text-align: right;">0x40</td>
-    <td style="text-align: left;">the first segment in the template</td>
+    <td>128</td>
+    <td>0x80</td>
+    <td>the last segment in the template</td>
     </tr>
     <tr>
-    <td style="text-align: right;">128</td>
-    <td style="text-align: right;">0x80</td>
-    <td style="text-align: left;">the last segment in the template</td>
+    <td>256</td>
+    <td>0x100</td>
+    <td>secondary alignment</td>
     </tr>
     <tr>
-    <td style="text-align: right;">256</td>
-    <td style="text-align: right;">0x100</td>
-    <td style="text-align: left;">secondary alignment</td>
+    <td>512</td>
+    <td>0x200</td>
+    <td>not passing filters, such as platform/vendor quality controls</td>
     </tr>
     <tr>
-    <td style="text-align: right;">512</td>
-    <td style="text-align: right;">0x200</td>
-    <td style="text-align: left;">not passing filters, such as
-    platform/vendor quality controls</td>
+    <td>1024</td>
+    <td>0x400</td>
+    <td>PCR or optical duplicate</td>
     </tr>
     <tr>
-    <td style="text-align: right;">1024</td>
-    <td style="text-align: right;">0x400</td>
-    <td style="text-align: left;">PCR or optical duplicate</td>
-    </tr>
-    <tr>
-    <td style="text-align: right;">2048</td>
-    <td style="text-align: right;">0x800</td>
-    <td style="text-align: left;">supplementary alignment</td>
+    <td>2048</td>
+    <td>0x800</td>
+    <td>supplementary alignment</td>
     </tr>
     </tbody>
     </table>
@@ -854,7 +936,7 @@ represented.
     made about RNAME and CIGAR.
 
 5.  MAPQ: MAPping Quality. It equals
-    $`-10\log_{10}\Pr\{\mbox{mapping position is wrong}\}`$, rounded to
+    $-10\log_{10}\Pr\{\mbox{mapping position is wrong}\}$, rounded to
     the nearest integer. A value 255 indicates that the mapping quality
     is not available.
 
@@ -863,17 +945,96 @@ represented.
 
     <div class="center">
 
-    |               |:---------:|:---:|:------------------------------------------------------|:---:|:---:|
-    |    Op     | BAM | Description                                           |     |     |
-    |   query       | reference     |    `M`    |  0  | alignment match (can be a sequence match or mismatch) | yes | yes |
-    |    `I`    |  1  | insertion to the reference                            | yes | no  |
-    |    `D`    |  2  | deletion from the reference                           | no  | yes |
-    |    `N`    |  3  | skipped region from the reference                     | no  | yes |
-    |    `S`    |  4  | soft clipping (clipped sequences present in SEQ)      | yes | no  |
-    |    `H`    |  5  | hard clipping (clipped sequences NOT present in SEQ)  | no  | no  |
-    |    `P`    |  6  | padding (silent deletion from padded reference)       | no  | no  |
-    |    `=`    |  7  | sequence match                                        | yes | yes |
-    |    `X`    |  8  | sequence mismatch                                     | yes | yes |
+    <table>
+    <thead>
+    <tr>
+    <th>Op</th>
+    <th>BAM</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>query</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>reference</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><span><code>M</code></span></td>
+    <td>0</td>
+    <td>alignment match (can be a sequence match or mismatch)</td>
+    <td>yes</td>
+    <td>yes</td>
+    </tr>
+    <tr>
+    <td><span><code>I</code></span></td>
+    <td>1</td>
+    <td>insertion to the reference</td>
+    <td>yes</td>
+    <td>no</td>
+    </tr>
+    <tr>
+    <td><span><code>D</code></span></td>
+    <td>2</td>
+    <td>deletion from the reference</td>
+    <td>no</td>
+    <td>yes</td>
+    </tr>
+    <tr>
+    <td><span><code>N</code></span></td>
+    <td>3</td>
+    <td>skipped region from the reference</td>
+    <td>no</td>
+    <td>yes</td>
+    </tr>
+    <tr>
+    <td><span><code>S</code></span></td>
+    <td>4</td>
+    <td>soft clipping (clipped sequences present in <span>SEQ</span>)</td>
+    <td>yes</td>
+    <td>no</td>
+    </tr>
+    <tr>
+    <td><span><code>H</code></span></td>
+    <td>5</td>
+    <td>hard clipping (clipped sequences NOT present in <span>SEQ</span>)</td>
+    <td>no</td>
+    <td>no</td>
+    </tr>
+    <tr>
+    <td><span><code>P</code></span></td>
+    <td>6</td>
+    <td>padding (silent deletion from padded reference)</td>
+    <td>no</td>
+    <td>no</td>
+    </tr>
+    <tr>
+    <td><span><code>=</code></span></td>
+    <td>7</td>
+    <td>sequence match</td>
+    <td>yes</td>
+    <td>yes</td>
+    </tr>
+    <tr>
+    <td><span><code>X</code></span></td>
+    <td>8</td>
+    <td>sequence mismatch</td>
+    <td>yes</td>
+    <td>yes</td>
+    </tr>
+    </tbody>
+    </table>
 
     </div>
 
@@ -911,7 +1072,7 @@ represented.
     primary alignments of all reads in the template are mapped to the
     same reference sequence, the absolute value of TLEN equals the
     distance between the mapped end of the template and the mapped start
-    of the template, inclusively (i.e., $`\mbox{end}-\mbox{start}+1`$).
+    of the template, inclusively (i.e., $\mbox{end}-\mbox{start}+1$).
     [^7] Note that *mapped base* is defined to be one that aligns to the
     reference as described by CIGAR, hence excludes soft-clipped bases.
     The TLEN field is positive for the leftmost segment of the template,
@@ -937,12 +1098,14 @@ represented.
 
 11. QUAL: ASCII of base QUALity plus 33 (same as the quality string in
     the Sanger FASTQ format). A base quality is the phred-scaled base
-    error probability which equals $`-10\log_{10}\Pr\{\mbox{base is
-      wrong}\}`$. This field can be a '\*' when quality is not
+    error probability which equals $-10\log_{10}\Pr\{\mbox{base is
+      wrong}\}$. This field can be a '\*' when quality is not
     stored.[^9] If not a '\*', SEQ must not be a '\*' and the length of
     the quality string ought to equal the length of SEQ.
 
-## The alignment section: optional fields
+<a id="sec:alnaux"></a>
+
+## 1.5 The alignment section: optional fields
 
 All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a
 two-character string that matches `/[A-Za-z][A-Za-z0-9]/`. Within each
@@ -954,14 +1117,48 @@ lowercase letters is reserved for end users. In an optional field,
 
 <div class="center">
 
-| **Type** | **Regexp matching `VALUE`** | **Description** |
-|:--:|:---|:---|
-| A | `[!-]` | Printable character |
-| i | `[-+]?[0-9]+` | Signed integer |
-| f | `[-+]?[0-9]*.?[0-9]+([eE][-+]?[0-9]+)?` | Single-precision floating number |
-| Z | `[   !-]*` | Printable string, including space |
-| H | `([0-9A-F][0-9A-F])*` | Byte array in the Hex format |
-| B | `[cCsSiIf](,[-+]?[0-9]*.?[0-9]+([eE][-+]?[0-9]+)?)*` | Integer or numeric array |
+<table>
+<thead>
+<tr>
+<th><span><strong>Type</strong></span></th>
+<th><span><strong>Regexp matching
+<span><code>VALUE</code></span></strong></span></th>
+<th><span><strong>Description</strong></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><span><code>[!-]</code></span></td>
+<td>Printable character</td>
+</tr>
+<tr>
+<td>i</td>
+<td><span><code>[-+]?[0-9]+</code></span></td>
+<td>Signed integer</td>
+</tr>
+<tr>
+<td>f</td>
+<td><span><code>[-+]?[0-9]*.?[0-9]+([eE][-+]?[0-9]+)?</code></span></td>
+<td>Single-precision floating number</td>
+</tr>
+<tr>
+<td>Z</td>
+<td><span><code>[   !-]*</code></span></td>
+<td>Printable string, including space</td>
+</tr>
+<tr>
+<td>H</td>
+<td><span><code>([0-9A-F][0-9A-F])*</code></span></td>
+<td>Byte array in the Hex format</td>
+</tr>
+<tr>
+<td>B</td>
+<td><span><code>[cCsSiIf](,[-+]?[0-9]*.?[0-9]+([eE][-+]?[0-9]+)?)*</code></span></td>
+<td>Integer or numeric array</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -981,7 +1178,9 @@ that may be of general interest. Tags starting with '`X`', '`Y`' or
 reserved for local use and will not be formally defined in any future
 version of these specifications.
 
-# Recommended Practice for the SAM Format
+<a id="sec:recommended-practice"></a>
+
+# 2 Recommended Practice for the SAM Format
 
 This section describes the best practice for representing data in the
 SAM format. They are not required in general, but may be required by a
@@ -1052,10 +1251,10 @@ specific software package for it to function properly.
         header's `LN` value, but POS plus the sum of the lengths of
         CIGAR operations may exceed `LN`. Coordinates greater than `LN`
         are interpreted by subtracting `LN` so that bases at
-        $`\texttt{LN}+1, \texttt{LN}+2, \texttt{LN}+3, \ldots`$ are
-        considered to be mapped at positions $`1,2,3,\ldots`$; thus each
-        (1-based) position $`p`$ is interpreted as
-        $`((p-1)\bmod\texttt{LN})+1`$. [^11]
+        $\texttt{LN}+1, \texttt{LN}+2, \texttt{LN}+3, \ldots$ are
+        considered to be mapped at positions $1,2,3,\ldots$; thus each
+        (1-based) position $p$ is interpreted as
+        $((p-1)\bmod\texttt{LN})+1$. [^11]
 
     2.  Alternatively, such alignments may be split across several
         records: one record representing the initial portion of the
@@ -1075,18 +1274,47 @@ specific software package for it to function properly.
         described with multiple lines in SAM (like a multi-segment
         read). Where there is a clear biological direction (e.g., a
         gene), the first segment (FLAG bit 0x40) is used for the first
-        section (e.g., the $`5'`$ end of the gene). Thus a GenBank entry
+        section (e.g., the $5'$ end of the gene). Thus a GenBank entry
         location like
         `complement(join(85052..85354, 85441..85621, 86097..86284))`
         would have three lines in SAM with a common QNAME:
 
         <div class="center">
 
-        |                             |:--------------------|:------------|------:|:-------:|:----------------|
-        |                     | FLAG        |   POS |  CIGAR  | Optional fields |
-        | The $`5'`$ fragment | 883 (0x373) | 86097 | `188M ` | `FI:i:1TC:i:3 ` |
-        | Middle fragment     | 819 (0x333) | 85441 | `181M ` | `FI:i:2TC:i:3 ` |
-        | The $`3'`$ fragment | 947 (0x3B3) | 85052 | `303M ` | `FI:i:3TC:i:3 ` |
+        <table>
+        <thead>
+        <tr>
+        <th></th>
+        <th>FLAG</th>
+        <th>POS</th>
+        <th>CIGAR</th>
+        <th>Optional fields</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>The <span class="math inline">5<sup>′</sup></span> fragment</td>
+        <td>883 (0x373)</td>
+        <td>86097</td>
+        <td><code>188M </code></td>
+        <td><code>FI:i:1TC:i:3 </code></td>
+        </tr>
+        <tr>
+        <td>Middle fragment</td>
+        <td>819 (0x333)</td>
+        <td>85441</td>
+        <td><code>181M </code></td>
+        <td><code>FI:i:2TC:i:3 </code></td>
+        </tr>
+        <tr>
+        <td>The <span class="math inline">3<sup>′</sup></span> fragment</td>
+        <td>947 (0x3B3)</td>
+        <td>85052</td>
+        <td><code>303M </code></td>
+        <td><code>FI:i:3TC:i:3 </code></td>
+        </tr>
+        </tbody>
+        </table>
 
         </div>
 
@@ -1106,9 +1334,13 @@ specific software package for it to function properly.
         circular genome, any GFF3 feature line wrapping the origin must
         be split into two segments in SAM.
 
-# Guide for Describing Assembly Sequences in SAM
+<a id="guide-for-describing-assembly-sequences-in-sam"></a>
 
-## Unpadded versus padded representation
+# 3 Guide for Describing Assembly Sequences in SAM
+
+<a id="unpadded-versus-padded-representation"></a>
+
+## 3.1 Unpadded versus padded representation
 
 To describe alignments, we can regard the reference sequence with no
 respect to other alignments against it. Such a reference sequence is
@@ -1136,7 +1368,9 @@ by the start and end coordinates without using complex CIGAR strings.
 SAM traditionally uses the padded representation for *de novo* assembly.
 The ACE assembly format uses the padded representation exclusively.
 
-## Padded SAM
+<a id="sec:padded-sam"></a>
+
+## 3.2 Padded SAM
 
 The SAM format is typically used to describe alignments against an
 unpadded reference sequence, but it is also able to describe alignments
@@ -1157,10 +1391,9 @@ a padded SAM, the insertion and padding CIGAR operations ('`I`' and
 the insertions.
 
 The following shows the padded SAM for the example alignment in
-Section <a href="#sec:example" data-reference-type="ref"
-data-reference="sec:example">1.1</a>. Notably, the length of `ref` is 47
-instead of 45. POS of the last three alignments are all shifted by 2.
-CIGAR of alignments bridging the 2bp insertion are also changed.
+Section [1.1](#sec:example). Notably, the length of `ref` is 47 instead
+of 45. POS of the last three alignments are all shifted by 2. CIGAR of
+alignments bridging the 2bp insertion are also changed.
 
 > @HD VN:1.6 SO:coordinate
 >     @SQ SN:ref LN:47
@@ -1180,14 +1413,17 @@ set to 1 and FLAG to 516 (filtered and unmapped); for an annotation,
 FLAG should be set to 768 (filtered and secondary) with no restriction
 to QNAME. Dummy reads for annotation would typically have a `CT` tag to
 hold the annotation information; see the discussion of dummy reads in
-Section <a href="#sec:recommended-practice" data-reference-type="ref"
-data-reference="sec:recommended-practice">2</a>. See also the separate
-*Optional Fields Specification* for full details of the `CT` and `PT`
-annotation tags. [^14]
+Section [2](#sec:recommended-practice). See also the separate *Optional
+Fields Specification* for full details of the `CT` and `PT` annotation
+tags. [^14]
 
-# The BAM Format Specification
+<a id="the-bam-format-specification"></a>
 
-## The BGZF compression format
+# 4 The BAM Format Specification
+
+<a id="the-bgzf-compression-format"></a>
+
+## 4.1 The BGZF compression format
 
 BGZF is block compression implemented on top of the standard gzip file
 format.[^15] The goal of BGZF is to provide good compression while
@@ -1227,174 +1463,191 @@ RFC1952.)
 <table>
 <thead>
 <tr>
-<th style="text-align: left;"><span>1-6</span></th>
-<th style="text-align: center;"><strong>Description</strong></th>
-<th style="text-align: center;"><strong>Type</strong></th>
-<th style="text-align: center;"><strong>Value</strong></th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
+<th><span>1-6</span></th>
+<th><strong>Description</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Value</strong></th>
+<th></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-6</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">ID1</td>
-<td style="text-align: left;">gzip IDentifier1</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;">31</td>
+<td><span>2-6</span></td>
+<td>ID1</td>
+<td>gzip IDentifier1</td>
+<td><span><code>uint8_t</code></span></td>
+<td>31</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">ID2</td>
-<td style="text-align: left;">gzip IDentifier2</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;">139</td>
+<td><span>2-6</span></td>
+<td>ID2</td>
+<td>gzip IDentifier2</td>
+<td><span><code>uint8_t</code></span></td>
+<td>139</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">CM</td>
-<td style="text-align: left;">gzip Compression Method</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;">8</td>
+<td><span>2-6</span></td>
+<td>CM</td>
+<td>gzip Compression Method</td>
+<td><span><code>uint8_t</code></span></td>
+<td>8</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">FLG</td>
-<td style="text-align: left;">gzip FLaGs</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;">4</td>
+<td><span>2-6</span></td>
+<td>FLG</td>
+<td>gzip FLaGs</td>
+<td><span><code>uint8_t</code></span></td>
+<td>4</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">MTIME</td>
-<td style="text-align: left;">gzip Modification TIME</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>MTIME</td>
+<td>gzip Modification TIME</td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">XFL</td>
-<td style="text-align: left;">gzip eXtra FLags</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>XFL</td>
+<td>gzip eXtra FLags</td>
+<td><span><code>uint8_t</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">OS</td>
-<td style="text-align: left;">gzip Operating System</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>OS</td>
+<td>gzip Operating System</td>
+<td><span><code>uint8_t</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">XLEN</td>
-<td style="text-align: left;">gzip eXtra LENgth</td>
-<td style="text-align: left;"><span><code>uint16_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>XLEN</td>
+<td>gzip eXtra LENgth</td>
+<td><span><code>uint16_t</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="5" style="text-align: center;"><span
-style="color: gray"><em>Extra subfield(s) (total
+<td><span>2-6</span></td>
+<td><span style="color: gray"><em>Extra subfield(s) (total
 size=XLEN)</em></span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td colspan="4" style="text-align: center;"><span
-style="color: gray"><em>Additional RFC1952 extra subfields if
+<td><span>3-6</span></td>
+<td></td>
+<td><span style="color: gray"><em>Additional RFC1952 extra subfields if
 present</em></span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>SI1</span></td>
-<td style="text-align: left;">Subfield Identifier1</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;">66</td>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>SI1</span></td>
+<td>Subfield Identifier1</td>
+<td><span><code>uint8_t</code></span></td>
+<td>66</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>SI2</span></td>
-<td style="text-align: left;">Subfield Identifier2</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;">67</td>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>SI2</span></td>
+<td>Subfield Identifier2</td>
+<td><span><code>uint8_t</code></span></td>
+<td>67</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>SLEN</span></td>
-<td style="text-align: left;">Subfield LENgth</td>
-<td style="text-align: left;"><span><code>uint16_t</code></span></td>
-<td style="text-align: right;">2</td>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>SLEN</span></td>
+<td>Subfield LENgth</td>
+<td><span><code>uint16_t</code></span></td>
+<td>2</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>BSIZE</span></td>
-<td style="text-align: left;">total Block SIZE minus 1</td>
-<td style="text-align: left;"><span><code>uint16_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>BSIZE</span></td>
+<td>total Block SIZE minus 1</td>
+<td><span><code>uint16_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td colspan="4" style="text-align: center;"><span
-style="color: gray"><em>Additional RFC1952 extra subfields if
+<td><span>3-6</span></td>
+<td></td>
+<td><span style="color: gray"><em>Additional RFC1952 extra subfields if
 present</em></span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">CDATA</td>
-<td style="text-align: left;">Compressed DATA by
-<span>zlib::deflate()</span></td>
-<td
-style="text-align: left;"><span><code>uint8_t[</code><span><code>BSIZE-XLEN-19</code></span><code>]</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>CDATA</td>
+<td>Compressed DATA by <span>zlib::deflate()</span></td>
+<td><span><code>uint8_t[</code><span><code>BSIZE-XLEN-19</code></span><code>]</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">CRC32</td>
-<td style="text-align: left;">CRC-32</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>CRC32</td>
+<td>CRC-32</td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">ISIZE</td>
-<td style="text-align: left;">Input SIZE (length of uncompressed
-data)</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>ISIZE</td>
+<td>Input SIZE (length of uncompressed data)</td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-6</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 
 The random access method to be described next limits the uncompressed
-contents of each BGZF block to a maximum of $`2^{16}`$ bytes of data.
-Thus while ISIZE is stored as a `uint32_t` as per the gzip format, in
-BGZF it is limited to the range $`[0,65536]`$. BSIZE can represent BGZF
-block sizes in the range $`[1,65536]`$, though typically BSIZE will be
-rather less than ISIZE due to compression.
+contents of each BGZF block to a maximum of $2^{16}$ bytes of data. Thus
+while ISIZE is stored as a `uint32_t` as per the gzip format, in BGZF it
+is limited to the range $[0,65536]$. BSIZE can represent BGZF block
+sizes in the range $[1,65536]$, though typically BSIZE will be rather
+less than ISIZE due to compression.
 
-### Random access
+<a id="random-access"></a>
+
+### 4.1.1 Random access
 
 BGZF files support random access through the BAM file index. To achieve
 this, the BAM file index uses *virtual file offsets* into the BGZF file.
@@ -1406,7 +1659,9 @@ that BGZF block. Virtual file offsets can be compared, but subtraction
 between virtual file offsets and addition between a virtual offset and
 an integer are both disallowed.
 
-### End-of-file marker
+<a id="end-of-file-marker"></a>
+
+### 4.1.2 End-of-file marker
 
 An end-of-file (EOF) trailer or marker block should be written at the
 end of BGZF files, so that unintended file truncation can be easily
@@ -1435,7 +1690,9 @@ checking that the last 28 bytes of the file are exactly the bytes above
 are both sufficient tests; each is likely more convenient in different
 circumstances.
 
-## The BAM format
+<a id="the-bam-format"></a>
+
+## 4.2 The BAM format
 
 BAM is compressed in the BGZF format. All multi-byte numbers in BAM are
 little-endian, regardless of the machine endianness. The format is
@@ -1446,301 +1703,269 @@ underlined word in uppercase denotes a field in the SAM format.
 <table>
 <thead>
 <tr>
-<th style="text-align: left;"><span>1-6</span></th>
-<th style="text-align: center;"><strong>Description</strong></th>
-<th style="text-align: center;"><strong>Type</strong></th>
-<th style="text-align: center;"><strong>Value</strong></th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
+<th><span>1-6</span></th>
+<th><strong>Description</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Value</strong></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;">BAM magic string</td>
-<td style="text-align: left;"><span><code>char[4]</code></span></td>
-<td style="text-align: left;"><span><code>BAM 1</code></span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-6</span></td>
+<td>BAM magic string</td>
+<td><span><code>char[4]</code></span></td>
+<td><span><code>BAM 1</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;">Length of the header text, including any
-<span><code>NUL</code></span> padding</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span class="math inline">\(&lt;
-2^{31}\)</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-6</span></td>
+<td>Length of the header text, including any <span><code>NUL</code></span>
+padding</td>
+<td><span><code>uint32_t</code></span></td>
+<td><span class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;">Plain header text in SAM; not necessarily
+<td><span>1-6</span></td>
+<td>Plain header text in SAM; not necessarily
 <span><code>NUL</code></span>-terminated</td>
-<td
-style="text-align: left;"><span><code>char[</code><span><code>l_text</code></span><code>]</code></span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span><code>char[</code><span><code>l_text</code></span><code>]</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;"># reference sequences</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span class="math inline">\(&lt;
-2^{31}\)</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-6</span></td>
+<td># reference sequences</td>
+<td><span><code>uint32_t</code></span></td>
+<td><span class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-6</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">l_name</td>
-<td style="text-align: left;">Length of the reference name plus 1
-(including <span><code>NUL</code></span>)</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>l_name</td>
+<td>Length of the reference name plus 1 (including
+<span><code>NUL</code></span>)</td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">name</td>
-<td style="text-align: left;">Reference sequence name;
-<span><code>NUL</code></span>-terminated</td>
-<td
-style="text-align: left;"><span><code>char[</code><span><code>l_name</code></span><code>]</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>name</td>
+<td>Reference sequence name; <span><code>NUL</code></span>-terminated</td>
+<td><span><code>char[</code><span><code>l_name</code></span><code>]</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">l_ref</td>
-<td style="text-align: left;">Length of the reference sequence</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span class="math inline">\(&lt;
-2^{31}\)</span></td>
+<td><span>2-6</span></td>
+<td>l_ref</td>
+<td>Length of the reference sequence</td>
+<td><span><code>uint32_t</code></span></td>
+<td><span class="math inline"> &lt; 2<sup>31</sup></span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-6</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">block_size</td>
-<td style="text-align: left;">Total length of the alignment record,
-excluding this field</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>block_size</td>
+<td>Total length of the alignment record, excluding this field</td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">refID</td>
-<td style="text-align: left;">Reference sequence ID, <span
-class="math inline">\(-1\leq{\sf refID}&lt;{\sf n\_ref}\)</span>; -1 for
-a read without a mapping position</td>
-<td style="text-align: left;"><span><code>int32_t</code></span></td>
-<td style="text-align: right;">[-1]</td>
+<td><span>2-6</span></td>
+<td>refID</td>
+<td>Reference sequence ID, <span class="math inline">$-1\leq{\sf
+refID}&lt;{\sf n\_ref}$</span>; -1 for a read without a mapping position</td>
+<td><span><code>int32_t</code></span></td>
+<td>[-1]</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">pos</td>
-<td style="text-align: left;">0-based leftmost coordinate (<span
-class="math inline">\(=\underline{\sf POS}-1\)</span>)</td>
-<td style="text-align: left;"><span><code>int32_t</code></span></td>
-<td style="text-align: right;">[-1]</td>
+<td><span>2-6</span></td>
+<td>pos</td>
+<td>0-based leftmost coordinate (<span class="math inline">$=\underline{\sf
+POS}-1$</span>)</td>
+<td><span><code>int32_t</code></span></td>
+<td>[-1]</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">l_read_name</td>
-<td style="text-align: left;">Length of <span>read_name</span> below
-(<span class="math inline">\(={\sf length}(\underline{\sf
-QNAME})+1\)</span>)</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>l_read_name</td>
+<td>Length of <span>read_name</span> below (<span class="math inline">$={\sf
+length}(\underline{\sf QNAME})+1$</span>)</td>
+<td><span><code>uint8_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">mapq</td>
-<td style="text-align: left;">Mapping quality (=<u>MAPQ</u>)</td>
-<td style="text-align: left;"><span><code>uint8_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>mapq</td>
+<td>Mapping quality (=<u>MAPQ</u>)</td>
+<td><span><code>uint8_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">bin</td>
-<td style="text-align: left;">BAI index bin, see Section <a
-href="#sec:bin-field" data-reference-type="ref"
-data-reference="sec:bin-field">4.2.1</a></td>
-<td style="text-align: left;"><span><code>uint16_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>bin</td>
+<td>BAI index bin, see Section <a href="#sec:bin-field">4.2.1</a></td>
+<td><span><code>uint16_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">n_cigar_op</td>
-<td style="text-align: left;">Number of operations in <u>CIGAR</u>, see
-Section <a href="#sec:ncigar" data-reference-type="ref"
-data-reference="sec:ncigar">4.2.2</a></td>
-<td style="text-align: left;"><span><code>uint16_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>n_cigar_op</td>
+<td>Number of operations in <u>CIGAR</u>, see Section <a
+href="#sec:ncigar">4.2.2</a></td>
+<td><span><code>uint16_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">flag</td>
-<td style="text-align: left;">Bitwise flags (= <u>FLAG</u>) </td>
-<td style="text-align: left;"><span><code>uint16_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>flag</td>
+<td>Bitwise flags (= <u>FLAG</u>) </td>
+<td><span><code>uint16_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">l_seq</td>
-<td style="text-align: left;">Length of <u>SEQ</u></td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>l_seq</td>
+<td>Length of <u>SEQ</u></td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">next_refID</td>
-<td style="text-align: left;">Ref-ID of the next segment (<span
-class="math inline">\(-1\le{\sf next\_refID}&lt;{\sf
-n\_ref}\)</span>)</td>
-<td style="text-align: left;"><span><code>int32_t</code></span></td>
-<td style="text-align: right;">[-1]</td>
+<td><span>2-6</span></td>
+<td>next_refID</td>
+<td>Ref-ID of the next segment (<span class="math inline">$-1\le{\sf
+next\_refID}&lt;{\sf n\_ref}$</span>)</td>
+<td><span><code>int32_t</code></span></td>
+<td>[-1]</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">next_pos</td>
-<td style="text-align: left;">0-based leftmost pos of the next segment
-(<span class="math inline">\(=\underline{\sf PNEXT}-1\)</span>)</td>
-<td style="text-align: left;"><span><code>int32_t</code></span></td>
-<td style="text-align: right;">[-1]</td>
+<td><span>2-6</span></td>
+<td>next_pos</td>
+<td>0-based leftmost pos of the next segment (<span
+class="math inline">$=\underline{\sf PNEXT}-1$</span>)</td>
+<td><span><code>int32_t</code></span></td>
+<td>[-1]</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">tlen</td>
-<td style="text-align: left;">Template length (<span
-class="math inline">\(=\underline{\sf TLEN}\)</span>)</td>
-<td style="text-align: left;"><span><code>int32_t</code></span></td>
-<td style="text-align: right;">[0]</td>
+<td><span>2-6</span></td>
+<td>tlen</td>
+<td>Template length (<span class="math inline">$=\underline{\sf
+TLEN}$</span>)</td>
+<td><span><code>int32_t</code></span></td>
+<td>[0]</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">read_name</td>
-<td style="text-align: left;">Read name,
-<span><code>NUL</code></span>-terminated (<u>QNAME</u> with trailing
-'<span><code>\0</code></span>')</td>
-<td
-style="text-align: left;"><span><code>char[</code><span><code>l_read_name</code></span><code>]</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>read_name</td>
+<td>Read name, <span><code>NUL</code></span>-terminated (<u>QNAME</u> with
+trailing '<span><code>\0</code></span>')</td>
+<td><span><code>char[</code><span><code>l_read_name</code></span><code>]</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">cigar</td>
-<td style="text-align: left;">CIGAR:
-<span><span><code>op_len</code></span><code> 4</code></span>.
+<td><span>2-6</span></td>
+<td>cigar</td>
+<td>CIGAR: <span><span><code>op_len</code></span><code> 4</code></span>.
 '<span><code>MIDNSHP=X</code></span>'<span
-class="math inline">\(\to\)</span>'012345678'</td>
-<td
-style="text-align: left;"><span><code>uint32_t[</code><span><code>n_cigar_op</code></span><code>]</code></span></td>
-<td style="text-align: right;"></td>
+class="math inline">→</span>'012345678'</td>
+<td><span><code>uint32_t[</code><span><code>n_cigar_op</code></span><code>]</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">seq</td>
-<td style="text-align: left;">4-bit encoded read:
-'<span><code>=ACMGRSVTWYHKDBN</code></span>'<span
-class="math inline">\(\to[0,15]\)</span>. See Section <a href="#sec:seq"
-data-reference-type="ref" data-reference="sec:seq">4.2.3</a></td>
-<td
-style="text-align: left;"><span><code>uint8_t[(</code><span><code>l_seq</code></span><code>+1)/2]</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>seq</td>
+<td>4-bit encoded read: '<span><code>=ACMGRSVTWYHKDBN</code></span>'<span
+class="math inline"> → [0, 15]</span>. See Section <a
+href="#sec:seq">4.2.3</a></td>
+<td><span><code>uint8_t[(</code><span><code>l_seq</code></span><code>+1)/2]</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="2" style="text-align: left;">qual</td>
-<td style="text-align: left;">Phred-scaled base qualities. See
-Section <a href="#sec:seq" data-reference-type="ref"
-data-reference="sec:seq">4.2.3</a></td>
-<td
-style="text-align: left;"><span><code>char[</code><span><code>l_seq</code></span><code>]</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>2-6</span></td>
+<td>qual</td>
+<td>Phred-scaled base qualities. See Section <a href="#sec:seq">4.2.3</a></td>
+<td><span><code>char[</code><span><code>l_seq</code></span><code>]</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-6</span></td>
-<td colspan="5" style="text-align: center;"><span
-style="color: gray"><em>List of auxiliary data (until the end of the
-alignment block)</em></span></td>
+<td><span>2-6</span></td>
+<td><span style="color: gray"><em>List of auxiliary data (until the end of
+the alignment block)</em></span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>tag</span></td>
-<td style="text-align: left;">Two-character tag</td>
-<td style="text-align: left;"><span><code>char[2]</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>tag</span></td>
+<td>Two-character tag</td>
+<td><span><code>char[2]</code></span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>val_type</span></td>
-<td style="text-align: left;">Value type:
-<span><code>AcCsSiIfZHB</code></span>, see Section <a
-href="#sec:aux-type-codes" data-reference-type="ref"
-data-reference="sec:aux-type-codes">4.2.4</a></td>
-<td style="text-align: left;"><span><code>char</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>val_type</span></td>
+<td>Value type: <span><code>AcCsSiIfZHB</code></span>, see Section <a
+href="#sec:aux-type-codes">4.2.4</a></td>
+<td><span><code>char</code></span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>value</span></td>
-<td style="text-align: left;">Tag value</td>
-<td style="text-align: left;">(by <span>val_type</span>)</td>
-<td style="text-align: right;"></td>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>value</span></td>
+<td>Tag value</td>
+<td>(by <span>val_type</span>)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-6</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-6</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 
 Most length and count fields described as `uint32_t` have additional
-constraints on their range: $`\mbox{\sf l\_text} < 2^{31}`$ due to
-implementation limits; $`\mbox{\sf n\_ref} < 2^{31}`$ because refID and
-next_refID are signed; $`\mbox{\sf l\_ref} < 2^{31}`$ because tlen is
+constraints on their range: $\mbox{\sf l\_text} < 2^{31}$ due to
+implementation limits; $\mbox{\sf n\_ref} < 2^{31}$ because refID and
+next_refID are signed; $\mbox{\sf l\_ref} < 2^{31}$ because tlen is
 signed; those marked "*limited*" are limited by available memory and the
 practical size of the data represented well before they are limited by,
 e.g., Java's signed 32-bit integer maximum array size.
 
-### BIN field calculation
+<a id="sec:bin-field"></a>
+
+### 4.2.1 BIN field calculation
 
 BIN is calculated using the reg2bin() function in
-Section <a href="#sec:code" data-reference-type="ref"
-data-reference="sec:code">5.3</a>. For mapped reads this uses
-$`\mbox{\sf POS}-1`$ (i.e., 0-based left position) and the alignment end
-point using the alignment length from the CIGAR string. For unmapped
-reads (e.g., paired-end reads where only one part is mapped, see
-Section <a href="#sec:recommended-practice" data-reference-type="ref"
-data-reference="sec:recommended-practice">2</a>) and reads whose CIGAR
-strings consume no reference bases at all, the alignment is treated as
-being of length one. Note unmapped reads with POS $`0`$ (which becomes
-$`-1`$ in BAM) therefore use $`\mbox{\sf reg2bin}(-1, 0)`$ which is
-computed as $`4680`$.
+Section [5.3](#sec:code). For mapped reads this uses $\mbox{\sf POS}-1$
+(i.e., 0-based left position) and the alignment end point using the
+alignment length from the CIGAR string. For unmapped reads
+(e.g., paired-end reads where only one part is mapped, see
+Section [2](#sec:recommended-practice)) and reads whose CIGAR strings
+consume no reference bases at all, the alignment is treated as being of
+length one. Note unmapped reads with POS $0$ (which becomes $-1$ in BAM)
+therefore use $\mbox{\sf reg2bin}(-1, 0)$ which is computed as $4680$.
 
-### N_CIGAR_OP field
+<a id="sec:ncigar"></a>
+
+### 4.2.2 N_CIGAR_OP field
 
 With 16 bits, n_cigar_op can keep at most 65535 CIGAR operations in BAM
 files. For an alignment with more CIGAR operations, BAM stores the real
@@ -1754,23 +1979,27 @@ and the first CIGAR operation clips the entire read, a BAM parsing
 library is expected to update n_cigar_op and cigar with the real CIGAR
 stored in the `CG` tag and remove the now-redundant `CG` tag.
 
-### SEQ and QUAL encoding
+<a id="sec:seq"></a>
+
+### 4.2.3 SEQ and QUAL encoding
 
 Sequence is encoded in 4-bit values, with adjacent bases packed into the
 same byte starting with the highest 4 bits first. When l_seq is odd the
 bottom 4 bits of the last byte are undefined, but we recommend writing
 these as zero. The case-insensitive base codes '`=ACMGRSVTWYHKDBN`' are
-mapped to $`[0,15]`$ respectively with all other characters mapping to
+mapped to $[0,15]$ respectively with all other characters mapping to
 '`N`' (value 15).
 
 Omitted sequence, represented in SAM as '', is represented by l_seq
 being 0 and seq and qual zero-length.
 
-Base qualities are stored as bytes in the range $`[0,93]`$, without any
+Base qualities are stored as bytes in the range $[0,93]$, without any
 +33 conversion to printable ASCII. When base qualities are omitted but
 the sequence is not, qual is filled with `0xFF` bytes (to length l_seq).
 
-### Auxiliary data encoding
+<a id="sec:aux-type-codes"></a>
+
+### 4.2.4 Auxiliary data encoding
 
 Optional alignment fields are stored immediately after each other
 immediately following the qual field, and are included in block_size.
@@ -1794,12 +2023,24 @@ have a total length of 4, 5, or 7 bytes:
 
 <div class="center">
 
-|                   |     |
-|:------------------|:----|
-| (i.e., `int8_t`)  |     |
-| (i.e., `uint8_t`) |     |
-|                   |     |
-|                   |     |
+<table>
+<thead>
+<tr>
+<th>(i.e., <span><code>int8_t</code></span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(i.e., <span><code>uint8_t</code></span>)</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -1808,14 +2049,20 @@ String fields and hex-formatted byte arrays are represented as
 
 <div class="center">
 
-|     |
-|:----|
-|     |
-|     |
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 </div>
-
-<div class="samepage">
 
 The representation of a '`B`' array field starts with a sub-type
 character similar to the numeric field types above and a *count*
@@ -1825,21 +2072,39 @@ integers or IEEE floats sized according to the sub-type:
 
 <div class="center">
 
-|                            |
-|:---------------------------|
-| (i.e., `int8_t` elements)  |
-| (i.e., `uint8_t` elements) |
-|                            |
-|                            |
-|                            |
-|                            |
-|                            |
+<table>
+<thead>
+<tr>
+<th>(i.e., <span><code>int8_t</code></span> elements)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(i.e., <span><code>uint8_t</code></span> elements)</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
-</div>
+<a id="indexing-bam"></a>
 
-# Indexing BAM
+# 5 Indexing BAM
 
 Indexing aims to achieve fast retrieval of alignments overlapping a
 specified region without going through the whole alignments. BAM must be
@@ -1851,9 +2116,13 @@ BAM indices and its implementation in the long-established BAI format.
 The CSI format documented elsewhere uses a similar binning scheme and
 can also be used to index BAM.
 
-## Algorithm
+<a id="algorithm"></a>
 
-### Basic binning index
+## 5.1 Algorithm
+
+<a id="basic-binning-index"></a>
+
+### 5.1.1 Basic binning index
 
 The UCSC binning scheme was suggested by Richard Durbin and Lincoln
 Stein and is explained in Kent *et al.* In this scheme, each bin
@@ -1879,16 +2148,18 @@ their leftmost coordinates and stop seeking the rest when an alignment
 falls outside the required region. This strategy saves half of the seek
 calls in average.
 
-In the BAI format, each bin may span $`2^{29}`$, $`2^{26}`$, $`2^{23}`$,
-$`2^{20}`$, $`2^{17}`$ or $`2^{14}`$ bp. Bin 0 spans a 512Mbp region,
-bins 1–8 span 64Mbp, 9–72 8Mbp, 73–584 1Mbp, 585–4680 128kbp, and bins
-4681–37448 span 16kbp regions. This implies that this index format does
-not support reference chromosome sequences longer than $`2^{29}-1`$.
+In the BAI format, each bin may span $2^{29}$, $2^{26}$, $2^{23}$,
+$2^{20}$, $2^{17}$ or $2^{14}$ bp. Bin 0 spans a 512Mbp region, bins 1–8
+span 64Mbp, 9–72 8Mbp, 73–584 1Mbp, 585–4680 128kbp, and bins 4681–37448
+span 16kbp regions. This implies that this index format does not support
+reference chromosome sequences longer than $2^{29}-1$.
 
 The CSI format generalises the sizes of the bins, and supports reference
 sequences of the same length as are supported by SAM and BAM.
 
-### Reducing small chunks
+<a id="reducing-small-chunks"></a>
+
+### 5.1.2 Reducing small chunks
 
 Around the boundary of two adjacent bins, we may see many small chunks
 with some having a shorter bin while the rest having a larger bin. To
@@ -1898,7 +2169,9 @@ will contain alignments with different bins. We need to keep in the
 index the file offset of the end of each chunk to identify its
 boundaries.
 
-### Combining with linear index
+<a id="combining-with-linear-index"></a>
+
+### 5.1.3 Combining with linear index
 
 For an alignment starting beyond 64Mbp, we always need to seek to some
 chunks in bin 0, which can be avoided by using a linear index. In the
@@ -1911,7 +2184,9 @@ containing rbeg.
 With both binning and linear indices, we can retrieve alignments in most
 of regions with just one seek call.
 
-### A conceptual example
+<a id="a-conceptual-example"></a>
+
+### 5.1.4 A conceptual example
 
 Suppose we have a genome shorter than 144kbp. We can design a binning
 scheme which consists of three types of bins: bin 0 spans 0-144kbp, bin
@@ -1920,46 +2195,50 @@ scheme which consists of three types of bins: bin 0 spans 0-144kbp, bin
 <table>
 <thead>
 <tr>
-<th style="text-align: center;"><span>1-9</span></th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
+<th><span>1-9</span></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;"><span>1-9</span></td>
-<td colspan="3" style="text-align: center;">2 (48–96kbp)</td>
-<td colspan="3" style="text-align: center;">3 (96–144kbp)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td><span>1-9</span></td>
+<td>2 (48–96kbp)</td>
+<td>3 (96–144kbp)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: center;"><span>1-9</span> 4 (0–16k)</td>
-<td style="text-align: center;">5 (16–32k)</td>
-<td style="text-align: center;">6 (32–48k)</td>
-<td style="text-align: center;">7 (48–64k)</td>
-<td style="text-align: center;">8 (64–80k)</td>
-<td style="text-align: center;">9 (80–96k)</td>
-<td style="text-align: center;">10</td>
-<td style="text-align: center;">11</td>
-<td style="text-align: center;">12</td>
+<td><span>1-9</span> 4 (0–16k)</td>
+<td>5 (16–32k)</td>
+<td>6 (32–48k)</td>
+<td>7 (48–64k)</td>
+<td>8 (64–80k)</td>
+<td>9 (80–96k)</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
 </tr>
 <tr>
-<td style="text-align: center;"><span>1-9</span></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td><span>1-9</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -1976,147 +2255,142 @@ it belongs to bin 0. But with a linear index, we know that such an
 alignment stops before 64kbp and cannot overlap the specified region. A
 seek call can thus be saved.
 
-## The BAI index format for BAM files
+<a id="the-bai-index-format-for-bam-files"></a>
+
+## 5.2 The BAI index format for BAM files
 
 <table>
 <thead>
 <tr>
-<th style="text-align: left;"><span>1-7</span></th>
-<th style="text-align: center;"><strong>Description</strong></th>
-<th style="text-align: center;"><strong>Type</strong></th>
-<th style="text-align: center;"><strong>Value</strong></th>
-<th style="text-align: left;"></th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
+<th><span>1-7</span></th>
+<th><strong>Description</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Value</strong></th>
+<th></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span>1-7</span></td>
-<td style="text-align: left;">Magic string</td>
-<td style="text-align: left;"><span><code>char[4]</code></span></td>
-<td style="text-align: left;"><span><code>BAI 1</code></span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-7</span></td>
+<td>Magic string</td>
+<td><span><code>char[4]</code></span></td>
+<td><span><code>BAI 1</code></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-7</span></td>
-<td style="text-align: left;"># reference sequences</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span class="math inline">\(&lt;
-2^{31}\)</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-7</span></td>
+<td># reference sequences</td>
+<td><span><code>uint32_t</code></span></td>
+<td><span class="math inline"> &lt; 2<sup>31</sup></span></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-7</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-7</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-7</span></td>
-<td colspan="3" style="text-align: left;">n_bin</td>
-<td style="text-align: left;"># distinct bins (for the binning
-index)</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span class="math inline">\(\le
-37451\)</span></td>
+<td><span>2-7</span></td>
+<td>n_bin</td>
+<td># distinct bins (for the binning index)</td>
+<td><span><code>uint32_t</code></span></td>
+<td><span class="math inline"> ≤ 37451</span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-7</span></td>
-<td colspan="6" style="text-align: center;"><span
-style="color: gray"><em>List of distinct bins (n=n_bin)</em></span></td>
+<td><span>2-7</span></td>
+<td><span style="color: gray"><em>List of distinct bins
+(n=n_bin)</em></span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-7</span></td>
-<td style="text-align: left;"></td>
-<td colspan="2" style="text-align: left;">bin</td>
-<td style="text-align: left;">Distinct bin</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span class="math inline">\(\le
-37450\)</span></td>
+<td><span>3-7</span></td>
+<td></td>
+<td>bin</td>
+<td>Distinct bin</td>
+<td><span><code>uint32_t</code></span></td>
+<td><span class="math inline"> ≤ 37450</span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-7</span></td>
-<td style="text-align: left;"></td>
-<td colspan="2" style="text-align: left;">n_chunk</td>
-<td style="text-align: left;"># chunks</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>3-7</span></td>
+<td></td>
+<td>n_chunk</td>
+<td># chunks</td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-7</span></td>
-<td style="text-align: left;"></td>
-<td colspan="5" style="text-align: center;"><span
-style="color: gray"><em>List of chunks (n=n_chunk)</em></span></td>
+<td><span>3-7</span></td>
+<td></td>
+<td><span style="color: gray"><em>List of chunks (n=n_chunk)</em></span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>4-7</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>chunk_beg</span></td>
-<td style="text-align: left;">(Virtual) file offset of the start of the
-chunk</td>
-<td style="text-align: left;"><span><code>uint64_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>4-7</span></td>
+<td></td>
+<td></td>
+<td><span>chunk_beg</span></td>
+<td>(Virtual) file offset of the start of the chunk</td>
+<td><span><code>uint64_t</code></span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>4-7</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span>chunk_end</span></td>
-<td style="text-align: left;">(Virtual) file offset of the end of the
-chunk</td>
-<td style="text-align: left;"><span><code>uint64_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>4-7</span></td>
+<td></td>
+<td></td>
+<td><span>chunk_end</span></td>
+<td>(Virtual) file offset of the end of the chunk</td>
+<td><span><code>uint64_t</code></span></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-7</span></td>
-<td colspan="3" style="text-align: left;">n_intv</td>
-<td style="text-align: left;"># 16kbp intervals (for the linear
-index)</td>
-<td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span class="math inline">\(\le
-2^{17}\)</span></td>
+<td><span>2-7</span></td>
+<td>n_intv</td>
+<td># 16kbp intervals (for the linear index)</td>
+<td><span><code>uint32_t</code></span></td>
+<td><span class="math inline"> ≤ 2<sup>17</sup></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>2-7</span></td>
-<td colspan="6" style="text-align: center;"><span
-style="color: gray"><em>List of intervals (n=n_intv)</em></span></td>
+<td><span>2-7</span></td>
+<td><span style="color: gray"><em>List of intervals (n=n_intv)</em></span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>3-7</span></td>
-<td style="text-align: left;"></td>
-<td colspan="2" style="text-align: left;">ioffset</td>
-<td style="text-align: left;">(Virtual) file offset of the first
-alignment in the interval</td>
-<td style="text-align: left;"><span><code>uint64_t</code></span></td>
-<td style="text-align: right;"></td>
+<td><span>3-7</span></td>
+<td></td>
+<td>ioffset</td>
+<td>(Virtual) file offset of the first alignment in the interval</td>
+<td><span><code>uint64_t</code></span></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-7</span></td>
-<td style="text-align: left;">Number of unplaced unmapped reads
-(<span>RNAME</span> *)</td>
-<td style="text-align: left;"><span><code>uint64_t</code></span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-7</span></td>
+<td>Number of unplaced unmapped reads (<span>RNAME</span> *)</td>
+<td><span><code>uint64_t</code></span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;"><span>1-7</span></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
+<td><span>1-7</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -2132,34 +2406,71 @@ The pseudo-bins appear in the references' lists of distinct bins as bin
 number 37450 (which is beyond the normal range) and are laid out so as
 to be compatible with real bins and their chunks:
 
-| bin | Magic bin number | `uint32_t` | 37450 |
-|:---|:---|:---|---:|
-| n_chunk | \# chunks | `uint32_t` | 2 |
-| ref_beg | (Virtual) file offset of the start of reads placed on this reference | `uint64_t` |  |
-| ref_end | (Virtual) file offset of the end of reads placed on this reference | `uint64_t` |  |
-| n_mapped | Number of mapped read-segments for this reference | `uint64_t` |  |
-| n_unmapped | Number of unmapped read-segments for this reference | `uint64_t` |  |
+<table>
+<thead>
+<tr>
+<th><span>bin</span></th>
+<th>Magic bin number</th>
+<th><span><code>uint32_t</code></span></th>
+<th>37450</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span>n_chunk</span></td>
+<td># chunks</td>
+<td><span><code>uint32_t</code></span></td>
+<td>2</td>
+</tr>
+<tr>
+<td><span>ref_beg</span></td>
+<td>(Virtual) file offset of the start of reads placed on this reference</td>
+<td><span><code>uint64_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>ref_end</span></td>
+<td>(Virtual) file offset of the end of reads placed on this reference</td>
+<td><span><code>uint64_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>n_mapped</span></td>
+<td>Number of mapped read-segments for this reference</td>
+<td><span><code>uint64_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>n_unmapped</span></td>
+<td>Number of unmapped read-segments for this reference</td>
+<td><span><code>uint64_t</code></span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 The ref_beg/ref_end fields locate the first and last reads on this
 reference sequence, whether they are mapped or placed unmapped. Thus
 they are equal to the minimum chunk_beg and maximum chunk_end
 respectively.
 
-## C source code for computing bin number and overlapping bins
+<a id="sec:code"></a>
+
+## 5.3 C source code for computing bin number and overlapping bins
 
 The following functions compute bin numbers and overlaps for a BAI-style
-binning scheme with $`6`$ levels and a minimum bin size of
-$`2^{14}`$ bp. See the CSI specification for generalisations of these
-functions designed for binning schemes with arbitrary depth and sizes.
+binning scheme with $6$ levels and a minimum bin size of $2^{14}$ bp.
+See the CSI specification for generalisations of these functions
+designed for binning schemes with arbitrary depth and sizes.
 
 When these functions are called with regions representing unplaced
-unmapped reads, e.g., $`\mbox{\sf reg2bin}(-1, 0)`$, they involve
+unmapped reads, e.g., $\mbox{\sf reg2bin}(-1, 0)$, they involve
 operations such as `(-1)>>14` which are undefined or
 implementation-defined in some programming languages. They must be
 implemented as if these operations use the common two's-complement
-semantics: $`\mbox{\sf reg2bin}(-1, 0) = 4680`$ and
-$`\mbox{\sf reg2bins}(-1, 0, \ldots)`$ returns
-$`[\,0, 0, 8, 72, 584, 4680\,]`$.
+semantics: $\mbox{\sf reg2bin}(-1, 0) = 4680$ and
+$\mbox{\sf reg2bins}(-1, 0, \ldots)$ returns
+$[\,0, 0, 8, 72, 584, 4680\,]$.
 
     /* calculate bin given an alignment covering [beg,end) (zero-based, half-closed-half-open) */
     int reg2bin(int beg, int end)
@@ -2189,7 +2500,9 @@ $`[\,0, 0, 8, 72, 584, 4680\,]`$.
 
 <div class="appendices">
 
-# Parsing region notation
+<a id="sec:parse-region"></a>
+
+# 6 Parsing region notation
 
 Parsing region notation such as *name*`[:`*begin*`[-`*end*`]]` (in which
 omission of the outer bracketed portion indicates a request for the
@@ -2238,7 +2551,9 @@ the reference sequence name— `{`*name*`}``[:`*begin*`[-`*end*`]]` —as
 being memorable, easily typed, unambiguous, and not expanded by most
 shells.
 
-# SAM Version History
+<a id="sec:history"></a>
+
+# 7 SAM Version History
 
 This lists the date of each tagged SAM version along with changes that
 have been made while that version was current. The key changes that
@@ -2247,7 +2562,9 @@ caused the version number to change are shown in bold.
 Additions and changes to the standard predefined tags are listed in the
 separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
-## 1.6: 28 November 2017 to current
+<a id="november-2017-to-current"></a>
+
+## 7.1 1.6: 28 November 2017 to current
 
 - Add `SINGULAR` to the list of `@RG PL` header tag values. (May 2023)
 
@@ -2281,11 +2598,10 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
   previous `AN` set. (Jan 2019)
 
   We recommend that implementations validating reference sequence names
-  do so using the rules in
-  Section <a href="#sec:charset" data-reference-type="ref"
-  data-reference="sec:charset">1.2.1</a>; are more lenient for files
-  declaring $`\mbox{\tt @HD VN} \leq 1.5`$; and validate `AN` only
-  against these rules, not the previous more restrictive `AN` rules.
+  do so using the rules in Section [1.2.1](#sec:charset); are more
+  lenient for files declaring $\mbox{\tt @HD VN} \leq 1.5$; and validate
+  `AN` only against these rules, not the previous more restrictive `AN`
+  rules.
 
 - Add `@HD SS` sorting details header tag. (Oct 2018)
 
@@ -2302,7 +2618,9 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 - **Add support for CIGAR strings with more than 65,535 operations.**
   (Nov 2017)
 
-## 1.5: 23 May 2013 to November 2017
+<a id="may-2013-to-november-2017"></a>
+
+## 7.2 1.5: 23 May 2013 to November 2017
 
 - Add `@SQ AN` header tag, allowing only alphanumeric and '`*+.@_|-`'
   characters in its names. (Jul 2017)
@@ -2337,12 +2655,13 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
 - **Add SUPPLEMENTARY flag bit**. (May 2013)
 
-## 1.4: 21 April 2011 to May 2013
+<a id="april-2011-to-may-2013"></a>
+
+## 7.3 1.4: 21 April 2011 to May 2013
 
 - Add guide to using sequence annotations (`CT/PT` tags). (Mar 2012)
 
-- Increase max reference length from $`2^{29}`$ to $`2^{31}`$. (Sep
-  2011)
+- Increase max reference length from $2^{29}$ to $2^{31}$. (Sep 2011)
 
 - Clarify `@SQ M5` header tag generation. (Sep 2011)
 
@@ -2358,7 +2677,9 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
 - **Permit QNAME "".** (Apr 2011)
 
-## 1.3: July 2010 to April 2011
+<a id="july-2010-to-april-2011"></a>
+
+## 7.4 1.3: July 2010 to April 2011
 
 - Add `RG PG` header field. (Nov 2010)
 
@@ -2371,7 +2692,9 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 - The `SM` header field, previously mandatory for `@RG`, is now
   optional. (July 2010)
 
-## 1.0: 2009 to July 2010
+<a id="to-july-2010"></a>
+
+## 7.5 1.0: 2009 to July 2010
 
 Initial edition.
 
@@ -2395,10 +2718,9 @@ Initial edition.
 [^3]: Characters that are *not* disallowed include '`|`', which
     historically appeared in reference names derived from NCBI FASTA
     files, and '`:`', which appears in HLA allele names.
-    Appendix <a href="#sec:parse-region" data-reference-type="ref"
-    data-reference="sec:parse-region">6</a> describes approaches for
-    parsing *name*`[:`*begin*`-`*end*`]` region notation unambiguously
-    even though *name* may itself contain colons.
+    Appendix [6](#sec:parse-region) describes approaches for parsing
+    *name*`[:`*begin*`-`*end*`]` region notation unambiguously even
+    though *name* may itself contain colons.
 
 [^4]: Best practice is to use lowercase tags while designing and
     experimenting with new data field tags or for fields of local
@@ -2423,8 +2745,8 @@ Initial edition.
     200 for length 50 indicate the template covers bases 100 to 249 and
     has length 150.
 
-[^8]: The earliest versions of this specification used $`5'`$ to $`5'`$
-    (in original orientation, TLEN#1; dashed parts of the reads indicate
+[^8]: The earliest versions of this specification used $5'$ to $5'$ (in
+    original orientation, TLEN#1; dashed parts of the reads indicate
     soft-clipped bases) while later ones used leftmost to rightmost
     mapped base (TLEN#2). Note: these two definitions agree in most
     alignments, but differ in the case of overlaps where the first
@@ -2479,9 +2801,8 @@ Initial edition.
 [^19]: By *placed unmapped read* we mean a read that is unmapped
     according to its FLAG but whose RNAME and POS fields are filled in,
     thus "placing" it on a reference sequence (see
-    Section <a href="#sec:recommended-practice" data-reference-type="ref"
-    data-reference="sec:recommended-practice">2</a>). In contrast,
-    *unplaced* unmapped reads have '\*' and 0 for RNAME and POS.
+    Section [2](#sec:recommended-practice)). In contrast, *unplaced*
+    unmapped reads have '\*' and 0 for RNAME and POS.
 
 [^20]: See Appendix A of
     [`SAMtags.pdf`](http://samtools.github.io/hts-specs/SAMtags.pdf) at

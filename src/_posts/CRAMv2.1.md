@@ -4,13 +4,7 @@ commit: 703ef9b
 date: 2 Feb 2023
 ---
 
-# CRAM format specification (version 2.1)
-{:.no_toc}
-
 This printing is version 703ef9b from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 2 Feb 2023.
-
-* Do not remove this line (it will not be displayed)
-{:toc}
 
 
 This specification describes the CRAM 2.1 format.
@@ -40,7 +34,9 @@ using a number of different encoding strategies. For example, bases are
 reference compressed by encoding base differences rather than storing
 the bases themselves.[^1]
 
-# **Data types**
+<a id="data-types"></a>
+
+# 2 **Data types**
 
 CRAM specification uses logical data types and storage data types;
 logical data types are written as words (e.g. int) while physical data
@@ -49,7 +45,9 @@ the two is that storage data types define how logical data types are
 stored in CRAM. Data in CRAM is stored either as as bits or as bytes.
 Writing values as bits and bytes is described in detail below.
 
-## **Logical data types**
+<a id="logical-data-types"></a>
+
+## 2.1 **Logical data types**
 
 Byte  
  \
@@ -67,7 +65,9 @@ Array
  \
 An array of any logical data type: `<`type`>`\[ \]
 
-## **Writing bits to a bit stream**
+<a id="writing-bits-to-a-bit-stream"></a>
+
+## 2.2 **Writing bits to a bit stream**
 
 A bit stream consists of a sequence of 1s and 0s. The bits are written
 most significant bit first where new bits are stacked to the right and
@@ -75,17 +75,54 @@ full bytes on the left are written out. In a bit stream the last byte
 will be incomplete if less than 8 bits have been written to it. In this
 case the bits in the last byte are shifted to the left.
 
-### Example of writing to bit stream
+<a id="example-of-writing-to-bit-stream"></a>
+
+### 2.2.1 Example of writing to bit stream
 
 Let's consider the following example. The table below shows a sequence
 of write operations:
 
-| **Operation order** | **Buffer state before** | **Written bits** | **Buffer state after** | **Issued bytes** |
-|:---|:---|:---|:---|:---|
-| 1 | 0x0 | 1 | 0x1 | \- |
-| 2 | 0x1 | 0 | 0x2 | \- |
-| 3 | 0x2 | 11 | 0xB | \- |
-| 4 | 0xB | 0000 0111 | 0x7 | 0xB0 |
+<table>
+<thead>
+<tr>
+<th><strong>Operation order</strong></th>
+<th><strong>Buffer state before</strong></th>
+<th><strong>Written bits</strong></th>
+<th><strong>Buffer state after</strong></th>
+<th><strong>Issued bytes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0x0</td>
+<td>1</td>
+<td>0x1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0x1</td>
+<td>0</td>
+<td>0x2</td>
+<td>-</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0x2</td>
+<td>11</td>
+<td>0xB</td>
+<td>-</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0xB</td>
+<td>0000 0111</td>
+<td>0x7</td>
+<td>0xB0</td>
+</tr>
+</tbody>
+</table>
 
 After flushing the above bit stream the following bytes are written:
 0xB0 0x70. Please note that the last byte was 0x7 before shifting to the
@@ -105,7 +142,9 @@ And the whole bit sequence:
 When reading the bits from the bit sequence it must be known that only
 12 bits are meaningful and the bit stream should not be read after that.
 
-### Note on writing to bit stream
+<a id="note-on-writing-to-bit-stream"></a>
+
+### 2.2.2 Note on writing to bit stream
 
 When writing to a bit stream both the value and the number of bits in
 the value must be known. This is because programming languages normally
@@ -118,7 +157,9 @@ to calculate how many bits will follow based on the first few bits.
 Alternatively, two codes can be combined, where the first contains the
 number of bits to read.
 
-## **Writing bytes to a byte stream**
+<a id="writing-bytes-to-a-byte-stream"></a>
+
+## 2.3 **Writing bytes to a byte stream**
 
 The interpretation of byte stream is straightforward. CRAM uses *little
 endianness* for bytes when applicable and defines the following storage
@@ -161,7 +202,9 @@ Array (\[ \])
 Array length is written first as integer (itf8), followed by the
 elements of the array.
 
-### Encoding
+<a id="encoding"></a>
+
+### 2.3.1 Encoding
 
 Encoding is a data type that specifies how data series have been
 compressed. Encodings are defined as encoding`<`type`>` where the type
@@ -173,12 +216,37 @@ following encoding-specific values.
 
 Subexponential encoding example:
 
-| **Value** | **Type** | **Name**                  |
-|:----------|:---------|:--------------------------|
-| 0x7       | itf8     | codec id                  |
-| 0x2       | itf8     | number of bytes to follow |
-| 0x0       | itf8     | offset                    |
-| 0x1       | itf8     | K parameter               |
+<table>
+<thead>
+<tr>
+<th><strong>Value</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Name</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x7</td>
+<td>itf8</td>
+<td>codec id</td>
+</tr>
+<tr>
+<td>0x2</td>
+<td>itf8</td>
+<td>number of bytes to follow</td>
+</tr>
+<tr>
+<td>0x0</td>
+<td>itf8</td>
+<td>offset</td>
+</tr>
+<tr>
+<td>0x1</td>
+<td>itf8</td>
+<td>K parameter</td>
+</tr>
+</tbody>
+</table>
 
 The first byte "0x7" is the codec id.
 
@@ -192,25 +260,45 @@ K = 0x1 = 1
 
 offset = 0x0 = 0
 
-### Map
+<a id="map"></a>
+
+### 2.3.2 Map
 
 A map is a collection of keys and associated values. A map with N keys
 is written as follows:
 
-| size in bytes | N   | key 1 | value 1 | key ... | value ... | key N | value N |
-|:--------------|:----|:------|:--------|:--------|:----------|:------|:--------|
+<table>
+<thead>
+<tr>
+<th>size in bytes</th>
+<th>N</th>
+<th>key 1</th>
+<th>value 1</th>
+<th>key ...</th>
+<th>value ...</th>
+<th>key N</th>
+<th>value N</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 Both the size in bytes and the number of keys are written as integer
 (itf8). Keys and values are written according to their data types and
 are specific to each map.
 
-## **Strings**
+<a id="strings"></a>
+
+## 2.4 **Strings**
 
 Strings are represented as byte arrays using UTF-8 format. Read names,
 reference sequence names and tag values with type 'Z' are stored as
 UTF-8.
 
-# **Encodings** 
+<a id="encodings"></a>
+
+# 3 **Encodings** 
 
 Encoding is a data structure that captures information about compression
 details of a data series that are required to uncompress it. This could
@@ -226,23 +314,87 @@ Encodings may have parameters of different data types, for example the
 external encoding has only one parameter, integer id of the external
 block. The following encodings are defined:
 
-| **Codec** | **ID** | **Parameters** | **Comment** |
-|:---|:---|:---|:---|
-| NULL | 0 | none | series not preserved |
-| EXTERNAL | 1 | int block content id | the block content identifier used to associate external data blocks with data series |
-| GOLOMB | 2 | int offset, int M | Golomb coding |
-| HUFFMAN_INT | 3 | int array, int array | coding with int values |
-| BYTE_ARRAY_LEN | 4 | encoding`<`int`>` array length, encoding`<`byte`>` bytes | coding of byte arrays with array length |
-| BYTE_ARRAY_STOP | 5 | byte stop, int external block content id | coding of byte arrays with a stop value |
-| BETA | 6 | int offset, int number of bits | binary coding |
-| SUBEXP | 7 | int offset, int K | subexponential coding |
-| GOLOMB_RICE | 8 | int offset, int log2m | Golomb-Rice coding |
-| GAMMA | 9 | int offset | Elias gamma coding |
+<table>
+<thead>
+<tr>
+<th><strong>Codec</strong></th>
+<th><strong>ID</strong></th>
+<th><strong>Parameters</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>0</td>
+<td>none</td>
+<td>series not preserved</td>
+</tr>
+<tr>
+<td>EXTERNAL</td>
+<td>1</td>
+<td>int block content id</td>
+<td>the block content identifier used to associate external data blocks with
+data series</td>
+</tr>
+<tr>
+<td>GOLOMB</td>
+<td>2</td>
+<td>int offset, int M</td>
+<td>Golomb coding</td>
+</tr>
+<tr>
+<td>HUFFMAN_INT</td>
+<td>3</td>
+<td>int array, int array</td>
+<td>coding with int values</td>
+</tr>
+<tr>
+<td>BYTE_ARRAY_LEN</td>
+<td>4</td>
+<td>encoding<code>&lt;</code>int<code>></code> array length,
+encoding<code>&lt;</code>byte<code>></code> bytes</td>
+<td>coding of byte arrays with array length</td>
+</tr>
+<tr>
+<td>BYTE_ARRAY_STOP</td>
+<td>5</td>
+<td>byte stop, int external block content id</td>
+<td>coding of byte arrays with a stop value</td>
+</tr>
+<tr>
+<td>BETA</td>
+<td>6</td>
+<td>int offset, int number of bits</td>
+<td>binary coding</td>
+</tr>
+<tr>
+<td>SUBEXP</td>
+<td>7</td>
+<td>int offset, int K</td>
+<td>subexponential coding</td>
+</tr>
+<tr>
+<td>GOLOMB_RICE</td>
+<td>8</td>
+<td>int offset, int log2m</td>
+<td>Golomb-Rice coding</td>
+</tr>
+<tr>
+<td>GAMMA</td>
+<td>9</td>
+<td>int offset</td>
+<td>Elias gamma coding</td>
+</tr>
+</tbody>
+</table>
 
 See the later **Encodings** sections for more detailed descriptions of
 all the above coding algorithms and their parameters.
 
-# **File structure**
+<a id="file-structure"></a>
+
+# 4 **File structure**
 
 The overall CRAM file structure is described in this section. Please
 refer to other sections of this document for more detailed information.
@@ -302,17 +454,44 @@ style="width:392pt;height:149pt" alt="image" />
 
 Pic.5 Data blocks are divided into core and external data blocks.
 
-# **File definition**
+<a id="file-definition"></a>
+
+# 5 **File definition**
 
 Each CRAM file starts with a fixed length (26 bytes) definition with the
 following fields:
 
-| **Data type** | **Name** | **Value** |
-|:---|:---|:---|
-| byte\[4\] | format magic number | CRAM (0x43 0x52 0x41 0x4d) |
-| unsigned byte | major format number | 2 (0x2) |
-| unsigned byte | minor format number | 1 (0x1) |
-| byte\[20\] | file id | CRAM file identifier (e.g. file name or SHA1 checksum) |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte[4]</td>
+<td>format magic number</td>
+<td>CRAM (0x43 0x52 0x41 0x4d)</td>
+</tr>
+<tr>
+<td>unsigned byte</td>
+<td>major format number</td>
+<td>2 (0x2)</td>
+</tr>
+<tr>
+<td>unsigned byte</td>
+<td>minor format number</td>
+<td>1 (0x1)</td>
+</tr>
+<tr>
+<td>byte[20]</td>
+<td>file id</td>
+<td>CRAM file identifier (e.g. file name or SHA1 checksum)</td>
+</tr>
+</tbody>
+</table>
 
 Valid CRAM *major*.*minor* version numbers are as follows:
 
@@ -326,26 +505,81 @@ Valid CRAM *major*.*minor* version numbers are as follows:
 - Additional compression methods; header and data checksums;
   improvements for unsorted data.
 
-# **Container structure**
+<a id="container-structure"></a>
+
+# 6 **Container structure**
 
 The file definition is followed by one or more containers with the
 following header structure where the container content is stored in the
 'blocks' field:
 
-| **Data type** | **Name** | **Value** |
-|:---|:---|:---|
-| int32 | length | byte size of the container data (blocks) |
-| itf8 | reference sequence id | reference sequence identifier or -1 for unmapped reads -2 for multiple reference sequences |
-| itf8 | starting position on the reference | the alignment start position or 0 for unmapped reads |
-| itf8 | alignment span | the length of the alignment or 0 for unmapped reads |
-| itf8 | number of records | number of records in the container |
-| itf8 | record counter | 1-based sequential index of records in the file/stream. |
-| ltf8 | bases | number of read bases |
-| itf8 | number of blocks | the number of blocks |
-| itf8\[ \] | landmarks | Each integer value of this array is a byte offset into the blocks byte array. Landmarks are used for random access indexing. |
-| byte\[ \] | blocks | The blocks contained within the container. |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int32</td>
+<td>length</td>
+<td>byte size of the container data (blocks)</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>reference sequence id</td>
+<td>reference sequence identifier or -1 for unmapped reads -2 for multiple
+reference sequences</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>starting position on the reference</td>
+<td>the alignment start position or 0 for unmapped reads</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>alignment span</td>
+<td>the length of the alignment or 0 for unmapped reads</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>number of records</td>
+<td>number of records in the container</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>record counter</td>
+<td>1-based sequential index of records in the file/stream.</td>
+</tr>
+<tr>
+<td>ltf8</td>
+<td>bases</td>
+<td>number of read bases</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>number of blocks</td>
+<td>the number of blocks</td>
+</tr>
+<tr>
+<td>itf8[ ]</td>
+<td>landmarks</td>
+<td>Each integer value of this array is a byte offset into the blocks byte
+array. Landmarks are used for random access indexing.</td>
+</tr>
+<tr>
+<td>byte[ ]</td>
+<td>blocks</td>
+<td>The blocks contained within the container.</td>
+</tr>
+</tbody>
+</table>
 
-## **CRAM header in the first container**
+<a id="cram-header-in-the-first-container"></a>
+
+## 6.1 **CRAM header in the first container**
 
 The first container in the CRAM file contains the BAM header in an
 uncompressed block. BAM header is terminated with \0 byte and any extra
@@ -354,39 +588,122 @@ when updating @SQ records additional space may be required for the BAM
 header. It is recommended to reserve 50% more space in the CRAM header
 block than it is required by the BAM header.
 
-# **Block structure**
+<a id="block-structure"></a>
+
+# 7 **Block structure**
 
 Containers consist of one or more blocks. Block compression is applied
 independently and in addition to any encodings used to compress data
 within the block. The block have the following header structure with the
 data stored in the 'block data' field:
 
-| **Data type** | **Name** | **Value** |
-|:---|:---|:---|
-| byte | method | the block compression method: 0: raw (none)\* 1: gzip 2: bzip2 |
-| byte | block content type id | the block content type identifier |
-| itf8 | block content id | the block content identifier used to associate external data blocks with data series |
-| itf8 | size in bytes\* | size of the block data after applying block compression |
-| itf8 | raw size in bytes\* | size of the block data before applying block compression |
-| byte\[ \] | block data | the data stored in the block: $`\bullet`$ bit stream of CRAM records (core data block) $`\bullet`$ byte stream (external data block) $`\bullet`$ additional fields ( header blocks) |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>method</td>
+<td>the block compression method: 0: raw (none)* 1: gzip 2: bzip2</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>block content type id</td>
+<td>the block content type identifier</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>block content id</td>
+<td>the block content identifier used to associate external data blocks with
+data series</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>size in bytes*</td>
+<td>size of the block data after applying block compression</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>raw size in bytes*</td>
+<td>size of the block data before applying block compression</td>
+</tr>
+<tr>
+<td>byte[ ]</td>
+<td>block data</td>
+<td>the data stored in the block: <span class="math inline">•</span> bit
+stream of CRAM records (core data block) <span
+class="math inline">•</span> byte stream (external data block) <span
+class="math inline">•</span> additional fields ( header blocks)</td>
+</tr>
+</tbody>
+</table>
 
 \* Note on raw method: both compressed and raw sizes must be set to the
 same value.
 
-## **Block content types**
+<a id="block-content-types"></a>
+
+## 7.1 **Block content types**
 
 CRAM has the following block content types:
 
-| **Block content type** | **Block content type id** | **Name** | **Contents** |
-|:---|:---|:---|:---|
-| FILE_HEADER | 0 | BAM header block | BAM header |
-| COMPRESSION_HEADER | 1 | Compression header block | See specific section |
-| MAPPED_SLICE_HEADER | 2 | Slice header block | See specific section |
-|  | 3 |  | reserved |
-| EXTERNAL_DATA | 4 | external data block | data produced by external encodings |
-| CORE_DATA | 5 | core data block | bit stream of all encodings except for external |
+<table>
+<thead>
+<tr>
+<th><strong>Block content type</strong></th>
+<th><strong>Block content type id</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Contents</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FILE_HEADER</td>
+<td>0</td>
+<td>BAM header block</td>
+<td>BAM header</td>
+</tr>
+<tr>
+<td>COMPRESSION_HEADER</td>
+<td>1</td>
+<td>Compression header block</td>
+<td>See specific section</td>
+</tr>
+<tr>
+<td>MAPPED_SLICE_HEADER</td>
+<td>2</td>
+<td>Slice header block</td>
+<td>See specific section</td>
+</tr>
+<tr>
+<td></td>
+<td>3</td>
+<td></td>
+<td>reserved</td>
+</tr>
+<tr>
+<td>EXTERNAL_DATA</td>
+<td>4</td>
+<td>external data block</td>
+<td>data produced by external encodings</td>
+</tr>
+<tr>
+<td>CORE_DATA</td>
+<td>5</td>
+<td>core data block</td>
+<td>bit stream of all encodings except for external</td>
+</tr>
+</tbody>
+</table>
 
-## **Block content id**
+<a id="block-content-id"></a>
+
+## 7.2 **Block content id**
 
 Block content id is used to distinguish between external blocks in the
 same slice. Each external encoding has an id parameter which must be one
@@ -395,7 +712,9 @@ a positive integer. For all other blocks content id should be 0.
 Consequently, all external encodings must not use content id less than
 1.
 
-### Data blocks
+<a id="data-blocks"></a>
+
+### 7.2.1 Data blocks
 
 Data is stored in data blocks. There are two types of data blocks: core
 data blocks and external data blocks.The difference between core and
@@ -411,7 +730,9 @@ the block where the data series is stored. Please note that external
 blocks can have multiple data series associated with them; in this case
 the values from these data series will be interleaved.
 
-## **BAM header block**
+<a id="bam-header-block"></a>
+
+## 7.3 **BAM header block**
 
 The BAM header is stored in a single block within the first container.
 
@@ -424,82 +745,272 @@ The following constraints apply to the BAM header:
 
 - The HD:SO sort order is always POS.
 
-## **Compression header block**
+<a id="compression-header-block"></a>
+
+## 7.4 **Compression header block**
 
 The compression header block consists of 3 parts: preservation map, data
 series encoding map and tag encoding map.
 
-### Preservation map
+<a id="preservation-map"></a>
+
+### 7.4.1 Preservation map
 
 The preservation map contains information about which data was preserved
 in the CRAM file. It is stored as a map with byte\[2\] keys:
 
-| **Key** | **Value data type** | **Name** | **Value** |
-|:---|:---|:---|:---|
-| RN | bool | read names included | true if read names are preserved for all reads |
-| AP | bool | AP data series delta | true if AP data series is delta, false otherwise |
-| RR | bool | reference required | true if reference sequence is required to restore the data completely |
-| SM | byte\[5\] | substitution matrix | substitution matrix |
-| TD | byte\[ \] | tag ids dictionary | a list of lists of tag ids, see tag encoding section |
+<table>
+<thead>
+<tr>
+<th><strong>Key</strong></th>
+<th><strong>Value data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RN</td>
+<td>bool</td>
+<td>read names included</td>
+<td>true if read names are preserved for all reads</td>
+</tr>
+<tr>
+<td>AP</td>
+<td>bool</td>
+<td>AP data series delta</td>
+<td>true if AP data series is delta, false otherwise</td>
+</tr>
+<tr>
+<td>RR</td>
+<td>bool</td>
+<td>reference required</td>
+<td>true if reference sequence is required to restore the data completely</td>
+</tr>
+<tr>
+<td>SM</td>
+<td>byte[5]</td>
+<td>substitution matrix</td>
+<td>substitution matrix</td>
+</tr>
+<tr>
+<td>TD</td>
+<td>byte[ ]</td>
+<td>tag ids dictionary</td>
+<td>a list of lists of tag ids, see tag encoding section</td>
+</tr>
+</tbody>
+</table>
 
-### Data series encodings
+<a id="data-series-encodings"></a>
+
+### 7.4.2 Data series encodings
 
 Each data series has an encoding. These encoding are stored in a map
 with byte\[2\] keys:
 
-| **Key** | **Value data type** | **Name** | **Value** |
-|:---|:---|:---|:---|
-| BF | encoding`<`int`>` | bit flags | see separate section |
-| AP | encoding`<`int`>` | in-seq positions | 0-based alignment start delta from previous record \* |
-| FP | encoding`<`int`>` | in-read positions | positions of the read features |
-| RL | encoding`<`int`>` | read lengths | read lengths |
-| DL | encoding`<`int`>` | deletion lengths | base-pair deletion lengths |
-| NF | encoding`<`int`>` | distance to next fragment | number of records to the next fragment\* |
-| BA | encoding`<`byte`>` | bases | bases |
-| QS | encoding`<`byte`>` | quality scores | quality scores |
-| FC | encoding`<`byte`>` | read features codes | see separate section |
-| FN | encoding`<`int`>` | number of read features | number of read features in each record |
-| BS | encoding`<`byte`>` | base substitution codes | base substitution codes |
-| IN | encoding`<`byte\[ \]`>` | insertion | inserted bases |
-| RG | encoding`<`int`>` | read groups | read groups. Special value '-1' stands for no group. |
-| MQ | encoding`<`int`>` | mapping qualities | mapping quality scores |
-| TL | encoding`<`int`>` | tag ids | list of tag ids, see tag encoding section |
-| RN | encoding`<`byte\[ \]`>` | read names | read names |
-| NS | encoding`<`int`>` | next fragment reference sequence id | reference sequence ids for the next fragment |
-| NP | encoding`<`int`>` | next mate alignment start | alignment positions for the next fragment |
-| TS | encoding`<`int`>` | template size | template sizes |
-| MF | encoding`<`int`>` | next mate bit flags | see specific section |
-| CF | encoding`<`int`>` | compression bit flags | see specific section |
-| TM | encoding`<`int`>` | test mark | a prefix expected before every record, for debugging purposes. |
-| RI | encoding`<`int`>` | reference id | record reference id from the BAM file header |
-| RS | encoding`<`int`>` | reference skip length | number of skipped bases for the 'N' read feature |
-| PD | encoding`<`int`>` | padding | number of padded bases |
-| HC | encoding`<`int`>` | hard clip | number of hard clipped bases |
-| SC | encoding`<`byte\[ \]`>` | soft clip | soft clipped bases |
+<table>
+<thead>
+<tr>
+<th><strong>Key</strong></th>
+<th><strong>Value data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BF</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>bit flags</td>
+<td>see separate section</td>
+</tr>
+<tr>
+<td>AP</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>in-seq positions</td>
+<td>0-based alignment start delta from previous record *</td>
+</tr>
+<tr>
+<td>FP</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>in-read positions</td>
+<td>positions of the read features</td>
+</tr>
+<tr>
+<td>RL</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>read lengths</td>
+<td>read lengths</td>
+</tr>
+<tr>
+<td>DL</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>deletion lengths</td>
+<td>base-pair deletion lengths</td>
+</tr>
+<tr>
+<td>NF</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>distance to next fragment</td>
+<td>number of records to the next fragment*</td>
+</tr>
+<tr>
+<td>BA</td>
+<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>bases</td>
+<td>bases</td>
+</tr>
+<tr>
+<td>QS</td>
+<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>quality scores</td>
+<td>quality scores</td>
+</tr>
+<tr>
+<td>FC</td>
+<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>read features codes</td>
+<td>see separate section</td>
+</tr>
+<tr>
+<td>FN</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>number of read features</td>
+<td>number of read features in each record</td>
+</tr>
+<tr>
+<td>BS</td>
+<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>base substitution codes</td>
+<td>base substitution codes</td>
+</tr>
+<tr>
+<td>IN</td>
+<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>insertion</td>
+<td>inserted bases</td>
+</tr>
+<tr>
+<td>RG</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>read groups</td>
+<td>read groups. Special value '-1' stands for no group.</td>
+</tr>
+<tr>
+<td>MQ</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>mapping qualities</td>
+<td>mapping quality scores</td>
+</tr>
+<tr>
+<td>TL</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>tag ids</td>
+<td>list of tag ids, see tag encoding section</td>
+</tr>
+<tr>
+<td>RN</td>
+<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>read names</td>
+<td>read names</td>
+</tr>
+<tr>
+<td>NS</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>next fragment reference sequence id</td>
+<td>reference sequence ids for the next fragment</td>
+</tr>
+<tr>
+<td>NP</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>next mate alignment start</td>
+<td>alignment positions for the next fragment</td>
+</tr>
+<tr>
+<td>TS</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>template size</td>
+<td>template sizes</td>
+</tr>
+<tr>
+<td>MF</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>next mate bit flags</td>
+<td>see specific section</td>
+</tr>
+<tr>
+<td>CF</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>compression bit flags</td>
+<td>see specific section</td>
+</tr>
+<tr>
+<td>TM</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>test mark</td>
+<td>a prefix expected before every record, for debugging purposes.</td>
+</tr>
+<tr>
+<td>RI</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>reference id</td>
+<td>record reference id from the BAM file header</td>
+</tr>
+<tr>
+<td>RS</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>reference skip length</td>
+<td>number of skipped bases for the 'N' read feature</td>
+</tr>
+<tr>
+<td>PD</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>padding</td>
+<td>number of padded bases</td>
+</tr>
+<tr>
+<td>HC</td>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>hard clip</td>
+<td>number of hard clipped bases</td>
+</tr>
+<tr>
+<td>SC</td>
+<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>soft clip</td>
+<td>soft clipped bases</td>
+</tr>
+</tbody>
+</table>
 
 \* The data series is reset for each slice.
 
-### Encoding tags
+<a id="encoding-tags"></a>
+
+### 7.4.3 Encoding tags
 
 The TL (tag list) data series represents combined information about the
 number of tags in a record and their ids.
 
-Let $`L_{i}=\{T_{i0}, T_{i1}, \ldots, T_{ix}\}`$ be sorted list of all
-tag ids for a record $`R_{i}`$, where $`i`$ is the sequential record
-index and $`T_{ij}`$ denotes $`j`$-th tag id in the record. We recommend
-alphabetical sort order. The list of unique $`L_{i}`$ is assigned
-sequential integer numbers starting with 0. These integer numbers
-represent the TL data series. The sorted list of unique $`L_{i}`$ is
-stored as the TD value in the preservation map. Using TD, an integer
-from the TL data series can be mapped back into a list of tag ids.
+Let $L_{i}=\{T_{i0}, T_{i1}, \ldots, T_{ix}\}$ be sorted list of all tag
+ids for a record $R_{i}$, where $i$ is the sequential record index and
+$T_{ij}$ denotes $j$-th tag id in the record. We recommend alphabetical
+sort order. The list of unique $L_{i}$ is assigned sequential integer
+numbers starting with 0. These integer numbers represent the TL data
+series. The sorted list of unique $L_{i}$ is stored as the TD value in
+the preservation map. Using TD, an integer from the TL data series can
+be mapped back into a list of tag ids.
 
-The TD is written as byte array consisting of $`L_{i}`$ values separated
-with \0. Each $`L_{i}`$ value is written as a sequence of 3 bytes: tag
-id followed by tag value type. For example AMiOQZ\0OQZ\0, where the TD
+The TD is written as byte array consisting of $L_{i}$ values separated
+with \0. Each $L_{i}$ value is written as a sequence of 3 bytes: tag id
+followed by tag value type. For example AMiOQZ\0OQZ\0, where the TD
 consists of just two values: integer 0 for tags {AM:i,OQ:Z} and 1 for
 tag {OQ:Z}.
 
-### Encoding tag values
+<a id="encoding-tag-values"></a>
+
+### 7.4.4 Encoding tag values
 
 The encodings used for different tags are stored in a map. The map has
 integer keys composed of the two letter tag abbreviation followed by the
@@ -509,18 +1020,45 @@ ITF8. For example, 3-byte representation of OQ:Z is {0x4F, 0x51, 0x5A}
 and these bytes are interpreted as the integer 0x004F515A. The integer
 is finally written as ITF8.
 
-| **Key** | **Value data type** | **Name** | **Value** |
-|:---|:---|:---|:---|
-| TAG NAME 1:TAG TYPE 1 | encoding`<`byte\[ \]`>` | read tag 1 | tag values (names and types are available in the data series code) |
-| ... |  | ... | ... |
-| TAG NAME N:TAG TYPE N | encoding`<`byte\[ \]`>` | read tag N | ... |
+<table>
+<thead>
+<tr>
+<th><strong>Key</strong></th>
+<th><strong>Value data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAG NAME 1:TAG TYPE 1</td>
+<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>read tag 1</td>
+<td>tag values (names and types are available in the data series code)</td>
+</tr>
+<tr>
+<td>...</td>
+<td></td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>TAG NAME N:TAG TYPE N</td>
+<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>read tag N</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
 
 Note that tag values are encoded as array of bytes. The routines to
 convert tag values into byte array and back are the same as in BAM with
 the exception of value type being captured in the tag key rather in the
 value.
 
-## **Slice header block**
+<a id="slice-header-block"></a>
+
+## 7.5 **Slice header block**
 
 The slice header block is never compressed (block method=raw). For
 reference mapped reads the slice header also defines the reference
@@ -531,32 +1069,104 @@ reads.
 
 The slice header block contains the following fields.
 
-| **Data type** | **Name** | **Value** |
-|:---|:---|:---|
-| itf8 | reference sequence id | reference sequence identifier or -1 for unmapped or unsorted reads |
-| itf8 | alignment start | the alignment start position or -1 for unmapped or unsorted reads |
-| itf8 | alignment span | the length of the alignment or 0 for unmapped or unsorted reads |
-| itf8 | number of records | the number of records in the slice |
-| ltf8 | record counter | 1-based sequential index of records in the file/stream |
-| itf8 | number of blocks | the number of blocks in the slice |
-| itf8\[ \] | block content ids | block content ids of the blocks in the slice |
-| itf8 | embedded reference bases block content id | block content id for the embedded reference sequence bases or -1 for none |
-| byte\[16\] | reference md5 | MD5 checksum of the reference bases within the slice boundaries or 16 \0 bytes for unmapped or unsorted reads |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>itf8</td>
+<td>reference sequence id</td>
+<td>reference sequence identifier or -1 for unmapped or unsorted reads</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>alignment start</td>
+<td>the alignment start position or -1 for unmapped or unsorted reads</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>alignment span</td>
+<td>the length of the alignment or 0 for unmapped or unsorted reads</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>number of records</td>
+<td>the number of records in the slice</td>
+</tr>
+<tr>
+<td>ltf8</td>
+<td>record counter</td>
+<td>1-based sequential index of records in the file/stream</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>number of blocks</td>
+<td>the number of blocks in the slice</td>
+</tr>
+<tr>
+<td>itf8[ ]</td>
+<td>block content ids</td>
+<td>block content ids of the blocks in the slice</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>embedded reference bases block content id</td>
+<td>block content id for the embedded reference sequence bases or -1 for
+none</td>
+</tr>
+<tr>
+<td>byte[16]</td>
+<td>reference md5</td>
+<td>MD5 checksum of the reference bases within the slice boundaries or 16 \0
+bytes for unmapped or unsorted reads</td>
+</tr>
+</tbody>
+</table>
 
-## **Core data block**
+<a id="core-data-block"></a>
+
+## 7.6 **Core data block**
 
 A core data block is a bit stream (most significant bit first)
 consisting of one or more CRAM records. Please note that one byte could
 hold more then one CRAM record as a minimal CRAM record could be just a
 few bits long. The core data block has the following fields:
 
-| **Data type** | **Name**      | **Value**             |
-|:--------------|:--------------|:----------------------|
-| bit\[ \]      | CRAM record 1 | The first CRAM record |
-| ...           | ...           | ...                   |
-| bit\[ \]      | CRAM record N | The Nth CRAM record   |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bit[ ]</td>
+<td>CRAM record 1</td>
+<td>The first CRAM record</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>bit[ ]</td>
+<td>CRAM record N</td>
+<td>The Nth CRAM record</td>
+</tr>
+</tbody>
+</table>
 
-## **External data block**
+<a id="external-data-block"></a>
+
+## 7.7 **External data block**
 
 Relationship between core data block and external data blocks is shown
 in the following picture:
@@ -573,7 +1183,9 @@ purposes, the main point here is to distinguish between bit encodings
 whose output is always stored in core data block and the external
 encoding which simply stored the bytes into external data blocks.
 
-# **End of file marker**
+<a id="end-of-file-marker"></a>
+
+# 8 **End of file marker**
 
 A special container is used to mark the end of a file or stream. It is
 optional in version preceding 2.1 but required in later versions. The
@@ -586,143 +1198,150 @@ Here is a complete content of the EOF container explained in detail:
 <table>
 <thead>
 <tr>
-<th style="text-align: left;"><strong>hex bytes</strong></th>
-<th style="text-align: left;"><strong>data type</strong></th>
-<th style="text-align: left;"><strong>decimal value</strong></th>
-<th style="text-align: left;"><strong>field name</strong></th>
+<th><strong>hex bytes</strong></th>
+<th><strong>data type</strong></th>
+<th><strong>decimal value</strong></th>
+<th><strong>field name</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td colspan="4" style="text-align: left;"><em>Container header</em></td>
+<td><em>Container header</em></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;">0b 00 00 00</td>
-<td style="text-align: left;">integer</td>
-<td style="text-align: left;">11</td>
-<td style="text-align: left;">size of blocks data</td>
+<td>0b 00 00 00</td>
+<td>integer</td>
+<td>11</td>
+<td>size of blocks data</td>
 </tr>
 <tr>
-<td style="text-align: left;">ff ff ff ff ff</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">-1</td>
-<td style="text-align: left;">ref seq id</td>
+<td>ff ff ff ff ff</td>
+<td>itf8</td>
+<td>-1</td>
+<td>ref seq id</td>
 </tr>
 <tr>
-<td style="text-align: left;">e0 45 4f 46</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">4542278</td>
-<td style="text-align: left;">alignment start</td>
+<td>e0 45 4f 46</td>
+<td>itf8</td>
+<td>4542278</td>
+<td>alignment start</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">alignment span</td>
+<td>00</td>
+<td>itf8</td>
+<td>0</td>
+<td>alignment span</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">nof records</td>
+<td>00</td>
+<td>itf8</td>
+<td>0</td>
+<td>nof records</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">global record counter</td>
+<td>00</td>
+<td>itf8</td>
+<td>0</td>
+<td>global record counter</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">bases</td>
+<td>00</td>
+<td>itf8</td>
+<td>0</td>
+<td>bases</td>
 </tr>
 <tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">block count</td>
+<td>01</td>
+<td>itf8</td>
+<td>1</td>
+<td>block count</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">array</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">landmarks</td>
+<td>00</td>
+<td>array</td>
+<td>0</td>
+<td>landmarks</td>
 </tr>
 <tr>
-<td colspan="4" style="text-align: left;"><em>Compression header
-block</em></td>
+<td><em>Compression header block</em></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">byte</td>
-<td style="text-align: left;">0 (RAW)</td>
-<td style="text-align: left;">compression method</td>
+<td>00</td>
+<td>byte</td>
+<td>0 (RAW)</td>
+<td>compression method</td>
 </tr>
 <tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;">byte</td>
-<td style="text-align: left;">1 (COMPRESSION_HEADER)</td>
-<td style="text-align: left;">block content type</td>
+<td>01</td>
+<td>byte</td>
+<td>1 (COMPRESSION_HEADER)</td>
+<td>block content type</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">block content id</td>
+<td>00</td>
+<td>itf8</td>
+<td>0</td>
+<td>block content id</td>
 </tr>
 <tr>
-<td style="text-align: left;">06</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">6</td>
-<td style="text-align: left;">compressed size</td>
+<td>06</td>
+<td>itf8</td>
+<td>6</td>
+<td>compressed size</td>
 </tr>
 <tr>
-<td style="text-align: left;">06</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">6</td>
-<td style="text-align: left;">uncompressed size</td>
+<td>06</td>
+<td>itf8</td>
+<td>6</td>
+<td>uncompressed size</td>
 </tr>
 <tr>
-<td colspan="4" style="text-align: left;"><em>Compression
-header</em></td>
+<td><em>Compression header</em></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">preservation map byte size</td>
+<td>01</td>
+<td>itf8</td>
+<td>1</td>
+<td>preservation map byte size</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">preservation map size</td>
+<td>00</td>
+<td>itf8</td>
+<td>0</td>
+<td>preservation map size</td>
 </tr>
 <tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">encoding map byte size</td>
+<td>01</td>
+<td>itf8</td>
+<td>1</td>
+<td>encoding map byte size</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">encoding map size</td>
+<td>00</td>
+<td>itf8</td>
+<td>0</td>
+<td>encoding map size</td>
 </tr>
 <tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">tag encoding byte size</td>
+<td>01</td>
+<td>itf8</td>
+<td>1</td>
+<td>tag encoding byte size</td>
 </tr>
 <tr>
-<td style="text-align: left;">00</td>
-<td style="text-align: left;">itf8</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">tag encoding map size</td>
+<td>00</td>
+<td>itf8</td>
+<td>0</td>
+<td>tag encoding map size</td>
 </tr>
 </tbody>
 </table>
@@ -733,7 +1352,9 @@ hex representation is:
 0b 00 00 00 ff ff ff ff ff e0 45 4f 46 00 00 00 00 01 00 00 01 00 06 06
 01 00 01 00 01 00
 
-# **Record structure**
+<a id="record-structure"></a>
+
+# 9 **Record structure**
 
 CRAM record is based on the SAM record but has additional features
 allowing for more efficient data storage. In contrast to BAM record CRAM
@@ -743,25 +1364,106 @@ codes can be used directly in CRAM. On the other hand, data series that
 do not require binary coding can be stored separately in external blocks
 with some other compression applied to them independently.
 
-## **CRAM record**
+<a id="cram-record"></a>
+
+## 9.1 **CRAM record**
 
 Both mapped and unmapped reads start with the following fields. Please
 note that the data series type refers to the logical data type and the
 data series name corresponds to the data series encoding map.
 
-|  | **Data series type** | **Data series name** | **Field** | **Description** |
-|:---|:---|:---|:---|:---|
-| 1 | int | BF | CRAM bit flags | see CRAM record bit flags |
-| 2 | int | CF | compression bit flags | see compression bit flags |
-| 3 | int | RI | ref id | reference sequence id, not used for single reference slices, reserved for future multiref slices. |
-| 4 | int | RL | read length | the length of the read |
-| 5 | int | AP | alignment start | the alignment start position \*1 |
-| 6 | int | RG | read group | the read group identifier |
-| 7 | byte | QS | quality scores | quality scores are stored depending on the value of the 'mapped QS included' field |
-| 8 | byte\[ \] | RN | read name | the read names (if preserved) |
-| 9 | \*2 | \*2 | mate record | \*2 (if not the last record) |
-| 10 | int | TL | tag ids | tag ids \*3 |
-| 11 | byte\[ \] | \- | tag values | tag values \*3 |
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Data series type</strong></th>
+<th><strong>Data series name</strong></th>
+<th><strong>Field</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>int</td>
+<td>BF</td>
+<td>CRAM bit flags</td>
+<td>see CRAM record bit flags</td>
+</tr>
+<tr>
+<td>2</td>
+<td>int</td>
+<td>CF</td>
+<td>compression bit flags</td>
+<td>see compression bit flags</td>
+</tr>
+<tr>
+<td>3</td>
+<td>int</td>
+<td>RI</td>
+<td>ref id</td>
+<td>reference sequence id, not used for single reference slices, reserved
+for future multiref slices.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>int</td>
+<td>RL</td>
+<td>read length</td>
+<td>the length of the read</td>
+</tr>
+<tr>
+<td>5</td>
+<td>int</td>
+<td>AP</td>
+<td>alignment start</td>
+<td>the alignment start position *1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>int</td>
+<td>RG</td>
+<td>read group</td>
+<td>the read group identifier</td>
+</tr>
+<tr>
+<td>7</td>
+<td>byte</td>
+<td>QS</td>
+<td>quality scores</td>
+<td>quality scores are stored depending on the value of the 'mapped QS
+included' field</td>
+</tr>
+<tr>
+<td>8</td>
+<td>byte[ ]</td>
+<td>RN</td>
+<td>read name</td>
+<td>the read names (if preserved)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>*2</td>
+<td>*2</td>
+<td>mate record</td>
+<td>*2 (if not the last record)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>int</td>
+<td>TL</td>
+<td>tag ids</td>
+<td>tag ids *3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>byte[ ]</td>
+<td>-</td>
+<td>tag values</td>
+<td>tag values *3</td>
+</tr>
+</tbody>
+</table>
 
 \*1 The AP data series is delta encoded for reads mapped to a single
 reference slice and normal integer value in all other cases.
@@ -773,84 +1475,293 @@ reference slice and normal integer value in all other cases.
 The CRAM record structure for mapped reads has the following additional
 fields:
 
-|  | **Data series type** | **Data series name** | **Field** | **Description** |
-|:---|:---|:---|:---|:---|
-| 1 | \*1 | \*1 | read feature records | \*1 |
-| 2 | byte | MQ | mapping quality | read mapping quality |
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Data series type</strong></th>
+<th><strong>Data series name</strong></th>
+<th><strong>Field</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>*1</td>
+<td>*1</td>
+<td>read feature records</td>
+<td>*1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>byte</td>
+<td>MQ</td>
+<td>mapping quality</td>
+<td>read mapping quality</td>
+</tr>
+</tbody>
+</table>
 
 \*1 See read feature record specification below.
 
 The CRAM record structure for unmapped reads has the following
 additional fields:
 
-|     | **Data series type** | **Data series name** | **Field** | **Description** |
-|:----|:---------------------|:---------------------|:----------|:----------------|
-| 1   | byte\[read length\]  | BA                   | bases     | the read bases  |
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Data series type</strong></th>
+<th><strong>Data series name</strong></th>
+<th><strong>Field</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>byte[read length]</td>
+<td>BA</td>
+<td>bases</td>
+<td>the read bases</td>
+</tr>
+</tbody>
+</table>
 
-## **Read bases**
+<a id="read-bases"></a>
+
+## 9.2 **Read bases**
 
 CRAM format supports ACGTN bases only. All non-ACGTN read bases must be
 replaced with N (unknown) base. In case of mismatching non-ACGTN read
 base and non-ACGTN reference base a ReadBase read feature should be used
 to capture the fact that the read base should be restored as N base.
 
-## **CRAM record bit flags (BF data series)**
+<a id="cram-record-bit-flags-bf-data-series"></a>
+
+## 9.3 **CRAM record bit flags (BF data series)**
 
 The following flags are defined for each CRAM read record:
 
-| **Bit flag** | **Comment** | **Description** |
-|:---|:---|:---|
-| 0x1 | ! 0x40 && ! 0x80 | template having multiple segments in sequencing |
-| 0x2 |  | each segment properly aligned according to the aligner |
-| 0x4 |  | segment unmapped |
-| 0x8 | calculated\* or stored in the mate's info | next segment in the template unmapped |
-| 0x10 |  | SEQ being reverse complemented |
-| 0x20 | calculated\* or stored in the mate's info | SEQ of the next segment in the template being reverse complemented |
-| 0x40 |  | the first segment in the template |
-| 0x80 |  | the last segment in the template |
-| 0x100 |  | secondary alignment |
-| 0x200 |  | not passing quality controls |
-| 0x400 |  | PCR or optical duplicate |
+<table>
+<thead>
+<tr>
+<th><strong>Bit flag</strong></th>
+<th><strong>Comment</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x1</td>
+<td>! 0x40 &amp;&amp; ! 0x80</td>
+<td>template having multiple segments in sequencing</td>
+</tr>
+<tr>
+<td>0x2</td>
+<td></td>
+<td>each segment properly aligned according to the aligner</td>
+</tr>
+<tr>
+<td>0x4</td>
+<td></td>
+<td>segment unmapped</td>
+</tr>
+<tr>
+<td>0x8</td>
+<td>calculated* or stored in the mate's info</td>
+<td>next segment in the template unmapped</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td></td>
+<td>SEQ being reverse complemented</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>calculated* or stored in the mate's info</td>
+<td>SEQ of the next segment in the template being reverse complemented</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td></td>
+<td>the first segment in the template</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td></td>
+<td>the last segment in the template</td>
+</tr>
+<tr>
+<td>0x100</td>
+<td></td>
+<td>secondary alignment</td>
+</tr>
+<tr>
+<td>0x200</td>
+<td></td>
+<td>not passing quality controls</td>
+</tr>
+<tr>
+<td>0x400</td>
+<td></td>
+<td>PCR or optical duplicate</td>
+</tr>
+</tbody>
+</table>
 
 \* For segments within the same slice.
 
-## **Read feature records**
+<a id="read-feature-records"></a>
+
+## 9.4 **Read feature records**
 
 Read features are used to store read details that are expressed using
 read coordinates (e.g. base differences respective to the reference
 sequence). The read feature records start with the number of read
 features followed by the read features themselves:
 
-|  | **Data series type** | **Data series name** | **Field** | **Description** |
-|:---|:---|:---|:---|:---|
-| 1 | int | FN | number of read features | the number of read features |
-| 2 \*1 | int | FP | in-read-position | position of the read feature |
-| 3 \*1 | byte | FC | read feature code | \*2 |
-| 4 \*1 | \*2 | \*2 | read feature data | \*2 |
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Data series type</strong></th>
+<th><strong>Data series name</strong></th>
+<th><strong>Field</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>int</td>
+<td>FN</td>
+<td>number of read features</td>
+<td>the number of read features</td>
+</tr>
+<tr>
+<td>2 *1</td>
+<td>int</td>
+<td>FP</td>
+<td>in-read-position</td>
+<td>position of the read feature</td>
+</tr>
+<tr>
+<td>3 *1</td>
+<td>byte</td>
+<td>FC</td>
+<td>read feature code</td>
+<td>*2</td>
+</tr>
+<tr>
+<td>4 *1</td>
+<td>*2</td>
+<td>*2</td>
+<td>read feature data</td>
+<td>*2</td>
+</tr>
+</tbody>
+</table>
 
 \*1 Repeated for each read feature.
 
 \*2 See **read feature codes** below.
 
-### Read feature codes
+<a id="read-feature-codes"></a>
+
+### 9.4.1 Read feature codes
 
 The following codes are used to distinguish variations in read
 coordinates:
 
-| **Feature code** | **Id** | **Data series type** | **Data series name** | **Description** |
-|:---|:---|:---|:---|:---|
-| Read base | B (0x42) | byte,byte | BA,QS | A base and associated quality score |
-| Substitution | X (0x58) | byte | BS | base substitution codes, SAM operators X, M and = |
-| Insertion | I (0x49) | byte\[ \] | IN | inserted bases, SAM operator I |
-| Deletion | D (0x44) | int | DL | number of deleted bases, SAM operator D |
-| Insert base | i (0x69) | byte | BA | single inserted base, SAM operator I |
-| Quality score | Q (0x51) | byte | QS | single quality score |
-| Reference skip | N (0x4E) | int | RS | number of skipped bases, SAM operator N |
-| Soft clip | S | byte\[ \] | SC | soft clipped bases, SAM operator S |
-| Padding | P | int | PD | number of padded bases, SAM operator P |
-| Hard clip | H | int | HC | number of hard clipped bases, SAM operator H |
+<table>
+<thead>
+<tr>
+<th><strong>Feature code</strong></th>
+<th><strong>Id</strong></th>
+<th><strong>Data series type</strong></th>
+<th><strong>Data series name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read base</td>
+<td>B (0x42)</td>
+<td>byte,byte</td>
+<td>BA,QS</td>
+<td>A base and associated quality score</td>
+</tr>
+<tr>
+<td>Substitution</td>
+<td>X (0x58)</td>
+<td>byte</td>
+<td>BS</td>
+<td>base substitution codes, SAM operators X, M and =</td>
+</tr>
+<tr>
+<td>Insertion</td>
+<td>I (0x49)</td>
+<td>byte[ ]</td>
+<td>IN</td>
+<td>inserted bases, SAM operator I</td>
+</tr>
+<tr>
+<td>Deletion</td>
+<td>D (0x44)</td>
+<td>int</td>
+<td>DL</td>
+<td>number of deleted bases, SAM operator D</td>
+</tr>
+<tr>
+<td>Insert base</td>
+<td>i (0x69)</td>
+<td>byte</td>
+<td>BA</td>
+<td>single inserted base, SAM operator I</td>
+</tr>
+<tr>
+<td>Quality score</td>
+<td>Q (0x51)</td>
+<td>byte</td>
+<td>QS</td>
+<td>single quality score</td>
+</tr>
+<tr>
+<td>Reference skip</td>
+<td>N (0x4E)</td>
+<td>int</td>
+<td>RS</td>
+<td>number of skipped bases, SAM operator N</td>
+</tr>
+<tr>
+<td>Soft clip</td>
+<td>S</td>
+<td>byte[ ]</td>
+<td>SC</td>
+<td>soft clipped bases, SAM operator S</td>
+</tr>
+<tr>
+<td>Padding</td>
+<td>P</td>
+<td>int</td>
+<td>PD</td>
+<td>number of padded bases, SAM operator P</td>
+</tr>
+<tr>
+<td>Hard clip</td>
+<td>H</td>
+<td>int</td>
+<td>HC</td>
+<td>number of hard clipped bases, SAM operator H</td>
+</tr>
+</tbody>
+</table>
 
-### Base substitution codes (BS data series)
+<a id="base-substitution-codes-bs-data-series"></a>
+
+### 9.4.2 Base substitution codes (BS data series)
 
 A base substitution is defined as a change from one nucleotide base
 (reference base) to another (read base) including N as an unknown or
@@ -894,7 +1805,9 @@ for each reference base in the alphabetical order: A, C, G, T and N.
 Note: the last two bits of each substitution code are redundant but
 still required to simplify the reading.
 
-## **Mate record**
+<a id="mate-record"></a>
+
+## 9.5 **Mate record**
 
 There are two ways in which mate information can be preserved in CRAM:
 number of records downstream (distance) to the next fragment in the
@@ -904,34 +1817,107 @@ BAM level mate information and efficiently store it in the CRAM file.
 
 For mates within the slice only the distance is captured:
 
-|  | **Data series type** | **Data series name** | **Description** |
-|:---|:---|:---|:---|
-| 1 | int | NF | the number of records to the next fragment |
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Data series type</strong></th>
+<th><strong>Data series name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>int</td>
+<td>NF</td>
+<td>the number of records to the next fragment</td>
+</tr>
+</tbody>
+</table>
 
 If the next fragment is not found within the horizon then the following
 structure is included into the CRAM record:
 
-|  | **Data series type** | **Data series name** | **Description** |
-|:---|:---|:---|:---|
-| 1 | byte | MF | next mate bit flags, see table below |
-| 2 | byte\[ \] | RN | the read name |
-| 3 | int | NS | mate reference sequence identifier |
-| 4 | int | NP | mate alignment start position |
-| 5 | int | TS | the size of the template (insert size) |
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Data series type</strong></th>
+<th><strong>Data series name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>byte</td>
+<td>MF</td>
+<td>next mate bit flags, see table below</td>
+</tr>
+<tr>
+<td>2</td>
+<td>byte[ ]</td>
+<td>RN</td>
+<td>the read name</td>
+</tr>
+<tr>
+<td>3</td>
+<td>int</td>
+<td>NS</td>
+<td>mate reference sequence identifier</td>
+</tr>
+<tr>
+<td>4</td>
+<td>int</td>
+<td>NP</td>
+<td>mate alignment start position</td>
+</tr>
+<tr>
+<td>5</td>
+<td>int</td>
+<td>TS</td>
+<td>the size of the template (insert size)</td>
+</tr>
+</tbody>
+</table>
 
-### 
+<a id="section"></a>
 
-### Next mate bit flags (MF data series)
+### 9.5.1 
+
+<a id="next-mate-bit-flags-mf-data-series"></a>
+
+### 9.5.2 Next mate bit flags (MF data series)
 
 The next mate bit flags expressed as an integer represent the MF data
 series. The following bit flags are defined:
 
-| **Bit flag** | **Name** | **Description** |
-|:---|:---|:---|
-| 0x1 | mate negative strand bit | the bit is set if the mate is on the negative strand |
-| 0x2 | mate unmapped bit | the bit is set if the mate is unmapped |
+<table>
+<thead>
+<tr>
+<th><strong>Bit flag</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x1</td>
+<td>mate negative strand bit</td>
+<td>the bit is set if the mate is on the negative strand</td>
+</tr>
+<tr>
+<td>0x2</td>
+<td>mate unmapped bit</td>
+<td>the bit is set if the mate is unmapped</td>
+</tr>
+</tbody>
+</table>
 
-### Read names (RN data series)
+<a id="read-names-rn-data-series"></a>
+
+### 9.5.3 Read names (RN data series)
 
 Read names can be preserved in the CRAM format. However, it is
 anticipated that in the majority of cases original read names will not
@@ -941,24 +1927,50 @@ the fragments are too far apart to be referenced by the number of CRAM
 records. In this case the read names are not required to be the same as
 the original ones. Their only two requirements are:
 
-$`\bullet`$ read name must be the same for all fragments of the same
+$\bullet$ read name must be the same for all fragments of the same
 template
 
-$`\bullet`$ read name of a template must be unique within a file
+$\bullet$ read name of a template must be unique within a file
 
-## **Compression bit flags (CF data series)**
+<a id="compression-bit-flags-cf-data-series"></a>
+
+## 9.6 **Compression bit flags (CF data series)**
 
 The compression bit flags expressed as an integer represent the CF data
 series. The following compression flags are defined for each CRAM read
 record:
 
-| **Bit flag** | **Name** | **Description** |
-|:---|:---|:---|
-| 0x1 | quality scores stored as array | quality scores can be stored as read features or as an array similar to read bases. |
-| 0x2 | detached | the next segment is out of horizon |
-| 0x4 | has mate downstream | tells if the next segment should be expected further in the stream |
+<table>
+<thead>
+<tr>
+<th><strong>Bit flag</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x1</td>
+<td>quality scores stored as array</td>
+<td>quality scores can be stored as read features or as an array similar to
+read bases.</td>
+</tr>
+<tr>
+<td>0x2</td>
+<td>detached</td>
+<td>the next segment is out of horizon</td>
+</tr>
+<tr>
+<td>0x4</td>
+<td>has mate downstream</td>
+<td>tells if the next segment should be expected further in the stream</td>
+</tr>
+</tbody>
+</table>
 
-# **Reference sequences**
+<a id="reference-sequences"></a>
+
+# 10 **Reference sequences**
 
 CRAM format is natively based upon usage of reference sequences even
 though in some cases they are not required. In contrast to BAM format
@@ -991,9 +2003,13 @@ CRAM format has strict rules about reference sequences.
 4.  MD5 checksum bytes in slice header should be ignored for unmapped or
     multiref slices.
 
-# **Indexing**
+<a id="indexing"></a>
 
-### General notes
+# 11 **Indexing**
+
+<a id="general-notes"></a>
+
+### 11.0.1 General notes
 
 Please note that CRAM indexing is external to the file format itself and
 may change independently of the file format specification in the future.
@@ -1012,7 +2028,9 @@ can be obtained from container headers, namely sequence id, alignment
 start and span, container start byte offset and slice byte offset inside
 the container.
 
-### CRAM index
+<a id="cram-index"></a>
+
+### 11.0.2 CRAM index
 
 A CRAM index is a gzipped tab delimited file containing the following
 columns:
@@ -1032,7 +2050,9 @@ columns:
 Each line represents a slice in the CRAM file. Please note that all
 slices must be listed in index file.
 
-### BAM index
+<a id="bam-index"></a>
+
+### 11.0.3 BAM index
 
 BAM indexes are supported by using 4-byte integer pointers called
 landmarks that are stored in container header. BAM index pointer is a
@@ -1048,9 +2068,13 @@ BAM file. This allows to apply BAM indexing to CRAM files, however it
 introduces some overhead in seeking specific alignment start because all
 preceding records in the slice must be read and discarded.
 
-# **Appendix**
+<a id="appendix"></a>
 
-## **External encoding**
+# 12 **Appendix**
+
+<a id="external-encoding"></a>
+
+## 12.1 **External encoding**
 
 External encoding operates on bytes only. Therefore any data series must
 be translated into bytes before sending data into an external block. The
@@ -1063,9 +2087,13 @@ Strings, like read name, are translated into bytes according to UTF8
 rules. In most cases these should coincide with ASCII, making the
 translation trivial.
 
-## **Codings**
+<a id="codings"></a>
 
-### Introduction
+## 12.2 **Codings**
+
+<a id="introduction"></a>
+
+### 12.2.1 Introduction
 
 The basic idea for codings is to efficiently represent some values in
 binary format. This can be achieved in a number of ways that most
@@ -1075,7 +2103,9 @@ the best encoding and determining its parameters are very diverse and
 are not part of the CRAM format specification, which only describes how
 the information needed to decode the values should be stored.
 
-### Offset
+<a id="offset"></a>
+
+### 12.2.2 Offset
 
 Most of the codings listed below encode positive integer numbers. An
 integer offset value is used to allow any integer numbers and not just
@@ -1085,95 +2115,189 @@ example, given offset is 10 and the value to be encoded is 1, the
 actually encoded value would be offset+value=11. Then when decoding, the
 offset would be subtracted from the decoded value.
 
-### Beta coding
+<a id="beta-coding"></a>
 
-### Definition
+### 12.2.3 Beta coding
+
+<a id="definition"></a>
+
+### 12.2.4 Definition
 
 Beta coding is a most common way to represent numbers in *binary
 notation*.
 
-### Examples
+<a id="examples"></a>
 
-| **Number** | **Codeword** |
-|:-----------|:-------------|
-| 0          | 0            |
-| 1          | 1            |
-| 2          | 10           |
-| 4          | 100          |
+### 12.2.5 Examples
 
-### Parameters
+<table>
+<thead>
+<tr>
+<th><strong>Number</strong></th>
+<th><strong>Codeword</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+
+<a id="parameters"></a>
+
+### 12.2.6 Parameters
 
 CRAM format defines the following parameters of beta coding:
 
-| **Data type** | **Name** | **Comment**                   |
-|:--------------|:---------|:------------------------------|
-| itf8          | offset   | offset is added to each value |
-| itf8          | length   | the number of bits used       |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>itf8</td>
+<td>offset</td>
+<td>offset is added to each value</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>length</td>
+<td>the number of bits used</td>
+</tr>
+</tbody>
+</table>
 
-### Gamma coding
+<a id="gamma-coding"></a>
 
-### Definition
+### 12.2.7 Gamma coding
+
+<a id="definition-1"></a>
+
+### 12.2.8 Definition
 
 *Elias gamma code* is a prefix encoding of positive integers. This is a
 combination of unary coding and beta coding. The first is used to
 capture the number of bits required for beta coding to capture the
 value.
 
-### Encoding
+<a id="encoding-1"></a>
+
+### 12.2.9 Encoding
 
 1.  Write it in binary.
 
-2.  Subtract $`1`$ from the number of bits written in step 1 and prepend
+2.  Subtract $1$ from the number of bits written in step 1 and prepend
     that many zeros.
 
 3.  An equivalent way to express the same process:
 
-4.  Separate the integer into the highest power of $`2`$ it contains
-    ($`2N`$) and the remaining $`N`$ binary digits of the integer.
+4.  Separate the integer into the highest power of $2$ it contains
+    ($2N$) and the remaining $N$ binary digits of the integer.
 
-5.  Encode $`N`$ in unary; that is, as $`N`$ zeroes followed by a one.
+5.  Encode $N$ in unary; that is, as $N$ zeroes followed by a one.
 
-6.  Append the remaining $`N`$ binary digits to this representation of
-    $`N`$.
+6.  Append the remaining $N$ binary digits to this representation of
+    $N$.
 
-### Decoding
+<a id="decoding"></a>
+
+### 12.2.10 Decoding
 
 1.  Read and count 0s from the stream until you reach the first 1. Call
-    this count of zeroes $`N`$.
+    this count of zeroes $N$.
 
 2.  Considering the one that was reached to be the first digit of the
-    integer, with a value of $`2N`$, read the remaining $`N`$ digits of
-    the integer.
+    integer, with a value of $2N$, read the remaining $N$ digits of the
+    integer.
 
-### Examples
+<a id="examples-1"></a>
 
-| **Value** | **Codeword** |
-|:----------|:-------------|
-| 1         | 1            |
-| 2         | 010          |
-| 3         | 011          |
-| 4         | 00100        |
+### 12.2.11 Examples
 
-### Parameters
+<table>
+<thead>
+<tr>
+<th><strong>Value</strong></th>
+<th><strong>Codeword</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>010</td>
+</tr>
+<tr>
+<td>3</td>
+<td>011</td>
+</tr>
+<tr>
+<td>4</td>
+<td>00100</td>
+</tr>
+</tbody>
+</table>
 
-| **Data type** | **Name** | **Comment**                   |
-|:--------------|:---------|:------------------------------|
-| itf8          | offset   | offset is added to each value |
+<a id="parameters-1"></a>
 
-### Golomb coding
+### 12.2.12 Parameters
 
-### Definition
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>itf8</td>
+<td>offset</td>
+<td>offset is added to each value</td>
+</tr>
+</tbody>
+</table>
+
+<a id="golomb-coding"></a>
+
+### 12.2.13 Golomb coding
+
+<a id="definition-2"></a>
+
+### 12.2.14 Definition
 
 *Golomb encoding* is a prefix encoding optimal for representation of
 random positive numbers following geometric distribution.
 
-1.  Fix the parameter $`M`$ to an integer value.
+1.  Fix the parameter $M$ to an integer value.
 
-2.  For $`N`$, the number to be encoded, find
+2.  For $N$, the number to be encoded, find
 
-    1.  quotient $`q = \lfloor N/M \rfloor`$
+    1.  quotient $q = \lfloor N/M \rfloor$
 
-    2.  remainder $`r = N \bmod M`$
+    2.  remainder $r = N \bmod M$
 
 3.  Generate Codeword
 
@@ -1181,124 +2305,262 @@ random positive numbers following geometric distribution.
 
     2.  Quotient Code (in unary coding)
 
-        1.  Write a $`q`$-length string of 1 bits
+        1.  Write a $q$-length string of 1 bits
 
         2.  Write a 0 bit
 
     3.  Remainder Code (in truncated binary encoding)
 
-        1.  If $`M`$ is power of 2, code remainder as binary format. So
-            $`log_{2}(M)`$ bits are needed. (Rice code)
+        1.  If $M$ is power of 2, code remainder as binary format. So
+            $log_{2}(M)$ bits are needed. (Rice code)
 
-        2.  If $`M`$ is not a power of 2, set
-            $`b=\lceil log_{2}(M) \rceil`$
+        2.  If $M$ is not a power of 2, set $b=\lceil log_{2}(M) \rceil$
 
-            1.  If $`r < 2^{b}-M`$ code $`r`$ as plain binary using
-                $`b-1`$ bits.
+            1.  If $r < 2^{b}-M$ code $r$ as plain binary using $b-1$
+                bits.
 
-            2.  If $`r \ge 2^{b}`$ code the number $`r+2^{b}`$ in plain
-                binary representation using $`b`$ bits.
+            2.  If $r \ge 2^{b}$ code the number $r+2^{b}$ in plain
+                binary representation using $b$ bits.
 
-### Examples
+<a id="examples-2"></a>
 
-| **Number** | **Codeword, M=10** |
-|:-----------|:-------------------|
-| 0          | 0000               |
-| 4          | 0100               |
-| 10         | 10000              |
-| 42         | 11110010           |
+### 12.2.15 Examples
 
-### Parameters
+<table>
+<thead>
+<tr>
+<th><strong>Number</strong></th>
+<th><strong>Codeword, M=10</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0000</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0100</td>
+</tr>
+<tr>
+<td>10</td>
+<td>10000</td>
+</tr>
+<tr>
+<td>42</td>
+<td>11110010</td>
+</tr>
+</tbody>
+</table>
+
+<a id="parameters-2"></a>
+
+### 12.2.16 Parameters
 
 Golomb coding takes the following parameters:
 
-| **Data type** | **Name** | **Comment**                           |
-|:--------------|:---------|:--------------------------------------|
-| itf8          | offset   | offset is added to each value         |
-| itf8          | M        | the golomb parameter (number of bins) |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>itf8</td>
+<td>offset</td>
+<td>offset is added to each value</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>M</td>
+<td>the golomb parameter (number of bins)</td>
+</tr>
+</tbody>
+</table>
 
-### Golomb-Rice coding
+<a id="golomb-rice-coding"></a>
+
+### 12.2.17 Golomb-Rice coding
 
 Golomb-Rice coding is a special case of Golomb coding when the M
 parameter is a power of 2. The reason for this coding is that the
 division operations in Golomb coding can be replaced with bit shift
 operators.
 
-### Subexponential coding
+<a id="subexponential-coding"></a>
 
-### Definition
+### 12.2.18 Subexponential coding
 
-Subexponential coding is parametrized by a non-nengative integer $`k`$.
+<a id="definition-3"></a>
+
+### 12.2.19 Definition
+
+Subexponential coding is parametrized by a non-nengative integer $k$.
 The main feature of the subexponential code is its length. For integers
-$`n < 2k+1`$ the code length increases linearly with $`n`$, but for
-larger $`n`$ it increases logarithmically.
+$n < 2k+1$ the code length increases linearly with $n$, but for larger
+$n$ it increases logarithmically.
 
-### Encoding
+<a id="encoding-2"></a>
+
+### 12.2.20 Encoding
 
 1.  Determine the group index i using the following rules:
 
-    1.  if $`n < 2^{k}`$, then $`i = 0`$.
+    1.  if $n < 2^{k}$, then $i = 0$.
 
-    2.  if $`n \ge 2^{k}`$ , then determine $`i`$ such that
-        $`2^{i+k-1} \le n < 2^{i+k}`$
+    2.  if $n \ge 2^{k}$ , then determine $i$ such that
+        $2^{i+k-1} \le n < 2^{i+k}$
 
-2.  Form the prefix of $`i`$ 1s.
+2.  Form the prefix of $i$ 1s.
 
 3.  Insert the separator 0.
 
-4.  Form the tail: express the value of $`(n - 2^{i+k-1})`$ as a
-    $`(i + k - 1)`$-bit binary number if $`i > 0`$ and $`n`$ as a
-    $`k`$-bit binary number otherwise.
+4.  Form the tail: express the value of $(n - 2^{i+k-1})$ as a
+    $(i + k - 1)$-bit binary number if $i > 0$ and $n$ as a $k$-bit
+    binary number otherwise.
 
-### Decoding
+<a id="decoding-1"></a>
 
-1.  Let $`i`$ be the number of leading 1s (prefix) in the codeword.
+### 12.2.21 Decoding
+
+1.  Let $i$ be the number of leading 1s (prefix) in the codeword.
 
 2.  Form a run of 0s of length
 
-    1.  $`0`$, if $`i = 0`$
+    1.  $0$, if $i = 0$
 
-    2.  $`2^{i+k-1}`$, otherwise
+    2.  $2^{i+k-1}$, otherwise
 
 3.  Skip the next 0 (separator).
 
-4.  Compute the length of the tail, $`c_{tail}`$ as
+4.  Compute the length of the tail, $c_{tail}$ as
 
-    1.  $`k`$, if $`i = 0`$
+    1.  $k$, if $i = 0$
 
-    2.  $`k + i - 1`$, if $`i \ge 1`$
+    2.  $k + i - 1$, if $i \ge 1$
 
-5.  The next $`c_{tail}`$ bits are the tail. Form a run of 0s of length
+5.  The next $c_{tail}$ bits are the tail. Form a run of 0s of length
     represented by the tail.
 
 6.  Append 1 to the run of 0s.
 
 7.  Go to step 1 to process the next codeword.
 
-### Examples
+<a id="examples-3"></a>
 
-| **Number** | **Codeword, k=0** | **Codeword, k=1** | **Codeword, k=2** |
-|:-----------|:------------------|:------------------|:------------------|
-| 0          | 0                 | 00                | 000               |
-| 1          | 10                | 01                | 001               |
-| 2          | 1100              | 100               | 010               |
-| 3          | 1101              | 101               | 011               |
-| 4          | 111000            | 11000             | 1000              |
-| 5          | 111001            | 11001             | 1001              |
-| 6          | 111010            | 11010             | 1010              |
-| 7          | 111011            | 11011             | 1011              |
-| 8          | 11110000          | 1110000           | 110000            |
-| 9          | 11110001          | 1110001           | 110001            |
-| 10         | 11110010          | 1110010           | 110010            |
+### 12.2.22 Examples
 
-### Parameters
+<table>
+<thead>
+<tr>
+<th><strong>Number</strong></th>
+<th><strong>Codeword, k=0</strong></th>
+<th><strong>Codeword, k=1</strong></th>
+<th><strong>Codeword, k=2</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>00</td>
+<td>000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>01</td>
+<td>001</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1100</td>
+<td>100</td>
+<td>010</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1101</td>
+<td>101</td>
+<td>011</td>
+</tr>
+<tr>
+<td>4</td>
+<td>111000</td>
+<td>11000</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>5</td>
+<td>111001</td>
+<td>11001</td>
+<td>1001</td>
+</tr>
+<tr>
+<td>6</td>
+<td>111010</td>
+<td>11010</td>
+<td>1010</td>
+</tr>
+<tr>
+<td>7</td>
+<td>111011</td>
+<td>11011</td>
+<td>1011</td>
+</tr>
+<tr>
+<td>8</td>
+<td>11110000</td>
+<td>1110000</td>
+<td>110000</td>
+</tr>
+<tr>
+<td>9</td>
+<td>11110001</td>
+<td>1110001</td>
+<td>110001</td>
+</tr>
+<tr>
+<td>10</td>
+<td>11110010</td>
+<td>1110010</td>
+<td>110010</td>
+</tr>
+</tbody>
+</table>
 
-| **Data type** | **Name** | **Comment**                            |
-|:--------------|:---------|:---------------------------------------|
-| itf8          | offset   | offset is added to each value          |
-| itf8          | k        | the order of the subexponential coding |
+<a id="parameters-3"></a>
 
-### Huffman coding
+### 12.2.23 Parameters
+
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>itf8</td>
+<td>offset</td>
+<td>offset is added to each value</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>k</td>
+<td>the order of the subexponential coding</td>
+</tr>
+</tbody>
+</table>
+
+<a id="huffman-coding"></a>
+
+### 12.2.24 Huffman coding
 
 CRAM uses canonical *huffman coding*, which requires only bit-lengths of
 codewords to restore data. The canonical huffman code follows two
@@ -1310,69 +2572,132 @@ be easily restored.
 **Important note: for alphabets with only one value there is no output
 bits at all.**
 
-### Code computation
+<a id="code-computation"></a>
 
-$`\bullet`$ Sort the alphabet ascending using bit-lengths and then using
+### 12.2.25 Code computation
+
+$\bullet$ Sort the alphabet ascending using bit-lengths and then using
 numerical order of the values.
 
-$`\bullet`$ The first symbol in the list gets assigned a codeword which
-is the same length as the symbol's original codeword but all zeros. This
+$\bullet$ The first symbol in the list gets assigned a codeword which is
+the same length as the symbol's original codeword but all zeros. This
 will often be a single zero ('0').
 
-$`\bullet`$ Each subsequent symbol is assigned the next binary number in
+$\bullet$ Each subsequent symbol is assigned the next binary number in
 sequence, ensuring that following codes are always higher in value.
 
-$`\bullet`$ When you reach a longer codeword, then after incrementing,
+$\bullet$ When you reach a longer codeword, then after incrementing,
 append zeros until the length of the new codeword is equal to the length
 of the old codeword.
 
-### Parameters
+<a id="parameters-4"></a>
 
-| **Data type** | **Name** | **Comment** |
-|:---|:---|:---|
-| itf8\[ \] | alphabet | list of all encoded values |
-| itf8\[ \] | bit-lengths | array of bit-lengths for each symbol in the alphabet |
+### 12.2.26 Parameters
 
-### Byte array coding
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>itf8[ ]</td>
+<td>alphabet</td>
+<td>list of all encoded values</td>
+</tr>
+<tr>
+<td>itf8[ ]</td>
+<td>bit-lengths</td>
+<td>array of bit-lengths for each symbol in the alphabet</td>
+</tr>
+</tbody>
+</table>
+
+<a id="byte-array-coding"></a>
+
+### 12.2.27 Byte array coding
 
 Often there is a need to encode an array of bytes. This can be optimized
 if the length of the encoded arrays is known. For such cases
 BYTE_ARRAY_LEN and BYTE_ARRAY_STOP codings can be used.
 
-### BYTE_ARRAY_LEN 
+<a id="byte_array_len"></a>
+
+### 12.2.28 BYTE_ARRAY_LEN 
 
 Byte arrays are captured length-first, meaning that the length of every
 array is written using an additional encoding. For example this could be
 a golomb encoding. The parameter for BYTE_ARRAY_LEN are listed below:
 
-| **Data type** | **Name** | **Comment** |
-|:---|:---|:---|
-| encoding`<`int`>` | lengths encoding | an encoding describing how the arrays lengths are captured |
-| encoding`<`byte`>` | values encoding | an encoding describing how the values are captured |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>lengths encoding</td>
+<td>an encoding describing how the arrays lengths are captured</td>
+</tr>
+<tr>
+<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>values encoding</td>
+<td>an encoding describing how the values are captured</td>
+</tr>
+</tbody>
+</table>
 
-### BYTE_ARRAY_STOP 
+<a id="byte_array_stop"></a>
+
+### 12.2.29 BYTE_ARRAY_STOP 
 
 Byte arrays are captured as a sequence of bytes terminated by a special
 stop byteFor example this could be a golomb encoding. The parameter for
 BYTE_ARRAY_STOP are listed below:
 
-| **Data type** | **Name** | **Comment** |
-|:---|:---|:---|
-| byte | stop byte | a special byte treated as a delimiter |
-| itf8 | external id | id of an external block containing the byte stream |
+<table>
+<thead>
+<tr>
+<th><strong>Data type</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>stop byte</td>
+<td>a special byte treated as a delimiter</td>
+</tr>
+<tr>
+<td>itf8</td>
+<td>external id</td>
+<td>id of an external block containing the byte stream</td>
+</tr>
+</tbody>
+</table>
 
-## **Choosing the container size**
+<a id="choosing-the-container-size"></a>
+
+## 12.3 **Choosing the container size**
 
 CRAM format does not constrain the size of the containers. However, the
 following should be considered when deciding the container size:
 
-$`\bullet`$ Data can be compressed better by using larger containers
+$\bullet$ Data can be compressed better by using larger containers
 
-$`\bullet`$ Random access performance is better for smaller containers
+$\bullet$ Random access performance is better for smaller containers
 
-$`\bullet`$ Streaming is more convenient for small containers
+$\bullet$ Streaming is more convenient for small containers
 
-$`\bullet`$ Applications typically buffer containers into memory
+$\bullet$ Applications typically buffer containers into memory
 
 We recommend 1MB containers. They are small enough to provide good
 random access and streaming performance while being large enough to

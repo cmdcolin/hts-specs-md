@@ -329,10 +329,6 @@ Examples:
 <th>ALT</th>
 <th>FORMAT</th>
 <th>SAMPLE</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
@@ -343,10 +339,6 @@ Examples:
 <td>A</td>
 <td>GT:M5mC</td>
 <td><span><code>0/1:0.95</code></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>chr</td>
@@ -355,10 +347,6 @@ Examples:
 <td>CTAG</td>
 <td>GT:M5mC</td>
 <td><span><code>0/1:0,0.5,0.7</code></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>chr</td>
@@ -366,11 +354,7 @@ Examples:
 <td>C</td>
 <td>.</td>
 <td>GT:M5mC:M5hmC</td>
-<td><span><code>0|0:0.9,0:0,0.1</code></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><span><code>0&#124;0:0.9,0:0,0.1</code></span></td>
 </tr>
 <tr>
 <td>chr</td>
@@ -378,11 +362,7 @@ Examples:
 <td>C</td>
 <td>A,T,G,ACG</td>
 <td>GT:M5mC</td>
-<td><span><code>/3|1/0|4|0/0/3/1:0.25,0.1,0.5,0.6,.</code></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><span><code>/3&#124;1/0&#124;4&#124;0/0/3/1:0.25,0.1,0.5,0.6,.</code></span></td>
 </tr>
 </tbody>
 </table>
@@ -1449,7 +1429,6 @@ integer</td>
   <th>ALT</th>
   <th>FORMAT</th>
   <th>sample</th>
-  <th></th>
   </tr>
   </thead>
   <tbody>
@@ -1459,7 +1438,6 @@ integer</td>
   <td>A,C,T,&lt;&gt;</td>
   <td>GT:LAA:LAD:LPL</td>
   <td>2/4:2,4:20,30,10:90,80,0,100,110,120</td>
-  <td></td>
   </tr>
   <tr>
   <td>1</td>
@@ -1467,7 +1445,6 @@ integer</td>
   <td>A,C,T,&lt;&gt;</td>
   <td>GT:AD:PL</td>
   <td>2/2:20,.,30,.,10:90,.,.,80,.,0,.,.,.,.,100,.,110,.,120</td>
-  <td></td>
   </tr>
   <tr>
   <td>2</td>
@@ -1475,7 +1452,6 @@ integer</td>
   <td>C,G,T,&lt;&gt;</td>
   <td>GT:LAA:LAD:LPL</td>
   <td>0/3:3:15,25:40,0,80</td>
-  <td></td>
   </tr>
   <tr>
   <td>2</td>
@@ -1483,7 +1459,6 @@ integer</td>
   <td>C,G,T,&lt;&gt;</td>
   <td>GT:AD:PL</td>
   <td>0/3:15,.,.,25,.:40,.,.,.,.,.,0,.,.,80,.,.,.,.,.</td>
-  <td></td>
   </tr>
   <tr>
   <td>3</td>
@@ -1491,7 +1466,6 @@ integer</td>
   <td>G,T,&lt;&gt;</td>
   <td>GT:LAA:LAD:LPL</td>
   <td>0/0:3:30,1:0,30,80</td>
-  <td></td>
   </tr>
   <tr>
   <td>3</td>
@@ -1499,7 +1473,6 @@ integer</td>
   <td>G,T,&lt;&gt;</td>
   <td>GT:AD:PL</td>
   <td>0/0:30,.,.,1:0,.,.,.,.,.,30,.,.,80</td>
-  <td></td>
   </tr>
   <tr>
   <td>4</td>
@@ -1507,7 +1480,6 @@ integer</td>
   <td>A,T,&lt;&gt;</td>
   <td>GT:LAA:LAD:LPL</td>
   <td>0/0::30:0</td>
-  <td></td>
   </tr>
   <tr>
   <td>4</td>
@@ -1515,7 +1487,6 @@ integer</td>
   <td>A,T,&lt;&gt;</td>
   <td>GT:AD:PL</td>
   <td>0/0:30,.,.,.:0,.,.,.,.,.,.,.,.,.</td>
-  <td></td>
   </tr>
   </tbody>
   </table>
@@ -1597,10 +1568,6 @@ integer</td>
   <th>ALT</th>
   <th>FORMAT</th>
   <th>SAMPLE</th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
   </tr>
   </thead>
   <tbody>
@@ -1611,10 +1578,6 @@ integer</td>
   <td>.</td>
   <td>GT:M5mC:DPM5mC:ADM5mC</td>
   <td><span><code>0/0:0.5:2:1</code></span></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
   </tr>
   <tr>
   <td>chr</td>
@@ -1623,10 +1586,6 @@ integer</td>
   <td>.</td>
   <td>GT:M5mC:DPM5mC:ADM5mC</td>
   <td><span><code>0/0:.:.:.</code></span></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
   </tr>
   <tr>
   <td>chr</td>
@@ -1634,11 +1593,7 @@ integer</td>
   <td>C</td>
   <td>.</td>
   <td>GT:PS:M5mC:DPM5mC:ADM5mC</td>
-  <td><span><code>0|0:20:0.75,.:4,.:3,.</code></span></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td><span><code>0&#124;0:20:0.75,.:4,.:3,.</code></span></td>
   </tr>
   <tr>
   <td>chr</td>
@@ -1646,11 +1601,7 @@ integer</td>
   <td>G</td>
   <td>A</td>
   <td>GT:PS:M5mC:DPM5mC:ADM5mC</td>
-  <td><span><code>0|1:20:0.33:3:1</code></span></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td><span><code>0&#124;1:20:0.33:3:1</code></span></td>
   </tr>
   </tbody>
   </table>
@@ -1733,7 +1684,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>|0/1:chr19*5*1,.</code></span></td>
+  <td><span><code>&#124;0/1:chr19*5*1,.</code></span></td>
   </tr>
   <tr>
   <td>chr20</td>
@@ -1745,7 +1696,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>|1/2|3:chr20*10*1,.,chr19*5*1</code></span><code> </code></td>
+  <td><span><code>&#124;1/2&#124;3:chr20*10*1,.,chr19*5*1</code></span></td>
   </tr>
   <tr>
   <td>chr20</td>
@@ -1757,7 +1708,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>1|2:.,chr20*10*1</code></span></td>
+  <td><span><code>1&#124;2:.,chr20*10*1</code></span></td>
   </tr>
   </tbody>
   </table>
@@ -1786,9 +1737,6 @@ integer</td>
   <th>INFO</th>
   <th>FORMAT</th>
   <th>SAMPLE1</th>
-  <th></th>
-  <th></th>
-  <th></th>
   </tr>
   </thead>
   <tbody>
@@ -1799,10 +1747,7 @@ integer</td>
   <td>&lt;DUP&gt;</td>
   <td>SVCLAIM=DJ</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|1:.,.,chr1*10*3:.,.,3</code></span></td>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td><span><code>/0/0&#124;1:.,.,chr1*10*3:.,.,3</code></span></td>
   </tr>
   <tr>
   <td>chr1</td>
@@ -1811,10 +1756,7 @@ integer</td>
   <td>G</td>
   <td>.</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code></span><code> </code></td>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td><span><code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code></span></td>
   </tr>
   <tr>
   <td>chr1</td>
@@ -1823,10 +1765,7 @@ integer</td>
   <td>T</td>
   <td>.</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code></span><code> </code></td>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td><span><code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code></span></td>
   </tr>
   </tbody>
   </table>
@@ -4805,7 +4744,6 @@ would encoded as the equivalent of:
 <th>GT=0/0,0/1,1/1</th>
 <th>GQ=48,9,43</th>
 <th>DP=1,8,5</th>
-<th></th>
 </tr>
 </thead>
 <tbody>

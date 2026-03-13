@@ -3531,7 +3531,6 @@ would encoded as the equivalent of:
 <th>GT=0/0,0/1,1/1</th>
 <th>GQ=48,9,43</th>
 <th>DP=1,8,5</th>
-<th></th>
 </tr>
 </thead>
 <tbody>

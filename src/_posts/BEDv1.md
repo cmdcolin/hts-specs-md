@@ -4,13 +4,7 @@ commit: 9ddbc52
 date: 5 Jan 2022
 ---
 
-# The BED format
-{:.no_toc}
-
 This printing is version 9ddbc52 from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 5 Jan 2022.
-
-* Do not remove this line (it will not be displayed)
-{:toc}
 
 
 <span acronym-label="BED" acronym-form="singular+short">BED</span> is a
@@ -21,7 +15,9 @@ linear **chromosome**. The file extension for the
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 format is `.bed`.
 
-## Scope
+<a id="scope"></a>
+
+## 1.1 Scope
 
 This specification formalizes reasonable interpretations of the
 <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
@@ -30,21 +26,20 @@ acronym-form="singular+short">BED</span> description. This specification
 also makes clear potential interoperability issues in the current
 format, which could be addressed in a future specification.
 
-## Typographic conventions
+<a id="typographic-conventions"></a>
+
+## 1.2 Typographic conventions
 
 This document uses several typographic
-conventions (<a href="#tab:typographic-conventions" data-reference-type="ref+label"
-data-reference="tab:typographic-conventions">[tab:typographic-conventions]</a>).
+conventions ([\[tab:typographic-conventions\]](#tab:typographic-conventions)).
 
 <div class="savenotes">
 
 <div class="tabularx">
 
 r L L Style & Meaning & Examples\
-Bold & Terms defined in
-subsections <a href="#sec:terms" data-reference-type="ref"
-data-reference="sec:terms">1.3</a>–<a href="#sec:lines" data-reference-type="ref"
-data-reference="sec:lines">1.4</a> & **chromosomefile**\
+Bold & Terms defined in subsections [1.3](#sec:terms)–[1.4](#sec:lines)
+& **chromosomefile**\
 Sans serif & Names of **field**s &
 <span class="sans-serif">chrom</span><span class="sans-serif">chromStart</span><span class="sans-serif">chromEnd</span>\
 Fixed-width & Literals or <span acronym-label="regex"
@@ -55,7 +50,9 @@ acronym-form="singular+short">regex</span>es[^2] &
 
 </div>
 
-## Terminology and concepts
+<a id="sec:terms"></a>
+
+## 1.3 Terminology and concepts
 
 0-based, half-open coordinate system:  
 A coordinate system where the first base starts at position 0, and the
@@ -70,8 +67,8 @@ acronym-form="singular+abbrv">BED</span> field**s are mandatory. The
 remaining 9 **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s are optional.
 
-<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>$`n`$:  
-A **file** with the first $`n`$ **<span acronym-label="BED"
+<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>$n$:  
+A **file** with the first $n$ **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s. For example,
 **BED3** means a **file** with only the first
 3 **<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>
@@ -79,22 +76,22 @@ field**s; **BED12** means a **file** with all
 12 **<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>
 field**s.
 
-<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>$`n`$+:  
-A **file** that has at least the first $`n`$ **<span acronym-label="BED"
+<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>$n$+:  
+A **file** that has at least the first $n$ **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s, followed by zero or
 more of the remaining **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s and zero or
 more **custom field**s. A <span acronym-label="BED"
-acronym-form="singular+abbrv">BED</span>$`n`$ **file** also satisfies
-the definition of a <span acronym-label="BED"
-acronym-form="singular+abbrv">BED</span>$`n`$+ **file**.
+acronym-form="singular+abbrv">BED</span>$n$ **file** also satisfies the
+definition of a <span acronym-label="BED"
+acronym-form="singular+abbrv">BED</span>$n$+ **file**.
 
-<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>$`n`$+$`m`$:  
+<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>$n$+$m$:  
 A **file** that has a custom format starting with the first
-$`n`$ **field**s of the <span acronym-label="BED"
+$n$ **field**s of the <span acronym-label="BED"
 acronym-form="singular+short">BED</span> format, followed by
-$`m`$ **custom field**s. For example, **BED6+4** means a **file** with
-the first 6 **<span acronym-label="BED"
+$m$ **custom field**s. For example, **BED6+4** means a **file** with the
+first 6 **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s, followed by
 4 custom **field**s.
 
@@ -153,9 +150,7 @@ Sequence of one or more **line**s.
 line:  
 String terminated by a **line separator**, in one of the following
 classes. Either a **data line**, a **comment line**, or a **blank
-line**. Discussed more fully
-in <a href="#sec:lines" data-reference-type="ref+label"
-data-reference="sec:lines">1.4</a>.
+line**. Discussed more fully in [1.4](#sec:lines).
 
 line separator:  
 Either carriage return (`\``r`, equivalent to `\``x0d`),
@@ -163,14 +158,20 @@ newline (`\``n`, equivalent to `\``x0a`), or carriage return followed by
 newline (`\``r``\``n`, equivalent to `\``x0d``\``x0a`). The same **line
 separator** must be used throughout the **file**.
 
-## Lines
+<a id="sec:lines"></a>
 
-### Data lines
+## 1.4 Lines
+
+<a id="data-lines"></a>
+
+### 1.4.1 Data lines
 
 **Data line**s contain **feature** data. A **data line** is composed
 of **field**s separated by **field separator**s.
 
-### Comment lines and blank lines
+<a id="comment-lines-and-blank-lines"></a>
+
+### 1.4.2 Comment lines and blank lines
 
 Both **comment line**s and **blank line**s provide no **feature** data.
 
@@ -183,7 +184,9 @@ and blank **line**s may appear as any **line** in a **file**, at the
 beginning, middle, or end of the **file**. They may appear in any
 quantity.
 
-## <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
+<a id="bed-fields"></a>
+
+## 1.5 <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
 
 Each **data line** contains between 3 and 12 **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s delimited by a **field
@@ -191,8 +194,7 @@ separator**. The first 3 **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s are mandatory, and the
 last 9 **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s are
-optional (<a href="#tab:fields" data-reference-type="ref+label"
-data-reference="tab:fields">[tab:fields]</a>). In
+optional ([\[tab:fields\]](#tab:fields)). In
 optional **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s, the order is
 binding—if an optional **<span acronym-label="BED"
@@ -216,30 +218,29 @@ acronym-form="singular+abbrv">BED</span> Field & Type & Regex or range &
 Brief description\
 & <span class="sans-serif">chrom</span> & String &
 `[[:alnum:]_]{1,255}`[^4] & **Chromosome** name\
-2 & <span class="sans-serif">chromStart</span> & Int & $`[0, 2^{64}-1]`$
-& **Feature** start position\
-3 & <span class="sans-serif">chromEnd</span> & Int & $`[0, 2^{64} -1]`$
-& **Feature** end position\
+2 & <span class="sans-serif">chromStart</span> & Int & $[0, 2^{64}-1]$ &
+**Feature** start position\
+3 & <span class="sans-serif">chromEnd</span> & Int & $[0, 2^{64} -1]$ &
+**Feature** end position\
 4 & <span class="sans-serif">name</span> & String &
 `[``\``x20-``\``x7e]{1,255}` & **Feature** description\
-5 & <span class="sans-serif">score</span> & Int & $`[0, 1000]`$ & A
+5 & <span class="sans-serif">score</span> & Int & $[0, 1000]$ & A
 numerical value\
 6 & <span class="sans-serif">strand</span> & String & `[-+.]` &
 **Feature** strand\
-7 & <span class="sans-serif">thickStart</span> & Int & $`[0, 2^{64}-1]`$
-& Thick start position\
-8 & <span class="sans-serif">thickEnd</span> & Int & $`[0, 2^{64}-1]`$ &
+7 & <span class="sans-serif">thickStart</span> & Int & $[0, 2^{64}-1]$ &
+Thick start position\
+8 & <span class="sans-serif">thickEnd</span> & Int & $[0, 2^{64}-1]$ &
 Thick end position\
 9 & <span class="sans-serif">itemRgb</span> & Int,Int,Int &
-`(`$`[0, 255], [0,255], [0,255]`$`) | 0` & Display color\
+`(`$[0, 255], [0,255], [0,255]$`) | 0` & Display color\
 10 & <span class="sans-serif">blockCount</span> & Int &
-$`[0, \textsf{chromEnd}-\textsf{chromStart}]`$[^5] & Number of
-**block**s\
+$[0, \textsf{chromEnd}-\textsf{chromStart}]$[^5] & Number of **block**s\
 11 & <span class="sans-serif">blockSizes</span> & List\[Int\] &
-`([[:digit:]]+,){`<span class="sans-serif">`blockCount`</span>$`-1`$`}[[:digit:]]+,?`[^6]
+`([[:digit:]]+,){`<span class="sans-serif">`blockCount`</span>$-1$`}[[:digit:]]+,?`[^6]
 & **Block** sizes\
 12 & <span class="sans-serif">blockStarts</span> & List\[Int\] &
-`([[:digit:]]+,){`<span class="sans-serif">`blockCount`</span>$`-1`$`}[[:digit:]]+,?`
+`([[:digit:]]+,){`<span class="sans-serif">`blockCount`</span>$-1$`}[[:digit:]]+,?`
 & **Block** start positions\
 
 </div>
@@ -255,7 +256,9 @@ must have the same number of **field**s. The positions in
 field**s are all described in the **0-based, half-open coordinate
 system**.
 
-## Coordinates
+<a id="coordinates"></a>
+
+## 1.6 Coordinates
 
 1.  <span class="sans-serif">chrom</span>: The name of
     the **chromosome** where the **feature** is present. Limiting to
@@ -273,7 +276,7 @@ system**.
     number of bases of the **chromosome** to which it belongs. If the
     size of the **chromosome** is unknown, then
     <span class="sans-serif">chromStart</span> must be less than or
-    equal to $`2^{64} - 1`$, which is the maximum size of an unsigned
+    equal to $2^{64} - 1$, which is the maximum size of an unsigned
     64-bit integer.
 
 3.  <span class="sans-serif">chromEnd</span>: End position of
@@ -291,9 +294,11 @@ system**.
     a feature before the entire **chromosome**. If the size of
     the **chromosome** is unknown, then
     <span class="sans-serif">chromEnd</span> must be less than or equal
-    to $`2^{64} - 1`$, the maximum size of an unsigned 64-bit integer.
+    to $2^{64} - 1$, the maximum size of an unsigned 64-bit integer.
 
-## Simple attributes
+<a id="simple-attributes"></a>
+
+## 1.7 Simple attributes
 
 4.  <span class="sans-serif">name</span>: String that describes
     the **feature**. <span class="sans-serif">name</span> must be 1 to
@@ -327,7 +332,9 @@ system**.
     <span class="sans-serif">strand</span> should be treated as `.` when
     parsing files that are not **BED6+**.
 
-## Display attributes
+<a id="display-attributes"></a>
+
+## 1.8 Display attributes
 
 7.  <span class="sans-serif">thickStart</span>: Start position at which
     the **feature** is visualized with a thicker or accented display.
@@ -372,7 +379,9 @@ system**.
     <span class="sans-serif">itemRgb</span>s, `0` should be used as the
     <span class="sans-serif">itemRgb</span> on every **data line**.
 
-## Blocks
+<a id="blocks"></a>
+
+## 1.9 Blocks
 
 10. <span class="sans-serif">blockCount</span>: Number of **block**s in
     the **feature**. <span class="sans-serif">blockCount</span> must be
@@ -399,10 +408,10 @@ system**.
     in <span class="sans-serif">blockStarts</span> is paired with the
     corresponding element in <span class="sans-serif">blockSizes</span>.
     Each <span class="sans-serif">blockStarts</span> element must be an
-    integer between 0 and $`\textsf{chromEnd} - \textsf{chromStart}`$,
-    inclusive. For each couple $`i`$
-    of $`(\textsf{blockStarts}_i, \textsf{blockSizes}_i)`$, the
-    quantity $`\textsf{chromStart} + \textsf{blockStarts}_i + \textsf{blockSizes}_i`$
+    integer between 0 and $\textsf{chromEnd} - \textsf{chromStart}$,
+    inclusive. For each couple $i$
+    of $(\textsf{blockStarts}_i, \textsf{blockSizes}_i)$, the
+    quantity $\textsf{chromStart} + \textsf{blockStarts}_i + \textsf{blockSizes}_i$
     must be less or equal to <span class="sans-serif">chromEnd</span>.
     These conditions enforce that each **block** is contained within
     the **feature**. The first **block** must start
@@ -412,7 +421,9 @@ system**.
     ascending order. <span class="sans-serif">blockStarts</span> is
     mandatory in **BED12+** **file**s.
 
-## Custom fields
+<a id="custom-fields"></a>
+
+## 1.10 Custom fields
 
 **Custom field**s defined by the **file** creator may contain any
 printable 7-bit US <span acronym-label="ASCII"
@@ -424,9 +435,13 @@ specification does not contain a means for interchanging custom
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 format definitions.
 
-# Examples
+<a id="examples"></a>
 
-## Example BED6 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ[^7]
+# 2 Examples
+
+<a id="sec:example-bed6"></a>
+
+## 2.1 Example BED6 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ[^7]
 
     chr7  127471196  127472363  Pos1  0  +
     chr7  127472363  127473530  Pos2  0  +
@@ -438,7 +453,9 @@ format definitions.
     chr7  127479365  127480532  Pos5  0  +
     chr7  127480532  127481699  Neg4  0  -
 
-## Example BED12 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ
+<a id="example-bed12-file-from-the-ucsc-genome-browser-faq"></a>
+
+## 2.2 Example BED12 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ
 
     chr22 1000 5000 cloneA 960 + 1000 5000 0 2 567,488, 0,3512
     chr22 2000 6000 cloneB 900 - 2000 6000 0 2 433,399, 0,3601
@@ -451,9 +468,13 @@ at <span class="sans-serif">chromEnd</span> since the last **block**
 starts at position 4512 (1000+3512) with size 488, and therefore ends at
 position 5000 (4512+488).
 
-# Recommended practice for the <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> format
+<a id="recommended-practice-for-the-bed-format"></a>
 
-## Mandatory <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
+# 3 Recommended practice for the <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> format
+
+<a id="mandatory-bed-fields"></a>
+
+## 3.1 Mandatory <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
 
 - <span class="sans-serif">chrom</span>: The name of each **chromosome**
   should also match the names from a reference genome, if applicable.
@@ -463,7 +484,9 @@ position 5000 (4512+488).
   both `17` and `chr17` to represent the same **chromosome** in the
   same **file**.
 
-## Optional <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
+<a id="sec:optional"></a>
+
+## 3.2 Optional <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
 
 - <span class="sans-serif">name</span>: Names should avoid using the
   space character even if the only **field separator** is a single tab
@@ -475,14 +498,15 @@ position 5000 (4512+488).
   difficult for humans to distinguish.[^8] Color schemes should be
   colorblind-friendly. Red-green color schemes should be avoided.
 
-## Custom fields
+<a id="custom-fields-1"></a>
+
+## 3.3 Custom fields
 
 Definitions of a custom <span acronym-label="BED"
 acronym-form="singular+short">BED</span> format should restrict the type
 of each **custom field** to the extent possible. Each **custom field**
 should contain either one of several specified data
-types (<a href="#tab:custom-data-types" data-reference-type="ref+label"
-data-reference="tab:custom-data-types">[tab:custom-data-types]</a>) or a
+types ([\[tab:custom-data-types\]](#tab:custom-data-types)) or a
 comma-separated list of Integer, Unsigned, or Float.
 
 <div class="savenotes">
@@ -505,7 +529,9 @@ The AutoSQL format[^10] provides one method for defining custom
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 formats in a separate file.
 
-## Sorting
+<a id="sorting"></a>
+
+## 3.4 Sorting
 
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 **file**s should be sorted by <span class="sans-serif">chrom</span>,
@@ -544,7 +570,9 @@ acronym-form="singular+short">BED</span> **file**s can prevent
 downstream analyses from producing different results depending on sort
 order.
 
-## Whitespace
+<a id="sec:whitespace"></a>
+
+## 3.5 Whitespace
 
 We recommend that only a single tab (`\``t`) be used as **field
 separator**. This is because almost all tools support tabs while some
@@ -557,7 +585,9 @@ It would be sensible for future major versions of this specification or
 overlay formats built on top of this specification to require that only
 a single tab be used as **field separator**.
 
-## Large <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> files
+<a id="large-bed-files"></a>
+
+## 3.6 Large <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> files
 
 If a **file** intended for visualization is over 50   in size,
 the **file** should be converted to `bigBed` format, which is an indexed
@@ -568,7 +598,9 @@ Tabix is another option for storing larger <span acronym-label="BED"
 acronym-form="singular+short">BED</span> **file**s.[^13] Tabix works
 only on **file**s using a single tab as the **field separator**.
 
-# Information supplied out-of-band
+<a id="information-supplied-out-of-band"></a>
+
+# 4 Information supplied out-of-band
 
 Some information about a <span acronym-label="BED"
 acronym-form="singular+short">BED</span> **file** can only be supplied
@@ -595,7 +627,9 @@ this information. Information that must be supplied out-of-band include:
 
 - Whether the **field separator** is a single tab character.
 
-# <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> track files
+<a id="ucsc-track-files"></a>
+
+# 5 <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> track files
 
 Track files are files that contain additional information intended for a
 visualization tool such as the <span acronym-label="UCSC"
@@ -609,13 +643,17 @@ browser or track lines. To distinguish between <span acronym-label="BED"
 acronym-form="singular+short">BED</span> **file**s and track files,
 track files should use the file extension `.track`.
 
-# Acronyms
+<a id="acronyms"></a>
+
+# 6 Acronyms
 
 <div class="acronym">
 
 </div>
 
-# Acknowledgments
+<a id="acknowledgments"></a>
+
+# 7 Acknowledgments
 
 We thank W. James Kent and the <span acronym-label="UCSC"
 acronym-form="singular+short">UCSC</span> Genome Browser team for
@@ -655,7 +693,7 @@ File Formats Task Team for comments on this specification.
 [^5]: <span class="sans-serif">chromEnd</span>-<span class="sans-serif">chromStart</span>
     is the maximum number of **block**s that may exist without overlaps
 
-[^6]: For example, if $`\textsf{blockCount} = 4`$, then the allowed
+[^6]: For example, if $\textsf{blockCount} = 4$, then the allowed
     <span acronym-label="regex"
     acronym-form="singular+short">regex</span> would
     be `([[:digit:]]+,){3}[[:digit:]]+,?`

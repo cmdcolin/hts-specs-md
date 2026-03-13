@@ -1067,7 +1067,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>|0/1:chr19*5*1,.</code></span></td>
+  <td><span><code>&#124;0/1:chr19*5*1,.</code></span></td>
   </tr>
   <tr>
   <td>chr20</td>
@@ -1079,7 +1079,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>|1/2|3:chr20*10*1,.,chr19*5*1</code></span><code> </code></td>
+  <td><span><code>&#124;1/2&#124;3:chr20*10*1,.,chr19*5*1</code></span></td>
   </tr>
   <tr>
   <td>chr20</td>
@@ -1091,7 +1091,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>1|2:.,chr20*10*1</code></span></td>
+  <td><span><code>1&#124;2:.,chr20*10*1</code></span></td>
   </tr>
   </tbody>
   </table>
@@ -1120,9 +1120,6 @@ integer</td>
   <th>INFO</th>
   <th>FORMAT</th>
   <th>SAMPLE1</th>
-  <th></th>
-  <th></th>
-  <th></th>
   </tr>
   </thead>
   <tbody>
@@ -1133,10 +1130,7 @@ integer</td>
   <td>&lt;DUP&gt;</td>
   <td>SVCLAIM=DJ</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|1:.,.,chr1*10*3:.,.,3</code></span></td>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td><span><code>/0/0&#124;1:.,.,chr1*10*3:.,.,3</code></span></td>
   </tr>
   <tr>
   <td>chr1</td>
@@ -1145,10 +1139,7 @@ integer</td>
   <td>G</td>
   <td>.</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code></span><code> </code></td>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td><span><code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code></span></td>
   </tr>
   <tr>
   <td>chr1</td>
@@ -1157,10 +1148,7 @@ integer</td>
   <td>T</td>
   <td>.</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code></span><code> </code></td>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td><span><code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code></span></td>
   </tr>
   </tbody>
   </table>
@@ -4143,7 +4131,6 @@ would encoded as the equivalent of:
 <th>GT=0/0,0/1,1/1</th>
 <th>GQ=48,9,43</th>
 <th>DP=1,8,5</th>
-<th></th>
 </tr>
 </thead>
 <tbody>

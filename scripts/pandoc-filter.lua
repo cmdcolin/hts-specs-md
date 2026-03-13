@@ -186,6 +186,28 @@ local function blocks_to_html(blocks)
   return html
 end
 
+local function escape_pipes(content)
+  if not content then return end
+  for i, el in ipairs(content) do
+    if el.t == "Str" then
+      el.text = el.text:gsub("|", "&#124;")
+      content[i] = el
+    elseif el.t == "Code" then
+      if el.text:match("^%s*$") then
+        content[i] = pandoc.Str(el.text)
+      else
+        -- Convert Code element to raw HTML <code> tag to protect pipes
+        local html = el.text:gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("|", "&#124;")
+        content[i] = pandoc.RawInline('html', '<code>' .. html .. '</code>')
+      end
+    elseif el.content then
+      escape_pipes(el.content)
+    elseif el.caption and el.caption.content then
+      escape_pipes(el.caption.content)
+    end
+  end
+end
+
 function Table(el)
   local header = el.head.rows[1]
   local is_empty_header = true
@@ -209,6 +231,44 @@ function Table(el)
     end
   end
 
+  -- Determine the actual maximum number of columns that have content in at least one row
+  local actual_max_cols = 0
+  local function get_last_non_empty_cell_index(row)
+    local last = 0
+    for i, cell in ipairs(row.cells) do
+      -- Check if cell has any content (Blocks)
+      if #cell.contents > 0 then
+        -- Further check if it's just a Plain/Para with empty content
+        local has_content = false
+        for _, block in ipairs(cell.contents) do
+          if block.t == "Plain" or block.t == "Para" then
+            if #block.content > 0 then has_content = true break end
+          else
+            has_content = true break
+          end
+        end
+        if has_content then
+          last = i
+        end
+      end
+    end
+    return last
+  end
+
+  for _, row in ipairs(el.head.rows) do
+    actual_max_cols = math.max(actual_max_cols, get_last_non_empty_cell_index(row))
+  end
+  for _, body in ipairs(el.bodies) do
+    for _, row in ipairs(body.body) do
+      actual_max_cols = math.max(actual_max_cols, get_last_non_empty_cell_index(row))
+    end
+  end
+
+  -- If for some reason everything is empty, fallback to at least one column
+  if actual_max_cols == 0 and #el.colspecs > 0 then
+    actual_max_cols = #el.colspecs
+  end
+
   -- Build HTML table
   local html = {"<table>"}
   
@@ -217,8 +277,14 @@ function Table(el)
     table.insert(html, "<thead>")
     for _, row in ipairs(el.head.rows) do
       table.insert(html, "<tr>")
-      for _, cell in ipairs(row.cells) do
-        table.insert(html, "<th>" .. blocks_to_html(cell.contents) .. "</th>")
+      for i = 1, actual_max_cols do
+        local cell = row.cells[i]
+        if cell then
+          escape_pipes(cell.contents)
+          table.insert(html, "<th>" .. blocks_to_html(cell.contents) .. "</th>")
+        else
+          table.insert(html, "<th></th>")
+        end
       end
       table.insert(html, "</tr>")
     end
@@ -230,8 +296,14 @@ function Table(el)
   for _, body in ipairs(el.bodies) do
     for _, row in ipairs(body.body) do
       table.insert(html, "<tr>")
-      for _, cell in ipairs(row.cells) do
-        table.insert(html, "<td>" .. blocks_to_html(cell.contents) .. "</td>")
+      for i = 1, actual_max_cols do
+        local cell = row.cells[i]
+        if cell then
+          escape_pipes(cell.contents)
+          table.insert(html, "<td>" .. blocks_to_html(cell.contents) .. "</td>")
+        else
+          table.insert(html, "<td></td>")
+        end
       end
       table.insert(html, "</tr>")
     end
