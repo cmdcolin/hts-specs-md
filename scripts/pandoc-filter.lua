@@ -170,6 +170,28 @@ function CodeBlock(el)
   return el
 end
 
+local function escape_pipes(content)
+  if not content then return end
+  for i, el in ipairs(content) do
+    if el.t == "Str" then
+      el.text = el.text:gsub("|", "&#124;")
+      content[i] = el
+    elseif el.t == "Code" then
+      if el.text:match("^%s*$") then
+        content[i] = pandoc.Str(el.text)
+      else
+        -- Convert Code element to raw HTML <code> tag to protect pipes
+        local html = el.text:gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("|", "&#124;")
+        content[i] = pandoc.RawInline('html', '<code>' .. html .. '</code>')
+      end
+    elseif el.content then
+      escape_pipes(el.content)
+    elseif el.caption and el.caption.content then
+      escape_pipes(el.caption.content)
+    end
+  end
+end
+
 function Table(el)
   local header = el.head.rows[1]
   local is_empty_header = true
@@ -197,19 +219,25 @@ function Table(el)
   -- Pandoc GFM/Commonmark uses el.colspecs for the alignment row count
   local col_count = #el.colspecs
   
-  -- Pad header
+  -- Pad header and escape pipes
   if #el.head.rows > 0 then
     local hrow = el.head.rows[1]
     while #hrow.cells < col_count do
         table.insert(hrow.cells, pandoc.Cell({}))
     end
+    for _, cell in ipairs(hrow.cells) do
+      escape_pipes(cell.contents)
+    end
   end
 
-  -- Pad all body rows
+  -- Pad all body rows and escape pipes
   for _, body in ipairs(el.bodies) do
     for _, row in ipairs(body.body) do
       while #row.cells < col_count do
         table.insert(row.cells, pandoc.Cell({}))
+      end
+      for _, cell in ipairs(row.cells) do
+        escape_pipes(cell.contents)
       end
     end
   end

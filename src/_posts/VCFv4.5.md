@@ -285,10 +285,10 @@ Examples:
 
 | \#CHROM | POS | REF | ALT | FORMAT | SAMPLE |  |  |  |  |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| chr | $10$ | C | A | GT:M5mC | `0/1:0.95` |  |  |  |  |
-| chr | $20$ | C | CTAG | GT:M5mC | `0/1:0,0.5,0.7` |  |  |  |  |
-| chr | $30$ | C | . | GT:M5mC:M5hmC | `0|0:0.9,0:0,0.1` |  |  |  |  |
-| chr | $40$ | C | A,T,G,ACG | GT:M5mC | `/3|1/0|4|0/0/3/1:0.25,0.1,0.5,0.6,.` |  |  |  |  |
+| chr | $10$ | C | A | GT:M5mC | <code>0/1:0.95</code> |  |  |  |  |
+| chr | $20$ | C | CTAG | GT:M5mC | <code>0/1:0,0.5,0.7</code> |  |  |  |  |
+| chr | $30$ | C | . | GT:M5mC:M5hmC | <code>0&#124;0:0.9,0:0,0.1</code> |  |  |  |  |
+| chr | $40$ | C | A,T,G,ACG | GT:M5mC | <code>/3&#124;1/0&#124;4&#124;0/0/3/1:0.25,0.1,0.5,0.6,.</code> |  |  |  |  |
 
 The first record encodes a 95 percent methylation on the REF C. Since
 the ALT A cannot be 5mC methylated, only one value is present.
@@ -1440,10 +1440,10 @@ probabilities rounded to the closest integer</td>
 
   | \#CHROM | POS | REF | ALT | FORMAT | SAMPLE |  |  |  |  |
   |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-  | chr | $10$ | C | . | GT:M5mC:DPM5mC:ADM5mC | `0/0:0.5:2:1` |  |  |  |  |
-  | chr | $11$ | G | . | GT:M5mC:DPM5mC:ADM5mC | `0/0:.:.:.` |  |  |  |  |
-  | chr | $20$ | C | . | GT:PS:M5mC:DPM5mC:ADM5mC | `0|0:20:0.75,.:4,.:3,.` |  |  |  |  |
-  | chr | $21$ | G | A | GT:PS:M5mC:DPM5mC:ADM5mC | `0|1:20:0.33:3:1` |  |  |  |  |
+  | chr | $10$ | C | . | GT:M5mC:DPM5mC:ADM5mC | <code>0/0:0.5:2:1</code> |  |  |  |  |
+  | chr | $11$ | G | . | GT:M5mC:DPM5mC:ADM5mC | <code>0/0:.:.:.</code> |  |  |  |  |
+  | chr | $20$ | C | . | GT:PS:M5mC:DPM5mC:ADM5mC | <code>0&#124;0:20:0.75,.:4,.:3,.</code> |  |  |  |  |
+  | chr | $21$ | G | A | GT:PS:M5mC:DPM5mC:ADM5mC | <code>0&#124;1:20:0.33:3:1</code> |  |  |  |  |
 
   Note that in the above example, the second record could be omitted
   entirely without any change in meaning.
@@ -1499,9 +1499,9 @@ probabilities rounded to the closest integer</td>
 
   | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | SAMPLE1 |
   |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-  | chr19 | $5$ | . | T | G | . | PASS | DP=100 | GT:PSL | `|0/1:chr19*5*1,.` |
-  | chr20 | $10$ | . | A | T,G | . | PASS | DP=100 | GT:PSL | `|1/2|3:chr20*10*1,.,chr19*5*1`` ` |
-  | chr20 | $15$ | . | G | C | . | PASS | DP=100 | GT:PSL | `1|2:.,chr20*10*1` |
+  | chr19 | $5$ | . | T | G | . | PASS | DP=100 | GT:PSL | <code>&#124;0/1:chr19*5*1,.</code> |
+  | chr20 | $10$ | . | A | T,G | . | PASS | DP=100 | GT:PSL | <code>&#124;1/2&#124;3:chr20*10*1,.,chr19*5*1</code>  |
+  | chr20 | $15$ | . | G | C | . | PASS | DP=100 | GT:PSL | <code>1&#124;2:.,chr20*10*1</code> |
 
 - PSO (List of integers): List of phase set ordinals. For each phase-set
   name, defines the order in which variants are encountered when
@@ -1519,9 +1519,9 @@ probabilities rounded to the closest integer</td>
 
   | \#CHROM | POS | REF | ALT | INFO | FORMAT | SAMPLE1 |  |  |  |
   |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-  | chr1 | $10$ | T | \<DUP\> | SVCLAIM=DJ | GT:PSL:PSO | `/0/0|1:.,.,chr1*10*3:.,.,3` |  |  |  |
-  | chr1 | $20$ | A | G | . | GT:PSL:PSO | `/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,4,1`` ` |  |  |  |
-  | chr1 | $30$ | G | T | . | GT:PSL:PSO | `/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,2,5`` ` |  |  |  |
+  | chr1 | $10$ | T | \<DUP\> | SVCLAIM=DJ | GT:PSL:PSO | <code>/0/0&#124;1:.,.,chr1*10*3:.,.,3</code> |  |  |  |
+  | chr1 | $20$ | A | G | . | GT:PSL:PSO | <code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code>  |  |  |  |
+  | chr1 | $30$ | G | T | . | GT:PSL:PSO | <code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code>  |  |  |  |
 
   Without defining PSO, it would be ambiguous as to which copy of the
   duplicated region the SNVs occur on. In this example, the presence of
@@ -2051,10 +2051,10 @@ Suppose I receive the following VCF record:
 This is a SNP since its only single base substitution and there are only
 two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence    | Alteration                        |
-|:--------|:------------|:----------------------------------|
-| Ref     | `a t C g a` | C is the reference base           |
-| $1$     | `a t T g a` | C base is a T in some individuals |
+| Example | Sequence               | Alteration                        |
+|:--------|:-----------------------|:----------------------------------|
+| Ref     | <code>a t C g a</code> | C is the reference base           |
+| $1$     | <code>a t T g a</code> | C base is a T in some individuals |
 
 <a id="insertion-vcf-record"></a>
 
@@ -2070,10 +2070,10 @@ This is a insertion since the reference base C is being replaced by C
 \[the reference base\] plus three insertion bases TAG. Again there are
 only two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence          | Alteration                                      |
-|:--------|:------------------|:------------------------------------------------|
-| Ref     | `a t C - - - g a` | C is the reference base                         |
-| $1$     | `a t C T A G g a` | following the C base is an insertion of 3 bases |
+| Example | Sequence | Alteration |
+|:---|:---|:---|
+| Ref | <code>a t C - - - g a</code> | C is the reference base |
+| $1$ | <code>a t C T A G g a</code> | following the C base is an insertion of 3 bases |
 
 <a id="deletion-vcf-record"></a>
 
@@ -2089,10 +2089,10 @@ This is a deletion of two reference bases since the reference allele TCG
 is being replaced by just the T \[the reference base\]. Again there are
 only two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence    | Alteration                                    |
-|:--------|:------------|:----------------------------------------------|
-| Ref     | `a T C G a` | T is the (first) reference base               |
-| $1$     | `a T - - a` | following the T base is a deletion of 2 bases |
+| Example | Sequence | Alteration |
+|:---|:---|:---|
+| Ref | <code>a T C G a</code> | T is the (first) reference base |
+| $1$ | <code>a T - - a</code> | following the T base is a deletion of 2 bases |
 
 <a id="mixed-vcf-record-for-a-microsatellite"></a>
 
@@ -2110,9 +2110,9 @@ following haplotypes:
 
 | Example | Sequence | Alteration |
 |:---|:---|:---|
-| Ref | `a t c G C G - - a` | G is the (first) reference base |
-| $1$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
-| $2$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
+| Ref | <code>a t c G C G - - a</code> | G is the (first) reference base |
+| $1$ | <code>a t c G - - - - a</code> | following the G base is a deletion of 2 bases |
+| $2$ | <code>a t c G C G C G a</code> | following the G base is an insertion of 2 bases |
 
 Note that in all of these examples dashes have been added to make the
 haplotypes clearer but of course the equivalence among bases isn't
@@ -2121,9 +2121,9 @@ alignment:
 
 | Example | Sequence | Alteration |
 |:---|:---|:---|
-| Ref | `a t c G - - C G a` | G is the (first) reference base |
-| $1$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
-| $2$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
+| Ref | <code>a t c G - - C G a</code> | G is the (first) reference base |
+| $1$ | <code>a t c G - - - - a</code> | following the G base is a deletion of 2 bases |
+| $2$ | <code>a t c G C G C G a</code> | following the G base is an insertion of 2 bases |
 
 <a id="encoding-structural-variants"></a>
 
@@ -2964,7 +2964,7 @@ The BCF2 header contains the following items:
 
 | **Field** | **Type** | **Notes** |
 |:---|:---|:---|
-| magic | char\[3\] | The characters "`BCF`" |
+| magic | char\[3\] | The characters "<code>BCF</code>" |
 | major_version | uint8_t | 2 |
 | minor_version | uint8_t | 2 |
 | l_text | uint32_t | Length of the "text" field, including the terminating NUL character |

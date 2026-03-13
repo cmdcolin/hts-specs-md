@@ -1176,10 +1176,10 @@ Suppose I receive the following VCF record:
 This is a SNP since its only single base substitution and there are only
 two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence    | Alteration                        |
-|:--------|:------------|:----------------------------------|
-| Ref     | `a t C g a` | C is the reference base           |
-| $1$     | `a t T g a` | C base is a T in some individuals |
+| Example | Sequence               | Alteration                        |
+|:--------|:-----------------------|:----------------------------------|
+| Ref     | <code>a t C g a</code> | C is the reference base           |
+| $1$     | <code>a t T g a</code> | C base is a T in some individuals |
 
 <a id="insertion-vcf-record"></a>
 
@@ -1195,10 +1195,10 @@ This is a insertion since the reference base C is being replaced by C
 \[the reference base\] plus three insertion bases TAG. Again there are
 only two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence          | Alteration                                      |
-|:--------|:------------------|:------------------------------------------------|
-| Ref     | `a t C - - - g a` | C is the reference base                         |
-| $1$     | `a t C T A G g a` | following the C base is an insertion of 3 bases |
+| Example | Sequence | Alteration |
+|:---|:---|:---|
+| Ref | <code>a t C - - - g a</code> | C is the reference base |
+| $1$ | <code>a t C T A G g a</code> | following the C base is an insertion of 3 bases |
 
 <a id="deletion-vcf-record"></a>
 
@@ -1214,10 +1214,10 @@ This is a deletion of two reference bases since the reference allele TCG
 is being replaced by just the T \[the reference base\]. Again there are
 only two alleles so I have the two following segregating haplotypes:
 
-| Example | Sequence    | Alteration                                    |
-|:--------|:------------|:----------------------------------------------|
-| Ref     | `a T C G a` | T is the (first) reference base               |
-| $1$     | `a T - - a` | following the T base is a deletion of 2 bases |
+| Example | Sequence | Alteration |
+|:---|:---|:---|
+| Ref | <code>a T C G a</code> | T is the (first) reference base |
+| $1$ | <code>a T - - a</code> | following the T base is a deletion of 2 bases |
 
 <a id="mixed-vcf-record-for-a-microsatellite"></a>
 
@@ -1235,9 +1235,9 @@ following haplotypes:
 
 | Example | Sequence | Alteration |
 |:---|:---|:---|
-| Ref | `a t c G C G - - a` | G is the (first) reference base |
-| $1$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
-| $2$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
+| Ref | <code>a t c G C G - - a</code> | G is the (first) reference base |
+| $1$ | <code>a t c G - - - - a</code> | following the G base is a deletion of 2 bases |
+| $2$ | <code>a t c G C G C G a</code> | following the G base is an insertion of 2 bases |
 
 Note that in all of these examples dashes have been added to make the
 haplotypes clearer but of course the equivalence among bases isn't
@@ -1246,9 +1246,9 @@ alignment:
 
 | Example | Sequence | Alteration |
 |:---|:---|:---|
-| Ref | `a t c G - - C G a` | G is the (first) reference base |
-| $1$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
-| $2$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
+| Ref | <code>a t c G - - C G a</code> | G is the (first) reference base |
+| $1$ | <code>a t c G - - - - a</code> | following the G base is a deletion of 2 bases |
+| $2$ | <code>a t c G C G C G a</code> | following the G base is an insertion of 2 bases |
 
 <a id="encoding-structural-variants"></a>
 
@@ -1933,7 +1933,7 @@ The BCF2 header contains the following items:
 
 | **Field** | **Type** | **Notes** |
 |:---|:---|:---|
-| magic | char\[3\] | The characters "`BCF`" |
+| magic | char\[3\] | The characters "<code>BCF</code>" |
 | major_version | uint8_t | 2 |
 | minor_version | uint8_t | 2 |
 | l_text | uint32_t | Length of the "text" field, including the terminating NUL character |
