@@ -74,6 +74,10 @@ function Div(el)
     -- or just a blockquote
     return pandoc.BlockQuote(el.content)
   end
+  -- Remove samepage class which is internal PDF stuff and causes fenced divs output
+  if el.classes:includes("samepage") then
+    return el.content
+  end
 end
 
 -- Handle Code spans (inline code)
@@ -97,6 +101,7 @@ function Code(el)
 end
 
 function CodeBlock(el)
+  -- ONLY apply the code-math-block logic if there is actually a $ in the text
   if el.text:match("%$.*%$") then
     local all_content = {}
     
@@ -113,6 +118,7 @@ function CodeBlock(el)
         end
     end
 
+    local NBSP = "\u{00A0}"
     for i, line in ipairs(lines) do
       local last_pos = 1
       for start_pos, content, end_pos in line:gmatch("()%$([^%$]+)%$()") do
@@ -121,7 +127,7 @@ function CodeBlock(el)
             if last_pos == 1 then
                 local spaces = text:match("^( +)")
                 if spaces then
-                    table.insert(all_content, pandoc.RawInline('html', spaces:gsub(" ", "&nbsp;")))
+                    table.insert(all_content, pandoc.Str(spaces:gsub(" ", NBSP)))
                     text = text:sub(#spaces + 1)
                 end
             end
@@ -137,7 +143,7 @@ function CodeBlock(el)
         if last_pos == 1 then
             local spaces = text:match("^( +)")
             if spaces then
-                table.insert(all_content, pandoc.RawInline('html', spaces:gsub(" ", "&nbsp;")))
+                table.insert(all_content, pandoc.Str(spaces:gsub(" ", NBSP)))
                 text = text:sub(#spaces + 1)
             end
         end
@@ -151,8 +157,61 @@ function CodeBlock(el)
       end
     end
     
-    -- Try using a BlockQuote or just a Div with a pre-like style
-    return pandoc.Div({pandoc.Para(all_content)}, {class="code-math-block"})
+    -- Use raw HTML for the div to avoid fenced divs syntax
+    return {
+      pandoc.RawBlock('html', '<div class="code-math-block">'),
+      pandoc.Para(all_content),
+      pandoc.RawBlock('html', '</div>')
+    }
+  end
+  return el
+end
+
+function Table(el)
+  local header = el.head.rows[1]
+  local is_empty_header = true
+  if header then
+    for _, cell in ipairs(header.cells) do
+      if #cell.contents > 0 then
+        is_empty_header = false
+        break
+      end
+    end
+  else
+    is_empty_header = true
+  end
+
+  if is_empty_header then
+    local body = el.bodies[1]
+    if body and #body.body > 0 then
+      local first_row = body.body[1]
+      el.head.rows = {first_row}
+      table.remove(body.body, 1)
+    end
+  end
+
+  -- Ensure header has enough columns for the alignment row
+  -- Pandoc GFM/Commonmark uses el.colspecs for the alignment row count
+  local col_count = #el.colspecs
+  if #el.head.rows > 0 then
+    local hrow = el.head.rows[1]
+    while #hrow.cells < col_count do
+        table.insert(hrow.cells, pandoc.Cell({}))
+    end
+  end
+
+  return el
+end
+
+function Math(el)
+  if el.mathtype == "InlineMath" then
+    -- Convert all-caps math of length 2 or more to code literals `CIPOS`
+    -- This handles field names like $CIPOS$ and also assignments like $CIPOS=-5,5,0,0$ or $GT=0/1$
+    -- We allow uppercase, underscores, digits, and common assignment/list punctuation.
+    -- Length >= 2 ensures single letters like $P$ or $N$ remain as variables in italics (math).
+    if el.text:match("^[A-Z][A-Z_0-9=,%. %/-]*[A-Z_0-9=,%. %/-]$") then
+      return pandoc.Code(el.text)
+    end
   end
   return el
 end
@@ -160,5 +219,5 @@ end
 -- Pandoc 3.x uses meta to pass metadata
 return {
   { Meta = get_vars },
-  { RawInline = RawInline, Inline = Inline, Div = Div, Code = Code, CodeBlock = CodeBlock }
+  { RawInline = RawInline, Inline = Inline, Div = Div, Code = Code, CodeBlock = CodeBlock, Table = Table, Math = Math }
 }

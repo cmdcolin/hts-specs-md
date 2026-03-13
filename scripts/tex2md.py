@@ -91,7 +91,7 @@ def main():
     cmd = [
         "pandoc",
         temp_tex,
-        "-t", "gfm+tex_math_dollars",
+        "-t", "commonmark_x-attributes-fenced_divs+tex_math_dollars",
         "--lua-filter", lua_filter,
         "--markdown-headings=atx",
         "--mathjax",
@@ -105,20 +105,14 @@ def main():
         if temp_tex != input_tex and os.path.exists(temp_tex):
             os.remove(temp_tex)
 
-    # Add Jekyll front matter
+    # Add Jekyll-style front matter (Astro compatible)
     front_matter = f"""---
 title: "{title}"
 commit: {commit}
 date: {date}
 ---
 
-# {title}
-{{:.no_toc}}
-
 This printing is version {commit} from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on {date}.
-
-* Do not remove this line (it will not be displayed)
-{{:toc}}
 
 """
     

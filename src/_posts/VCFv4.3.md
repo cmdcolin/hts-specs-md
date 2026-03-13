@@ -4,13 +4,7 @@ commit: c101c79
 date: 5 Nov 2025
 ---
 
-# The Variant Call Format Specification VCFv4.3 and BCFv2.2 (Superseded by the VCF v4.4 and v4.5 specifications)
-{:.no_toc}
-
 This printing is version c101c79 from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 5 Nov 2025.
-
-* Do not remove this line (it will not be displayed)
-{:toc}
 
 
 VCF is a text file format (most likely stored in a compressed manner).
@@ -69,16 +63,15 @@ property that none of the bytes in any multi-byte characters are 7-bit
 ASCII bytes. As a result, most software that processes VCF files does
 not have to be aware of the possible presence of multi-byte UTF-8
 characters. VCF files must not contain a byte order mark. Note that
-non-printable characters U+0000–U+0008, U+000B–U+000C, U+000E–U+001F are
-disallowed. Line separators must be CR+LF or LF and they are allowed
+non-printable characters U+0000--U+0008, U+000B--U+000C, U+000E--U+001F
+are disallowed. Line separators must be CR+LF or LF and they are allowed
 only as line separators at end of line. Some characters have a special
 meaning when they appear (such as field delimiters '`;`' in INFO or
 '`:`' FORMAT fields), and for any other meaning they must be represented
 with the capitalized percent encoding:
 
-|     |     |                |
-|:----|:----|:---------------|
 | %3A | :   | (colon)        |
+|:----|:----|:---------------|
 | %3B | ;   | (semicolon)    |
 | %3D | =   | (equal sign)   |
 | %25 | %   | (percent sign) |
@@ -93,8 +86,8 @@ Data types supported by VCF are: Integer (32-bit, signed), Float (32-bit
 IEEE-754, formatted to match one of the regular expressions
 `^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$` or
 `^[-+]?(INF|INFINITY|NAN)$` case insensitively), [^1] Flag, Character,
-and String. For the Integer type, the values from $`-2^{31}`$ to
-$`-2^{31}+7`$ cannot be stored in the binary version and therefore are
+and String. For the Integer type, the values from $-2^{31}$ to
+$-2^{31}+7$ cannot be stored in the binary version and therefore are
 disallowed in both VCF and BCF, see
 <a href="#BcfTypeEncoding" data-reference-type="ref"
 data-reference="BcfTypeEncoding">6.3.3</a>.
@@ -126,7 +119,7 @@ A *structured* meta-information line is similar, but the value is itself
 a comma-separated list of key=value pairs, enclosed within '`<`' and
 '`>`' characters:
 
-> `##`*key*`=<`*key*`=`*value*`,`*key*`=`*value*`,`*key*`=`*value*`,`…`>`
+> `##`*key*`=<`*key*`=`*value*`,`*key*`=`*value*`,`*key*`=`*value*`,`...`>`
 
 All structured lines require an ID which must be unique within their
 type, i.e., within all the meta-information lines with the same
@@ -172,10 +165,10 @@ source and version are recommended):
 Possible Types for INFO fields are: Integer, Float, Flag, Character, and
 String. The Number entry is an Integer that describes the number of
 values that can be included with the INFO field. For example, if the
-INFO field contains a single number, then this value must be $`1`$; if
-the INFO field describes a pair of numbers, then this value must be
-$`2`$ and so on. There are also certain special characters used to
-define special cases:
+INFO field contains a single number, then this value must be $1$; if the
+INFO field describes a pair of numbers, then this value must be $2$ and
+so on. There are also certain special characters used to define special
+cases:
 
 - A: The field has one value per alternate allele. The values must be in
   the same order as listed in the ALT column (described in section
@@ -190,16 +183,16 @@ define special cases:
   be in the same order as prescribed in section
   <a href="#genotype-fields:genotype-ordering" data-reference-type="ref"
   data-reference="genotype-fields:genotype-ordering">[genotype-fields:genotype-ordering]</a>
-  (see <span class="smallcaps">Genotype Ordering</span>).
+  (see [Genotype Ordering]{.smallcaps}).
 
 - . (dot): The number of possible values varies, is unknown or
   unbounded.
 
 The 'Flag' type indicates that the INFO field does not contain a Value
-entry, and hence the Number must be $`0`$ in this case. The Description
+entry, and hence the Number must be $0$ in this case. The Description
 value must be surrounded by double-quotes. Double-quote character must
-be escaped with backslash $`\backslash`$ and backslash as
-$`\backslash\backslash`$. Source and Version values likewise must be
+be escaped with backslash $\backslash$ and backslash as
+$\backslash\backslash$. Source and Version values likewise must be
 surrounded by double-quotes and specify the annotation source
 (case-insensitive, e.g. `"dbsnp"`) and exact version (e.g. `"138"`),
 respectively for computational use.
@@ -301,7 +294,7 @@ expression:
 
 <div class="code-math-block">
 
-&nbsp;&nbsp;&nbsp;&nbsp;\[0-9A-Za-z!#$`%&+./:;?@^_|~-][0-9A-Za-z!#`$%&\*+./:;=?@^\_\|~-\]\*
+    \[0-9A-Za-z!#$%&+./:;?@^_|~-][0-9A-Za-z!#$%&\*+./:;=?@\^\_\|\~-\]\*
 
 </div>
 
@@ -364,27 +357,27 @@ missing values are specified with a dot ('.').
 
 There are 8 fixed fields per record. Fixed fields are:
 
-1.  CHROM — chromosome: An identifier from the reference genome or an
-    angle-bracketed ID String ("$`<`$ID$`>`$") pointing to a contig in
-    the assembly file (cf. the \##assembly line in the header). All
-    entries for a specific CHROM must form a contiguous block within the
-    VCF file. (String, no whitespace permitted, Required).
+1.  CHROM --- chromosome: An identifier from the reference genome or an
+    angle-bracketed ID String ("$<$ID$>$") pointing to a contig in the
+    assembly file (cf. the \##assembly line in the header). All entries
+    for a specific CHROM must form a contiguous block within the VCF
+    file. (String, no whitespace permitted, Required).
 
-2.  POS — position: The reference position, with the 1st base having
+2.  POS --- position: The reference position, with the 1st base having
     position 1. Positions are sorted numerically, in increasing order,
     within each reference sequence CHROM. It is permitted to have
     multiple records with the same POS. Telomeres are indicated by using
     positions 0 or N+1, where N is the length of the corresponding
     chromosome or contig. (Integer, Required)
 
-3.  ID — identifier: Semicolon-separated list of unique identifiers
+3.  ID --- identifier: Semicolon-separated list of unique identifiers
     where available. If this is a dbSNP variant the rs number(s) should
     be used. No identifier should be present in more than one data
     record. If there is no identifier available, then the MISSING value
     should be used. (String, no whitespace or semicolons permitted,
     duplicate values not allowed.)
 
-4.  REF — reference base(s): Each base must be one of A,C,G,T,N (case
+4.  REF --- reference base(s): Each base must be one of A,C,G,T,N (case
     insensitive). Multiple bases are permitted. The value in the POS
     field refers to the position of the first base in the String. For
     simple insertions and deletions in which either the REF or one of
@@ -396,10 +389,10 @@ There are 8 fixed fields per record. Fixed fields are:
     for e.g. complex substitutions or other events where all alleles
     have at least one base represented in their Strings. If any of the
     ALT alleles is a symbolic allele (an angle-bracketed ID String
-    "$`<`$ID$`>`$") then the padding base is required and POS denotes
-    the coordinate of the base preceding the polymorphism. Tools
-    processing VCF files are not required to preserve case in the allele
-    Strings. (String, Required).
+    "$<$ID$>$") then the padding base is required and POS denotes the
+    coordinate of the base preceding the polymorphism. Tools processing
+    VCF files are not required to preserve case in the allele Strings.
+    (String, Required).
 
     If the reference sequence contains IUPAC ambiguity codes not allowed
     by this specification (such as R = A/G), the ambiguous reference
@@ -407,12 +400,12 @@ There are 8 fixed fields per record. Fixed fields are:
     first alphabetically (thus R as a reference base is converted to A
     in VCF.)
 
-5.  ALT — alternate base(s): Comma-separated list of alternate
+5.  ALT --- alternate base(s): Comma-separated list of alternate
     non-reference alleles. These alleles do not have to be called in any
     of the samples. Options are base Strings made up of the bases
     A,C,G,T,N (case insensitive) or the '\*' symbol (allele missing due
     to overlapping deletion) or a MISSING value '.' (no variant) or an
-    angle-bracketed ID String ("$`<`$ID$`>`$") or a breakend replacement
+    angle-bracketed ID String ("$<$ID$>$") or a breakend replacement
     string as described in Section
     <a href="#Breakends" data-reference-type="ref"
     data-reference="Breakends">5.4</a>. If there are no alternative
@@ -424,13 +417,13 @@ There are 8 fixed fields per record. Fixed fields are:
     whitespace, commas, or angle-brackets are permitted in the ID String
     itself)
 
-6.  QUAL — quality: Phred-scaled quality score for the assertion made in
-    ALT. i.e. $`-10log_{10}`$ prob(call in ALT is wrong). If ALT is '.'
-    (no variant) then this is $`-10log_{10}`$ prob(variant), and if ALT
-    is not '.' this is $`-10log_{10}`$ prob(no variant). If unknown, the
+6.  QUAL --- quality: Phred-scaled quality score for the assertion made
+    in ALT. i.e. $-10log_{10}$ prob(call in ALT is wrong). If ALT is '.'
+    (no variant) then this is $-10log_{10}$ prob(variant), and if ALT is
+    not '.' this is $-10log_{10}$ prob(no variant). If unknown, the
     MISSING value must be specified. (Float)
 
-7.  FILTER — filter status: PASS if this position has passed all
+7.  FILTER --- filter status: PASS if this position has passed all
     filters, i.e., a call is made at this position. Otherwise, if the
     site has not passed all filters, a semicolon-separated list of codes
     for filters that fail. e.g. "q10;s50" might indicate that at this
@@ -440,10 +433,10 @@ There are 8 fixed fields per record. Fixed fields are:
     then this field must be set to the MISSING value. (String, no
     whitespace or semicolons permitted, duplicate values not allowed.)
 
-8.  INFO — additional information: Semicolon-separated series of
+8.  INFO --- additional information: Semicolon-separated series of
     additional information fields, or the MISSING value '`.`' if none
     are present. Each subfield consists of a short *key* with optional
-    *values* in the format: key\[=value\[, …,value\]\]. Literal
+    *values* in the format: key\[=value\[, ...,value\]\]. Literal
     semicolon ('`;`') and equals sign ('`=`') characters are not
     permitted in these values, and literal commas ('`,`') are permitted
     only as delimiters for lists of values; characters with special
@@ -627,7 +620,7 @@ genomics)</td>
 </div>
 
 - END: End reference position (1-based), indicating the variant spans
-  positions POS–END on reference/contig CHROM. Normally this is the
+  positions POS--END on reference/contig CHROM. Normally this is the
   position of the last base in the REF allele, so it can be derived from
   POS and the length of REF, and no END INFO field is needed. However
   when symbolic alleles are used, e.g. in gVCF or structural variants,
@@ -653,7 +646,7 @@ keys. Additional Genotype keys can be defined in the meta-information,
 however, software support for them is not guaranteed.
 
 If any of the fields is missing, it is replaced with the MISSING value.
-For example if the FORMAT is GT:GQ:DP:HQ then $`0\mid0:.:23:23,34`$
+For example if the FORMAT is GT:GQ:DP:HQ then $0\mid0:.:23:23,34$
 indicates that GQ is missing. If a field contains a list of missing
 values, it can be represented either as a single MISSING value ('.') or
 as a list of missing values (e.g. '.,.,.' if the field was Number=3).
@@ -811,7 +804,7 @@ probabilities rounded to the closest integer</td>
   semicolons permitted.
 
 - GQ (Integer): Conditional genotype quality, encoded as a phred quality
-  $`-10log_{10}`$ p(genotype call is wrong, conditioned on the site's
+  $-10log_{10}$ p(genotype call is wrong, conditioned on the site's
   being variant).
 
 - GP (Float): Genotype posterior probabilities in the range 0 to 1 using
@@ -819,43 +812,42 @@ probabilities rounded to the closest integer</td>
   genotype probabilities.
 
 - GT (String): Genotype, encoded as allele values separated by either of
-  $`/`$ or $`\mid`$. The allele values are 0 for the reference allele
-  (what is in the REF field), 1 for the first allele listed in ALT, 2
-  for the second allele list in ALT and so on. For diploid calls
-  examples could be $`0/1`$, $`1\mid0`$, or $`1/2`$, etc. Haploid calls,
-  e.g. on Y, male non-pseudoautosomal X, or mitochondrion, are indicated
-  by having only one allele value. A triploid call might look like
-  $`0/0/1`$. If a call cannot be made for a sample at a given locus, '.'
-  must be specified for each missing allele in the GT field (for example
-  '$`./.`$' for a diploid genotype and '.' for haploid genotype). The
-  meanings of the separators are as follows (see the PS field below for
-  more details on incorporating phasing information into the genotypes):
+  $/$ or $\mid$. The allele values are 0 for the reference allele (what
+  is in the REF field), 1 for the first allele listed in ALT, 2 for the
+  second allele list in ALT and so on. For diploid calls examples could
+  be $0/1$, $1\mid0$, or $1/2$, etc. Haploid calls, e.g. on Y, male
+  non-pseudoautosomal X, or mitochondrion, are indicated by having only
+  one allele value. A triploid call might look like $0/0/1$. If a call
+  cannot be made for a sample at a given locus, '.' must be specified
+  for each missing allele in the GT field (for example '$./.$' for a
+  diploid genotype and '.' for haploid genotype). The meanings of the
+  separators are as follows (see the PS field below for more details on
+  incorporating phasing information into the genotypes):
 
-  - $`/`$ : genotype unphased
+  - $/$ : genotype unphased
 
-  - $`\mid`$ : genotype phased
+  - $\mid$ : genotype phased
 
 - GL (Float): Genotype likelihoods comprised of comma separated floating
-  point $`log_{10}`$-scaled likelihoods for all possible genotypes given
+  point $log_{10}$-scaled likelihoods for all possible genotypes given
   the set of alleles defined in the REF and ALT fields. In presence of
   the GT field the same ploidy is expected; without GT field, diploidy
   is assumed.
 
-  <span class="smallcaps">Genotype Ordering.</span>
-  <span id="genotype-fields:genotype-ordering"
-  label="genotype-fields:genotype-ordering"></span> In general case of
-  ploidy P and N alternate alleles (0 is the REF and $`1\ldots N`$ the
-  alternate alleles), the ordering of genotypes for the likelihoods can
-  be expressed by the following pseudocode with as many nested loops as
+  [Genotype Ordering.]{.smallcaps} []{#genotype-fields:genotype-ordering
+  label="genotype-fields:genotype-ordering"} In general case of ploidy P
+  and N alternate alleles (0 is the REF and $1\ldots N$ the alternate
+  alleles), the ordering of genotypes for the likelihoods can be
+  expressed by the following pseudocode with as many nested loops as
   ploidy: [^3]
 
   <div class="code-math-block">
 
-  &nbsp;&nbsp;for $`a_P = 0\ldots N`$\
-  &nbsp;&nbsp;&nbsp;&nbsp;for $`a_{P-1} = 0\ldots a_P`$\
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$`\ldots`$\
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for $`a_1 = 0\ldots a_{2}`$\
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println $`a_1 a_2  \ldots  a_P`$
+    for $a_P = 0\ldots N$\
+      for $a_{P-1} = 0\ldots a_P$\
+          $\ldots$\
+          for $a_1 = 0\ldots a_{2}$\
+              println $a_1 a_2  \ldots  a_P$
 
   </div>
 
@@ -864,19 +856,19 @@ probabilities rounded to the closest integer</td>
 
   <div class="code-math-block">
 
-  &nbsp;&nbsp;&nbsp;&nbsp;Ordering($`P`$, $`N`$, suffix=""):\
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for $`a`$ in $`0\ldots N`$\
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($`P == 1`$) println str($`a`$) + suffix\
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($`P > 1`$) Ordering($`P`$-1, $`a`$, str($`a`$) + suffix)
+      Ordering($P$, $N$, suffix=""):\
+          for $a$ in $0\ldots N$\
+              if ($P == 1$) println str($a$) + suffix\
+              if ($P > 1$) Ordering($P$-1, $a$, str($a$) + suffix)
 
   </div>
 
   Conversely, the index of the value corresponding to the genotype
-  $`k_1\le k_2\le\ldots\le k_P`$ is
+  $k_1\le k_2\le\ldots\le k_P$ is
 
   <div class="code-math-block">
 
-  &nbsp;&nbsp;&nbsp;&nbsp;Index($`k_1/k_2/\ldots/k_P`$) = $`\sum_{m=1}^{P} {k_m + m - 1 \choose m}`$
+      Index($k_1/k_2/\ldots/k_P$) = $\sum_{m=1}^{P} {k_m + m - 1 \choose m}$
 
   </div>
 
@@ -941,25 +933,23 @@ Several tag names follow conventions indicating how their values are
 represented numerically:
 
 - The 'L' suffix means *likelihood* as log-likelihood in the sampling
-  distribution, $`\log_{10} \Pr(\mathrm{Data}|\mathrm{Model})`$.
-  Likelihoods are represented as $`\log_{10}`$ scale, thus they are
+  distribution, $\log_{10} \Pr(\mathrm{Data}|\mathrm{Model})$.
+  Likelihoods are represented as $\log_{10}$ scale, thus they are
   negative numbers (e.g. GL, CNL). The likelihood can be also
   represented in some cases as phred-scale in a separate tag (e.g. PL).
 
 - The 'P' suffix means *probability* as linear-scale probability in the
-  posterior distribution, which is
-  $`\Pr(\mathrm{Model}|\mathrm{Data})`$. Examples are GP, CNP.
+  posterior distribution, which is $\Pr(\mathrm{Model}|\mathrm{Data})$.
+  Examples are GP, CNP.
 
 - The 'Q' suffix means *quality* as log-complementary-phred-scale
   posterior probability,
-  $`-10 \log_{10} \Pr(\mathrm{Data}|\mathrm{Model})`$, where the model
-  is the most likely genotype that appears in the GT field. Examples are
+  $-10 \log_{10} \Pr(\mathrm{Data}|\mathrm{Model})$, where the model is
+  the most likely genotype that appears in the GT field. Examples are
   GQ, CNQ. The fixed site-level QUAL field follows the same convention
   (represented as a phred-scaled number).
 
 # INFO keys used for structural variants
-
-<div class="samepage">
 
 The following INFO keys are reserved for encoding structural variants.
 In general, when these keys are used by imprecise variants, the values
@@ -973,12 +963,10 @@ be multiple values for the key corresponding to each allele
     ##INFO=<ID=END,Number=1,Type=Integer,Description="End position of the variant described in this record">
 
 For precise variants, END is
-$`\mbox{POS} + \mbox{length of REF allele} - 1`$, and the for imprecise
+$\mbox{POS} + \mbox{length of REF allele} - 1$, and the for imprecise
 variants the corresponding best estimate.
 
     ##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
-
-</div>
 
 This key can be derived from the REF/ALT fields but is useful for
 filtering. The reserved values must be used for the types listed below:
@@ -1045,13 +1033,13 @@ These keys are analogous to GT/GQ/GL/GP and are provided for genotyping
 imprecise events by copy number (either because there is an unknown
 number of alternate alleles or because the haplotypes cannot be
 determined). CN specifies the integer copy number of the variant in this
-sample. CNQ is encoded as a phred quality $`-10log_{10}`$ p(copy number
-genotype call is wrong). CNL specifies a list of $`log_{10}`$
-likelihoods for each potential copy number, starting from zero. CNP is 0
-to 1-scaled copy number posterior probabilities (and otherwise defined
-precisely as the CNL field), intended to store imputed genotype
-probabilities. When possible, GT/GQ/GL/GP should be used instead of (or
-in addition to) these keys.
+sample. CNQ is encoded as a phred quality $-10log_{10}$ p(copy number
+genotype call is wrong). CNL specifies a list of $log_{10}$ likelihoods
+for each potential copy number, starting from zero. CNP is 0 to 1-scaled
+copy number posterior probabilities (and otherwise defined precisely as
+the CNL field), intended to store imputed genotype probabilities. When
+possible, GT/GQ/GL/GP should be used instead of (or in addition to)
+these keys.
 
 # Representing variation in VCF records
 
@@ -1079,11 +1067,11 @@ Representing these as VCF records would be done as follows:
 
 Note that the positions must be sorted in increasing order:
 
-|         |       |     |     |:--------|:------|:----|:----|:----|:-----|:-------|:-------|
-| \#CHROM | POS   | ID  | REF | ALT | QUAL | FILTER | INFO   |
-| $`20`$  | $`2`$ | .   | TC  | T   | .    | PASS   | DP=100 |
-| $`20`$  | $`3`$ | .   | C   | G   | .    | PASS   | DP=100 |
-| $`20`$  | $`3`$ | .   | C   | CA  | .    | PASS   | DP=100 |
+| \#CHROM | POS | ID  | REF | ALT | QUAL | FILTER | INFO   |
+|:--------|:----|:----|:----|:----|:-----|:-------|:-------|
+| $20$    | $2$ | .   | TC  | T   | .    | PASS   | DP=100 |
+| $20$    | $3$ | .   | C   | G   | .    | PASS   | DP=100 |
+| $20$    | $3$ | .   | C   | CA  | .    | PASS   | DP=100 |
 
 ### Example 2
 
@@ -1093,15 +1081,15 @@ represent these three segregating alleles:
 | Example | Sequence    | Alteration                                      |
 |:--------|:------------|:------------------------------------------------|
 | Ref     | a t C g a   | C is the reference base                         |
-| $`1`$   | a t G g a   | C base is a G in some individuals               |
-| $`2`$   | a t  -  g a | C base is deleted w.r.t. the reference sequence |
+| $1$     | a t G g a   | C base is a G in some individuals               |
+| $2$     | a t  -  g a | C base is deleted w.r.t. the reference sequence |
 
-In this case there are three segregating alleles: $`\{tC,tG,t\}`$ with a
+In this case there are three segregating alleles: $\{tC,tG,t\}$ with a
 corresponding VCF record:
 
-|         |       |     |     |:--------|:------|:----|:----|:-----|:-----|:-------|:-------|
-| \#CHROM | POS   | ID  | REF | ALT  | QUAL | FILTER | INFO   |
-| $`20`$  | $`2`$ | .   | TC  | TG,T | .    | PASS   | DP=100 |
+| \#CHROM | POS | ID  | REF | ALT  | QUAL | FILTER | INFO   |
+|:--------|:----|:----|:----|:-----|:-----|:-------|:-------|
+| $20$    | $2$ | .   | TC  | TG,T | .    | PASS   | DP=100 |
 
 ### Example 3
 
@@ -1110,16 +1098,16 @@ Now suppose I have this more complex example:
 | Example | Sequence | Alteration |
 |:---|:---|:---|
 | Ref | a t C g a | C is the reference base |
-| $`1`$ | a t  -  g a | C base is deleted w.r.t. the reference sequence |
-| $`2`$ | a t  - -  a | C and G bases are deleted w.r.t. the reference sequence |
-| $`3`$ | a t CAg a | A base is inserted w.r.t. the reference sequence |
+| $1$ | a t  -  g a | C base is deleted w.r.t. the reference sequence |
+| $2$ | a t  - -  a | C and G bases are deleted w.r.t. the reference sequence |
+| $3$ | a t CAg a | A base is inserted w.r.t. the reference sequence |
 
-There are actually four segregating alleles: $`\{tCg,tg,t,tCAg\}`$ over
-bases 2–4. This complex set of allele is represented in VCF as:
+There are actually four segregating alleles: $\{tCg,tg,t,tCAg\}$ over
+bases 2--4. This complex set of allele is represented in VCF as:
 
-|         |       |     |     |:--------|:------|:----|:----|:----------|:-----|:-------|:-------|
-| \#CHROM | POS   | ID  | REF | ALT       | QUAL | FILTER | INFO   |
-| $`20`$  | $`2`$ | .   | TCG | TG,T,TCAG | .    | PASS   | DP=100 |
+| \#CHROM | POS | ID  | REF | ALT       | QUAL | FILTER | INFO   |
+|:--------|:----|:----|:----|:----------|:-----|:-------|:-------|
+| $20$    | $2$ | .   | TCG | TG,T,TCAG | .    | PASS   | DP=100 |
 
 Note that in VCF records, the molecular equivalence explicitly listed
 above in the per-base alignment is discarded, so the actual placement of
@@ -1133,9 +1121,9 @@ Reference site depends on the properties of the alleles in the record.
 
 Suppose I receive the following VCF record:
 
-|         |       |     |     |:--------|:------|:----|:----|:----|:-----|:-------|:-------|
-| \#CHROM | POS   | ID  | REF | ALT | QUAL | FILTER | INFO   |
-| $`20`$  | $`3`$ | .   | C   | T   | .    | PASS   | DP=100 |
+| \#CHROM | POS | ID  | REF | ALT | QUAL | FILTER | INFO   |
+|:--------|:----|:----|:----|:----|:-----|:-------|:-------|
+| $20$    | $3$ | .   | C   | T   | .    | PASS   | DP=100 |
 
 This is a SNP since its only single base substitution and there are only
 two alleles so I have the two following segregating haplotypes:
@@ -1143,15 +1131,15 @@ two alleles so I have the two following segregating haplotypes:
 | Example | Sequence    | Alteration                        |
 |:--------|:------------|:----------------------------------|
 | Ref     | `a t C g a` | C is the reference base           |
-| $`1`$   | `a t T g a` | C base is a T in some individuals |
+| $1$     | `a t T g a` | C base is a T in some individuals |
 
 ### Insertion VCF record
 
 Suppose I receive the following VCF record:
 
-|         |       |     |     |:--------|:------|:----|:----|:-----|:-----|:-------|:-------|
-| \#CHROM | POS   | ID  | REF | ALT  | QUAL | FILTER | INFO   |
-| $`20`$  | $`3`$ | .   | C   | CTAG | .    | PASS   | DP=100 |
+| \#CHROM | POS | ID  | REF | ALT  | QUAL | FILTER | INFO   |
+|:--------|:----|:----|:----|:-----|:-----|:-------|:-------|
+| $20$    | $3$ | .   | C   | CTAG | .    | PASS   | DP=100 |
 
 This is a insertion since the reference base C is being replaced by C
 \[the reference base\] plus three insertion bases TAG. Again there are
@@ -1160,15 +1148,15 @@ only two alleles so I have the two following segregating haplotypes:
 | Example | Sequence          | Alteration                                      |
 |:--------|:------------------|:------------------------------------------------|
 | Ref     | `a t C - - - g a` | C is the reference base                         |
-| $`1`$   | `a t C T A G g a` | following the C base is an insertion of 3 bases |
+| $1$     | `a t C T A G g a` | following the C base is an insertion of 3 bases |
 
 ### Deletion VCF record
 
 Suppose I receive the following VCF record:
 
-|         |       |     |     |:--------|:------|:----|:----|:----|:-----|:-------|:-------|
-| \#CHROM | POS   | ID  | REF | ALT | QUAL | FILTER | INFO   |
-| $`20`$  | $`2`$ | .   | TCG | T   | .    | PASS   | DP=100 |
+| \#CHROM | POS | ID  | REF | ALT | QUAL | FILTER | INFO   |
+|:--------|:----|:----|:----|:----|:-----|:-------|:-------|
+| $20$    | $2$ | .   | TCG | T   | .    | PASS   | DP=100 |
 
 This is a deletion of two reference bases since the reference allele TCG
 is being replaced by just the T \[the reference base\]. Again there are
@@ -1177,15 +1165,15 @@ only two alleles so I have the two following segregating haplotypes:
 | Example | Sequence    | Alteration                                    |
 |:--------|:------------|:----------------------------------------------|
 | Ref     | `a T C G a` | T is the (first) reference base               |
-| $`1`$   | `a T - - a` | following the T base is a deletion of 2 bases |
+| $1$     | `a T - - a` | following the T base is a deletion of 2 bases |
 
 ### Mixed VCF record for a microsatellite
 
 Suppose I receive the following VCF record:
 
-|         |       |     |     |:--------|:------|:----|:----|:--------|:-----|:-------|:-------|
-| \#CHROM | POS   | ID  | REF | ALT     | QUAL | FILTER | INFO   |
-| $`20`$  | $`4`$ | .   | GCG | G,GCGCG | .    | PASS   | DP=100 |
+| \#CHROM | POS | ID  | REF | ALT     | QUAL | FILTER | INFO   |
+|:--------|:----|:----|:----|:--------|:-----|:-------|:-------|
+| $20$    | $4$ | .   | GCG | G,GCGCG | .    | PASS   | DP=100 |
 
 This is a mixed type record containing a 2 base insertion and a 2 base
 deletion. There are are three segregating alleles so I have the three
@@ -1194,8 +1182,8 @@ following haplotypes:
 | Example | Sequence | Alteration |
 |:---|:---|:---|
 | Ref | `a t c G C G - - a` | G is the (first) reference base |
-| $`1`$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
-| $`2`$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
+| $1$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
+| $2$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
 
 Note that in all of these examples dashes have been added to make the
 haplotypes clearer but of course the equivalence among bases isn't
@@ -1205,8 +1193,8 @@ alignment:
 | Example | Sequence | Alteration |
 |:---|:---|:---|
 | Ref | `a t c G - - C G a` | G is the (first) reference base |
-| $`1`$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
-| $`2`$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
+| $1$ | `a t c G - - - - a` | following the G base is a deletion of 2 bases |
+| $2$ | `a t c G C G C G a` | following the G base is an insertion of 2 bases |
 
 ## Encoding Structural Variants
 
@@ -1271,8 +1259,8 @@ VCF, showing in order:
 ## Specifying complex rearrangements with breakends
 
 An arbitrary rearrangement event can be summarized as a set of novel
-**adjacencies**. Each adjacency ties together $`2`$ **breakends**. The
-two breakends at either end of a novel adjacency are called **mates**.
+**adjacencies**. Each adjacency ties together $2$ **breakends**. The two
+breakends at either end of a novel adjacency are called **mates**.
 
 There is one line of VCF (i.e. one record) for each of the two breakends
 in a novel adjacency. A breakend record is identified with the tag
@@ -1297,13 +1285,12 @@ These 3 elements are combined in 4 possible ways to create the ALT. In
 each of the 4 cases, the assertion is that s is replaced with t, and
 then some piece starting at position p is joined to t. The cases are:
 
-|  |  |  |
-|:---|:---|:---|
-| REF | ALT | Meaning |
-| s | t$`[`$p$`[`$ | piece extending to the right of p is joined after t |
-| s | t$`]`$p$`]`$ | reverse comp piece extending left of p is joined after t |
-| s | $`]`$p$`]`$t | piece extending to the left of p is joined before t |
-| s | $`[`$p$`[`$t | reverse comp piece extending right of p is joined before t |
+| REF | ALT      | Meaning                                                    |
+|:----|:---------|:-----------------------------------------------------------|
+| s   | t$[$p$[$ | piece extending to the right of p is joined after t        |
+| s   | t$]$p$]$ | reverse comp piece extending left of p is joined after t   |
+| s   | $]$p$]$t | piece extending to the left of p is joined before t        |
+| s   | $[$p$[$t | reverse comp piece extending right of p is joined before t |
 
 The example in Figure 1 shows a 3-break operation involving 6 breakends.
 It exemplifies all possible orientations of breakends in adjacencies.
@@ -1315,14 +1302,14 @@ style="width:4in;height:2.96in" />
 <figcaption>All possible orientations of breakends</figcaption>
 </figure>
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-| $`2`$ | $`321681`$ | bnd_W | G | G$`]17`$:$`198982]`$ | $`6`$ | PASS | SVTYPE=BND |
-| $`2`$ | $`321682`$ | bnd_V | T | $`]`$<!-- -->13:123456$`]`$T | 6 | PASS | SVTYPE=BND |
-| $`13`$ | $`123456`$ | bnd_U | C | C$`[`$<!-- -->2:321682$`[`$ | 6 | PASS | SVTYPE=BND |
-| $`13`$ | $`123457`$ | bnd_X | A | $`[`$<!-- -->17:198983$`[`$A | 6 | PASS | SVTYPE=BND |
-| $`17`$ | $`198982`$ | bnd_Y | A | A$`]`$<!-- -->2:321681$`]`$ | 6 | PASS | SVTYPE=BND |
-| $`17`$ | $`198983`$ | bnd_Z | C | $`[`$<!-- -->13:123457$`[`$C | 6 | PASS | SVTYPE=BND |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| $2$ | $321681$ | bnd_W | G | G$]17$:$198982]$ | $6$ | PASS | SVTYPE=BND |
+| $2$ | $321682$ | bnd_V | T | $]$`<!-- -->`{=html}13:123456$]$T | 6 | PASS | SVTYPE=BND |
+| $13$ | $123456$ | bnd_U | C | C$[$`<!-- -->`{=html}2:321682$[$ | 6 | PASS | SVTYPE=BND |
+| $13$ | $123457$ | bnd_X | A | $[$`<!-- -->`{=html}17:198983$[$A | 6 | PASS | SVTYPE=BND |
+| $17$ | $198982$ | bnd_Y | A | A$]$`<!-- -->`{=html}2:321681$]$ | 6 | PASS | SVTYPE=BND |
+| $17$ | $198983$ | bnd_Z | C | $[$`<!-- -->`{=html}13:123457$[$C | 6 | PASS | SVTYPE=BND |
 
 ### Inserted Sequence
 
@@ -1335,10 +1322,10 @@ style="width:4in;height:1.89in" />
 <figcaption>Inserted sequence between breakends</figcaption>
 </figure>
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-| $`2`$ | $`321682`$ | bnd_V | T | $`]13:123456]`$AGTNNNNNCAT | $`6`$ | PASS | SVTYPE=BND;MATEID=bnd_U |
-| $`13`$ | $`123456`$ | bnd_U | C | CAGTNNNNNCA$`[2:321682[`$ | $`6`$ | PASS | SVTYPE=BND;MATEID=bnd_V |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| $2$ | $321682$ | bnd_V | T | $]13:123456]$AGTNNNNNCAT | $6$ | PASS | SVTYPE=BND;MATEID=bnd_U |
+| $13$ | $123456$ | bnd_U | C | CAGTNNNNNCA$[2:321682[$ | $6$ | PASS | SVTYPE=BND;MATEID=bnd_V |
 
 ### Large Insertions
 
@@ -1352,37 +1339,37 @@ style="width:4in;height:2.47in" />
 <figcaption>Inserted contig</figcaption>
 </figure>
 
-|         |            |       |     |:--------|:-----------|:------|:----|:----------------------|:------|:-------|:-----------|
-| \#CHROM | POS        | ID    | REF | ALT                   | QUAL  | FILTER | INFO       |
-| $`13`$  | $`123456`$ | bnd_U | C   | C$`[<`$ctg1$`>:1[`$   | $`6`$ | PASS   | SVTYPE=BND |
-| $`13`$  | $`123457`$ | bnd_V | A   | $`]<`$ctg$`1>:329]`$A | $`6`$ | PASS   | SVTYPE=BND |
+| \#CHROM | POS      | ID    | REF | ALT               | QUAL | FILTER | INFO       |
+|:--------|:---------|:------|:----|:------------------|:-----|:-------|:-----------|
+| $13$    | $123456$ | bnd_U | C   | C$[<$ctg1$>:1[$   | $6$  | PASS   | SVTYPE=BND |
+| $13$    | $123457$ | bnd_V | A   | $]<$ctg$1>:329]$A | $6$  | PASS   | SVTYPE=BND |
 
 **Note**: In the special case of the complete insertion of a sequence
 between two base pairs, it is recommended to use the shorthand notation
 described above:
 
-|         |            |      |     |:--------|:-----------|:-----|:----|:----------------|:------|:-------|:-----------|
-| \#CHROM | POS        | ID   | REF | ALT             | QUAL  | FILTER | INFO       |
-| $`13`$  | $`321682`$ | INS0 | T   | C$`<`$ctg$`1>`$ | $`6`$ | PASS   | SVTYPE=INS |
+| \#CHROM | POS      | ID   | REF | ALT         | QUAL | FILTER | INFO       |
+|:--------|:---------|:-----|:----|:------------|:-----|:-------|:-----------|
+| $13$    | $321682$ | INS0 | T   | C$<$ctg$1>$ | $6$  | PASS   | SVTYPE=INS |
 
-If only a portion of $`<`$ctg$`1>`$, say from position $`7`$ to position
-$`214`$, is inserted, the VCF would be:
+If only a portion of $<$ctg$1>$, say from position $7$ to position
+$214$, is inserted, the VCF would be:
 
-|         |            |       |     |:--------|:-----------|:------|:----|:----------------------|:------|:-------|:-----------|
-| \#CHROM | POS        | ID    | REF | ALT                   | QUAL  | FILTER | INFO       |
-| $`13`$  | $`123456`$ | bnd_U | C   | C$`[<`$ctg1$`>:7[`$   | $`6`$ | PASS   | SVTYPE=BND |
-| $`13`$  | $`123457`$ | bnd_V | A   | $`]<`$ctg$`1>:214]`$A | $`6`$ | PASS   | SVTYPE=BND |
+| \#CHROM | POS      | ID    | REF | ALT               | QUAL | FILTER | INFO       |
+|:--------|:---------|:------|:----|:------------------|:-----|:-------|:-----------|
+| $13$    | $123456$ | bnd_U | C   | C$[<$ctg1$>:7[$   | $6$  | PASS   | SVTYPE=BND |
+| $13$    | $123457$ | bnd_V | A   | $]<$ctg$1>:214]$A | $6$  | PASS   | SVTYPE=BND |
 
-If $`<`$ctg$`1>`$ is circular and a segment from position 229 to
-position 45 is inserted, i.e., continuing from position 329 on to
-position 1, this is represented by adding a circular adjacency:
+If $<$ctg$1>$ is circular and a segment from position 229 to position 45
+is inserted, i.e., continuing from position 329 on to position 1, this
+is represented by adding a circular adjacency:
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
-| \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-| $`13`$ | $`123456`$ | bnd_U | C | C$`[<`$ctg$`1>:229[`$ | 6 | PASS | SVTYPE=BND |
-| $`13`$ | $`123457`$ | bnd_V | A | $`]<`$ctg$`1>:45]`$A | 6 | PASS | SVTYPE=BND |
-| $`<`$ctg$`1>`$ | 1 | bnd_X | A | $`]<`$ctg$`1>:329]`$A | 6 | PASS | SVTYPE=BND |
-| $`<`$ctg$`1>`$ | 329 | bnd_Y | T | T$`[<`$ctg$`1>:1[`$ | 6 | PASS | SVTYPE=BND |
+| \#CHROM    | POS      | ID    | REF | ALT               | QUAL | FILTER | INFO       |
+|:-----------|:---------|:------|:----|:------------------|:-----|:-------|:-----------|
+| $13$       | $123456$ | bnd_U | C   | C$[<$ctg$1>:229[$ | 6    | PASS   | SVTYPE=BND |
+| $13$       | $123457$ | bnd_V | A   | $]<$ctg$1>:45]$A  | 6    | PASS   | SVTYPE=BND |
+| $<$ctg$1>$ | 1        | bnd_X | A   | $]<$ctg$1>:329]$A | 6    | PASS   | SVTYPE=BND |
+| $<$ctg$1>$ | 329      | bnd_Y | T   | T$[<$ctg$1>:1[$   | 6    | PASS   | SVTYPE=BND |
 
 ### Multiple mates
 
@@ -1396,11 +1383,11 @@ style="width:4in;height:2.8in" />
 <figcaption>Breakend with multiple mates</figcaption>
 </figure>
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-| $`2`$ | $`321682`$ | bnd_V | T | $`]13:123456]`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_U |
-| $`13`$ | $`123456`$ | bnd_U | C | C$`[2:321682[`$,C$`[17:198983[`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V,bnd_Z |
-| $`17`$ | $`198983`$ | bnd_Z | A | $`]13:123456]`$A | 6 | PASS | SVTYPE=BND;MATEID=bnd_U |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| $2$ | $321682$ | bnd_V | T | $]13:123456]$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_U |
+| $13$ | $123456$ | bnd_U | C | C$[2:321682[$,C$[17:198983[$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V,bnd_Z |
+| $17$ | $198983$ | bnd_Z | A | $]13:123456]$A | 6 | PASS | SVTYPE=BND;MATEID=bnd_U |
 
 ### Explicit partners
 
@@ -1415,12 +1402,12 @@ breakend's partner may be explicitly named as in Figure 5:
 <figcaption>Partner breakends</figcaption>
 </figure>
 
-|         |        |       |     |:--------|:-------|:------|:----|:-----------------|:-----|:-------|:-------------------------|
-| \#CHROM | POS    | ID    | REF | ALT              | QUAL | FILTER | INFO                     |
-| 2       | 321681 | bnd_W | G   | G$`[13:123460[`$ | 6    | PASS   | PARID=bnd_V;MATEID=bnd_X |
-| 2       | 321682 | bnd_V | T   | $`]13:123456]`$T | 6    | PASS   | PARID=bnd_W;MATEID=bnd_U |
-| 13      | 123456 | bnd_U | C   | C$`[2:321682[`$  | 6    | PASS   | PARID=bnd_X;MATEID=bnd_V |
-| 13      | 123460 | bnd_X | A   | $`]2:321681]`$A  | 6    | PASS   | PARID=bnd_U;MATEID=bnd_W |
+| \#CHROM | POS    | ID    | REF | ALT            | QUAL | FILTER | INFO                     |
+|:--------|:-------|:------|:----|:---------------|:-----|:-------|:-------------------------|
+| 2       | 321681 | bnd_W | G   | G$[13:123460[$ | 6    | PASS   | PARID=bnd_V;MATEID=bnd_X |
+| 2       | 321682 | bnd_V | T   | $]13:123456]$T | 6    | PASS   | PARID=bnd_W;MATEID=bnd_U |
+| 13      | 123456 | bnd_U | C   | C$[2:321682[$  | 6    | PASS   | PARID=bnd_X;MATEID=bnd_V |
+| 13      | 123460 | bnd_X | A   | $]2:321681]$A  | 6    | PASS   | PARID=bnd_U;MATEID=bnd_W |
 
 ### Telomeres
 
@@ -1439,12 +1426,12 @@ chromosome 1 into chromosome 13, as illustrated in Figure 6:
 
 the records would look like:
 
-|         |        |       |     |:--------|:-------|:------|:----|:-----------------|:-----|:-------|:------------------------|
-| \#CHROM | POS    | ID    | REF | ALT              | QUAL | FILTER | INFO                    |
-| 1       | 0      | bnd_X | N   | $`.[13:123457[`$ | 6    | PASS   | SVTYPE=BND;MATEID=bnd_V |
-| 1       | 1      | bnd_Y | T   | $`]13:123456]`$T | 6    | PASS   | SVTYPE=BND;MATEID=bnd_U |
-| 13      | 123456 | bnd_U | C   | C$`[1:1[`$       | 6    | PASS   | SVTYPE=BND;MATEID=bnd_Y |
-| 13      | 123457 | bnd_V | A   | $`]1:0]`$A       | 6    | PASS   | SVTYPE=BND;MATEID=bnd_X |
+| \#CHROM | POS    | ID    | REF | ALT            | QUAL | FILTER | INFO                    |
+|:--------|:-------|:------|:----|:---------------|:-----|:-------|:------------------------|
+| 1       | 0      | bnd_X | N   | $.[13:123457[$ | 6    | PASS   | SVTYPE=BND;MATEID=bnd_V |
+| 1       | 1      | bnd_Y | T   | $]13:123456]$T | 6    | PASS   | SVTYPE=BND;MATEID=bnd_U |
+| 13      | 123456 | bnd_U | C   | C$[1:1[$       | 6    | PASS   | SVTYPE=BND;MATEID=bnd_Y |
+| 13      | 123457 | bnd_V | A   | $]1:0]$A       | 6    | PASS   | SVTYPE=BND;MATEID=bnd_X |
 
 ### Event modifiers
 
@@ -1460,16 +1447,14 @@ style="width:4in;height:1.92in" />
 
 would be described as:
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-| 2 | 321681 | bnd_W | G | G$`[13:123457[`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_X;EVENT=RR0 |
-| 2 | 321682 | bnd_V | T | $`]13:123456]`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;EVENT=RR0 |
-| 13 | 123456 | bnd_U | C | C$`[2:321682[`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V;EVENT=RR0 |
-| 13 | 123457 | bnd_X | A | $`]2:321681]`$A | 6 | PASS | SVTYPE=BND;MATEID=bnd_W;EVENT=RR0 |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| 2 | 321681 | bnd_W | G | G$[13:123457[$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_X;EVENT=RR0 |
+| 2 | 321682 | bnd_V | T | $]13:123456]$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;EVENT=RR0 |
+| 13 | 123456 | bnd_U | C | C$[2:321682[$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V;EVENT=RR0 |
+| 13 | 123457 | bnd_X | A | $]2:321681]$A | 6 | PASS | SVTYPE=BND;MATEID=bnd_W;EVENT=RR0 |
 
 ### Inversions
-
-<div class="samepage">
 
 Similarly an inversion such as in Figure 8:
 
@@ -1481,20 +1466,18 @@ Similarly an inversion such as in Figure 8:
 can be described equivalently in two ways. Either one uses the short
 hand notation described previously (recommended for simple cases):
 
-</div>
-
-|         |        |      |     |:--------|:-------|:-----|:----|:--------------|:-----|:-------|:----------------------|
-| \#CHROM | POS    | ID   | REF | ALT           | QUAL | FILTER | INFO                  |
-| 2       | 321681 | INV0 | G   | $`<`$INV$`>`$ | 6    | PASS   | SVTYPE=INV;END=421681 |
+| \#CHROM | POS    | ID   | REF | ALT       | QUAL | FILTER | INFO                  |
+|:--------|:-------|:-----|:----|:----------|:-----|:-------|:----------------------|
+| 2       | 321681 | INV0 | G   | $<$INV$>$ | 6    | PASS   | SVTYPE=INV;END=421681 |
 
 or one describes the breakends:
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-| 2 | 321681 | bnd_W | G | G$`]2:421681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;EVENT=INV0 |
-| 2 | 321682 | bnd_V | T | $`[2:421682[`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X;EVENT=INV0 |
-| 2 | 421681 | bnd_U | A | A$`]2:321681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_W;EVENT=INV0 |
-| 2 | 421682 | bnd_X | C | $`[2:321682[`$C | 6 | PASS | SVTYPE=BND;MATEID=bnd_V;EVENT=INV0 |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| 2 | 321681 | bnd_W | G | G$]2:421681]$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;EVENT=INV0 |
+| 2 | 321682 | bnd_V | T | $[2:421682[$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X;EVENT=INV0 |
+| 2 | 421681 | bnd_U | A | A$]2:321681]$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_W;EVENT=INV0 |
+| 2 | 421682 | bnd_X | C | $[2:321682[$C | 6 | PASS | SVTYPE=BND;MATEID=bnd_V;EVENT=INV0 |
 
 ### Uncertainty around breakend location
 
@@ -1519,10 +1502,10 @@ recombination events which are allowed by the sequence evidence
 available. We therefore place both U and V arbitrarily within the
 interval of possibility:
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
-| 2 | 321681 | bnd_V | T | T$`]13:123462]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;CIPOS=0,6 |
-| 13 | 123456 | bnd_U | A | A$`]2:321687]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V;CIPOS=0,6 |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| 2 | 321681 | bnd_V | T | T$]13:123462]$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;CIPOS=0,6 |
+| 13 | 123456 | bnd_U | A | A$]2:321687]$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V;CIPOS=0,6 |
 
 Note that the coordinate in breakend U's ALT string does not correspond
 to the designated position of breakend V, but to the position that V
@@ -1555,12 +1538,12 @@ exist and are breakends. In this case we can specify these as single
 breakends, with unknown mates. The 4 lines of VCF representing this
 situation would be:
 
-|         |        |       |     |:--------|:-------|:------|:----|:-----------------|:-----|:-------|:------------------------|
-| \#CHROM | POS    | ID    | REF | ALT              | QUAL | FILTER | INFO                    |
-| 2       | 321681 | bnd_W | G   | G.               | 6    | PASS   | SVTYPE=BND              |
-| 2       | 321682 | bnd_V | T   | $`]13:123456]`$T | 6    | PASS   | SVTYPE=BND;MATEID=bnd_U |
-| 13      | 123456 | bnd_U | C   | C$`[2:321682[`$  | 6    | PASS   | SVTYPE=BND;MATEID=bnd_V |
-| 13      | 123457 | bnd_X | A   | .A               | 6    | PASS   | SVTYPE=BND              |
+| \#CHROM | POS    | ID    | REF | ALT            | QUAL | FILTER | INFO                    |
+|:--------|:-------|:------|:----|:---------------|:-----|:-------|:------------------------|
+| 2       | 321681 | bnd_W | G   | G.             | 6    | PASS   | SVTYPE=BND              |
+| 2       | 321682 | bnd_V | T   | $]13:123456]$T | 6    | PASS   | SVTYPE=BND;MATEID=bnd_U |
+| 13      | 123456 | bnd_U | C   | C$[2:321682[$  | 6    | PASS   | SVTYPE=BND;MATEID=bnd_V |
+| 13      | 123457 | bnd_X | A   | .A             | 6    | PASS   | SVTYPE=BND              |
 
 On the other hand, if we know a simple reciprocal translocation has
 occurred as in Figure 7, then even if we have no evidence for the (W,X)
@@ -1573,20 +1556,20 @@ filter value for the breakends W and X.
 Another possible reason for calling single breakends is an observed but
 unexplained change in copy number along a chromosome.
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
+|:---|:---|:---|:---|:---|:---|:---|:---|
 | 3 | 12665 | bnd_X | A | .A | 6 | PASS | SVTYPE=BND;CIPOS=-50,50 |
-| 3 | 12665 | . | A | $`<`$DUP$`>`$ | 14 | PASS | SVTYPE=DUP;END=13686;CIPOS=-50,50;CIEND=-50,50 |
+| 3 | 12665 | . | A | $<$DUP$>$ | 14 | PASS | SVTYPE=DUP;END=13686;CIPOS=-50,50;CIEND=-50,50 |
 | 3 | 13686 | bnd_Y | T | T. | 6 | PASS | SVTYPE=BND;CIPOS=-50,50 |
 
 Finally, if an insertion is detected but only the first few base-pairs
 provided by overhanging reads could be assembled, then this inserted
 sequence can be provided on that line, in analogy to paired breakends:
 
-|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
+|:---|:---|:---|:---|:---|:---|:---|:---|
 | 3 | 12665 | bnd_X | A | .TGCA | 6 | PASS | SVTYPE=BND;CIPOS=-50,50 |
-| 3 | 12665 | . | A | $`<`$DUP$`>`$ | 14 | PASS | SVTYPE=DUP;END=13686;CIPOS=-50,50;CIEND=-50,50 |
+| 3 | 12665 | . | A | $<$DUP$>$ | 14 | PASS | SVTYPE=DUP;END=13686;CIPOS=-50,50;CIEND=-50,50 |
 | 3 | 13686 | bnd_Y | T | TCC. | 6 | PASS | SVTYPE=BND;CIPOS=-50,50 |
 
 ### Sample mixtures
@@ -1607,12 +1590,12 @@ the example of the inversion just above, the VCF code could become:
 
 <div class="flushleft">
 
-|  |  |  |  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | Blood | TissueSample |
-| 2 | 321681 | bnd_W | G | G$`]2:421681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U | GT:DPADJ | 0:32 | $`0|1:9,21`$ |
-| 2 | 321682 | bnd_V | T | $`[2:421682[`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X | GT:DPADJ | 0:29 | $`0|1:11,25`$ |
-| 13 | 421681 | bnd_U | A | A$`]2:321681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_W | GT:DPADJ | 0:34 | $`0|1:10,23`$ |
-| 13 | 421682 | bnd_X | C | $`[2:321682[`$C | 6 | PASS | SVTYPE=BND;MATEID=bnd_V | GT:DPADJ | 0:31 | $`0|1:8,20`$ |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| 2 | 321681 | bnd_W | G | G$]2:421681]$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U | GT:DPADJ | 0:32 | $0|1:9,21$ |
+| 2 | 321682 | bnd_V | T | $[2:421682[$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X | GT:DPADJ | 0:29 | $0|1:11,25$ |
+| 13 | 421681 | bnd_U | A | A$]2:321681]$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_W | GT:DPADJ | 0:34 | $0|1:10,23$ |
+| 13 | 421682 | bnd_X | C | $[2:321682[$C | 6 | PASS | SVTYPE=BND;MATEID=bnd_V | GT:DPADJ | 0:31 | $0|1:8,20$ |
 
 </div>
 
@@ -1622,12 +1605,12 @@ data:
 
 <div class="flushleft">
 
-|  |  |  |  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | Blood | TumorSample |
-| 2 | 321681 | bnd_W | G | G$`]2:421681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U | GT:CNADJ | 0:1 | 1:1 |
-| 2 | 321682 | bnd_V | T | $`[2:421682[`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X | GT:CNADJ | 0:1 | 1:1 |
-| 13 | 421681 | bnd_U | A | A$`]2:321681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_W | GT:CNADJ | 0:1 | 1:1 |
-| 13 | 421682 | bnd_X | C | $`[2:321682[`$C | 6 | PASS | SVTYPE=BND;MATEID=bnd_V | GT:CNADJ | 0:1 | 1:1 |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| 2 | 321681 | bnd_W | G | G$]2:421681]$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U | GT:CNADJ | 0:1 | 1:1 |
+| 2 | 321682 | bnd_V | T | $[2:421682[$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X | GT:CNADJ | 0:1 | 1:1 |
+| 13 | 421681 | bnd_U | A | A$]2:321681]$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_W | GT:CNADJ | 0:1 | 1:1 |
+| 13 | 421682 | bnd_X | C | $[2:321682[$C | 6 | PASS | SVTYPE=BND;MATEID=bnd_V | GT:CNADJ | 0:1 | 1:1 |
 
 </div>
 
@@ -1686,16 +1669,12 @@ pointer can be provided:
 
     ##pedigreeDB=URL
 
-<div class="samepage">
-
 The most general form of a pedigree line is:
 
     ##PEDIGREE=<ID=SampleID,Name_1=Ancestor1,...,Name_N=AncestorN>
 
-</div>
-
-This means that the genome SampleID is derived from the N $`\ge`$ 1
-genomes Ancestor1, ..., AncestorN. Based on these derivation
+This means that the genome SampleID is derived from the N $\ge$ 1
+genomes Ancestor1, \..., AncestorN. Based on these derivation
 relationships two new pieces of information can be specified.
 
 Firstly, we wish to express the knowledge that a variant is novel to a
@@ -1781,9 +1760,9 @@ subfields, respectively. The total information available about the three
 haplotypes of breakend U in the figure above may be visualized in a
 table as follows.
 
-|:---|:---|:---|:---|
 | Allele | 1 | 1 | 0 |
-| Haplotype | 1$`>`$<!-- -->11 | 2,3,4$`>`$<!-- -->12,13,14 | 5$`>`$<!-- -->5 |
+|:---|:---|:---|:---|
+| Haplotype | 1$>$`<!-- -->`{=html}11 | 2,3,4$>$`<!-- -->`{=html}12,13,14 | 5$>$`<!-- -->`{=html}5 |
 | Segment Depth | 5 | 17 | 4 |
 | Segment Copy Number | 1 | 3 | 1 |
 | Bundle Depth | 4 | 0 | 3 |
@@ -1798,25 +1777,24 @@ represent blocks of reference-only calls in a single record using the
 END INFO tag, an idea originally introduced by the gVCF file format[^4].
 
 The convention adopted here is to represent reference evidence as
-likelihoods against an unknown alternate allele represented as
-$`<`$\*$`>`$. Think of this as the likelihood for reference as compared
-to any other possible alternate allele (both SNP, indel, or otherwise).
-The $`<`$\*$`>`$ representation is preferred over the symbolic allele
-$`<`$NON_REF$`>`$.
+likelihoods against an unknown alternate allele represented as $<$\*$>$.
+Think of this as the likelihood for reference as compared to any other
+possible alternate allele (both SNP, indel, or otherwise). The $<$\*$>$
+representation is preferred over the symbolic allele $<$NON_REF$>$.
 
 Example records are given below:
 
 <div class="flushleft">
 
-|  |  |  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | Sample |
-| 1 | 4370 | . | G | $`<`$\*$`>`$ | . | . | END=4383 | GT:DP:GQ:MIN_DP:PL | 0/0:25:60:23:0,60,900 |
-| 1 | 4384 | . | C | $`<`$\*$`>`$ | . | . | END=4388 | GT:DP:GQ:MIN_DP:PL | 0/0:25:45:25:0,42,630 |
-| 1 | 4389 | . | T | TC,$`<`$\*$`>`$ | 213.73 | . | . | GT:DP:GQ:PL | 0/1:23:99:51,0,36,93,92,86 |
-| 1 | 4390 | . | C | $`<`$\*$`>`$ | . | . | END=4390 | GT:DP:GQ:MIN_DP:PL | 0/0:26:0:26:0,0,315 |
-| 1 | 4391 | . | C | $`<`$\*$`>`$ | . | . | END=4395 | GT:DP:GQ:MIN_DP:PL | 0/0:27:63:27:0,63,945 |
-| 1 | 4396 | . | G | C,$`<`$\*$`>`$ | 0 | . | . | GT:DP:GQ:P | 0/0:24:52:0,52,95,66,95,97 |
-| 1 | 4397 | . | T | $`<`$\*$`>`$ | . | . | END=4416 | GT:DP:GQ:MIN_DP:PL | 0/0:22:14:22:0,15,593 |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| 1 | 4370 | . | G | $<$\*$>$ | . | . | END=4383 | GT:DP:GQ:MIN_DP:PL | 0/0:25:60:23:0,60,900 |
+| 1 | 4384 | . | C | $<$\*$>$ | . | . | END=4388 | GT:DP:GQ:MIN_DP:PL | 0/0:25:45:25:0,42,630 |
+| 1 | 4389 | . | T | TC,$<$\*$>$ | 213.73 | . | . | GT:DP:GQ:PL | 0/1:23:99:51,0,36,93,92,86 |
+| 1 | 4390 | . | C | $<$\*$>$ | . | . | END=4390 | GT:DP:GQ:MIN_DP:PL | 0/0:26:0:26:0,0,315 |
+| 1 | 4391 | . | C | $<$\*$>$ | . | . | END=4395 | GT:DP:GQ:MIN_DP:PL | 0/0:27:63:27:0,63,945 |
+| 1 | 4396 | . | G | C,$<$\*$>$ | 0 | . | . | GT:DP:GQ:P | 0/0:24:52:0,52,95,66,95,97 |
+| 1 | 4397 | . | T | $<$\*$>$ | . | . | END=4416 | GT:DP:GQ:MIN_DP:PL | 0/0:22:14:22:0,15,593 |
 
 </div>
 
@@ -1985,14 +1963,14 @@ Genotype fields are encoded not by sample as in VCF but rather by field,
 with a vector of values for each sample following each field. In BCF2,
 the following VCF line:
 
-|:---------|:---------|:--------|:---------|
 | FORMAT   | NA00001  | NA00002 | NA00003  |
+|:---------|:---------|:--------|:---------|
 | GT:GQ:DP | 0/0:48:1 | 0/1:9:8 | 1/1:43:5 |
 
 would encoded as the equivalent of:
 
-|:---------------|:-----------|:---------|:----|
 | GT=0/0,0/1,1/1 | GQ=48,9,43 | DP=1,8,5 |     |
+|:---------------|:-----------|:---------|:----|
 
 Suppose there are i genotype fields in a specific record. Each i is
 encoded by a triplet:
@@ -2032,7 +2010,7 @@ as the number of elements in the value. The encoding is as follows:
 
 | Bit | Meaning |
 |:---|:---|
-| 5,6,7,8 bits | The number of elements of the upcoming type. For atomic values, the size must be 1. If the size is set to 15, this indicates that the vector has 15 or more elements, and that the subsequent BCF2 byte stream contains a typed Integer indicating the true size of the vector. If the size is between 2–14, then this Integer is omitted from the stream and the upcoming stream begins immediately with the first value of the vector. A size of 0 indicates that the value is MISSING. |
+| 5,6,7,8 bits | The number of elements of the upcoming type. For atomic values, the size must be 1. If the size is set to 15, this indicates that the vector has 15 or more elements, and that the subsequent BCF2 byte stream contains a typed Integer indicating the true size of the vector. If the size is between 2--14, then this Integer is omitted from the stream and the upcoming stream begins immediately with the first value of the vector. A size of 0 indicates that the value is MISSING. |
 | 1,2,3,4 bits | Type |
 
 The final four bits encodes an unsigned integer that indicates the type
@@ -2050,7 +2028,7 @@ of the upcoming value in the data stream.
 | 7 | 0x?7 | Character, ASCII encoded in 8 bits |
 
 In BCF2 strings are type=7 with an appropriate length. Single characters
-are represented as strings with length=1. Type codes 4,6,8–15 are
+are represented as strings with length=1. Type codes 4,6,8--15 are
 reserved for future use.
 
 **Integers** may be encoded as 8, 16, or 32 bit values, in little-endian
@@ -2060,8 +2038,8 @@ to use when writing the BCF2 file. For integer types, the values 0x80,
 0x80000001 as END_OF_VECTOR indicators (for 8, 16, and 32 bit values,
 respectively). Note that the END_OF_VECTOR byte is not part of the
 vector itself and only END_OF_VECTOR bytes can follow. In total, eight
-values are reserved for future use: 0x80–0x87, 0x8000–0x8007,
-0x80000000–0x80000007.
+values are reserved for future use: 0x80--0x87, 0x8000--0x8007,
+0x80000000--0x80000007.
 
 **Floats** are encoded as single-precision (32 bit) in the basic format
 defined by the IEEE-754-1985 standard. This is the standard
@@ -2096,7 +2074,7 @@ future use:
 | MISSING | 0b0111 1111 1000 0000 0000 0000 0000 0001 | 0x7F800001 |
 | END_OF_VECTOR | 0b0111 1111 1000 0000 0000 0000 0000 0010 | 0x7F800002 |
 | reserved | 0b0111 1111 1000 0000 0000 0000 0000 0011 | 0x7F800003 |
-| $`\ldots`$ | $`\ldots`$ | $`\ldots`$ |
+| $\ldots$ | $\ldots$ | $\ldots$ |
 | reserved | 0b0111 1111 1000 0000 0000 0000 0000 0111 | 0x7F800007 |
 
 **Character** values are not explicitly typed in BCF2. Instead, VCF
@@ -2104,13 +2082,13 @@ Character values must be encoded by a single character string. See also
 <a href="#character-encoding" data-reference-type="ref"
 data-reference="character-encoding">1.2</a>.
 
-**Flags** values — which can only appear in INFO fields — in BCF2 should
-be encoded by any non-reserved value. The recommended best practice is
-to encode the value as an 1-element INT8 (type 0x11) with value of 1 to
-indicate present. Because FLAG values can only be encoded in INFO
-fields, BCF2 provides no mechanism to encode FLAG values in genotypes,
-but could be easily extended to do so if allowed in a future VCF
-version.
+**Flags** values --- which can only appear in INFO fields --- in BCF2
+should be encoded by any non-reserved value. The recommended best
+practice is to encode the value as an 1-element INT8 (type 0x11) with
+value of 1 to indicate present. Because FLAG values can only be encoded
+in INFO fields, BCF2 provides no mechanism to encode FLAG values in
+genotypes, but could be easily extended to do so if allowed in a future
+VCF version.
 
 **String** values have two basic encodings. For INFO, FORMAT, and FILTER
 keys these are encoded by integer offsets into the header dictionary.
@@ -2121,7 +2099,7 @@ by the length of the type descriptor.
 
 Suppose you want to encode the string "`ACAC`". First, we need the type
 descriptor byte, which is the string type 0x07 or'd with inline size (4)
-yielding the type byte of 0x40 $`|`$ 0x07 = 0x47. Immediately following
+yielding the type byte of 0x40 $|$ 0x07 = 0x47. Immediately following
 the type byte is the four byte ASCII encoding of "`ACAC`": 0x41 0x43
 0x41 0x43. So the final encoding is:
 
@@ -2131,8 +2109,8 @@ the type byte is the four byte ASCII encoding of "`ACAC`": 0x41 0x43
 Suppose you want to encode the string "`VariantCallFormatSampleText`", a
 string of size 27. First, we need the type descriptor byte, which is the
 string type 0x07. Because the size exceeds the inline size limit
-($`27 \geq 15`$) we set the size to overflow, yielding the type byte of
-0xF0 $`|`$ 0x07 = 0xF7. Immediately following the type byte is the typed
+($27 \geq 15$) we set the size to overflow, yielding the type byte of
+0xF0 $|$ 0x07 = 0xF7. Immediately following the type byte is the typed
 size of 27, which we encode by the atomic INT8 value: 0x11 followed by
 the actual size 0x1B. Finally comes the actual bytes of the string: 0x56
 0x61 0x72 0x69 0x61 0x6E 0x74 0x43 0x61 0x6C 0x6C 0x46 0x6F 0x72 0x6D
@@ -2157,7 +2135,7 @@ This works because strings in VCF cannot contain '`,`' (it's a field
 separator) and so we can safely use '`,`' to separate the individual
 strings.
 
-**Vectors** — The BCF2 type byte may indicate that the upcoming data
+**Vectors** --- The BCF2 type byte may indicate that the upcoming data
 stream contains not a single value but a fixed length vector of values.
 The vector values occur in order (1st, 2nd, 3rd, etc) encoded as
 expected for the type declared in the vector's type byte. For example, a
@@ -2192,14 +2170,14 @@ integer. The grand total representation here is:
 
 | 0xF1 0x01 0x10 | 8 bit integer vector with overflow size |
 |:---|:---|
-| 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F 0x10 | 1–16 as hexadecimal 8 bit integers |
+| 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F 0x10 | 1--16 as hexadecimal 8 bit integers |
 
 Suppose this INFO field contains the "AC=.", indicating that the AC
 field is missing from a record with two alt alleles. The correct
 representation is as the typed pair of AC followed by a MISSING vector
 of type 8-bit integer: 0x01.
 
-**Vectors of mixed length** — In some cases genotype fields may be
+**Vectors of mixed length** --- In some cases genotype fields may be
 vectors whose length differs among samples. For example, some CNV call
 sets encode different numbers of genotype likelihoods for each sample,
 given the large number of potential copy number states, rather padding
@@ -2232,8 +2210,8 @@ element INT8 vector: 0x21. Next we have the encoding for each sample, A
 A **Genotype (GT) field** is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
 the maximum ploidy among all samples at a site. For one individual, each
-integer in the vector is organized as $`(allele+1) << 1 \mid phased`$
-where allele is set to $`-1`$ if the allele in GT is a dot '.' (thus the
+integer in the vector is organized as $(allele+1) << 1 \mid phased$
+where allele is set to $-1$ if the allele in GT is a dot '.' (thus the
 higher bits are all 0). The vector is padded with the END_OF_VECTOR
 values if the GT having fewer ploidy. We note specifically that except
 for the END_OF_VECTOR byte, no other negative values are allowed in the
@@ -2241,15 +2219,15 @@ GT array.
 
 Examples:
 
-| 0/1 | in standard format $`(0 + 1) << 1 \mid 0`$ followed by $`(1 + 1) << 1 \mid 0`$ | 0x02 04 |
+| 0/1 | in standard format $(0 + 1) << 1 \mid 0$ followed by $(1 + 1) << 1 \mid 0$ | 0x02 04 |
 |:---|:---|:---|
 | 0/1, 1/1, and 0/0 | three samples encoded consecutively | 0x02 04 04 04 02 02 |
-| $`0\mid1`$ | $`(1 + 1) << 1 \mid 1`$ = 0x05 preceded by the standard first byte value 0x02 | 0x02 05 |
+| $0\mid1$ | $(1 + 1) << 1 \mid 1$ = 0x05 preceded by the standard first byte value 0x02 | 0x02 05 |
 | ./. | where both alleles are missing | 0x00 00 |
 | 0 | as a haploid it is represented by a single byte | 0x02 |
 | 1 | as a haploid it is represented by a single byte | 0x04 |
 | 0/1/2 | is triploid, with alleles | 0x02 04 06 |
-| $`0/1\mid2`$ | is triploid with a single phased allele | 0x02 04 07 |
+| $0/1\mid2$ | is triploid with a single phased allele | 0x02 04 07 |
 | 0 and 0/1 | pad out the final allele for the haploid individual | 0x02 81 02 04 |
 
 The final example is something seen on chrX when we have a haploid male
@@ -2268,12 +2246,12 @@ BCF2 encoding for this record.
 ### Encoding CHROM and POS
 
 First, let's assume that `chr1` is the second chromosome to appear in
-the contig list—right after `chrM` (`MT`). So its offset is 1. The `POS`
-BCF2 field value is 101 (obviously). Because these are both typed values
-in the BCF2 record, we encode both in their most compact 8-bit value
-form. The type byte for an atomic 8-bit integer is 0x11. The value for
-the contig offset is 1 = 0x01. The value 101 is encoded as the single
-byte 0x65. So in total these are represented as:
+the contig list---right after `chrM` (`MT`). So its offset is 1. The
+`POS` BCF2 field value is 101 (obviously). Because these are both typed
+values in the BCF2 record, we encode both in their most compact 8-bit
+value form. The type byte for an atomic 8-bit integer is 0x11. The value
+for the contig offset is 1 = 0x01. The value 101 is encoded as the
+single byte 0x65. So in total these are represented as:
 
 | 0x01000000 | CHROM offset is at 1 in 32 bit little endian |
 |:-----------|:---------------------------------------------|
@@ -2358,8 +2336,8 @@ key/value pair is:
 
 Continuing with our example:
 
-|:---|:---|:---|:---|
 | FORMAT | NA00001 | NA00002 | NA00003 |
+|:---|:---|:---|:---|
 | GT:GQ:DP:AD:PL | 0/0:10:32:32,0:0,10,100 | 0/1:10:48:32,16:10,0,100 | 1/1:10:64:0,64:100,10,0 |
 
 Here we have the specially encoded GT field. We have two integer fields
@@ -2529,15 +2507,15 @@ section 4 as BAM files and other block-compressed files with BGZF.
   Meta-information lines can be in any order, with the exception of
   \##fileformat which must come first.
 
-- All header lines of the form \##key=$`<`$ID=xxx,...$`>`$ must have an
-  ID value that is unique for a given value of "key". All header lines
-  whose value starts with "$`<`$" must have an ID field. Therefore, also
+- All header lines of the form \##key=$<$ID=xxx,\...$>$ must have an ID
+  value that is unique for a given value of "key". All header lines
+  whose value starts with "$<$" must have an ID field. Therefore, also
   \##PEDIGREE newly requires a unique ID.
 
 - We state explicitly that duplicate IDs, FILTER, INFO or FORMAT keys
   are not valid.
 
-- A section about gVCF was added, introduced the $`<`$\*$`>`$ symbolic
+- A section about gVCF was added, introduced the $<$\*$>$ symbolic
   allele.
 
 - A section about tag naming conventions was added.

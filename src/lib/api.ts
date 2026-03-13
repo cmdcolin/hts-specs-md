@@ -7,6 +7,7 @@ interface PostModule {
     commit?: string
     [key: string]: unknown
   }
+  getHeadings: () => { depth: number, slug: string, text: string }[]
   default: any
 }
 
@@ -23,6 +24,7 @@ export async function getAllPosts() {
       date: module.frontmatter.date,
       commit: module.frontmatter.commit,
       frontmatter: module.frontmatter,
+      headings: module.getHeadings(),
     }
   }).sort((a, b) => a.title.localeCompare(b.title))
 }
@@ -45,5 +47,6 @@ export async function getPostById(id: string) {
     commit: module.frontmatter.commit,
     frontmatter: module.frontmatter,
     Content: module.default,
+    headings: module.getHeadings(),
   }
 }
