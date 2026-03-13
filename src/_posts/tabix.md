@@ -29,7 +29,7 @@ This printing is version 38f353f from the [hts-specs](https://github.com/samtool
 <td style="text-align: left;">Magic string</td>
 <td style="text-align: left;"><span><code>char[4]</code></span></td>
 <td style="text-align: left;">TBI<span
-class="math inline">\backslash</span>1</td>
+class="math inline">\(\backslash\)</span>1</td>
 </tr>
 <tr>
 <td colspan="4" style="text-align: left;"><code>n_ref</code></td>

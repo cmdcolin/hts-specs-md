@@ -288,7 +288,7 @@ expression: <span><code>[=][]*</code></span></td>
 <td style="text-align: left;"><span>2-3</span></td>
 <td style="text-align: left;"><span><code>LN</code></span>*</td>
 <td style="text-align: left;">Reference sequence length. <em>Range</em>:
-<span class="math inline">[1,\,2^{31}-1]</span></td>
+<span class="math inline">\([1,\,2^{31}-1]\)</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-3</span></td>
@@ -863,12 +863,9 @@ represented.
 
     <div class="center">
 
-    |           |     |                                                       |     |     |
-    |:---------:|:---:|:------------------------------------------------------|:---:|:---:|
+    |               |:---------:|:---:|:------------------------------------------------------|:---:|:---:|
     |    Op     | BAM | Description                                           |     |     |
-    |   query   |     |                                                       |     |     |
-    | reference |     |                                                       |     |     |
-    |    `M`    |  0  | alignment match (can be a sequence match or mismatch) | yes | yes |
+    |   query       | reference     |    `M`    |  0  | alignment match (can be a sequence match or mismatch) | yes | yes |
     |    `I`    |  1  | insertion to the reference                            | yes | no  |
     |    `D`    |  2  | deletion from the reference                           | no  | yes |
     |    `N`    |  3  | skipped region from the reference                     | no  | yes |
@@ -1085,8 +1082,7 @@ specific software package for it to function properly.
 
         <div class="center">
 
-        |                     |             |       |         |                 |
-        |:--------------------|:------------|------:|:-------:|:----------------|
+        |                             |:--------------------|:------------|------:|:-------:|:----------------|
         |                     | FLAG        |   POS |  CIGAR  | Optional fields |
         | The $`5'`$ fragment | 883 (0x373) | 86097 | `188M ` | `FI:i:1TC:i:3 ` |
         | Middle fragment     | 819 (0x333) | 85441 | `181M ` | `FI:i:2TC:i:3 ` |
@@ -1472,8 +1468,8 @@ underlined word in uppercase denotes a field in the SAM format.
 <td style="text-align: left;">Length of the header text, including any
 <span><code>NUL</code></span> padding</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span class="math inline">&lt;
-2^{31}</span></td>
+<td style="text-align: left;"><span class="math inline">\(&lt;
+2^{31}\)</span></td>
 <td style="text-align: left;"></td>
 <td style="text-align: right;"></td>
 </tr>
@@ -1491,8 +1487,8 @@ style="text-align: left;"><span><code>char[</code><span><code>l_text</code></spa
 <td style="text-align: left;"><span>1-6</span></td>
 <td style="text-align: left;"># reference sequences</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span class="math inline">&lt;
-2^{31}</span></td>
+<td style="text-align: left;"><span class="math inline">\(&lt;
+2^{31}\)</span></td>
 <td style="text-align: left;"></td>
 <td style="text-align: right;"></td>
 </tr>
@@ -1526,8 +1522,8 @@ style="text-align: left;"><span><code>char[</code><span><code>l_name</code></spa
 <td colspan="2" style="text-align: left;">l_ref</td>
 <td style="text-align: left;">Length of the reference sequence</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span class="math inline">&lt;
-2^{31}</span></td>
+<td style="text-align: right;"><span class="math inline">\(&lt;
+2^{31}\)</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>1-6</span></td>
@@ -1549,8 +1545,8 @@ excluding this field</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">refID</td>
 <td style="text-align: left;">Reference sequence ID, <span
-class="math inline">-1\leq{\sf refID}&lt;{\sf n\_ref}</span>; -1 for a
-read without a mapping position</td>
+class="math inline">\(-1\leq{\sf refID}&lt;{\sf n\_ref}\)</span>; -1 for
+a read without a mapping position</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[-1]</td>
 </tr>
@@ -1558,7 +1554,7 @@ read without a mapping position</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">pos</td>
 <td style="text-align: left;">0-based leftmost coordinate (<span
-class="math inline">=\underline{\sf POS}-1</span>)</td>
+class="math inline">\(=\underline{\sf POS}-1\)</span>)</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[-1]</td>
 </tr>
@@ -1566,8 +1562,8 @@ class="math inline">=\underline{\sf POS}-1</span>)</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">l_read_name</td>
 <td style="text-align: left;">Length of <span>read_name</span> below
-(<span class="math inline">={\sf length}(\underline{\sf
-QNAME})+1</span>)</td>
+(<span class="math inline">\(={\sf length}(\underline{\sf
+QNAME})+1\)</span>)</td>
 <td style="text-align: left;"><span><code>uint8_t</code></span></td>
 <td style="text-align: right;"></td>
 </tr>
@@ -1614,7 +1610,8 @@ data-reference="sec:ncigar">4.2.2</a></td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">next_refID</td>
 <td style="text-align: left;">Ref-ID of the next segment (<span
-class="math inline">-1\le{\sf next\_refID}&lt;{\sf n\_ref}</span>)</td>
+class="math inline">\(-1\le{\sf next\_refID}&lt;{\sf
+n\_ref}\)</span>)</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[-1]</td>
 </tr>
@@ -1622,7 +1619,7 @@ class="math inline">-1\le{\sf next\_refID}&lt;{\sf n\_ref}</span>)</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">next_pos</td>
 <td style="text-align: left;">0-based leftmost pos of the next segment
-(<span class="math inline">=\underline{\sf PNEXT}-1</span>)</td>
+(<span class="math inline">\(=\underline{\sf PNEXT}-1\)</span>)</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[-1]</td>
 </tr>
@@ -1630,7 +1627,7 @@ class="math inline">-1\le{\sf next\_refID}&lt;{\sf n\_ref}</span>)</td>
 <td style="text-align: left;"><span>2-6</span></td>
 <td colspan="2" style="text-align: left;">tlen</td>
 <td style="text-align: left;">Template length (<span
-class="math inline">=\underline{\sf TLEN}</span>)</td>
+class="math inline">\(=\underline{\sf TLEN}\)</span>)</td>
 <td style="text-align: left;"><span><code>int32_t</code></span></td>
 <td style="text-align: right;">[0]</td>
 </tr>
@@ -1650,7 +1647,7 @@ style="text-align: left;"><span><code>char[</code><span><code>l_read_name</code>
 <td style="text-align: left;">CIGAR:
 <span><span><code>op_len</code></span><code> 4</code></span>.
 '<span><code>MIDNSHP=X</code></span>'<span
-class="math inline">\to</span>'012345678'</td>
+class="math inline">\(\to\)</span>'012345678'</td>
 <td
 style="text-align: left;"><span><code>uint32_t[</code><span><code>n_cigar_op</code></span><code>]</code></span></td>
 <td style="text-align: right;"></td>
@@ -1660,7 +1657,7 @@ style="text-align: left;"><span><code>uint32_t[</code><span><code>n_cigar_op</co
 <td colspan="2" style="text-align: left;">seq</td>
 <td style="text-align: left;">4-bit encoded read:
 '<span><code>=ACMGRSVTWYHKDBN</code></span>'<span
-class="math inline">\to[0,15]</span>. See Section <a href="#sec:seq"
+class="math inline">\(\to[0,15]\)</span>. See Section <a href="#sec:seq"
 data-reference-type="ref" data-reference="sec:seq">4.2.3</a></td>
 <td
 style="text-align: left;"><span><code>uint8_t[(</code><span><code>l_seq</code></span><code>+1)/2]</code></span></td>
@@ -2007,8 +2004,8 @@ seek call can thus be saved.
 <td style="text-align: left;"><span>1-7</span></td>
 <td style="text-align: left;"># reference sequences</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: left;"><span class="math inline">&lt;
-2^{31}</span></td>
+<td style="text-align: left;"><span class="math inline">\(&lt;
+2^{31}\)</span></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: right;"></td>
@@ -2028,8 +2025,8 @@ seek call can thus be saved.
 <td style="text-align: left;"># distinct bins (for the binning
 index)</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span class="math inline">\le
-37451</span></td>
+<td style="text-align: right;"><span class="math inline">\(\le
+37451\)</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-7</span></td>
@@ -2042,8 +2039,8 @@ style="color: gray"><em>List of distinct bins (n=n_bin)</em></span></td>
 <td colspan="2" style="text-align: left;">bin</td>
 <td style="text-align: left;">Distinct bin</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span class="math inline">\le
-37450</span></td>
+<td style="text-align: right;"><span class="math inline">\(\le
+37450\)</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>3-7</span></td>
@@ -2085,8 +2082,8 @@ chunk</td>
 <td style="text-align: left;"># 16kbp intervals (for the linear
 index)</td>
 <td style="text-align: left;"><span><code>uint32_t</code></span></td>
-<td style="text-align: right;"><span class="math inline">\le
-2^{17}</span></td>
+<td style="text-align: right;"><span class="math inline">\(\le
+2^{17}\)</span></td>
 </tr>
 <tr>
 <td style="text-align: left;"><span>2-7</span></td>

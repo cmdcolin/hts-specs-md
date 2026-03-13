@@ -986,7 +986,7 @@ style="text-align: left;"><strong>Description</strong></th>
 <td colspan="2" style="text-align: right;">8</td>
 <td style="text-align: right;">uint8</td>
 <td style="text-align: right;"><span
-class="math inline">flag</span></td>
+class="math inline">\(flag\)</span></td>
 <td colspan="2" style="text-align: left;">Data format bit field</td>
 </tr>
 <tr>
@@ -1232,8 +1232,7 @@ below for the worked mathematics.
 | 0.000 | 1.000 | c | 0.2 | 0.5 | $`0+(1-0)\times.2`$ | $`0+(1-0)\times.5`$ |
 | 0.200 | 0.500 | a | 0.8 | 1.0 | $`.2+(.5-.2)\times.8`$ | $`.2+(.5-.2)\times 1`$ |
 | 0.440 | 0.500 | t | 0.0 | 0.2 | $`.44+(.5-.44)\times 0`$ | $`.44+(.5-.44)\times .2`$ |
-| 0.440 | 0.452 | \<end\> |  |  |  |  |
-
+| 0.440 | 0.452 | \<end\> 
 </div>
 
 Our final range is 0.44 to 0.452 with any value in that range
@@ -1241,7 +1240,7 @@ representing "cat", thus 0.45 would suffice. A pictorial example of this
 process is below.
 
 <figure data-latex-placement="h">
-<img src="img/range_code.png" style="height:250pt" />
+<img src="/hts-specs-md/img/range_code.png" style="height:250pt" />
 <figcaption>A pictorial demonstration of range reduction.</figcaption>
 </figure>
 
@@ -1546,7 +1545,7 @@ style="text-align: left;"><strong>Description</strong></th>
 <td colspan="2" style="text-align: right;">8</td>
 <td style="text-align: right;">uint8</td>
 <td style="text-align: right;"><span
-class="math inline">flag</span></td>
+class="math inline">\(flag\)</span></td>
 <td colspan="2" style="text-align: left;">Data format bit field</td>
 </tr>
 <tr>
@@ -2050,21 +2049,21 @@ order to determine when the token types finish.
 <td colspan="3" style="text-align: right;">4</td>
 <td style="text-align: left;">uint32</td>
 <td style="text-align: left;"><span
-class="math inline">uncomp\_length</span></td>
+class="math inline">\(uncomp\_length\)</span></td>
 <td style="text-align: left;">Length of uncompressed name buffer</td>
 </tr>
 <tr>
 <td colspan="3" style="text-align: right;">4</td>
 <td style="text-align: left;">uint32</td>
 <td style="text-align: left;"><span
-class="math inline">num\_reads</span></td>
+class="math inline">\(num\_reads\)</span></td>
 <td style="text-align: left;">Number of read names</td>
 </tr>
 <tr>
 <td colspan="3" style="text-align: right;">1</td>
 <td style="text-align: left;">uint8</td>
 <td style="text-align: left;"><span
-class="math inline">use\_arith</span></td>
+class="math inline">\(use\_arith\)</span></td>
 <td style="text-align: left;">Whether compression is arithmetic (1) or
 rANS Nx16 (0)</td>
 </tr>
@@ -2077,7 +2076,7 @@ stream</em></td>
 <td colspan="2" style="text-align: right;">1</td>
 <td style="text-align: left;">uint8</td>
 <td style="text-align: left;"><span
-class="math inline">ttype</span></td>
+class="math inline">\(ttype\)</span></td>
 <td style="text-align: left;">Token type code plus flags (64=duplicate,
 128=next token position).</td>
 </tr>
@@ -2092,7 +2091,7 @@ class="math inline">ttype</span></td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">uint8</td>
 <td style="text-align: left;"><span
-class="math inline">dup\_pos</span></td>
+class="math inline">\(dup\_pos\)</span></td>
 <td style="text-align: left;">Duplicate from this token position</td>
 </tr>
 <tr>
@@ -2101,7 +2100,7 @@ class="math inline">dup\_pos</span></td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">uint8</td>
 <td style="text-align: left;"><span
-class="math inline">dup\_type</span></td>
+class="math inline">\(dup\_type\)</span></td>
 <td style="text-align: left;">Duplicate from this token type ID</td>
 </tr>
 <tr>
@@ -2114,17 +2113,18 @@ duplicate</em></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">?</td>
 <td style="text-align: left;">uint7</td>
-<td style="text-align: left;"><span class="math inline">clen</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(clen\)</span></td>
 <td style="text-align: left;">compressed length</td>
 </tr>
 <tr>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"><span
-class="math inline">clen</span></td>
+class="math inline">\(clen\)</span></td>
 <td style="text-align: left;">uint8[]</td>
 <td style="text-align: left;"><span
-class="math inline">cdata</span></td>
+class="math inline">\(cdata\)</span></td>
 <td style="text-align: left;">compressed data stream</td>
 </tr>
 </tbody>
@@ -2342,7 +2342,7 @@ style="text-align: left;"><strong>Description</strong></th>
 <td colspan="3" style="text-align: right;">8</td>
 <td style="text-align: right;">uint8</td>
 <td style="text-align: right;"><span
-class="math inline">version</span></td>
+class="math inline">\(version\)</span></td>
 <td colspan="3" style="text-align: left;">FQZComp format version: must
 be 5</td>
 </tr>
@@ -2350,7 +2350,7 @@ be 5</td>
 <td colspan="3" style="text-align: right;">8</td>
 <td style="text-align: right;">uint8</td>
 <td style="text-align: right;"><span
-class="math inline">gflags</span></td>
+class="math inline">\(gflags\)</span></td>
 <td colspan="3" style="text-align: left;">Global FQZcomp bit-flags. From
 lowest bit to highest:</td>
 </tr>
@@ -2359,40 +2359,41 @@ lowest bit to highest:</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="3" style="text-align: left;">1: <span
-class="math inline">multi\_param</span>: indicates more than one
+class="math inline">\(multi\_param\)</span>: indicates more than one
 parameter block is present. Otherwise set <span
-class="math inline">nparam = 1</span></td>
+class="math inline">\(nparam = 1\)</span></td>
 </tr>
 <tr>
 <td colspan="3" style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="3" style="text-align: left;">2: <span
-class="math inline">have\_stab</span>: indicates the parameter selector
-is mapped through <span class="math inline">stab</span>. Otherwise set
-<span class="math inline">stab_i = i</span></td>
+class="math inline">\(have\_stab\)</span>: indicates the parameter
+selector is mapped through <span class="math inline">\(stab\)</span>.
+Otherwise set <span class="math inline">\(stab_i = i\)</span></td>
 </tr>
 <tr>
 <td colspan="3" style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="3" style="text-align: left;">4: <span
-class="math inline">do\_rev</span>: <span
-class="math inline">model\_revcomp</span> will be used (CRAM v3.1)</td>
+class="math inline">\(do\_rev\)</span>: <span
+class="math inline">\(model\_revcomp\)</span> will be used (CRAM
+v3.1)</td>
 </tr>
 <tr>
 <td colspan="8" style="text-align: left;"></td>
 </tr>
 <tr>
 <td colspan="8" style="text-align: left;"><em>If <span
-class="math inline">multi\_param</span> gflag is set:</em></td>
+class="math inline">\(multi\_param\)</span> gflag is set:</em></td>
 </tr>
 <tr>
 <td style="text-align: right;"><span>2-7</span></td>
 <td colspan="2" style="text-align: right;">8</td>
 <td style="text-align: right;">uint8</td>
 <td style="text-align: right;"><span
-class="math inline">nparam</span></td>
+class="math inline">\(nparam\)</span></td>
 <td colspan="2" style="text-align: left;">Number of parameter blocks
 (defaults to 1)</td>
 <td style="text-align: left;"></td>
@@ -2409,14 +2410,14 @@ class="math inline">nparam</span></td>
 </tr>
 <tr>
 <td colspan="8" style="text-align: left;"><em>If <span
-class="math inline">have\_stab</span> gflag is set:</em></td>
+class="math inline">\(have\_stab\)</span> gflag is set:</em></td>
 </tr>
 <tr>
 <td style="text-align: right;"><span>2-7</span></td>
 <td colspan="2" style="text-align: right;">8</td>
 <td style="text-align: right;">uint8</td>
 <td style="text-align: right;"><span
-class="math inline">max\_sel</span></td>
+class="math inline">\(max\_sel\)</span></td>
 <td colspan="2" style="text-align: left;">Maximum parameter selector
 value</td>
 <td style="text-align: left;"></td>
@@ -2426,7 +2427,7 @@ value</td>
 <td colspan="2" style="text-align: right;">variable</td>
 <td style="text-align: right;">array</td>
 <td style="text-align: right;"><span
-class="math inline">stab</span></td>
+class="math inline">\(stab\)</span></td>
 <td colspan="2" style="text-align: left;">Parameter selector table</td>
 <td style="text-align: left;"></td>
 </tr>
@@ -2445,16 +2446,16 @@ class="math inline">stab</span></td>
 </tr>
 <tr>
 <td colspan="8" style="text-align: left;"><em>Parameter block: repeated
-<span class="math inline">nparam</span> times: (selected via <span
-class="math inline">model\_sel</span> and <span
-class="math inline">stab</span>)</em></td>
+<span class="math inline">\(nparam\)</span> times: (selected via <span
+class="math inline">\(model\_sel\)</span> and <span
+class="math inline">\(stab\)</span>)</em></td>
 </tr>
 <tr>
 <td style="text-align: right;"><span>2-7</span></td>
 <td colspan="2" style="text-align: right;">16</td>
 <td style="text-align: right;">uint16</td>
 <td style="text-align: right;"><span
-class="math inline">context</span></td>
+class="math inline">\(context\)</span></td>
 <td colspan="2" style="text-align: left;">Starting context value</td>
 <td style="text-align: left;"></td>
 </tr>
@@ -2463,7 +2464,7 @@ class="math inline">context</span></td>
 <td colspan="2" style="text-align: right;">8</td>
 <td style="text-align: right;">uint8</td>
 <td style="text-align: right;"><span
-class="math inline">pflags</span></td>
+class="math inline">\(pflags\)</span></td>
 <td colspan="2" style="text-align: left;">Per-parameter block bit-flags.
 From lowest bit to highest:</td>
 <td style="text-align: left;"></td>
@@ -2482,7 +2483,7 @@ From lowest bit to highest:</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="2" style="text-align: left;">2: <span
-class="math inline">do\_dedup</span>: model_dup will be used</td>
+class="math inline">\(do\_dedup\)</span>: model_dup will be used</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr>
@@ -2491,7 +2492,7 @@ class="math inline">do\_dedup</span>: model_dup will be used</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="2" style="text-align: left;">4: <span
-class="math inline">do\_len</span>: model_len will be used for every
+class="math inline">\(do\_len\)</span>: model_len will be used for every
 record</td>
 <td style="text-align: left;"></td>
 </tr>
@@ -2501,7 +2502,7 @@ record</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="2" style="text-align: left;">8: <span
-class="math inline">do\_sel</span>: model_sel will be used</td>
+class="math inline">\(do\_sel\)</span>: model_sel will be used</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr>
@@ -2510,7 +2511,7 @@ class="math inline">do\_sel</span>: model_sel will be used</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="2" style="text-align: left;">16: <span
-class="math inline">have\_qmap</span>: indicates quality map is
+class="math inline">\(have\_qmap\)</span>: indicates quality map is
 present</td>
 <td style="text-align: left;"></td>
 </tr>
@@ -2520,8 +2521,8 @@ present</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="2" style="text-align: left;">32: <span
-class="math inline">have\_ptab</span>: Load <span
-class="math inline">ptab</span>, otherwise position contexts are
+class="math inline">\(have\_ptab\)</span>: Load <span
+class="math inline">\(ptab\)</span>, otherwise position contexts are
 unused</td>
 <td style="text-align: left;"></td>
 </tr>
@@ -2531,8 +2532,8 @@ unused</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="2" style="text-align: left;">64: <span
-class="math inline">have\_dtab</span>: Load <span
-class="math inline">dtab</span>, otherwise delta contexts are
+class="math inline">\(have\_dtab\)</span>: Load <span
+class="math inline">\(dtab\)</span>, otherwise delta contexts are
 unused</td>
 <td style="text-align: left;"></td>
 </tr>
@@ -2542,9 +2543,9 @@ unused</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td colspan="2" style="text-align: left;">128: <span
-class="math inline">have\_qtab</span>: Load <span
-class="math inline">qtab</span>, otherwise set <span
-class="math inline">qtab_i = i</span></td>
+class="math inline">\(have\_qtab\)</span>: Load <span
+class="math inline">\(qtab\)</span>, otherwise set <span
+class="math inline">\(qtab_i = i\)</span></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr>
@@ -2552,7 +2553,7 @@ class="math inline">qtab_i = i</span></td>
 <td colspan="2" style="text-align: right;">8</td>
 <td style="text-align: right;">uint8</td>
 <td style="text-align: right;"><span
-class="math inline">max\_sym</span></td>
+class="math inline">\(max\_sym\)</span></td>
 <td colspan="2" style="text-align: left;">Total number of distinct
 quality values</td>
 <td style="text-align: left;"></td>
@@ -2562,7 +2563,7 @@ quality values</td>
 <td colspan="2" style="text-align: right;">4</td>
 <td style="text-align: right;">uint4 (high)</td>
 <td style="text-align: right;"><span
-class="math inline">qbits</span></td>
+class="math inline">\(qbits\)</span></td>
 <td colspan="2" style="text-align: left;">Total number of bits for
 quality context</td>
 <td style="text-align: left;"></td>
@@ -2572,7 +2573,7 @@ quality context</td>
 <td colspan="2" style="text-align: right;">4</td>
 <td style="text-align: right;">uint4 (low)</td>
 <td style="text-align: right;"><span
-class="math inline">qshift</span></td>
+class="math inline">\(qshift\)</span></td>
 <td colspan="2" style="text-align: left;">Left bit shift per successive
 quality in quality context</td>
 <td style="text-align: left;"></td>
@@ -2582,7 +2583,7 @@ quality in quality context</td>
 <td colspan="2" style="text-align: right;">4</td>
 <td style="text-align: right;">uint4 (high)</td>
 <td style="text-align: right;"><span
-class="math inline">qloc</span></td>
+class="math inline">\(qloc\)</span></td>
 <td colspan="2" style="text-align: left;">Bit position of quality
 context</td>
 <td style="text-align: left;"></td>
@@ -2592,7 +2593,7 @@ context</td>
 <td colspan="2" style="text-align: right;">4</td>
 <td style="text-align: right;">uint4 (low)</td>
 <td style="text-align: right;"><span
-class="math inline">sloc</span></td>
+class="math inline">\(sloc\)</span></td>
 <td colspan="2" style="text-align: left;">Bit position of selector
 context</td>
 <td style="text-align: left;"></td>
@@ -2602,7 +2603,7 @@ context</td>
 <td colspan="2" style="text-align: right;">4</td>
 <td style="text-align: right;">uint4 (high)</td>
 <td style="text-align: right;"><span
-class="math inline">ploc</span></td>
+class="math inline">\(ploc\)</span></td>
 <td colspan="2" style="text-align: left;">Bit position of position
 context</td>
 <td style="text-align: left;"></td>
@@ -2612,7 +2613,7 @@ context</td>
 <td colspan="2" style="text-align: right;">4</td>
 <td style="text-align: right;">uint4 (low)</td>
 <td style="text-align: right;"><span
-class="math inline">dloc</span></td>
+class="math inline">\(dloc\)</span></td>
 <td colspan="2" style="text-align: left;">Bit position of delta
 context</td>
 <td style="text-align: left;"></td>
@@ -2625,7 +2626,7 @@ context</td>
 <tr>
 <td style="text-align: left;"></td>
 <td colspan="6" style="text-align: left;"><em>If <span
-class="math inline">have\_qmap</span> pflag is set:</em></td>
+class="math inline">\(have\_qmap\)</span> pflag is set:</em></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr>
@@ -2633,9 +2634,9 @@ class="math inline">have\_qmap</span> pflag is set:</em></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">variable</td>
 <td style="text-align: right;">uint8[<span
-class="math inline">max\_sym</span>]</td>
+class="math inline">\(max\_sym\)</span>]</td>
 <td style="text-align: right;"><span
-class="math inline">qmap</span></td>
+class="math inline">\(qmap\)</span></td>
 <td style="text-align: left;">Map for unbinning quality values.</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
@@ -2648,7 +2649,7 @@ class="math inline">qmap</span></td>
 <tr>
 <td style="text-align: left;"></td>
 <td colspan="6" style="text-align: left;"><em>If <span
-class="math inline">have\_qtab</span> pflag is set:</em></td>
+class="math inline">\(have\_qtab\)</span> pflag is set:</em></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr>
@@ -2657,7 +2658,7 @@ class="math inline">have\_qtab</span> pflag is set:</em></td>
 <td style="text-align: right;">variable</td>
 <td style="text-align: right;">array</td>
 <td style="text-align: right;"><span
-class="math inline">qtab</span></td>
+class="math inline">\(qtab\)</span></td>
 <td style="text-align: left;">Quality context lookup table</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
@@ -2670,7 +2671,7 @@ class="math inline">qtab</span></td>
 <tr>
 <td style="text-align: left;"></td>
 <td colspan="6" style="text-align: left;"><em>If <span
-class="math inline">have\_tab</span> pflag is set:</em></td>
+class="math inline">\(have\_tab\)</span> pflag is set:</em></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr>
@@ -2679,7 +2680,7 @@ class="math inline">have\_tab</span> pflag is set:</em></td>
 <td style="text-align: right;">variable</td>
 <td style="text-align: right;">array</td>
 <td style="text-align: right;"><span
-class="math inline">ptab</span></td>
+class="math inline">\(ptab\)</span></td>
 <td style="text-align: left;">Position context lookup table</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
@@ -2692,7 +2693,7 @@ class="math inline">ptab</span></td>
 <tr>
 <td style="text-align: left;"></td>
 <td colspan="6" style="text-align: left;"><em>If <span
-class="math inline">have\_tab</span> pflag is set:</em></td>
+class="math inline">\(have\_tab\)</span> pflag is set:</em></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr>
@@ -2701,7 +2702,7 @@ class="math inline">have\_tab</span> pflag is set:</em></td>
 <td style="text-align: right;">variable</td>
 <td style="text-align: right;">array</td>
 <td style="text-align: right;"><span
-class="math inline">dtab</span></td>
+class="math inline">\(dtab\)</span></td>
 <td style="text-align: left;">Delta context lookup table</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>

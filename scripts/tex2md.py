@@ -91,10 +91,10 @@ def main():
     cmd = [
         "pandoc",
         temp_tex,
-        "-t", "gfm+gfm_auto_identifiers-tex_math_dollars-smart",
+        "-t", "gfm+tex_math_dollars",
         "--lua-filter", lua_filter,
         "--markdown-headings=atx",
-        "--katex",
+        "--mathjax",
         "-M", f"commit={commit}",
         "-M", f"date={date}",
     ]
@@ -147,12 +147,36 @@ This printing is version {commit} from the [hts-specs](https://github.com/samtoo
     final_content = final_content.replace('‘', "'").replace('’', "'")
     final_content = final_content.replace('“', '"').replace('”', '"')
     
-    # Remove PDF artifacts like "Continued on next page"
+    # Fix image paths for Astro (they are now in public/img)
+    final_content = final_content.replace('src="img/', 'src="/hts-specs-md/img/')
+    final_content = final_content.replace('](img/', '](/hts-specs-md/img/')
+    
+    # Also unescape quotes that pandoc might have escaped inside HTML blocks
+    final_content = final_content.replace('\\"', '"')
+    
+    # Remove PDF artifacts like "Continued on next page" (Markdown style)
+    final_content = re.sub(r'\| _\.\.\.Continued from previous page_ *\|\n(?:\|[- :+]*\|\n)*', '', final_content, flags=re.IGNORECASE)
+    final_content = re.sub(r'\| _Continued on next page\.\.\._ *\|\n(?:\|[- :+]*\|\n)*', '', final_content, flags=re.IGNORECASE)
+    
+    # Remove PDF artifacts like "Continued on next page" (HTML style)
     final_content = re.sub(r'<tr>\s*<td[^>]*><em>…Continued from previous.*?</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
     final_content = re.sub(r'<tr>\s*<td[^>]*><em>Continued on next.*?</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
-    # Also catch them if they are not in <tr> (pandoc table artifacts)
-    final_content = re.sub(r'<td[^>]*><em>…Continued from previous.*?</td>', '', final_content, flags=re.IGNORECASE)
-    final_content = re.sub(r'<td[^>]*><em>Continued on next.*?</td>', '', final_content, flags=re.IGNORECASE)
+    
+    # Remove duplicate headers (Markdown style)
+    # Using flexible whitespace matching for pipes
+    final_content = re.sub(r'\| +Key +\| +Number +\| +Type +\| +Description +\|\n\|[- :+]*\|\n', '', final_content, flags=re.IGNORECASE)
+    final_content = re.sub(r'\| +Field +\| +Number +\| +Type +\| +Description +\|\n\|[- :+]*\|\n', '', final_content, flags=re.IGNORECASE)
+    
+    # Remove duplicate headers (HTML style)
+    final_content = re.sub(r'<tr>\s*<td[^>]*>(?:Key|Field)</td>\s*<td[^>]*>Number</td>\s*<td[^>]*>Type</td>\s*<td[^>]*>Description</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+    
+    # Remove empty rows
+    final_content = re.sub(r'<tr>\s*<td[^>]*></td>\s*<td[^>]*></td>\s*<td[^>]*></td>\s*<td[^>]*></td>\s*</tr>', '', final_content, flags=re.DOTALL)
+    final_content = re.sub(r'\| +\| +\| +\| +\|\n', '', final_content)
+    
+    # Final cleanup of any remaining snippets
+    final_content = re.sub(r'<em>…Continued from previous.*?</em>', '', final_content, flags=re.IGNORECASE)
+    final_content = re.sub(r'<em>Continued on next.*?</em>', '', final_content, flags=re.IGNORECASE)
 
     with open(output_md, 'w') as f:
         f.write(final_content)

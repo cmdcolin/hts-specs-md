@@ -140,120 +140,14 @@ declare module 'astro:content' {
 	>;
 
 	type ContentEntryMap = {
-		"specs": {
-"BCFv1_qref.md": {
-	id: "BCFv1_qref.md";
-  slug: "bcfv1_qref";
+		"specs": Record<string, {
+  id: string;
+  slug: string;
   body: string;
   collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"BCFv2_qref.md": {
-	id: "BCFv2_qref.md";
-  slug: "bcfv2_qref";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"BEDv1.md": {
-	id: "BEDv1.md";
-  slug: "bedv1";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"CRAMcodecs.md": {
-	id: "CRAMcodecs.md";
-  slug: "cramcodecs";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"CRAMv2.1.md": {
-	id: "CRAMv2.1.md";
-  slug: "cramv21";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"CRAMv3.md": {
-	id: "CRAMv3.md";
-  slug: "cramv3";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"CSIv1.md": {
-	id: "CSIv1.md";
-  slug: "csiv1";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"SAMtags.md": {
-	id: "SAMtags.md";
-  slug: "samtags";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"SAMv1.md": {
-	id: "SAMv1.md";
-  slug: "samv1";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"VCFv4.1.md": {
-	id: "VCFv4.1.md";
-  slug: "vcfv41";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"VCFv4.2.md": {
-	id: "VCFv4.2.md";
-  slug: "vcfv42";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"VCFv4.3.md": {
-	id: "VCFv4.3.md";
-  slug: "vcfv43";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"VCFv4.4.md": {
-	id: "VCFv4.4.md";
-  slug: "vcfv44";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"VCFv4.5.md": {
-	id: "VCFv4.5.md";
-  slug: "vcfv45";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"crypt4gh.md": {
-	id: "crypt4gh.md";
-  slug: "crypt4gh";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-"tabix.md": {
-	id: "tabix.md";
-  slug: "tabix";
-  body: string;
-  collection: "specs";
-  data: InferEntrySchema<"specs">
-} & { render(): Render[".md"] };
-};
+  data: InferEntrySchema<"specs">;
+  render(): Render[".md"];
+}>;
 
 	};
 

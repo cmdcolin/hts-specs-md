@@ -17,15 +17,15 @@ PDFS =	BCFv1_qref.pdf \
 	VCFv4.4.pdf \
 	VCFv4.5.pdf
 
-MDS = $(PDFS:%.pdf=src/content/specs/%.md)
+MDS = $(PDFS:%.pdf=src/_posts/%.md)
 
 markdown: $(MDS)
 
-src/content/specs/%.md: %.tex scripts/tex2md.py scripts/pandoc-filter.lua | src/content/specs
+src/_posts/%.md: %.tex scripts/tex2md.py scripts/pandoc-filter.lua | src/_posts
 	scripts/tex2md.py $< $@
 
-src/content/specs:
-	mkdir -p src/content/specs
+src/_posts:
+	mkdir -p src/_posts
 
 all: pdf markdown
 
@@ -93,7 +93,7 @@ mostlyclean:
 clean: mostlyclean
 	-rm -f $(PDFS:%=new/%)$(if $(wildcard new),; rmdir new)
 	-rm -f $(PDFS:%=diff/%)$(if $(wildcard diff),; rmdir diff)
-	-rm -rf src/content/specs
+	-rm -rf src/_posts
 	-rm -rf .jekyll-cache .jekyll-metadata _site
 
 

@@ -250,7 +250,7 @@ refer to other sections of this document for more detailed information.
 A CRAM file starts with a fixed length file definition followed by one
 or more containers. The BAM header is stored in the first container.
 
-<img src="img/CRAMFileFormat2-1-fig001.png"
+<img src="/hts-specs-md/img/CRAMFileFormat2-1-fig001.png"
 style="width:356pt;height:31pt" alt="image" />
 
 Pic.1 CRAM file starts with a file definition followed by the BAM header
@@ -260,7 +260,7 @@ Containers consist of one or more blocks. By convention, the BAM header
 is stored in the first container within a single block. This is known as
 the BAM header block.
 
-<img src="img/CRAMFileFormat2-1-fig002.png"
+<img src="/hts-specs-md/img/CRAMFileFormat2-1-fig002.png"
 style="width:354pt;height:103pt" alt="image" />
 
 Pic.2 The BAM header is stored in the first container.
@@ -269,7 +269,7 @@ Each container starts with a container header followed by one or more
 blocks. Each block starts with a block header. All data in CRAM is
 stored within blocks after the block header.
 
-<img src="img/CRAMFileFormat2-1-fig003.png"
+<img src="/hts-specs-md/img/CRAMFileFormat2-1-fig003.png"
 style="width:356pt;height:154pt" alt="image" />
 
 Pic.3 Container and block structure. All data in CRAM files is stored in
@@ -277,7 +277,7 @@ blocks.
 
 The first block in each container is the compression header block:
 
-<img src="img/CRAMFileFormat2-1-fig004.png"
+<img src="/hts-specs-md/img/CRAMFileFormat2-1-fig004.png"
 style="width:354pt;height:103pt" alt="image" />
 
 Pic.4 Compression header is the first block in the container.
@@ -287,7 +287,7 @@ slices. One slice may contain, for example, a contiguous region of
 alignment data. Slices begin with a slice header block and are followed
 by one or more data blocks:
 
-<img src="img/CRAMFileFormat2-1-fig005.png"
+<img src="/hts-specs-md/img/CRAMFileFormat2-1-fig005.png"
 style="width:374pt;height:137pt" alt="image" />
 
 Pic.5 Containers are logically organised into slices.
@@ -297,7 +297,7 @@ must have at least one core data block immediately after the slice
 header block. The core data block may be followed by one or more
 external data blocks.
 
-<img src="img/CRAMFileFormat2-1-fig006.png"
+<img src="/hts-specs-md/img/CRAMFileFormat2-1-fig006.png"
 style="width:392pt;height:149pt" alt="image" />
 
 Pic.5 Data blocks are divided into core and external data blocks.
@@ -561,7 +561,7 @@ few bits long. The core data block has the following fields:
 Relationship between core data block and external data blocks is shown
 in the following picture:
 
-<img src="img/CRAMFileFormat2-1-fig007.png"
+<img src="/hts-specs-md/img/CRAMFileFormat2-1-fig007.png"
 style="width:451pt;height:350pt" alt="image" />
 
 Pic.3 Relationship between core data block and external data blocks.

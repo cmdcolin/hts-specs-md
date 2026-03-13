@@ -96,27 +96,24 @@ function Code(el)
   return el
 end
 
--- Handle CodeBlock (block code)
 function CodeBlock(el)
-  -- If it contains $...$, we'll try to split and render math
   if el.text:match("%$.*%$") then
     local all_content = {}
     
-    -- Split by newline manually to be safe with whitespace
     local lines = {}
-    local temp = el.text
+    local start = 1
     while true do
-        local nl = temp:find("\n")
+        local nl = el.text:find("\n", start)
         if nl then
-            table.insert(lines, temp:sub(1, nl-1))
-            temp = temp:sub(nl+1)
+            table.insert(lines, el.text:sub(start, nl-1))
+            start = nl + 1
         else
-            table.insert(lines, temp)
+            table.insert(lines, el.text:sub(start))
             break
         end
     end
 
-    for i, line in enumerate(lines) do
+    for i, line in ipairs(lines) do
       local last_pos = 1
       for start_pos, content, end_pos in line:gmatch("()%$([^%$]+)%$()") do
         if start_pos > last_pos then
@@ -134,17 +131,10 @@ function CodeBlock(el)
       end
     end
     
+    -- Try using a BlockQuote or just a Div with a pre-like style
     return pandoc.Div({pandoc.Para(all_content)}, {class="code-math-block"})
   end
   return el
-end
-
-function enumerate(t)
-    local i = 0
-    return function()
-        i = i + 1
-        if t[i] then return i, t[i] end
-    end
 end
 
 -- Pandoc 3.x uses meta to pass metadata

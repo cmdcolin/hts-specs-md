@@ -597,8 +597,7 @@ Representing these as VCF records would be done as follows:
 3.  A single base insertion of A $`\rightarrow \{tC,tCA\} \rightarrow`$
     tC is the reference allele
 
-|         |       |     |     |     |      |        |        |
-|:--------|:------|:----|:----|:----|:-----|:-------|:-------|
+|         |       |     |     |:--------|:------|:----|:----|:----|:-----|:-------|:-------|
 | \#CHROM | POS   | ID  | REF | ALT | QUAL | FILTER | INFO   |
 | $`20`$  | $`3`$ | .   | C   | G   | .    | PASS   | DP=100 |
 | $`20`$  | $`2`$ | .   | TC  | T   | .    | PASS   | DP=100 |
@@ -618,8 +617,7 @@ represent these three segregating alleles:
 In this case there are three segregating alleles: $`\{tC,tG,t\}`$ with a
 corresponding VCF record:
 
-|         |       |     |     |      |      |        |        |
-|:--------|:------|:----|:----|:-----|:-----|:-------|:-------|
+|         |       |     |     |:--------|:------|:----|:----|:-----|:-----|:-------|:-------|
 | \#CHROM | POS   | ID  | REF | ALT  | QUAL | FILTER | INFO   |
 | $`20`$  | $`2`$ | .   | TC  | TG,T | .    | PASS   | DP=100 |
 
@@ -637,8 +635,7 @@ Now suppose I have this more complex example:
 There are actually four segregating alleles: $`\{tCg,tg,t,tCAg\}`$ over
 bases 2-4. This complex set of allele is represented in VCF as:
 
-|         |       |     |     |           |      |        |        |
-|:--------|:------|:----|:----|:----------|:-----|:-------|:-------|
+|         |       |     |     |:--------|:------|:----|:----|:----------|:-----|:-------|:-------|
 | \#CHROM | POS   | ID  | REF | ALT       | QUAL | FILTER | INFO   |
 | $`20`$  | $`2`$ | .   | TCG | TG,T,TCAG | .    | PASS   | DP=100 |
 
@@ -654,8 +651,7 @@ Reference site depends on the properties of the alleles in the record.
 
 Suppose I receive the following VCF record:
 
-|         |       |     |     |     |      |        |        |
-|:--------|:------|:----|:----|:----|:-----|:-------|:-------|
+|         |       |     |     |:--------|:------|:----|:----|:----|:-----|:-------|:-------|
 | \#CHROM | POS   | ID  | REF | ALT | QUAL | FILTER | INFO   |
 | $`20`$  | $`3`$ | .   | C   | T   | .    | PASS   | DP=100 |
 
@@ -671,8 +667,7 @@ two alleles so I have the two following segregating haplotypes:
 
 Suppose I receive the following VCF record:
 
-|         |       |     |     |      |      |        |        |
-|:--------|:------|:----|:----|:-----|:-----|:-------|:-------|
+|         |       |     |     |:--------|:------|:----|:----|:-----|:-----|:-------|:-------|
 | \#CHROM | POS   | ID  | REF | ALT  | QUAL | FILTER | INFO   |
 | $`20`$  | $`3`$ | .   | C   | CTAG | .    | PASS   | DP=100 |
 
@@ -689,8 +684,7 @@ only two alleles so I have the two following segregating haplotypes:
 
 Suppose I receive the following VCF record:
 
-|         |       |     |     |     |      |        |        |
-|:--------|:------|:----|:----|:----|:-----|:-------|:-------|
+|         |       |     |     |:--------|:------|:----|:----|:----|:-----|:-------|:-------|
 | \#CHROM | POS   | ID  | REF | ALT | QUAL | FILTER | INFO   |
 | $`20`$  | $`2`$ | .   | TCG | T   | .    | PASS   | DP=100 |
 
@@ -707,8 +701,7 @@ only two alleles so I have the two following segregating haplotypes:
 
 Suppose I receive the following VCF record:
 
-|         |       |     |     |         |      |        |        |
-|:--------|:------|:----|:----|:--------|:-----|:-------|:-------|
+|         |       |     |     |:--------|:------|:----|:----|:--------|:-----|:-------|:-------|
 | \#CHROM | POS   | ID  | REF | ALT     | QUAL | FILTER | INFO   |
 | $`20`$  | $`4`$ | .   | GCG | G,GCGCG | .    | PASS   | DP=100 |
 
@@ -837,13 +830,12 @@ It exemplifies all possible orientations of breakends in adjacencies.
 Notice how the ALT field expresses the orientation of the breakends.
 
 <figure data-latex-placement="ht">
-<img src="img/all_orientations-400x296.png"
+<img src="/hts-specs-md/img/all_orientations-400x296.png"
 style="width:4in;height:2.96in" />
 <figcaption>All possible orientations of breakends</figcaption>
 </figure>
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | $`2`$ | $`321681`$ | bnd_W | G | G$`]17`$:$`198982]`$ | $`6`$ | PASS | SVTYPE=BND |
 | $`2`$ | $`321682`$ | bnd_V | T | $`]`$<!-- -->13:123456$`]`$T | 6 | PASS | SVTYPE=BND |
@@ -858,13 +850,12 @@ Sometimes, as shown in Figure 2, some bases are inserted between the two
 breakends, this information is also carried in the ALT column:
 
 <figure data-latex-placement="h">
-<img src="img/inserted_sequence-400x189.png"
+<img src="/hts-specs-md/img/inserted_sequence-400x189.png"
 style="width:4in;height:1.89in" />
 <figcaption>Inserted sequence between breakends</figcaption>
 </figure>
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | $`2`$ | $`321682`$ | bnd_V | T | $`]13:123456]`$AGTNNNNNCAT | $`6`$ | PASS | SVTYPE=BND;MATEID=bnd_U |
 | $`13`$ | $`123456`$ | bnd_U | C | CAGTNNNNNCA$`[2:321682[`$ | $`6`$ | PASS | SVTYPE=BND;MATEID=bnd_V |
@@ -876,13 +867,12 @@ column, as in the 329 base insertion shown in Figure 3, it can be
 represented by a contig from the assembly file:
 
 <figure data-latex-placement="h">
-<img src="img/inserted_contig-400x247.png"
+<img src="/hts-specs-md/img/inserted_contig-400x247.png"
 style="width:4in;height:2.47in" />
 <figcaption>Inserted contig</figcaption>
 </figure>
 
-|         |            |       |     |                       |       |        |            |
-|:--------|:-----------|:------|:----|:----------------------|:------|:-------|:-----------|
+|         |            |       |     |:--------|:-----------|:------|:----|:----------------------|:------|:-------|:-----------|
 | \#CHROM | POS        | ID    | REF | ALT                   | QUAL  | FILTER | INFO       |
 | $`13`$  | $`123456`$ | bnd_U | C   | C$`[<`$ctg1$`>:1[`$   | $`6`$ | PASS   | SVTYPE=BND |
 | $`13`$  | $`123457`$ | bnd_V | A   | $`]<`$ctg$`1>:329]`$A | $`6`$ | PASS   | SVTYPE=BND |
@@ -891,16 +881,14 @@ style="width:4in;height:2.47in" />
 between two base pairs, it is recommended to use the shorthand notation
 described above:
 
-|         |            |      |     |                 |       |        |            |
-|:--------|:-----------|:-----|:----|:----------------|:------|:-------|:-----------|
+|         |            |      |     |:--------|:-----------|:-----|:----|:----------------|:------|:-------|:-----------|
 | \#CHROM | POS        | ID   | REF | ALT             | QUAL  | FILTER | INFO       |
 | $`13`$  | $`321682`$ | INS0 | T   | C$`<`$ctg$`1>`$ | $`6`$ | PASS   | SVTYPE=INS |
 
 If only a portion of $`<`$ctg$`1>`$, say from position $`7`$ to position
 $`214`$, is inserted, the VCF would be:
 
-|         |            |       |     |                       |       |        |            |
-|:--------|:-----------|:------|:----|:----------------------|:------|:-------|:-----------|
+|         |            |       |     |:--------|:-----------|:------|:----|:----------------------|:------|:-------|:-----------|
 | \#CHROM | POS        | ID    | REF | ALT                   | QUAL  | FILTER | INFO       |
 | $`13`$  | $`123456`$ | bnd_U | C   | C$`[<`$ctg1$`>:7[`$   | $`6`$ | PASS   | SVTYPE=BND |
 | $`13`$  | $`123457`$ | bnd_V | A   | $`]<`$ctg$`1>:214]`$A | $`6`$ | PASS   | SVTYPE=BND |
@@ -909,8 +897,7 @@ If $`<`$ctg$`1>`$ is circular and a segment from position 229 to
 position 45 is inserted, i.e., continuing from position 329 on to
 position 1, this is represented by adding a circular adjacency:
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | $`13`$ | $`123456`$ | bnd_U | C | C$`[<`$ctg$`1>:229[`$ | 6 | PASS | SVTYPE=BND |
 | $`13`$ | $`123457`$ | bnd_V | A | $`]<`$ctg$`1>:45]`$A | 6 | PASS | SVTYPE=BND |
@@ -924,13 +911,12 @@ breakend reuse or of uncertainty in the measurement), these alternate
 adjacencies are treated as alternate alleles:
 
 <figure data-latex-placement="h">
-<img src="img/multiple_mates-400x280.png"
+<img src="/hts-specs-md/img/multiple_mates-400x280.png"
 style="width:4in;height:2.8in" />
 <figcaption>Breakend with multiple mates</figcaption>
 </figure>
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | $`2`$ | $`321682`$ | bnd_V | T | $`]13:123456]`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_U |
 | $`13`$ | $`123456`$ | bnd_U | C | C$`[2:321682[`$,C$`[17:198983[`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V,bnd_Z |
@@ -946,12 +932,11 @@ is then possible to explicitly name a breakend's partner, such as in
 Figure 5.:
 
 <figure data-latex-placement="ht">
-<img src="img/erosion-400x211.png" style="width:4in;height:2.11in" />
+<img src="/hts-specs-md/img/erosion-400x211.png" style="width:4in;height:2.11in" />
 <figcaption>Partner breakends</figcaption>
 </figure>
 
-|         |        |       |     |                  |      |        |                          |
-|:--------|:-------|:------|:----|:-----------------|:-----|:-------|:-------------------------|
+|         |        |       |     |:--------|:-------|:------|:----|:-----------------|:-----|:-------|:-------------------------|
 | \#CHROM | POS    | ID    | REF | ALT              | QUAL | FILTER | INFO                     |
 | 2       | 321681 | bnd_W | G   | G$`[13:123460[`$ | 6    | PASS   | PARID=bnd_V;MATEID=bnd_X |
 | 2       | 321682 | bnd_V | T   | $`]13:123456]`$T | 6    | PASS   | PARID=bnd_W;MATEID=bnd_U |
@@ -969,14 +954,13 @@ example, to describe the reciprocal translocation of the entire
 chromosome 1 into chromosome 13, as illustrated in Figure 6:
 
 <figure data-latex-placement="h">
-<img src="img/telomere-400x251.png" style="width:4in;height:2.51in" />
+<img src="/hts-specs-md/img/telomere-400x251.png" style="width:4in;height:2.51in" />
 <figcaption>Telomeres</figcaption>
 </figure>
 
 the records would look like:
 
-|         |        |       |     |                  |      |        |                         |
-|:--------|:-------|:------|:----|:-----------------|:-----|:-------|:------------------------|
+|         |        |       |     |:--------|:-------|:------|:----|:-----------------|:-----|:-------|:------------------------|
 | \#CHROM | POS    | ID    | REF | ALT              | QUAL | FILTER | INFO                    |
 | 1       | 0      | bnd_X | N   | $`.[13:123457[`$ | 6    | PASS   | SVTYPE=BND;MATEID=bnd_V |
 | 1       | 1      | bnd_Y | T   | $`]13:123456]`$T | 6    | PASS   | SVTYPE=BND;MATEID=bnd_U |
@@ -990,15 +974,14 @@ as a set of novel adjacencies. For example, a reciprocal rearrangement
 such as in Figure 7:
 
 <figure data-latex-placement="h">
-<img src="img/reciprocal_rearrangement-400x192.png"
+<img src="/hts-specs-md/img/reciprocal_rearrangement-400x192.png"
 style="width:4in;height:1.92in" />
 <figcaption>Rearrangements</figcaption>
 </figure>
 
 would be described as:
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | 2 | 321681 | bnd_W | G | G$`[13:123457[`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_X;EVENT=RR0 |
 | 2 | 321682 | bnd_V | T | $`]13:123456]`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;EVENT=RR0 |
@@ -1010,22 +993,20 @@ would be described as:
 Similarly an inversion such as in Figure 8:
 
 <figure data-latex-placement="ht">
-<img src="img/inversion-400x95.png" style="width:4in;height:0.95in" />
+<img src="/hts-specs-md/img/inversion-400x95.png" style="width:4in;height:0.95in" />
 <figcaption>Inversion</figcaption>
 </figure>
 
 can be described equivalently in two ways. Either one uses the short
 hand notation described previously (recommended for simple cases):
 
-|         |        |      |     |               |      |        |                       |
-|:--------|:-------|:-----|:----|:--------------|:-----|:-------|:----------------------|
+|         |        |      |     |:--------|:-------|:-----|:----|:--------------|:-----|:-------|:----------------------|
 | \#CHROM | POS    | ID   | REF | ALT           | QUAL | FILTER | INFO                  |
 | 2       | 321681 | INV0 | G   | $`<`$INV$`>`$ | 6    | PASS   | SVTYPE=INV;END=421681 |
 
 or one describes the breakends:
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | 2 | 321681 | bnd_W | G | G$`]2:421681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;EVENT=INV0 |
 | 2 | 321682 | bnd_V | T | $`[2:421682[`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X;EVENT=INV0 |
@@ -1042,7 +1023,7 @@ The ALT string is then constructed assuming this arbitrary breakend
 choice.
 
 <figure data-latex-placement="h">
-<img src="img/microhomology-400x248.png"
+<img src="/hts-specs-md/img/microhomology-400x248.png"
 style="width:4in;height:2.48in" />
 <figcaption>Homology</figcaption>
 </figure>
@@ -1055,8 +1036,7 @@ recombination events which are allowed by the sequence evidence
 available. We therefore place both U and V arbitrarily within the
 interval of possibility:
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | 2 | 321681 | bnd_V | T | T$`]13:123462]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U;CIPOS=0,6 |
 | 13 | 123456 | bnd_U | A | A$`]2:321687]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_V;CIPOS=0,6 |
@@ -1092,8 +1072,7 @@ exist and are breakends. In this case we can specify these as single
 breakends, with unknown mates. The 4 lines of VCF representing this
 situation would be:
 
-|         |        |       |     |                  |      |        |                         |
-|:--------|:-------|:------|:----|:-----------------|:-----|:-------|:------------------------|
+|         |        |       |     |:--------|:-------|:------|:----|:-----------------|:-----|:-------|:------------------------|
 | \#CHROM | POS    | ID    | REF | ALT              | QUAL | FILTER | INFO                    |
 | 2       | 321681 | bnd_W | G   | G.               | 6    | PASS   | SVTYPE=BND              |
 | 2       | 321682 | bnd_V | T   | $`]13:123456]`$T | 6    | PASS   | SVTYPE=BND;MATEID=bnd_U |
@@ -1111,8 +1090,7 @@ filter value for the breakends W and X.
 Another possible reason for calling single breakends is an observed but
 unexplained change in copy number along a chromosome.
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | 3 | 12665 | bnd_X | A | .A | 6 | PASS | SVTYPE=BND;CIPOS=-50,50 |
 | 3 | 12665 | . | A | $`<`$DUP$`>`$ | 14 | PASS | SVTYPE=DUP;END=13686;CIPOS=-50,50;CIEND=-50,50 |
@@ -1122,8 +1100,7 @@ Finally, if an insertion is detected but only the first few base-pairs
 provided by overhanging reads could be assembled, then this inserted
 sequence can be provided on that line, in analogy to paired breakends:
 
-|  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO |
 | 3 | 12665 | bnd_X | A | .TGCA | 6 | PASS | SVTYPE=BND;CIPOS=-50,50 |
 | 3 | 12665 | . | A | $`<`$DUP$`>`$ | 14 | PASS | SVTYPE=DUP;END=13686;CIPOS=-50,50;CIEND=-50,50 |
@@ -1147,8 +1124,7 @@ the example of the inversion just above, the VCF code could become:
 
 <div class="flushleft">
 
-|  |  |  |  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | Blood | TissueSample |
 | 2 | 321681 | bnd_W | G | G$`]2:421681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U | GT:DPADJ | 0:32 | $`0|1:9,21`$ |
 | 2 | 321682 | bnd_V | T | $`[2:421682[`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X | GT:DPADJ | 0:29 | $`0|1:11,25`$ |
@@ -1163,8 +1139,7 @@ data:
 
 <div class="flushleft">
 
-|  |  |  |  |  |  |  |  |  |  |  |
-|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+|  |  |  |  |  |  |  |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | \#CHROM | POS | ID | REF | ALT | QUAL | FILTER | INFO | FORMAT | Blood | TumorSample |
 | 2 | 321681 | bnd_W | G | G$`]2:421681]`$ | 6 | PASS | SVTYPE=BND;MATEID=bnd_U | GT:CNADJ | 0:1 | 1:1 |
 | 2 | 321682 | bnd_V | T | $`[2:421682[`$T | 6 | PASS | SVTYPE=BND;MATEID=bnd_X | GT:CNADJ | 0:1 | 1:1 |
@@ -1214,7 +1189,7 @@ in all cases by clonal derivation with mutations. The PEDIGREE lines
 would look like:
 
 <figure data-latex-placement="ht">
-<img src="img/derivation-400x267.png" style="width:4in;height:2.67in" />
+<img src="/hts-specs-md/img/derivation-400x267.png" style="width:4in;height:2.67in" />
 <figcaption>Pedigree example</figcaption>
 </figure>
 
@@ -1268,7 +1243,7 @@ these haplotype-specific adjacencies is **bundles**.
 The diagram in Figure 11 will be used to support examples below:
 
 <figure data-latex-placement="ht">
-<img src="img/phasing-400x259.png" style="width:4in;height:2.59in" />
+<img src="/hts-specs-md/img/phasing-400x259.png" style="width:4in;height:2.59in" />
 <figcaption>Phasing</figcaption>
 </figure>
 
@@ -1318,7 +1293,6 @@ subfields, respectively. The total information available about the three
 haplotypes of breakend U in the figure above may be visualized in a
 table as follows.
 
-|  |  |  |  |
 |:---|:---|:---|:---|
 | Allele | 1 | 1 | 0 |
 | Haplotype | 1$`>`$<!-- -->11 | 2,3,4$`>`$<!-- -->12,13,14 | 5$`>`$<!-- -->5 |
@@ -1483,14 +1457,12 @@ Genotype fields are encoded not by sample as in VCF but rather by field,
 with a vector of values for each sample following each field. In BCF2,
 the following VCF line:
 
-|          |          |         |          |
 |:---------|:---------|:--------|:---------|
 | FORMAT   | NA00001  | NA00002 | NA00003  |
 | GT:GQ:DP | 0/0:48:1 | 0/1:9:8 | 1/1:43:5 |
 
 would encoded as the equivalent of:
 
-|                |            |          |     |
 |:---------------|:-----------|:---------|:----|
 | GT=0/0,0/1,1/1 | GQ=48,9,43 | DP=1,8,5 |     |
 
@@ -1850,7 +1822,6 @@ key/value pair is:
 
 Continuing with our example:
 
-|  |  |  |  |
 |:---|:---|:---|:---|
 | FORMAT | NA00001 | NA00002 | NA00003 |
 | GT:GQ:DP:AD:PL | 0/0:10:32:32,0:0,10,100 | 0/1:10:48:32,16:10,0,100 | 1/1:10:64:0,64:100,10,0 |
