@@ -49,12 +49,20 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
         overflow-y: hidden;
       }
       pre {
-        background-color: #f6f8fa;
+        background-color: #1e1e1e;
+        color: #d4d4d4;
         padding: 1rem;
         border-radius: 6px;
         overflow-x: auto;
-        border: 1px solid #d1d5da;
+        border: 1px solid #333;
         margin-bottom: 1.5rem;
+        font-size: 0.85em;
+        line-height: 1.4;
+      }
+      pre code {
+        color: inherit;
+        background: transparent !important;
+        padding: 0;
       }
       code {
         font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
@@ -62,10 +70,6 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
         background: #f6f8fa;
         padding: 0.2em 0.4em;
         border-radius: 3px;
-      }
-      pre code {
-        background: transparent !important;
-        padding: 0;
       }
       .code-math-block {
         background-color: #f6f8fa;
@@ -121,10 +125,13 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
       th {
         background-color: #f8f9fa;
       }
-      h1, h2, h3 {
+      h1, h2, h3, h4 {
         border-bottom: 1px solid #eaecef;
         padding-bottom: 0.3em;
         margin-top: 1.5rem;
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
       }
       .toc {
         background: #f6f8fa;
