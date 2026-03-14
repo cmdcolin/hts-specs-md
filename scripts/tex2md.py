@@ -393,8 +393,26 @@ def main():
         body = body.replace(r'\algorithmicto', r'\text{ \textbf{to} }')
         body = body.replace(r'\algorithmicin', r'\text{ \textbf{in} }')
         body = body.replace(r'\algorithmicgoto', r'\textbf{go to}')
-        # Convert \Call{Name}{args} to \textsc{Name}(args) since pandoc drops \Call
-        body = re.sub(r'\\Call\{([^}]+)\}\{([^}]*)\}', r'\\textsc{\1}(\2)', body)
+        # Convert \Call{Name}{args} to \textsc{Name}(args) since pandoc drops \Call.
+        # Use balanced-brace parsing because args may contain nested braces (e.g. $C_{L_j}$).
+        def convert_calls(text):
+            out = []
+            i = 0
+            while i < len(text):
+                if text[i:i+6] == r'\Call{':
+                    name, rest = get_first_brace(text[i+5:])
+                    if rest.startswith('{'):
+                        args, rest2 = get_first_brace(rest)
+                        out.append(r'\textsc{' + name + '}(' + args + ')')
+                        i += len(text[i+5:]) - len(rest2) + 5
+                    else:
+                        out.append(text[i])
+                        i += 1
+                else:
+                    out.append(text[i])
+                    i += 1
+            return ''.join(out)
+        body = convert_calls(body)
         # Convert algorithmic environments to formatted lstlisting blocks
         body = preprocess_algorithmic(body)
         # Convert tabularx/tabular* to tabular so pandoc produces a proper Table AST node.

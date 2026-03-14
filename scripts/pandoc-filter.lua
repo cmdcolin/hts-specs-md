@@ -121,6 +121,47 @@ function Code(el)
   return el
 end
 
+local function simplify_math_text(text)
+  -- Preserve \% (escaped percent/modulo) before stripping comments
+  text = text:gsub("\\%%", "\0PCTESC\0")
+  text = text:gsub("%%[^\n]*\n%s*", " ")
+  text = text:gsub("%%[^\n]*$", "")
+  text = text:gsub("\0PCTESC\0", "\\%%")
+
+  -- Remove hts-specs custom spacing: \nonscript\mskip-\medmuskip[\mkern 5mu]
+  text = text:gsub("\\nonscript\\mskip%-\\medmuskip\\mkern%s*5mu", " ")
+  text = text:gsub("\\nonscript\\mskip%-\\medmuskip", " ")
+  text = text:gsub("\\penalty%s*%d+\\mkern%s*5mu", " ")
+
+  -- Replace CRAMcodecs custom math operator macros with KaTeX-compatible equivalents
+  text = text:gsub("\\shiftl", "\\mathbin{\\text{<<}}")
+  text = text:gsub("\\shiftr", "\\mathbin{\\text{>>}}")
+  text = text:gsub("\\bitand", "\\mathbin{\\text{AND}}")
+  text = text:gsub("\\bitor",  "\\mathbin{\\text{OR}}")
+  text = text:gsub("\\bitxor", "\\mathbin{\\text{XOR}}")
+  text = text:gsub("\\logor",  "\\mathbin{\\textbf{or}}")
+  text = text:gsub("\\logand", "\\mathbin{\\textbf{and}}")
+  text = text:gsub("\\concat", "\\mathbin{+\\!\\!+}")
+
+  -- Replace custom operator macros with standard LaTeX
+  text = text:gsub("\\mathbin{\\operator@font%s+\\textbf{(%w+)}}", " \\textbf{%1} ")
+  text = text:gsub("\\mathbin{\\operator@font%s+(%w+)}", " \\text{%1} ")
+  text = text:gsub("\\mathbin{<[^}]*}", "\\ll ")
+  text = text:gsub("\\mathbin{>[^}]*}", "\\gg ")
+  text = text:gsub("\\mathbin{%+[^}]*}", "\\mathbin{++}")
+
+  -- Replace unsupported font/layout commands with pandoc-compatible equivalents
+  text = text:gsub("\\underline{([^}]*)}", "%1")
+  text = text:gsub("\\mbox{([^}]*)}", "%1")
+  text = text:gsub("{\\sf%s+([^}]*)}", "\\mathsf{%1}")
+  text = text:gsub("\\sf%s+([%w_]+)", "\\mathsf{%1}")
+
+  -- Normalize whitespace
+  text = text:gsub("%s+", " ")
+  text = text:gsub("^%s+", ""):gsub("%s+$", "")
+  return text
+end
+
 function CodeBlock(el)
   -- ONLY apply the code-math-block logic if there is actually a $ in the text
   if el.text:match("%$.*%$") then
@@ -192,7 +233,7 @@ function CodeBlock(el)
               table.insert(all_content, inline)
             end
         end
-        table.insert(all_content, pandoc.Math("InlineMath", content))
+        table.insert(all_content, pandoc.Math("InlineMath", simplify_math_text(content)))
         last_pos = end_pos
       end
       if last_pos <= #line then
@@ -337,37 +378,6 @@ function Table(el)
 end
 
 -- Simplify custom hts-specs LaTeX operators into standard LaTeX/text
-local function simplify_math_text(text)
-  -- Preserve \% (escaped percent/modulo) before stripping comments
-  text = text:gsub("\\%%", "\0PCTESC\0")
-  text = text:gsub("%%[^\n]*\n%s*", " ")
-  text = text:gsub("%%[^\n]*$", "")
-  text = text:gsub("\0PCTESC\0", "\\%%")
-
-  -- Remove hts-specs custom spacing: \nonscript\mskip-\medmuskip[\mkern 5mu]
-  text = text:gsub("\\nonscript\\mskip%-\\medmuskip\\mkern%s*5mu", " ")
-  text = text:gsub("\\nonscript\\mskip%-\\medmuskip", " ")
-  text = text:gsub("\\penalty%s*%d+\\mkern%s*5mu", " ")
-
-  -- Replace custom operator macros with standard LaTeX
-  text = text:gsub("\\mathbin{\\operator@font%s+\\textbf{(%w+)}}", " \\textbf{%1} ")
-  text = text:gsub("\\mathbin{\\operator@font%s+(%w+)}", " \\text{%1} ")
-  text = text:gsub("\\mathbin{<[^}]*}", "\\ll ")
-  text = text:gsub("\\mathbin{>[^}]*}", "\\gg ")
-  text = text:gsub("\\mathbin{%+[^}]*}", "\\mathbin{++}")
-
-  -- Replace unsupported font/layout commands with pandoc-compatible equivalents
-  text = text:gsub("\\underline{([^}]*)}", "%1")
-  text = text:gsub("\\mbox{([^}]*)}", "%1")
-  text = text:gsub("{\\sf%s+([^}]*)}", "\\mathsf{%1}")
-  text = text:gsub("\\sf%s+([%w_]+)", "\\mathsf{%1}")
-
-  -- Normalize whitespace
-  text = text:gsub("%s+", " ")
-  text = text:gsub("^%s+", ""):gsub("%s+$", "")
-  return text
-end
-
 function Math(el)
   el.text = simplify_math_text(el.text)
 
