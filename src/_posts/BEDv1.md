@@ -4,8 +4,6 @@ commit: 9ddbc52
 date: 5 Jan 2022
 ---
 
-This printing is version 9ddbc52 from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 5 Jan 2022.
-
 
 <span acronym-label="BED" acronym-form="singular+short">BED</span> is a
 whitespace-delimited file format, where each **file** consists of zero

@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Run build
 
 on:
   push:
-    branches: [ master, main, md2 ]
+    branches: [ master, main ]
   workflow_dispatch:
 
 permissions:
@@ -42,18 +42,3 @@ jobs:
       - name: Build Astro
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

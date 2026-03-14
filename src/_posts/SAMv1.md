@@ -4,8 +4,6 @@ commit: b5341fb
 date: 12 Aug 2025
 ---
 
-This printing is version b5341fb from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 12 Aug 2025.
-
 
 SAM stands for Sequence Alignment/Map format. It is a TAB-delimited text
 format consisting of a header section, which is optional, and an
@@ -1994,12 +1992,6 @@ have a total length of 4, 5, or 7 bytes:
 <tr>
 <td>(i.e., <span><code>uint8_t</code></span>)</td>
 </tr>
-<tr>
-<td></td>
-</tr>
-<tr>
-<td></td>
-</tr>
 </tbody>
 </table>
 
@@ -2017,9 +2009,6 @@ String fields and hex-formatted byte arrays are represented as
 </tr>
 </thead>
 <tbody>
-<tr>
-<td></td>
-</tr>
 </tbody>
 </table>
 
@@ -2042,21 +2031,6 @@ integers or IEEE floats sized according to the sub-type:
 <tbody>
 <tr>
 <td>(i.e., <span><code>uint8_t</code></span> elements)</td>
-</tr>
-<tr>
-<td></td>
-</tr>
-<tr>
-<td></td>
-</tr>
-<tr>
-<td></td>
-</tr>
-<tr>
-<td></td>
-</tr>
-<tr>
-<td></td>
 </tr>
 </tbody>
 </table>

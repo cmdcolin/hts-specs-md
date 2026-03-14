@@ -4,8 +4,6 @@ commit: 703ef9b
 date: 2 Feb 2023
 ---
 
-This printing is version 703ef9b from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 2 Feb 2023.
-
 
 This specification describes the CRAM 2.1 format.
 

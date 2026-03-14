@@ -4,8 +4,6 @@ commit: 38f353f
 date: 6 Jun 2018
 ---
 
-This printing is version 38f353f from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 6 Jun 2018.
-
 <div class="center">
 
 <table>

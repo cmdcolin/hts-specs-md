@@ -4,8 +4,6 @@ commit: 563e8ab
 date: 7 Apr 2025
 ---
 
-This printing is version 563e8ab from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 7 Apr 2025.
-
 
 This document covers the compression and decompression algorithms
 (codecs) specific to the CRAM format. All bar the first of these were
@@ -760,7 +758,7 @@ Recall $freq_{i}$ is the frequency of the $i$-th symbol $s_{i}$ in
 alphabet $\mathbb{A}$. We define $cfreq_i$ to be cumulative frequency of
 all symbols up to but not including $s_{i}$:
 
-$cfreq_{i} = \left\{ \begin{array}{l l} 0 & \quad \textrm{if } i < 1 \textrm{} \\ cfreq_{i-1} + freq_{i-1} & \quad \textrm{if } i \geq 1 \textrm{} \end{array} \right.$
+$cfreq_{i} = \left\{ \begin{array}{l l} 0 & \quad \textrm{if } i < 1  \\ cfreq_{i-1} + freq_{i-1} & \quad \textrm{if } i \geq 1  \end{array} \right.$
 
 We have a reverse lookup table $cfreq\_to\_sym_c$ from 0 to 4095 (0xfff)
 that maps a cumulative frequency $c$ to a symbol $s$.
@@ -3026,14 +3024,6 @@ will be used (CRAM v3.1)</td>
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><em>If
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>_</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">multi\_param</annotation></semantics></math>
 gflag is set:</em></td>
@@ -3087,14 +3077,6 @@ gflag is set:</em></td>
 </tr>
 <tr>
 <td><span>2-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td></td>
 <td></td>
 <td></td>

@@ -4,8 +4,6 @@ commit: c101c79
 date: 5 Nov 2025
 ---
 
-This printing is version c101c79 from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 5 Nov 2025.
-
 
 VCF is a text file format (most likely stored in a compressed manner).
 It contains meta-information lines (prefixed with "`##`"), a header line
@@ -531,12 +529,6 @@ There are 8 fixed fields per record. Fixed fields are:
 
 
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td>AA</td>
 <td>1</td>
 <td>String</td>
@@ -726,12 +718,6 @@ structural variants.
 
 
 
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 <tr>
 <td>AD</td>
 <td>R</td>
@@ -4038,11 +4024,6 @@ BCF2 site information encoding
 for the vector length. In effect this is the same as the typing value
 for a single vector, but for genotype values it appears only once before
 the array of genotype field values</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>(by fmt type)</td>

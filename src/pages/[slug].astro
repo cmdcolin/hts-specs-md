@@ -15,6 +15,6 @@ const post = await getPostById(id);
 const { Content, title } = post;
 const headings = post.headings || [];
 ---
-<Layout title={title} headings={headings}>
+<Layout title={title} headings={headings} commit={post.commit} date={post.date}>
   <Content />
 </Layout>

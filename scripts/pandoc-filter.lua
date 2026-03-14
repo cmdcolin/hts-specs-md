@@ -263,20 +263,22 @@ function Table(el)
     table.insert(html, "</thead>")
   end
   
-  -- Body
+  -- Body (skip rows where all cells are empty)
   table.insert(html, "<tbody>")
   for _, body in ipairs(el.bodies) do
     for _, row in ipairs(body.body) do
-      table.insert(html, "<tr>")
-      for i = 1, actual_max_cols do
-        local cell = row.cells[i]
-        if cell then
-          table.insert(html, "<td>" .. blocks_to_html(cell.contents) .. "</td>")
-        else
-          table.insert(html, "<td></td>")
+      if get_last_non_empty_cell_index(row) > 0 then
+        table.insert(html, "<tr>")
+        for i = 1, actual_max_cols do
+          local cell = row.cells[i]
+          if cell then
+            table.insert(html, "<td>" .. blocks_to_html(cell.contents) .. "</td>")
+          else
+            table.insert(html, "<td></td>")
+          end
         end
+        table.insert(html, "</tr>")
       end
-      table.insert(html, "</tr>")
     end
   end
   table.insert(html, "</tbody>")

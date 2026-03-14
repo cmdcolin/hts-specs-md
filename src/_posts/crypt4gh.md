@@ -4,8 +4,6 @@ commit: 778115b
 date: 3 Feb 2023
 ---
 
-This printing is version 778115b from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 3 Feb 2023.
-
 
 ## 1.1 Purpose
 

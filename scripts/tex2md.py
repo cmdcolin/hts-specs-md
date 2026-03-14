@@ -114,8 +114,6 @@ commit: {commit}
 date: {date}
 ---
 
-This printing is version {commit} from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on {date}.
-
 """
     
     # Clean up some common pandoc artifacts
@@ -161,6 +159,8 @@ This printing is version {commit} from the [hts-specs](https://github.com/samtoo
         r'\\\1{\2} \3 \\\1{\4}',
         final_content
     )
+    # Clean up empty \text{} / \textrm{} left by the above
+    final_content = re.sub(r'\\text(?:rm)?\{\}', '', final_content)
 
     # KaTeX requires {aligned} instead of {align*} inside $$ display math
     final_content = final_content.replace(r'\begin{align*}', r'\begin{aligned}')

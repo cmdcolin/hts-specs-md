@@ -4,8 +4,6 @@ commit: 39feb09
 date: 20 Nov 2019
 ---
 
-This printing is version 39feb09 from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 20 Nov 2019.
-
 <div class="center">
 
 <table>

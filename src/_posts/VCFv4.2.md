@@ -4,8 +4,6 @@ commit: c101c79
 date: 5 Nov 2025
 ---
 
-This printing is version c101c79 from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 5 Nov 2025.
-
 
 VCF is a text file format (most likely stored in a compressed manner).
 It contains meta-information lines, a header line, and then data lines

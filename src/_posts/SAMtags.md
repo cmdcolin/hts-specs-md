@@ -4,8 +4,6 @@ commit: a71164e
 date: 9 Sep 2024
 ---
 
-This printing is version a71164e from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 9 Sep 2024.
-
 
 Predefined standard tags are listed in the following table and described
 in greater detail in later subsections. Optional fields are usually

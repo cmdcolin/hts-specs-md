@@ -4,8 +4,6 @@ commit: 85c048d
 date: 19 Jul 2020
 ---
 
-This printing is version 85c048d from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 19 Jul 2020.
-
 <table>
 <thead>
 <tr>

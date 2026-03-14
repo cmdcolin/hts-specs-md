@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { visit } from 'unist-util-visit';
 
@@ -30,6 +31,7 @@ export default defineConfig({
     syntaxHighlight: false,
     remarkPlugins: [remarkStripHeaderAnchors, remarkMath],
     rehypePlugins: [
+      rehypeSlug,
       [rehypeKatex, { output: 'mathml', strict: false }],
       [rehypeAutolinkHeadings, {
         behavior: 'append',

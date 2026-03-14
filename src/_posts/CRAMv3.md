@@ -4,8 +4,6 @@ commit: 07a4382
 date: 4 Jun 2025
 ---
 
-This printing is version 07a4382 from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 4 Jun 2025.
-
 
 This specification describes the CRAM 3.0 and 3.1 formats.
 
@@ -2944,11 +2942,6 @@ encoding to store the value to an external block with ID 200.
 <td>10 remaining bytes of BYTE_ARRAY_LEN parameters</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><code>0x03</code></td>
 <td></td>
 <td>HUFFMAN codec ID, for aux tag lengths</td>
@@ -2977,11 +2970,6 @@ encoding to store the value to an external block with ID 200.
 <td><code>0x00</code></td>
 <td></td>
 <td>Code length = 0 (zero bits needed as alphabet is size 1)</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>0x01</code></td>
@@ -3141,7 +3129,7 @@ logarithmically with $n$.
 1.  Add $\mathit{offset}$ to $n$.
 
 2.  Determine $u$ and $b$ values from $n$
-    $$\begin{aligned} b = \begin{cases} \ k & \text{ if } n < 2^k \text{} \\ \ \lfloor log_{2}n \rfloor & \text{ if } n \ge 2^k \text{} \end{cases} &\ &u = \begin{cases} \ 0 & \text{ if } n < 2^k \text{} \\ \ b-k+1 & \text{ if } n \ge 2^k \text{} \end{cases} \end{aligned}$$
+    $$\begin{aligned} b = \begin{cases} \ k & \text{ if } n < 2^k  \\ \ \lfloor log_{2}n \rfloor & \text{ if } n \ge 2^k  \end{cases} &\ &u = \begin{cases} \ 0 & \text{ if } n < 2^k  \\ \ b-k+1 & \text{ if } n \ge 2^k  \end{cases} \end{aligned}$$
 
 3.  Write $u$ in unary form; $u$ 1 bits followed by a single 0 bit.
 

@@ -4,8 +4,6 @@ commit: 405fa48
 date: 24 Jun 2019
 ---
 
-This printing is version 405fa48 from the [hts-specs](https://github.com/samtools/hts-specs) repository, last modified on 24 Jun 2019.
-
 In BCF2, each key in the FILTER, INFO and FORMAT fields is required to
 be defined in the VCF header. For each record, a key is stored as an
 integer which is the index of its first appearance in the header.
