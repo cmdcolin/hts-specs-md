@@ -1,0 +1,255 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>BCF2 Quick Reference (r198) - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
+</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>BCF2 Quick Reference (r198)</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/405fa48"><code>405fa48</code></a>, dated 24 Jun 2019.</p>   <p>In BCF2, each key in the FILTER, INFO and FORMAT fields is required to
+be defined in the VCF header. For each record, a key is stored as an
+integer which is the index of its first appearance in the header.
+‘<code> PASS</code>’ is always indexed at 0, which is special cased as VCF does not
+require the presence of this word.</p>
+<p>In BCF2, a typed value consists of a typing byte and the actual value
+with type mandated by the typing byte. In the typing byte, the lowest
+four bits give the atomic type. If the number represented by the higher
+4 bits is smaller than 15, it is the size of the following vector; if
+the number equals 15, the following typed integer is the array size. The
+highest 4 bits of a Flag type equals 0 and in this case, no assumptions
+can be made about the lower 4 bits. The table below gives the atomic
+types and their missing values:</p>
+<div class="center">
+<table>
+<thead>
+<tr>
+<th>Bit 0–3</th>
+<th>C type</th>
+<th>Missing value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><span><code>int8_t</code></span></td>
+<td><span><code>0x80</code></span></td>
+<td>signed 8-bit integer</td>
+</tr>
+<tr>
+<td>2</td>
+<td><span><code>int16_t</code></span></td>
+<td><span><code>0x8000</code></span></td>
+<td>signed 16-bit integer</td>
+</tr>
+<tr>
+<td>3</td>
+<td><span><code>int32_t</code></span></td>
+<td><span><code>0x80000000</code></span></td>
+<td>signed 32-bit integer</td>
+</tr>
+<tr>
+<td>5</td>
+<td><span><code>float</code></span></td>
+<td><span><code>0x7F800001</code></span></td>
+<td>IEEE 32-bit floating pointer number</td>
+</tr>
+<tr>
+<td>7</td>
+<td><span><code>char</code></span></td>
+<td>'<span><code> 0</code></span>'</td>
+<td>character</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A genotype (GT) is encoded as an integer vector with each integer
+describing an allele and its phase w.r.t. the previous allele. The first
+allele does not carry the phase information. In the vector, each integer
+is organized as ‘<code> allele+1 1 phased</code>’ where <code>allele</code> is set to -1 if
+the allele in GT is a dot ’.’ (thus the higher bits are all 0). The
+vector is padded with missing values if the GT having fewer ploidy.</p>
+<p>A BCF2 file is BGZF compressed and all multi-byte value are little
+endian.</p>
+<table>
+<thead>
+<tr>
+<th><span>1-6</span></th>
+<th><strong>Description</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Value</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span>1-6</span></td>
+<td>BCF2 magic string</td>
+<td><span><code>char[5]</code></span></td>
+<td><span><code>BCF 2 1</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>1-6</span></td>
+<td>Length of the header text, including any <span>NULL</span> padding</td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span>1-6</span></td>
+<td><span>NULL</span>-terminated plain VCF header text</td>
+<td><span><code>char[</code><span><code>l_text</code></span><code>]</code></span></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span>1-6</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>l_shared</td>
+<td>Data length from <span>CHROM</span> to the end of <span>INFO</span></td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>l_indiv</td>
+<td>Data length of <span>FORMAT</span> and individual genotype fields</td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>CHROM</td>
+<td>Reference sequence ID</td>
+<td><span><code>int32_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>POS</td>
+<td>0-based leftmost coordinate</td>
+<td><span><code>int32_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>rlen</td>
+<td>Length of reference sequence</td>
+<td><span><code>int32_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>QUAL</td>
+<td>Variant quality; <span><code>0x7F800001</code></span> for a missing
+value</td>
+<td><span><code>float</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>n_allele_info</td>
+<td><span><code>n_allele 16 n_info</code></span></td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>n_fmt_sample</td>
+<td><span><code>n_fmt 24 n_sample</code></span></td>
+<td><span><code>uint32_t</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>ID</td>
+<td>Variant identifier</td>
+<td><span><code>typed str</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td><span style="color: gray"><em>List of alleles in the REF and ALT fields
+(n=n_allele)</em></span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>allele</span></td>
+<td>A reference or alternate allele</td>
+<td><span><code>typed str</code></span></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td>FILTER</td>
+<td>List of filters; filters are defined in the dictionary</td>
+<td><span><code>typed vec</code></span></td>
+<td></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td><span style="color: gray"><em>List of key-value pairs in the INFO field
+(n=n_info)</em></span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>info_key</span></td>
+<td>Info key, defined in the dictionary</td>
+<td><span><code>typed int</code></span></td>
+</tr>
+<tr>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>info_value</span></td>
+<td>Value</td>
+<td><span><code>typed val</code></span></td>
+</tr>
+<tr>
+<td><span>2-6</span></td>
+<td><span style="color: gray"><em>List of FORMATs and sample information
+(n=n_fmt)</em></span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>fmt_key</span></td>
+<td>Format key, defined in the dictionary</td>
+<td><span><code>typed int</code></span></td>
+</tr>
+<tr>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>fmt_type</span></td>
+<td>Typing byte of each individual value, possibly followed by a typed int
+for the vector length</td>
+<td><span><code>uint8_t+</code></span></td>
+</tr>
+<tr>
+<td><span>3-6</span></td>
+<td></td>
+<td><span>fmt_value</span></td>
+<td>Array of values. The information of each individual is concatenated in
+the vector. Every value is of the same <span>fmt_type</span>.
+Variable-length vectors are padded with missing values; a string is
+stored as a vector of <span><code>char</code></span>.</td>
+<td>(by <span>fmt_type</span>)</td>
+</tr>
+<tr>
+<td><span>1-6</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>  </main> </body></html>

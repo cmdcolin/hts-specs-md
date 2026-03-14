@@ -1,0 +1,28 @@
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.ver
+
+*.dvi
+*.ps
+
+# Ignored as it is a useful place for locally overriding Make variables
+GNUmakefile
+
+# Ignored for the convenience of Emacs/AUCTeX users (cf TeX-auto-local)
+/auto/
+
+/diff/*.idx
+/diff/*.pdf
+/diff/*.tex
+/new/*.pdf
+/.jekyll-cache
+/.jekyll-metadata
+/_site
+node_modules
+dist
