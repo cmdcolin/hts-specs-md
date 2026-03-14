@@ -616,15 +616,11 @@ compressed size of zero.</p>
 </tr>
 <tr>
 <td>SLICE_HEADER<sup>a</sup></td>
-<td>2</td>
+<td>2
+3</td>
 <td>Slice header block</td>
-<td>See specific section</td>
-</tr>
-<tr>
-<td></td>
-<td>3</td>
-<td></td>
-<td>reserved</td>
+<td>See specific section
+reserved</td>
 </tr>
 <tr>
 <td>EXTERNAL_DATA</td>
@@ -977,10 +973,10 @@ tag X1.</p>
 bytes formed from the BAM tag id and type code, matching the TD
 dictionary described above. Unlike the Data Series Encoding Map, the key
 is stored in the map as an ITF8 encoded integer, constructed using
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>c</mi><mi>h</mi><mi>a</mi><mi>r</mi><mn>1</mn><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>16</mn><mo stretchy="false">)</mo><mo>+</mo><mo stretchy="false">(</mo><mi>c</mi><mi>h</mi><mi>a</mi><mi>r</mi><mn>2</mn><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>8</mn><mo stretchy="false">)</mo><mo>+</mo><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">(char1&#x3C;&#x3C;16) + (char2&#x3C;&#x3C;8) + type</annotation></semantics></math></span>. For example, the 3-byte
-representation of OQ:Z is {0x4F, 0x51, 0x5A} and these bytes are
-interpreted as the integer key 0x004F515A, leading to an ITF8 byte
-stream {0xE0, 0x4F, 0x51, 0x5A}.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">char</mtext><mn>1</mn><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>16</mn><mo stretchy="false">)</mo><mo>+</mo><mo stretchy="false">(</mo><mtext mathvariant="italic">char</mtext><mn>2</mn><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>8</mn><mo stretchy="false">)</mo><mo>+</mo><mtext mathvariant="italic">type</mtext></mrow><annotation encoding="application/x-tex">(\textit{char}1&#x3C;&#x3C;16) + (\textit{char}2&#x3C;&#x3C;8) + \textit{type}</annotation></semantics></math></span>. For
+example, the 3-byte representation of OQ:Z is {0x4F, 0x51, 0x5A} and
+these bytes are interpreted as the integer key 0x004F515A, leading to an
+ITF8 byte stream {0xE0, 0x4F, 0x51, 0x5A}.</p>
 <table>
 <thead>
 <tr>
@@ -1791,8 +1787,8 @@ flags are defined:</p>
 </tbody>
 </table>
 <h3 id="10.4.2">10.4.2 <strong>Decode mate pseudocode</strong><a class="header-anchor" aria-hidden="" href="#10.4.2">#</a></h3>
-<p>In the following pseudocode we are assuming the current record is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>h</mi><mi>i</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">this</annotation></semantics></math></span>
-and its mate is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>e</mi><mi>x</mi><mi>t</mi><mi mathvariant="normal">_</mi><mi>f</mi><mi>r</mi><mi>a</mi><mi>g</mi></mrow><annotation encoding="application/x-tex">next\_frag</annotation></semantics></math></span>.</p>
+<p>In the following pseudocode we are assuming the current record is
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">this</mtext></mrow><annotation encoding="application/x-tex">\textit{this}</annotation></semantics></math></span> and its mate is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">next_frag</mtext></mrow><annotation encoding="application/x-tex">\textit{next\_frag}</annotation></semantics></math></span>.</p>
 <pre><code>Procedure DecodeMateData()
   if CF AND 2:  // Detached from mate
     mate_flags ← ReadItem(MF,Integer)
@@ -1822,12 +1818,13 @@ more than two alignment records. In this case the “mate” for each record
 is considered to be the next record, with the mate for the last record
 being the first to form a circular list. The above algorithm is a
 simplification that does not deal with this scenario. The full method
-needs to observe when record <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>h</mi><mi>i</mi><mi>s</mi><mo>+</mo><mi>N</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">this+NF</annotation></semantics></math></span> is also labelled as having an
-additional mate downstream. One recommended approach is to resolve the
-mate information in a second pass, once the entire slice has been
-decoded. The final segment in the mate chain needs to set <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>a</mi><mi>m</mi><mi mathvariant="normal">_</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">bam\_flags</annotation></semantics></math></span>
-fields 0x20 and 0x08 accordingly based on the first segment. This is
-also not listed in the above algorithm, for brevity.</p>
+needs to observe when record <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">this</mtext><mo>+</mo><mi>N</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">\textit{this}+NF</annotation></semantics></math></span> is also labelled as
+having an additional mate downstream. One recommended approach is to
+resolve the mate information in a second pass, once the entire slice has
+been decoded. The final segment in the mate chain needs to set
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">bam_flags</mtext></mrow><annotation encoding="application/x-tex">\textit{bam\_flags}</annotation></semantics></math></span> fields 0x20 and 0x08 accordingly based on the
+first segment. This is also not listed in the above algorithm, for
+brevity.</p>
 <h2 id="10.5">10.5 Auxiliary tags<a class="header-anchor" aria-hidden="" href="#10.5">#</a></h2>
 <p>Tags are encoded using a tag line (TL data series) integer into the tag
 dictionary (TD field in the compression header preservation map, see
@@ -1864,16 +1861,17 @@ tag dictionary</td>
     name ← first two characters of ele
     tag(type) ← last character of ele
     tag(name) ← ReadItem(ele, Byte[])</code></pre>
-<p>In the above procedure, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>a</mi><mi>m</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">name</annotation></semantics></math></span> is a two letter tag name and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">type</annotation></semantics></math></span> is
-one of the permitted types documented in the SAM/BAM specification. Type
-is <code>A</code> (a single character), <code>c</code> (signed 8-bit integer), <code>C</code> (unsigned
-8-bit integer), <code>s</code> (signed 16-bit integer), <code>S</code> (unsigned 16-bit
-integer), <code>i</code> (signed 32-bit integer), <code>I</code> (unsigned 32-bit integer),
-<code>f</code> (32-bit float), <code>Z</code> (nul-terminated string), <code>H</code> (nul-terminated
-string of hex digits) and <code>B</code> (binary data in array format with the
-first byte being one of c,C,s,S,i,I,f using the meaning above, a 32-bit
-integer for the number of array elements, followed by array data encoded
-using the specified format). All integers are little endian encoded.</p>
+<p>In the above procedure, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">name</mtext></mrow><annotation encoding="application/x-tex">\textit{name}</annotation></semantics></math></span> is a two letter tag name and
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">type</mtext></mrow><annotation encoding="application/x-tex">\textit{type}</annotation></semantics></math></span> is one of the permitted types documented in the SAM/BAM
+specification. Type is <code>A</code> (a single character), <code>c</code> (signed 8-bit
+integer), <code>C</code> (unsigned 8-bit integer), <code>s</code> (signed 16-bit integer), <code>S</code>
+(unsigned 16-bit integer), <code>i</code> (signed 32-bit integer), <code>I</code> (unsigned
+32-bit integer), <code>f</code> (32-bit float), <code>Z</code> (nul-terminated string), <code>H</code>
+(nul-terminated string of hex digits) and <code>B</code> (binary data in array
+format with the first byte being one of c,C,s,S,i,I,f using the meaning
+above, a 32-bit integer for the number of array elements, followed by
+array data encoded using the specified format). All integers are little
+endian encoded.</p>
 <p>For example a SAM tag <code>MQ:i</code> has name <code>MQ</code> and type <code>i</code> and will be
 decoded using one of MQc, MQC, MQs, MQS, MQi and MQI data series
 depending on size and sign of the integer value.</p>
@@ -2828,7 +2826,7 @@ logarithmically with <span class="katex"><math xmlns="http://www.w3.org/1998/Mat
 </li>
 <li>
 <p>Determine <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span> and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span> values from <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span>
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.25em" columnalign="right left right" columnspacing="0em 1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>b</mi><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.36em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> </mtext><mi>k</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> if </mtext><mi>n</mi><mo>&#x3C;</mo><msup><mn>2</mn><mi>k</mi></msup></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> </mtext><mo stretchy="false">⌊</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>n</mi><mo stretchy="false">⌋</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> if </mtext><mi>n</mi><mo>≥</mo><msup><mn>2</mn><mi>k</mi></msup></mrow></mstyle></mtd></mtr></mtable></mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext> </mtext></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>u</mi><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.36em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> </mtext><mn>0</mn></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> if </mtext><mi>n</mi><mo>&#x3C;</mo><msup><mn>2</mn><mi>k</mi></msup></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> </mtext><mi>b</mi><mo>−</mo><mi>k</mi><mo>+</mo><mn>1</mn></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> if </mtext><mi>n</mi><mo>≥</mo><msup><mn>2</mn><mi>k</mi></msup></mrow></mstyle></mtd></mtr></mtable></mrow></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} b = \begin{cases} \ k &#x26; \text{ if } n &#x3C; 2^k  \\ \ \lfloor log_{2}n \rfloor &#x26; \text{ if } n \ge 2^k  \end{cases} &#x26;\ &#x26;u = \begin{cases} \ 0 &#x26; \text{ if } n &#x3C; 2^k  \\ \ b-k+1 &#x26; \text{ if } n \ge 2^k  \end{cases} \end{aligned}</annotation></semantics></math></span></p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.25em" columnalign="right left right" columnspacing="0em 1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>b</mi><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.36em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> </mtext><mi>k</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> if </mtext><mi>n</mi><mo>&#x3C;</mo><msup><mn>2</mn><mi>k</mi></msup></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> </mtext><mo stretchy="false">⌊</mo><msub><mtext mathvariant="italic">log</mtext><mn>2</mn></msub><mi>n</mi><mo stretchy="false">⌋</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> if </mtext><mi>n</mi><mo>≥</mo><msup><mn>2</mn><mi>k</mi></msup></mrow></mstyle></mtd></mtr></mtable></mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext> </mtext></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>u</mi><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.36em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> </mtext><mn>0</mn></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> if </mtext><mi>n</mi><mo>&#x3C;</mo><msup><mn>2</mn><mi>k</mi></msup></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> </mtext><mi>b</mi><mo>−</mo><mi>k</mi><mo>+</mo><mn>1</mn></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext> if </mtext><mi>n</mi><mo>≥</mo><msup><mn>2</mn><mi>k</mi></msup></mrow></mstyle></mtd></mtr></mtable></mrow></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} b = \begin{cases} \ k &#x26; \text{ if } n &#x3C; 2^k  \\ \ \lfloor \textit{log}_{2}n \rfloor &#x26; \text{ if } n \ge 2^k  \end{cases} &#x26;\ &#x26;u = \begin{cases} \ 0 &#x26; \text{ if } n &#x3C; 2^k  \\ \ b-k+1 &#x26; \text{ if } n \ge 2^k  \end{cases} \end{aligned}</annotation></semantics></math></span></p>
 </li>
 <li>
 <p>Write <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span> in unary form; <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span> 1 bits followed by a single 0 bit.</p>
@@ -3090,7 +3088,7 @@ random positive numbers following geometric distribution.</p>
 </li>
 <li>
 <p>Remainder Code (in truncated binary encoding)</p>
-<p>Set <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mo stretchy="false">⌈</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo><mo stretchy="false">⌉</mo></mrow><annotation encoding="application/x-tex">b=\lceil log_{2}(M) \rceil</annotation></semantics></math></span></p>
+<p>Set <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mo stretchy="false">⌈</mo><msub><mtext mathvariant="italic">log</mtext><mn>2</mn></msub><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo><mo stretchy="false">⌉</mo></mrow><annotation encoding="application/x-tex">b=\lceil \textit{log}_{2}(M) \rceil</annotation></semantics></math></span></p>
 <ol>
 <li>
 <p>If <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>&#x3C;</mo><msup><mn>2</mn><mi>b</mi></msup><mo>−</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">r &#x3C; 2^{b}-M</annotation></semantics></math></span> code <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span> as plain binary using <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">b-1</annotation></semantics></math></span> bits.</p>
@@ -3111,7 +3109,7 @@ binary representation using <span class="katex"><math xmlns="http://www.w3.org/1
 the following 0 bits.</p>
 </li>
 <li>
-<p>Set <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mo stretchy="false">⌈</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo><mo stretchy="false">⌉</mo></mrow><annotation encoding="application/x-tex">b=\lceil log_{2}(M) \rceil</annotation></semantics></math></span></p>
+<p>Set <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mo stretchy="false">⌈</mo><msub><mtext mathvariant="italic">log</mtext><mn>2</mn></msub><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo><mo stretchy="false">⌉</mo></mrow><annotation encoding="application/x-tex">b=\lceil \textit{log}_{2}(M) \rceil</annotation></semantics></math></span></p>
 </li>
 <li>
 <p>Read <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span> via <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">b-1</annotation></semantics></math></span> bits of binary coding</p>

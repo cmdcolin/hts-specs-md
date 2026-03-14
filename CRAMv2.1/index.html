@@ -36,18 +36,14 @@ the two is that storage data types define how logical data types are
 stored in CRAM. Data in CRAM is stored either as as bits or as bytes.
 Writing values as bits and bytes is described in detail below.</p>
 <h2 id="2.1">2.1 <strong>Logical data types</strong><a class="header-anchor" aria-hidden="" href="#2.1">#</a></h2>
-<p>Byte<br>
- <br>
-Signed byte (8 bits).</p>
-<p>Integer<br>
- <br>
-Signed 32-bit integer.</p>
-<p>Long<br>
- <br>
-Signed 64-bit integer.</p>
-<p>Array<br>
- <br>
-An array of any logical data type: <code>&#x3C;</code>type<code>></code>[ ]</p>
+<p>Byte</p>
+<p>Signed byte (8 bits).</p>
+<p>Integer</p>
+<p>Signed 32-bit integer.</p>
+<p>Long</p>
+<p>Signed 64-bit integer.</p>
+<p>Array</p>
+<p>An array of any logical data type: <code>&#x3C;</code>type<code>></code>[ ]</p>
 <h2 id="2.2">2.2 <strong>Writing bits to a bit stream</strong><a class="header-anchor" aria-hidden="" href="#2.2">#</a></h2>
 <p>A bit stream consists of a sequence of 1s and 0s. The bits are written
 most significant bit first where new bits are stacked to the right and
@@ -102,9 +98,8 @@ of write operations:</p>
 0xB0 0x70. Please note that the last byte was 0x7 before shifting to the
 left and became 0x70 after that:</p>
 <p><code>> echo "obase=16; ibase=2; 00000111" bc</code><br>
-<code>7</code><br>
-<br>
-<code>> echo "obase=16; ibase=2; 01110000" bc</code><br>
+<code>7</code>\</p>
+<p><code>> echo "obase=16; ibase=2; 01110000" bc</code><br>
 <code>70</code></p>
 <p>And the whole bit sequence:</p>
 <p><code>> echo "obase=2; ibase=16; B070" bc</code><br>
@@ -126,19 +121,15 @@ number of bits to read.</p>
 <p>The interpretation of byte stream is straightforward. CRAM uses <em>little
 endianness</em> for bytes when applicable and defines the following storage
 data types:</p>
-<p>Boolean (bool)<br>
- <br>
-Boolean is written as 1-byte with 0x0 being ‘false’ and 0x1 being
+<p>Boolean (bool)</p>
+<p>Boolean is written as 1-byte with 0x0 being ‘false’ and 0x1 being
 ‘true’.</p>
-<p>Integer (int32)<br>
- <br>
-Signed 32-bit integer, written as 4 bytes in little-endian byte order.</p>
-<p>Long (int64)<br>
- <br>
-Signed 64-bit integer, written as 8 bytes in little-endian byte order.</p>
-<p>ITF-8 integer (itf8)<br>
- <br>
-This is an alternative way to write an integer value. The idea is
+<p>Integer (int32)</p>
+<p>Signed 32-bit integer, written as 4 bytes in little-endian byte order.</p>
+<p>Long (int64)</p>
+<p>Signed 64-bit integer, written as 8 bytes in little-endian byte order.</p>
+<p>ITF-8 integer (itf8)</p>
+<p>This is an alternative way to write an integer value. The idea is
 similar to UTF-8 encoding and therefore this encoding is called ITF-8
 (Integer Transformation Format - 8 bit).</p>
 <p>The most significant bits of the first byte have special meaning and are
@@ -146,15 +137,13 @@ called ‘prefix’. These are 0 to 4 true bits followed by a 0. The number
 of 1’s denote the number of bytes the follow. To accommodate 32 bits
 such representation requires 5 bytes with only 4 lower bits used in the
 last byte 5.</p>
-<p>LTF-8 long or (ltf8)<br>
- <br>
-See ITF-8 for more details. The only difference between ITF-8 and LTF-8
+<p>LTF-8 long or (ltf8)</p>
+<p>See ITF-8 for more details. The only difference between ITF-8 and LTF-8
 is the number of bytes used to encode a single value. To do so 64 bits
 are required and this can be done with 9 byte at most with the first
 byte consisting of just 1s or 0xFF value.</p>
-<p>Array ([ ])<br>
- <br>
-Array length is written first as integer (itf8), followed by the
+<p>Array ([ ])</p>
+<p>Array length is written first as integer (itf8), followed by the
 elements of the array.</p>
 <h3 id="2.3.1">2.3.1 Encoding<a class="header-anchor" aria-hidden="" href="#2.3.1">#</a></h3>
 <p>Encoding is a data type that specifies how data series have been
@@ -556,15 +545,11 @@ same value.</p>
 </tr>
 <tr>
 <td>MAPPED_SLICE_HEADER</td>
-<td>2</td>
+<td>2
+3</td>
 <td>Slice header block</td>
-<td>See specific section</td>
-</tr>
-<tr>
-<td></td>
-<td>3</td>
-<td></td>
-<td>reserved</td>
+<td>See specific section
+reserved</td>
 </tr>
 <tr>
 <td>EXTERNAL_DATA</td>
@@ -1997,10 +1982,11 @@ random positive numbers following geometric distribution.</p>
 <ol>
 <li>
 <p>If <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span> is power of 2, code remainder as binary format. So
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">log_{2}(M)</annotation></semantics></math></span> bits are needed. (Rice code)</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">log</mtext><mn>2</mn></msub><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\textit{log}_{2}(M)</annotation></semantics></math></span> bits are needed. (Rice code)</p>
 </li>
 <li>
-<p>If <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span> is not a power of 2, set <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mo stretchy="false">⌈</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo><mo stretchy="false">⌉</mo></mrow><annotation encoding="application/x-tex">b=\lceil log_{2}(M) \rceil</annotation></semantics></math></span></p>
+<p>If <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span> is not a power of 2, set
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mo stretchy="false">⌈</mo><msub><mtext mathvariant="italic">log</mtext><mn>2</mn></msub><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo><mo stretchy="false">⌉</mo></mrow><annotation encoding="application/x-tex">b=\lceil \textit{log}_{2}(M) \rceil</annotation></semantics></math></span></p>
 <ol>
 <li>
 <p>If <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>&#x3C;</mo><msup><mn>2</mn><mi>b</mi></msup><mo>−</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">r &#x3C; 2^{b}-M</annotation></semantics></math></span> code <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span> as plain binary using <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">b-1</annotation></semantics></math></span>
@@ -2124,7 +2110,7 @@ binary number otherwise.</p>
 <p>Skip the next 0 (separator).</p>
 </li>
 <li>
-<p>Compute the length of the tail, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mi>t</mi><mi>a</mi><mi>i</mi><mi>l</mi></mrow></msub></mrow><annotation encoding="application/x-tex">c_{tail}</annotation></semantics></math></span> as</p>
+<p>Compute the length of the tail, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="italic">tail</mtext></msub></mrow><annotation encoding="application/x-tex">c_{\textit{tail}}</annotation></semantics></math></span> as</p>
 <ol>
 <li>
 <p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span>, if <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">i = 0</annotation></semantics></math></span></p>
@@ -2135,8 +2121,8 @@ binary number otherwise.</p>
 </ol>
 </li>
 <li>
-<p>The next <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mi>t</mi><mi>a</mi><mi>i</mi><mi>l</mi></mrow></msub></mrow><annotation encoding="application/x-tex">c_{tail}</annotation></semantics></math></span> bits are the tail. Form a run of 0s of length
-represented by the tail.</p>
+<p>The next <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="italic">tail</mtext></msub></mrow><annotation encoding="application/x-tex">c_{\textit{tail}}</annotation></semantics></math></span> bits are the tail. Form a run of 0s of
+length represented by the tail.</p>
 </li>
 <li>
 <p>Append 1 to the run of 0s.</p>

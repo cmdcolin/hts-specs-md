@@ -248,13 +248,14 @@ angle-brackets are permitted in the ID String itself)</p>
 </li>
 <li>
 <p>QUAL - quality: Phred-scaled quality score for the assertion made in
-ALT. i.e. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(call in ALT is wrong). If ALT is ’.’
-(no variant) then this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(variant), and if ALT is
-not ’.’ this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(no variant). High QUAL scores
-indicate high confidence calls. Although traditionally people use
-integer phred scores, this field is permitted to be a floating point
-to enable higher resolution for low confidence calls if desired. If
-unknown, the missing value should be specified. (Numeric)</p>
+ALT. i.e. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> prob(call in ALT is wrong). If ALT
+is ’.’ (no variant) then this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span>
+prob(variant), and if ALT is not ’.’ this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span>
+prob(no variant). High QUAL scores indicate high confidence calls.
+Although traditionally people use integer phred scores, this field
+is permitted to be a floating point to enable higher resolution for
+low confidence calls if desired. If unknown, the missing value
+should be specified. (Numeric)</p>
 </li>
 <li>
 <p>FILTER - filter status: PASS if this position has passed all
@@ -393,15 +394,15 @@ permitted)</p>
 </li>
 <li>
 <p>GL : genotype likelihoods comprised of comma separated floating point
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">log_{10}</annotation></semantics></math></span>-scaled likelihoods for all possible genotypes given the set
-of alleles defined in the REF and ALT fields. In presence of the GT
-field the same ploidy is expected and the canonical order is used;
-without GT field, diploidy is assumed. If A is the allele in REF and
-B,C,… are the alleles as ordered in ALT, the ordering of genotypes
-for the likelihoods is given by: F(j/k) = (k*(k+1)/2)+j. In other
-words, for biallelic sites the ordering is: AA,AB,BB; for triallelic
-sites the ordering is: AA,AB,BB,AC,BC,CC, etc. For example: GT:GL
-0/1:-323.03,-99.29,-802.53 (Floats)</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">\textit{log}_{10}</annotation></semantics></math></span>-scaled likelihoods for all possible genotypes
+given the set of alleles defined in the REF and ALT fields. In
+presence of the GT field the same ploidy is expected and the canonical
+order is used; without GT field, diploidy is assumed. If A is the
+allele in REF and B,C,… are the alleles as ordered in ALT, the
+ordering of genotypes for the likelihoods is given by: F(j/k) =
+(k*(k+1)/2)+j. In other words, for biallelic sites the ordering is:
+AA,AB,BB; for triallelic sites the ordering is: AA,AB,BB,AC,BC,CC,
+etc. For example: GT:GL 0/1:-323.03,-99.29,-802.53 (Floats)</p>
 </li>
 <li>
 <p>GLE : genotype likelihoods of heterogeneous ploidy, used in presence
@@ -419,8 +420,8 @@ probabilities (Floats)</p>
 </li>
 <li>
 <p>GQ : conditional genotype quality, encoded as a phred quality
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> p(genotype call is wrong, conditioned on the site’s
-being variant) (Integer)</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> p(genotype call is wrong, conditioned on the
+site’s being variant) (Integer)</p>
 </li>
 <li>
 <p>HQ : haplotype qualities, two comma separated phred qualities
@@ -549,10 +550,11 @@ the characteristics of the alt allele contigs.</p>
 imprecise events by copy number (either because there is an unknown
 number of alternate alleles or because the haplotypes cannot be
 determined). CN specifies the integer copy number of the variant in this
-sample. CNQ is encoded as a phred quality <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> p(copy number
-genotype call is wrong). CNL specifies a list of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">log_{10}</annotation></semantics></math></span> likelihoods
-for each potential copy number, starting from zero. When possible,
-GT/GQ/GL should be used instead of (or in addition to) these keys.</p>
+sample. CNQ is encoded as a phred quality <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> p(copy
+number genotype call is wrong). CNL specifies a list of
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">\textit{log}_{10}</annotation></semantics></math></span> likelihoods for each potential copy number, starting
+from zero. When possible, GT/GQ/GL should be used instead of (or in
+addition to) these keys.</p>
 <h1 id="5">5 Representing variation in VCF records<a class="header-anchor" aria-hidden="" href="#5">#</a></h1>
 <h2 id="5.1">5.1 Creating VCF entries for SNPs and small indels<a class="header-anchor" aria-hidden="" href="#5.1">#</a></h2>
 <h3 id="5.1.1">5.1.1 Example 1<a class="header-anchor" aria-hidden="" href="#5.1.1">#</a></h3>
@@ -599,8 +601,9 @@ reference allele</p>
 the reference allele</p>
 </li>
 <li>
-<p>A single base insertion of A <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mo stretchy="false">{</mo><mi>t</mi><mi>C</mi><mo separator="true">,</mo><mi>t</mi><mi>C</mi><mi>A</mi><mo stretchy="false">}</mo><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow \{tC,tCA\} \rightarrow</annotation></semantics></math></span> tC
-is the reference allele</p>
+<p>A single base insertion of A
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mo stretchy="false">{</mo><mi>t</mi><mi>C</mi><mo separator="true">,</mo><mtext mathvariant="italic">tCA</mtext><mo stretchy="false">}</mo><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow \{tC,\textit{tCA}\} \rightarrow</annotation></semantics></math></span> tC is the reference
+allele</p>
 </li>
 </ol>
 <table>
@@ -739,8 +742,9 @@ corresponding VCF record:</p>
 </tr>
 </tbody>
 </table>
-<p>There are actually four segregating alleles: <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mi>t</mi><mi>C</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mo separator="true">,</mo><mi>t</mi><mi>C</mi><mi>A</mi><mi>g</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{tCg,tg,t,tCAg\}</annotation></semantics></math></span> over
-bases 2-4. This complex set of allele is represented in VCF as:</p>
+<p>There are actually four segregating alleles:
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mtext mathvariant="italic">tCg</mtext><mo separator="true">,</mo><mi>t</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mo separator="true">,</mo><mtext mathvariant="italic">tCAg</mtext><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{\textit{tCg},tg,t,\textit{tCAg}\}</annotation></semantics></math></span> over bases 2-4. This complex set
+of allele is represented in VCF as:</p>
 <table>
 <thead>
 <tr>
@@ -2978,10 +2982,10 @@ missing values; the BCF2 codec should signal an error in this case.</p>
 <p>A <strong>Genotype (GT) field</strong> is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
 the maximum ploidy among all samples at a site. For one individual, each
-integer in the vector is organized as <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>a</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>l</mi><mi>e</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>1</mn><mo>∣</mo><mi>p</mi><mi>h</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">(allele+1) &#x3C;&#x3C; 1 \mid phased</annotation></semantics></math></span>
-where allele is set to -1 if the allele in GT is a dot ’.’ (thus the
-higher bits are all 0). The vector is padded with missing values if the
-GT having fewer ploidy.</p>
+integer in the vector is organized as
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">allele</mtext><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>1</mn><mo>∣</mo><mtext mathvariant="italic">phased</mtext></mrow><annotation encoding="application/x-tex">(\textit{allele}+1) &#x3C;&#x3C; 1 \mid \textit{phased}</annotation></semantics></math></span> where allele is set to
+-1 if the allele in GT is a dot ’.’ (thus the higher bits are all 0).
+The vector is padded with missing values if the GT having fewer ploidy.</p>
 <p>Examples:</p>
 <table>
 <thead>

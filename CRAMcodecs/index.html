@@ -2554,7 +2554,7 @@ token byte streams, as 8-bit characters or unsigned integers, as 32-bit
 unsigned integers and nul-terminated strings. We reuse the
 <span class="smallcaps">ReadUint32</span> and related functions with the
 byte array specified as input.</p>
-<pre><code>// \textit{(Convert an integer to a string form in base-10 digits, at least len bytes long with leading zeros)}
+<pre><code>// Convert an integer to a string form in base-10 digits, at least len bytes long with leading zeros
 Function LeftPadNumber(val, len)
   str ← val  // Implicit language-specific Integer to String conversion
   while Length(str) &#x3C; len:
@@ -2568,12 +2568,12 @@ previous <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><s
 <code>DELTA</code> token types to copy data from when constructing the name.</p>
 <p>Now we have the basic primitives for pulling from the <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span> byte streams,
 decoding the <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mrow><mi>t</mi><mi>h</mi></mrow></msup></mrow><annotation encoding="application/x-tex">n^{th}</annotation></semantics></math></span> individual name is as follows<sup><a href="#user-content-fn-7" id="user-content-fnref-7" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup>:</p>
-<pre><code>// \textit{(Decodes the n^th name, returning N_n and updating globals N_n and T_n)}
+<pre><code>// Decodes the n^th name, returning N_n and updating globals N_n and T_n)}
 Function DecodeSingleName(n)
   type ← ReadUint8(B_0,TYPE)
   dist ← ReadUint32(B_0,type)
   m ← n-dist
-  if type = \texttt{DUP}:
+  if type = DUP:
     N_n ← N_m
     T_n ← T_m  // Copy for all T_n,*
     return N_n
@@ -2581,29 +2581,29 @@ Function DecodeSingleName(n)
   t ← 1  // Token number t
   repeat:
     type ← ReadUint8(B_t,TYPE)
-    if type = \texttt{CHAR}:
+    if type = CHAR:
       T_n,t ← ReadChar(B_t,CHAR)
-    else if type = \texttt{STRING}:
+    else if type = STRING:
       T_n,t ← ReadString(B_t,STRING)
-    else if type = \texttt{DIGITS}:
+    else if type = DIGITS:
       T_n,t ← ReadUint32(B_t,DIGITS)
-    else if type = \texttt{DIGITS0}:
+    else if type = DIGITS0:
       d ← ReadUnt32(B_t,DIGITS0)
       l ← ReadUint8(B_t,DZLEN)
       T_n,t ← LeftPadNumber(d, l)
-    else if type = \texttt{DELTA}:
+    else if type = DELTA:
       T_n,t ← T_m,t + ReadUint8(B_t,DELTA)
-    else if type = \texttt{DELTA0}:
+    else if type = DELTA0:
       d ← T_m,t + ReadUint8(B_t,DELTA0)
       l ← Length(T_m,t)  // String length including leading zeros
       T_n,t ← LeftPadNumber(d, l)
-    else if type = \texttt{MATCH}:
+    else if type = MATCH:
       T_n,t ← T_m,t
     else:
       T_n,t ← `'
     N_n ← N_n ++ T_n,t
     t ← t+1
-  until type = \texttt{END}
+  until type = END
   return N_n</code></pre>
 <p>Given a complex name with both position and type specific values, this
 can lead to many separate data streams. The name tokeniser codec is a
@@ -2731,7 +2731,7 @@ contents of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"
 as many MATCH types as are needed.</p>
 <p>The <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">cdata</mtext></mrow><annotation encoding="application/x-tex">\textit{cdata}</annotation></semantics></math></span> stream itself is as described in the relevant
 entropy encoder section above (rANS or arithmetic coding).</p>
-<pre><code>// \textit{(Decodes and uncompresses the serialised token byte streams)}
+<pre><code>// Decodes and uncompresses the serialised token byte streams
 Function DecodeTokenByteStreams(use_arith)
   sz ← 0
   t ← -1
@@ -2758,7 +2758,7 @@ Function DecodeTokenByteStreams(use_arith)
         B_t,type ← RansDecodeNx16(clen, source=data)
   until EOF()
   return B</code></pre>
-<pre><code>// \textit{(Decodes all names, returning N)}
+<pre><code>// Decodes all names, returning N
 Function DecodeNames()
   ulen ← ReadUint32()
   nnames ← ReadUint32()
@@ -3385,7 +3385,7 @@ elsewhere).</p>
   FQZCreateModels()
   i ← 0  // Position in total quality block
   pos ← 0  // Remaining base count current quality string
-  \texttt{next_record:}:
+  next_record::
   while i &#x3C; buf_len:
     if pos = 0:  // Reset state at start of each new record
       x ← FQZNewRecord()

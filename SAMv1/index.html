@@ -833,9 +833,9 @@ made about RNAME and CIGAR.</p>
 </li>
 <li>
 <p>MAPQ: MAPping Quality. It equals
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><mi>Pr</mi><mo>⁡</mo><mo stretchy="false">{</mo><mi>m</mi><mi>a</mi><mi>p</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>g</mi><mi>p</mi><mi>o</mi><mi>s</mi><mi>i</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mi>i</mi><mi>s</mi><mi>w</mi><mi>r</mi><mi>o</mi><mi>n</mi><mi>g</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">-10\log_{10}\Pr\{mapping position is wrong\}</annotation></semantics></math></span>, rounded to the
-nearest integer. A value 255 indicates that the mapping quality is
-not available.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><mi>Pr</mi><mo>⁡</mo><mo stretchy="false">{</mo><mrow><mtext mathvariant="italic">mapping</mtext><mtext> </mtext><mtext mathvariant="italic">position</mtext><mtext> </mtext><mtext mathvariant="italic">is</mtext><mtext> </mtext><mtext mathvariant="italic">wrong</mtext></mrow><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">-10\log_{10}\Pr\{\textit{mapping \textit{position} is \textit{wrong}}\}</annotation></semantics></math></span>,
+rounded to the nearest integer. A value 255 indicates that the
+mapping quality is not available.</p>
 </li>
 <li>
 <p>CIGAR: CIGAR string. The CIGAR operations are given in the following
@@ -977,12 +977,13 @@ field equals POS at the primary line of the next read. If PNEXT is
 primary alignments of all reads in the template are mapped to the
 same reference sequence, the absolute value of TLEN equals the
 distance between the mapped end of the template and the mapped start
-of the template, inclusively (i.e., <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mi>n</mi><mi>d</mi><mo>−</mo><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>t</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">end-start+1</annotation></semantics></math></span>). <sup><a href="#user-content-fn-7" id="user-content-fnref-7" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup> Note that
-<em>mapped base</em> is defined to be one that aligns to the reference as
-described by CIGAR, hence excludes soft-clipped bases. The TLEN
-field is positive for the leftmost segment of the template, negative
-for the rightmost, and the sign for any middle segment is undefined.
-If segments cover the same coordinates then the choice of which is
+of the template, inclusively (i.e.,
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">end</mtext><mo>−</mo><mtext mathvariant="italic">start</mtext><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\textit{end}-\textit{start}+1</annotation></semantics></math></span>). <sup><a href="#user-content-fn-7" id="user-content-fnref-7" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup> Note that <em>mapped base</em> is
+defined to be one that aligns to the reference as described by
+CIGAR, hence excludes soft-clipped bases. The TLEN field is positive
+for the leftmost segment of the template, negative for the
+rightmost, and the sign for any middle segment is undefined. If
+segments cover the same coordinates then the choice of which is
 leftmost and rightmost is arbitrary, but the two ends must still
 have differing signs. It is set as 0 for a single-segment template
 or when the information is unavailable (e.g., when the first or last
@@ -1004,10 +1005,11 @@ letter cases.</p>
 <li>
 <p>QUAL: ASCII of base QUALity plus 33 (same as the quality string in
 the Sanger FASTQ format). A base quality is the phred-scaled base
-error probability which equals <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><mi>Pr</mi><mo>⁡</mo><mo stretchy="false">{</mo><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>i</mi><mi>s</mi><mi>w</mi><mi>r</mi><mi>o</mi><mi>n</mi><mi>g</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">-10\log_{10}\Pr\{base is wrong\}</annotation></semantics></math></span>.
-This field can be a ’*’ when quality is not stored.<sup><a href="#user-content-fn-9" id="user-content-fnref-9" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup> If not a
-’*’, SEQ must not be a ’*’ and the length of the quality string
-ought to equal the length of SEQ.</p>
+error probability which equals
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><mi>Pr</mi><mo>⁡</mo><mo stretchy="false">{</mo><mrow><mtext mathvariant="italic">base</mtext><mtext> </mtext><mtext mathvariant="italic">is</mtext><mtext> </mtext><mtext mathvariant="italic">wrong</mtext></mrow><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">-10\log_{10}\Pr\{\textit{base is \textit{wrong}}\}</annotation></semantics></math></span>. This field can
+be a ’*’ when quality is not stored.<sup><a href="#user-content-fn-9" id="user-content-fnref-9" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup> If not a ’*’, SEQ must
+not be a ’*’ and the length of the quality string ought to equal
+the length of SEQ.</p>
 </li>
 </ol>
 <h2 id="1.5">1.5 The alignment section: optional fields<a class="header-anchor" aria-hidden="" href="#1.5">#</a></h2>
@@ -1678,7 +1680,7 @@ underlined word in uppercase denotes a field in the SAM format.</p>
 <td><span>2-6</span></td>
 <td>refID</td>
 <td>Reference sequence ID,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>≤</mo><mrow><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖿</mi><mi mathvariant="sans-serif">𝖨</mi><mi mathvariant="sans-serif">𝖣</mi></mrow><mo>&#x3C;</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">_</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖿</mi></mrow></mrow><annotation encoding="application/x-tex">-1\leq\mathsf{refID}&#x3C;\mathsf{n\_ref}</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>≤</mo><mtext mathvariant="italic">𝑟𝑒𝑓𝐼𝐷</mtext><mo>&#x3C;</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">_</mi><mtext mathvariant="italic">𝑟𝑒𝑓</mtext></mrow></mrow><annotation encoding="application/x-tex">-1\leq\mathsf{\textit{refID}}&#x3C;\mathsf{n\_\textit{ref}}</annotation></semantics></math>;
 -1 for a read without a mapping position</td>
 <td><code>int32_t</code></td>
 <td>[-1]</td>
@@ -1686,16 +1688,16 @@ underlined word in uppercase denotes a field in the SAM format.</p>
 <tr>
 <td><span>2-6</span></td>
 <td>pos</td>
-<td>0-based leftmost coordinate
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mrow><mi mathvariant="sans-serif">𝖯</mi><mi mathvariant="sans-serif">𝖮</mi><mi mathvariant="sans-serif">𝖲</mi></mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">=\mathsf{POS}-1</annotation></semantics></math>)</td>
+<td>0-based leftmost coordinate ($=\sf
+\textit{POS}-1$)</td>
 <td><code>int32_t</code></td>
 <td>[-1]</td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>l_read_name</td>
-<td>Length of <span>read_name</span> below
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mrow><mi mathvariant="sans-serif">𝗅</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">𝗀</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">𝗁</mi></mrow><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="sans-serif">𝖰</mi><mi mathvariant="sans-serif">𝖭</mi><mi mathvariant="sans-serif">𝖠</mi><mi mathvariant="sans-serif">𝖬</mi><mi mathvariant="sans-serif">𝖤</mi></mrow><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">=\mathsf{length}(\mathsf{QNAME})+1</annotation></semantics></math>)</td>
+<td>Length of <span>read_name</span> below ($=\mathsf{\textit{length}}(\sf
+\textit{QNAME})+1$)</td>
 <td><code>uint8_t</code></td>
 <td></td>
 </tr>
@@ -1738,23 +1740,21 @@ underlined word in uppercase denotes a field in the SAM format.</p>
 <td><span>2-6</span></td>
 <td>next_refID</td>
 <td>Ref-ID of the next segment
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>≤</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗑</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">_</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖿</mi><mi mathvariant="sans-serif">𝖨</mi><mi mathvariant="sans-serif">𝖣</mi></mrow><mo>&#x3C;</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">_</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖿</mi></mrow></mrow><annotation encoding="application/x-tex">-1\le\mathsf{next\_refID}&#x3C;\mathsf{n\_ref}</annotation></semantics></math>)</td>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>≤</mo><mtext mathvariant="italic">𝑛𝑒𝑥𝑡_𝑟𝑒𝑓𝐼𝐷</mtext><mo>&#x3C;</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">_</mi><mtext mathvariant="italic">𝑟𝑒𝑓</mtext></mrow></mrow><annotation encoding="application/x-tex">-1\le\mathsf{\textit{next\_refID}}&#x3C;\mathsf{n\_\textit{ref}}</annotation></semantics></math>)</td>
 <td><code>int32_t</code></td>
 <td>[-1]</td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>next_pos</td>
-<td>0-based leftmost pos of the next segment
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mrow><mi mathvariant="sans-serif">𝖯</mi><mi mathvariant="sans-serif">𝖭</mi><mi mathvariant="sans-serif">𝖤</mi><mi mathvariant="sans-serif">𝖷</mi><mi mathvariant="sans-serif">𝖳</mi></mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">=\mathsf{PNEXT}-1</annotation></semantics></math>)</td>
+<td>0-based leftmost pos of the next segment ($=\sf \textit{PNEXT}-1$)</td>
 <td><code>int32_t</code></td>
 <td>[-1]</td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>tlen</td>
-<td>Template length
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mrow><mi mathvariant="sans-serif">𝖳</mi><mi mathvariant="sans-serif">𝖫</mi><mi mathvariant="sans-serif">𝖤</mi><mi mathvariant="sans-serif">𝖭</mi></mrow></mrow><annotation encoding="application/x-tex">=\mathsf{TLEN}</annotation></semantics></math>)</td>
+<td>Template length ($=\sf \textit{TLEN}$)</td>
 <td><code>int32_t</code></td>
 <td>[0]</td>
 </tr>
@@ -1829,21 +1829,22 @@ the alignment block)</em></span></td>
 </tbody>
 </table>
 <p>Most length and count fields described as <code>uint32_t</code> have additional
-constraints on their range: <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">l</mi><mi mathvariant="normal">_</mi><mi>t</mi><mi>e</mi><mi>x</mi><mi>t</mi><mo>&#x3C;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">\mathsf{l}\_text &#x3C; 2^{31}</annotation></semantics></math></span> due to
-implementation limits; <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">n</mi><mi mathvariant="normal">_</mi><mi>r</mi><mi>e</mi><mi>f</mi><mo>&#x3C;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">\mathsf{n}\_ref &#x3C; 2^{31}</annotation></semantics></math></span> because refID and
-next_refID are signed; <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">l</mi><mi mathvariant="normal">_</mi><mi>r</mi><mi>e</mi><mi>f</mi><mo>&#x3C;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">\mathsf{l}\_ref &#x3C; 2^{31}</annotation></semantics></math></span> because tlen is
-signed; those marked “<em>limited</em>” are limited by available memory and the
-practical size of the data represented well before they are limited by,
-e.g., Java’s signed 32-bit integer maximum array size.</p>
+constraints on their range: <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">l</mi><mi mathvariant="normal">_</mi><mtext mathvariant="italic">text</mtext><mo>&#x3C;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">\mathsf{l}\_\textit{text} &#x3C; 2^{31}</annotation></semantics></math></span> due to
+implementation limits; <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">n</mi><mi mathvariant="normal">_</mi><mtext mathvariant="italic">ref</mtext><mo>&#x3C;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">\mathsf{n}\_\textit{ref} &#x3C; 2^{31}</annotation></semantics></math></span> because refID
+and next_refID are signed; <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">l</mi><mi mathvariant="normal">_</mi><mtext mathvariant="italic">ref</mtext><mo>&#x3C;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">\mathsf{l}\_\textit{ref} &#x3C; 2^{31}</annotation></semantics></math></span> because
+tlen is signed; those marked “<em>limited</em>” are limited by available memory
+and the practical size of the data represented well before they are
+limited by, e.g., Java’s signed 32-bit integer maximum array size.</p>
 <h3 id="4.2.1">4.2.1 BIN field calculation<a class="header-anchor" aria-hidden="" href="#4.2.1">#</a></h3>
 <p>BIN is calculated using the reg2bin() function in Section <a href="#5.3">5.3</a>.
-For mapped reads this uses <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">P</mi><mi mathvariant="sans-serif">O</mi><mi mathvariant="sans-serif">S</mi></mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\mathsf{POS}-1</annotation></semantics></math></span> (i.e., 0-based left
+For mapped reads this uses <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">POS</mtext><mo>−</mo><mn mathvariant="sans-serif">1</mn></mrow><annotation encoding="application/x-tex">\sf \textit{POS}-1</annotation></semantics></math></span> (i.e., 0-based left
 position) and the alignment end point using the alignment length from
 the CIGAR string. For unmapped reads (e.g., paired-end reads where only
 one part is mapped, see Section <a href="#2">2</a>) and reads whose CIGAR strings
 consume no reference bases at all, the alignment is treated as being of
 length one. Note unmapped reads with POS 0 (which becomes <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math></span> in BAM)
-therefore use <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">r</mi><mi mathvariant="sans-serif">e</mi><mi mathvariant="sans-serif">g</mi><mn mathvariant="sans-serif">2</mn><mi mathvariant="sans-serif">b</mi><mi mathvariant="sans-serif">i</mi><mi mathvariant="sans-serif">n</mi></mrow><mo stretchy="false">(</mo><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{reg2bin}(-1, 0)</annotation></semantics></math></span> which is computed as 4680.</p>
+therefore use <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">reg2bin</mtext><mo stretchy="false">(</mo><mo>−</mo><mn mathvariant="sans-serif">1</mn><mo separator="true">,</mo><mn mathvariant="sans-serif">0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sf \textit{reg2\textit{bin}}(-1, 0)</annotation></semantics></math></span> which is computed
+as 4680.</p>
 <h3 id="4.2.2">4.2.2 N_CIGAR_OP field<a class="header-anchor" aria-hidden="" href="#4.2.2">#</a></h3>
 <p>With 16 bits, n_cigar_op can keep at most 65535 CIGAR operations in BAM
 files. For an alignment with more CIGAR operations, BAM stores the real
@@ -2250,12 +2251,13 @@ binning scheme with 6 levels and a minimum bin size of <span class="katex"><mat
 the CSI specification for generalisations of these functions designed
 for binning schemes with arbitrary depth and sizes.</p>
 <p>When these functions are called with regions representing unplaced
-unmapped reads, e.g., <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">r</mi><mi mathvariant="sans-serif">e</mi><mi mathvariant="sans-serif">g</mi><mn mathvariant="sans-serif">2</mn><mi mathvariant="sans-serif">b</mi><mi mathvariant="sans-serif">i</mi><mi mathvariant="sans-serif">n</mi></mrow><mo stretchy="false">(</mo><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{reg2bin}(-1, 0)</annotation></semantics></math></span>, they involve operations
-such as <code>(-1)>>14</code> which are undefined or implementation-defined in some
-programming languages. They must be implemented as if these operations
-use the common two’s-complement semantics:
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">r</mi><mi mathvariant="sans-serif">e</mi><mi mathvariant="sans-serif">g</mi><mn mathvariant="sans-serif">2</mn><mi mathvariant="sans-serif">b</mi><mi mathvariant="sans-serif">i</mi><mi mathvariant="sans-serif">n</mi></mrow><mo stretchy="false">(</mo><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">)</mo><mo>=</mo><mn>4680</mn></mrow><annotation encoding="application/x-tex">\mathsf{reg2bin}(-1, 0) = 4680</annotation></semantics></math></span> and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">r</mi><mi mathvariant="sans-serif">e</mi><mi mathvariant="sans-serif">g</mi><mn mathvariant="sans-serif">2</mn><mi mathvariant="sans-serif">b</mi><mi mathvariant="sans-serif">i</mi><mi mathvariant="sans-serif">n</mi><mi mathvariant="sans-serif">s</mi></mrow><mo stretchy="false">(</mo><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mo>…</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{reg2bins}(-1, 0, \ldots)</annotation></semantics></math></span>
-returns <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mtext> </mtext><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mn>8</mn><mo separator="true">,</mo><mn>72</mn><mo separator="true">,</mo><mn>584</mn><mo separator="true">,</mo><mn>4680</mn><mtext> </mtext><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\,0, 0, 8, 72, 584, 4680\,]</annotation></semantics></math></span>.</p>
+unmapped reads, e.g., <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">reg2bin</mtext><mo stretchy="false">(</mo><mo>−</mo><mn mathvariant="sans-serif">1</mn><mo separator="true">,</mo><mn mathvariant="sans-serif">0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sf \textit{reg2\textit{bin}}(-1, 0)</annotation></semantics></math></span>, they
+involve operations such as <code>(-1)>>14</code> which are undefined or
+implementation-defined in some programming languages. They must be
+implemented as if these operations use the common two’s-complement
+semantics: <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">reg2bin</mtext><mo stretchy="false">(</mo><mo>−</mo><mn mathvariant="sans-serif">1</mn><mo separator="true">,</mo><mn mathvariant="sans-serif">0</mn><mo stretchy="false">)</mo><mo>=</mo><mn mathvariant="sans-serif">4680</mn></mrow><annotation encoding="application/x-tex">\sf \textit{reg2\textit{bin}}(-1, 0) = 4680</annotation></semantics></math></span> and
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">reg2bins</mtext><mo stretchy="false">(</mo><mo>−</mo><mn mathvariant="sans-serif">1</mn><mo separator="true">,</mo><mn mathvariant="sans-serif">0</mn><mo separator="true">,</mo><mo>…</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sf \textit{reg2\textit{bins}}(-1, 0, \ldots)</annotation></semantics></math></span> returns
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mtext> </mtext><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mn>8</mn><mo separator="true">,</mo><mn>72</mn><mo separator="true">,</mo><mn>584</mn><mo separator="true">,</mo><mn>4680</mn><mtext> </mtext><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\,0, 0, 8, 72, 584, 4680\,]</annotation></semantics></math></span>.</p>
 <pre><code>/* calculate bin given an alignment covering [beg,end) (zero-based, half-closed-half-open) */
 int reg2bin(int beg, int end)
 {
@@ -2306,9 +2308,8 @@ then<br>
 else if <em>prefix</em> is in the known set then return (<em>prefix</em>,
 <code>NUM</code>…<code>NUM</code>)<br>
 else if <em>str</em> is in the known set then return (<em>str</em>, entire sequence)<br>
-else<br>
-<br>
-else<br>
+else\</p>
+<p>else<br>
 if <em>str</em> is in the known set then return (<em>str</em>, entire sequence)<br>
 else</p>
 </div>

@@ -299,9 +299,7 @@ presented as a 32 character lowercase hexadecimal number.</p>
 sequence names: they may contain any printable ASCII characters in the
 range <code>[!-~]</code> apart from ‘<code>\ , "`' () [] {} &#x3C;></code>’ and may not start
 with ” or ‘<code>=</code>’. Thus they match the following regular expression:</p>
-<div class="code-math-block">
-<p>    [0-9A-Za-z!#<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow></mrow><annotation encoding="application/x-tex">%&#x26;+./:;?@^_|~-][0-9A-Za-z!#</annotation></semantics></math></span>%&#x26;*+./:;=?@^_|~-]*</p>
-</div>
+<pre><code>    [0-9A-Za-z!#%&#x26;*+./:;=?@^_|~-]*</code></pre>
 <p>In particular, excluding commas facilitates parsing <code>##contig</code> lines,
 and excluding the characters ‘<code>&#x3C;>[]</code>’ and initial ” avoids clashes with
 symbolic alleles. The contig names must not use a reserved symbolic
@@ -408,10 +406,11 @@ are permitted in the ID String itself)</p>
 </li>
 <li>
 <p>QUAL — quality: Phred-scaled quality score for the assertion made in
-ALT. i.e. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(call in ALT is wrong). If ALT is ’.’
-(no variant) then this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(variant), and if ALT is
-not ’.’ this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(no variant). If unknown, the
-MISSING value must be specified. (Float)</p>
+ALT. i.e. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> prob(call in ALT is wrong). If ALT
+is ’.’ (no variant) then this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span>
+prob(variant), and if ALT is not ’.’ this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span>
+prob(no variant). If unknown, the MISSING value must be specified.
+(Float)</p>
 </li>
 <li>
 <p>FILTER — filter status: PASS if this position has passed all
@@ -762,8 +761,8 @@ semicolons permitted.</p>
 </li>
 <li>
 <p>GQ (Integer): Conditional genotype quality, encoded as a phred quality
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> p(genotype call is wrong, conditioned on the site’s
-being variant).</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> p(genotype call is wrong, conditioned on the
+site’s being variant).</p>
 </li>
 <li>
 <p>GP (Float): Genotype posterior probabilities in the range 0 to 1 using
@@ -794,36 +793,30 @@ incorporating phasing information into the genotypes):</p>
 </li>
 <li>
 <p>GL (Float): Genotype likelihoods comprised of comma separated floating
-point <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">log_{10}</annotation></semantics></math></span>-scaled likelihoods for all possible genotypes given
-the set of alleles defined in the REF and ALT fields. In presence of
-the GT field the same ploidy is expected; without GT field, diploidy
-is assumed.</p>
+point <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">\textit{log}_{10}</annotation></semantics></math></span>-scaled likelihoods for all possible
+genotypes given the set of alleles defined in the REF and ALT fields.
+In presence of the GT field the same ploidy is expected; without GT
+field, diploidy is assumed.</p>
 <p><span class="smallcaps">Genotype Ordering.</span>
 <span id="genotype-fields:genotype-ordering" label="genotype-fields:genotype-ordering"></span> In general case of
 ploidy P and N alternate alleles (0 is the REF and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>…</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">1\ldots N</annotation></semantics></math></span> the
 alternate alleles), the ordering of genotypes for the likelihoods can
 be expressed by the following pseudocode with as many nested loops as
 ploidy: <sup><a href="#user-content-fn-3" id="user-content-fnref-3" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
-<div class="code-math-block">
-<p>  for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>P</mi></msub><mo>=</mo><mn>0</mn><mo>…</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">a_P = 0\ldots N</annotation></semantics></math></span><br>
-    for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>P</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>0</mn><mo>…</mo><msub><mi>a</mi><mi>P</mi></msub></mrow><annotation encoding="application/x-tex">a_{P-1} = 0\ldots a_P</annotation></semantics></math></span><br>
-        <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>…</mo></mrow><annotation encoding="application/x-tex">\ldots</annotation></semantics></math></span><br>
-        for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn><mo>…</mo><msub><mi>a</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">a_1 = 0\ldots a_{2}</annotation></semantics></math></span><br>
-            println <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><msub><mi>a</mi><mn>2</mn></msub><mo>…</mo><msub><mi>a</mi><mi>P</mi></msub></mrow><annotation encoding="application/x-tex">a_1 a_2  \ldots  a_P</annotation></semantics></math></span></p>
-</div>
+<pre><code>  for a_P = 0… N
+    for a_P-1 = 0… a_P
+        …
+        for a_1 = 0… a_2
+            println a_1 a_2 … a_P</code></pre>
 <p>Alternatively, the same can be achieved recursively with the following
 pseudocode:</p>
-<div class="code-math-block">
-<p>    Ordering(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span>, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span>, suffix=""):<br>
-        for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span> in <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>…</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">0\ldots N</annotation></semantics></math></span><br>
-            if (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">P == 1</annotation></semantics></math></span>) println str(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span>) + suffix<br>
-            if (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>></mo><mn>1</mn></mrow><annotation encoding="application/x-tex">P > 1</annotation></semantics></math></span>) Ordering(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span>-1, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span>, str(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span>) + suffix)</p>
-</div>
+<pre><code>    Ordering(P, N, suffix=""):
+        for a in 0… N
+            if (P == 1) println str(a) + suffix
+            if (P > 1) Ordering(P-1, a, str(a) + suffix)</code></pre>
 <p>Conversely, the index of the value corresponding to the genotype
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>≤</mo><msub><mi>k</mi><mn>2</mn></msub><mo>≤</mo><mo>…</mo><mo>≤</mo><msub><mi>k</mi><mi>P</mi></msub></mrow><annotation encoding="application/x-tex">k_1\le k_2\le\ldots\le k_P</annotation></semantics></math></span> is</p>
-<div class="code-math-block">
-<p>    Index(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mn>1</mn></msub><mi mathvariant="normal">/</mi><msub><mi>k</mi><mn>2</mn></msub><mi mathvariant="normal">/</mi><mo>…</mo><mi mathvariant="normal">/</mi><msub><mi>k</mi><mi>P</mi></msub></mrow><annotation encoding="application/x-tex">k_1/k_2/\ldots/k_P</annotation></semantics></math></span>) = <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mi>P</mi></msubsup><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mrow><msub><mi>k</mi><mi>m</mi></msub><mo>+</mo><mi>m</mi><mo>−</mo><mn>1</mn></mrow><mi>m</mi></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\sum_{m=1}^{P} {k_m + m - 1 \choose m}</annotation></semantics></math></span></p>
-</div>
+<pre><code>    Index(k_1/k_2/…/k_P) = ∑_m=1^P C(k_m + m - 1, m)</code></pre>
 <p>Examples:</p>
 </li>
 <li>
@@ -924,8 +917,9 @@ be multiple values for the key corresponding to each allele
 ##INFO=&#x3C;ID=NOVEL,Number=0,Type=Flag,Description="Indicates a novel structural variation">
 ##INFO=&#x3C;ID=END,Number=1,Type=Integer,Description="End position of the variant described in this record">
 </code></pre>
-<p>For precise variants, END is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>O</mi><mi>S</mi><mo>+</mo><mi>l</mi><mi>e</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>h</mi><mi>o</mi><mi>f</mi><mi>R</mi><mi>E</mi><mi>F</mi><mi>a</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>l</mi><mi>e</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">POS + length of REF allele - 1</annotation></semantics></math></span>, and the
-for imprecise variants the corresponding best estimate.</p>
+<p>For precise variants, END is
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">POS</mtext><mo>+</mo><mrow><mtext mathvariant="italic">length</mtext><mtext> </mtext><mtext mathvariant="italic">of</mtext><mtext> </mtext><mtext mathvariant="italic">REF</mtext><mtext> </mtext><mtext mathvariant="italic">allele</mtext></mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\textit{POS} + \textit{length of \textit{REF} \textit{allele}} - 1</annotation></semantics></math></span>,
+and the for imprecise variants the corresponding best estimate.</p>
 <pre><code>##INFO=&#x3C;ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
 </code></pre>
 <p>This key can be derived from the REF/ALT fields but is useful for
@@ -996,13 +990,13 @@ the characteristics of the alt allele contigs.</p>
 imprecise events by copy number (either because there is an unknown
 number of alternate alleles or because the haplotypes cannot be
 determined). CN specifies the integer copy number of the variant in this
-sample. CNQ is encoded as a phred quality <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> p(copy number
-genotype call is wrong). CNL specifies a list of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">log_{10}</annotation></semantics></math></span> likelihoods
-for each potential copy number, starting from zero. CNP is 0 to 1-scaled
-copy number posterior probabilities (and otherwise defined precisely as
-the CNL field), intended to store imputed genotype probabilities. When
-possible, GT/GQ/GL/GP should be used instead of (or in addition to)
-these keys.</p>
+sample. CNQ is encoded as a phred quality <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> p(copy
+number genotype call is wrong). CNL specifies a list of
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">\textit{log}_{10}</annotation></semantics></math></span> likelihoods for each potential copy number, starting
+from zero. CNP is 0 to 1-scaled copy number posterior probabilities (and
+otherwise defined precisely as the CNL field), intended to store imputed
+genotype probabilities. When possible, GT/GQ/GL/GP should be used
+instead of (or in addition to) these keys.</p>
 <h1 id="5">5 Representing variation in VCF records<a class="header-anchor" aria-hidden="" href="#5">#</a></h1>
 <h2 id="5.1">5.1 Creating VCF entries for SNPs and small indels<a class="header-anchor" aria-hidden="" href="#5.1">#</a></h2>
 <h3 id="5.1.1">5.1.1 Example 1<a class="header-anchor" aria-hidden="" href="#5.1.1">#</a></h3>
@@ -1188,8 +1182,9 @@ corresponding VCF record:</p>
 </tr>
 </tbody>
 </table>
-<p>There are actually four segregating alleles: <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mi>t</mi><mi>C</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mo separator="true">,</mo><mi>t</mi><mi>C</mi><mi>A</mi><mi>g</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{tCg,tg,t,tCAg\}</annotation></semantics></math></span> over
-bases 2–4. This complex set of allele is represented in VCF as:</p>
+<p>There are actually four segregating alleles:
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mtext mathvariant="italic">tCg</mtext><mo separator="true">,</mo><mi>t</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mo separator="true">,</mo><mtext mathvariant="italic">tCAg</mtext><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{\textit{tCg},tg,t,\textit{tCAg}\}</annotation></semantics></math></span> over bases 2–4. This complex set
+of allele is represented in VCF as:</p>
 <table>
 <thead>
 <tr>
@@ -3574,12 +3569,12 @@ element INT8 vector: 0x21. Next we have the encoding for each sample, A
 <p>A <strong>Genotype (GT) field</strong> is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
 the maximum ploidy among all samples at a site. For one individual, each
-integer in the vector is organized as <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>a</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>l</mi><mi>e</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>1</mn><mo>∣</mo><mi>p</mi><mi>h</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">(allele+1) &#x3C;&#x3C; 1 \mid phased</annotation></semantics></math></span>
-where allele is set to <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math></span> if the allele in GT is a dot ’.’ (thus the
-higher bits are all 0). The vector is padded with the END_OF_VECTOR
-values if the GT having fewer ploidy. We note specifically that except
-for the END_OF_VECTOR byte, no other negative values are allowed in the
-GT array.</p>
+integer in the vector is organized as
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">allele</mtext><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>1</mn><mo>∣</mo><mtext mathvariant="italic">phased</mtext></mrow><annotation encoding="application/x-tex">(\textit{allele}+1) &#x3C;&#x3C; 1 \mid \textit{phased}</annotation></semantics></math></span> where allele is set to
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math></span> if the allele in GT is a dot ’.’ (thus the higher bits are all 0).
+The vector is padded with the END_OF_VECTOR values if the GT having
+fewer ploidy. We note specifically that except for the END_OF_VECTOR
+byte, no other negative values are allowed in the GT array.</p>
 <p>Examples:</p>
 <table>
 <thead>

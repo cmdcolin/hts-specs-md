@@ -228,15 +228,15 @@ following additional possibilities:</p>
 <ul>
 <li>
 <p>LA: Identical to A except the only alternate alleles defined in the
-<code>LAA</code> field are considered present.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">LAA</mtext></mrow><annotation encoding="application/x-tex">\textit{LAA}</annotation></semantics></math></span> field are considered present.</p>
 </li>
 <li>
 <p>LR: Identical to R except the only alternate alleles defined in the
-<code>LAA</code> field are considered present.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">LAA</mtext></mrow><annotation encoding="application/x-tex">\textit{LAA}</annotation></semantics></math></span> field are considered present.</p>
 </li>
 <li>
 <p>LG: Identical to G except the only alternate alleles defined in the
-<code>LAA</code> field are considered present.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">LAA</mtext></mrow><annotation encoding="application/x-tex">\textit{LAA}</annotation></semantics></math></span> field are considered present.</p>
 </li>
 <li>
 <p>P: The field has one value for each allele value defined in <code>GT</code>.</p>
@@ -446,9 +446,7 @@ presented as a 32 character lowercase hexadecimal number.</p>
 sequence names: they may contain any printable ASCII characters in the
 range <code>[!-~]</code> apart from ‘<code>\ , "`' () [] {} &#x3C;></code>’ and may not start
 with ” or ‘<code>=</code>’. Thus they match the following regular expression:</p>
-<div class="code-math-block">
-<p>    [0-9A-Za-z!#<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow></mrow><annotation encoding="application/x-tex">%&#x26;+./:;?@^_|~-][0-9A-Za-z!#</annotation></semantics></math></span>%&#x26;*+./:;=?@^_|~-]*</p>
-</div>
+<pre><code>    [0-9A-Za-z!#%&#x26;*+./:;=?@^_|~-]*</code></pre>
 <p>In particular, excluding commas facilitates parsing <code>##contig</code> lines,
 and excluding the characters ‘<code>&#x3C;>[]</code>’ and initial ” avoids clashes with
 symbolic alleles. The contig names must not use a reserved symbolic
@@ -556,10 +554,11 @@ angle-brackets are permitted in the ID String itself)</p>
 </li>
 <li>
 <p>QUAL — quality: Phred-scaled quality score for the assertion made in
-ALT. i.e. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(call in ALT is wrong). If ALT is ’.’
-(no variant) then this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(variant), and if ALT is
-not ’.’ this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> prob(no variant). If unknown, the
-MISSING value must be specified. (Float)</p>
+ALT. i.e. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> prob(call in ALT is wrong). If ALT
+is ’.’ (no variant) then this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span>
+prob(variant), and if ALT is not ’.’ this is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span>
+prob(no variant). If unknown, the MISSING value must be specified.
+(Float)</p>
 </li>
 <li>
 <p>FILTER — filter status: PASS if this position has passed all
@@ -1204,8 +1203,8 @@ semicolons permitted.</p>
 </li>
 <li>
 <p>GQ (Integer): Conditional genotype quality, encoded as a phred quality
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> p(genotype call is wrong, conditioned on the site’s
-being variant).</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> p(genotype call is wrong, conditioned on the
+site’s being variant).</p>
 </li>
 <li>
 <p>GP (Float): Genotype posterior probabilities in the range 0 to 1 using
@@ -1249,36 +1248,30 @@ from the record containing only symbolic SVs.</p>
 </li>
 <li>
 <p>GL (Float): Genotype likelihoods comprised of comma separated floating
-point <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">log_{10}</annotation></semantics></math></span>-scaled likelihoods for all possible genotypes given
-the set of alleles defined in the REF and ALT fields. In presence of
-the GT field the same ploidy is expected; without GT field, diploidy
-is assumed.</p>
+point <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">\textit{log}_{10}</annotation></semantics></math></span>-scaled likelihoods for all possible
+genotypes given the set of alleles defined in the REF and ALT fields.
+In presence of the GT field the same ploidy is expected; without GT
+field, diploidy is assumed.</p>
 <p><span class="smallcaps">Genotype Ordering.</span>
 <span id="genotype-fields:genotype-ordering" label="genotype-fields:genotype-ordering"></span> In general case of
 ploidy P and N alternate alleles (0 is the REF and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>…</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">1\ldots N</annotation></semantics></math></span> the
 alternate alleles), the ordering of genotypes for the likelihoods can
 be expressed by the following pseudocode with as many nested loops as
 ploidy: <sup><a href="#user-content-fn-3" id="user-content-fnref-3" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
-<div class="code-math-block">
-<p>  for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>P</mi></msub><mo>=</mo><mn>0</mn><mo>…</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">a_P = 0\ldots N</annotation></semantics></math></span><br>
-    for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>P</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>0</mn><mo>…</mo><msub><mi>a</mi><mi>P</mi></msub></mrow><annotation encoding="application/x-tex">a_{P-1} = 0\ldots a_P</annotation></semantics></math></span><br>
-        <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>…</mo></mrow><annotation encoding="application/x-tex">\ldots</annotation></semantics></math></span><br>
-        for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn><mo>…</mo><msub><mi>a</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">a_1 = 0\ldots a_{2}</annotation></semantics></math></span><br>
-            println <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><msub><mi>a</mi><mn>2</mn></msub><mo>…</mo><msub><mi>a</mi><mi>P</mi></msub></mrow><annotation encoding="application/x-tex">a_1 a_2  \ldots  a_P</annotation></semantics></math></span></p>
-</div>
+<pre><code>  for a_P = 0… N
+    for a_P-1 = 0… a_P
+        …
+        for a_1 = 0… a_2
+            println a_1 a_2 … a_P</code></pre>
 <p>Alternatively, the same can be achieved recursively with the following
 pseudocode:</p>
-<div class="code-math-block">
-<p>    Ordering(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span>, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span>, suffix=""):<br>
-        for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span> in <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>…</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">0\ldots N</annotation></semantics></math></span><br>
-            if (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">P == 1</annotation></semantics></math></span>) println str(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span>) + suffix<br>
-            if (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>></mo><mn>1</mn></mrow><annotation encoding="application/x-tex">P > 1</annotation></semantics></math></span>) Ordering(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span>-1, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span>, str(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span>) + suffix)</p>
-</div>
+<pre><code>    Ordering(P, N, suffix=""):
+        for a in 0… N
+            if (P == 1) println str(a) + suffix
+            if (P > 1) Ordering(P-1, a, str(a) + suffix)</code></pre>
 <p>Conversely, the index of the value corresponding to the genotype
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>≤</mo><msub><mi>k</mi><mn>2</mn></msub><mo>≤</mo><mo>…</mo><mo>≤</mo><msub><mi>k</mi><mi>P</mi></msub></mrow><annotation encoding="application/x-tex">k_1\le k_2\le\ldots\le k_P</annotation></semantics></math></span> is</p>
-<div class="code-math-block">
-<p>    Index(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mn>1</mn></msub><mi mathvariant="normal">/</mi><msub><mi>k</mi><mn>2</mn></msub><mi mathvariant="normal">/</mi><mo>…</mo><mi mathvariant="normal">/</mi><msub><mi>k</mi><mi>P</mi></msub></mrow><annotation encoding="application/x-tex">k_1/k_2/\ldots/k_P</annotation></semantics></math></span>) = <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mi>P</mi></msubsup><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mrow><msub><mi>k</mi><mi>m</mi></msub><mo>+</mo><mi>m</mi><mo>−</mo><mn>1</mn></mrow><mi>m</mi></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\sum_{m=1}^{P} {k_m + m - 1 \choose m}</annotation></semantics></math></span></p>
-</div>
+<pre><code>    Index(k_1/k_2/…/k_P) = ∑_m=1^P C(k_m + m - 1, m)</code></pre>
 <p>Examples:</p>
 </li>
 <li>
@@ -1733,15 +1726,17 @@ strings.</p>
 <pre><code>##INFO=&#x3C;ID=IMPRECISE,Number=0,Type=Flag,Description="Imprecise structural variation">
 </code></pre>
 <p>Indicates that this record contains an imprecise structural variant
-<code>ALT</code> allele. ALT alleles missing <code>CIPOS</code> are to be interpreted as
-imprecise variants with an unspecified confidence interval.</p>
-<p>If a precise ALT allele is present in a record with the <code>IMPRECISE</code>
-flag, <code>CIPOS</code> must be explicitly set for that allele, even if it is
-‘0,0’.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">ALT</mtext></mrow><annotation encoding="application/x-tex">\textit{ALT}</annotation></semantics></math></span> allele. ALT alleles missing <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span> are to be
+interpreted as imprecise variants with an unspecified confidence
+interval.</p>
+<p>If a precise ALT allele is present in a record with the
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">IMPRECISE</mtext></mrow><annotation encoding="application/x-tex">\textit{IMPRECISE}</annotation></semantics></math></span> flag, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span> must be explicitly set for
+that allele, even if it is ‘0,0’.</p>
 <pre><code>##INFO=&#x3C;ID=NOVEL,Number=0,Type=Flag,Description="Indicates a novel structural variation">
 ##INFO=&#x3C;ID=END,Number=1,Type=Integer,Description="Deprecated. Present for backwards compatibility with earlier versions of VCF.">
 </code></pre>
-<p><code>END</code> has been deprecated in favour of INFO SVLEN and FORMAT LEN.</p>
+<p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">END</mtext></mrow><annotation encoding="application/x-tex">\textit{END}</annotation></semantics></math></span> has been deprecated in favour of INFO SVLEN and FORMAT
+LEN.</p>
 <pre><code>##INFO=&#x3C;ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
 </code></pre>
 <p>This field has been deprecated due to redundancy with ALT. Refer to
@@ -1751,44 +1746,48 @@ structural variant alleles.</p>
 </code></pre>
 <p>One value for each ALT allele.</p>
 <p>SVLEN must be specified for symbolic structural variant alleles. SVLEN
-is defined for <code>INS</code>, <code>DUP</code>, <code>INV</code>, and <code>DEL</code> symbolic alleles as the
-number of the inserted, duplicated, inverted, and deleted bases
-respectively. SVLEN is defined for <code>CNV</code> symbolic alleles as the length
-of the segment over which the copy number variant is defined. The
-missing value <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span> should be used for all other ALT alleles, including
-ALT alleles using breakend notation.</p>
+is defined for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">INS</mtext></mrow><annotation encoding="application/x-tex">\textit{INS}</annotation></semantics></math></span>, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">DUP</mtext></mrow><annotation encoding="application/x-tex">\textit{DUP}</annotation></semantics></math></span>, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">INV</mtext></mrow><annotation encoding="application/x-tex">\textit{INV}</annotation></semantics></math></span>, and
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">DEL</mtext></mrow><annotation encoding="application/x-tex">\textit{DEL}</annotation></semantics></math></span> symbolic alleles as the number of the inserted,
+duplicated, inverted, and deleted bases respectively. SVLEN is defined
+for <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CNV</mtext></mrow><annotation encoding="application/x-tex">\textit{CNV}</annotation></semantics></math></span> symbolic alleles as the length of the segment over
+which the copy number variant is defined. The missing value <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span> should
+be used for all other ALT alleles, including ALT alleles using breakend
+notation.</p>
 <p>For backwards compatibility, a missing SVLEN should be inferred from the
-<code>END</code> field.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">END</mtext></mrow><annotation encoding="application/x-tex">\textit{END}</annotation></semantics></math></span> field.</p>
 <p>For backwards compatibility, the absolute value of SVLEN should be taken
 and a negative SVLEN should be treated as positive values.</p>
-<p>Note that for structural variant symbolic alleles, <code>POS</code> corresponds to
-the base immediately preceding the variant.</p>
+<p>Note that for structural variant symbolic alleles, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">POS</mtext></mrow><annotation encoding="application/x-tex">\textit{POS}</annotation></semantics></math></span>
+corresponds to the base immediately preceding the variant.</p>
 <pre><code>##INFO=&#x3C;ID=CIPOS,Number=.,Type=Integer,Description="Confidence interval around POS for symbolic structural variants">
 </code></pre>
 <p>If present, the number of entries must be twice the number of ALT
-alleles. <code>CIPOS</code> consists of successive pairs of records indicating the
-start and end offsets relative to <code>POS</code> of the confidence interval for
-each ALT allele. For example, <code>CIPOS=-5,5,0,0</code> indicates a 5bp
-confidence interval in each direction for the first ALT allele, and an
-exact position for the second alt allele.</p>
-<p>When breakpoint sequence homology exists, <code>CIPOS</code> should be used in
-conjunction with <code>HOMSEQ</code> to specify the interval of homology.</p>
-<p>If both <code>IMPRECISE</code> and <code>CIPOS</code> are omitted, <code>CIPOS</code> is implicitly
-defined as 0,0 for all alleles.</p>
-<p>Each <code>CIPOS</code> interval must span 0. That is, the lower bound cannot be
-greater than 0, and the upper bound cannot be less than 0.</p>
+alleles. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span> consists of successive pairs of records
+indicating the start and end offsets relative to <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">POS</mtext></mrow><annotation encoding="application/x-tex">\textit{POS}</annotation></semantics></math></span> of the
+confidence interval for each ALT allele. For example,
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext><mo>=</mo><mo>−</mo><mn>5</mn><mo separator="true">,</mo><mn>5</mn><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\textit{CIPOS}=-5,5,0,0</annotation></semantics></math></span> indicates a 5bp confidence interval in each
+direction for the first ALT allele, and an exact position for the second
+alt allele.</p>
+<p>When breakpoint sequence homology exists, <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span> should be
+used in conjunction with <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">HOMSEQ</mtext></mrow><annotation encoding="application/x-tex">\textit{HOMSEQ}</annotation></semantics></math></span> to specify the interval of
+homology.</p>
+<p>If both <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">IMPRECISE</mtext></mrow><annotation encoding="application/x-tex">\textit{IMPRECISE}</annotation></semantics></math></span> and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span> are omitted,
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span> is implicitly defined as 0,0 for all alleles.</p>
+<p>Each <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span> interval must span 0. That is, the lower bound
+cannot be greater than 0, and the upper bound cannot be less than 0.</p>
 <pre><code>##INFO=&#x3C;ID=CIEND,Number=.,Type=Integer,Description="Confidence interval around the inferred END for symbolic structural variants">
 </code></pre>
 <p>If present, the number of entries must be twice the number of ALT
-alleles. <code>CIEND</code> consists of successive pairs of records encoding the
-confidence interval start and end offsets relative to the <code>END</code> position
-inferred by <code>SVLEN</code> for each ALT allele. For symbolic structural
-variants, the first in the pair must not be greater than 0, and the
-second must not be less than 0. For all other alleles, both should be
-the missing value <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span>. For example, <code>CIEND=-5,5,.,.</code> indicates a 5bp
-confidence interval in each direction around the end position for the
-first ALT allele, and no <code>CIEND</code> is defined for the second alt allele.</p>
-<p>If <code>CIEND</code> is missing, it is assumed to match <code>CIPOS</code>.</p>
+alleles. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIEND</mtext></mrow><annotation encoding="application/x-tex">\textit{CIEND}</annotation></semantics></math></span> consists of successive pairs of records
+encoding the confidence interval start and end offsets relative to the
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">END</mtext></mrow><annotation encoding="application/x-tex">\textit{END}</annotation></semantics></math></span> position inferred by <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">SVLEN</mtext></mrow><annotation encoding="application/x-tex">\textit{SVLEN}</annotation></semantics></math></span> for each ALT
+allele. For symbolic structural variants, the first in the pair must not
+be greater than 0, and the second must not be less than 0. For all other
+alleles, both should be the missing value <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span>. For example,
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIEND</mtext><mo>=</mo><mo>−</mo><mn>5</mn><mo separator="true">,</mo><mn>5</mn><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mo separator="true">,</mo><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\textit{CIEND}=-5,5,.,.</annotation></semantics></math></span> indicates a 5bp confidence interval in each
+direction around the end position for the first ALT allele, and no
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIEND</mtext></mrow><annotation encoding="application/x-tex">\textit{CIEND}</annotation></semantics></math></span> is defined for the second alt allele.</p>
+<p>If <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIEND</mtext></mrow><annotation encoding="application/x-tex">\textit{CIEND}</annotation></semantics></math></span> is missing, it is assumed to match <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span>.</p>
 <pre><code>##INFO=&#x3C;ID=HOMLEN,Number=A,Type=Integer,Description="Length of base pair identical micro-homology at breakpoints">
 
 ##INFO=&#x3C;ID=HOMSEQ,Number=A,Type=String,Description="Sequence of base pair identical micro-homology at breakpoints">
@@ -1802,13 +1801,13 @@ the characteristics of the alt allele contigs.</p>
 <pre><code>##INFO=&#x3C;ID=MEINFO,Number=.,Type=String,Description="Mobile element info of the form NAME,START,END,POLARITY">
 </code></pre>
 <p>If present, the number of entries must be four (4) times the number of
-ALT alleles. <code>MEINFO</code> consists of successive quadruplets of records for
-each ALT allele.</p>
+ALT alleles. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">MEINFO</mtext></mrow><annotation encoding="application/x-tex">\textit{MEINFO}</annotation></semantics></math></span> consists of successive quadruplets of
+records for each ALT allele.</p>
 <pre><code>##INFO=&#x3C;ID=METRANS,Number=.,Type=String,Description="Mobile element transduction info of the form CHR,START,END,POLARITY">
 </code></pre>
 <p>If present, the number of entries must be four (4) times the number of
-ALT alleles. <code>METRANS</code> consists of successive quadruplets of records for
-each ALT allele.</p>
+ALT alleles. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">METRANS</mtext></mrow><annotation encoding="application/x-tex">\textit{METRANS}</annotation></semantics></math></span> consists of successive quadruplets of
+records for each ALT allele.</p>
 <pre><code>##INFO=&#x3C;ID=DGVID,Number=A,Type=String,Description="ID of this element in Database of Genomic Variation">
 ##INFO=&#x3C;ID=DBVARID,Number=A,Type=String,Description="ID of this element in DBVAR">
 ##INFO=&#x3C;ID=DBRIPID,Number=A,Type=String,Description="ID of this element in DBRIP">
@@ -1820,11 +1819,11 @@ each ALT allele.</p>
 <p>Whilst simple events such as deletions and duplications can be wholly
 represented by a single VCF record, complex rearrangements such as
 chromothripsis result in a large number of breakpoints. VCF uses the
-<code>EVENT</code> field to group such related records together, and <code>EVENTTYPE</code> to
-classify these events. All records with the same <code>EVENT</code> value are
-considered to be part of the same event.</p>
-<p>The following <code>EVENTTYPE</code> values are reserved and should be used when
-appropriate:</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">EVENT</mtext></mrow><annotation encoding="application/x-tex">\textit{EVENT}</annotation></semantics></math></span> field to group such related records together, and
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">EVENTTYPE</mtext></mrow><annotation encoding="application/x-tex">\textit{EVENTTYPE}</annotation></semantics></math></span> to classify these events. All records with the same
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">EVENT</mtext></mrow><annotation encoding="application/x-tex">\textit{EVENT}</annotation></semantics></math></span> value are considered to be part of the same event.</p>
+<p>The following <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">EVENTTYPE</mtext></mrow><annotation encoding="application/x-tex">\textit{EVENTTYPE}</annotation></semantics></math></span> values are reserved and should be
+used when appropriate:</p>
 <ul>
 <li>
 <p>DEL - Deletion</p>
@@ -1872,22 +1871,23 @@ appropriate:</p>
 <p>DOUBLEMINUTE - Double minute</p>
 </li>
 </ul>
-<p>The semantics of other <code>EVENTTYPE</code> values is implementation-defined. The
-use of <code>EVENT</code> is not restricted to structural variation and can also be
-used to associate non-symbolic alleles. Such linking is useful for
-scenarios such as kataegis or when there is variant position ambiguity
-in segmentally duplicated regions.</p>
+<p>The semantics of other <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">EVENTTYPE</mtext></mrow><annotation encoding="application/x-tex">\textit{EVENTTYPE}</annotation></semantics></math></span> values is
+implementation-defined. The use of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">EVENT</mtext></mrow><annotation encoding="application/x-tex">\textit{EVENT}</annotation></semantics></math></span> is not restricted to
+structural variation and can also be used to associate non-symbolic
+alleles. Such linking is useful for scenarios such as kataegis or when
+there is variant position ambiguity in segmentally duplicated regions.</p>
 <pre><code>##INFO=&#x3C;ID=CILEN,Number=.,Type=Integer,Description="Confidence interval for the SVLEN field">
 </code></pre>
 <p>If present, the number of entries must be twice the number of ALT
-alleles. <code>CILEN</code> consists of successive pairs of records indicating the
-lower and upper bounds of the <code>SVLEN</code> confidence interval.</p>
+alleles. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CILEN</mtext></mrow><annotation encoding="application/x-tex">\textit{CILEN}</annotation></semantics></math></span> consists of successive pairs of records
+indicating the lower and upper bounds of the <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">SVLEN</mtext></mrow><annotation encoding="application/x-tex">\textit{SVLEN}</annotation></semantics></math></span> confidence
+interval.</p>
 <pre><code>##INFO=&#x3C;ID=CN,Number=A,Type=Float,Description="Copy number of CNV/breakpoint">
 ##INFO=&#x3C;ID=CICN,Number=.,Type=Float,Description="Confidence interval around copy number">
 </code></pre>
 <p>If present, the number of entries must be twice the number of ALT
-alleles. <code>CICN</code> consists of successive pairs of records indicating the
-lower and upper copy number bounds.</p>
+alleles. <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CICN</mtext></mrow><annotation encoding="application/x-tex">\textit{CICN}</annotation></semantics></math></span> consists of successive pairs of records
+indicating the lower and upper copy number bounds.</p>
 <pre><code>##INFO=&#x3C;ID=SVCLAIM,Number=A,Type=String,Description="Claim made by the structural variant call. Valid values are D, J, DJ for abundance, adjacency and both respectively">
 </code></pre>
 <p>This field disambiguates the claim being made by DEL and DUP structural
@@ -2000,11 +2000,11 @@ allele and the length must match the sum of RN for the record. These
 fields contain the flattened and concatenated list contents in the same
 order as either corresponding ALT allele.</p>
 <p>Each &#x3C;CNV:TR> allele consists of <code>RN</code> repeat sequences each containing
-<code>RUC</code> repeat units with sequence <code>RUS</code>.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">RUC</mtext></mrow><annotation encoding="application/x-tex">\textit{RUC}</annotation></semantics></math></span> repeat units with sequence <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">RUS</mtext></mrow><annotation encoding="application/x-tex">\textit{RUS}</annotation></semantics></math></span>.</p>
 <p>For example, if a &#x3C;CNV:TR> allele sequence is
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>10</mn></msub><mo stretchy="false">(</mo><mi>T</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>7</mn></msub><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><mi>G</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">(CAG)_{10}(TG)_{7}(CAGG)_{3}</annotation></semantics></math></span>, the RN for that ALT allele would be 3,
-the RUS <code>CAG,TG,CAGG</code>, the RUL <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">3,2,4</annotation></semantics></math></span>, the RUC <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo separator="true">,</mo><mn>7</mn><mo separator="true">,</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">10,7,3</annotation></semantics></math></span> and the RB
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn><mo separator="true">,</mo><mn>14</mn><mo separator="true">,</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">30,14,12</annotation></semantics></math></span>.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">CAG</mtext><msub><mo stretchy="false">)</mo><mn>10</mn></msub><mo stretchy="false">(</mo><mi>T</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>7</mn></msub><mo stretchy="false">(</mo><mtext mathvariant="italic">CAGG</mtext><msub><mo stretchy="false">)</mo><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">(\textit{CAG})_{10}(TG)_{7}(\textit{CAGG})_{3}</annotation></semantics></math></span>, the RN for that ALT
+allele would be 3, the RUS <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CAG</mtext><mo separator="true">,</mo><mi>T</mi><mi>G</mi><mo separator="true">,</mo><mtext mathvariant="italic">CAGG</mtext></mrow><annotation encoding="application/x-tex">\textit{CAG},TG,\textit{CAGG}</annotation></semantics></math></span>, the RUL
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">3,2,4</annotation></semantics></math></span>, the RUC <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo separator="true">,</mo><mn>7</mn><mo separator="true">,</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">10,7,3</annotation></semantics></math></span> and the RB <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn><mo separator="true">,</mo><mn>14</mn><mo separator="true">,</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">30,14,12</annotation></semantics></math></span>.</p>
 <p>RUS may contain only IUPAC nucleotide codes (ambiguous bases are
 allowed) or the missing value (’.’). If both RUS and RUL are present and
 not missing, the length of each RUS entry must match the corresponding
@@ -2019,15 +2019,15 @@ length of the corresponding RUS.</p>
 <p>Confidence interval around RUC and RB respectively. The length of these
 fields must be twice that of their corresponding fields. CIRUC/CIRB must
 not be non-missing for any alleles with no corresponding RUC/RB value.</p>
-<p>These fields are defined in the same manner as <code>CIPOS</code> and contain the
-difference between the lower and upper confidence interval bounds and
-the value of the corresponding field. The lower bound must be less than
-or equal to zero and the upper bound must be greater than or equal to
-zero. If the lower bound is the missing value ”.”, is assumed to be 0
-and if the upper bound is the missing value ”.”, it is assumed to be an
-unbounded estimate. That is, the length of repeat has been determined to
-be at least a certain length but a reasonable limit of total length of
-the repeat could not be determined.</p>
+<p>These fields are defined in the same manner as <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CIPOS</mtext></mrow><annotation encoding="application/x-tex">\textit{CIPOS}</annotation></semantics></math></span> and
+contain the difference between the lower and upper confidence interval
+bounds and the value of the corresponding field. The lower bound must be
+less than or equal to zero and the upper bound must be greater than or
+equal to zero. If the lower bound is the missing value ”.”, is assumed
+to be 0 and if the upper bound is the missing value ”.”, it is assumed
+to be an unbounded estimate. That is, the length of repeat has been
+determined to be at least a certain length but a reasonable limit of
+total length of the repeat could not be determined.</p>
 <p>See section <a href="#5.7">5.7</a> for an example and further details.</p>
 <pre><code>##INFO=&#x3C;ID=RUB,Number=.,Type=Integer,Description="Number of bases in each individual repeat unit">
 </code></pre>
@@ -2038,8 +2038,9 @@ field uses the same list-of-list encoding as RUS/RUL/RUC/RB but contains
 a list for each RC entry, the length of which is determined by the
 corresponding integer RUC value. This field contains the length of each
 individual repeat unit for each RUC entry. If RUB is missing or not
-specified, the <code>RUB</code> for each individual repeat unit is considered to be
-equal to the <code>RUL</code> for the corresponding repeat sequence.</p>
+specified, the <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">RUB</mtext></mrow><annotation encoding="application/x-tex">\textit{RUB}</annotation></semantics></math></span> for each individual repeat unit is
+considered to be equal to the <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">RUL</mtext></mrow><annotation encoding="application/x-tex">\textit{RUL}</annotation></semantics></math></span> for the corresponding
+repeat sequence.</p>
 <p>For the vast majority of tandem repeats, this field can be omitted and
 is only required in complex situations such as when a VNTR contains one
 or more variable length STRs.</p>
@@ -2058,12 +2059,13 @@ or more variable length STRs.</p>
 &#x3C;CNV>, &#x3C;DEL>, &#x3C;DUP> alleles. When FORMAT CN is present, all
 &#x3C;CNV>, &#x3C;DEL> and &#x3C;DUP> alleles must have the same SVLEN. CNQ, CNL,
 and CNP are analogous to GQ/GL/GP fields. CNQ is encoded as a phred
-quality <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10log_{10}</annotation></semantics></math></span> p(copy number genotype call is wrong). CNL
-specifies a list of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">log_{10}</annotation></semantics></math></span> likelihoods for each potential copy
-number, starting from zero. CNP is 0 to 1-scaled copy number posterior
-probabilities (and otherwise defined precisely as the CNL field),
-intended to store imputed genotype probabilities. When possible,
-GT/GQ/GL/GP should be used instead of (or in addition to) these keys.</p>
+quality <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>10</mn><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-10\textit{log}_{10}</annotation></semantics></math></span> p(copy number genotype call is wrong).
+CNL specifies a list of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">log</mtext><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">\textit{log}_{10}</annotation></semantics></math></span> likelihoods for each
+potential copy number, starting from zero. CNP is 0 to 1-scaled copy
+number posterior probabilities (and otherwise defined precisely as the
+CNL field), intended to store imputed genotype probabilities. When
+possible, GT/GQ/GL/GP should be used instead of (or in addition to)
+these keys.</p>
 <h1 id="5">5 Representing variation in VCF records<a class="header-anchor" aria-hidden="" href="#5">#</a></h1>
 <h2 id="5.1">5.1 Creating VCF entries for SNPs and small indels<a class="header-anchor" aria-hidden="" href="#5.1">#</a></h2>
 <h3 id="5.1.1">5.1.1 Example 1<a class="header-anchor" aria-hidden="" href="#5.1.1">#</a></h3>
@@ -2249,8 +2251,9 @@ corresponding VCF record:</p>
 </tr>
 </tbody>
 </table>
-<p>There are actually four segregating alleles: <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mi>t</mi><mi>C</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mo separator="true">,</mo><mi>t</mi><mi>C</mi><mi>A</mi><mi>g</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{tCg,tg,t,tCAg\}</annotation></semantics></math></span> over
-bases 2–4. This complex set of allele is represented in VCF as:</p>
+<p>There are actually four segregating alleles:
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mtext mathvariant="italic">tCg</mtext><mo separator="true">,</mo><mi>t</mi><mi>g</mi><mo separator="true">,</mo><mi>t</mi><mo separator="true">,</mo><mtext mathvariant="italic">tCAg</mtext><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{\textit{tCg},tg,t,\textit{tCAg}\}</annotation></semantics></math></span> over bases 2–4. This complex set
+of allele is represented in VCF as:</p>
 <table>
 <thead>
 <tr>
@@ -2552,7 +2555,7 @@ records</p>
 <p>A single breakend</p>
 </li>
 </ol>
-<p>The sequence of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>h</mi><mi>r</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">chrA</annotation></semantics></math></span> in this example is ATGCGAAAAAAATGT.</p>
+<p>The sequence of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">chrA</mtext></mrow><annotation encoding="application/x-tex">\textit{chrA}</annotation></semantics></math></span> in this example is ATGCGAAAAAAATGT.</p>
 <div class="landscape">
 <pre><code>VCF STRUCTURAL VARIANT EXAMPLE
 
@@ -3767,9 +3770,10 @@ for reference as compared to any other possible alternate allele (both
 SNP, indel, or otherwise).</p>
 <p>Positions implicitly called by a preceding &#x3C;*> for a sample must have
 <code>GT</code> set to the missing value (’.’) and have no FORMAT fields other than
-<code>LAA</code> present. If <code>LAA</code> is present and a reference block start is being
-defined for a given sample, the &#x3C;*> allele must be included as an
-<code>LAA</code> allele for that sample even though the <code>GT</code> is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi mathvariant="normal">/</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">0/0</annotation></semantics></math></span>.</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">LAA</mtext></mrow><annotation encoding="application/x-tex">\textit{LAA}</annotation></semantics></math></span> present. If <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">LAA</mtext></mrow><annotation encoding="application/x-tex">\textit{LAA}</annotation></semantics></math></span> is present and a reference
+block start is being defined for a given sample, the &#x3C;*> allele must
+be included as an <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">LAA</mtext></mrow><annotation encoding="application/x-tex">\textit{LAA}</annotation></semantics></math></span> allele for that sample even though the
+<code>GT</code> is <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi mathvariant="normal">/</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">0/0</annotation></semantics></math></span>.</p>
 <p>Reference blocks were originally introduced by the gVCF file format<sup><a href="#user-content-fn-5" id="user-content-fnref-5" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup>.
 Unfortunately, gVCF has issues scaling to many samples as the use of
 INFO END to encode the reference block length requires the reference
@@ -3940,7 +3944,8 @@ which consist of a single repeat unit repeated one or more times. That
 is, &#x3C;CNV:TR> records can encode multiple different repeat motifs in a
 single allele but do not support “nested” repeats.</p>
 <p>Figure 11 outlines the field encoding for a STR locus with alleles of
-sequence <code>CAGCAGCAGTTGTTG</code> (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>4</mn></msub><mo stretchy="false">(</mo><mi>T</mi><mi>T</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">(CAG)_{4}(TTG)_{2}</annotation></semantics></math></span>), and <code>CACACA</code>
+sequence <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CAGCAGCAGTTGTTG</mtext></mrow><annotation encoding="application/x-tex">\textit{CAGCAGCAGTTGTTG}</annotation></semantics></math></span>
+(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">CAG</mtext><msub><mo stretchy="false">)</mo><mn>4</mn></msub><mo stretchy="false">(</mo><mtext mathvariant="italic">TTG</mtext><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">(\textit{CAG})_{4}(\textit{TTG})_{2}</annotation></semantics></math></span>), and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CACACA</mtext></mrow><annotation encoding="application/x-tex">\textit{CACACA}</annotation></semantics></math></span>
 (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><msub><mo stretchy="false">)</mo><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">(CA)_{3}</annotation></semantics></math></span>). <code>RN=2,1</code> indicates that the first allele has two repeat
 sequences and the second allele one. RUS, RUL, and RUC fields encode the
 repeat unit sequence, length, and count within each repeat sequence. RB
@@ -3956,9 +3961,10 @@ since they all match their corresponding RUL.</p>
 record as well as non-symbolic records. When possible, these records
 should be phased with their corresponding &#x3C;CNV:TR> record as outlined
 in the following example. In the following example, the reference genome
-contains a <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">(CAG)_{10}</annotation></semantics></math></span> repeat at positions 101 to 130 inclusive, the
-first allele expands this to <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>30</mn></msub></mrow><annotation encoding="application/x-tex">(CAG)_{30}</annotation></semantics></math></span> and the second allele is
-missing a <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span> from the 6th repeat unit <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>5</mn></msub><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><msub><mo stretchy="false">)</mo><mn>1</mn></msub><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">(CAG)_{5}(CA)_{1}(CAG)_{4}</annotation></semantics></math></span>:</p>
+contains a <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">CAG</mtext><msub><mo stretchy="false">)</mo><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">(\textit{CAG})_{10}</annotation></semantics></math></span> repeat at positions 101 to 130
+inclusive, the first allele expands this to <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">CAG</mtext><msub><mo stretchy="false">)</mo><mn>30</mn></msub></mrow><annotation encoding="application/x-tex">(\textit{CAG})_{30}</annotation></semantics></math></span> and
+the second allele is missing a <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span> from the 6th repeat unit
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">CAG</mtext><msub><mo stretchy="false">)</mo><mn>5</mn></msub><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><msub><mo stretchy="false">)</mo><mn>1</mn></msub><mo stretchy="false">(</mo><mtext mathvariant="italic">CAG</mtext><msub><mo stretchy="false">)</mo><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">(\textit{CAG})_{5}(CA)_{1}(\textit{CAG})_{4}</annotation></semantics></math></span>:</p>
 <div class="landscape">
 <pre><code>##fileformat=VCFv4.5
 ##INFO=&#x3C;ID=SVLEN,Number=A,Type=Integer,Description="Length of structural variant">
@@ -4065,18 +4071,19 @@ representations.</p>
 <p>In some cases, it is desirable to report the full repeat sequence of all
 alleles at a given repeat locus in a single VCF records. There are no
 restrictions on doing so and in the above example, instead of reporting
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>i</mi><mi>s</mi><mi>e</mi><mi mathvariant="normal">_</mi><mi>a</mi><mi>l</mi><mi>t</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">precise\_alt1</annotation></semantics></math></span> and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>i</mi><mi>s</mi><mi>e</mi><mi mathvariant="normal">_</mi><mi>a</mi><mi>l</mi><mi>t</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">precise\_alt2</annotation></semantics></math></span>, the variants can be represented
-directly in a single record with a <code>REF</code> of:</p>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">precise_alt</mtext><mn>1</mn></mrow><annotation encoding="application/x-tex">\textit{precise\_alt}1</annotation></semantics></math></span> and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">precise_alt</mtext><mn>2</mn></mrow><annotation encoding="application/x-tex">\textit{precise\_alt}2</annotation></semantics></math></span>, the variants can
+be represented directly in a single record with a <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">REF</mtext></mrow><annotation encoding="application/x-tex">\textit{REF}</annotation></semantics></math></span> of:</p>
 <pre><code>CAGCAGCAGCAGCAGCAGCAGCAGCAGCAG
 </code></pre>
-<p>and an <code>ALT</code> of:</p>
+<p>and an <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">ALT</mtext></mrow><annotation encoding="application/x-tex">\textit{ALT}</annotation></semantics></math></span> of:</p>
 <pre><code>CAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAG,CAGCAGCAGCAGCAGCACAGCAGCAGCAG
 </code></pre>
 <p>When the length or number of repeat units in a repeat sequence cannot be
 determined precisely, CIRB and/or CIRUC can be used to define the
-bounds. For example, if the total number of <code>CAG</code> repeats at the above
-locus was at least 50 (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>C</mi><mi>A</mi><mi>G</mi><msub><mo stretchy="false">)</mo><mrow><mn>50</mn><mo>−</mo></mrow></msub></mrow><annotation encoding="application/x-tex">(CAG)_{50-}</annotation></semantics></math></span>) and the mostly likely number of
-repeats was 65, then the &#x3C;CNV:TR> could be encoded as follows:</p>
+bounds. For example, if the total number of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">CAG</mtext></mrow><annotation encoding="application/x-tex">\textit{CAG}</annotation></semantics></math></span> repeats at
+the above locus was at least 50 (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">CAG</mtext><msub><mo stretchy="false">)</mo><mrow><mn>50</mn><mo>−</mo></mrow></msub></mrow><annotation encoding="application/x-tex">(\textit{CAG})_{50-}</annotation></semantics></math></span>) and the mostly
+likely number of repeats was 65, then the &#x3C;CNV:TR> could be encoded as
+follows:</p>
 <pre><code>chr1 100 . T &#x3C;CNV:TR> . . SVLEN=30;CN=6.5;RUS=CAG;RUC=65;CIRUC=-15,. GT ./.
 </code></pre>
 <p>Note that:</p>
@@ -4094,14 +4101,15 @@ allele has RN greater than 1.</p>
 </ul>
 <p>Exactly representing nested repeats results in the loss of some repeat
 information when representing with a &#x3C;CNV:TR> record. For repeats such
-as <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mi>A</mi><mi>C</mi><mi>C</mi><mi>G</mi><mi>G</mi><mi>C</mi><msub><mo stretchy="false">)</mo><mn>4</mn></msub><mo stretchy="false">(</mo><mi>A</mi><mi>C</mi><mi>C</mi><mi>A</mi><mi>G</mi><mi>T</mi><mo stretchy="false">)</mo><msub><mo stretchy="false">)</mo><mrow><mn>3</mn><mo>−</mo><mn>5</mn></mrow></msub></mrow><annotation encoding="application/x-tex">((ACCGGC)_{4}(ACCAGT))_{3-5}</annotation></semantics></math></span>, summarising the repeat structure in a
-&#x3C;CNV:TR> record requires either unrolling the inner repeats, or
-treating each outer repeat as a separate repeat sequence (the full
-repeat structure can be stored in a caller-specific non-standard INFO
-field). For many VNTRs, the critical information to retain is the length
-of each repeat unit. This length information can be encoded in the RUB
-field. For example, a 10,000bp VNTRs domain repeated 5 times, each
-repeat 500bp longer than the previous can be encoded as follows:</p>
+as <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mtext mathvariant="italic">ACCGGC</mtext><msub><mo stretchy="false">)</mo><mn>4</mn></msub><mo stretchy="false">(</mo><mtext mathvariant="italic">ACCAGT</mtext><mo stretchy="false">)</mo><msub><mo stretchy="false">)</mo><mrow><mn>3</mn><mo>−</mo><mn>5</mn></mrow></msub></mrow><annotation encoding="application/x-tex">((\textit{ACCGGC})_{4}(\textit{ACCAGT}))_{3-5}</annotation></semantics></math></span>, summarising the
+repeat structure in a &#x3C;CNV:TR> record requires either unrolling the
+inner repeats, or treating each outer repeat as a separate repeat
+sequence (the full repeat structure can be stored in a caller-specific
+non-standard INFO field). For many VNTRs, the critical information to
+retain is the length of each repeat unit. This length information can be
+encoded in the RUB field. For example, a 10,000bp VNTRs domain repeated
+5 times, each repeat 500bp longer than the previous can be encoded as
+follows:</p>
 <pre><code>chr1 1000000 . T &#x3C;CNV:TR> . . SVLEN=20000;CN=1.25;RUL=10000;RUC=5;RUB=10000,10500,11000,11500,12000 GT ./.
 </code></pre>
 <h1 id="6">6 BCF specification<a class="header-anchor" aria-hidden="" href="#6">#</a></h1>
@@ -4745,14 +4753,15 @@ element INT8 vector: 0x21. Next we have the encoding for each sample, A
 <p>A <strong>Genotype (GT) field</strong> is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
 the maximum ploidy among all samples at a site. For one individual, each
-integer in the vector is organized as <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>a</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>l</mi><mi>e</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>1</mn><mo>∣</mo><mi>p</mi><mi>h</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">(allele+1) &#x3C;&#x3C; 1 \mid phased</annotation></semantics></math></span>
-where allele is set to <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math></span> if the allele in GT is a dot ’.’ (thus the
-higher bits are all 0). The vector is padded with the END_OF_VECTOR
-values if the GT having fewer ploidy. We note specifically that except
-for the END_OF_VECTOR byte, no other negative values are allowed in the
-GT array. When processing VCF version 4.3 or earlier files, the phasing
-of the first allele should be treated as missing and inferred from the
-remaining alleles.</p>
+integer in the vector is organized as
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext mathvariant="italic">allele</mtext><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>&#x3C;</mo><mo>&#x3C;</mo><mn>1</mn><mo>∣</mo><mtext mathvariant="italic">phased</mtext></mrow><annotation encoding="application/x-tex">(\textit{allele}+1) &#x3C;&#x3C; 1 \mid \textit{phased}</annotation></semantics></math></span> where allele is set to
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math></span> if the allele in GT is a dot ’.’ (thus the higher bits are all 0).
+The vector is padded with the END_OF_VECTOR values if the GT having
+fewer ploidy. We note specifically that except for the END_OF_VECTOR
+byte, no other negative values are allowed in the GT array. When
+processing VCF version 4.3 or earlier files, the phasing of the first
+allele should be treated as missing and inferred from the remaining
+alleles.</p>
 <p>Examples:</p>
 <table>
 <thead>
@@ -5255,13 +5264,13 @@ defined as a prefix notation with the first phasing indicator
 optional.</p>
 </li>
 <li>
-<p>Redefined <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>u</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">Number=</annotation></semantics></math></span> for SVLEN, CIPOS, CIEND, HOMLEN, HOMSEQ, BKPTID,
-MEINFO, METRANS, DGVID, DBVARID, DBRIPID, MATEID, PARID, EVENT, CN,
-CICN to support multiple symbolic alleles.</p>
+<p>Redefined <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">Number</mtext><mo>=</mo></mrow><annotation encoding="application/x-tex">\textit{Number}=</annotation></semantics></math></span> for SVLEN, CIPOS, CIEND, HOMLEN, HOMSEQ,
+BKPTID, MEINFO, METRANS, DGVID, DBVARID, DBRIPID, MATEID, PARID,
+EVENT, CN, CICN to support multiple symbolic alleles.</p>
 </li>
 <li>
 <p>Redefined END as the end position of the longest ALT allele. Note that
-END remains <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>u</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">Number=1</annotation></semantics></math></span>.</p>
+END remains <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">Number</mtext><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\textit{Number}=1</annotation></semantics></math></span>.</p>
 </li>
 <li>
 <p>Redefined SVLEN to always be positive and be meaningful for INV
