@@ -2,17 +2,46 @@
 import { getAllPosts } from '../lib/api';
 import Layout from '../layouts/Layout.astro';
 
-const specList = await getAllPosts();
+const allPosts = await getAllPosts();
+const postMap = Object.fromEntries(allPosts.map(p => [p.id, p]));
+
+const sections = [
+  {
+    heading: 'SAM/BAM and related specifications',
+    ids: ['SAMv1', 'SAMtags', 'CRAMv2.1', 'CRAMv3', 'CRAMcodecs', 'CSIv1', 'tabix'],
+  },
+  {
+    heading: 'Variant calling data files',
+    ids: ['VCFv4.1', 'VCFv4.2', 'VCFv4.3', 'VCFv4.4', 'VCFv4.5', 'BCFv1_qref', 'BCFv2_qref'],
+  },
+  {
+    heading: 'Discrete genomic feature data files',
+    ids: ['BEDv1'],
+  },
+  {
+    heading: 'File encryption',
+    ids: ['crypt4gh'],
+  },
+];
 ---
 
 <Layout title="hts-specs-md">
   <p>This site provides Markdown renderings of the <a href="https://github.com/samtools/hts-specs">hts-specs</a> specifications.</p>
-  <ul>
-    {specList.map((spec) => (
-      <li>
-        {spec.date && <span>{spec.date} - </span>}
-        <a href={`${import.meta.env.BASE_URL}/${spec.id}`}>{spec.id}</a>
-      </li>
-    ))}
-  </ul>
+  {sections.map((section) => (
+    <div>
+      <h2>{section.heading}</h2>
+      <ul>
+        {section.ids.filter(id => postMap[id]).map((id) => {
+          const spec = postMap[id];
+          return (
+            <li>
+              {spec.date && <span>{spec.date} - </span>}
+              <a href={`${import.meta.env.BASE_URL}/${spec.id}`}>{spec.id}</a>
+              {spec.title && spec.title !== spec.id && <span> — {spec.title}</span>}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  ))}
 </Layout>

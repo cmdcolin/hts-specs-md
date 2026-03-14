@@ -728,8 +728,9 @@ The key $K_{data}$ and nonce $N$ are then used to decrypt the
 cipher-text for the segment, returning the plain-text. Successive
 segments are decrypted, until the segment containing position $Q$ is
 reached. The plain-text segments are concatenated to form the resulting
-output, discarding $P \mathbin{\$ bytes from the beginning of the first
-segment and retaining $Q \mathbin{\$ bytes of the last one.
+output, discarding $P \mathbin{\%} 65536$ bytes from the beginning of
+the first segment and retaining $Q \mathbin{\%} 65536$ bytes of the last
+one.
 
 If more than one key ($K_{data}$) is in use, readers can speed up
 decryption by trying the previous successful key first when attempting
@@ -766,7 +767,14 @@ right.
 
 <div class="algorithmic">
 
-**return** $input$ "" 0 $pos + discard$ $pos + keep$ **return** $output$
+**return** $input$ "" 0 <span class="smallcaps">length</span>(input)
+<span class="smallcaps">RemoveFirst</span>(edlist) $pos + discard$
+<span class="smallcaps">substr</span>($input, pos, len - pos$)
+<span class="smallcaps">StringConcatenate</span>($output,\ part$)
+<span class="smallcaps">RemoveFirst</span>(edlist)
+<span class="smallcaps">substr</span>($input, pos, keep$)
+<span class="smallcaps">StringConcatenate</span>($output,\ part$)
+$pos + keep$ **return** $output$
 
 </div>
 

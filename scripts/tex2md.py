@@ -82,6 +82,8 @@ def main():
         # Strip problematic macros that confuse pandoc but aren't needed for MD
         body = re.sub(r'\\algblockdefx\[Foreach\].*?\n', '', body)
         body = re.sub(r'\\algnewcommand.*?\n', '', body)
+        # Convert \Call{Name}{args} to \textsc{Name}(args) since pandoc drops \Call
+        body = re.sub(r'\\Call{(\w+)}{([^}]*)}', r'\\textsc{\1}(\2)', body)
         with open(temp_tex, 'w') as f:
             f.write(body)
     else:
@@ -167,6 +169,23 @@ This printing is version {commit} from the [hts-specs](https://github.com/samtoo
     # Final cleanup of any remaining snippets
     final_content = re.sub(r'<em>…Continued from previous.*?</em>', '', final_content, flags=re.IGNORECASE)
     final_content = re.sub(r'<em>Continued on next.*?</em>', '', final_content, flags=re.IGNORECASE)
+
+    # Fix nested $ in \textrm{} and \text{} inside math - remark-math splits on inner $
+    # e.g. \textrm{if $i < 1$} -> \textrm{if } i < 1
+    final_content = re.sub(
+        r'\\textrm\{([^$}]*)\$([^$]*)\$([^}]*)\}',
+        r'\\textrm{\1} \2 \\textrm{\3}',
+        final_content
+    )
+    final_content = re.sub(
+        r'\\text\{([^$}]*)\$([^$]*)\$([^}]*)\}',
+        r'\\text{\1} \2 \\text{\3}',
+        final_content
+    )
+
+    # KaTeX requires {aligned} instead of {align*} inside $$ display math
+    final_content = final_content.replace(r'\begin{align*}', r'\begin{aligned}')
+    final_content = final_content.replace(r'\end{align*}', r'\end{aligned}')
 
     with open(output_md, 'w') as f:
         f.write(final_content)

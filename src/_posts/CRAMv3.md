@@ -1759,7 +1759,15 @@ formats depending on whether the record is aligned (mapped).
 
 <div class="algorithmic">
 
-${}\gets$ ${}\gets$
+${}\gets$ <span class="smallcaps">ReadItem</span>(BF, Integer) ${}\gets$
+<span class="smallcaps">ReadItem</span>(CF, Integer)
+<span class="smallcaps">DecodePositions</span>()
+<span class="smallcaps">DecodeNames</span>()
+<span class="smallcaps">DecodeMateData</span>()
+<span class="smallcaps">DecodeTagData</span>()
+
+<span class="smallcaps">DecodeMappedRead</span>()
+<span class="smallcaps">DecodeUnmappedRead</span>()
 
 </div>
 
@@ -1834,12 +1842,15 @@ header, starting from 0 with -1 for no group</td>
 
 <div class="algorithmic">
 
-$reference\_id\gets$
-$reference\_id\gets slice\_header.reference\_sequence\_id$
-$read\_length \gets$ $last\_position\gets$
-$slice\_header.alignment\_start$ $alignment\_position \gets$ +
-$last\_position$ $last\_position \gets alignment\_position$
-$alignment\_position \gets$ $read\_group \gets$
+$reference\_id\gets$ <span class="smallcaps">ReadItem</span>(RI,
+Integer) $reference\_id\gets slice\_header.reference\_sequence\_id$
+$read\_length \gets$ <span class="smallcaps">ReadItem</span>(RL,
+Integer) $last\_position\gets$ $slice\_header.alignment\_start$
+$alignment\_position \gets$ <span class="smallcaps">ReadItem</span>(AP,
+Integer) + $last\_position$ $last\_position \gets alignment\_position$
+$alignment\_position \gets$ <span class="smallcaps">ReadItem</span>(AP,
+Integer) $read\_group \gets$ <span class="smallcaps">ReadItem</span>(RG,
+Integer)
 
 </div>
 
@@ -1878,7 +1889,8 @@ detached (see the CF data series) and the mate data below (section
 
 <div class="algorithmic">
 
-$read\_name \gets$ $read\_name \gets$
+$read\_name \gets$ <span class="smallcaps">ReadItem</span>(RN, Byte\[\])
+$read\_name \gets$ <span class="smallcaps">GenerateName</span>()
 
 </div>
 
@@ -2011,10 +2023,16 @@ and its mate is $next\_frag$.
 
 <div class="algorithmic">
 
-$mate\_flags\gets$ $bam\_flags\gets bam\_flags$ OR 0x20
-$bam\_flags\gets bam\_flags$ OR 0x08 $read\_name \gets$ ${}\gets$
-${}\gets$ ${}\gets$ $this.bam\_flags \gets this.bam\_flags$ OR 0x20
+$mate\_flags\gets$ <span class="smallcaps">ReadItem</span>(MF,Integer)
+$bam\_flags\gets bam\_flags$ OR 0x20
+$bam\_flags\gets bam\_flags$ OR 0x08 $read\_name \gets$
+<span class="smallcaps">ReadItem</span>(RN, Byte\[\]) ${}\gets$
+<span class="smallcaps">ReadItem</span>(NS, Integer) ${}\gets$
+<span class="smallcaps">ReadItem</span>(NP, Integer) ${}\gets$
+<span class="smallcaps">ReadItem</span>(TS, Integer)
+$this.bam\_flags \gets this.bam\_flags$ OR 0x20
 $this.bam\_flags \gets this.bam\_flags$ OR 0x08 $next\_frag\gets$
+<span class="smallcaps">ReadItem</span>(NF,Integer)
 $next\_record\gets this\_record + next\_frag + 1$ Resolve
 $mate\_ref\_id$ for $this\_record$ and $next\_record$ once both have
 been decoded Resolve $mate\_position$ for $this\_record$ and
@@ -2075,8 +2093,10 @@ tag dictionary</td>
 
 <div class="algorithmic">
 
-$tag\_line\gets$ $name\gets$ first two characters of $ele$
-$tag(type)\gets$ last character of $ele$ $tag(name)\gets$
+$tag\_line\gets$ <span class="smallcaps">ReadItem</span>(TL,Integer)
+$name\gets$ first two characters of $ele$ $tag(type)\gets$ last
+character of $ele$ $tag(name)\gets$
+<span class="smallcaps">ReadItem</span>($ele$, Byte\[\])
 
 </div>
 
@@ -2501,12 +2521,28 @@ Then the substitution codes are T=0, G=1, C=2, N=3.
 
 <div class="algorithmic">
 
-$feature\_number\gets$ $last\_feature\_position\gets 0$
-$mapping\_quality\gets$ $quality\_score\gets$ ${}\gets$ ${}\gets$
+$feature\_number\gets$ <span class="smallcaps">ReadItem</span>(FN,
+Integer) $last\_feature\_position\gets 0$
+<span class="smallcaps">DecodeFeature</span>() $mapping\_quality\gets$
+<span class="smallcaps">ReadItem</span>(MQ, Integer)
+$quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS,
+Integer) ${}\gets$ <span class="smallcaps">ReadItem</span>(FC, Integer)
+${}\gets$ <span class="smallcaps">ReadItem</span>(FP, Integer)
 $+\ last\_feature\_position$
-$last\_feature\_position\gets feature\_position$ ${}\gets$ ${}\gets$
-${}\gets$ ${}\gets$ ${}\gets$ ${}\gets$ ${}\gets$ ${}\gets$ ${}\gets$
-${}\gets$ ${}\gets$ ${}\gets$ ${}\gets$
+$last\_feature\_position\gets feature\_position$ ${}\gets$
+<span class="smallcaps">ReadItem</span>(BA, Byte) ${}\gets$
+<span class="smallcaps">ReadItem</span>(QS, Byte) ${}\gets$
+<span class="smallcaps">ReadItem</span>(BS, Byte) ${}\gets$
+<span class="smallcaps">ReadItem</span>(IN, Byte\[\]) ${}\gets$
+<span class="smallcaps">ReadItem</span>(SC, Byte\[\]) ${}\gets$
+<span class="smallcaps">ReadItem</span>(HC, Integer) ${}\gets$
+<span class="smallcaps">ReadItem</span>(PD, Integer) ${}\gets$
+<span class="smallcaps">ReadItem</span>(DL, Integer) ${}\gets$
+<span class="smallcaps">ReadItem</span>(RS, Integer) ${}\gets$
+<span class="smallcaps">ReadItem</span>(BA, Byte) ${}\gets$
+<span class="smallcaps">ReadItem</span>(BB, Byte\[\]) ${}\gets$
+<span class="smallcaps">ReadItem</span>(QQ, Byte\[\]) ${}\gets$
+<span class="smallcaps">ReadItem</span>(QS, Byte)
 
 </div>
 
@@ -2542,7 +2578,8 @@ additional fields:
 
 <div class="algorithmic">
 
-$base\gets$ $quality\_score\gets$
+$base\gets$ <span class="smallcaps">ReadItem</span>(BA, Byte)
+$quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS, Byte)
 
 </div>
 
@@ -3107,19 +3144,19 @@ logarithmically with $n$.
 
 1.  Add $\mathit{offset}$ to $n$.
 
-2.  Determine $u$ and $b$ values from $n$ $$\begin{align*}
+2.  Determine $u$ and $b$ values from $n$ $$\begin{aligned}
     b =
     \begin{cases}
-      \ k                        & \text{ if $n < 2^k$} \\
-      \ \lfloor log_{2}n \rfloor & \text{ if $n \ge 2^k$}
+      \ k                        & \text{ if } n < 2^k \text{} \\
+      \ \lfloor log_{2}n \rfloor & \text{ if } n \ge 2^k \text{}
     \end{cases}
     &\
     &u =
     \begin{cases}
-      \ 0     & \text{ if $n < 2^k$} \\
-      \ b-k+1 & \text{ if $n \ge 2^k$}
+      \ 0     & \text{ if } n < 2^k \text{} \\
+      \ b-k+1 & \text{ if } n \ge 2^k \text{}
     \end{cases}
-    \end{align*}$$
+    \end{aligned}$$
 
 3.  Write $u$ in unary form; $u$ 1 bits followed by a single 0 bit.
 

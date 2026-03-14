@@ -313,9 +313,12 @@ end
 
 -- Simplify custom hts-specs LaTeX operators into standard LaTeX/text
 local function simplify_math_text(text)
-  -- Remove % comments (everything from % to end of line, including the newline)
+  -- Remove % comments (everything from unescaped % to end of line)
+  -- But preserve \% (escaped percent/modulo)
+  text = text:gsub("\\%%", "\0ESCAPED_PERCENT\0")
   text = text:gsub("%%[^\n]*\n%s*", " ")
   text = text:gsub("%%[^\n]*$", "")
+  text = text:gsub("\0ESCAPED_PERCENT\0", "\\%%")
   -- Remove spacing macros: \nonscript\mskip-\medmuskip\mkern 5mu
   text = text:gsub("\\nonscript\\mskip%-\\medmuskip\\mkern%s*5mu", " ")
   -- Remove standalone \nonscript\mskip-\medmuskip
