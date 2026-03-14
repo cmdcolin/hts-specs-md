@@ -91,16 +91,6 @@ function Inline(el)
   return el
 end
 
-function Div(el)
-  if el.classes:includes("framed") then
-    return pandoc.BlockQuote(el.content)
-  end
-  -- Remove samepage class which is internal PDF stuff and causes fenced divs output
-  if el.classes:includes("samepage") then
-    return el.content
-  end
-end
-
 -- Handle Code spans (inline code)
 function Code(el)
   if el.text:match("%$.*%$") then
@@ -136,19 +126,110 @@ local function simplify_math_text(text)
   -- Replace CRAMcodecs custom math operator macros with KaTeX-compatible equivalents
   text = text:gsub("\\shiftl", "\\mathbin{\\text{<<}}")
   text = text:gsub("\\shiftr", "\\mathbin{\\text{>>}}")
-  text = text:gsub("\\bitand", "\\mathbin{\\text{AND}}")
+  text = text:gsub("\\bitand", "\\mathbin{\\&}")
   text = text:gsub("\\bitor",  "\\mathbin{\\text{OR}}")
   text = text:gsub("\\bitxor", "\\mathbin{\\text{XOR}}")
-  text = text:gsub("\\logor",  "\\mathbin{\\textbf{or}}")
-  text = text:gsub("\\logand", "\\mathbin{\\textbf{and}}")
+  text = text:gsub("\\logor",  "\\text{ \\textbf{or} }")
+  text = text:gsub("\\logand", "\\text{ \\textbf{and} }")
   text = text:gsub("\\concat", "\\mathbin{+\\!\\!+}")
 
   -- Replace custom operator macros with standard LaTeX
-  text = text:gsub("\\mathbin{\\operator@font%s+\\textbf{(%w+)}}", " \\textbf{%1} ")
-  text = text:gsub("\\mathbin{\\operator@font%s+(%w+)}", " \\text{%1} ")
+  text = text:gsub("\\mathbin{\\operator@font%s+\\textbf{(%w+)}}", "\\mathbin{\\textbf{%1}}")
+  text = text:gsub("\\mathbin{\\operator@font%s+(%w+)}", "\\mathbin{\\text{%1}}")
   text = text:gsub("\\mathbin{<[^}]*}", "\\ll ")
   text = text:gsub("\\mathbin{>[^}]*}", "\\gg ")
   text = text:gsub("\\mathbin{%+[^}]*}", "\\mathbin{++}")
+
+  -- Replace hex literals in \mathtt with monospace text
+  text = text:gsub("\\mathtt{(0x[0-9a-fA-F]+)}", "\\texttt{%1}")
+
+  -- Wrap multi-character identifiers with escaped underscores (e.g. cfreq\_to\_sym)
+  -- in \mathit{} so they render as connected names instead of separate variables.
+  local function wrap_underscore_idents(t)
+    local result = {}
+    local i = 1
+    while i <= #t do
+      -- Try to match: 2+ letters followed by \_ and more letters
+      local s, e, m = t:find("(%a%a+\\_%a+)", i)
+      if s then
+        table.insert(result, t:sub(i, s - 1))
+        -- Extend match to consume additional \_word segments
+        while e < #t do
+          local ns, ne = t:find("^\\_%a+", e + 1)
+          if ns then
+            m = m .. t:sub(ns, ne)
+            e = ne
+          else
+            break
+          end
+        end
+        table.insert(result, "\\textit{" .. m .. "}")
+        i = e + 1
+      else
+        table.insert(result, t:sub(i))
+        break
+      end
+    end
+    return table.concat(result)
+  end
+  text = wrap_underscore_idents(text)
+
+  -- Wrap bare multi-letter lowercase identifiers (3+ chars) in \mathit{} so they
+  -- render as connected names (e.g. freq, cfreq, nsym) instead of spaced variables.
+  -- Process from left to right, skipping LaTeX commands and brace-group contents
+  -- of text-mode commands (\text{}, \textbf{}, \texttt{}, \mathit{}, etc.)
+  local function wrap_bare_idents(t)
+    local out = {}
+    local i = 1
+    local text_cmds = {
+      text = true, textrm = true, textbf = true, textit = true, texttt = true,
+      textsc = true, mathit = true, mathsf = true, mathrm = true, mathtt = true,
+      mathbb = true, mathcal = true, mathbin = true,
+      begin = true, ["end"] = true,
+    }
+    while i <= #t do
+      if t:sub(i, i) == "\\" then
+        -- LaTeX command: copy command name
+        local cmd_start = i
+        i = i + 1
+        local cmd = t:match("^(%a+)", i)
+        if cmd then
+          i = i + #cmd
+          table.insert(out, t:sub(cmd_start, i - 1))
+          -- If it's a text-mode command, copy its brace group verbatim
+          if text_cmds[cmd] and i <= #t and t:sub(i, i) == "{" then
+            local depth = 0
+            local j = i
+            while j <= #t do
+              if t:sub(j, j) == "{" then depth = depth + 1
+              elseif t:sub(j, j) == "}" then
+                depth = depth - 1
+                if depth == 0 then break end
+              end
+              j = j + 1
+            end
+            table.insert(out, t:sub(i, j))
+            i = j + 1
+          end
+        else
+          -- Non-alpha after \, copy one char (e.g. \%, \\, \_)
+          table.insert(out, t:sub(cmd_start, i))
+          i = i + 1
+        end
+      else
+        local word = t:match("^(%a%a%a+)", i)
+        if word then
+          table.insert(out, "\\textit{" .. word .. "}")
+          i = i + #word
+        else
+          table.insert(out, t:sub(i, i))
+          i = i + 1
+        end
+      end
+    end
+    return table.concat(out)
+  end
+  text = wrap_bare_idents(text)
 
   -- Replace unsupported font/layout commands with pandoc-compatible equivalents
   text = text:gsub("\\underline{([^}]*)}", "%1")
@@ -162,100 +243,100 @@ local function simplify_math_text(text)
   return text
 end
 
+local function math_to_text(text)
+  text = simplify_math_text(text)
+  -- Operators
+  text = text:gsub("\\gets", " \xe2\x86\x90 ")   -- ←
+  text = text:gsub("\\ne%f[^%a]",  " \xe2\x89\xa0 ")  -- ≠
+  text = text:gsub("\\neq%f[^%a]", " \xe2\x89\xa0 ")
+  text = text:gsub("\\le%f[^%a]",  " \xe2\x89\xa4 ")  -- ≤
+  text = text:gsub("\\leq%f[^%a]", " \xe2\x89\xa4 ")
+  text = text:gsub("\\ge%f[^%a]",  " \xe2\x89\xa5 ")  -- ≥
+  text = text:gsub("\\geq%f[^%a]", " \xe2\x89\xa5 ")
+  text = text:gsub("\\lfloor", "\xe2\x8c\x8a")   -- ⌊
+  text = text:gsub("\\rfloor", "\xe2\x8c\x8b")   -- ⌋
+  text = text:gsub("\\lceil",  "\xe2\x8c\x88")   -- ⌈
+  text = text:gsub("\\rceil",  "\xe2\x8c\x89")   -- ⌉
+  text = text:gsub("\\times%f[^%a]", " * ")
+  text = text:gsub("\\bmod%f[^%a]",  " mod ")
+  text = text:gsub("\\bdiv%f[^%a]",  " div ")
+  -- Expanded mathbin operators (from simplify_math_text)
+  text = text:gsub("\\mathbin{\\text{<<}}", " << ")
+  text = text:gsub("\\mathbin{\\text{>>}}", " >> ")
+  text = text:gsub("\\mathbin{\\&}", " & ")
+  text = text:gsub("\\mathbin{\\text{OR}}",  " OR ")
+  text = text:gsub("\\mathbin{\\text{XOR}}", " XOR ")
+  text = text:gsub("\\mathbin{\\text{AND}}", " AND ")
+  text = text:gsub("\\text{ \\textbf{or} }",  " or ")
+  text = text:gsub("\\text{ \\textbf{and} }", " and ")
+  text = text:gsub("\\mathbin{%+%+}", "++")
+  text = text:gsub("\\mathbin{[^{}]*}", " ")
+  -- Font commands: strip wrapper, keep content
+  text = text:gsub("\\mathtt{([^}]*)}", "%1")
+  text = text:gsub("\\mathrm{([^}]*)}", "%1")
+  text = text:gsub("\\mathsf{([^}]*)}", "%1")
+  text = text:gsub("\\textit{([^}]*)}", "%1")
+  text = text:gsub("\\text{([^}]*)}", "%1")
+  text = text:gsub("\\textbf{([^}]*)}", "%1")
+  text = text:gsub("\\textit{([^}]*)}", "%1")
+  text = text:gsub("\\texttt{([^}]*)}", "%1")
+  text = text:gsub("\\textsc{([^}]*)}", "%1")
+  -- Escaped underscore (\_) and other special chars in math → literal
+  text = text:gsub("\\_", "_")
+  -- Subscripts / superscripts
+  text = text:gsub("_{([^}]*)}", "_%1")
+  text = text:gsub("%^{([^}]*)}", "^%1")
+  -- Remove remaining \commands and stray braces
+  text = text:gsub("\\%a+%s*{([^}]*)}", "%1")
+  text = text:gsub("\\%a+%s*", "")
+  text = text:gsub("[{}]", "")
+  -- Collapse multiple spaces
+  text = text:gsub(" +", " "):gsub("^ ", ""):gsub(" $", "")
+  return text
+end
+
 function CodeBlock(el)
-  -- ONLY apply the code-math-block logic if there is actually a $ in the text
-  if el.text:match("%$.*%$") then
-    local all_content = {}
-    
-    local lines = {}
-    local start = 1
-    while true do
-        local nl = el.text:find("\n", start)
-        if nl then
-            table.insert(lines, el.text:sub(start, nl-1))
-            start = nl + 1
-        else
-            table.insert(lines, el.text:sub(start))
-            break
-        end
-    end
-
-    local NBSP = "\u{00A0}"
-
-    -- Split a plain text segment into inlines, handling \textsc{...} for small-caps
-    local function text_to_inlines(text, is_line_start)
-      local inlines = {}
-      if is_line_start then
-        local spaces = text:match("^( +)")
-        if spaces then
-          table.insert(inlines, pandoc.Str(spaces:gsub(" ", NBSP)))
-          text = text:sub(#spaces + 1)
-        end
-      end
-      local pos = 1
-      while pos <= #text do
-        local sc_start, sc_content_start = text:find("\\textsc%{", pos)
-        if not sc_start then
-          local remaining = text:sub(pos)
-          if #remaining > 0 then table.insert(inlines, pandoc.Str(remaining)) end
-          break
-        end
-        if sc_start > pos then
-          table.insert(inlines, pandoc.Str(text:sub(pos, sc_start - 1)))
-        end
-        local depth = 0
-        local i = sc_content_start
-        while i <= #text do
-          local c = text:sub(i, i)
-          if c == '{' then depth = depth + 1
-          elseif c == '}' then
-            depth = depth - 1
-            if depth == 0 then
-              local name = text:sub(sc_content_start + 1, i - 1)
-              table.insert(inlines, pandoc.SmallCaps({pandoc.Str(name)}))
-              pos = i + 1
-              break
-            end
-          end
-          i = i + 1
-        end
-        if i > #text then break end
-      end
-      return inlines
-    end
-
-    for i, line in ipairs(lines) do
-      local last_pos = 1
-      for start_pos, content, end_pos in line:gmatch("()%$([^%$]+)%$()") do
-        if start_pos > last_pos then
-            local text = line:sub(last_pos, start_pos - 1)
-            for _, inline in ipairs(text_to_inlines(text, last_pos == 1)) do
-              table.insert(all_content, inline)
-            end
-        end
-        table.insert(all_content, pandoc.Math("InlineMath", simplify_math_text(content)))
-        last_pos = end_pos
-      end
-      if last_pos <= #line then
-        local text = line:sub(last_pos)
-        for _, inline in ipairs(text_to_inlines(text, last_pos == 1)) do
-          table.insert(all_content, inline)
-        end
-      end
-
-      if i < #lines then
-        table.insert(all_content, pandoc.LineBreak())
-      end
-    end
-
-    -- Use raw HTML for the div to avoid fenced divs syntax
-    return {
-      pandoc.RawBlock('html', '<div class="code-math-block">'),
-      pandoc.Para(all_content),
-      pandoc.RawBlock('html', '</div>')
-    }
+  if not el.text:match("%$.*%$") then
+    return el
   end
-  return el
+  local result_lines = {}
+  for line in (el.text .. "\n"):gmatch("([^\n]*)\n") do
+    -- Convert $...$ math to plain text
+    local result = line:gsub("%$([^%$]+)%$", function(m)
+      return math_to_text(m)
+    end)
+    -- Convert \textsc{Name} to Name (function names in pseudocode)
+    result = result:gsub("\\textsc{([^}]*)}", "%1")
+    -- Ensure space after assignment arrow
+    result = result:gsub("\xe2\x86\x90([^ \n])", "\xe2\x86\x90 %1")
+    -- Strip LaTeX spacing/special commands outside math
+    result = result:gsub("\\ ", " ")
+    result = result:gsub("\\,", " ")
+    result = result:gsub("\\;", " ")
+    result = result:gsub("\\!", "")
+    result = result:gsub("\\quad%s*", "  ")
+    result = result:gsub("\\_", "_")   -- escaped underscore in text mode
+    -- Strip \Comment{...} or \Comment(...) that survived algorithmic conversion
+    result = result:gsub("\\Comment{[^}]*}", "")
+    result = result:gsub("\\Comment%([^)]*%)", "")
+    -- HTML-escape for safe embedding in <pre><code>
+    result = result:gsub("&", "&amp;"):gsub("<", "&lt;"):gsub(">", "&gt;")
+    table.insert(result_lines, result)
+  end
+  -- Strip trailing empty lines and collapse runs of 2+ blank lines to 1
+  while #result_lines > 0 and result_lines[#result_lines]:match("^%s*$") do
+    table.remove(result_lines)
+  end
+  local compacted = {}
+  local prev_blank = false
+  for _, l in ipairs(result_lines) do
+    local is_blank = l:match("^%s*$") ~= nil
+    if not (is_blank and prev_blank) then
+      table.insert(compacted, l)
+    end
+    prev_blank = is_blank
+  end
+  return pandoc.RawBlock('html', '<pre><code>' .. table.concat(compacted, '\n') .. '</code></pre>')
 end
 
 -- More precise conversion that preserves math and code tags
@@ -269,6 +350,38 @@ local function blocks_to_html(blocks)
     html = html:gsub("^<p>", ""):gsub("</p>%s*$", "")
   end
   return html
+end
+
+-- threeparttable: embed tablenotes as <tfoot> inside the preceding table
+-- Must be defined after blocks_to_html
+function Div(el)
+  if el.classes:includes("framed") then
+    return pandoc.BlockQuote(el.content)
+  end
+  if el.classes:includes("samepage") then
+    return el.content
+  end
+  if el.classes:includes("threeparttable") then
+    local result = {}
+    local pending_idx = nil
+    for _, block in ipairs(el.content) do
+      if block.t == "RawBlock" and block.format == "html" and block.text:find("</table>") then
+        table.insert(result, block)
+        pending_idx = #result
+      elseif block.t == "Div" and block.classes:includes("tablenotes") and pending_idx then
+        local notes_html = blocks_to_html(block.content)
+        local old = result[pending_idx].text
+        local new_table = old:gsub("</table>%s*$",
+          "\n<tfoot class=\"tablenotes\"><tr><td colspan=\"100\">" .. notes_html .. "</td></tr></tfoot>\n</table>")
+        result[pending_idx] = pandoc.RawBlock('html', new_table)
+        pending_idx = nil
+      else
+        pending_idx = nil
+        table.insert(result, block)
+      end
+    end
+    return result
+  end
 end
 
 function Table(el)
@@ -332,9 +445,35 @@ function Table(el)
     actual_max_cols = #el.colspecs
   end
 
+  -- Merge continuation rows (first cell empty) into the previous row's last cell.
+  -- This handles LaTeX tables where a description spans multiple rows.
+  local function is_first_cell_empty(row)
+    if not row.cells[1] then return true end
+    return get_last_non_empty_cell_index({cells = {row.cells[1]}}) == 0
+  end
+
+  for _, body in ipairs(el.bodies) do
+    local merged = {}
+    for _, row in ipairs(body.body) do
+      if #merged > 0 and is_first_cell_empty(row) and get_last_non_empty_cell_index(row) > 0 then
+        local prev = merged[#merged]
+        for i = 2, actual_max_cols do
+          if row.cells[i] and #row.cells[i].contents > 0 then
+            for _, block in ipairs(row.cells[i].contents) do
+              table.insert(prev.cells[i].contents, block)
+            end
+          end
+        end
+      else
+        table.insert(merged, row)
+      end
+    end
+    body.body = merged
+  end
+
   -- Build HTML table
   local html = {"<table>"}
-  
+
   -- Header
   if #el.head.rows > 0 then
     table.insert(html, "<thead>")
@@ -352,7 +491,7 @@ function Table(el)
     end
     table.insert(html, "</thead>")
   end
-  
+
   -- Body (skip rows where all cells are empty)
   table.insert(html, "<tbody>")
   for _, body in ipairs(el.bodies) do

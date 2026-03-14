@@ -25,17 +25,17 @@ The pseudocode doesn't prescribe any particular programming paradigm -
 functional, procedural or object oriented - but it does have a few
 implicit assumptions. Variables are considered to be passed between
 functions via unspecified means. For example the Range Coder sets
-$range$ and $code$ during creation and these are used during the
-decoding steps, but are not explicitly passed in as variables. We make
-the implicit assumption that they are simply local variables of the
-particular usage of this range coder. Other than ephemeral loop
-counters, we do not reuse variable names so the intention should be
-clear.
+$\textit{range}$ and $\textit{code}$ during creation and these are used
+during the decoding steps, but are not explicitly passed in as
+variables. We make the implicit assumption that they are simply local
+variables of the particular usage of this range coder. Other than
+ephemeral loop counters, we do not reuse variable names so the intention
+should be clear.
 
 The exception to the above is occasionally we need to have multiple
 instances of a particular data type, such as Order-1 decoding will have
 many models. Here we use an object oriented way of describing the
-problem with $instance$.<span class="smallcaps">Function</span>
+problem with $\textit{instance}$.<span class="smallcaps">Function</span>
 notation.
 
 Note some functions may return multiple items, such as `return (`*value,
@@ -71,7 +71,7 @@ will be discarded.
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">a/b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="normal">div</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \text{div} b</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>div</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \mathbin{\text{div}} b</annotation></semantics></math></td>
 <td>Integer division
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">a/b</annotation></semantics></math>,
 equivalent to
@@ -80,7 +80,7 @@ equivalent to
 <tr>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>b</mi></mrow></mrow><annotation encoding="application/x-tex">a \bmod b</annotation></semantics></math></td>
 <td>Integer modulo (remainder)
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>−</mo><mi>b</mi><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mtext mathvariant="normal">div</mtext><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">a - b\times(a \text{div} b)</annotation></semantics></math></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>−</mo><mi>b</mi><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>div</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">a - b\times(a \mathbin{\text{div}} b)</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a = b</annotation></semantics></math></td>
@@ -114,25 +114,25 @@ by
 bits, shifting in zeros</td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="normal">AND</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \text{AND} b</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>AND</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \mathbin{\text{AND}} b</annotation></semantics></math></td>
 <td>Bit-wise AND operator, joining values
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="normal">OR</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \text{OR} b</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>OR</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \mathbin{\text{OR}} b</annotation></semantics></math></td>
 <td>Bit-wise OR operator, joining values
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="bold">𝐨𝐫</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \textbf{or} b</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi mathvariant="bold-italic">𝒐𝒓</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">a \mathbin{\textbf{or}} b</annotation></semantics></math></td>
 <td>Logical OR operator, joining expressions
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="bold">𝐚𝐧𝐝</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \textbf{and} b</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi mathvariant="bold-italic">𝒂𝒏𝒅</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">a \mathbin{\textbf{and}} b</annotation></semantics></math></td>
 <td>Logical AND operator, joining expressions
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
@@ -150,11 +150,8 @@ and
 <td>Element
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
 of vector
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math></td>
-</tr>
-<tr>
-<td></td>
-<td>The entire vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
+The entire vector
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
 may be passed into a function</td>
 </tr>
@@ -163,11 +160,8 @@ may be passed into a function</td>
 <td>Element
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i,j</annotation></semantics></math>
 of two-dimensional vector
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>.</td>
-</tr>
-<tr>
-<td></td>
-<td>The entire vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>.
+The entire vector
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
 or a one dimensional slice
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>W</mi><mi>i</mi></msub><annotation encoding="application/x-tex">W_i</annotation></semantics></math>
@@ -220,42 +214,42 @@ source</td>
 </tr>
 <tr>
 <td><span
-class="smallcaps">ReadUint8</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(src)</annotation></semantics></math></td>
+class="smallcaps">ReadUint8</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\textit{src})</annotation></semantics></math></td>
 <td>Read an 8-bit unsigned integer (1 byte) from input
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><annotation encoding="application/x-tex">\textit{src}</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span
-class="smallcaps">ReadUint32</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(src)</annotation></semantics></math></td>
+class="smallcaps">ReadUint32</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\textit{src})</annotation></semantics></math></td>
 <td>Read a 32-bit unsigned little-endian integer from input
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><annotation encoding="application/x-tex">\textit{src}</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span
-class="smallcaps">ReadData</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(len)</annotation></semantics></math></td>
+class="smallcaps">ReadData</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="italic">𝑙𝑒𝑛</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\textit{len})</annotation></semantics></math></td>
 <td>Read
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{len}</annotation></semantics></math>
 bytes (8-bit unsigned) from an unspecified input source</td>
 </tr>
 <tr>
 <td><span
-class="smallcaps">ReadData</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo>,</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(len, src)</annotation></semantics></math></td>
+class="smallcaps">ReadData</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="italic">𝑙𝑒𝑛</mtext><mo>,</mo><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\textit{len}, \textit{src})</annotation></semantics></math></td>
 <td>Read
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{len}</annotation></semantics></math>
 bytes (8-bit unsigned) from input
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><annotation encoding="application/x-tex">\textit{src}</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span
-class="smallcaps">ReadChar</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(src)</annotation></semantics></math></td>
+class="smallcaps">ReadChar</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\textit{src})</annotation></semantics></math></td>
 <td>Read a single character from input
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><annotation encoding="application/x-tex">\textit{src}</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span
-class="smallcaps">ReadString</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>r</mi><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(src)</annotation></semantics></math></td>
+class="smallcaps">ReadString</span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\textit{src})</annotation></semantics></math></td>
 <td>Read a nul-terminated string from input
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>r</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">src</annotation></semantics></math></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑟𝑐</mtext><annotation encoding="application/x-tex">\textit{src}</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><span class="smallcaps">EOF</span></td>
@@ -299,48 +293,44 @@ implicit offset of how many bytes so far have been read.
 7-bit integer encoding stores values 7-bits at a time with the top bit
 set if further bytes are required.
 
-<div class="code-math-block">
-
-// Read a variable sized unsigned integer 7-bits at a time.  Returns the value.\
-Function ReadUint7($source$)  // If $source$ is unspecified then it is the default input stream\
-  $value \gets 0$\
-  $length \gets 0$\
-  repeat:\
-    $c \gets$ <span class="smallcaps">ReadUint8</span>()State $value \gets (value \mathbin{\text{<<}} 7) + (c \mathbin{\text{AND}} 127)$\
-    $length \gets length + 1$\
-  until $c < 128$\
-  return $value$
-
-</div>
+<pre><code>// Read a variable sized unsigned integer 7-bits at a time.  Returns the value.
+Function ReadUint7(source)  // If source is unspecified then it is the default input stream
+  value ← 0
+  length ← 0
+  repeat:
+    c ← ReadUint8()
+    value ← (value &lt;&lt; 7) + (c &amp; 127)
+    length ← length + 1
+  until c &lt; 128
+  return value</code></pre>
 
 ITF8 integer encoding stores the additional number of bytes needed in
 the count of the top bits set in the initial byte (ending with a zero
 bit), followed by any subsequent whole bytes. See the main CRAM
 specification for more details.
 
-<div class="code-math-block">
-
-// Read a variable sized unsigned integer with ITF8 encoding.  Returns the value.\
-Function ReadITF8($source$)  // If $source$ is unspecified then it is the default input stream\
-  $v \gets$ <span class="smallcaps">ReadUint8</span>()If{$i >= \mathtt{0xf0}$}  // 1111xxxx =\> +4 bytes\
-  $v \gets (v \mathbin{\text{AND}} \mathtt{0x0f}) \mathbin{\text{<<}} 28$\
-  $v \gets v + ($ <span class="smallcaps">ReadUint8</span>()\shiftl 20)\$\
-  $v \gets v + ($ <span class="smallcaps">ReadUint8</span>()\shiftl 12)\$\
-  $v \gets v + ($ <span class="smallcaps">ReadUint8</span>()\shiftl  4)\$\
-  $v \gets v + ($ <span class="smallcaps">ReadUint8</span>()\shiftr  4)\$\
-else if $i >= \mathtt{0xe0}$:  // 1110xxxx =\> +3 bytes\
-  $v \gets (v \mathbin{\text{AND}} \mathtt{0x0f}) \mathbin{\text{<<}} 24$\
-  $v \gets v + ($ <span class="smallcaps">ReadUint8</span>()\shiftl 16)\$\
-  $v \gets v + ($ <span class="smallcaps">ReadUint8</span>()\shiftl 8)\$\
-  $v \gets v +$ <span class="smallcaps">ReadUint8</span>()ElsIf{$i >= \mathtt{0xc0}$}  // 110xxxxx =\> +2 bytes\
-  $v \gets (v \mathbin{\text{AND}} \mathtt{0x1f}) \mathbin{\text{<<}} 16$\
-  $v \gets v + ($ <span class="smallcaps">ReadUint8</span>()\shiftl 8)\$\
-  $v \gets v +$ <span class="smallcaps">ReadUint8</span>()ElsIf{$i >= \mathtt{0x80}$}  // 10xxxxxx =\> +1 bytes\
-  $v \gets (v \mathbin{\text{AND}} \mathtt{0x3f}) \mathbin{\text{<<}} 8$\
-  $v \gets v +$ <span class="smallcaps">ReadUint8</span>()EndIf\
-  return $v$
-
-</div>
+<pre><code>// Read a variable sized unsigned integer with ITF8 encoding.  Returns the value.
+Function ReadITF8(source)  // If source is unspecified then it is the default input stream
+  v ← ReadUint8()
+  if i &gt;= 0xf0:  // 1111xxxx =&gt; +4 bytes
+    v ← (v &amp; 0x0f) &lt;&lt; 28
+    v ← v + ( ReadUint8() &lt;&lt; 20)
+    v ← v + ( ReadUint8() &lt;&lt; 12)
+    v ← v + ( ReadUint8() &lt;&lt; 4)
+    v ← v + ( ReadUint8() &gt;&gt; 4)
+  else if i &gt;= 0xe0:  // 1110xxxx =&gt; +3 bytes
+    v ← (v &amp; 0x0f) &lt;&lt; 24
+    v ← v + ( ReadUint8() &lt;&lt; 16)
+    v ← v + ( ReadUint8() &lt;&lt; 8)
+    v ← v + ReadUint8()
+  else if i &gt;= 0xc0:  // 110xxxxx =&gt; +2 bytes
+    v ← (v &amp; 0x1f) &lt;&lt; 16
+    v ← v + ( ReadUint8() &lt;&lt; 8)
+    v ← v + ReadUint8()
+  else if i &gt;= 0x80:  // 10xxxxxx =&gt; +1 bytes
+    v ← (v &amp; 0x3f) &lt;&lt; 8
+    v ← v + ReadUint8()
+  return v</code></pre>
 
 # 2 rANS 4x8 - Asymmetric Numeral Systems
 
@@ -422,7 +412,7 @@ normalisation strategy.
 
 Formally, this is an ordered alphabet $\mathbb{A}$ containing symbols
 $s$ where $s_{i}$ with the $i$-th symbol in $\mathbb{A}$, occurring with
-the frequency $freq_{i}$.
+the frequency $\textit{freq}_{i}$.
 
 ### 2.1.1 Order-0 encoding
 
@@ -452,7 +442,7 @@ As an example, take the string `abracadabra`.
 
 <div class="minipage">
 
-Symbol frequency:\
+Symbol frequency:
 
 <table>
 <thead>
@@ -489,7 +479,7 @@ Symbol frequency:\
 
 <div class="minipage">
 
-Normalised to sum to 4095:\
+Normalised to sum to 4095:
 
 <table>
 <thead>
@@ -559,7 +549,7 @@ exploit CPU data parallelism.
 
 <div class="minipage">
 
-Naively observed Order-1 frequencies:\
+Naively observed Order-1 frequencies:
 
 <table>
 <thead>
@@ -577,23 +567,14 @@ Naively observed Order-1 frequencies:\
 </tr>
 <tr>
 <td>a</td>
-<td>a</td>
-<td>3</td>
-</tr>
-<tr>
-<td></td>
-<td>b</td>
-<td>8</td>
-</tr>
-<tr>
-<td></td>
-<td>c</td>
-<td>4</td>
-</tr>
-<tr>
-<td></td>
-<td>d</td>
-<td>5</td>
+<td>a
+b
+c
+d</td>
+<td>3
+8
+4
+5</td>
 </tr>
 <tr>
 <td>b</td>
@@ -622,7 +603,7 @@ Naively observed Order-1 frequencies:\
 
 <div class="minipage">
 
-Normalised (per Order-0 statistics):\
+Normalised (per Order-0 statistics):
 
 <table>
 <thead>
@@ -640,23 +621,14 @@ Normalised (per Order-0 statistics):\
 </tr>
 <tr>
 <td>a</td>
-<td>a</td>
-<td>614</td>
-</tr>
-<tr>
-<td></td>
-<td>b</td>
-<td>1639</td>
-</tr>
-<tr>
-<td></td>
-<td>c</td>
-<td>819</td>
-</tr>
-<tr>
-<td></td>
-<td>d</td>
-<td>1023</td>
+<td>a
+b
+c
+d</td>
+<td>614
+1639
+819
+1023</td>
 </tr>
 <tr>
 <td>b</td>
@@ -761,42 +733,46 @@ We use an unsigned 32-bit integer to hold $x$. In encoding it is
 initialised to $L$. For decoding it is read little-endian from the input
 stream.
 
-Recall $freq_{i}$ is the frequency of the $i$-th symbol $s_{i}$ in
-alphabet $\mathbb{A}$. We define $cfreq_i$ to be cumulative frequency of
-all symbols up to but not including $s_{i}$:
+Recall $\textit{freq}_{i}$ is the frequency of the $i$-th symbol $s_{i}$
+in alphabet $\mathbb{A}$. We define $\textit{cfreq}_i$ to be cumulative
+frequency of all symbols up to but not including $s_{i}$:
 
-$cfreq_{i} = \left\{ \begin{array}{l l} 0 & \quad \textrm{if } i < 1  \\ cfreq_{i-1} + freq_{i-1} & \quad \textrm{if } i \geq 1  \end{array} \right.$
+$\textit{cfreq}_{i} = \left\{ \begin{array}{l l} 0 & \quad \textrm{if } i < 1  \\ \textit{cfreq}_{i-1} + \textit{freq}_{i-1} & \quad \textrm{if } i \geq 1  \end{array} \right.$
 
-We have a reverse lookup table $cfreq\_to\_sym_c$ from 0 to 4095 (0xfff)
-that maps a cumulative frequency $c$ to a symbol $s$.
+We have a reverse lookup table $\textit{cfreq\_to\_sym}_c$ from 0 to
+4095 (0xfff) that maps a cumulative frequency $c$ to a symbol $s$.
 
-$cfreq\_to\_sym_c = s_{i} \quad where \quad c: \enskip cfreq_i \leq c < cfreq_i + freq_i$
+$\textit{cfreq\_to\_sym}_c = s_{i} \quad \textit{where} \quad c: \enskip \textit{cfreq}_i \leq c < \textit{cfreq}_i + \textit{freq}_i$
 
 The $x' = C(s,x)$ function used for the $i$-th symbol $s$ is:
 
-$x' = (x/freq_i) \times \mathtt{0x1000} + cfreq_i + (x \bmod freq_i)$
+$x' = (x/\textit{freq}_i) \times \texttt{0x1000} + \textit{cfreq}_i + (x \bmod \textit{freq}_i)$
 
 The $D(x') = (s,x)$ function used to produce the $i$-th symbol $s$ and a
 new state $x$ is:
 
-$c = x' \text{AND} \mathtt{0xfff}$\
-\* $s_{i} = cfreq\_to\_sym_{c}$\
-\* $x = freq_{i} (x' / \mathtt{0x1000}) + c - cfreq_{i}$
 
+$$
+\begin{aligned}
+c = x' \mathbin{\text{AND}} \texttt{0xfff} \\
+s_{i} = \textit{cfreq\_to\_sym}_{c} \\
+x = \textit{freq}_{i} (x' / \texttt{0x1000}) + c - \textit{cfreq}_{i}
+\end{aligned}
+$$
 Most of these operations can be implemented as bit-shifts and bit-AND,
 with the encoder modulus being implemented as a multiplication by the
 reciprocal, computed once only per alphabet symbol.
 
-We use $L = \mathtt{0x800000}$ and $b = 256$, permitting us to flush out
+We use $L = \texttt{0x800000}$ and $b = 256$, permitting us to flush out
 one byte at a time (encoded and decoded in reverse order).
 
 Before every encode $C(s,x)$ we renormalise $x$, shifting out the bottom
-8 bits of $x$ until $x < \mathtt{0x80000} \times freq_i$. After
+8 bits of $x$ until $x < \texttt{0x80000} \times \textit{freq}_i$. After
 finishing all encoding we flush 4 more bytes (lowest 8-bits first) from
 $x$.
 
 After every decoded $D(x')$ we renormalise $x'$, shifting in the bottom
-8 bits until $x \geq \mathtt{0x800000}$.
+8 bits until $x \geq \texttt{0x800000}$.
 
 ### 2.2.1 Interleaving
 
@@ -809,12 +785,13 @@ interleaved).
 For the Order-1 codec we cannot do this as we need to know the previous
 byte value as the context for the next byte. We therefore split the
 input data into 4 approximately equal sized fragments[^5] starting at 0,
-$\lfloor{}len/4\rfloor{}$, $\lfloor{}len/4\rfloor{}\times2$ and
-$\lfloor{}len/4\rfloor{}\times 3$. Each Order-1 codec operates in a
-cyclic fashion as with Order-0, all starting with 0 as their state and
-sharing the same compressed output buffer. Any remainder, when the input
-buffer is not divisible by 4, is processed at the end by the 4th rANS
-state.
+$\lfloor{}\textit{len}/4\rfloor{}$,
+$\lfloor{}\textit{len}/4\rfloor{}\times2$ and
+$\lfloor{}\textit{len}/4\rfloor{}\times 3$. Each Order-1 codec operates
+in a cyclic fashion as with Order-0, all starting with 0 as their state
+and sharing the same compressed output buffer. Any remainder, when the
+input buffer is not divisible by 4, is processed at the end by the 4th
+rANS state.
 
 We do not permit Order-1 encoding of data streams smaller than 4 bytes.
 
@@ -829,15 +806,14 @@ unsigned byte from an unspecified input source. Similarly for
 <span class="smallcaps">ReadUint32</span> (32-bit unsigned integer in
 little endian format).
 
-<div class="code-math-block">
-
-Procedure RansDecode($input,\ output$)\
-  $order \gets$ <span class="smallcaps">ReadUint8</span>()Comment{Implicit read from $input$}\
-  $n\_in \gets$ <span class="smallcaps">ReadUint32</span>()State $n\_out \gets$ <span class="smallcaps">ReadUint32</span>()State \If{$order = 0$}\
-  <span class="smallcaps">RansDecode0</span>($output, n\_out$)Else\
-  <span class="smallcaps">RansDecode1</span>($output, n\_out$)EndIf
-
-</div>
+<pre><code>Procedure RansDecode(input, output)
+  order ← ReadUint8()  // Implicit read from input
+  n_in ← ReadUint32()
+  n_out ← ReadUint32()
+  if order = 0:
+    RansDecode0(output, n_out)
+  else:
+    RansDecode1(output, n_out)</code></pre>
 
 ### 2.3.1 rANS order-0
 
@@ -845,59 +821,56 @@ The Order-0 code is the simplest variant. Here we also define some of
 the functions for manipulating the rANS state, which are shared between
 Order-0 and Order-1 decoders.
 
-<div class="code-math-block">
-
-// Reads a table of Order-0 symbol frequencies $F_i$\
-// and sets the cumulative frequency table $C_{i+1} = C_i+F_i$\
-Procedure ReadFrequencies0($F,\ C$)\
-  $s \gets$ <span class="smallcaps">ReadUint8</span>()Comment{Next alphabet symbol}\
-  $last\_sym \gets s$\
-  $rle \gets 0$\
-  repeat:\
-    $F_s \gets$ <span class="smallcaps">ReadITF8</span>()If{$rle > 0$}\
-    $rle \gets$ $rle-1$\
-    $s \gets$ $s+1$\
-  else:\
-    $s \gets$ <span class="smallcaps">ReadUint8</span>()If{$s = last\_sym+1$}\
-    $rle \gets$ <span class="smallcaps">ReadUint8</span>()EndIf\
-  $last\_sym \gets s$\
-until $s = 0$\
-// \quad\\(Compute cumulative frequencies $C_i$ from $F_i$\
-$C_0 \gets 0$\
-for $s\gets 0 \text{ \textbf{to} } 255$:\
-  $C_{s+1} \gets C_s + F_s$\
-\
-// Bottom 12 bits of our rANS state $R$ are our frequency\
-Function RansGetCumulativeFreq($R$)\
-  return $R \mathbin{\text{AND}}$ 0xfff\
-\
-// Convert frequency to a symbol. Find $s$ such that $C_s \le f < C_{s+1}$\
-// We would normally implement this via a lookup table\
-Function RansGetSymbolFromFreq($C, f$)\
-  $s \gets 0$\
-  while $f >= C_{s+1}$:\
-    $s \gets s+1$\
-  return $s$\
-\
-// Compute the next rANS state $R$ given frequency $f$ and cumulative freq $c$\
-Function RansAdvanceStep($R, c, f$)\
-  return $f \times (R \mathbin{\text{>>}} 12) + (R \mathbin{\text{AND}}$ 0xfff$) - c$\
-\
-// If too small, feed in more bytes to the rANS state $R$\
-Function RansRenorm($R$)\
-  while $R < (1 \mathbin{\text{<<}} 23)$:\
-    $R \gets (R \mathbin{\text{<<}} 8) +$ <span class="smallcaps">ReadUint8</span>()EndWhile\
-    return $R$\
-\
-  Procedure RansDecode0($output$, $nbytes$)\
-    <span class="smallcaps">ReadFrequencies0</span>($F, C$)For{$j\gets 0 \text{ \textbf{to} } 3$}  // Initialise the 4 interleaved streams\
-    $R_j \gets$ <span class="smallcaps">ReadUint32</span>()Comment{Unsigned 32-bit little endian}\
-  for $i\gets 0 \text{ \textbf{to} } nbytes-1$:\
-    $j \gets i \bmod 4$\
-    $f \gets$ <span class="smallcaps">RansGetCumulativeFreq</span>($R_j$)State $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C, f$)State $output_i \gets s$\
-    $R_j \gets$ <span class="smallcaps">RansAdvanceStep</span>($R_j, C_s, F_s$)State $R_j \gets$ <span class="smallcaps">RansRenorm</span>($R_j$)EndFor
-
-</div>
+<pre><code>// Reads a table of Order-0 symbol frequencies F_i
+// and sets the cumulative frequency table C_i+1 = C_i+F_i
+Procedure ReadFrequencies0(F, C)
+  s ← ReadUint8()  // Next alphabet symbol
+  last_sym ← s
+  rle ← 0
+  repeat:
+    F_s ← ReadITF8()
+    if rle &gt; 0:
+      rle ← rle-1
+      s ← s+1
+    else:
+      s ← ReadUint8()
+      if s = last_sym+1:
+        rle ← ReadUint8()
+    last_sym ← s
+  until s = 0
+  //   (Compute cumulative frequencies C_i from F_i
+  C_0 ← 0
+  for s ← 0 to 255:
+    C_s+1 ← C_s + F_s
+&#10;// Bottom 12 bits of our rANS state R are our frequency
+Function RansGetCumulativeFreq(R)
+  return R &amp; 0xfff
+&#10;// Convert frequency to a symbol. Find s such that C_s ≤ f &lt; C_s+1
+// We would normally implement this via a lookup table
+Function RansGetSymbolFromFreq(C, f)
+  s ← 0
+  while f &gt;= C_s+1:
+    s ← s+1
+  return s
+&#10;// Compute the next rANS state R given frequency f and cumulative freq c
+Function RansAdvanceStep(R, c, f)
+  return f * (R &gt;&gt; 12) + (R &amp; 0xfff) - c
+&#10;// If too small, feed in more bytes to the rANS state R
+Function RansRenorm(R)
+  while R &lt; (1 &lt;&lt; 23):
+    R ← (R &lt;&lt; 8) + ReadUint8()
+  return R
+&#10;Procedure RansDecode0(output, nbytes)
+  ReadFrequencies0(F, C)
+  for j ← 0 to 3:  // Initialise the 4 interleaved streams
+    R_j ← ReadUint32()  // Unsigned 32-bit little endian
+  for i ← 0 to nbytes-1:
+    j ← i mod 4
+    f ← RansGetCumulativeFreq(R_j)
+    s ← RansGetSymbolFromFreq(C, f)
+    output_i ← s
+    R_j ← RansAdvanceStep(R_j, C_s, F_s)
+    R_j ← RansRenorm(R_j)</code></pre>
 
 ### 2.3.2 rANS order-1
 
@@ -914,41 +887,47 @@ Note the code for dealing with the remaining bytes when an output buffer
 is not an exact multiple of 4 is less elegant in the Order-1 code. This
 is correct, but it is unfortunately a design oversight.
 
-<div class="code-math-block">
-
-// Reads a table of Order-1 symbol frequencies $F_{i,j}$\
-// and sets the cumulative frequency table $C_{i,j+1} = C_{i,j}+F_{i,j}$\
-Procedure ReadFrequencies1($F,\ C$)\
-  $sym \gets$ <span class="smallcaps">ReadUint8</span>()Comment{Next alphabet symbol}\
-  $last\_sym \gets sym$\
-  $rle \gets 0$\
-  repeat:\
-    <span class="smallcaps">ReadFrequencies0</span>($F_i, C_i$)If{$rle > 0$}\
-    $rle \gets$ $rle-1$\
-    $sym \gets$ $sym+1$\
-  else:\
-    $sym \gets$ <span class="smallcaps">ReadUint8</span>()If{$sym = last\_sym+1$}\
-    $rle \gets$ <span class="smallcaps">ReadUint8</span>()EndIf\
-  $last\_sym \gets sym$\
-until $sym = 0$\
-\
-Procedure RansDecode1($output$, $nbytes$)\
-  <span class="smallcaps">ReadFrequencies1</span>($F, C$)For{$j\gets 0 \text{ \textbf{to} } 3$}  // Initialise 4 interleaved streams\
-  $R_j \gets$ <span class="smallcaps">ReadUint32</span>()Comment{Unsigned 32-bit little endian}\
-  $L_j \gets 0$  // Last symbol\
-$i \gets 0$\
-while $i < \lfloor nbytes/4 \rfloor$:\
-  for $j\gets 0 \text{ \textbf{to} } 3$:\
-    $f \gets$ <span class="smallcaps">RansGetCumulativeFreq</span>($R_j$)State $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C_{L_j}, f$)State $output_{i + j \times \lfloor nbytes/4 \rfloor} \gets s$\
-    $R_j \gets$ <span class="smallcaps">RansAdvanceStep</span>($R_j, C_{L_j,s}, F_{L_j,s}$)State $R_j \gets$ <span class="smallcaps">RansRenorm</span>($R_j$)State $L_j \gets s$\
-  $i \gets i+1$\
-// \\\\\\\\(Now deal with the remainder if buffer size is not a multiple of 4,\
-// \\\\\\\\(using rANS state 3 exclusively.\
-for $i \gets i \times 4 \text{ \textbf{to} } len-1$:\
-  $f \gets$ <span class="smallcaps">RansGetCumulativeFreq</span>($R_3$)State $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C_{L_3}, f$)State $output_i \gets s$\
-  $R_3 \gets$ <span class="smallcaps">RansAdvanceStep</span>($R_3, C_{L_3,s}, F_{L_3,s}$)State $R_3 \gets$ <span class="smallcaps">RansRenorm</span>($R_3$)State $L_3 \gets s$
-
-</div>
+<pre><code>// Reads a table of Order-1 symbol frequencies F_i,j
+// and sets the cumulative frequency table C_i,j+1 = C_i,j+F_i,j
+Procedure ReadFrequencies1(F, C)
+  sym ← ReadUint8()  // Next alphabet symbol
+  last_sym ← sym
+  rle ← 0
+  repeat:
+    ReadFrequencies0(F_i, C_i)
+    if rle &gt; 0:
+      rle ← rle-1
+      sym ← sym+1
+    else:
+      sym ← ReadUint8()
+      if sym = last_sym+1:
+        rle ← ReadUint8()
+    last_sym ← sym
+  until sym = 0
+&#10;Procedure RansDecode1(output, nbytes)
+  ReadFrequencies1(F, C)
+  for j ← 0 to 3:  // Initialise 4 interleaved streams
+    R_j ← ReadUint32()  // Unsigned 32-bit little endian
+    L_j ← 0  // Last symbol
+  i ← 0
+  while i &lt; ⌊ nbytes/4 ⌋:
+    for j ← 0 to 3:
+      f ← RansGetCumulativeFreq(R_j)
+      s ← RansGetSymbolFromFreq(C_L_j, f)
+      output_i + j * ⌊ nbytes/4 ⌋ ← s
+      R_j ← RansAdvanceStep(R_j, C_L_j,s, F_L_j,s)
+      R_j ← RansRenorm(R_j)
+      L_j ← s
+    i ← i+1
+  //     (Now deal with the remainder if buffer size is not a multiple of 4,
+  //     (using rANS state 3 exclusively.
+  for i ← i * 4 to len-1:
+    f ← RansGetCumulativeFreq(R_3)
+    s ← RansGetSymbolFromFreq(C_L_3, f)
+    output_i ← s
+    R_3 ← RansAdvanceStep(R_3, C_L_3,s, F_L_3,s)
+    R_3 ← RansRenorm(R_3)
+    L_3 ← s</code></pre>
 
 # 3 rANS Nx16
 
@@ -1036,61 +1015,49 @@ applied after reading the frequencies to scale them appropriately. This
 is required as the Order-1 frequencies may be scaled differently for
 each context.
 
-<div class="code-math-block">
+<pre><code>// Reads a set of symbols A used in our alphabet
+Function ReadAlphabet()
+  s ← ReadUint8()
+  last_sym ← s
+  rle ← 0
+  repeat:
+    A ← (A,s)  // Append s to the symbol set A
+    if rle &gt; 0:
+      rle ← rle-1
+      s ← s+1
+    else:
+      s ← ReadUint8()
+      if s = last_sym+1:
+        rle ← ReadUint8()
+    last_sym ← s
+  until s = 0
+  return A</code></pre>
 
-// Reads a set of symbols $A$ used in our alphabet\
-Function ReadAlphabet()\
-  $s \gets$ <span class="smallcaps">ReadUint8</span>()State $last\_sym \gets s$\
-  $rle \gets 0$\
-  repeat:\
-    $A \gets (A,s)$  // Append $s$ to the symbol set $A$\
-    if $rle > 0$:\
-      $rle \gets$ $rle-1$\
-      $s \gets$ $s+1$\
-    else:\
-      $s \gets$ <span class="smallcaps">ReadUint8</span>()If{$s = last\_sym+1$}\
-      $rle \gets$ <span class="smallcaps">ReadUint8</span>()EndIf\
-    $last\_sym \gets s$\
-  until $s = 0$\
-  return $A$
+<pre><code>// Reads a table of Order-0 symbol frequencies F_i
+// and sets the cumulative frequency table C_i+1 = C_i+F_i
+Procedure ReadFrequenciesNx16_0(F, C)
+  F ← (0, ...)
+  A ← ReadAlphabet()
+  for each i in A:
+    F_i ← ReadUint7()
+  &#10;  NormaliseFrequenciesNx16_0(F, 12)
+  &#10;  C_0 ← 0
+  for s ← 0 to 255:  // All 256 possible byte values
+    C_s+1 ← C_s + F_s</code></pre>
 
-</div>
-
-<div class="code-math-block">
-
-// Reads a table of Order-0 symbol frequencies $F_i$\
-// and sets the cumulative frequency table $C_{i+1} = C_i+F_i$\
-Procedure ReadFrequenciesNx16\\0($F,\ C$)\
-  $F \gets (0, ...)$ \Comment(Set to zero for all \$i \in \\0, 1,\
-  $A \gets$ <span class="smallcaps">ReadAlphabet</span>()Foreach{$i \text{ \textbf{in} } A$}\
-  $F_i \gets$ <span class="smallcaps">ReadUint7</span>()EndForeach\
-  \
-  <span class="smallcaps">NormaliseFrequenciesNx16\\0</span>($F, 12$)State\
-  $C_0 \gets 0$\
-  for $s\gets 0 \text{ \textbf{to} } 255$:  // All 256 possible byte values\
-    $C_{s+1} \gets C_s + F_s$
-
-</div>
-
-<div class="code-math-block">
-
-// Normalises a table of frequencies $F_i$ to sum to a specified power of 2.\
-Procedure NormaliseFrequenciesNx16\\0($F,\ bits$)\
-  $tot \gets 0$\
-  for $i\gets 0 \text{ \textbf{to} } 255$:\
-    $tot \gets tot + F_i$\
-  if $tot = 0 \mathbin{\textbf{or}} tot = (1 \mathbin{\text{<<}} bits)$:\
-    return \
-  \
-  $shift \gets 0$\
-  while $tot < (1 \mathbin{\text{<<}} bits)$:\
-    $tot \gets tot*2$\
-    $shift \gets shift+1$\
-  \
-  for $i\gets 0 \text{ \textbf{to} } 255$:\
-    $F_i \gets F_i \mathbin{\text{<<}} shift$
-
-</div>
+<pre><code>// Normalises a table of frequencies F_i to sum to a specified power of 2.
+Procedure NormaliseFrequenciesNx16_0(F, bits)
+  tot ← 0
+  for i ← 0 to 255:
+    tot ← tot + F_i
+  if tot = 0 or tot = (1 &lt;&lt; bits):
+    return 
+  &#10;  shift ← 0
+  while tot &lt; (1 &lt;&lt; bits):
+    tot ← tot*2
+    shift ← shift+1
+  &#10;  for i ← 0 to 255:
+    F_i ← F_i &lt;&lt; shift</code></pre>
 
 The Order-1 frequencies also store the complete alphabet of observed
 symbols (ignoring context) followed by a table of frequencies for each
@@ -1109,34 +1076,33 @@ default (unspecified) source. The top 4 bits of the first byte indicate
 the number of bits used for the frequency tables. Permitted values are
 10 and 12.
 
-<div class="code-math-block">
-
-// Reads a table of Order-1 symbol frequencies $F_{i,j}$\
-// and sets the cumulative frequency table $C_{i,j+1} = C_{i,j}+F_{i,j}$\
-Procedure ReadFrequenciesNx16\\1($F,\ C,\ bits$)\
-  $comp \gets$ <span class="smallcaps">ReadUint8</span>()State $bits \gets comp \mathbin{\text{>>}} 4$\
-  if $(comp \mathbin{\textbf{and}} 1) \ne 0$:\
-    $u\_size \gets$ <span class="smallcaps">ReadUint7</span>()Comment{Uncompressed size}\
-    $c\_size \gets$ <span class="smallcaps">ReadUint7</span>()Comment{Compressed size}\
-    $c\_data \gets$ <span class="smallcaps">ReadData</span>($c\_size$)State $source \gets$ <span class="smallcaps">RansDecodeNx16\\0</span>($c\_data, 4$)Comment{Create $u\_size$ bytes of $source$ from $c\_data$}\
-  else:\
-    (define $source$ to be the default input stream)\
-\
-  $F \gets ((0, ...), ...)$ \Comment(Set to zero for all $i$ and $j \in \{0, 1, ..., 255\}$)\
-  $A \gets$ <span class="smallcaps">ReadAlphabet</span>(from $source$)Foreach{$i \text{ \textbf{in} } A$}\
-  $run \gets 0$\
-  for each $j \text{ \textbf{in} } A$:\
-    if $run > 0$:\
-      $run \gets run-1$  // $F_{i,j}$ is implicitly zero already\
-    else:\
-      $F_{i,j} \gets$ <span class="smallcaps">ReadUint7</span>(from $source$)If{$F_{i,j} = 0$}\
-      $run \gets$ <span class="smallcaps">ReadUint8</span>(from $source$)EndIf\
-  <span class="smallcaps">NormaliseFrequenciesNx16\\0</span>($F_i$, $bits$)State\
-  $C_{i,0} \gets 0$\
-  for $j\gets 0 \text{ \textbf{to} } 255$:\
-    $C_{i,j+1} \gets C_{i,j} + F_{i,j}$
-
-</div>
+<pre><code>// Reads a table of Order-1 symbol frequencies F_i,j
+// and sets the cumulative frequency table C_i,j+1 = C_i,j+F_i,j
+Procedure ReadFrequenciesNx16_1(F, C, bits)
+  comp ← ReadUint8()
+  bits ← comp &gt;&gt; 4
+  if (comp and 1) ≠ 0:
+    u_size ← ReadUint7()  // Uncompressed size
+    c_size ← ReadUint7()  // Compressed size
+    c_data ← ReadData(c_size)
+    source ← RansDecodeNx16_0(c_data, 4)  // Create u_size bytes of source from c_data
+  else:
+    (define source to be the default input stream)
+&#10;  F ← ((0, ...), ...)
+  A ← ReadAlphabet(from source)
+  for each i in A:
+    run ← 0
+    for each j in A:
+      if run &gt; 0:
+        run ← run-1  // F_i,j is implicitly zero already
+      else:
+        F_i,j ← ReadUint7(from source)
+        if F_i,j = 0:
+          run ← ReadUint8(from source)
+    NormaliseFrequenciesNx16_0(F_i, bits)
+    &#10;    C_i,0 ← 0
+    for j ← 0 to 255:
+      C_i,j+1 ← C_i,j + F_i,j</code></pre>
 
 ## 3.2 rANS Nx16 Order-0
 
@@ -1147,29 +1113,26 @@ states. This is similar to the old (4x8) rANS decoder, but the
 single 16-bit renormalisation instead of a loop using 8-bit values and
 can interleave to different amounts.
 
-<div class="code-math-block">
-
-Function RansGetCumulativeFreqNx16($R,\ bits$)\
-  return $R \mathbin{\text{AND}} ((1 \mathbin{\text{<<}} bits) -1)$\
-\
-Function RansAdvanceStepNx16($R, c, f, bits$)\
-  return $f \times (R \mathbin{\text{>>}} bits) + (R \mathbin{\text{AND}} ((1 \mathbin{\text{<<}} bits) -1) - c$\
-\
-Function RansRenormNx16($R$)\
-  if $R < (1 \mathbin{\text{<<}} 15)$:\
-    $R \gets (R \mathbin{\text{<<}} 16) +$ <span class="smallcaps">ReadUint16</span>()EndIf\
-    return $R$\
-\
-  Function RansDecodeNx16\\0($len, N$)\
-    <span class="smallcaps">ReadFrequenciesNx16\\0</span>($F$, $C$)For{$j \gets 0 \text{ \textbf{to} } N-1$}\
-    $R_j \gets$ <span class="smallcaps">ReadUint32</span>()EndFor\
-    for $i\gets 0 \text{ \textbf{to} } len-1$:\
-      $j \gets i \bmod N$\
-      $f \gets$ <span class="smallcaps">RansGetCumulativeFreqNx16</span>($R_j, 12$)State $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C, f$)State $out_i \gets s$\
-      $R_j \gets$ <span class="smallcaps">RansAdvanceStepNx16</span>($R_j, C_s, F_s, 12$)State $R_j \gets$ <span class="smallcaps">RansRenormNx16</span>($R_j$)EndFor\
-      return $out$
-
-</div>
+<pre><code>Function RansGetCumulativeFreqNx16(R, bits)
+  return R &amp; ((1 &lt;&lt; bits) -1)
+&#10;Function RansAdvanceStepNx16(R, c, f, bits)
+  return f * (R &gt;&gt; bits) + (R &amp; ((1 &lt;&lt; bits) -1) - c
+&#10;Function RansRenormNx16(R)
+  if R &lt; (1 &lt;&lt; 15):
+    R ← (R &lt;&lt; 16) + ReadUint16()
+  return R
+&#10;Function RansDecodeNx16_0(len, N)
+  ReadFrequenciesNx16_0(F, C)
+  for j ← 0 to N-1:
+    R_j ← ReadUint32()
+  for i ← 0 to len-1:
+    j ← i mod N
+    f ← RansGetCumulativeFreqNx16(R_j, 12)
+    s ← RansGetSymbolFromFreq(C, f)
+    out_i ← s
+    R_j ← RansAdvanceStepNx16(R_j, C_s, F_s, 12)
+    R_j ← RansRenormNx16(R_j)
+  return out</code></pre>
 
 ## 3.3 rANS Nx16 Order-1
 
@@ -1184,23 +1147,29 @@ inter-dependency between the decoded output of the rANS states. This
 makes the handling of data that isn't a multiple of N is a little more
 complex too.
 
-<div class="code-math-block">
-
-Function RansDecodeNx16\\1($len,\ N$)\
-  <span class="smallcaps">ReadFrequenciesNx16\\1</span>($F$, $C$, $bits$)For{$j \gets 0 \text{ \textbf{to} } N-1$}\
-  $R_j \gets$ <span class="smallcaps">ReadUint32</span>()State $L_j \gets 0$  // Last symbol\
-// The primary unrollable loop\
-for $i\gets 0 \text{ \textbf{to} } \lfloor len/N \rfloor - 1$:\
-  for $j\gets 0 \text{ \textbf{to} } N-1$:\
-    $f \gets$ <span class="smallcaps">RansGetCumulativeFreqNx16</span>($R_j, bits$)State $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C_{L_j}, f$)State $out_{i + j \times \lfloor len/N \rfloor} \gets s$\
-    $R_j \gets$ <span class="smallcaps">RansAdvanceStepNx16</span>($R_j, C_{L_j, s}, F_{L_j, s}, bits$)State $R_j \gets$ <span class="smallcaps">RansRenormNx16</span>($R_j$)State $L_j \gets s$\
-// The remainder for data not a multiple of N in size, using $R_{N-1}$ throughout.\
-for $i \gets i \times N \text{ \textbf{to} } len-1$:\
-  $f \gets$ <span class="smallcaps">RansGetCumulativeFreqNx16</span>($R_{N-1}, bits$)State $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C_{L_{N-1}}, f$)State $out_i \gets s$\
-  $R_{N-1} \gets$ <span class="smallcaps">RansAdvanceStepNx16</span>($R_{N-1}, C_{L_{N-1},s}, F_{L_{N-1},s}, bits$)State $R_{N-1} \gets$ <span class="smallcaps">RansRenormNx16</span>($R_{N-1}$)State $L_{N-1} \gets s$\
-return $out$
-
-</div>
+<pre><code>Function RansDecodeNx16_1(len, N)
+  ReadFrequenciesNx16_1(F, C, bits)
+  for j ← 0 to N-1:
+    R_j ← ReadUint32()
+    L_j ← 0  // Last symbol
+  // The primary unrollable loop
+  for i ← 0 to ⌊ len/N ⌋ - 1:
+    for j ← 0 to N-1:
+      f ← RansGetCumulativeFreqNx16(R_j, bits)
+      s ← RansGetSymbolFromFreq(C_L_j, f)
+      out_i + j * ⌊ len/N ⌋ ← s
+      R_j ← RansAdvanceStepNx16(R_j, C_L_j, s, F_L_j, s, bits)
+      R_j ← RansRenormNx16(R_j)
+      L_j ← s
+  // The remainder for data not a multiple of N in size, using R_N-1 throughout.
+  for i ← i * N to len-1:
+    f ← RansGetCumulativeFreqNx16(R_N-1, bits)
+    s ← RansGetSymbolFromFreq(C_L_N-1, f)
+    out_i ← s
+    R_N-1 ← RansAdvanceStepNx16(R_N-1, C_L_N-1,s, F_L_N-1,s, bits)
+    R_N-1 ← RansRenormNx16(R_N-1)
+    L_N-1 ← s
+  return out</code></pre>
 
 ## 3.4 rANS Nx16 Run Length Encoding
 
@@ -1225,33 +1194,33 @@ run-lengths and the run-removed data itself.
 <tr>
 <td>?</td>
 <td>uint7</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">rle\_meta\_len</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑟𝑙𝑒_𝑚𝑒𝑡𝑎_𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{rle\_meta\_len}</annotation></semantics></math></td>
 <td>RLE meta-data-size times 2. The bottom bit is a flag to indicate whether
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">rle\_meta</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑟𝑙𝑒_𝑚𝑒𝑡𝑎</mtext><annotation encoding="application/x-tex">\textit{rle\_meta}</annotation></semantics></math>
 is uncompressed (1) or compressed (0).</td>
 </tr>
 <tr>
 <td>?</td>
 <td>uint7</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">rle\_len</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑟𝑙𝑒_𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{rle\_len}</annotation></semantics></math></td>
 <td>Size of uncompressed data before <span
 class="smallcaps">DecodeRLE</span> is applied</td>
 </tr>
 <tr>
 <td>?</td>
 <td>uint7</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(comp\_meta\_len)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="italic">𝑐𝑜𝑚𝑝_𝑚𝑒𝑡𝑎_𝑙𝑒𝑛</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\textit{comp\_meta\_len})</annotation></semantics></math></td>
 <td>Only stored if bottom bit of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">rle\_meta\_len</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑟𝑙𝑒_𝑚𝑒𝑡𝑎_𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{rle\_meta\_len}</annotation></semantics></math>
 is unset. Size of compressed RLE meta data.</td>
 </tr>
 <tr>
 <td>?</td>
 <td>uint8[]</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">rle\_meta</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑟𝑙𝑒_𝑚𝑒𝑡𝑎</mtext><annotation encoding="application/x-tex">\textit{rle\_meta}</annotation></semantics></math></td>
 <td>RLE meta-data. Decompress with <span
 class="smallcaps">RansDecodeNx16_0</span> if bottom bit of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>l</mi><mi>e</mi><mi>_</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">rle\_meta\_len</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑟𝑙𝑒_𝑚𝑒𝑡𝑎_𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{rle\_meta\_len}</annotation></semantics></math>
 is unset.</td>
 </tr>
 </tbody>
@@ -1262,45 +1231,43 @@ associated with them (zero being interpreted as all of them) and the
 list of these symbol values. This is followed by the run lengths encoded
 as variable sized integers in the *uint7* format.
 
-<div class="code-math-block">
-
-// Reads and optionally uncompresses the blob of run-lengths and the array $L$\
-// indicating which symbols have associates run-lengths.\
-Function DecodeRLEMeta($N$)\
-  $L \gets (0, ...)$ \Comment(Set to zero for all \$i \in \\0, 1,\
-  $rle\_meta\_len \gets$<span class="smallcaps">ReadUint7</span>()State $len \gets$<span class="smallcaps">ReadUint7</span>()Comment{Length of uncompressed O0/O1 data, pre-expansion}\
-  if $rle\_meta\_len \mathbin{\text{AND}} 1$:\
-    $rle\_meta \gets$<span class="smallcaps">ReadData</span>($\lfloor{}rle\_meta\_len/2\rfloor{}$)Else\
-    $comp\_meta\_len \gets$<span class="smallcaps">ReadUint7</span>()State $rle\_meta \gets$<span class="smallcaps">ReadData</span>($comp\_meta\_len$)State \$rle\\meta \gets\
-\
-    $n \gets$ <span class="smallcaps">ReadUint8</span>($metadata$)If{$n = 0$}\
-    $n \gets 256$\
-  for $i \gets 0 \text{ \textbf{to} } n-1$:\
-    $s \gets$ <span class="smallcaps">ReadUint8</span>($metadata$)State $L_s \gets 1$\
-\
-  return ($L$, $rle\_meta$, $len$)
-
-</div>
+<pre><code>// Reads and optionally uncompresses the blob of run-lengths and the array L
+// indicating which symbols have associates run-lengths.
+Function DecodeRLEMeta(N)
+  L ← (0, ...)
+  rle_meta_len ← ReadUint7()
+  len ← ReadUint7()  // Length of uncompressed O0/O1 data, pre-expansion
+  if rle_meta_len &amp; 1:
+    rle_meta ← ReadData(⌊rle_meta_len/2⌋)
+  else:
+    comp_meta_len ← ReadUint7()
+    rle_meta ← ReadData(comp_meta_len)
+    $rle_meta \gets
+&#10;  n ← ReadUint8(metadata)
+  if n = 0:
+    n ← 256
+  for i ← 0 to n-1:
+    s ← ReadUint8(metadata)
+    L_s ← 1
+&#10;  return (L, rle_meta, len)</code></pre>
 
 The use of the run length meta-data occurs when expanding the
 uncompressed data, after Order-0 or Order-1 data decompression.
 
-<div class="code-math-block">
-
-// Expands data ($in$) using run-length metadata\
-Function DecodeRLE($in,\ L,\ metadata,\ in\_len$)\
-  $j \gets 0$\
-  for $i \gets 0 \text{ \textbf{to} } in\_len - 1$:\
-    $sym \gets$ <span class="smallcaps">ReadUint8</span>($in$)If{$L_s$}\
-    $run \gets$ <span class="smallcaps">ReadUint7</span>($metadata$)For{$k \gets 0 \text{ \textbf{to} } run$}\
-    $out_{j+k} \gets s$\
-  $j \gets j + run + 1$\
-else:\
-  $out_j \gets s$\
-  $j \gets j + 1$\
-return $out$
-
-</div>
+<pre><code>// Expands data (in) using run-length metadata
+Function DecodeRLE(in, L, metadata, in_len)
+  j ← 0
+  for i ← 0 to in_len - 1:
+    sym ← ReadUint8(in)
+    if L_s:
+      run ← ReadUint7(metadata)
+      for k ← 0 to run:
+        out_j+k ← s
+      j ← j + run + 1
+    else:
+      out_j ← s
+      j ← j + 1
+  return out</code></pre>
 
 ## 3.5 rANS Nx16 Bit Packing
 
@@ -1327,11 +1294,11 @@ compressed packed data.
 <tr>
 <td>1</td>
 <td>byte</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">nsym</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑛𝑠𝑦𝑚</mtext><annotation encoding="application/x-tex">\textit{nsym}</annotation></semantics></math></td>
 <td>Number of distinct symbols</td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">nsym</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑛𝑠𝑦𝑚</mtext><annotation encoding="application/x-tex">\textit{nsym}</annotation></semantics></math></td>
 <td>byte[]</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math></td>
 <td>Symbol map</td>
@@ -1339,75 +1306,65 @@ compressed packed data.
 <tr>
 <td>?</td>
 <td>uint7</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{len}</annotation></semantics></math></td>
 <td>Length of packed data</td>
 </tr>
 </tbody>
 </table>
 
-The first meta-data byte holds $nsym$, the number of distinct values,
-followed by $nsym$ bytes to construct the $P$ map. If $nsym = 1$ then
-the byte stream is a stream of constant values and no bit-packing is
-done (we know every value already). If $nsym = 2$ then each symbol is 1
-bit (8 per byte), if $2 < nsym \le 4$ symbols are 2 bits each (4 per
-byte) and if $4 < nsym \le 16$ symbols are 4 bits each (2 per byte). It
-is not permitted to have $nsym > 16$ or $nsym = 0$ as bit packing is not
-possible. Bits are unpacked from low to high.
+The first meta-data byte holds $\textit{nsym}$, the number of distinct
+values, followed by $\textit{nsym}$ bytes to construct the $P$ map. If
+$\textit{nsym} = 1$ then the byte stream is a stream of constant values
+and no bit-packing is done (we know every value already). If
+$\textit{nsym} = 2$ then each symbol is 1 bit (8 per byte), if
+$2 < \textit{nsym} \le 4$ symbols are 2 bits each (4 per byte) and if
+$4 < \textit{nsym} \le 16$ symbols are 4 bits each (2 per byte). It is
+not permitted to have $\textit{nsym} > 16$ or $\textit{nsym} = 0$ as bit
+packing is not possible. Bits are unpacked from low to high.
 
 Decoding this meta-data is implemented by the
 <span class="smallcaps">DecodePackMeta</span> function below.
 
-<div class="code-math-block">
-
-Function DecodePackMeta()\
-  $nsym \gets$<span class="smallcaps">ReadUint8</span>()For{$i \gets 0$ to $nsym-1$}\
-  $P_i \gets$ <span class="smallcaps">ReadUint8</span>()EndFor\
-  $len \gets$ <span class="smallcaps">ReadUint7</span>()State \Return $(P, nsym, len)$
-
-</div>
+<pre><code>Function DecodePackMeta()
+  nsym ← ReadUint8()
+  for i ← 0 to nsym-1:
+    P_i ← ReadUint8()
+  len ← ReadUint7()
+  return (P, nsym, len)</code></pre>
 
 After uncompressing the main data stream, it should be unpacked using
 <span class="smallcaps">DecodePack</span> below. The format of this data
 stream is packed data as described above.
 
-<div class="code-math-block">
-
-Function DecodePack($data,\ P,\ nsym,\ len$)\
-  $j \gets 0$  // Index into $data$; $i$ is index into output\
-  if $nsym \le 1$:  // Constant value\
-    for $i \gets 0$ to $len-1$:\
-      $out_i \gets P_0$\
-\
-  else if $nsym \le 2$:  // 1 bit per value\
-    for $i \gets 0$ to $len-1$:\
-      if $i \bmod 8 = 0$:\
-        $v \gets data_j$\
-        $j \gets j+1$\
-      $out_i \gets P_{(v \mathbin{\text{AND}} 1)}$\
-      $v = v \mathbin{\text{>>}} 1$\
-\
-  else if $nsym \le 4$:  // 2 bits per value\
-    for $i \gets 0$ to $len-1$:\
-      if $i \bmod 4 = 0$:\
-        $v \gets data_j$\
-        $j \gets j+1$\
-      $out_i \gets P_{(v \mathbin{\text{AND}} 3)}$\
-      $v = v \mathbin{\text{>>}} 2$\
-\
-  else if $nsym \le 16$:  // 4 bits per value\
-    for $i \gets 0$ to $len-1$:\
-      if $i \bmod 2 = 0$:\
-        $v \gets data_j$\
-        $j \gets j+1$\
-      $out_i \gets P_{(v \mathbin{\text{AND}} 15)}$\
-      $v = v \mathbin{\text{>>}} 4$\
-\
-  else:\
-    <span class="smallcaps">Error</span>()EndIf\
-\
-    return out
-
-</div>
+<pre><code>Function DecodePack(data, P, nsym, len)
+  j ← 0  // Index into data; i is index into output
+  if nsym ≤ 1:  // Constant value
+    for i ← 0 to len-1:
+      out_i ← P_0
+&#10;  else if nsym ≤ 2:  // 1 bit per value
+    for i ← 0 to len-1:
+      if i mod 8 = 0:
+        v ← data_j
+        j ← j+1
+      out_i ← P_(v &amp; 1)
+      v = v &gt;&gt; 1
+&#10;  else if nsym ≤ 4:  // 2 bits per value
+    for i ← 0 to len-1:
+      if i mod 4 = 0:
+        v ← data_j
+        j ← j+1
+      out_i ← P_(v &amp; 3)
+      v = v &gt;&gt; 2
+&#10;  else if nsym ≤ 16:  // 4 bits per value
+    for i ← 0 to len-1:
+      if i mod 2 = 0:
+        v ← data_j
+        j ← j+1
+      out_i ← P_(v &amp; 15)
+      v = v &gt;&gt; 4
+&#10;  else:
+    Error()
+&#10;  return out</code></pre>
 
 ## 3.6 Striped rANS Nx16
 
@@ -1432,12 +1389,13 @@ followed by compressing each $N$ row independently.
 The byte stream consists of a 7-bit encoded uncompressed combined
 length, a byte holding the value of $N$, followed by $N$ compressed
 lengths also 7-bit encoded. Finally the data sub-streams themselves,
-each a valid $cdata$ stream, follow.
+each a valid $\textit{cdata}$ stream, follow.
 
-Normally our $cdata$ format will include the decoded size, but with
-<span class="smallcaps">Stripe</span> we can omit this from the internal
-compressed sub-streams (using the <span class="smallcaps">NoSize</span>
-flag) as given the total length we know how to compute the sub-lengths.
+Normally our $\textit{cdata}$ format will include the decoded size, but
+with <span class="smallcaps">Stripe</span> we can omit this from the
+internal compressed sub-streams (using the
+<span class="smallcaps">NoSize</span> flag) as given the total length we
+know how to compute the sub-lengths.
 
 Reproducing the original uncompressed data involves decoding the $N$
 sub-streams and interleaving them together again (reversing the table
@@ -1448,10 +1406,14 @@ be 1 byte shorter.
 As an example starting with input data $D$ we define the transposed data
 $T$ as:
 
-$D = aAAbBBcCCdDDe$
 
-$T = [\ abcde,\ ABCD,\ ABCD\ ]$
-
+$$
+\begin{aligned}
+D = aAAbBBcCCdDDe \\
+ \\
+T = [\ \textit{abcde},\ \textit{ABCD},\ ABCD\ ]
+\end{aligned}
+$$
 Note our example data is not a multiple of $N$ long, missing `EE`, which
 gives $T$ fragments of length \[5, 4, 4\].
 
@@ -1459,26 +1421,25 @@ If $D_i$ is the $i^{th}$ character in $D$ and $T_{j,i}$ is the $i^{th}$
 character of the $j^{th}$ substring in $T$, transformations between $D$
 and $T$ are defined as:
 
-$T_{j,i} = D_{i N +j}$
 
-$D_i = T_{(i \bmod N),\ (i \text{div} N)}$
-
-<div class="code-math-block">
-
-Function RansDecodeStripe($len$)\
-  $N \gets$<span class="smallcaps">ReadUint8</span>()For{$j \gets 0$ to $N$}  // Fetch N compressed lengths\
-  $clen_j \gets$<span class="smallcaps">ReadUint7</span>()EndFor\
-\
-  for $j \gets 0$ to $N$:  // Decode N streams\
-    $ulen_j \gets (len \bdiv N) + ((len \bmod N) > j)$  // $(x > y)$ expression being 1 if true, 0 if false\
-    $T_j \gets$<span class="smallcaps">RansDecodeNx16</span>($ulen_j$)EndFor\
-\
-    for $j \gets 0$ to $N - 1$:  // Stripe\
-      for $i \gets 0$ to $ulen_j - 1$:\
-        $out_{i \times N + j} \gets T_{j,i}$\
-    return $out$
-
-</div>
+$$
+\begin{aligned}
+T_{j,i} = D_{i N +j} \\
+ \\
+D_i = T_{(i \bmod N),\ (i \mathbin{\text{div}} N)}
+\end{aligned}
+$$
+<pre><code>Function RansDecodeStripe(len)
+  N ← ReadUint8()
+  for j ← 0 to N:  // Fetch N compressed lengths
+    clen_j ← ReadUint7()
+&#10;  for j ← 0 to N:  // Decode N streams
+    ulen_j ← (len div N) + ((len mod N) &gt; j)  // (x &gt; y) expression being 1 if true, 0 if false
+    T_j ← RansDecodeNx16(ulen_j)
+&#10;  for j ← 0 to N - 1:  // Stripe
+    for i ← 0 to ulen_j - 1:
+      out_i * N + j ← T_j,i
+  return out</code></pre>
 
 ## 3.7 Combined rANS Nx16 Format
 
@@ -1500,7 +1461,7 @@ data stream.
 <tr>
 <td>8</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi></mrow><annotation encoding="application/x-tex">flag</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑓𝑙𝑎𝑔</mtext><annotation encoding="application/x-tex">\textit{flag}</annotation></semantics></math></td>
 <td>Data format bit field</td>
 <td></td>
 </tr>
@@ -1541,24 +1502,18 @@ data stream.
 </tr>
 <tr>
 <td><span>2-5</span></td>
-<td>8</td>
-<td>uint8</td>
-<td>N</td>
-<td>Number of sub-streams</td>
-</tr>
-<tr>
-<td></td>
-<td>?</td>
-<td>uint7[]</td>
-<td>clen[]</td>
-<td>N copies of compressed sub-block length</td>
-</tr>
-<tr>
-<td></td>
-<td>?</td>
-<td>uint8[]</td>
-<td>cdata[]</td>
-<td>N copies of Compressed data sub-block (recurse)</td>
+<td>8
+?
+?</td>
+<td>uint8
+uint7[]
+uint8[]</td>
+<td>N
+clen[]
+cdata[]</td>
+<td>Number of sub-streams
+N copies of compressed sub-block length
+N copies of Compressed data sub-block (recurse)</td>
 </tr>
 <tr>
 <td><span>2-5</span></td>
@@ -1667,8 +1622,6 @@ followed by optional meta-data, followed by the actual compressed data
 stream. The bit-flags are defined below, but note not all combinations
 are permitted.
 
-<div class="threeparttable">
-
 <table>
 <thead>
 <tr>
@@ -1695,7 +1648,8 @@ are permitted.
 </tr>
 <tr>
 <td>8</td>
-<td><span class="smallcaps">Stripe</span></td>
+<td><span
+class="smallcaps">Stripe</span><sup><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>*</mi><annotation encoding="application/x-tex">*</annotation></semantics></math></strong></sup></td>
 <td>multi-way interleaving of byte streams</td>
 </tr>
 <tr>
@@ -1720,61 +1674,56 @@ class="smallcaps">Stripe</span>)</td>
 <td>Pack 2, 4, 8 or infinite symbols per byte</td>
 </tr>
 </tbody>
+&#10;<tfoot class="tablenotes"><tr><td colspan="100"><span><span>(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>*</mi><annotation encoding="application/x-tex">*</annotation></semantics></math>)</span></span>
+<span>Not to be used in conjunction with other bit-field values except
+<span class="smallcaps">NoSize</span>.</span></td></tr></tfoot>
 </table>
-
-<div class="tablenotes">
-
-($*$) Not to be used in conjunction with other bit-field values except
-<span class="smallcaps">NoSize</span>.
-
-</div>
-
-</div>
 
 Bit-packing and run length encoding transforms have their own meta-data,
 which is decoded prior to the main compressed data stream. After
 decoding, these transforms are applied in order of RLE followed by
 unpack as required and in that order.
 
-For example a $flag$ data-format value of 197 indicates a byte stream
-should decode the pack meta-data, the RLE meta-data and the Order-1
-compressed data itself, all using 32 rANS states, and then apply the RLE
-followed by Unpack transforms to yield the original uncompressed data.
+For example a $\textit{flag}$ data-format value of 197 indicates a byte
+stream should decode the pack meta-data, the RLE meta-data and the
+Order-1 compressed data itself, all using 32 rANS states, and then apply
+the RLE followed by Unpack transforms to yield the original uncompressed
+data.
 
 <span class="smallcaps">RansDecodeNx16</span> describes the decoding of
 the generalised RANS Nx16 decoder.
 
-<div class="code-math-block">
-
-Function RansDecodeNx16($len$)\
-  $flags \gets$<span class="smallcaps">ReadUint8</span>()If{$flags \mathbin{\text{AND}}$ <span class="smallcaps">NoSize</span> $\ne 0$}\
-  $len \gets$<span class="smallcaps">ReadUint7</span>()EndIf\
-  if $flags \mathbin{\text{AND}}$ <span class="smallcaps">Stripe</span>:\
-    $data \gets$<span class="smallcaps">RansDecodeStripe</span>($len$)State \Return $data$\
-  if $flags \mathbin{\text{AND}}$ <span class="smallcaps">N32</span>:\
-    $N \gets 32$\
-  else:\
-    $N \gets 4$\
-  // Read meta-data\
-  if $flags \mathbin{\text{AND}}$ <span class="smallcaps">Pack</span>:\
-    $pack\_len \gets len$\
-    $(P, nsym, len) \gets$<span class="smallcaps">DecodePackMeta</span>()EndIf\
-    if $flags \mathbin{\text{AND}}$ <span class="smallcaps">RLE</span>:\
-      $rle\_len \gets len$\
-      $(L, rle\_meta, len) \gets$<span class="smallcaps">DecodeRLEMeta</span>($N$)EndIf\
-      // Uncompress main data block\
-      if $flags \mathbin{\text{AND}}$ <span class="smallcaps">Cat</span>:\
-        $data \gets$<span class="smallcaps">ReadData</span>($len$)ElsIf{$flags \mathbin{\text{AND}}$ <span class="smallcaps">Order</span>}\
-        $data \gets$<span class="smallcaps">RansDecodeNx16\\1</span>($len, N$)Else\
-        $data \gets$<span class="smallcaps">RansDecodeNx16\\0</span>($len, N$)EndIf\
-        // Apply data transformations\
-        if $flags \mathbin{\text{AND}}$ <span class="smallcaps">RLE</span>:\
-          $data \gets$<span class="smallcaps">DecodeRLE</span>($data$, $L$, $rle\_meta$, $rle\_len$)EndIf\
-          if $flags \mathbin{\text{AND}}$ <span class="smallcaps">Pack</span>:\
-            $data \gets$<span class="smallcaps">DecodePack</span>($data$, $P$, $nsym$, $pack\_len$)EndIf\
-            return $data$
-
-</div>
+<pre><code>Function RansDecodeNx16(len)
+  flags ← ReadUint8()
+  if flags &amp; NoSize ≠ 0:
+    len ← ReadUint7()
+  if flags &amp; Stripe:
+    data ← RansDecodeStripe(len)
+    return data
+  if flags &amp; N32:
+    N ← 32
+  else:
+    N ← 4
+  // Read meta-data
+  if flags &amp; Pack:
+    pack_len ← len
+    (P, nsym, len) ← DecodePackMeta()
+  if flags &amp; RLE:
+    rle_len ← len
+    (L, rle_meta, len) ← DecodeRLEMeta(N)
+  // Uncompress main data block
+  if flags &amp; Cat:
+    data ← ReadData(len)
+  else if flags &amp; Order:
+    data ← RansDecodeNx16_1(len, N)
+  else:
+    data ← RansDecodeNx16_0(len, N)
+  // Apply data transformations
+  if flags &amp; RLE:
+    data ← DecodeRLE(data, L, rle_meta, rle_len)
+  if flags &amp; Pack:
+    data ← DecodePack(data, P, nsym, pack_len)
+  return data</code></pre>
 
 # 4 Range coding
 
@@ -1836,8 +1785,6 @@ point the new range is adjusted to be the proportion of the previous
 range covered by the cumulative symbol range. See the table footnotes
 below for the worked mathematics.
 
-<div class="threeparttable">
-
 <table>
 <thead>
 <tr>
@@ -1890,8 +1837,6 @@ below for the worked mathematics.
 </tbody>
 </table>
 
-</div>
-
 Our final range is 0.44 to 0.452 with any value in that range
 representing "cat", thus 0.45 would suffice. A pictorial example of this
 process is below.
@@ -1905,8 +1850,6 @@ Decoding is simply the reverse of this. In the above picture we can see
 that 0.45 would read off 'c', 'a' and 't' by repeatedly comparing the
 symbol ranges to the current range and using those to identify the
 symbol and produce a new range.
-
-<div class="threeparttable">
 
 <table>
 <thead>
@@ -1927,29 +1870,25 @@ symbol and produce a new range.
 <tr>
 <td>0.200</td>
 <td>0.500</td>
-<td>0.833</td>
+<td>0.833<sup><strong>a</strong></sup></td>
 <td>a</td>
 </tr>
 <tr>
-<td>0.440</td>
+<td>0.440<sup><strong>b</strong></sup></td>
 <td>0.500</td>
 <td>0.167</td>
 <td>t</td>
 </tr>
 </tbody>
+&#10;<tfoot class="tablenotes"><tr><td colspan="100"><p><span><strong>a.</strong></span> 0.45 into range 0.2 to 0.5:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0.45</mn><mo>−</mo><mn>0.2</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>0.5</mn><mo>−</mo><mn>0.2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.833</mn></mrow><annotation encoding="application/x-tex">(0.45-0.2)/(0.5-0.2) = 0.833</annotation></semantics></math>.
+This falls within the 0.8 to 1.0 symbol range for 'a'.</p>
+<p><span><strong>b.</strong></span> 'a' symbol range 0.8 to 1.0 applied
+to range 0.2 to 0.5:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mo>+</mo><mn>0.8</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>0.5</mn><mo>−</mo><mn>0.2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.44</mn></mrow><annotation encoding="application/x-tex">0.2+0.8\times(0.5-0.2) = 0.44</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mo>+</mo><mn>1.0</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>0.5</mn><mo>−</mo><mn>0.2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">0.2+1.0\times(0.5-0.2) = 0.5</annotation></semantics></math>.</p></td></tr></tfoot>
 </table>
-
-<div class="tablenotes">
-
-**a.** 0.45 into range 0.2 to 0.5: $(0.45-0.2)/(0.5-0.2) = 0.833$. This
-falls within the 0.8 to 1.0 symbol range for 'a'.
-
-**b.** 'a' symbol range 0.8 to 1.0 applied to range 0.2 to 0.5:
-$0.2+0.8\times(0.5-0.2) = 0.44$ and $0.2+1.0\times(0.5-0.2) = 0.5$.
-
-</div>
-
-</div>
 
 Note: The above example is not how the actual implementation works[^6].
 For efficiency, we use integer values having a starting range of 0 to
@@ -1969,39 +1908,27 @@ precision overflows in encoder we describe this implementation too.
 <span class="smallcaps">RangeDecodeCreate</span> initialises the range
 coder, reading the first bytes of the compressed data stream.
 
-<div class="code-math-block">
-
-Function RangeDecodeCreate()\
-  $range \gets$ $2^{32}-1$  // Maximum 32-bit unsigned value\
-  $code \gets$ $0$  // 32-bit unsigned\
-  for $i \gets 0$ to $4$:\
-    $code \gets (code \mathbin{\text{<<}} 8) +$<span class="smallcaps">ReadUint8</span>()EndFor\
-    $code \gets code \mathbin{\text{AND}} 2^{32}-1$\
-    return this range coder ($range$, $code$)
-
-</div>
+<pre><code>Function RangeDecodeCreate()
+  range ← 2^32-1  // Maximum 32-bit unsigned value
+  code ← 0  // 32-bit unsigned
+  for i ← 0 to 4:
+    code ← (code &lt;&lt; 8) +ReadUint8()
+  code ← code &amp; 2^32-1
+  return this range coder (range, code)</code></pre>
 
 Decoding each symbol is in two parts; getting the current frequency and
 updating the range.
 
-<div class="code-math-block">
+<pre><code>Function RangeGetFreq(tot_freq)
+  range ← range div tot_freq
+  return code div range</code></pre>
 
-Function RangeGetFreq($tot\_freq$)\
-  $range \gets range \bdiv tot\_freq$\
-  return $code \bdiv range$
-
-</div>
-
-<div class="code-math-block">
-
-Procedure RangeDecode($sym\_low,\ sym\_freq,\ tot\_freq$)\
-  $code \gets$ $code - sym\_low \times range$\
-  $range \gets$ $range \times sym\_freq$\
-  while $range < 2^{24}$:  // Renormalise\
-    $range \gets$ $range \mathbin{\text{<<}} 8$\
-    $code \gets$ $(code\mathbin{\text{<<}}8) +$<span class="smallcaps">ReadUint8</span>()EndWhile
-
-</div>
+<pre><code>Procedure RangeDecode(sym_low, sym_freq, tot_freq)
+  code ← code - sym_low * range
+  range ← range * sym_freq
+  while range &lt; 2^24:  // Renormalise
+    range ← range &lt;&lt; 8
+    code ← (code &lt;&lt; 8) +ReadUint8()</code></pre>
 
 As mentioned above, the encoder is more complex as it cannot shift out
 the top byte until it has determined the value. This can take a
@@ -2016,71 +1943,55 @@ which value the range has shrunk to.
 The <span class="smallcaps">RangeEncode</span> function is a straight
 forward reversal of the <span class="smallcaps">RangeDecode</span>, with
 the exception of the special code for shifting the top byte out of the
-$low$ variable.
+$\textit{low}$ variable.
 
-<div class="code-math-block">
-
-Procedure RangeEncode($sym\_low,\ sym\_freq,\ tot\_freq$)\
-  $old\_low \gets$ $low$\
-  $range \gets$ $range \bdiv tot\_freq$\
-  $low \gets$ $low + sym\_low \times range$\
-  $range \gets$ $range \times sym\_freq$\
-\
-  if low \< old\\low:\
-    $carry \gets 1$  // overflow\
-  while $range < 2^{24}$:  // Renormalise\
-    $range \gets$ $range \mathbin{\text{<<}} 8$\
-    <span class="smallcaps">RangeShiftLow</span>()EndWhile
-
-</div>
+<pre><code>Procedure RangeEncode(sym_low, sym_freq, tot_freq)
+  old_low ← low
+  range ← range div tot_freq
+  low ← low + sym_low * range
+  range ← range * sym_freq
+&#10;  if low &lt; old_low:
+    carry ← 1  // overflow
+  while range &lt; 2^24:  // Renormalise
+    range ← range &lt;&lt; 8
+    RangeShiftLow()</code></pre>
 
 <span class="smallcaps">RangeShiftLow</span> is the main heart of the
 encoder renormalisation. It tracks the total number of extra bytes to
-emit and $carry$ indicates whether they are a string of 0xFF or 0x00
-values.
+emit and $\textit{carry}$ indicates whether they are a string of 0xFF or
+0x00 values.
 
-<div class="code-math-block">
-
-Procedure RangeShiftLow()\
-  if $low <$ 0xff000000 $\mathbin{\textbf{or}} carry \ne 0$:\
-    if $carry = 0$:\
-      <span class="smallcaps">WriteByte</span>($cache$)Comment{top byte $cache$ plus FFs}\
-      while $FFnum > 0$:\
-        <span class="smallcaps">WriteByte</span>(0xff)State $FFnum \gets FFnum - 1$\
-    else:\
-      <span class="smallcaps">WriteByte</span>($cache + 1$)Comment{top byte $cache+1$ plus 00s}\
-      while $FFnum > 0$:\
-        <span class="smallcaps">WriteByte</span>(0)State $FFnum \gets FFnum - 1$\
-    $cache \gets low \mathbin{\text{>>}} 24$  // Copy of top byte ready for next flush\
-    $carry \gets 0$\
-  else:\
-    $FFnum \gets FFnum + 1$\
-\
-  $low \gets low \mathbin{\text{<<}} 8$
-
-</div>
+<pre><code>Procedure RangeShiftLow()
+  if low &lt; 0xff000000 or carry ≠ 0:
+    if carry = 0:
+      WriteByte(cache)  // top byte cache plus FFs
+      while FFnum &gt; 0:
+        WriteByte(0xff)
+        FFnum ← FFnum - 1
+    else:
+      WriteByte(cache + 1)  // top byte cache+1 plus 00s
+      while FFnum &gt; 0:
+        WriteByte(0)
+        FFnum ← FFnum - 1
+    cache ← low &gt;&gt; 24  // Copy of top byte ready for next flush
+    carry ← 0
+  else:
+    FFnum ← FFnum + 1
+&#10;  low ← low &lt;&lt; 8</code></pre>
 
 For completeness, the Encoder initialisation and finish functions are
 below.
 
-<div class="code-math-block">
+<pre><code>Procedure RangeEncodeStart()
+  low ← 0
+  range ← 2^32-1
+  FFnum ← 0
+  carry ← 0
+  cache ← 0</code></pre>
 
-Procedure RangeEncodeStart()\
-  $low \gets$ $0$\
-  $range \gets$ $2^{32}-1$\
-  $FFnum \gets$ $0$\
-  $carry \gets$ $0$\
-  $cache \gets$ $0$
-
-</div>
-
-<div class="code-math-block">
-
-Procedure RangeEncodeEnd()\
-  for $i \gets 0$ to $4$:  // Flush any residual state in $low$\
-    <span class="smallcaps">RangeShiftLow</span>()EndFor
-
-</div>
+<pre><code>Procedure RangeEncodeEnd()
+  for i ← 0 to 4:  // Flush any residual state in low
+    RangeShiftLow()</code></pre>
 
 ## 4.1 Adaptive Modelling
 
@@ -2117,90 +2028,77 @@ through the cumulative frequencies.
 setting every symbol to have a frequency of 1. (At no point do we permit
 any symbol to have zero frequency.)
 
-<div class="code-math-block">
-
-Function ModelCreate($num\_sym$)\
-  $total\_freq \gets num\_sym$\
-  $max\_sym \gets num\_sym-1$\
-  for $i \gets 0$ to $max\_sym$:\
-    $S_i \gets i$\
-    $F_i \gets 1$\
-  return this model ($total\_freq$, $max\_sym$, $S$, $F$)
-
-</div>
+<pre><code>Function ModelCreate(num_sym)
+  total_freq ← num_sym
+  max_sym ← num_sym-1
+  for i ← 0 to max_sym:
+    S_i ← i
+    F_i ← 1
+  return this model (total_freq, max_sym, S, F)</code></pre>
 
 <span class="smallcaps">ModelDecode</span> is called once for each
 decoded symbol. It returns the next symbol and updates the model
 frequencies automatically.
 
-<div class="code-math-block">
-
-Function ModelDecode(rc)\
-  $freq \gets$ $rc.$<span class="smallcaps">RangeGetFrequency</span>($total\_freq$)State $x \gets 0$\
-  $acc \gets 0$\
-  while $acc + F_x \le freq$:\
-    $acc \gets acc + F_x$\
-    $x \gets x+1$\
-  $rc.$<span class="smallcaps">RangeDecode</span>($acc, F_x, total\_freq$)State $F_x \gets F_x + 16$  // Update model frequencies\
-  $total\_freq \gets total\_freq + 16$\
-  if $total\_freq > 2^{16}-17$:\
-    <span class="smallcaps">ModelRenormalise</span>()EndIf\
-    $sym \gets S_x$\
-    if $x > 0 \mathbin{\textbf{and}} F_x > F_{x-1}$:\
-      <span class="smallcaps">Swap</span>($F_x$, $F_{x-1}$)State <span class="smallcaps">Swap</span>($S_x$, $S_{x-1}$)EndIf\
-      return $sym$
-
-</div>
+<pre><code>Function ModelDecode(rc)
+  freq ← rc.RangeGetFrequency(total_freq)
+  x ← 0
+  acc ← 0
+  while acc + F_x ≤ freq:
+    acc ← acc + F_x
+    x ← x+1
+  rc.RangeDecode(acc, F_x, total_freq)
+  F_x ← F_x + 16  // Update model frequencies
+  total_freq ← total_freq + 16
+  if total_freq &gt; 2^16-17:
+    ModelRenormalise()
+  sym ← S_x
+  if x &gt; 0 and F_x &gt; F_x-1:
+    Swap(F_x, F_x-1)
+    Swap(S_x, S_x-1)
+  return sym</code></pre>
 
 <span class="smallcaps">ModelRenormalise</span> is called whenever the
 total frequencies get too high. The frequencies are halved, taking sure
 to avoid any zero frequencies being created.
 
-<div class="code-math-block">
-
-Procedure ModelRenormalise()\
-  $total\_freq \gets 0$\
-  for $i \gets 0$ to $max\_sym$:\
-    $F_i \gets F_i - (F_i \bdiv 2)$\
-    $total\_freq \gets total\_freq + F_i$
-
-</div>
+<pre><code>Procedure ModelRenormalise()
+  total_freq ← 0
+  for i ← 0 to max_sym:
+    F_i ← F_i - (F_i div 2)
+    total_freq ← total_freq + F_i</code></pre>
 
 ## 4.2 Order-0 and Order-1 Encoding
 
 We can combine the model defined above and the range coder to provide a
 simple function to perform Order-0 entropy decoder.
 
-<div class="code-math-block">
-
-Function DecodeOrder0($len$)\
-  $max\_sym \gets$<span class="smallcaps">ReadUint8</span>()If{$max\_sym = 0$}\
-  $max\_sym \gets 256$\
-$model\_lit \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)Statex\
-$rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()For{$i \gets 0$ to $len-1$}\
-$out_i \gets model\_lit.$<span class="smallcaps">ModelDecode</span>($rc$)EndFor\
-return $out$
-
-</div>
+<pre><code>Function DecodeOrder0(len)
+  max_sym ← ReadUint8()
+  if max_sym = 0:
+    max_sym ← 256
+  model_lit ← ModelCreate(max_sym)
+&#10;  rc ← RangeDecodeCreate()
+  for i ← 0 to len-1:
+    out_i ← model_lit.ModelDecode(rc)
+  return out</code></pre>
 
 The Order-1 variant simply uses an array of models and selects the
 appropriate model based on the previous value encoded or decoded. This
 array index is our "context".
 
-<div class="code-math-block">
-
-Function DecodeOrder1($len$)\
-  $max\_sym \gets$<span class="smallcaps">ReadUint8</span>()If{$max\_sym = 0$}\
-  $max\_sym \gets 256$\
-for $i \gets 0$ to $max\_sym-1$:\
-  $model\_lit_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)EndFor\
-\
-  $rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()State $last \gets 0$\
-  for $i \gets 0$ to $len-1$:\
-    $out_i \gets model\_lit_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)State $last \gets out_i$\
-  return $out$
-
-</div>
+<pre><code>Function DecodeOrder1(len)
+  max_sym ← ReadUint8()
+  if max_sym = 0:
+    max_sym ← 256
+  for i ← 0 to max_sym-1:
+    model_lit_i ← ModelCreate(max_sym)
+&#10;  rc ← RangeDecodeCreate()
+  last ← 0
+  for i ← 0 to len-1:
+    out_i ← model_lit_last.ModelDecode(rc)
+    last ← out_i
+  return out</code></pre>
 
 ## 4.3 RLE with Order-0 and Order-1 Encoding
 
@@ -2223,57 +2121,58 @@ length 3 (context 256), length 3 (context 257), and length 1 (context
 For example, if we have the string "ABBCCCCDDDDD" we will record
 "A"\<0\> "B"\<1\> "C"\<3,0\> and "D"\<3,1\>.
 
-<div class="code-math-block">
-
-Function DecodeRLE0($len$)\
-  $max\_sym \gets$<span class="smallcaps">ReadUint8</span>()If{$max\_sym = 0$}\
-  $max\_sym \gets 256$\
-$model\_lit \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)For{$i \gets 0$ to $257$}\
-$model\_run_i \gets$<span class="smallcaps">ModelCreate</span>($4$)EndFor\
-\
-$rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()State $i \gets 0$\
-while $i < len$:\
-  $out_i \gets model\_lit.$<span class="smallcaps">ModelDecode</span>($rc$)State $part \gets model\_run_{out_i}.$<span class="smallcaps">ModelDecode</span>($rc$)State $run \gets part$\
-  $rctx \gets 256$\
-  while $part = 3$:\
-    $part \gets model\_run_{rctx}.$<span class="smallcaps">ModelDecode</span>($rc$)State $rctx \gets 257$\
-    $run \gets run + part$\
-  for $j \gets 1$ to $run$:\
-    $out_{i+j} \gets out_i$\
-  $i \gets run+1$\
-return $out$
-
-</div>
+<pre><code>Function DecodeRLE0(len)
+  max_sym ← ReadUint8()
+  if max_sym = 0:
+    max_sym ← 256
+  model_lit ← ModelCreate(max_sym)
+  for i ← 0 to 257:
+    model_run_i ← ModelCreate(4)
+&#10;  rc ← RangeDecodeCreate()
+  i ← 0
+  while i &lt; len:
+    out_i ← model_lit.ModelDecode(rc)
+    part ← model_run_out_i.ModelDecode(rc)
+    run ← part
+    rctx ← 256
+    while part = 3:
+      part ← model_run_rctx.ModelDecode(rc)
+      rctx ← 257
+      run ← run + part
+    for j ← 1 to run:
+      out_i+j ← out_i
+    i ← run+1
+  return out</code></pre>
 
 The order-1 run length variant is identical to order-0 except the
 previous symbol is used as the context for the next literal. The context
 for the run length does not change.
 
-<div class="code-math-block">
-
-Function DecodeRLE1($len$)\
-  $max\_sym \gets$<span class="smallcaps">ReadUint8</span>()If{$max\_sym = 0$}\
-  $max\_sym \gets 256$\
-for $i \gets 0$ to $max\_sym-1$:\
-  $model\_lit_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)EndFor\
-  for $i \gets 0$ to $257$:\
-    $model\_run_i \gets$<span class="smallcaps">ModelCreate</span>($4$)EndFor\
-\
-    $rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()State $last \gets 0$\
-    $i \gets 0$\
-    while $i < len$:\
-      $out_i \gets model\_lit_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)State $last \gets out_i$\
-      $part \gets model\_run_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)State $run \gets part$\
-      $rctx \gets 256$\
-      while $part = 3$:\
-        $part \gets model\_run_{rctx}.$<span class="smallcaps">ModelDecode</span>($rc$)State $rctx \gets 257$\
-        $run \gets run + part$\
-      for $j \gets 1$ to $run$:\
-        $out_{i+j} \gets last$\
-      $i \gets run+1$\
-    return $out$
-
-</div>
+<pre><code>Function DecodeRLE1(len)
+  max_sym ← ReadUint8()
+  if max_sym = 0:
+    max_sym ← 256
+  for i ← 0 to max_sym-1:
+    model_lit_i ← ModelCreate(max_sym)
+  for i ← 0 to 257:
+    model_run_i ← ModelCreate(4)
+&#10;  rc ← RangeDecodeCreate()
+  last ← 0
+  i ← 0
+  while i &lt; len:
+    out_i ← model_lit_last.ModelDecode(rc)
+    last ← out_i
+    part ← model_run_last.ModelDecode(rc)
+    run ← part
+    rctx ← 256
+    while part = 3:
+      part ← model_run_rctx.ModelDecode(rc)
+      rctx ← 257
+      run ← run + part
+    for j ← 1 to run:
+      out_i+j ← last
+    i ← run+1
+  return out</code></pre>
 
 We wrap up the Order-0 and 1 entropy encoder, both with and without run
 length encoding, into a data stream that specifies the type of encoded
@@ -2297,7 +2196,7 @@ and N-way interleaving of the 8-bit components of a 32-bit value.
 <tr>
 <td>8</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi></mrow><annotation encoding="application/x-tex">flag</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑓𝑙𝑎𝑔</mtext><annotation encoding="application/x-tex">\textit{flag}</annotation></semantics></math></td>
 <td>Data format bit field</td>
 <td></td>
 </tr>
@@ -2338,24 +2237,18 @@ and N-way interleaving of the 8-bit components of a 32-bit value.
 </tr>
 <tr>
 <td><span>2-5</span></td>
-<td>8</td>
-<td>uint8</td>
-<td>N</td>
-<td>Number of sub-streams</td>
-</tr>
-<tr>
-<td></td>
-<td>?</td>
-<td>uint7[]</td>
-<td>clen[]</td>
-<td>N copies of compressed sub-block length</td>
-</tr>
-<tr>
-<td></td>
-<td>?</td>
-<td>uint8[]</td>
-<td>cdata[]</td>
-<td>N copies of Compressed data sub-block (recurse)</td>
+<td>8
+?
+?</td>
+<td>uint8
+uint7[]
+uint8[]</td>
+<td>N
+clen[]
+cdata[]</td>
+<td>Number of sub-streams
+N copies of compressed sub-block length
+N copies of Compressed data sub-block (recurse)</td>
 </tr>
 <tr>
 <td><span>2-5</span></td>
@@ -2442,8 +2335,6 @@ followed by optional meta-data, followed by the actual compressed data
 stream. The bit-flags are defined below, but note not all combinations
 are permitted.
 
-<div class="threeparttable">
-
 <table>
 <thead>
 <tr>
@@ -2455,7 +2346,8 @@ are permitted.
 <tbody>
 <tr>
 <td>1</td>
-<td><span class="smallcaps">Order</span></td>
+<td><span
+class="smallcaps">Order</span><sup><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>*</mi><annotation encoding="application/x-tex">*</annotation></semantics></math></strong></sup></td>
 <td>Order-0 or Order-1 entropy coding</td>
 </tr>
 <tr>
@@ -2470,7 +2362,7 @@ are permitted.
 </tr>
 <tr>
 <td>8</td>
-<td><span class="smallcaps">Stripe</span></td>
+<td><span class="smallcaps">Stripe</span><sup><strong>†</strong></sup></td>
 <td>N-way interleaving of byte streams</td>
 </tr>
 <tr>
@@ -2481,12 +2373,13 @@ class="smallcaps">Stripe</span>)</td>
 </tr>
 <tr>
 <td>32</td>
-<td><span class="smallcaps">Cat</span></td>
+<td><span class="smallcaps">Cat</span><sup><strong>†</strong></sup></td>
 <td>Data is uncompressed</td>
 </tr>
 <tr>
 <td>64</td>
-<td><span class="smallcaps">RLE</span></td>
+<td><span
+class="smallcaps">RLE</span><sup><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>*</mi><annotation encoding="application/x-tex">*</annotation></semantics></math></strong></sup></td>
 <td>Run length encoding, with runs and literals encoded separately</td>
 </tr>
 <tr>
@@ -2495,19 +2388,13 @@ class="smallcaps">Stripe</span>)</td>
 <td>Pack 2, 4, 8 or infinite symbols per byte</td>
 </tr>
 </tbody>
+&#10;<tfoot class="tablenotes"><tr><td colspan="100"><p><span><span>(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>*</mi><annotation encoding="application/x-tex">*</annotation></semantics></math>)</span></span>
+<span>Has no effect when <span class="smallcaps">Ext</span> flag is
+set.</span></p>
+<p><span><span>(†)</span></span> <span>Not to be used in conjunction
+with other flags except <span class="smallcaps">Pack</span> and <span
+class="smallcaps">NoSize</span>.</span></p></td></tr></tfoot>
 </table>
-
-<div class="tablenotes">
-
-($*$) Has no effect when <span class="smallcaps">Ext</span> flag is set.
-
-() Not to be used in conjunction with other flags except
-<span class="smallcaps">Pack</span> and
-<span class="smallcaps">NoSize</span>.
-
-</div>
-
-</div>
 
 Of these <span class="smallcaps">Stripe</span> is the most complex. As
 with the rANS Nx16 encoder, the data is rearranged such that every
@@ -2532,33 +2419,35 @@ after decompression. For example value 193 is indicates a byte stream
 should be decoded with an RLE aware order-1 entropy encoder and then
 unpacked.
 
-<div class="code-math-block">
-
-Function ArithDecode($len$)\
-  $flags \gets$<span class="smallcaps">ReadUint8</span>()If{$flags \mathbin{\text{AND}}$ <span class="smallcaps">NoSize</span> $\ne 0$}\
-  $len \gets$<span class="smallcaps">ReadUint7</span>()EndIf\
-  if $flags\ \mathbin{\text{AND}}$ <span class="smallcaps">Stripe</span>:\
-    $data \gets$<span class="smallcaps">DecodeStripe</span>($len$)State \Return $data$\
-  if $flags\ \mathbin{\text{AND}}$ <span class="smallcaps">Pack</span>:\
-    $pack\_len \gets len$\
-    $(P, nsym, len) \gets$<span class="smallcaps">DecodePackMeta</span>()EndIf\
-    // Entropy Decoding\
-    if $flags\ \mathbin{\text{AND}}$ <span class="smallcaps">Cat</span>:\
-      $data \gets$<span class="smallcaps">ReadData</span>($len$)ElsIf{$flags \mathbin{\text{AND}}$ <span class="smallcaps">Ext</span>}\
-      $data \gets$<span class="smallcaps">DecodeEXT</span>($len$)ElsIf{$flags \mathbin{\text{AND}}$ <span class="smallcaps">RLE</span>}\
-      if $flags\ \mathbin{\text{AND}}$ <span class="smallcaps">Order</span>:\
-        $data \gets$<span class="smallcaps">DecodeRLE1</span>($len$)Else\
-        $data \gets$<span class="smallcaps">DecodeRLE0</span>($len$)EndIf\
-      else:\
-        if $flags\ \mathbin{\text{AND}}$ <span class="smallcaps">Order</span>:\
-          $data \gets$<span class="smallcaps">DecodeOrder1</span>($len$)Else\
-          $data \gets$<span class="smallcaps">DecodeOrder0</span>($len$)EndIf\
-        // Apply data transformations\
-        if $flags\ \mathbin{\text{AND}}$ <span class="smallcaps">Pack</span>:\
-          $data \gets$<span class="smallcaps">DecodePack</span>($data$, $P$, $nsym$, $pack\_len$)EndIf\
-          return $data$
-
-</div>
+<pre><code>Function ArithDecode(len)
+  flags ← ReadUint8()
+  if flags &amp; NoSize ≠ 0:
+    len ← ReadUint7()
+  if flags &amp; Stripe:
+    data ← DecodeStripe(len)
+    return data
+  if flags &amp; Pack:
+    pack_len ← len
+    (P, nsym, len) ← DecodePackMeta()
+  // Entropy Decoding
+  if flags &amp; Cat:
+    data ← ReadData(len)
+  else if flags &amp; Ext:
+    data ← DecodeEXT(len)
+  else if flags &amp; RLE:
+    if flags &amp; Order:
+      data ← DecodeRLE1(len)
+    else:
+      data ← DecodeRLE0(len)
+  else:
+    if flags &amp; Order:
+      data ← DecodeOrder1(len)
+    else:
+      data ← DecodeOrder0(len)
+  // Apply data transformations
+  if flags &amp; Pack:
+    data ← DecodePack(data, P, nsym, pack_len)
+  return data</code></pre>
 
 The specifics of each sub-format are described below, in the order
 (minus meta-data specific shuffling) they are applied.
@@ -2567,8 +2456,9 @@ The specifics of each sub-format are described below, in the order
   a 7-bit encoded uncompressed length and a byte holding the number of
   substreams $N$, and their 7-bit encoded compressed data streams
   lengths. This is then followed by the substreams themselves, each of
-  which is a valid $cdata$ stream as defined above, hence this offers a
-  recursive mechanism as each substream has its own format byte.
+  which is a valid $\textit{cdata}$ stream as defined above, hence this
+  offers a recursive mechanism as each substream has its own format
+  byte.
 
   The total uncompressed byte stream is then an interleaving of one byte
   in turn from each of the N substreams (in order of 1st to Nth). Thus
@@ -2576,22 +2466,17 @@ The specifics of each sub-format are described below, in the order
   <span class="smallcaps">Stripe</span> to compress each of the 4 8-bit
   components together with their own algorithm.
 
-  <div class="code-math-block">
-
-  Function DecodeStripe($len$)\
-    $N \gets$<span class="smallcaps">ReadUint8</span>()For{$j \gets 0$ to $N$}  // Fetch N compressed lengths\
-    $clen_j \gets$<span class="smallcaps">ReadUint7</span>()EndFor\
-  \
-    for $j \gets 0$ to $N$:  // Decode N streams\
-      $ulen_j \gets (len \bdiv N) + ((len \bmod N) > j)$  // $(x > y)$ expression being 1 if true, 0 if false\
-      $T_j \gets$<span class="smallcaps">ArithDecode</span>($ulen_j$)EndFor\
-  \
-      for $j \gets 0$ to $N - 1$:  // Stripe\
-        for $i \gets 0$ to $ulen_j - 1$:\
-          $out_{i \times N + j} \gets T_{j,i}$\
-      return $out$
-
-  </div>
+  <pre><code>Function DecodeStripe(len)
+    N ← ReadUint8()
+    for j ← 0 to N:  // Fetch N compressed lengths
+      clen_j ← ReadUint7()
+  &#10;  for j ← 0 to N:  // Decode N streams
+      ulen_j ← (len div N) + ((len mod N) &gt; j)  // (x &gt; y) expression being 1 if true, 0 if false
+      T_j ← ArithDecode(ulen_j)
+  &#10;  for j ← 0 to N - 1:  // Stripe
+      for i ← 0 to ulen_j - 1:
+        out_i * N + j ← T_j,i
+    return out</code></pre>
 
 - **<span class="smallcaps">NoSize</span>**: Do not store the size of
   the uncompressed data stream. This information is not required when
@@ -2635,14 +2520,11 @@ The specifics of each sub-format are described below, in the order
   restructuring so for compatibility with v3.0 these have been placed
   into this single codec.
 
-  <div class="code-math-block">
-
-  Function DecodeExt($len$)\
-    if Bzip2 magic number is present:\
-      return <span class="smallcaps">DecodeBzip2</span>($len$)Else\
-      Error
-
-  </div>
+  <pre><code>Function DecodeExt(len)
+    if Bzip2 magic number is present:
+      return DecodeBzip2(len)
+    else:
+      Error</code></pre>
 
 - **<span class="smallcaps">Pack</span>**: Data containing only 1, 2, 4
   or 16 distinct values can have multiple values packed into a single
@@ -2787,18 +2669,19 @@ previous name (NB: not permitted for DELTA/DELTA0)</td>
 </table>
 
 The tokens and values are stored in a 2D array of byte streams,
-$B_{pos,type}$, where pos 0 is reserved for name meta-data (whether it
-is a duplicate name) and pos 1 onwards is for the first, second and
-later tokens. $Type$ is one of the token types listed above,
-corresponding to the type of data being stored. Some token types may
-also have associated values. $B_{pos,\texttt{TYPE}}$ ($type$) holds the
-token type itself and that is then used to retrieve any associated
-value(s) if appropriate from $B_{pos,type}$. Thus multiple types at the
-same token position will have their values encoded in distinct data
-streams, e.g. if position 5 is of type either DIGITS or DELTA then data
-streams will exist for $B_{5,\texttt{TYPE}}$, $B_{5,\texttt{DIGITS}}$
-and $B_{5, \texttt{DELTA}}$. Decoding per name continues until a token
-of type END is observed.
+$B_{\textit{pos},\textit{type}}$, where pos 0 is reserved for name
+meta-data (whether it is a duplicate name) and pos 1 onwards is for the
+first, second and later tokens. $\textit{Type}$ is one of the token
+types listed above, corresponding to the type of data being stored. Some
+token types may also have associated values.
+$B_{\textit{pos},\texttt{TYPE}}$ ($\textit{type}$) holds the token type
+itself and that is then used to retrieve any associated value(s) if
+appropriate from $B_{\textit{pos},\textit{type}}$. Thus multiple types
+at the same token position will have their values encoded in distinct
+data streams, e.g. if position 5 is of type either DIGITS or DELTA then
+data streams will exist for $B_{5,\texttt{TYPE}}$,
+$B_{5,\texttt{DIGITS}}$ and $B_{5, \texttt{DELTA}}$. Decoding per name
+continues until a token of type END is observed.
 
 More detail on the token types is given below.
 
@@ -2837,13 +2720,14 @@ More detail on the token types is given below.
   CHAR or STRING and storing the absolute value.
 
 - **DIGITS0**, **DZLEN**: This fetches the 4 byte value from
-  $B_{pos,DIGITS0}$ and a 1 byte length from $B_{pos,DZLEN}$. As per
-  DIGITS, the value is intrepreted as a little endian unsigned integer.
-  The length indicates the total size of the numeric value when
-  displayed in base 10 which must be greater than $\log_{10}(value)$
-  with any remaining length indicating the number of leading zeros. For
-  example if DIGITS0 value is 123 and DZLEN length is 5 the string
-  "00123" must be appended to the name.
+  $B_{\textit{pos},\textit{DIGITS}0}$ and a 1 byte length from
+  $B_{\textit{pos},\textit{DZLEN}}$. As per DIGITS, the value is
+  intrepreted as a little endian unsigned integer. The length indicates
+  the total size of the numeric value when displayed in base 10 which
+  must be greater than $\log_{10}(\textit{value})$ with any remaining
+  length indicating the number of leading zeros. For example if DIGITS0
+  value is 123 and DZLEN length is 5 the string "00123" must be appended
+  to the name.
 
   For purposes of the MATCH type, both value and length must match.
 
@@ -2885,16 +2769,12 @@ unsigned integers and nul-terminated strings. We reuse the
 <span class="smallcaps">ReadUint32</span> and related functions with the
 byte array specified as input.
 
-<div class="code-math-block">
-
-// \textit{(Convert an integer to a string form in base-10 digits, at least $len$ bytes long with leading zeros)}\
-Function LeftPadNumber($val,\ len$)\
-  $str \gets val$  // Implicit language-specific Integer to String conversion\
-  while <span class="smallcaps">Length</span>($str$) $len$:\
-    $str \gets$ \`$0$' $\mathbin{++} str$\
-  return $str$
-
-</div>
+<pre><code>// \textit{(Convert an integer to a string form in base-10 digits, at least len bytes long with leading zeros)}
+Function LeftPadNumber(val, len)
+  str ← val  // Implicit language-specific Integer to String conversion
+  while Length(str) &lt; len:
+    str ← `0' ++ str
+  return str</code></pre>
 
 For the main name decoding loop, we use a single dimensional array of
 names decoded so far, $N$, and a two dimensional array of their tokens
@@ -2906,40 +2786,48 @@ previous $m^{th}$ name ($N_m$). The tokens $T$ are used in `MATCH` and
 Now we have the basic primitives for pulling from the $B$ byte streams,
 decoding the $n^{th}$ individual name is as follows[^7]:
 
-<div class="code-math-block">
-
-// \textit{(Decodes the $n^{th}$ name, returning $N_n$ and updating globals $N_n$ and $T_n$)}\
-Function DecodeSingleName($n$)\
-  $type \gets$ <span class="smallcaps">ReadUint8</span>($B_{0,\textit{TYPE}}$)State $dist \gets$ <span class="smallcaps">ReadUint32</span>($B_{0,type}$)State $m \gets n-dist$\
-  if $type =$ \texttt{DUP}:\
-    $N_n \gets N_m$\
-    $T_n \gets T_m$  // Copy for all $T_{n,*}$\
-    return $N_n$\
-\
-  $t \gets 1$  // Token number $t$\
-  repeat:\
-    $type \gets$ <span class="smallcaps">ReadUint8</span>($B_{t,\texttt{TYPE}}$)If{$type =$ \texttt{CHAR}}\
-    $T_{n,t} \gets$ <span class="smallcaps">ReadChar</span>($B_{t,\texttt{CHAR}}$)ElsIf{$type =$ \texttt{STRING}}\
-    $T_{n,t} \gets$ <span class="smallcaps">ReadString</span>($B_{t,\texttt{STRING}}$)ElsIf{$type =$ \texttt{DIGITS}}\
-    $T_{n,t} \gets$ <span class="smallcaps">ReadUint32</span>($B_{t,\texttt{DIGITS}}$)ElsIf{$type =$ \texttt{DIGITS0}}\
-    $d \gets$ <span class="smallcaps">ReadUnt32</span>($B_{t,\texttt{DIGITS0}}$)State $l \gets$ <span class="smallcaps">ReadUint8</span>($B_{t,\texttt{DZLEN}}$)State $T_{n,t} \gets$ <span class="smallcaps">LeftPadNumber</span>($d, l$)ElsIf{$type =$ \texttt{DELTA}}\
-    $T_{n,t} \gets T_{m,t} +$ <span class="smallcaps">ReadUint8</span>($B_{t,\texttt{DELTA}}$)ElsIf{$type =$ \texttt{DELTA0}}\
-    $d \gets T_{m,t} +$ <span class="smallcaps">ReadUint8</span>($B_{t,\texttt{DELTA0}}$)State $l \gets$ <span class="smallcaps">Length</span>($T_{m,t}$)Comment{String length including leading zeros}\
-    $T_{n,t} \gets$ <span class="smallcaps">LeftPadNumber</span>($d, l$)ElsIf{$type =$ \texttt{MATCH}}\
-    $T_{n,t} \gets T_{m,t}$\
-  else:\
-    $T_{n,t} \gets$ \`'\
-  $N_n \gets N_n \mathbin{++} T_{n,t}$\
-  $t \gets t+1$\
-until $type =$ \texttt{END}\
-return $N_n$
-
-</div>
+<pre><code>// \textit{(Decodes the n^th name, returning N_n and updating globals N_n and T_n)}
+Function DecodeSingleName(n)
+  type ← ReadUint8(B_0,TYPE)
+  dist ← ReadUint32(B_0,type)
+  m ← n-dist
+  if type = \texttt{DUP}:
+    N_n ← N_m
+    T_n ← T_m  // Copy for all T_n,*
+    return N_n
+&#10;  t ← 1  // Token number t
+  repeat:
+    type ← ReadUint8(B_t,TYPE)
+    if type = \texttt{CHAR}:
+      T_n,t ← ReadChar(B_t,CHAR)
+    else if type = \texttt{STRING}:
+      T_n,t ← ReadString(B_t,STRING)
+    else if type = \texttt{DIGITS}:
+      T_n,t ← ReadUint32(B_t,DIGITS)
+    else if type = \texttt{DIGITS0}:
+      d ← ReadUnt32(B_t,DIGITS0)
+      l ← ReadUint8(B_t,DZLEN)
+      T_n,t ← LeftPadNumber(d, l)
+    else if type = \texttt{DELTA}:
+      T_n,t ← T_m,t + ReadUint8(B_t,DELTA)
+    else if type = \texttt{DELTA0}:
+      d ← T_m,t + ReadUint8(B_t,DELTA0)
+      l ← Length(T_m,t)  // String length including leading zeros
+      T_n,t ← LeftPadNumber(d, l)
+    else if type = \texttt{MATCH}:
+      T_n,t ← T_m,t
+    else:
+      T_n,t ← `'
+    N_n ← N_n ++ T_n,t
+    t ← t+1
+  until type = \texttt{END}
+  return N_n</code></pre>
 
 Given a complex name with both position and type specific values, this
 can lead to many separate data streams. The name tokeniser codec is a
-format within a format, as the multiple byte streams $B_{pos,type}$ are
-serialised into a single byte stream.
+format within a format, as the multiple byte streams
+$B_{\textit{pos},\textit{type}}$ are serialised into a single byte
+stream.
 
 The serialised data stream starts with two unsigned little endian 32-bit
 integers holding the total size of uncompressed name buffer and the
@@ -2951,8 +2839,8 @@ whether the implementation produces data in this form or whether it
 returns separate name and name-length arrays.
 
 This is then followed by serialised data and meta-data for each token
-stream. Token types, $ttype$ holds one of the token ID values listed
-above in the list above, plus special values to indicate certain
+stream. Token types, $\textit{ttype}$ holds one of the token ID values
+listed above in the list above, plus special values to indicate certain
 additional flags. Bit 6 (64) set indicates that this entire token data
 stream is a duplicate of one earlier. Bit 7 (128) set indicates the
 token is the first token at a new position. This way we only need to
@@ -2976,7 +2864,7 @@ order to determine when the token types finish.
 <tr>
 <td>4</td>
 <td>uint32</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi>n</mi><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>h</mi></mrow><annotation encoding="application/x-tex">uncomp\_length</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑢𝑛𝑐𝑜𝑚𝑝_𝑙𝑒𝑛𝑔𝑡ℎ</mtext><annotation encoding="application/x-tex">\textit{uncomp\_length}</annotation></semantics></math></td>
 <td>Length of uncompressed name buffer</td>
 <td></td>
 <td></td>
@@ -2984,7 +2872,7 @@ order to determine when the token types finish.
 <tr>
 <td>4</td>
 <td>uint32</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>u</mi><mi>m</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">num\_reads</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑛𝑢𝑚_𝑟𝑒𝑎𝑑𝑠</mtext><annotation encoding="application/x-tex">\textit{num\_reads}</annotation></semantics></math></td>
 <td>Number of read names</td>
 <td></td>
 <td></td>
@@ -2992,7 +2880,7 @@ order to determine when the token types finish.
 <tr>
 <td>1</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi>s</mi><mi>e</mi><mi>_</mi><mi>a</mi><mi>r</mi><mi>i</mi><mi>t</mi><mi>h</mi></mrow><annotation encoding="application/x-tex">use\_arith</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑢𝑠𝑒_𝑎𝑟𝑖𝑡ℎ</mtext><annotation encoding="application/x-tex">\textit{use\_arith}</annotation></semantics></math></td>
 <td>Whether compression is arithmetic (1) or rANS Nx16 (0)</td>
 <td></td>
 <td></td>
@@ -3009,7 +2897,7 @@ order to determine when the token types finish.
 <td><span>2-6</span></td>
 <td>1</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">ttype</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑡𝑡𝑦𝑝𝑒</mtext><annotation encoding="application/x-tex">\textit{ttype}</annotation></semantics></math></td>
 <td>Token type code plus flags (64=duplicate, 128=next token position).</td>
 <td></td>
 </tr>
@@ -3024,18 +2912,14 @@ order to determine when the token types finish.
 <tr>
 <td><span>3-6</span></td>
 <td></td>
-<td>1</td>
-<td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>u</mi><mi>p</mi><mi>_</mi><mi>p</mi><mi>o</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dup\_pos</annotation></semantics></math></td>
-<td>Duplicate from this token position</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>1</td>
-<td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>u</mi><mi>p</mi><mi>_</mi><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">dup\_type</annotation></semantics></math></td>
-<td>Duplicate from this token type ID</td>
+<td>1
+1</td>
+<td>uint8
+uint8</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑢𝑝_𝑝𝑜𝑠</mtext><annotation encoding="application/x-tex">\textit{dup\_pos}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑢𝑝_𝑡𝑦𝑝𝑒</mtext><annotation encoding="application/x-tex">\textit{dup\_type}</annotation></semantics></math></td>
+<td>Duplicate from this token position
+Duplicate from this token type ID</td>
 </tr>
 <tr>
 <td><span>3-6</span></td>
@@ -3048,18 +2932,14 @@ order to determine when the token types finish.
 <tr>
 <td><span>3-6</span></td>
 <td></td>
-<td>?</td>
-<td>uint7</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">clen</annotation></semantics></math></td>
-<td>compressed length</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">clen</annotation></semantics></math></td>
-<td>uint8[]</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">cdata</annotation></semantics></math></td>
-<td>compressed data stream</td>
+<td>?
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{clen}</annotation></semantics></math></td>
+<td>uint7
+uint8[]</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{clen}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑑𝑎𝑡𝑎</mtext><annotation encoding="application/x-tex">\textit{cdata}</annotation></semantics></math></td>
+<td>compressed length
+compressed data stream</td>
 </tr>
 </tbody>
 </table>
@@ -3068,48 +2948,50 @@ A few tricks are used to remove some byte streams. In addition to the
 explicit marking of duplicate bytes streams, if a byte stream of token
 types is entirely MATCH apart from the very first value it is discarded.
 It is possible to regenerate this during decode by observing the other
-byte streams. For example if we have a byte stream $B_{5,DIGITS}$ but no
-$B_{5,TYPE}$ then we assume the contents of $B_{5,TYPE}$ consist of one
-DIGITS type followed by as many MATCH types as are needed.
+byte streams. For example if we have a byte stream
+$B_{5,\textit{DIGITS}}$ but no $B_{5,\textit{TYPE}}$ then we assume the
+contents of $B_{5,\textit{TYPE}}$ consist of one DIGITS type followed by
+as many MATCH types as are needed.
 
-The $cdata$ stream itself is as described in the relevant entropy
-encoder section above (rANS or arithmetic coding).
+The $\textit{cdata}$ stream itself is as described in the relevant
+entropy encoder section above (rANS or arithmetic coding).
 
-<div class="code-math-block">
+<pre><code>// \textit{(Decodes and uncompresses the serialised token byte streams)}
+Function DecodeTokenByteStreams(use_arith)
+  sz ← 0
+  t ← -1
+  repeat:
+    ttype ← ReadUint8()
+    tok_new ← ttype &amp; 128
+    tok_dup ← ttype &amp; 64
+    type ← ttype &amp; 63
+    if tok_new ≠ 0:
+      t ← t+1
+      if type ≠ TYPE:
+        B_t,TYPE ← (type, TOK_MATCH, TOK_MATCH, ...)  // for nnames-1 times
+&#10;    if tok_dup ≠ 0:
+      dup_pos ← ReadUint8()
+      dup_type ← ReadUint8()
+      B_t,type ← B_dup_pos,dup_type
+    else:
+      clen ← ReadUint7()
+      data ← ReadData(clen)
+      if use_arith:
+        B_t,type ← ArithDecode(clen, source=data)
+      else:
+        B_t,type ← RansDecodeNx16(clen, source=data)
+  until EOF()
+  return B</code></pre>
 
-// \textit{(Decodes and uncompresses the serialised token byte streams)}\
-Function DecodeTokenByteStreams($use\_arith$)\
-  $sz \gets 0$\
-  $t \gets -1$\
-  repeat:\
-    $ttype \gets$ <span class="smallcaps">ReadUint8</span>()State $tok\_new \gets ttype \mathbin{\text{AND}} 128$\
-    $tok\_dup \gets ttype \mathbin{\text{AND}} 64$\
-    $type \gets ttype \mathbin{\text{AND}} 63$\
-    if $tok\_new \ne 0$:\
-      $t \gets t+1$\
-      if $type \ne \texttt{TYPE}$:\
-        $B_{t,\texttt{TYPE}} \gets (type, \texttt{TOK\_MATCH}, \texttt{TOK\_MATCH}, ...)$  // for $nnames-1$ times\
-\
-    if $tok\_dup \ne 0$:\
-      $dup\_pos \gets$ <span class="smallcaps">ReadUint8</span>()State $dup\_type \gets$ <span class="smallcaps">ReadUint8</span>()State $B_{t,type} \gets B_{dup\_pos,dup\_type}$\
-    else:\
-      $clen \gets$ <span class="smallcaps">ReadUint7</span>()State $data \gets$ <span class="smallcaps">ReadData</span>($clen$)If{$use\_arith$}\
-      $B_{t,type} \gets$ <span class="smallcaps">ArithDecode</span>($clen, source=data$)Else\
-      $B_{t,type} \gets$ <span class="smallcaps">RansDecodeNx16</span>($clen, source=data$)EndIf\
-  until <span class="smallcaps">EOF</span>()\
-  return $B$
-
-</div>
-
-<div class="code-math-block">
-
-// \textit{(Decodes all names, returning $N$)}\
-Function DecodeNames()\
-  $ulen \gets$ <span class="smallcaps">ReadUint32</span>()State $nnames \gets$ <span class="smallcaps">ReadUint32</span>()State $use\_arith \gets$ <span class="smallcaps">ReadUint8</span>()State $B \gets$ <span class="smallcaps">DecodeTokenByteStreams</span>($use\_arith$)For{$n \gets 0$ to $nnames-1$}\
-  $N_n \gets$ <span class="smallcaps">DecodeSingleName</span>($n$)EndFor\
-  return $N$
-
-</div>
+<pre><code>// \textit{(Decodes all names, returning N)}
+Function DecodeNames()
+  ulen ← ReadUint32()
+  nnames ← ReadUint32()
+  use_arith ← ReadUint8()
+  B ← DecodeTokenByteStreams(use_arith)
+  for n ← 0 to nnames-1:
+    N_n ← DecodeSingleName(n)
+  return N</code></pre>
 
 # 6 FQZComp quality codec
 
@@ -3143,23 +3025,23 @@ stores the quality in the original orientation already. Both reversed
 and duplication models have no context and are boolean values.
 
 The parameter selector model also has no context associated with it and
-encodes $max\_sel$ distinct values. The selector value may be quantised
-further using $stab$ (Selector Table) to reduce the selector to fewer
-sets of parameters. This is useful if we wish to use the selector bits
-directly in the context using the same parameters. The selector is
-arbitrary and may be used for distinguishing READ1 from READ2, as a
-precalculated "delta" instead of the running total, distinguishing
-perfect alignments from imperfect ones, or any other factor that is
-shown to improve quality predictability and increase compression ratio
-(average quality, number of mismatches, tile, swathe, proximity to tile
-edge, etc).
+encodes $\textit{max\_sel}$ distinct values. The selector value may be
+quantised further using $\textit{stab}$ (Selector Table) to reduce the
+selector to fewer sets of parameters. This is useful if we wish to use
+the selector bits directly in the context using the same parameters. The
+selector is arbitrary and may be used for distinguishing READ1 from
+READ2, as a precalculated "delta" instead of the running total,
+distinguishing perfect alignments from imperfect ones, or any other
+factor that is shown to improve quality predictability and increase
+compression ratio (average quality, number of mismatches, tile, swathe,
+proximity to tile edge, etc).
 
 The quality model has a 16-bit context used to address an array of
-$2^{16}$ models, each model permitting $max\_sym$ distinct quality
-values. The context used is defined by the FQZcomp parameters, of which
-there may be multiple sets, selected using the selector model. There are
-4 read length models each having $max\_sym$ of 256. Each model is used
-for the 4 successive bytes in a 32-bit length value.
+$2^{16}$ models, each model permitting $\textit{max\_sym}$ distinct
+quality values. The context used is defined by the FQZcomp parameters,
+of which there may be multiple sets, selected using the selector model.
+There are 4 read length models each having $\textit{max\_sym}$ of 256.
+Each model is used for the 4 successive bytes in a 32-bit length value.
 
 The entropy encoder used is shared between all models, so the bit
 streams are multiplexed together.
@@ -3169,19 +3051,21 @@ together consisting of previous quality values, position along the
 current record, a running count (per record) of how many times the
 quality value has differed to the previous one (delta), and an arbitrary
 stored selector value, each shifted to a defined location within the
-combined context value ($qloc$, $ploc$, $dloc$ and $sloc$ respectively).
-The qual, pos and delta sub-contexts are computed from the previous data
-while the selector, if used, is read directly from the compressed data
-stream. The selector may be used to switch parameter sets, or simply to
-group quality strings into arbitrary user-defined sub-sets. The numeric
-values for each of these components can be passed through lookup tables
-($qtab$ for quality, $ptab$ for positions, $dtab$ for running delta and
-$stab$ for turning the selector $s$ into a parameter index $x$). These
-all convert the monotonically increasing range 0$\rightarrow$M to a
-(usually smaller) monotonically increasing 0$\rightarrow$N. For example
-if we wish to use the approximate position along a 100 byte string, we
-may uniformly map 0$\rightarrow$<!-- -->127 to 0$\rightarrow$<!-- -->15
-to utilise 4 bits of our 16-bit combined context.
+combined context value ($\textit{qloc}$, $\textit{ploc}$,
+$\textit{dloc}$ and $\textit{sloc}$ respectively). The qual, pos and
+delta sub-contexts are computed from the previous data while the
+selector, if used, is read directly from the compressed data stream. The
+selector may be used to switch parameter sets, or simply to group
+quality strings into arbitrary user-defined sub-sets. The numeric values
+for each of these components can be passed through lookup tables
+($\textit{qtab}$ for quality, $\textit{ptab}$ for positions,
+$\textit{dtab}$ for running delta and $\textit{stab}$ for turning the
+selector $s$ into a parameter index $x$). These all convert the
+monotonically increasing range 0$\rightarrow$M to a (usually smaller)
+monotonically increasing 0$\rightarrow$N. For example if we wish to use
+the approximate position along a 100 byte string, we may uniformly map
+0$\rightarrow$<!-- -->127 to 0$\rightarrow$<!-- -->15 to utilise 4 bits
+of our 16-bit combined context.
 
 <figure data-latex-placement="h">
 <img src="/hts-specs-md/img/tikz/CRAMcodecs_1.svg" />
@@ -3190,60 +3074,60 @@ to utilise 4 bits of our 16-bit combined context.
 
 As some sequencing instruments produce binned qualities, e.g. 0, 10, 25,
 35, these values are squashed to incremental values from 0 to
-$max\_sym-1$ where $max\_sym$ is the maximum number of distinct quality
-values observed. If this transform is required, the flag $have\_qmap$
-will be set and a mapping table ($qmap$) will hold the original quality
-values. The encoded qualities will be the smaller mapped range.
+$\textit{max\_sym}-1$ where $\textit{max\_sym}$ is the maximum number of
+distinct quality values observed. If this transform is required, the
+flag $\textit{have\_qmap}$ will be set and a mapping table
+($\textit{qmap}$) will hold the original quality values. The encoded
+qualities will be the smaller mapped range.
 
 The quality sub-context is constructed by shifting left the previous
-quality sub-context by $qshift$ bits and adding the current quality
-after passing through the $qmap$ transform and if defined through the
-$qtab$ lookup table. The quality context is limited to $qbits$ long and
-is added to the combined context starting at bit $qloc$. The quality
-sub-context is reset to zero at the start of each new record. [^8]
+quality sub-context by $\textit{qshift}$ bits and adding the current
+quality after passing through the $\textit{qmap}$ transform and if
+defined through the $\textit{qtab}$ lookup table. The quality context is
+limited to $\textit{qbits}$ long and is added to the combined context
+starting at bit $\textit{qloc}$. The quality sub-context is reset to
+zero at the start of each new record. [^8]
 
 The position context is simply the number of remaining quality values in
 this record, so is a value starting at record length (minus 1) and
 decrementing. As with the quality context it may be passed through a
-lookup table $ptab$ before shifting left by $ploc$ bits and adding to
-the combined context.
+lookup table $\textit{ptab}$ before shifting left by $\textit{ploc}$
+bits and adding to the combined context.
 
 Delta is a count of the number of times the quality value has changed
 from one value to a different one. Thus a run of identical values will
 not increase delta. It gets reset to zero at the start of every record.
-It may be adjusted by the $dtab$ lookup table and is shifted by $dloc$
-before adding to the combined context.
+It may be adjusted by the $\textit{dtab}$ lookup table and is shifted by
+$\textit{dloc}$ before adding to the combined context.
 
-The selector value may also be used as a sub-context, if the $do\_sel$
-paramter is set. The initial context value (reset per record) is defined
-within each parameter set, providing a more general purpose alternative
-to adding the selector value at a defined location ($sloc$) into the
-context.
+The selector value may also be used as a sub-context, if the
+$\textit{do\_sel}$ paramter is set. The initial context value (reset per
+record) is defined within each parameter set, providing a more general
+purpose alternative to adding the selector value at a defined location
+($\textit{sloc}$) into the context.
 
 Thus the full context can be updated after each decoded quality with the
-following pseudocode. Note for brevity this is assuming the $pos$,
-$delta$, $prevq$, $qctx$ and $sel$ parameters referred are global and
-updateable.
+following pseudocode. Note for brevity this is assuming the
+$\textit{pos}$, $\textit{delta}$, $\textit{prevq}$, $\textit{qctx}$ and
+$\textit{sel}$ parameters referred are global and updateable.
 
-<div class="code-math-block">
-
-// Add quality $q$ to produce and return a new context $ctx$\
-Function FQZUpdateContext($params,\ q$)\
-  $ctx \gets params.context$  // Also the initial value\
-  $qctx \gets (qctx \mathbin{\text{<<}} params.qshift) + qtab_q$\
-  $ctx \gets ctx + ((qctx \mathbin{\text{AND}} (2^{params.qbits}-1)) \mathbin{\text{<<}} params.qloc)$\
-  if $params.pflags \mathbin{\text{AND}} 32$:  // $have\_ptab$\
-    $p \gets$<span class="smallcaps">Min</span>($pos$, $1023$)State $ctx \gets ctx + (ptab_p \mathbin{\text{<<}} params.ploc)$\
-  if $params.pflags \mathbin{\text{AND}} 64$:  // $have\_dtab$\
-    $d \gets$<span class="smallcaps">Min</span>($delta$, $255$)State $ctx \gets ctx + (dtab_d \mathbin{\text{<<}} params.dloc)$\
-    if $prevq \ne q$:\
-      $delta \gets delta+1$\
-    $prevq \gets q$\
-  if $params.pflags \mathbin{\text{AND}} 8$:  // $do\_sel$\
-    $ctx \gets ctx + (sel \mathbin{\text{<<}} params.sloc)$\
-  return $ctx\mathbin{\text{AND}} (2^{16}-1)$
-
-</div>
+<pre><code>// Add quality q to produce and return a new context ctx
+Function FQZUpdateContext(params, q)
+  ctx ← params.context  // Also the initial value
+  qctx ← (qctx &lt;&lt; params.qshift) + qtab_q
+  ctx ← ctx + ((qctx &amp; (2^params.qbits-1)) &lt;&lt; params.qloc)
+  if params.pflags &amp; 32:  // have_ptab
+    p ← Min(pos, 1023)
+    ctx ← ctx + (ptab_p &lt;&lt; params.ploc)
+  if params.pflags &amp; 64:  // have_dtab
+    d ← Min(delta, 255)
+    ctx ← ctx + (dtab_d &lt;&lt; params.dloc)
+    if prevq ≠ q:
+      delta ← delta+1
+    prevq ← q
+  if params.pflags &amp; 8:  // do_sel
+    ctx ← ctx + (sel &lt;&lt; params.sloc)
+  return ctx &amp; (2^16-1)</code></pre>
 
 In summary context is produced using the following models:
 
@@ -3258,43 +3142,43 @@ In summary context is produced using the following models:
 </thead>
 <tbody>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>q</mi><mi>u</mi><mi>a</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">model\_qual</annotation></semantics></math></td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">max\_sym</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑞𝑢𝑎𝑙</mtext><annotation encoding="application/x-tex">\textit{model\_qual}</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑦𝑚</mtext><annotation encoding="application/x-tex">\textit{max\_sym}</annotation></semantics></math></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>16</mn></msup><annotation encoding="application/x-tex">2^{16}</annotation></semantics></math></td>
 <td>Primary model for quality values</td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">model\_len</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{model\_len}</annotation></semantics></math></td>
 <td>256</td>
 <td>4</td>
 <td>Read length models with the context 0-3 being successive byte numbers
 (little endian order)</td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">model\_rev</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑟𝑒𝑣</mtext><annotation encoding="application/x-tex">\textit{model\_rev}</annotation></semantics></math></td>
 <td>2</td>
 <td>none</td>
 <td>Used if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi><mi>.</mi><mi>d</mi><mi>o</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">pflags.do\_rev</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">𝑝𝑓𝑙𝑎𝑔𝑠</mtext><mi>.</mi><mtext mathvariant="italic">𝑑𝑜_𝑟𝑒𝑣</mtext></mrow><annotation encoding="application/x-tex">\textit{pflags}.\textit{do\_rev}</annotation></semantics></math>
 is defined. Indicating which strings to reverse.</td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>d</mi><mi>u</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">model\_dup</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑑𝑢𝑝</mtext><annotation encoding="application/x-tex">\textit{model\_dup}</annotation></semantics></math></td>
 <td>2</td>
 <td>none</td>
 <td>Used if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi><mi>.</mi><mi>d</mi><mi>o</mi><mi>_</mi><mi>d</mi><mi>u</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">pflags.do\_dup</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">𝑝𝑓𝑙𝑎𝑔𝑠</mtext><mi>.</mi><mtext mathvariant="italic">𝑑𝑜_𝑑𝑢𝑝</mtext></mrow><annotation encoding="application/x-tex">\textit{pflags}.\textit{do\_dup}</annotation></semantics></math>
 is defined. Indicates if this whole string is a duplicate of the last
 one</td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">model\_sel</annotation></semantics></math></td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">max\_sel</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑠𝑒𝑙</mtext><annotation encoding="application/x-tex">\textit{model\_sel}</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑒𝑙</mtext><annotation encoding="application/x-tex">\textit{max\_sel}</annotation></semantics></math></td>
 <td>none</td>
 <td>Used if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi><mi>.</mi><mi>m</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>_</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">gflags.multi\_param</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">𝑔𝑓𝑙𝑎𝑔𝑠</mtext><mi>.</mi><mtext mathvariant="italic">𝑚𝑢𝑙𝑡𝑖_𝑝𝑎𝑟𝑎𝑚</mtext></mrow><annotation encoding="application/x-tex">\textit{gflags}.\textit{multi\_param}</annotation></semantics></math>
 or
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi><mi>.</mi><mi>d</mi><mi>o</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">pflags.do\_sel</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">𝑝𝑓𝑙𝑎𝑔𝑠</mtext><mi>.</mi><mtext mathvariant="italic">𝑑𝑜_𝑠𝑒𝑙</mtext></mrow><annotation encoding="application/x-tex">\textit{pflags}.\textit{do\_sel}</annotation></semantics></math>
 are defined.</td>
 </tr>
 </tbody>
@@ -3320,7 +3204,7 @@ the decoder. The data layout is as follows.
 <tr>
 <td>8</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi>e</mi><mi>r</mi><mi>s</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">version</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑣𝑒𝑟𝑠𝑖𝑜𝑛</mtext><annotation encoding="application/x-tex">\textit{version}</annotation></semantics></math></td>
 <td>FQZComp format version: must be 5</td>
 <td></td>
 <td></td>
@@ -3328,49 +3212,28 @@ the decoder. The data layout is as follows.
 <tr>
 <td>8</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">gflags</annotation></semantics></math></td>
-<td>Global FQZcomp bit-flags. From lowest bit to highest:</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>1:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>_</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">multi\_param</annotation></semantics></math>:
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑔𝑓𝑙𝑎𝑔𝑠</mtext><annotation encoding="application/x-tex">\textit{gflags}</annotation></semantics></math></td>
+<td>Global FQZcomp bit-flags. From lowest bit to highest:
+1:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑢𝑙𝑡𝑖_𝑝𝑎𝑟𝑎𝑚</mtext><annotation encoding="application/x-tex">\textit{multi\_param}</annotation></semantics></math>:
 indicates more than one parameter block is present. Otherwise set
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">nparam = 1</annotation></semantics></math></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>2:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_stab</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">𝑛𝑝𝑎𝑟𝑎𝑚</mtext><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\textit{nparam} = 1</annotation></semantics></math>
+2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_stab}</annotation></semantics></math>:
 indicates the parameter selector is mapped through
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">stab</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{stab}</annotation></semantics></math>.
 Otherwise set
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><msub><mi>b</mi><mi>i</mi></msub><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">stab_i = i</annotation></semantics></math></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>4:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>o</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">do\_rev</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>r</mi><mi>e</mi><mi>v</mi><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">model\_revcomp</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">𝑠𝑡𝑎𝑏</mtext><mi>i</mi></msub><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">\textit{stab}_i = i</annotation></semantics></math>
+4:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑜_𝑟𝑒𝑣</mtext><annotation encoding="application/x-tex">\textit{do\_rev}</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑟𝑒𝑣𝑐𝑜𝑚𝑝</mtext><annotation encoding="application/x-tex">\textit{model\_revcomp}</annotation></semantics></math>
 will be used (CRAM v3.1)</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td><em>If
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>_</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">multi\_param</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑢𝑙𝑡𝑖_𝑝𝑎𝑟𝑎𝑚</mtext><annotation encoding="application/x-tex">\textit{multi\_param}</annotation></semantics></math>
 gflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3382,7 +3245,7 @@ gflag is set:</em></td>
 <td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">nparam</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑛𝑝𝑎𝑟𝑎𝑚</mtext><annotation encoding="application/x-tex">\textit{nparam}</annotation></semantics></math></td>
 <td>Number of parameter blocks (defaults to 1)</td>
 <td></td>
 </tr>
@@ -3396,7 +3259,7 @@ gflag is set:</em></td>
 </tr>
 <tr>
 <td><em>If
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_stab</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_stab}</annotation></semantics></math>
 gflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3406,18 +3269,14 @@ gflag is set:</em></td>
 </tr>
 <tr>
 <td><span>2-7</span></td>
-<td>8</td>
-<td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">max\_sel</annotation></semantics></math></td>
-<td>Maximum parameter selector value</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>variable</td>
-<td>array</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">stab</annotation></semantics></math></td>
-<td>Parameter selector table</td>
+<td>8
+variable</td>
+<td>uint8
+array</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑒𝑙</mtext><annotation encoding="application/x-tex">\textit{max\_sel}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{stab}</annotation></semantics></math></td>
+<td>Maximum parameter selector value
+Parameter selector table</td>
 <td></td>
 </tr>
 <tr>
@@ -3430,11 +3289,11 @@ gflag is set:</em></td>
 </tr>
 <tr>
 <td><em>Parameter block: repeated
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">nparam</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑛𝑝𝑎𝑟𝑎𝑚</mtext><annotation encoding="application/x-tex">\textit{nparam}</annotation></semantics></math>
 times: (selected via
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">model\_sel</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑠𝑒𝑙</mtext><annotation encoding="application/x-tex">\textit{model\_sel}</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">stab</annotation></semantics></math>)</em></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{stab}</annotation></semantics></math>)</em></td>
 <td></td>
 <td></td>
 <td></td>
@@ -3445,7 +3304,7 @@ and
 <td><span>2-7</span></td>
 <td>16</td>
 <td>uint16</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>x</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">context</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑜𝑛𝑡𝑒𝑥𝑡</mtext><annotation encoding="application/x-tex">\textit{context}</annotation></semantics></math></td>
 <td>Starting context value</td>
 <td></td>
 </tr>
@@ -3453,163 +3312,79 @@ and
 <td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">pflags</annotation></semantics></math></td>
-<td>Per-parameter block bit-flags. From lowest bit to highest:</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>1: Reserved</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>2:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>o</mi><mi>_</mi><mi>d</mi><mi>e</mi><mi>d</mi><mi>u</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">do\_dedup</annotation></semantics></math>:
-model_dup will be used</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>4:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>o</mi><mi>_</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">do\_len</annotation></semantics></math>:
-model_len will be used for every record</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>8:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>o</mi><mi>_</mi><mi>s</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">do\_sel</annotation></semantics></math>:
-model_sel will be used</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>16:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>q</mi><mi>m</mi><mi>a</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">have\_qmap</annotation></semantics></math>:
-indicates quality map is present</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>32:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>p</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_ptab</annotation></semantics></math>:
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑝𝑓𝑙𝑎𝑔𝑠</mtext><annotation encoding="application/x-tex">\textit{pflags}</annotation></semantics></math></td>
+<td>Per-parameter block bit-flags. From lowest bit to highest:
+1: Reserved
+2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑜_𝑑𝑒𝑑𝑢𝑝</mtext><annotation encoding="application/x-tex">\textit{do\_dedup}</annotation></semantics></math>:
+model_dup will be used
+4:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑜_𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{do\_len}</annotation></semantics></math>:
+model_len will be used for every record
+8:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑜_𝑠𝑒𝑙</mtext><annotation encoding="application/x-tex">\textit{do\_sel}</annotation></semantics></math>:
+model_sel will be used
+16:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑞𝑚𝑎𝑝</mtext><annotation encoding="application/x-tex">\textit{have\_qmap}</annotation></semantics></math>:
+indicates quality map is present
+32:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑝𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_ptab}</annotation></semantics></math>:
 Load
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">ptab</annotation></semantics></math>,
-otherwise position contexts are unused</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>64:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>d</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_dtab</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑝𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{ptab}</annotation></semantics></math>,
+otherwise position contexts are unused
+64:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑑𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_dtab}</annotation></semantics></math>:
 Load
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">dtab</annotation></semantics></math>,
-otherwise delta contexts are unused</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>128:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>q</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_qtab</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{dtab}</annotation></semantics></math>,
+otherwise delta contexts are unused
+128:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑞𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_qtab}</annotation></semantics></math>:
 Load
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">qtab</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{qtab}</annotation></semantics></math>,
 otherwise set
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>t</mi><mi>a</mi><msub><mi>b</mi><mi>i</mi></msub><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">qtab_i = i</annotation></semantics></math></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">𝑞𝑡𝑎𝑏</mtext><mi>i</mi></msub><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">\textit{qtab}_i = i</annotation></semantics></math></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">max\_sym</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑦𝑚</mtext><annotation encoding="application/x-tex">\textit{max\_sym}</annotation></semantics></math></td>
 <td>Total number of distinct quality values</td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-7</span></td>
-<td>4</td>
-<td>uint4 (high)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>b</mi><mi>i</mi><mi>t</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">qbits</annotation></semantics></math></td>
-<td>Total number of bits for quality context</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>4</td>
-<td>uint4 (low)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>s</mi><mi>h</mi><mi>i</mi><mi>f</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">qshift</annotation></semantics></math></td>
-<td>Left bit shift per successive quality in quality context</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>4</td>
-<td>uint4 (high)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>l</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">qloc</annotation></semantics></math></td>
-<td>Bit position of quality context</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>4</td>
-<td>uint4 (low)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>l</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">sloc</annotation></semantics></math></td>
-<td>Bit position of selector context</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>4</td>
-<td>uint4 (high)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>l</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">ploc</annotation></semantics></math></td>
-<td>Bit position of position context</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>4</td>
-<td>uint4 (low)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>l</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">dloc</annotation></semantics></math></td>
-<td>Bit position of delta context</td>
+<td>4
+4
+4
+4
+4
+4</td>
+<td>uint4 (high)
+uint4 (low)
+uint4 (high)
+uint4 (low)
+uint4 (high)
+uint4 (low)</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑏𝑖𝑡𝑠</mtext><annotation encoding="application/x-tex">\textit{qbits}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑠ℎ𝑖𝑓𝑡</mtext><annotation encoding="application/x-tex">\textit{qshift}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{qloc}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{sloc}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑝𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{ploc}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{dloc}</annotation></semantics></math></td>
+<td>Total number of bits for quality context
+Left bit shift per successive quality in quality context
+Bit position of quality context
+Bit position of selector context
+Bit position of position context
+Bit position of delta context</td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td><em>If
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>q</mi><mi>m</mi><mi>a</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">have\_qmap</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑞𝑚𝑎𝑝</mtext><annotation encoding="application/x-tex">\textit{have\_qmap}</annotation></semantics></math>
 pflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3620,22 +3395,14 @@ pflag is set:</em></td>
 <td><span>3-6</span></td>
 <td></td>
 <td>variable</td>
-<td>uint8[<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">max\_sym</annotation></semantics></math>]</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>m</mi><mi>a</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">qmap</annotation></semantics></math></td>
+<td>uint8[<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑦𝑚</mtext><annotation encoding="application/x-tex">\textit{max\_sym}</annotation></semantics></math>]</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑚𝑎𝑝</mtext><annotation encoding="application/x-tex">\textit{qmap}</annotation></semantics></math></td>
 <td>Map for unbinning quality values.</td>
 </tr>
 <tr>
 <td><span>3-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td><em>If
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>q</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_qtab</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑞𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_qtab}</annotation></semantics></math>
 pflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3647,21 +3414,13 @@ pflag is set:</em></td>
 <td></td>
 <td>variable</td>
 <td>array</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">qtab</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{qtab}</annotation></semantics></math></td>
 <td>Quality context lookup table</td>
 </tr>
 <tr>
 <td><span>3-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td><em>If
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_tab</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_tab}</annotation></semantics></math>
 pflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3673,21 +3432,13 @@ pflag is set:</em></td>
 <td></td>
 <td>variable</td>
 <td>array</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">ptab</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑝𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{ptab}</annotation></semantics></math></td>
 <td>Position context lookup table</td>
 </tr>
 <tr>
 <td><span>3-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td><em>If
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>v</mi><mi>e</mi><mi>_</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">have\_tab</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_tab}</annotation></semantics></math>
 pflag is set:</em></td>
 <td></td>
 <td></td>
@@ -3699,7 +3450,7 @@ pflag is set:</em></td>
 <td></td>
 <td>variable</td>
 <td>array</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>t</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">dtab</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{dtab}</annotation></semantics></math></td>
 <td>Delta context lookup table</td>
 </tr>
 <tr>
@@ -3724,67 +3475,69 @@ pflag is set:</em></td>
 <span class="smallcaps">FQZDecodeParams</span> below describes the
 pseudocode for reading the parameter block.
 
-<div class="code-math-block">
+<pre><code>Procedure FQZDecodeParams()
+  vers ← ReadUint8()
+  if vers ≠ 5:
+    ERROR
+  gflags ← ReadUint8()
+  if gflags &amp; 1:  // multi_param
+    nparam ← ReadUint8()
+    max_sel ← nparam
+  else:
+    nparam ← 1
+    max_sel ← 0
+  if gflags &amp; 2:  // have_stab
+    max_sel ← ReadUint8()
+    stab ← ReadArray(256)
+  max_sym ← 0
+  for p ← 0 to nparam-1:
+    param_p ← FQZDecodeSingleParam()
+    if max_sym &lt; param_p.max_sym:
+      max_sym ← param_p.max_sym  // Maximum across all param sets</code></pre>
 
-Procedure FQZDecodeParams()\
-  $vers \gets$<span class="smallcaps">ReadUint8</span>()If{$vers \ne 5$}\
-  ERROR\
-$gflags \gets$ <span class="smallcaps">ReadUint8</span>()If{$gflags \mathbin{\text{AND}} 1$}  // $multi\_param$\
-$nparam \gets$ <span class="smallcaps">ReadUint8</span>()State $max\_sel \gets nparam$\
-else:\
-  $nparam \gets 1$\
-  $max\_sel \gets 0$\
-if $gflags \mathbin{\text{AND}} 2$:  // $have\_stab$\
-  $max\_sel \gets$ <span class="smallcaps">ReadUint8</span>()State $stab \gets$ <span class="smallcaps">ReadArray</span>($256$)EndIf\
-  $max\_sym \gets 0$\
-  for $p \gets 0$ to $nparam-1$:\
-    $param_p \gets$ <span class="smallcaps">FQZDecodeSingleParam</span>()If {$max\_sym < param_p.max\_sym$}\
-    $max\_sym \gets param_p.max\_sym$  // Maximum across all param sets
-
-</div>
-
-<div class="code-math-block">
-
-Function FQZDecodeSingleParam()\
-  $p.context \gets$ <span class="smallcaps">ReadUint16</span>()State $p.flags \gets$ <span class="smallcaps">ReadUint8</span>()  \State $have\_qtab \gets$    $p.flags\mathbin{\text{AND}} 128$\
-  $p.max\_sym \gets$ <span class="smallcaps">ReadUint8</span>()State $p.first\_len \gets$ $1$\
-  $x \gets$ <span class="smallcaps">ReadUint8</span>()State $p.qbits \gets$ $x \bdiv 16$\
-  $p.qshift \gets$ $x \bmod 16$\
-  $x \gets$ <span class="smallcaps">ReadUint8</span>()State $p.qloc \gets$ $x \bdiv 16$\
-  $p.sloc \gets$ $x \bmod 16$\
-  $x \gets$ <span class="smallcaps">ReadUint8</span>()State $p.ploc \gets$ $x \bdiv 16$\
-  $p.dloc \gets$ $x \bmod 16$\
-  if $p.flags\mathbin{\text{AND}} 16$:  // Have qmap\
-    for $i \gets 0$ to $p.max\_sym-1$:\
-      $p.qmap_i \gets$ <span class="smallcaps">ReadUint8</span>()EndFor\
-    if $p.flags\mathbin{\text{AND}} 128$:  // Have qtab\
-      $p.qtab \gets$ <span class="smallcaps">ReadArray</span>($256$)Else\
-      for $i \gets 0$ to $256$:\
-        $p.qtab_i \gets i$\
-    if $p.flags\mathbin{\text{AND}} 32$:  // Have ptab\
-      $p.ptab \gets$ <span class="smallcaps">ReadArray</span>($1024$)EndIf\
-      if $p.flags\mathbin{\text{AND}} 64$:  // Have dtab\
-        $p.dtab \gets$ <span class="smallcaps">ReadArray</span>($256$)EndIf\
-        return $p$
-
-</div>
+<pre><code>Function FQZDecodeSingleParam()
+  p.context ← ReadUint16()
+  p.flags ← ReadUint8()
+  p.max_sym ← ReadUint8()
+  p.first_len ← 1
+  x ← ReadUint8()
+  p.qbits ← x div 16
+  p.qshift ← x mod 16
+  x ← ReadUint8()
+  p.qloc ← x div 16
+  p.sloc ← x mod 16
+  x ← ReadUint8()
+  p.ploc ← x div 16
+  p.dloc ← x mod 16
+  if p.flags &amp; 16:  // Have qmap
+    for i ← 0 to p.max_sym-1:
+      p.qmap_i ← ReadUint8()
+  if p.flags &amp; 128:  // Have qtab
+    p.qtab ← ReadArray(256)
+  else:
+    for i ← 0 to 256:
+      p.qtab_i ← i
+  if p.flags &amp; 32:  // Have ptab
+    p.ptab ← ReadArray(1024)
+  if p.flags &amp; 64:  // Have dtab
+    p.dtab ← ReadArray(256)
+  return p</code></pre>
 
 <span class="smallcaps">FQZCreateModels</span> creates the decoder
 models based on the above parameters and the shared range coder.
 
 <div class="program">
 
-<div class="code-math-block">
-
-Procedure FQZCreateModels()\
-  $rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()For{$i \gets 0$ to $3$}\
-  $model\_len_i \gets$<span class="smallcaps">ModelCreate</span>($256$)EndFor\
-  for $i \gets 0$ to $2^{16}-1$:\
-    $model\_qual_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym+1$)EndFor\
-    $model\_dup \gets$<span class="smallcaps">ModelCreate</span>($2$)State $model\_rev \gets$<span class="smallcaps">ModelCreate</span>($2$)If{$max\_sel > 0$}\
-    $model\_sel \gets$<span class="smallcaps">ModelCreate</span>($max\_sel+1$)EndIf
-
-</div>
+<pre><code>Procedure FQZCreateModels()
+  rc ← RangeDecodeCreate()
+  for i ← 0 to 3:
+    model_len_i ← ModelCreate(256)
+  for i ← 0 to 2^16-1:
+    model_qual_i ← ModelCreate(max_sym+1)
+  model_dup ← ModelCreate(2)
+  model_rev ← ModelCreate(2)
+  if max_sel &gt; 0:
+    model_sel ← ModelCreate(max_sel+1)</code></pre>
 
 </div>
 
@@ -3812,38 +3565,34 @@ The final array `R2` is the stored data stream. The decoder process is
 the reverse of the above, starting by converting `R2` to $R$ and then
 $A$. The following pseudocode demonstrates this process.
 
-<div class="code-math-block">
-
-Function ReadArray(n)\
-  $i,j,z \gets 0$\
-  $last \gets -1$\
-  while $z < n$:  // Convert $R2$ to $R$\
-    $run \gets$ <span class="smallcaps">ReadUint8</span>()State $R_j \gets run$\
-    $j \gets j+1$\
-    $z \gets z + run$\
-    if $run = last$:\
-      $copy \gets$ <span class="smallcaps">ReadUint8</span>()For{$x \gets 1$ to $copy$}\
-      $R_j \gets run$\
-      $j \gets j+1$\
-    $z \gets z + run \times copy$\
-  $last \gets run$\
-\
-$i,j,z \gets 0$\
-while $z < n$:  // Convert $R$ to $A$\
-  $run\_len \gets 0$\
-  repeat:\
-    $part \gets R_j$\
-    $j \gets j + 1$\
-    $run\_len \gets run\_len + part$\
-  until $part \ne 255$\
-  for $x \gets 1$ to $run\_len$:\
-    $A_z \gets i$\
-    $z \gets z+1$\
-  $i \gets i+1$\
-\
-return $A$
-
-</div>
+<pre><code>Function ReadArray(n)
+  i,j,z ← 0
+  last ← -1
+  while z &lt; n:  // Convert R2 to R
+    run ← ReadUint8()
+    R_j ← run
+    j ← j+1
+    z ← z + run
+    if run = last:
+      copy ← ReadUint8()
+      for x ← 1 to copy:
+        R_j ← run
+        j ← j+1
+      z ← z + run * copy
+    last ← run
+&#10;  i,j,z ← 0
+  while z &lt; n:  // Convert R to A
+    run_len ← 0
+    repeat:
+      part ← R_j
+      j ← j + 1
+      run_len ← run_len + part
+    until part ≠ 255
+    for x ← 1 to run_len:
+      A_z ← i
+      z ← z+1
+    i ← i+1
+&#10;  return A</code></pre>
 
 The FQZComp main loop decodes data in the following order per read: read
 length (if not fixed), the flag for whether this is read 2 (if needed),
@@ -3852,114 +3601,100 @@ followed by record length number of quality values using various data
 gathered since the start of this read as context.
 
 The output of this function is an array of quality values in the
-variable $output$, indexed with the $i^{th}$ value via $output_i$. The
-output buffer is a concatenation of all quality values for each record.
-The record lengths are recorded, but note this is the number of
-qualities encoded in CRAM for this sequence record and this does not
-necessarily have to match the number of base calls (for example where
-qualities are explicitly specified for SNP bases but not elsewhere).
+variable $\textit{output}$, indexed with the $i^{th}$ value via
+$\textit{output}_i$. The output buffer is a concatenation of all quality
+values for each record. The record lengths are recorded, but note this
+is the number of qualities encoded in CRAM for this sequence record and
+this does not necessarily have to match the number of base calls (for
+example where qualities are explicitly specified for SNP bases but not
+elsewhere).
 
-<div class="code-math-block">
+<pre><code>Function FQZNewRecord()
+  sel ← 0
+  x ← 0
+  if max_sel &gt; 0:  // Find parameter selector
+    sel ← model_sel.ModelDecode(rc)
+    if have_stab:
+      x ← stab_sel
+  param ← params_x
+&#10;  if param.do_len or param.first_len:  // Decode read length
+    rec_len ← DecodeLength(rc)
+    param.last_len ← rec_len
+    param.first_len = 0
+  else:
+    rec_len ← param.last_len
+  pos ← rec_len
+&#10;  if param.do_rev:  // Check if needs reversal
+    rev_rec ← model_rev.ModelDecode(rc)
+    len_rec ← rec_len
+  rec ← rec+1
+&#10;  is_dup ← 0
+  if do_dedup:  // Duplicate last string if appropriate
+    if model_dup.ModelDecode(rc) &gt; 0:
+      is_dup ← 1
+&#10;  qctx ← 0
+  delta ← 0
+  prevq ← 0
+  return x  // Tabulated parameter selector</code></pre>
 
-Function FQZNewRecord()\
-  $sel \gets 0$\
-  $x \gets 0$\
-  if $max\_sel > 0$:  // Find parameter selector\
-    $sel \gets model\_sel.$<span class="smallcaps">ModelDecode</span>($rc$)If{$have\_stab$}\
-    $x \gets stab_{sel}$\
-$param \gets params_x$\
-\
-if $param.do\_len \mathbin{\textbf{or}} param.first\_len$:  // Decode read length\
-  $rec\_len \gets$<span class="smallcaps">DecodeLength</span>(rc)State $param.last\_len \gets rec\_len$\
-  $param.first\_len = 0$\
-else:\
-  $rec\_len \gets param.last\_len$\
-$pos \gets rec\_len$\
-\
-if $param.do\_rev$:  // Check if needs reversal\
-  $rev_{rec} \gets model\_rev.$<span class="smallcaps">ModelDecode</span>($rc$)State $len_{rec} \gets rec\_len$\
-$rec \gets rec+1$\
-\
-$is\_dup \gets 0$\
-if $do\_dedup$:  // Duplicate last string if appropriate\
-  if $model\_dup.$<span class="smallcaps">ModelDecode</span>($rc$) 0:\
-    $is\_dup \gets 1$\
-\
-$qctx \gets 0$\
-$delta \gets 0$\
-$prevq \gets 0$\
-return $x$  // Tabulated parameter selector
-
-</div>
-
-<div class="code-math-block">
-
-Procedure FQZDecode()\
-  $buf\_len \gets$ <span class="smallcaps">ReadUint7</span>()State <span class="smallcaps">FQZDecodeParams</span>()State <span class="smallcaps">FQZCreateModels</span>()State $i \gets 0$  // Position in total quality block\
-  $pos \gets 0$  // Remaining base count current quality string\
-  \texttt{next\\record:}:\
-  while $i < buf\_len$:\
-    if $pos = 0$:  // Reset state at start of each new record\
-      $x \gets$<span class="smallcaps">FQZNewRecord</span>()If {$is\_dup = 1$}\
-      for $j \gets 0$ to $rec\_len-1$:\
-        $output_{i+j} \gets output_{i+j-rec\_len}$\
-      $i \gets i+rec\_len$\
-      $pos \gets 0$\
-      \Goto{next\\record}\
-\
-    $param \gets params_x$\
-    $ctx \gets param.context$\
-\
-  $q \gets model\_qual_{ctx}.$<span class="smallcaps">ModelDecode</span>($rc$)Comment{Decode a single quality value}\
-  if $param.have\_qmap$:\
-    $output_i \gets qmap_q$\
-  else:\
-    $output_i \gets q$\
-\
-  $ctx \gets$<span class="smallcaps">FQZUpdateContext</span>($param, q$)Comment{Also updates qctx, prevq and delta}\
-\
-  $i \gets i + 1$\
-  $pos \gets pos - 1$\
-if $do\_rev$:\
-  <span class="smallcaps">ReverseQualities</span>($output, buf\_len, rev, len$)EndIf
-
-</div>
+<pre><code>Procedure FQZDecode()
+  buf_len ← ReadUint7()
+  FQZDecodeParams()
+  FQZCreateModels()
+  i ← 0  // Position in total quality block
+  pos ← 0  // Remaining base count current quality string
+  \texttt{next_record:}:
+  while i &lt; buf_len:
+    if pos = 0:  // Reset state at start of each new record
+      x ← FQZNewRecord()
+      if is_dup = 1:
+        for j ← 0 to rec_len-1:
+          output_i+j ← output_i+j-rec_len
+        i ← i+rec_len
+        pos ← 0
+        \Goto{next_record}
+&#10;      param ← params_x
+      ctx ← param.context
+&#10;    q ← model_qual_ctx.ModelDecode(rc)  // Decode a single quality value
+    if param.have_qmap:
+      output_i ← qmap_q
+    else:
+      output_i ← q
+&#10;    ctx ← FQZUpdateContext(param, q)  // Also updates qctx, prevq and delta
+&#10;    i ← i + 1
+    pos ← pos - 1
+  if do_rev:
+    ReverseQualities(output, buf_len, rev, len)</code></pre>
 
 Read lengths are encoded as 4 8-bit bytes, each having its own model.
 
-<div class="code-math-block">
-
-Function DecodeLength($rc$)\
-  $rec\_len \gets model\_len_0.$<span class="smallcaps">ModelDecode</span>($rc$)State $rec\_len \gets rec\_len + (model\_len_1.$<span class="smallcaps">ModelDecode</span>($rc$) \shiftl 8)\$\
-  $rec\_len \gets rec\_len + (model\_len_2.$<span class="smallcaps">ModelDecode</span>($rc$) \shiftl 16)\$\
-  $rec\_len \gets rec\_len + (model\_len_3.$<span class="smallcaps">ModelDecode</span>($rc$) \shiftl 24)\$\
-  return $rec\_len$
-
-</div>
+<pre><code>Function DecodeLength(rc)
+  rec_len ← model_len_0.ModelDecode(rc)
+  rec_len ← rec_len + (model_len_1.ModelDecode(rc)&lt;&lt; 8)
+  rec_len ← rec_len + (model_len_2.ModelDecode(rc)&lt;&lt; 16)
+  rec_len ← rec_len + (model_len_3.ModelDecode(rc)&lt;&lt; 24)
+  return rec_len</code></pre>
 
 For CRAM v4.0 quality values are stored in their original FASTQ
 orientation. For CRAM v3.1 they are stored in their alignment
 orientation and it may be beneficial for compression purposes to reverse
-them first. If so $do\_rev$ will be set and the
+them first. If so $\textit{do\_rev}$ will be set and the
 <span class="smallcaps">ReverseQualities</span> procedure called below
 after decoding.
 
-<div class="code-math-block">
-
-Procedure ReverseQualities($qual,\ qual\_len,\ rev,\ len$)\
-  $rec \gets 0$\
-  $i \gets 0$\
-  while $i < qual\_len$:\
-    if $rev_{rec} \ne 0$:\
-      $j \gets 0$\
-      $k \gets len_{rec}-1$\
-      while $j < k$:\
-        <span class="smallcaps">Swap</span>($qual_{i+j}$, $qual_{i+k}$)State $j \gets j+1$\
-        $k \gets k-1$\
-      $i \gets i + len_{rec}$\
-      $rec \gets rec+1$
-
-</div>
+<pre><code>Procedure ReverseQualities(qual, qual_len, rev, len)
+  rec ← 0
+  i ← 0
+  while i &lt; qual_len:
+    if rev_rec ≠ 0:
+      j ← 0
+      k ← len_rec-1
+      while j &lt; k:
+        Swap(qual_i+j, qual_i+k)
+        j ← j+1
+        k ← k-1
+      i ← i + len_rec
+      rec ← rec+1</code></pre>
 
 [^1]: J. Duda, *Asymmetric numeral systems: entropy coding combining
     speed of Huffman coding with compression rate of arithmetic coding*,
@@ -3992,9 +3727,10 @@ Procedure ReverseQualities($qual,\ qual\_len,\ rev,\ len$)\
 
 [^8]: For example if we have 4 quality values in use – 0, 10, 25 and 35
     – we will be encoding quality values 0, 1, 2 and 3. We may wish to
-    define $qbits$ to be 6 and $qshift$ to be 2 such that the previous 3
-    quality values can be used as context, for the prediction of the
-    next quality value. There will likely be little reason to use $qtab$
-    in this scenario, but an encoder could define $qtab$ to convert {0,
-    1, 2, 3} to {0, 0, 0, 1} and use $qshift$ of 1 instead, giving us
-    knowledge of which of the previous 6 values were maximum quality.
+    define $\textit{qbits}$ to be 6 and $\textit{qshift}$ to be 2 such
+    that the previous 3 quality values can be used as context, for the
+    prediction of the next quality value. There will likely be little
+    reason to use $\textit{qtab}$ in this scenario, but an encoder could
+    define $\textit{qtab}$ to convert {0, 1, 2, 3} to {0, 0, 0, 1} and
+    use $\textit{qshift}$ of 1 instead, giving us knowledge of which of
+    the previous 6 values were maximum quality.

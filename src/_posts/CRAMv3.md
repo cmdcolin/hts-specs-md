@@ -44,19 +44,19 @@ values as bits and bytes is described in detail below.
 ## 2.1 **Logical data types**
 
 Byte  
- \
+
 Signed byte (8 bits).
 
 Integer  
- \
+
 Signed 32-bit integer.
 
 Long  
- \
+
 Signed 64-bit integer.
 
 Array  
- \
+
 An array of any logical data type: array`<`type`>`
 
 ## 2.2 **Reading and writing bits in a bit stream**
@@ -121,7 +121,7 @@ left and became 0x70 after that:
 
 `> echo "obase=16; ibase=2; 00000111" bc`\
 `7`\
-\
+
 `> echo "obase=16; ibase=2; 01110000" bc`\
 `70`
 
@@ -153,20 +153,20 @@ endianness* for bytes when applicable and defines the following storage
 data types:
 
 Boolean (bool)  
- \
+
 Boolean is written as 1-byte with 0x0 being 'false' and 0x1 being
 'true'.
 
 Integer (int32)  
- \
+
 Signed 32-bit integer, written as 4 bytes in little-endian byte order.
 
 Long (int64)  
- \
+
 Signed 64-bit integer, written as 8 bytes in little-endian byte order.
 
 ITF-8 integer (itf8)  
- \
+
 This is an alternative way to write an integer value. The idea is
 similar to UTF-8 encoding and therefore this encoding is called ITF-8
 (Integer Transformation Format - 8 bit).
@@ -179,14 +179,14 @@ no bytes, 10 for one byte, 110 for two bytes, 1110 for three bytes and
 5 bytes with only 4 lower bits used in the last byte 5.
 
 LTF-8 long (ltf8)  
- \
+
 See ITF-8 for more details. The only difference between ITF-8 and LTF-8
 is the number of bytes used to encode a single value. To do so 64 bits
 are required and this can be done with 9 byte at most with the first
 byte consisting of just 1s or 0xFF value.
 
 Array (array`<`type`>`)  
- \
+
 A variable sized array with an explicitly written dimension. Array
 length is written first as integer (itf8), followed by the elements of
 the array.
@@ -197,7 +197,7 @@ the file format and instead rely on the specification itself to document
 the array size.
 
 Encoding  
- \
+
 Encoding is a data type that specifies how data series have been
 compressed. Encodings are defined as encoding`<`type`>` where the type
 is a logical data type as opposed to a storage data type.
@@ -252,7 +252,7 @@ offset = 0x0 = 0
 K = 0x1 = 1
 
 Map  
- \
+
 A map is a collection of keys and associated values. A map with N keys
 is written as follows:
 
@@ -278,7 +278,7 @@ Both the size in bytes and the number of keys are written as integer
 are specific to each map.
 
 String  
- \
+
 A string is represented as byte arrays using UTF-8 format. Read names,
 reference sequence names and tag values with type 'Z' are stored as
 UTF-8.
@@ -699,8 +699,6 @@ compressed size of zero.
 
 CRAM has the following block content types:
 
-<div class="threeparttable">
-
 <table>
 <thead>
 <tr>
@@ -724,7 +722,7 @@ CRAM has the following block content types:
 <td>See specific section</td>
 </tr>
 <tr>
-<td>SLICE_HEADER</td>
+<td>SLICE_HEADER<sup>a</sup></td>
 <td>2</td>
 <td>Slice header block</td>
 <td>See specific section</td>
@@ -748,16 +746,9 @@ CRAM has the following block content types:
 <td>bit stream of all encodings except for external encodings</td>
 </tr>
 </tbody>
+&#10;<tfoot class="tablenotes"><tr><td colspan="100">Formerly MAPPED_SLICE_HEADER. Now used by all slice headers
+regardless of mapping status.</td></tr></tfoot>
 </table>
-
-<div class="tablenotes">
-
-Formerly MAPPED_SLICE_HEADER. Now used by all slice headers regardless
-of mapping status.
-
-</div>
-
-</div>
 
 ## 8.2 **Block content id**
 
@@ -867,8 +858,6 @@ mandatory.
 Each data series has an encoding. These encoding are stored in a map
 with byte\[2\] keys and are decoded in approximately this order[^2]:
 
-<div class="threeparttable">
-
 <table>
 <thead>
 <tr>
@@ -923,7 +912,7 @@ start position directly (1-based)</td>
 <td>read groups. Special value '-1' stands for no group.</td>
 </tr>
 <tr>
-<td>RN</td>
+<td>RN<sup>a</sup></td>
 <td>encoding<code>&lt;</code>byte[ ]<code>&gt;</code></td>
 <td>read names</td>
 <td>read names</td>
@@ -956,10 +945,10 @@ start position directly (1-based)</td>
 <td>NF</td>
 <td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>distance to next fragment</td>
-<td>number of records to skip to the next fragment</td>
+<td>number of records to skip to the next fragment<sup>b</sup></td>
 </tr>
 <tr>
-<td>TL</td>
+<td>TL<sup>c</sup></td>
 <td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>tag ids</td>
 <td>list of tag ids, see tag encoding section</td>
@@ -1056,40 +1045,30 @@ start position directly (1-based)</td>
 <td>quality scores</td>
 </tr>
 <tr>
-<td>TC</td>
+<td>TC<sup>d</sup></td>
 <td>N/A</td>
 <td>legacy field</td>
 <td>to be ignored</td>
 </tr>
 <tr>
-<td>TN</td>
+<td>TN<sup>d</sup></td>
 <td>N/A</td>
 <td>legacy field</td>
 <td>to be ignored</td>
 </tr>
 </tbody>
-</table>
-
-<div class="tablenotes">
-
-Note RN this is decoded after MF if the record is detached from the mate
-and we are attempting to auto-generate read names.
-
-The count is reset for each slice so NF can only refer to a record later
-within this slice.
-
-TL is followed by decoding the tag values themselves, in order of
-appearance in the tag dictionary.
-
-TC and TN are legacy data series from CRAM 1.0. They have no function in
-CRAM 3.0 and should not be present. However some implementations do
+&#10;<tfoot class="tablenotes"><tr><td colspan="100"><p>Note RN this is decoded after MF if the record is detached from the
+mate and we are attempting to auto-generate read names.</p>
+<p>The count is reset for each slice so NF can only refer to a record
+later within this slice.</p>
+<p>TL is followed by decoding the tag values themselves, in order of
+appearance in the tag dictionary.</p>
+<p>TC and TN are legacy data series from CRAM 1.0. They have no function
+in CRAM 3.0 and should not be present. However some implementations do
 output them and decoders must silently skip these fields. It is illegal
 for TC and TN to contain any data values, although there may be empty
-blocks associated with them.
-
-</div>
-
-</div>
+blocks associated with them.</p></td></tr></tfoot>
+</table>
 
 ### 8.4.3 Tag encodings
 
@@ -1619,8 +1598,6 @@ during decode, so may be omitted in the CRAM file and the bits computed
 based on both reads of a pair-end library residing within the same
 slice.
 
-<div class="threeparttable">
-
 <table>
 <thead>
 <tr>
@@ -1643,11 +1620,11 @@ slice.
 <tr>
 <td>0x4</td>
 <td></td>
-<td>segment unmapped</td>
+<td>segment unmapped<sup>a</sup></td>
 </tr>
 <tr>
 <td>0x8</td>
-<td>calculated  or stored in the mate's info</td>
+<td>calculated<sup>b</sup>  or stored in the mate's info</td>
 <td>next segment in template unmapped</td>
 </tr>
 <tr>
@@ -1657,18 +1634,18 @@ slice.
 </tr>
 <tr>
 <td>0x20</td>
-<td>calculated  or stored in the mate's info</td>
+<td>calculated<sup>b</sup>  or stored in the mate's info</td>
 <td>SEQ of the next segment in the template being reverse complemented</td>
 </tr>
 <tr>
 <td>0x40</td>
 <td></td>
-<td>the first segment in the template</td>
+<td>the first segment in the template<sup>c</sup></td>
 </tr>
 <tr>
 <td>0x80</td>
 <td></td>
-<td>the last segment in the template</td>
+<td>the last segment in the template<sup>c</sup></td>
 </tr>
 <tr>
 <td>0x100</td>
@@ -1691,17 +1668,11 @@ slice.
 <td>Supplementary alignment</td>
 </tr>
 </tbody>
-</table>
-
-<div class="tablenotes">
-
-Bit 0x4 is the only reliable place to tell whether the read is unmapped.
-If 0x4 is set, no assumptions may be made about bits 0x2, 0x100 and
-0x800.
-
-For segments within the same slice.
-
-Bits 0x40 and 0x80 reflect the read ordering within each template
+&#10;<tfoot class="tablenotes"><tr><td colspan="100"><p>Bit 0x4 is the only reliable place to tell whether the read is
+unmapped. If 0x4 is set, no assumptions may be made about bits 0x2,
+0x100 and 0x800.</p>
+<p>For segments within the same slice.</p>
+<p>Bits 0x40 and 0x80 reflect the read ordering within each template
 inherent in the sequencing technology used, which may be independent
 from the actual mapping orientation. If 0x40 and 0x80 are both set, the
 read is part of a linear template (one where the template sequence is
@@ -1709,11 +1680,8 @@ expected to be in a linear order), but it is neither the first nor the
 last read. If both 0x40 and 0x80 are unset, the index of the read in the
 template is unknown. This may happen for a non-linear template (such as
 one constructed by stitching together other templates) or when this
-information is lost during data processing.
-
-</div>
-
-</div>
+information is lost during data processing.</p></td></tr></tfoot>
+</table>
 
 ### 10.1.2 **CRAM bit flags (CF data series)**
 
@@ -1762,22 +1730,17 @@ formats depending on whether the record is aligned (mapped).
 
 ### 10.1.3 **Decode pseudocode**
 
-<div class="code-math-block">
-
-Procedure DecodeRecord()\
-  $BAM\_flags \gets$  <span class="smallcaps">ReadItem</span>(BF, Integer)\
-  $CRAM\_flags \gets$ <span class="smallcaps">ReadItem</span>(CF, Integer)\
-  <span class="smallcaps">DecodePositions</span>()\
-  <span class="smallcaps">DecodeNames</span>()\
-  <span class="smallcaps">DecodeMateData</span>()\
-  <span class="smallcaps">DecodeTagData</span>()\
-\
-  if $(BF$ AND $4) = 0$:  // Unmapped flag\
-    <span class="smallcaps">DecodeMappedRead</span>()\
-  else:\
-    <span class="smallcaps">DecodeUnmappedRead</span>()
-
-</div>
+<pre><code>Procedure DecodeRecord()
+  BAM_flags ←  ReadItem(BF, Integer)
+  CRAM_flags ← ReadItem(CF, Integer)
+  DecodePositions()
+  DecodeNames()
+  DecodeMateData()
+  DecodeTagData()
+&#10;  if (BF AND 4) = 0:  // Unmapped flag
+    DecodeMappedRead()
+  else:
+    DecodeUnmappedRead()</code></pre>
 
 This pseudocode is not meant to be a fully implementable programming
 language, but to act as an algorithmic guide to the order and structure
@@ -1848,24 +1811,20 @@ header, starting from 0 with -1 for no group</td>
 </tbody>
 </table>
 
-<div class="code-math-block">
-
-Procedure DecodePositions()\
-  if $slice\_header.reference\_sequence\_id = -2$:\
-    $reference\_id\gets$ <span class="smallcaps">ReadItem</span>(RI, Integer)\
-  else:\
-    $reference\_id\gets slice\_header.reference\_sequence\_id$\
-  $read\_length \gets$ <span class="smallcaps">ReadItem</span>(RL, Integer)\
-  if $container\_pmap.AP\_delta \ne 0$:\
-    if $first\_record\_in\_slice$:\
-      $last\_position\gets$ $slice\_header.alignment\_start$\
-    $alignment\_position \gets$ <span class="smallcaps">ReadItem</span>(AP, Integer) + $last\_position$\
-    $last\_position \gets alignment\_position$\
-  else:\
-    $alignment\_position \gets$ <span class="smallcaps">ReadItem</span>(AP, Integer)\
-  $read\_group \gets$ <span class="smallcaps">ReadItem</span>(RG, Integer)
-
-</div>
+<pre><code>Procedure DecodePositions()
+  if slice_header.reference_sequence_id = -2:
+    reference_id ← ReadItem(RI, Integer)
+  else:
+    reference_id ← slice_header.reference_sequence_id
+  read_length ← ReadItem(RL, Integer)
+  if container_pmap.AP_delta ≠ 0:
+    if first_record_in_slice:
+      last_position ← slice_header.alignment_start
+    alignment_position ← ReadItem(AP, Integer) + last_position
+    last_position ← alignment_position
+  else:
+    alignment_position ← ReadItem(AP, Integer)
+  read_group ← ReadItem(RG, Integer)</code></pre>
 
 ## 10.3 Read names (RN data series)
 
@@ -1900,15 +1859,11 @@ name.
 </tbody>
 </table>
 
-<div class="code-math-block">
-
-Procedure DecodeNames()\
-  if $container\_pmap.read\_names\_included = 1$:\
-    $read\_name \gets$ <span class="smallcaps">ReadItem</span>(RN, Byte\[\])\
-  else:\
-    $read\_name \gets$ <span class="smallcaps">GenerateName</span>()
-
-</div>
+<pre><code>Procedure DecodeNames()
+  if container_pmap.read_names_included = 1:
+    read_name ← ReadItem(RN, Byte[])
+  else:
+    read_name ← GenerateName()</code></pre>
 
 ## 10.4 **Mate records**
 
@@ -2036,34 +1991,30 @@ flags are defined:
 In the following pseudocode we are assuming the current record is $this$
 and its mate is $next\_frag$.
 
-<div class="code-math-block">
-
-Procedure DecodeMateData()\
-  if $CF$ AND $2$:  // Detached from mate\
-    $mate\_flags\gets$ <span class="smallcaps">ReadItem</span>(MF,Integer)\
-    if $mate\_flags$ AND 1:\
-      $bam\_flags\gets bam\_flags$ OR 0x20  // Mate is reverse-complemented\
-    if $mate\_flags$ AND 2:\
-      $bam\_flags\gets bam\_flags$ OR 0x08  // Mate is unmapped\
-    if $container\_pmap.read\_names\_included \ne 1$:\
-      $read\_name \gets$ <span class="smallcaps">ReadItem</span>(RN, Byte\[\])\
-    $mate\_ref\_id \gets$  <span class="smallcaps">ReadItem</span>(NS, Integer)\
-    $mate\_position \gets$ <span class="smallcaps">ReadItem</span>(NP, Integer)\
-    $template\_size \gets$ <span class="smallcaps">ReadItem</span>(TS, Integer)\
-  else if $CF$ AND $4$:  // Mate is downstream\
-    if $next\_frag.bam\_flags$ AND 0x10:\
-      $this.bam\_flags \gets this.bam\_flags$ OR 0x20  // next segment reverse complemented\
-    if $next\_frag.bam\_flags$ AND 0x04:\
-      $this.bam\_flags \gets this.bam\_flags$ OR 0x08  // next segment unmapped\
-    $next\_frag\gets$ <span class="smallcaps">ReadItem</span>(NF,Integer)\
-    $next\_record\gets this\_record + next\_frag + 1$\
-    Resolve $mate\_ref\_id$ for $this\_record$ and $next\_record$ once both have been decoded\
-    Resolve $mate\_position$ for $this\_record$ and $next\_record$ once both have been decoded\
-    Find leftmost and rightmost mapped coordinate in records $this\_record$ and $next\_record$.\
-    For leftmost of $this\_record$ and $next\_record$: $template\_size\gets rightmost-leftmost+1$\
-    For rightmost of $this\_record$ and $next\_record$: $template\_size\gets -(rightmost-leftmost+1)$
-
-</div>
+<pre><code>Procedure DecodeMateData()
+  if CF AND 2:  // Detached from mate
+    mate_flags ← ReadItem(MF,Integer)
+    if mate_flags AND 1:
+      bam_flags ← bam_flags OR 0x20  // Mate is reverse-complemented
+    if mate_flags AND 2:
+      bam_flags ← bam_flags OR 0x08  // Mate is unmapped
+    if container_pmap.read_names_included ≠ 1:
+      read_name ← ReadItem(RN, Byte[])
+    mate_ref_id ←  ReadItem(NS, Integer)
+    mate_position ← ReadItem(NP, Integer)
+    template_size ← ReadItem(TS, Integer)
+  else if CF AND 4:  // Mate is downstream
+    if next_frag.bam_flags AND 0x10:
+      this.bam_flags ← this.bam_flags OR 0x20  // next segment reverse complemented
+    if next_frag.bam_flags AND 0x04:
+      this.bam_flags ← this.bam_flags OR 0x08  // next segment unmapped
+    next_frag ← ReadItem(NF,Integer)
+    next_record ← this_record + next_frag + 1
+    Resolve mate_ref_id for this_record and next_record once both have been decoded
+    Resolve mate_position for this_record and next_record once both have been decoded
+    Find leftmost and rightmost mapped coordinate in records this_record and next_record.
+    For leftmost of this_record and next_record: template_size ← rightmost-leftmost+1
+    For rightmost of this_record and next_record: template_size ← -(rightmost-leftmost+1)</code></pre>
 
 Note as with the SAM specification a template may be permitted to have
 more than two alignment records. In this case the "mate" for each record
@@ -2110,16 +2061,12 @@ tag dictionary</td>
 </tbody>
 </table>
 
-<div class="code-math-block">
-
-Procedure DecodeTagData()\
-  $tag\_line\gets$ <span class="smallcaps">ReadItem</span>(TL,Integer)\
-  for all $ele \in container\_pmap.tag\_dict(tag\_line)$:\
-    $name\gets$ first two characters of $ele$\
-    $tag(type)\gets$ last character of $ele$\
-    $tag(name)\gets$ <span class="smallcaps">ReadItem</span>($ele$, Byte\[\])
-
-</div>
+<pre><code>Procedure DecodeTagData()
+  tag_line ← ReadItem(TL,Integer)
+  for all ele container_pmap.tag_dict(tag_line):
+    name ← first two characters of ele
+    tag(type) ← last character of ele
+    tag(name) ← ReadItem(ele, Byte[])</code></pre>
 
 In the above procedure, $name$ is a two letter tag name and $type$ is
 one of the permitted types documented in the SAM/BAM specification. Type
@@ -2171,8 +2118,6 @@ the absolute position (i.e. delta vs zero) for the first feature.
 Finally the single mapping quality and per-base quality scores are
 stored.
 
-<div class="threeparttable">
-
 <table>
 <thead>
 <tr>
@@ -2192,19 +2137,19 @@ stored.
 <tr>
 <td>int</td>
 <td>FP</td>
-<td>in-read-position</td>
+<td>in-read-position<sup>a</sup></td>
 <td>delta-position of the read feature</td>
 </tr>
 <tr>
 <td>byte</td>
 <td>FC</td>
-<td>read feature code</td>
+<td>read feature code<sup>a</sup></td>
 <td>See feature codes below</td>
 </tr>
 <tr>
 <td>*</td>
 <td>*</td>
-<td>read feature data</td>
+<td>read feature data<sup>a</sup></td>
 <td>See feature codes below</td>
 </tr>
 <tr>
@@ -2220,15 +2165,8 @@ stored.
 <td>the base qualities, if preserved</td>
 </tr>
 </tbody>
+&#10;<tfoot class="tablenotes"><tr><td colspan="100">Repeated FN times, once for each read feature.</td></tr></tfoot>
 </table>
-
-<div class="tablenotes">
-
-Repeated FN times, once for each read feature.
-
-</div>
-
-</div>
 
 ### 10.6.2 Read feature codes
 
@@ -2539,49 +2477,44 @@ Then the substitution codes are T=0, G=1, C=2, N=3.
 
 ### 10.6.6 Decode mapped read pseudocode
 
-<div class="code-math-block">
-
-Procedure DecodeMappedRead()\
-  $feature\_number\gets$ <span class="smallcaps">ReadItem</span>(FN, Integer)\
-  $last\_feature\_position\gets 0$\
-  for $i\gets 1 \text{ \textbf{to} } feature\_number$:\
-    <span class="smallcaps">DecodeFeature</span>()\
-  $mapping\_quality\gets$ <span class="smallcaps">ReadItem</span>(MQ, Integer)\
-  if $CF$ AND $1$:  // Quality stored as an array\
-    for $i\gets 1 \text{ \textbf{to} } read\_length$:\
-      $quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS, Integer)\
-\
-Procedure DecodeFeature()\
-  $feature\_code \gets$       <span class="smallcaps">ReadItem</span>(FC, Integer)\
-  $feature\_position \gets$   <span class="smallcaps">ReadItem</span>(FP, Integer) $+ last\_feature\_position$\
-  $last\_feature\_position\gets feature\_position$\
-  if $feature\_code =$\`B':\
-    $base \gets$              <span class="smallcaps">ReadItem</span>(BA, Byte)\
-    $quality\_score \gets$    <span class="smallcaps">ReadItem</span>(QS, Byte)\
-  else if $feature\_code =$\`X':\
-    $substitution\_code \gets$ <span class="smallcaps">ReadItem</span>(BS, Byte)\
-  else if $feature\_code =$\`I':\
-    $inserted\_bases \gets$   <span class="smallcaps">ReadItem</span>(IN, Byte\[\])\
-  else if $feature\_code =$\`S':\
-    $softclip\_bases \gets$   <span class="smallcaps">ReadItem</span>(SC, Byte\[\])\
-  else if $feature\_code =$\`H':\
-    $hardclip\_length \gets$  <span class="smallcaps">ReadItem</span>(HC, Integer)\
-  else if $feature\_code =$\`P':\
-    $pad\_length \gets$       <span class="smallcaps">ReadItem</span>(PD, Integer)\
-  else if $feature\_code =$\`D':\
-    $deletion\_length \gets$  <span class="smallcaps">ReadItem</span>(DL, Integer)\
-  else if $feature\_code =$\`N':\
-    $ref\_skip\_length \gets$ <span class="smallcaps">ReadItem</span>(RS, Integer)\
-  else if $feature\_code =$\`i':\
-    $base \gets$              <span class="smallcaps">ReadItem</span>(BA, Byte)\
-  else if $feature\_code =$\`b':\
-    $bases \gets$             <span class="smallcaps">ReadItem</span>(BB, Byte\[\])\
-  else if $feature\_code =$\`q':\
-    $quality\_scores \gets$   <span class="smallcaps">ReadItem</span>(QQ, Byte\[\])\
-  else if $feature\_code =$\`Q':\
-    $quality\_score \gets$    <span class="smallcaps">ReadItem</span>(QS, Byte)
-
-</div>
+<pre><code>Procedure DecodeMappedRead()
+  feature_number ← ReadItem(FN, Integer)
+  last_feature_position ← 0
+  for i ← 1 to feature_number:
+    DecodeFeature()
+  mapping_quality ← ReadItem(MQ, Integer)
+  if CF AND 1:  // Quality stored as an array
+    for i ← 1 to read_length:
+      quality_score ← ReadItem(QS, Integer)
+&#10;Procedure DecodeFeature()
+  feature_code ←       ReadItem(FC, Integer)
+  feature_position ←   ReadItem(FP, Integer) + last_feature_position
+  last_feature_position ← feature_position
+  if feature_code =`B':
+    base ←              ReadItem(BA, Byte)
+    quality_score ←    ReadItem(QS, Byte)
+  else if feature_code =`X':
+    substitution_code ← ReadItem(BS, Byte)
+  else if feature_code =`I':
+    inserted_bases ←   ReadItem(IN, Byte[])
+  else if feature_code =`S':
+    softclip_bases ←   ReadItem(SC, Byte[])
+  else if feature_code =`H':
+    hardclip_length ←  ReadItem(HC, Integer)
+  else if feature_code =`P':
+    pad_length ←       ReadItem(PD, Integer)
+  else if feature_code =`D':
+    deletion_length ←  ReadItem(DL, Integer)
+  else if feature_code =`N':
+    ref_skip_length ← ReadItem(RS, Integer)
+  else if feature_code =`i':
+    base ←              ReadItem(BA, Byte)
+  else if feature_code =`b':
+    bases ←             ReadItem(BB, Byte[])
+  else if feature_code =`q':
+    quality_scores ←   ReadItem(QQ, Byte[])
+  else if feature_code =`Q':
+    quality_score ←    ReadItem(QS, Byte)</code></pre>
 
 ## 10.7 **Unmapped reads**
 
@@ -2613,16 +2546,12 @@ additional fields:
 </tbody>
 </table>
 
-<div class="code-math-block">
-
-Procedure DecodeUnmappedRead()\
-  for $i\gets 1 \text{ \textbf{to} } read\_length$:\
-    $base\gets$ <span class="smallcaps">ReadItem</span>(BA, Byte)\
-  if $CF$ AND $1$:  // Quality stored as an array\
-    for $i\gets 1 \text{ \textbf{to} } read\_length$:\
-      $quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS, Byte)
-
-</div>
+<pre><code>Procedure DecodeUnmappedRead()
+  for i ← 1 to read_length:
+    base ← ReadItem(BA, Byte)
+  if CF AND 1:  // Quality stored as an array
+    for i ← 1 to read_length:
+      quality_score ← ReadItem(QS, Byte)</code></pre>
 
 # 11 **Reference sequences**
 

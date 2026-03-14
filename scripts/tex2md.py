@@ -389,28 +389,46 @@ def main():
         # Strip problematic macros that confuse pandoc but aren't needed for MD
         body = re.sub(r'\\algblockdefx\[Foreach\].*?\n', '', body)
         body = re.sub(r'\\algnewcommand.*?\n', '', body)
+        # Strip non-standard \Comment(...) with parentheses (may span lines)
+        body = re.sub(r'\\Comment\([^)]*\)', '', body, flags=re.DOTALL)
         # Expand custom algorithmic operators into standard LaTeX math text
         body = body.replace(r'\algorithmicto', r'\text{ \textbf{to} }')
         body = body.replace(r'\algorithmicin', r'\text{ \textbf{in} }')
         body = body.replace(r'\algorithmicgoto', r'\textbf{go to}')
         # Convert \Call{Name}{args} to \textsc{Name}(args) since pandoc drops \Call.
-        # Use balanced-brace parsing because args may contain nested braces (e.g. $C_{L_j}$).
+        # Use position-tracking balanced-brace parsing; args may contain nested braces.
+        def read_brace_group(text, pos):
+            """Read a {...} group at pos. Returns (content, next_pos) or (None, pos)."""
+            if pos >= len(text) or text[pos] != '{':
+                return None, pos
+            depth = 0
+            j = pos
+            while j < len(text):
+                if text[j] == '{':
+                    depth += 1
+                elif text[j] == '}':
+                    depth -= 1
+                    if depth == 0:
+                        return text[pos+1:j], j+1
+                j += 1
+            return None, pos
+
         def convert_calls(text):
             out = []
             i = 0
             while i < len(text):
                 if text[i:i+6] == r'\Call{':
-                    name, rest = get_first_brace(text[i+5:])
-                    if rest.startswith('{'):
-                        args, rest2 = get_first_brace(rest)
-                        out.append(r'\textsc{' + name + '}(' + args + ')')
-                        i += len(text[i+5:]) - len(rest2) + 5
-                    else:
-                        out.append(text[i])
-                        i += 1
-                else:
-                    out.append(text[i])
-                    i += 1
+                    name, j = read_brace_group(text, i+5)
+                    if name is not None:
+                        while j < len(text) and text[j] in ' \t':
+                            j += 1
+                        args, j2 = read_brace_group(text, j)
+                        if args is not None:
+                            out.append(r'\textsc{' + name + '}(' + args + ')')
+                            i = j2
+                            continue
+                out.append(text[i])
+                i += 1
             return ''.join(out)
         body = convert_calls(body)
         # Convert algorithmic environments to formatted lstlisting blocks
@@ -428,6 +446,11 @@ def main():
                       lambda m: r'\begin{tabular}{' + normalize_col_spec(m.group(1)) + '}',
                       body)
         body = body.replace(r'\end{tabular*}', r'\end{tabular}')
+        # Convert \tnote{marker} (threeparttable note reference) to superscript
+        body = re.sub(r'\\tnote\{([^}]*)\}', r'\\textsuperscript{\1}', body)
+        # Replace dagger symbols (\dag, \dagger) with Unicode dagger before pandoc
+        body = re.sub(r'\\dagger\b', '†', body)
+        body = re.sub(r'\\dag\b', '†', body)
         # Remove pure layout wrappers that pandoc can't handle and don't add content
         body = re.sub(r'\\begin\{savenotes\}', '', body)
         body = re.sub(r'\\end\{savenotes\}', '', body)
@@ -510,6 +533,28 @@ date: {date}
     )
     # Clean up empty \text{} / \textrm{} left by the above
     final_content = re.sub(r'\\text(?:rm)?\{\}', '', final_content)
+
+    # Remove stray trailing backslashes from LaTeX line breaks (\\, \\*, \\[8pt])
+    # that pandoc converts to markdown hard breaks (\) — these render as literal
+    # backslashes in HTML, especially inside HTML block elements like <div>
+    final_content = re.sub(r'\\\n\\\*\s?', '\n', final_content)  # \<newline>\* from LaTeX \\*
+    final_content = re.sub(r'\\\n\n', '\n\n', final_content)   # \<newline><blank> redundant break
+    final_content = re.sub(r'^\s*\\$', '', final_content, flags=re.MULTILINE)  # lone \ on a line
+
+    # Convert runs of 2+ consecutive lines that are each a standalone $...$
+    # expression into a $$ display math block with \\, so they render as
+    # stacked equations instead of collapsing into one inline paragraph
+    def merge_inline_math_lines(m):
+        lines = m.group(0).strip().split('\n')
+        # Strip leading $ and trailing $ from each line
+        exprs = [line.strip()[1:-1] for line in lines]
+        return '\n$$\n\\begin{aligned}\n' + ' \\\\\n'.join(exprs) + '\n\\end{aligned}\n$$\n'
+    final_content = re.sub(
+        r'(?:^\$[^$\n]+\$\s*\n){2,}',
+        merge_inline_math_lines,
+        final_content,
+        flags=re.MULTILINE,
+    )
 
     # KaTeX requires {aligned} instead of {align*} inside $$ display math
     final_content = final_content.replace(r'\begin{align*}', r'\begin{aligned}')
