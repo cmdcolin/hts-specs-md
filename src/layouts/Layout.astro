@@ -202,7 +202,7 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
           <ul>
             {tocHeadings.map(h => (
               <li class={`depth-${h.depth}`}>
-                <a href={`#${h.slug}`}>{h.text}</a>
+                <a href={`#${h.slug}`}>{h.text.replace(/ #$/, '')}</a>
               </li>
             ))}
           </ul>

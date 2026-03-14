@@ -34,7 +34,7 @@ using a number of different encoding strategies. For example, bases are
 reference compressed by encoding base differences rather than storing
 the bases themselves.[^1]
 
-# 2 **Data types** <a href="#data-types" class="header-anchor">#</a>
+# 2 **Data types**
 
 CRAM specification uses logical data types and storage data types;
 logical data types are written as words (e.g. int) while physical data
@@ -43,7 +43,7 @@ the two is that storage data types define how logical data types are
 stored in CRAM. Data in CRAM is stored either as bits or bytes. Writing
 values as bits and bytes is described in detail below.
 
-## 2.1 **Logical data types** <a href="#logical-data-types" class="header-anchor">#</a>
+## 2.1 **Logical data types**
 
 Byte  
  \
@@ -61,8 +61,7 @@ Array
  \
 An array of any logical data type: array`<`type`>`
 
-## 2.2 **Reading and writing bits in a bit stream** <a href="#reading-and-writing-bits-in-a-bit-stream"
-class="header-anchor">#</a>
+## 2.2 **Reading and writing bits in a bit stream**
 
 The CORE block supports bit-based encoding methods. A bit stream
 consists of a sequence of 1s and 0s. The bits are written most
@@ -71,7 +70,7 @@ bytes on the left are written out. In a bit stream the last byte will be
 incomplete if less than 8 bits have been written to it. In this case the
 bits in the last byte are shifted to the left to complete a whole byte.
 
-### 2.2.1 Example of writing to bit stream <a href="#example-of-writing-to-bit-stream" class="header-anchor">#</a>
+### 2.2.1 Example of writing to bit stream
 
 Let's consider the following example. The table below shows a sequence
 of write operations:
@@ -136,8 +135,7 @@ And the whole bit sequence:
 When reading the bits from the bit sequence, only the first 12 bits are
 meaningful and the remaining 4 will should be discarded.
 
-### 2.2.2 Note on reading from and writing to bit stream <a href="#note-on-reading-from-and-writing-to-bit-stream"
-class="header-anchor">#</a>
+### 2.2.2 Note on reading from and writing to bit stream
 
 When reading and writing to a bit stream our numeric values are
 typically held in a byte oriented data type, such as an 8-bit or 32-bit
@@ -149,7 +147,7 @@ bits into a 32-bit integer to get a value between 0 and 63. The next
 bits may be for a HUFFMAN encoding, in which case we can read one bit at
 a time until we match a known code-word in the Huffman tree.
 
-## 2.3 **Writing bytes to a byte stream** <a href="#subsec:writing-bytes" class="header-anchor">#</a>
+## 2.3 **Writing bytes to a byte stream**
 
 Byte streams cannot be mixed in the same block as bit streams. The
 interpretation of byte stream is straightforward. CRAM uses *little
@@ -287,7 +285,7 @@ A string is represented as byte arrays using UTF-8 format. Read names,
 reference sequence names and tag values with type 'Z' are stored as
 UTF-8.
 
-# 3 **Encodings**  <a href="#encodings" class="header-anchor">#</a>
+# 3 **Encodings** 
 
 Encoding is a data structure that captures information about compression
 details of a data series that are required to uncompress it. This could
@@ -383,12 +381,12 @@ log<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
 See section [13](#sec:encodings) for more detailed descriptions of all
 the above coding algorithms and their parameters.
 
-# 4 **Checksums** <a href="#checksums" class="header-anchor">#</a>
+# 4 **Checksums**
 
 The checksumming is used to ensure data integrity. The following
 checksumming algorithms are used in CRAM.
 
-## 4.1 **CRC32** <a href="#crc32" class="header-anchor">#</a>
+## 4.1 **CRC32**
 
 This is a cyclic redundancy checksum 32-bit long with the polynomial
 0x04C11DB7. Please refer to [ITU-T
@@ -396,12 +394,12 @@ V.42](http://www.itu.int/rec/recommendation.asp?type=folders&lang=e&parent=T-REC
 for more details. The value of the CRC32 hash function is written as an
 integer.
 
-## 4.2 **CRC32 sum** <a href="#crc32-sum" class="header-anchor">#</a>
+## 4.2 **CRC32 sum**
 
 CRC32 sum is a combination of CRC32 values by summing up all individual
 CRC32 values modulo 2<sup>32</sup>.
 
-# 5 **File structure** <a href="#file-structure" class="header-anchor">#</a>
+# 5 **File structure**
 
 The overall CRAM file structure is described in this section. Please
 refer to other sections of this document for more detailed information.
@@ -458,7 +456,7 @@ Figure 4: Slices formed from a series of concatenated blocks
 
 </div>
 
-# 6 **File definition** <a href="#file-definition" class="header-anchor">#</a>
+# 6 **File definition**
 
 Each CRAM file starts with a fixed length (26 bytes) definition with the
 following fields:
@@ -514,7 +512,7 @@ available, so tools that output CRAM 3 without using any 3.1 codecs
 should write the header to indicate 3.0 in order to permit maximum
 compatibility.
 
-# 7 **Container header structure** <a href="#sec:container" class="header-anchor">#</a>
+# 7 **Container header structure**
 
 The file definition is followed by one or more containers with the
 following header structure where the container content is stored in the
@@ -608,7 +606,7 @@ the reference and alignment span fields must be ignored when reading.
 When writing, it is recommended to set each of these ignored fields to
 the value 0.
 
-## 7.1 **CRAM header container** <a href="#subsec:cram-header-container" class="header-anchor">#</a>
+## 7.1 **CRAM header container**
 
 The first container in a CRAM file contains a textual header in one or
 more blocks. See section [8.3](#subsec:header-block) for more details on
@@ -619,7 +617,7 @@ The landmarks field of the container header structure may be used to
 indicate the offsets of the blocks used in the header container. These
 may optionally be omitted by specifying an array size of zero.
 
-# 8 **Block structure** <a href="#sec:block-struct" class="header-anchor">#</a>
+# 8 **Block structure**
 
 Containers consist of one or more blocks. Block compression is applied
 independently and in addition to any encodings used to compress data
@@ -691,7 +689,7 @@ size of zero are treated as empty, irrespective of their "method" byte.
 This is equivalent to interpreting them as having method zero (raw) and
 compressed size of zero.
 
-## 8.1 **Block content types** <a href="#block-content-types" class="header-anchor">#</a>
+## 8.1 **Block content types**
 
 CRAM has the following block content types:
 
@@ -755,7 +753,7 @@ of mapping status.
 
 </div>
 
-## 8.2 **Block content id** <a href="#block-content-id" class="header-anchor">#</a>
+## 8.2 **Block content id**
 
 Block content id is used to distinguish between external blocks in the
 same slice. Each external encoding has an id parameter which must be one
@@ -764,7 +762,7 @@ a positive integer. For all other blocks content id should be 0.
 Consequently, all external encodings must not use content id less than
 1.
 
-### 8.2.1 Data blocks <a href="#data-blocks" class="header-anchor">#</a>
+### 8.2.1 Data blocks
 
 Data is stored in data blocks. There are two types of data blocks: core
 data blocks and external data blocks.The difference between core and
@@ -780,7 +778,7 @@ the block where the data series is stored. Please note that external
 blocks can have multiple data series associated with them; in this case
 the values from these data series will be interleaved.
 
-## 8.3 **CRAM header block(s)** <a href="#subsec:header-block" class="header-anchor">#</a>
+## 8.3 **CRAM header block(s)**
 
 The SAM header is stored in the first block of the CRAM header container
 (see section [7.1](#subsec:cram-header-container)). This block may be
@@ -801,12 +799,12 @@ The following constraints apply to the SAM header text:
 - The SQ:MD5 checksum is required unless the reference sequence has been
   embedded into the file.
 
-## 8.4 **Compression header block** <a href="#subsec:compression-header" class="header-anchor">#</a>
+## 8.4 **Compression header block**
 
 The compression header block consists of 3 parts: preservation map, data
 series encoding map and tag encoding map.
 
-### 8.4.1 Preservation map <a href="#preservation-map" class="header-anchor">#</a>
+### 8.4.1 Preservation map
 
 The preservation map contains information about which data was preserved
 in the CRAM file. It is stored as a map with byte\[2\] keys:
@@ -858,7 +856,7 @@ The boolean values are optional, defaulting to true when absent,
 although it is recommended to explicitly set them. SM and TD are
 mandatory.
 
-### 8.4.2 Data series encodings <a href="#data-series-encodings" class="header-anchor">#</a>
+### 8.4.2 Data series encodings
 
 Each data series has an encoding. These encoding are stored in a map
 with byte\[2\] keys and are decoded in approximately this order[^2]:
@@ -1087,7 +1085,7 @@ blocks associated with them.
 
 </div>
 
-### 8.4.3 Tag encodings <a href="#subsubsec:tags" class="header-anchor">#</a>
+### 8.4.3 Tag encodings
 
 The tag dictionary (TD) describes the unique combinations of tag id /
 type that occur on each alignment record. For example if we search the
@@ -1116,7 +1114,7 @@ example the TD for tag lists X1:i BC:Z SA:Z and X1:i BC:Z may be encoded
 as X1CBCZSAZ\0X1CBCZ\0, with X1C indicating a 1 byte unsigned value for
 tag X1.
 
-### 8.4.4 Tag values <a href="#tag-values" class="header-anchor">#</a>
+### 8.4.4 Tag values
 
 The encodings used for different tags are stored in a map. The key is 3
 bytes formed from the BAM tag id and type code, matching the TD
@@ -1165,7 +1163,7 @@ value. Hence consuming 1 byte for types 'C' and 'c', 2 bytes for types
 'S' and 's', 4 bytes for types 'I', 'i' and 'f', and a variable number
 of bytes for types 'H', 'Z' and 'B'.
 
-## 8.5 **Slice header block** <a href="#slice-header-block" class="header-anchor">#</a>
+## 8.5 **Slice header block**
 
 The slice header block is never compressed (block method=raw). For
 reference mapped reads the slice header also defines the reference
@@ -1294,7 +1292,7 @@ by a decoder should be skipped over without producing an error.
 
 At present no tags are defined.
 
-## 8.6 **Core data block** <a href="#core-data-block" class="header-anchor">#</a>
+## 8.6 **Core data block**
 
 A core data block is a bit stream (most significant bit first)
 consisting of data from one or more CRAM records. Please note that one
@@ -1328,7 +1326,7 @@ be just a few bits long. The core data block has the following fields:
 </tbody>
 </table>
 
-## 8.7 **External data blocks** <a href="#external-data-blocks" class="header-anchor">#</a>
+## 8.7 **External data blocks**
 
 The relationship between the core data block and external data blocks is
 shown in the following picture:
@@ -1348,7 +1346,7 @@ core bit encodings whose output is always stored in a core data block,
 and external byte encodings whose output is always stored in external
 data blocks.
 
-# 9 **End of file container** <a href="#end-of-file-container" class="header-anchor">#</a>
+# 9 **End of file container**
 
 A special container is used to mark the end of a file or stream. It is
 required in version 3 or later. The idea is to provide an easy and a
@@ -1527,7 +1525,7 @@ representation is:
 0f 00 00 00 ff ff ff ff 0f e0 45 4f 46 00 00 00 00 01 00 05 bd d9 4f 00
 01 00 06 06 01 00 01 00 01 00 ee 63 01 4b
 
-# 10 **Record structure** <a href="#sec:record" class="header-anchor">#</a>
+# 10 **Record structure**
 
 CRAM record is based on the SAM record but has additional features
 allowing for more efficient data storage. In contrast to BAM record CRAM
@@ -1544,7 +1542,7 @@ vital.
 The overall flowchart is below, with more detailed description in the
 subsequent sections.
 
-## 10.1 **CRAM record** <a href="#cram-record" class="header-anchor">#</a>
+## 10.1 **CRAM record**
 
 Both mapped and unmapped reads start with the following fields. Please
 note that the data series type refers to the logical data type and the
@@ -1606,7 +1604,7 @@ href="#subsec:unmapped">10.7</a></td>
 </tbody>
 </table>
 
-### 10.1.1 **BAM bit flags (BF data series)** <a href="#bam-bit-flags-bf-data-series" class="header-anchor">#</a>
+### 10.1.1 **BAM bit flags (BF data series)**
 
 The following flags are duplicated from the SAM and BAM specification,
 with identical meaning. Note however some of these flags can be derived
@@ -1710,7 +1708,7 @@ information is lost during data processing.
 
 </div>
 
-### 10.1.2 **CRAM bit flags (CF data series)** <a href="#cram-bit-flags-cf-data-series" class="header-anchor">#</a>
+### 10.1.2 **CRAM bit flags (CF data series)**
 
 The CRAM bit flags (also known as compression bit flags) expressed as an
 integer represent the CF data series. The following compression flags
@@ -1755,7 +1753,7 @@ The following pseudocode describes the general process of decoding an
 entire CRAM record. The sequence data itself is in one of two encoding
 formats depending on whether the record is aligned (mapped).
 
-### 10.1.3 **Decode pseudocode** <a href="#decode-pseudocode" class="header-anchor">#</a>
+### 10.1.3 **Decode pseudocode**
 
 <div class="algorithmic">
 
@@ -1782,7 +1780,7 @@ Header to retrieve the next value from that data series. Note there is
 only one permitted data type per data series, so the second argument is
 redundant and is included only as an aide-mémoire.
 
-## 10.2 **CRAM positional data** <a href="#subsec:positions" class="header-anchor">#</a>
+## 10.2 **CRAM positional data**
 
 Following the bit-wise BAM and CRAM flags, CRAM encodes positional
 related data including reference, alignment positions and length, and
@@ -1854,7 +1852,7 @@ Integer)
 
 </div>
 
-## 10.3 Read names (RN data series) <a href="#subsec:names" class="header-anchor">#</a>
+## 10.3 Read names (RN data series)
 
 Read names can be preserved in the CRAM format, but this is optional and
 is governed by the `RN` preservation map key in the container
@@ -1894,7 +1892,7 @@ $read\_name \gets$ <span class="smallcaps">GenerateName</span>()
 
 </div>
 
-## 10.4 **Mate records** <a href="#subsec:mate" class="header-anchor">#</a>
+## 10.4 **Mate records**
 
 There are two ways in which mate information can be preserved in CRAM.
 If the next fragment is not in the same slice we store verbatim copies
@@ -1986,8 +1984,7 @@ the algorithm used by CRAM for computing the mate data on-the-fly.
 </tbody>
 </table>
 
-### 10.4.1 Next mate bit flags (MF data series) <a href="#next-mate-bit-flags-mf-data-series"
-class="header-anchor">#</a>
+### 10.4.1 Next mate bit flags (MF data series)
 
 The next mate bit flags expressed as an integer represent the MF data
 series. These represent the missing bits we excluded from the BF data
@@ -2016,7 +2013,7 @@ flags are defined:
 </tbody>
 </table>
 
-### 10.4.2 **Decode mate pseudocode** <a href="#decode-mate-pseudocode" class="header-anchor">#</a>
+### 10.4.2 **Decode mate pseudocode**
 
 In the following pseudocode we are assuming the current record is $this$
 and its mate is $next\_frag$.
@@ -2057,7 +2054,7 @@ decoded. The final segment in the mate chain needs to set $bam\_flags$
 fields 0x20 and 0x08 accordingly based on the first segment. This is
 also not listed in the above algorithm, for brevity.
 
-## 10.5 Auxiliary tags <a href="#subsec:tags" class="header-anchor">#</a>
+## 10.5 Auxiliary tags
 
 Tags are encoded using a tag line (TL data series) integer into the tag
 dictionary (TD field in the compression header preservation map, see
@@ -2137,9 +2134,9 @@ store all MD and NM verbatim and to request that the decoding software
 does not automatically generate its own for records that have no stored
 MD and NM tags.
 
-## 10.6 **Mapped reads** <a href="#subsec:mapped" class="header-anchor">#</a>
+## 10.6 **Mapped reads**
 
-### 10.6.1 **Read feature records** <a href="#subsec:features" class="header-anchor">#</a>
+### 10.6.1 **Read feature records**
 
 Read features are used to store read details that are expressed using
 read coordinates (e.g. base differences respective to the reference
@@ -2209,7 +2206,7 @@ Repeated FN times, once for each read feature.
 
 </div>
 
-### 10.6.2 Read feature codes <a href="#read-feature-codes" class="header-anchor">#</a>
+### 10.6.2 Read feature codes
 
 Each feature code has its own associated data series containing further
 information specific to that feature. The following codes are used to
@@ -2317,8 +2314,7 @@ Note for compatibility with BAM, all base comparisons should be done in
 a case-insensitive manner, and all bases written to SC, IN and BA data
 series should be in upper-case.
 
-### 10.6.3 Base substitution codes (BS data series) <a href="#base-substitution-codes-bs-data-series"
-class="header-anchor">#</a>
+### 10.6.3 Base substitution codes (BS data series)
 
 A base substitution is defined as a change from one nucleotide base
 (reference base) to another (read base), including N as an unknown or
@@ -2330,7 +2326,7 @@ The codes for all possible substitutions are stored in a two-dimensional
 substitution matrix, indexed by reference base (A,C,G,T,N) and BS code
 (0–3), with each matrix element holding the modified base.
 
-### 10.6.4 Substitution Matrix Format <a href="#substitution-matrix-format" class="header-anchor">#</a>
+### 10.6.4 Substitution Matrix Format
 
 There are 5 possible base types supported by the BS data series, A, C,
 G, T and N. Hence for any reference base there are 4 possible
@@ -2498,7 +2494,7 @@ data as above with codes sorted into 0, 1, 2, 3 order.
 </tbody>
 </table>
 
-### 10.6.5 Substitution Code Assignment <a href="#substitution-code-assignment" class="header-anchor">#</a>
+### 10.6.5 Substitution Code Assignment
 
 There is no strict requirement on using a specific substitution matrix,
 nor that it be optimal. However one strategy may be to ensure the most
@@ -2517,7 +2513,7 @@ AN: 5%
 
 Then the substitution codes are T=0, G=1, C=2, N=3.
 
-### 10.6.6 Decode mapped read pseudocode <a href="#decode-mapped-read-pseudocode" class="header-anchor">#</a>
+### 10.6.6 Decode mapped read pseudocode
 
 <div class="algorithmic">
 
@@ -2546,7 +2542,7 @@ $last\_feature\_position\gets feature\_position$ ${}\gets$
 
 </div>
 
-## 10.7 **Unmapped reads** <a href="#subsec:unmapped" class="header-anchor">#</a>
+## 10.7 **Unmapped reads**
 
 The CRAM record structure for unmapped reads has the following
 additional fields:
@@ -2583,7 +2579,7 @@ $quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS, Byte)
 
 </div>
 
-# 11 **Reference sequences** <a href="#reference-sequences" class="header-anchor">#</a>
+# 11 **Reference sequences**
 
 CRAM format is natively based upon usage of reference sequences even
 though in some cases they are not required. In contrast to BAM format
@@ -2616,9 +2612,9 @@ CRAM format has strict rules about reference sequences.
 4.  MD5 checksum bytes in slice header should be ignored for unmapped or
     multiref slices.
 
-# 12 **Indexing** <a href="#indexing" class="header-anchor">#</a>
+# 12 **Indexing**
 
-### 12.0.1 General notes <a href="#general-notes" class="header-anchor">#</a>
+### 12.0.1 General notes
 
 Indexing is only valid on coordinate (reference ID and then leftmost
 position) sorted files.
@@ -2641,7 +2637,7 @@ alignment start and span, container start byte offset and slice byte
 offset inside the container (landmarks). The exception to this is with
 multi-reference containers, where the "RI" data series must be read.
 
-### 12.0.2 CRAM index <a href="#cram-index" class="header-anchor">#</a>
+### 12.0.2 CRAM index
 
 A CRAM index is a gzipped tab delimited file containing the following
 columns:
@@ -2681,7 +2677,7 @@ slice container are shown in the diagram below.
 
 </div>
 
-### 12.0.3 BAM index <a href="#bam-index" class="header-anchor">#</a>
+### 12.0.3 BAM index
 
 BAM indexes are supported by using 4-byte integer pointers called
 landmarks that are stored in container header. BAM index pointer is a
@@ -2697,9 +2693,9 @@ BAM file. This allows to apply BAM indexing to CRAM files, however it
 introduces some overhead in seeking specific alignment start because all
 preceding records in the slice must be read and discarded.
 
-# 13 **Encodings** <a href="#sec:encodings" class="header-anchor">#</a>
+# 13 **Encodings**
 
-## 13.1 **Introduction** <a href="#introduction" class="header-anchor">#</a>
+## 13.1 **Introduction**
 
 The basic idea for codings is to efficiently represent some values in
 binary format. This can be achieved in a number of ways that most
@@ -2714,7 +2710,7 @@ deprecated. These are still formally part of the CRAM specification, but
 have not been used by the primary implementations and may not be well
 supported. Therefore their use is permitted, but not recommended.
 
-### 13.1.1 Offset <a href="#offset" class="header-anchor">#</a>
+### 13.1.1 Offset
 
 Many of the codings listed below encode positive integer numbers. An
 integer offset value is used to allow any integer numbers and not just
@@ -2724,7 +2720,7 @@ example, given offset is 10 and the value to be encoded is 1, the
 actually encoded value would be offset+value=11. Then when decoding, the
 offset would be subtracted from the decoded value.
 
-## 13.2 EXTERNAL: codec ID 1 <a href="#external-codec-id-1" class="header-anchor">#</a>
+## 13.2 EXTERNAL: codec ID 1
 
 Can encode types *Byte*, *Integer*.
 
@@ -2732,7 +2728,7 @@ The EXTERNAL coding is simply storage of data verbatim to an external
 block with a given ID. If the type is *Byte* the data is stored as-is,
 otherwise for *Integer* type the data is stored in ITF8.
 
-### 13.2.1 Parameters <a href="#parameters" class="header-anchor">#</a>
+### 13.2.1 Parameters
 
 CRAM format defines the following parameters of EXTERNAL coding:
 
@@ -2753,7 +2749,7 @@ CRAM format defines the following parameters of EXTERNAL coding:
 </tbody>
 </table>
 
-## 13.3 Huffman coding: codec ID 3 <a href="#huffman-coding-codec-id-3" class="header-anchor">#</a>
+## 13.3 Huffman coding: codec ID 3
 
 Can encode types *Byte*, *Integer*.
 
@@ -2786,7 +2782,7 @@ has a natural sort order and codewords are assigned in numerical order.
 be zero bits long.** This makes the Huffman codec an efficient mechanism
 for specifying constant values.
 
-### 13.3.1 Canonical code computation <a href="#canonical-code-computation" class="header-anchor">#</a>
+### 13.3.1 Canonical code computation
 
 1.  Sort the alphabet ascending using bit-lengths and then using
     numerical order of the values.
@@ -2802,7 +2798,7 @@ for specifying constant values.
     zeros until the length of the new codeword is equal to the length of
     the old codeword.
 
-### 13.3.2 Examples <a href="#examples" class="header-anchor">#</a>
+### 13.3.2 Examples
 
 <table>
 <thead>
@@ -2846,7 +2842,7 @@ for specifying constant values.
 </tbody>
 </table>
 
-### 13.3.3 Parameters <a href="#parameters-1" class="header-anchor">#</a>
+### 13.3.3 Parameters
 
 <table>
 <thead>
@@ -2870,7 +2866,7 @@ for specifying constant values.
 </tbody>
 </table>
 
-## 13.4 Byte array coding <a href="#byte-array-coding" class="header-anchor">#</a>
+## 13.4 Byte array coding
 
 Often there is a need to encode an array of bytes where the length is
 not predetermined. For example the read identifiers differ per alignment
@@ -2883,7 +2879,7 @@ Note in contrast to this, quality values are known to be the same length
 as the sequence which is an already known quantity, so this does not
 need to be encoded using the byte array codecs.
 
-### 13.4.1 BYTE_ARRAY_LEN: codec ID 4 <a href="#byte_array_len-codec-id-4" class="header-anchor">#</a>
+### 13.4.1 BYTE_ARRAY_LEN: codec ID 4
 
 Can encode types *Byte\[ \]*.
 
@@ -3005,7 +3001,7 @@ encoding to store the value to an external block with ID 200.
 </tbody>
 </table>
 
-### 13.4.2 BYTE_ARRAY_STOP: codec ID 5 <a href="#byte_array_stop-codec-id-5" class="header-anchor">#</a>
+### 13.4.2 BYTE_ARRAY_STOP: codec ID 5
 
 Can encode types *Byte\[ \]*.
 
@@ -3036,18 +3032,18 @@ the parameter is an external id instead of another encoding.
 </tbody>
 </table>
 
-## 13.5 Beta coding: codec ID 6 <a href="#beta-coding-codec-id-6" class="header-anchor">#</a>
+## 13.5 Beta coding: codec ID 6
 
 Can encode types *Integer*.
 
-### 13.5.1 Definition <a href="#definition" class="header-anchor">#</a>
+### 13.5.1 Definition
 
 Beta coding is a most common way to represent numbers in *binary
 notation* and is sometimes referred to as binary coding. The decoder
 reads the specified fixed number of bits (most significant first) and
 subtracts the offset value to get the decoded integer.
 
-### 13.5.2 Parameters <a href="#parameters-2" class="header-anchor">#</a>
+### 13.5.2 Parameters
 
 CRAM format defines the following parameters of beta coding:
 
@@ -3073,7 +3069,7 @@ CRAM format defines the following parameters of beta coding:
 </tbody>
 </table>
 
-### 13.5.3 Examples <a href="#examples-1" class="header-anchor">#</a>
+### 13.5.3 Examples
 
 If we have integer values in the range 10 to 15 inclusive, the largest
 value would traditionally need 4 bits, but with an offset of -10 we can
@@ -3129,40 +3125,29 @@ Length coming from the beta parameters, we decode these values as:
 </tbody>
 </table>
 
-## 13.6 Subexponential coding: codec ID 7 <a href="#subexponential-coding-codec-id-7" class="header-anchor">#</a>
+## 13.6 Subexponential coding: codec ID 7
 
 Can encode types *Integer*.
 
-### 13.6.1 Definition <a href="#definition-1" class="header-anchor">#</a>
+### 13.6.1 Definition
 
 Subexponential coding[^6] is parametrized by a non-negative integer $k$.
 For values $n < 2^{k+1}$ subexponential coding produces codewords
 identical to Rice coding [^7]. For larger values it grows
 logarithmically with $n$.
 
-### 13.6.2 Encoding <a href="#encoding" class="header-anchor">#</a>
+### 13.6.2 Encoding
 
 1.  Add $\mathit{offset}$ to $n$.
 
-2.  Determine $u$ and $b$ values from $n$ $$\begin{aligned}
-    b =
-    \begin{cases}
-      \ k                        & \text{ if } n < 2^k \text{} \\
-      \ \lfloor log_{2}n \rfloor & \text{ if } n \ge 2^k \text{}
-    \end{cases}
-    &\
-    &u =
-    \begin{cases}
-      \ 0     & \text{ if } n < 2^k \text{} \\
-      \ b-k+1 & \text{ if } n \ge 2^k \text{}
-    \end{cases}
-    \end{aligned}$$
+2.  Determine $u$ and $b$ values from $n$
+    $$\begin{aligned} b = \begin{cases} \ k & \text{ if } n < 2^k \text{} \\ \ \lfloor log_{2}n \rfloor & \text{ if } n \ge 2^k \text{} \end{cases} &\ &u = \begin{cases} \ 0 & \text{ if } n < 2^k \text{} \\ \ b-k+1 & \text{ if } n \ge 2^k \text{} \end{cases} \end{aligned}$$
 
 3.  Write $u$ in unary form; $u$ 1 bits followed by a single 0 bit.
 
 4.  Write the bottom $b$-bits of $n$ in binary form.
 
-### 13.6.3 Decoding <a href="#decoding" class="header-anchor">#</a>
+### 13.6.3 Decoding
 
 1.  Read $u$ in unary form, counting the number of leading 1s (prefix)
     in the codeword (discard the trailing 0 bit).
@@ -3176,7 +3161,7 @@ logarithmically with $n$.
 
 3.  Subtract $\mathit{offset}$ from $n$.
 
-### 13.6.4 Examples <a href="#examples-2" class="header-anchor">#</a>
+### 13.6.4 Examples
 
 <table>
 <thead>
@@ -3257,7 +3242,7 @@ logarithmically with $n$.
 </tbody>
 </table>
 
-### 13.6.5 Parameters <a href="#parameters-3" class="header-anchor">#</a>
+### 13.6.5 Parameters
 
 <table>
 <thead>
@@ -3281,18 +3266,18 @@ logarithmically with $n$.
 </tbody>
 </table>
 
-## 13.7 Gamma coding: codec ID 9 <a href="#gamma-coding-codec-id-9" class="header-anchor">#</a>
+## 13.7 Gamma coding: codec ID 9
 
 Can encode types *Integer*.
 
-### 13.7.1 Definition <a href="#definition-2" class="header-anchor">#</a>
+### 13.7.1 Definition
 
 *Elias gamma code* is a prefix encoding of positive integers. This is a
 combination of unary coding and beta coding. The first is used to
 capture the number of bits required for beta coding to capture the
 value.
 
-### 13.7.2 Encoding <a href="#encoding-1" class="header-anchor">#</a>
+### 13.7.2 Encoding
 
 1.  Write it in binary.
 
@@ -3309,7 +3294,7 @@ value.
 6.  Append the remaining $N$ binary digits to this representation of
     $N$.
 
-### 13.7.3 Decoding <a href="#decoding-1" class="header-anchor">#</a>
+### 13.7.3 Decoding
 
 1.  Read and count 0s from the stream until you reach the first 1. Call
     this count of zeroes $N$.
@@ -3318,7 +3303,7 @@ value.
     integer, with a value of $2N$, read the remaining $N$ digits of the
     integer.
 
-### 13.7.4 Examples <a href="#examples-3" class="header-anchor">#</a>
+### 13.7.4 Examples
 
 <table>
 <thead>
@@ -3347,7 +3332,7 @@ value.
 </tbody>
 </table>
 
-### 13.7.5 Parameters <a href="#parameters-4" class="header-anchor">#</a>
+### 13.7.5 Parameters
 
 <table>
 <thead>
@@ -3366,8 +3351,7 @@ value.
 </tbody>
 </table>
 
-## 13.8 DEPRECATED: Golomb coding: codec ID 2 <a href="#deprecated-golomb-coding-codec-id-2"
-class="header-anchor">#</a>
+## 13.8 DEPRECATED: Golomb coding: codec ID 2
 
 Can encode types *Integer*.
 
@@ -3375,12 +3359,12 @@ Note this codec has not been used in any known CRAM implementation since
 before CRAM v1.0. Nor is it implemented in some of the major software.
 Therefore its use is not recommended.
 
-### 13.8.1 Definition <a href="#definition-3" class="header-anchor">#</a>
+### 13.8.1 Definition
 
 *Golomb encoding* is a prefix encoding optimal for representation of
 random positive numbers following geometric distribution.
 
-### 13.8.2 Encoding <a href="#encoding-2" class="header-anchor">#</a>
+### 13.8.2 Encoding
 
 1.  Fix the parameter $M$ to an integer value.
 
@@ -3409,7 +3393,7 @@ random positive numbers following geometric distribution.
         2.  If $r \ge 2^{b}-M$ code the number $r+2^{b}-M$ in plain
             binary representation using $b$ bits.
 
-### 13.8.3 Decoding <a href="#decoding-2" class="header-anchor">#</a>
+### 13.8.3 Decoding
 
 1.  Read $q$ via unary coding: count the number of 1 bits and consume
     the following 0 bits.
@@ -3426,7 +3410,7 @@ random positive numbers following geometric distribution.
 
 5.  Value is $q*M + r - \mathit{offset}$
 
-### 13.8.4 Examples <a href="#examples-4" class="header-anchor">#</a>
+### 13.8.4 Examples
 
 <table>
 <thead>
@@ -3459,7 +3443,7 @@ random positive numbers following geometric distribution.
 </tbody>
 </table>
 
-### 13.8.5 Parameters <a href="#parameters-5" class="header-anchor">#</a>
+### 13.8.5 Parameters
 
 Golomb coding takes the following parameters:
 
@@ -3485,8 +3469,7 @@ Golomb coding takes the following parameters:
 </tbody>
 </table>
 
-## 13.9 DEPRECATED: Golomb-Rice coding: codec ID 8 <a href="#deprecated-golomb-rice-coding-codec-id-8"
-class="header-anchor">#</a>
+## 13.9 DEPRECATED: Golomb-Rice coding: codec ID 8
 
 Can encode types *Integer*.
 
@@ -3499,7 +3482,7 @@ parameter is a power of 2. The reason for this coding is that the
 division operations in Golomb coding can be replaced with bit shift
 operators as well as avoiding the extra $r < 2^{b}-M$ check.
 
-# 14 **External compression methods** <a href="#external-compression-methods" class="header-anchor">#</a>
+# 14 **External compression methods**
 
 External encoding operates on bytes only. Therefore any data series must
 be translated into bytes before sending data into an external block. The
@@ -3517,12 +3500,12 @@ translation trivial.
 Each method has an associated numeric code which is defined in
 Section [8](#sec:block-struct).
 
-## 14.1 **Gzip** <a href="#gzip" class="header-anchor">#</a>
+## 14.1 **Gzip**
 
 The Gzip specification is defined in RFC 1952. Gzip in turn is an
 encapsulation on the Deflate algorithm defined in RFC 1951.
 
-## 14.2 **Bzip2** <a href="#bzip2" class="header-anchor">#</a>
+## 14.2 **Bzip2**
 
 First available in CRAM v2.0.
 
@@ -3533,7 +3516,7 @@ encoder. It is often superior to Gzip for textual data.
 An informal format specification exists:\
 <https://github.com/dsnet/compress/blob/master/doc/bzip2-format.pdf>
 
-## 14.3 **LZMA** <a href="#lzma" class="header-anchor">#</a>
+## 14.3 **LZMA**
 
 First available in CRAM v3.0.
 
@@ -3541,7 +3524,7 @@ LZMA is the Lempel-Ziv Markov chain algorithm. CRAM uses the xz Stream
 format to encapsulate this algorithm, as defined in
 <https://tukaani.org/xz/xz-file-format.txt>.
 
-## 14.4 **rANS4x8 codec** <a href="#rans4x8-codec" class="header-anchor">#</a>
+## 14.4 **rANS4x8 codec**
 
 First available in CRAM v3.0.
 
@@ -3552,7 +3535,7 @@ This variant of rANS first appeared in CRAM v3.0.
 
 Details of this algorithm have been moved to the *CRAMcodecs* document.
 
-## 14.5 **rANS4x16 codec** <a href="#rans4x16-codec" class="header-anchor">#</a>
+## 14.5 **rANS4x16 codec**
 
 First available in CRAM v3.1.
 
@@ -3561,7 +3544,7 @@ This variant of rANS first appeared in CRAM v3.1.
 
 Details of this algorithm are listed in the *CRAMcodecs* document.
 
-## 14.6 **adaptive arithemtic coding** <a href="#adaptive-arithemtic-coding" class="header-anchor">#</a>
+## 14.6 **adaptive arithemtic coding**
 
 First available in CRAM v3.1.
 
@@ -3571,7 +3554,7 @@ decompresses instead of using a fixed table.
 
 Details of this algorithm are listed in the *CRAMcodecs* document.
 
-## 14.7 **fqzcomp codec** <a href="#fqzcomp-codec" class="header-anchor">#</a>
+## 14.7 **fqzcomp codec**
 
 First available in CRAM v3.1.
 
@@ -3579,7 +3562,7 @@ This is a method dedicated to compression of quality values.
 
 Details of this algorithm are listed in the *CRAMcodecs* document.
 
-## 14.8 **name tokeniser** <a href="#name-tokeniser" class="header-anchor">#</a>
+## 14.8 **name tokeniser**
 
 First available in CRAM v3.1.
 
@@ -3587,9 +3570,9 @@ This is a method dedicated to compression of read names.
 
 Details of this algorithm are listed in the *CRAMcodecs* document.
 
-# 15 **Appendix** <a href="#appendix" class="header-anchor">#</a>
+# 15 **Appendix**
 
-## 15.1 **Choosing the container size** <a href="#choosing-the-container-size" class="header-anchor">#</a>
+## 15.1 **Choosing the container size**
 
 CRAM format does not constrain the size of the containers. However, the
 following should be considered when deciding the container size:
@@ -3643,9 +3626,9 @@ bits/base. Space estimate is
 $10\,000\,000 \times 2 \bits \approx 2.4 \MB$. Data could be written
 into three containers: $1\MB + 1\MB + 0.4\MB$.
 
-## 15.2 CRAM History <a href="#cram-history" class="header-anchor">#</a>
+## 15.2 CRAM History
 
-### 15.2.1 Pre-CRAM: 2010 <a href="#pre-cram-2010" class="header-anchor">#</a>
+### 15.2.1 Pre-CRAM: 2010
 
 The primary concepts and ideas of CRAM stem from work at the European
 Bioinformatics Institute in 2010 and 2011, published in:
@@ -3656,19 +3639,19 @@ Bioinformatics Institute in 2010 and 2011, published in:
 > [doi:10.1101/gr.114819.110](http://dx.doi.org/doi:10.1101/gr.114819.110);
 > pmid:21245279.
 
-### 15.2.2 CRAM 0.x: 2011 <a href="#cram-0.x-2011" class="header-anchor">#</a>
+### 15.2.2 CRAM 0.x: 2011
 
 Vadim Zalunin implemented the ideas in the paper, now named CRAM, in the
 Java CRAMtools package. This included versions from 0.3 to 0.86[^9].
 
-### 15.2.3 CRAM 1.0: 2012 <a href="#cram-1.0-2012" class="header-anchor">#</a>
+### 15.2.3 CRAM 1.0: 2012
 
 The first official launch of the CRAM specification, in the Java
 CRAMtools package[^10]
 
 This was publicised at <https://github.com/enasequence/cramtools>.
 
-### 15.2.4 CRAM 2.0: 2013 <a href="#cram-2.0-2013" class="header-anchor">#</a>
+### 15.2.4 CRAM 2.0: 2013
 
 Reimplementing CRAM in C [^11] exposed a number of issues with the 1.0
 specification and disparities between the specification text and the
@@ -3690,14 +3673,14 @@ Other changes included:
 
 - Improved encoding of auxiliary tags.
 
-### 15.2.5 CRAM 2.1: 2014 <a href="#cram-2.1-2014" class="header-anchor">#</a>
+### 15.2.5 CRAM 2.1: 2014
 
 This is the first version to appear in HTSJDK (version 1.127), ported
 from the Java CRAMtools package.
 
 - EOF blocks are added in order to spot truncated files.
 
-### 15.2.6 CRAM 3.0: 2014 <a href="#cram-3.0-2014" class="header-anchor">#</a>
+### 15.2.6 CRAM 3.0: 2014
 
 Primarily this is an optimisation of size and speed.
 
@@ -3708,7 +3691,7 @@ Primarily this is an optimisation of size and speed.
 - Checksums added to all file format structures to ensure data
   integrity.
 
-### 15.2.7 CRAM 3.1: 2023 <a href="#cram-3.1-2023" class="header-anchor">#</a>
+### 15.2.7 CRAM 3.1: 2023
 
 Note: the formal draft appeared in 2019, and was initially demonstrated
 in 2016.
@@ -3723,7 +3706,7 @@ custom name tokeniser and quality codec.
 
 The format is otherwise identical to 3.0.
 
-## 15.3 **Contributors and Acknowledgements** <a href="#contributors-and-acknowledgements" class="header-anchor">#</a>
+## 15.3 **Contributors and Acknowledgements**
 
 - Markus Fritz, Rasko Leinonen, Guy Cochrane and Ewan Birney (EBI):
   Initial ideas behind CRAM.

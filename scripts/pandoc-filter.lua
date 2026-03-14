@@ -318,24 +318,18 @@ local function simplify_math_text(text)
 end
 
 function Math(el)
-  if el.mathtype == "InlineMath" then
-    -- Simplify custom LaTeX operators
-    el.text = simplify_math_text(el.text)
+  el.text = simplify_math_text(el.text)
 
-    -- Handle special case for < and > which are often written as math in LaTeX
+  if el.mathtype == "InlineMath" then
     if el.text == "<" or el.text == ">" then
       return pandoc.Str(el.text)
     end
 
-    -- Pure numbers don't need math rendering
     if el.text:match("^%d+$") then
       return pandoc.Str(el.text)
     end
 
-    -- Convert all-caps math of length 2 or more to code literals `CIPOS`
-    -- This handles field names like $CIPOS$ and also assignments like $CIPOS=-5,5,0,0$ or $GT=0/1$
-    -- We allow uppercase, underscores, digits, and common assignment/list punctuation.
-    -- Length >= 2 ensures single letters like $P$ or $N$ remain as variables in italics (math).
+    -- Convert all-caps field names like $CIPOS$ to code literals
     if el.text:match("^[A-Z][A-Z_0-9=,%. %/-]*[A-Z_0-9=,%. %/-]$") then
       return pandoc.Code(el.text)
     end
@@ -360,21 +354,10 @@ function Header(el)
   -- Prepend section number to header content
   table.insert(el.content, 1, pandoc.Str(section_num .. " "))
 
-  if el.identifier ~= "" then
-    -- Add clickable # link inside the header
-    table.insert(el.content, pandoc.Str(" "))
-    local anchor_link = pandoc.Link({pandoc.Str("#")}, "#" .. el.identifier)
-    anchor_link.attributes = { class = "header-anchor" }
-    table.insert(el.content, anchor_link)
-  end
   return el
 end
 
 function Link(el)
-  -- Strip all attributes except header-anchor to avoid raw HTML output with data-reference-type
-  if el.classes:includes("header-anchor") then
-    return el
-  end
   el.attributes = {}
   return el
 end

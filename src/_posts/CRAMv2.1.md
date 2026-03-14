@@ -34,7 +34,7 @@ using a number of different encoding strategies. For example, bases are
 reference compressed by encoding base differences rather than storing
 the bases themselves.[^1]
 
-# 2 **Data types** <a href="#data-types" class="header-anchor">#</a>
+# 2 **Data types**
 
 CRAM specification uses logical data types and storage data types;
 logical data types are written as words (e.g. int) while physical data
@@ -43,7 +43,7 @@ the two is that storage data types define how logical data types are
 stored in CRAM. Data in CRAM is stored either as as bits or as bytes.
 Writing values as bits and bytes is described in detail below.
 
-## 2.1 **Logical data types** <a href="#logical-data-types" class="header-anchor">#</a>
+## 2.1 **Logical data types**
 
 Byte  
  \
@@ -61,7 +61,7 @@ Array
  \
 An array of any logical data type: `<`type`>`\[ \]
 
-## 2.2 **Writing bits to a bit stream** <a href="#writing-bits-to-a-bit-stream" class="header-anchor">#</a>
+## 2.2 **Writing bits to a bit stream**
 
 A bit stream consists of a sequence of 1s and 0s. The bits are written
 most significant bit first where new bits are stacked to the right and
@@ -69,7 +69,7 @@ full bytes on the left are written out. In a bit stream the last byte
 will be incomplete if less than 8 bits have been written to it. In this
 case the bits in the last byte are shifted to the left.
 
-### 2.2.1 Example of writing to bit stream <a href="#example-of-writing-to-bit-stream" class="header-anchor">#</a>
+### 2.2.1 Example of writing to bit stream
 
 Let's consider the following example. The table below shows a sequence
 of write operations:
@@ -134,7 +134,7 @@ And the whole bit sequence:
 When reading the bits from the bit sequence it must be known that only
 12 bits are meaningful and the bit stream should not be read after that.
 
-### 2.2.2 Note on writing to bit stream <a href="#note-on-writing-to-bit-stream" class="header-anchor">#</a>
+### 2.2.2 Note on writing to bit stream
 
 When writing to a bit stream both the value and the number of bits in
 the value must be known. This is because programming languages normally
@@ -147,7 +147,7 @@ to calculate how many bits will follow based on the first few bits.
 Alternatively, two codes can be combined, where the first contains the
 number of bits to read.
 
-## 2.3 **Writing bytes to a byte stream** <a href="#writing-bytes-to-a-byte-stream" class="header-anchor">#</a>
+## 2.3 **Writing bytes to a byte stream**
 
 The interpretation of byte stream is straightforward. CRAM uses *little
 endianness* for bytes when applicable and defines the following storage
@@ -190,7 +190,7 @@ Array (\[ \])
 Array length is written first as integer (itf8), followed by the
 elements of the array.
 
-### 2.3.1 Encoding <a href="#encoding" class="header-anchor">#</a>
+### 2.3.1 Encoding
 
 Encoding is a data type that specifies how data series have been
 compressed. Encodings are defined as encoding`<`type`>` where the type
@@ -246,7 +246,7 @@ K = 0x1 = 1
 
 offset = 0x0 = 0
 
-### 2.3.2 Map <a href="#map" class="header-anchor">#</a>
+### 2.3.2 Map
 
 A map is a collection of keys and associated values. A map with N keys
 is written as follows:
@@ -272,13 +272,13 @@ Both the size in bytes and the number of keys are written as integer
 (itf8). Keys and values are written according to their data types and
 are specific to each map.
 
-## 2.4 **Strings** <a href="#strings" class="header-anchor">#</a>
+## 2.4 **Strings**
 
 Strings are represented as byte arrays using UTF-8 format. Read names,
 reference sequence names and tag values with type 'Z' are stored as
 UTF-8.
 
-# 3 **Encodings**  <a href="#encodings" class="header-anchor">#</a>
+# 3 **Encodings** 
 
 Encoding is a data structure that captures information about compression
 details of a data series that are required to uncompress it. This could
@@ -372,7 +372,7 @@ encoding<code>&lt;</code>byte<code>&gt;</code> bytes</td>
 See the later **Encodings** sections for more detailed descriptions of
 all the above coding algorithms and their parameters.
 
-# 4 **File structure** <a href="#file-structure" class="header-anchor">#</a>
+# 4 **File structure**
 
 The overall CRAM file structure is described in this section. Please
 refer to other sections of this document for more detailed information.
@@ -432,7 +432,7 @@ style="width:392pt;height:149pt" alt="image" />
 
 Pic.5 Data blocks are divided into core and external data blocks.
 
-# 5 **File definition** <a href="#file-definition" class="header-anchor">#</a>
+# 5 **File definition**
 
 Each CRAM file starts with a fixed length (26 bytes) definition with the
 following fields:
@@ -481,7 +481,7 @@ Valid CRAM *major*.*minor* version numbers are as follows:
 - Additional compression methods; header and data checksums;
   improvements for unsorted data.
 
-# 6 **Container structure** <a href="#container-structure" class="header-anchor">#</a>
+# 6 **Container structure**
 
 The file definition is followed by one or more containers with the
 following header structure where the container content is stored in the
@@ -551,8 +551,7 @@ array. Landmarks are used for random access indexing.</td>
 </tbody>
 </table>
 
-## 6.1 **CRAM header in the first container** <a href="#cram-header-in-the-first-container"
-class="header-anchor">#</a>
+## 6.1 **CRAM header in the first container**
 
 The first container in the CRAM file contains the BAM header in an
 uncompressed block. BAM header is terminated with \0 byte and any extra
@@ -561,7 +560,7 @@ when updating @SQ records additional space may be required for the BAM
 header. It is recommended to reserve 50% more space in the CRAM header
 block than it is required by the BAM header.
 
-# 7 **Block structure** <a href="#block-structure" class="header-anchor">#</a>
+# 7 **Block structure**
 
 Containers consist of one or more blocks. Block compression is applied
 independently and in addition to any encodings used to compress data
@@ -620,7 +619,7 @@ additional fields ( header blocks)</td>
 \* Note on raw method: both compressed and raw sizes must be set to the
 same value.
 
-## 7.1 **Block content types** <a href="#block-content-types" class="header-anchor">#</a>
+## 7.1 **Block content types**
 
 CRAM has the following block content types:
 
@@ -673,7 +672,7 @@ CRAM has the following block content types:
 </tbody>
 </table>
 
-## 7.2 **Block content id** <a href="#block-content-id" class="header-anchor">#</a>
+## 7.2 **Block content id**
 
 Block content id is used to distinguish between external blocks in the
 same slice. Each external encoding has an id parameter which must be one
@@ -682,7 +681,7 @@ a positive integer. For all other blocks content id should be 0.
 Consequently, all external encodings must not use content id less than
 1.
 
-### 7.2.1 Data blocks <a href="#data-blocks" class="header-anchor">#</a>
+### 7.2.1 Data blocks
 
 Data is stored in data blocks. There are two types of data blocks: core
 data blocks and external data blocks.The difference between core and
@@ -698,7 +697,7 @@ the block where the data series is stored. Please note that external
 blocks can have multiple data series associated with them; in this case
 the values from these data series will be interleaved.
 
-## 7.3 **BAM header block** <a href="#bam-header-block" class="header-anchor">#</a>
+## 7.3 **BAM header block**
 
 The BAM header is stored in a single block within the first container.
 
@@ -711,12 +710,12 @@ The following constraints apply to the BAM header:
 
 - The HD:SO sort order is always POS.
 
-## 7.4 **Compression header block** <a href="#compression-header-block" class="header-anchor">#</a>
+## 7.4 **Compression header block**
 
 The compression header block consists of 3 parts: preservation map, data
 series encoding map and tag encoding map.
 
-### 7.4.1 Preservation map <a href="#preservation-map" class="header-anchor">#</a>
+### 7.4.1 Preservation map
 
 The preservation map contains information about which data was preserved
 in the CRAM file. It is stored as a map with byte\[2\] keys:
@@ -764,7 +763,7 @@ in the CRAM file. It is stored as a map with byte\[2\] keys:
 </tbody>
 </table>
 
-### 7.4.2 Data series encodings <a href="#data-series-encodings" class="header-anchor">#</a>
+### 7.4.2 Data series encodings
 
 Each data series has an encoding. These encoding are stored in a map
 with byte\[2\] keys:
@@ -946,7 +945,7 @@ with byte\[2\] keys:
 
 \* The data series is reset for each slice.
 
-### 7.4.3 Encoding tags <a href="#encoding-tags" class="header-anchor">#</a>
+### 7.4.3 Encoding tags
 
 The TL (tag list) data series represents combined information about the
 number of tags in a record and their ids.
@@ -966,7 +965,7 @@ followed by tag value type. For example AMiOQZ\0OQZ\0, where the TD
 consists of just two values: integer 0 for tags {AM:i,OQ:Z} and 1 for
 tag {OQ:Z}.
 
-### 7.4.4 Encoding tag values <a href="#encoding-tag-values" class="header-anchor">#</a>
+### 7.4.4 Encoding tag values
 
 The encodings used for different tags are stored in a map. The map has
 integer keys composed of the two letter tag abbreviation followed by the
@@ -1012,7 +1011,7 @@ convert tag values into byte array and back are the same as in BAM with
 the exception of value type being captured in the tag key rather in the
 value.
 
-## 7.5 **Slice header block** <a href="#slice-header-block" class="header-anchor">#</a>
+## 7.5 **Slice header block**
 
 The slice header block is never compressed (block method=raw). For
 reference mapped reads the slice header also defines the reference
@@ -1082,7 +1081,7 @@ bytes for unmapped or unsorted reads</td>
 </tbody>
 </table>
 
-## 7.6 **Core data block** <a href="#core-data-block" class="header-anchor">#</a>
+## 7.6 **Core data block**
 
 A core data block is a bit stream (most significant bit first)
 consisting of one or more CRAM records. Please note that one byte could
@@ -1116,7 +1115,7 @@ few bits long. The core data block has the following fields:
 </tbody>
 </table>
 
-## 7.7 **External data block** <a href="#external-data-block" class="header-anchor">#</a>
+## 7.7 **External data block**
 
 Relationship between core data block and external data blocks is shown
 in the following picture:
@@ -1133,7 +1132,7 @@ purposes, the main point here is to distinguish between bit encodings
 whose output is always stored in core data block and the external
 encoding which simply stored the bytes into external data blocks.
 
-# 8 **End of file marker** <a href="#end-of-file-marker" class="header-anchor">#</a>
+# 8 **End of file marker**
 
 A special container is used to mark the end of a file or stream. It is
 optional in version preceding 2.1 but required in later versions. The
@@ -1300,7 +1299,7 @@ hex representation is:
 0b 00 00 00 ff ff ff ff ff e0 45 4f 46 00 00 00 00 01 00 00 01 00 06 06
 01 00 01 00 01 00
 
-# 9 **Record structure** <a href="#record-structure" class="header-anchor">#</a>
+# 9 **Record structure**
 
 CRAM record is based on the SAM record but has additional features
 allowing for more efficient data storage. In contrast to BAM record CRAM
@@ -1310,7 +1309,7 @@ codes can be used directly in CRAM. On the other hand, data series that
 do not require binary coding can be stored separately in external blocks
 with some other compression applied to them independently.
 
-## 9.1 **CRAM record** <a href="#cram-record" class="header-anchor">#</a>
+## 9.1 **CRAM record**
 
 Both mapped and unmapped reads start with the following fields. Please
 note that the data series type refers to the logical data type and the
@@ -1473,15 +1472,14 @@ additional fields:
 </tbody>
 </table>
 
-## 9.2 **Read bases** <a href="#read-bases" class="header-anchor">#</a>
+## 9.2 **Read bases**
 
 CRAM format supports ACGTN bases only. All non-ACGTN read bases must be
 replaced with N (unknown) base. In case of mismatching non-ACGTN read
 base and non-ACGTN reference base a ReadBase read feature should be used
 to capture the fact that the read base should be restored as N base.
 
-## 9.3 **CRAM record bit flags (BF data series)** <a href="#cram-record-bit-flags-bf-data-series"
-class="header-anchor">#</a>
+## 9.3 **CRAM record bit flags (BF data series)**
 
 The following flags are defined for each CRAM read record:
 
@@ -1554,7 +1552,7 @@ The following flags are defined for each CRAM read record:
 
 \* For segments within the same slice.
 
-## 9.4 **Read feature records** <a href="#read-feature-records" class="header-anchor">#</a>
+## 9.4 **Read feature records**
 
 Read features are used to store read details that are expressed using
 read coordinates (e.g. base differences respective to the reference
@@ -1607,7 +1605,7 @@ features followed by the read features themselves:
 
 \*2 See **read feature codes** below.
 
-### 9.4.1 Read feature codes <a href="#read-feature-codes" class="header-anchor">#</a>
+### 9.4.1 Read feature codes
 
 The following codes are used to distinguish variations in read
 coordinates:
@@ -1696,8 +1694,7 @@ coordinates:
 </tbody>
 </table>
 
-### 9.4.2 Base substitution codes (BS data series) <a href="#base-substitution-codes-bs-data-series"
-class="header-anchor">#</a>
+### 9.4.2 Base substitution codes (BS data series)
 
 A base substitution is defined as a change from one nucleotide base
 (reference base) to another (read base) including N as an unknown or
@@ -1741,7 +1738,7 @@ for each reference base in the alphabetical order: A, C, G, T and N.
 Note: the last two bits of each substitution code are redundant but
 still required to simplify the reading.
 
-## 9.5 **Mate record** <a href="#mate-record" class="header-anchor">#</a>
+## 9.5 **Mate record**
 
 There are two ways in which mate information can be preserved in CRAM:
 number of records downstream (distance) to the next fragment in the
@@ -1816,10 +1813,9 @@ structure is included into the CRAM record:
 </tbody>
 </table>
 
-### 9.5.1  <a href="#section" class="header-anchor">#</a>
+### 9.5.1 
 
-### 9.5.2 Next mate bit flags (MF data series) <a href="#next-mate-bit-flags-mf-data-series"
-class="header-anchor">#</a>
+### 9.5.2 Next mate bit flags (MF data series)
 
 The next mate bit flags expressed as an integer represent the MF data
 series. The following bit flags are defined:
@@ -1846,7 +1842,7 @@ series. The following bit flags are defined:
 </tbody>
 </table>
 
-### 9.5.3 Read names (RN data series) <a href="#read-names-rn-data-series" class="header-anchor">#</a>
+### 9.5.3 Read names (RN data series)
 
 Read names can be preserved in the CRAM format. However, it is
 anticipated that in the majority of cases original read names will not
@@ -1861,8 +1857,7 @@ template
 
 $\bullet$ read name of a template must be unique within a file
 
-## 9.6 **Compression bit flags (CF data series)** <a href="#compression-bit-flags-cf-data-series"
-class="header-anchor">#</a>
+## 9.6 **Compression bit flags (CF data series)**
 
 The compression bit flags expressed as an integer represent the CF data
 series. The following compression flags are defined for each CRAM read
@@ -1896,7 +1891,7 @@ read bases.</td>
 </tbody>
 </table>
 
-# 10 **Reference sequences** <a href="#reference-sequences" class="header-anchor">#</a>
+# 10 **Reference sequences**
 
 CRAM format is natively based upon usage of reference sequences even
 though in some cases they are not required. In contrast to BAM format
@@ -1929,9 +1924,9 @@ CRAM format has strict rules about reference sequences.
 4.  MD5 checksum bytes in slice header should be ignored for unmapped or
     multiref slices.
 
-# 11 **Indexing** <a href="#indexing" class="header-anchor">#</a>
+# 11 **Indexing**
 
-### 11.0.1 General notes <a href="#general-notes" class="header-anchor">#</a>
+### 11.0.1 General notes
 
 Please note that CRAM indexing is external to the file format itself and
 may change independently of the file format specification in the future.
@@ -1950,7 +1945,7 @@ can be obtained from container headers, namely sequence id, alignment
 start and span, container start byte offset and slice byte offset inside
 the container.
 
-### 11.0.2 CRAM index <a href="#cram-index" class="header-anchor">#</a>
+### 11.0.2 CRAM index
 
 A CRAM index is a gzipped tab delimited file containing the following
 columns:
@@ -1970,7 +1965,7 @@ columns:
 Each line represents a slice in the CRAM file. Please note that all
 slices must be listed in index file.
 
-### 11.0.3 BAM index <a href="#bam-index" class="header-anchor">#</a>
+### 11.0.3 BAM index
 
 BAM indexes are supported by using 4-byte integer pointers called
 landmarks that are stored in container header. BAM index pointer is a
@@ -1986,9 +1981,9 @@ BAM file. This allows to apply BAM indexing to CRAM files, however it
 introduces some overhead in seeking specific alignment start because all
 preceding records in the slice must be read and discarded.
 
-# 12 **Appendix** <a href="#appendix" class="header-anchor">#</a>
+# 12 **Appendix**
 
-## 12.1 **External encoding** <a href="#external-encoding" class="header-anchor">#</a>
+## 12.1 **External encoding**
 
 External encoding operates on bytes only. Therefore any data series must
 be translated into bytes before sending data into an external block. The
@@ -2001,9 +1996,9 @@ Strings, like read name, are translated into bytes according to UTF8
 rules. In most cases these should coincide with ASCII, making the
 translation trivial.
 
-## 12.2 **Codings** <a href="#codings" class="header-anchor">#</a>
+## 12.2 **Codings**
 
-### 12.2.1 Introduction <a href="#introduction" class="header-anchor">#</a>
+### 12.2.1 Introduction
 
 The basic idea for codings is to efficiently represent some values in
 binary format. This can be achieved in a number of ways that most
@@ -2013,7 +2008,7 @@ the best encoding and determining its parameters are very diverse and
 are not part of the CRAM format specification, which only describes how
 the information needed to decode the values should be stored.
 
-### 12.2.2 Offset <a href="#offset" class="header-anchor">#</a>
+### 12.2.2 Offset
 
 Most of the codings listed below encode positive integer numbers. An
 integer offset value is used to allow any integer numbers and not just
@@ -2023,14 +2018,14 @@ example, given offset is 10 and the value to be encoded is 1, the
 actually encoded value would be offset+value=11. Then when decoding, the
 offset would be subtracted from the decoded value.
 
-### 12.2.3 Beta coding <a href="#beta-coding" class="header-anchor">#</a>
+### 12.2.3 Beta coding
 
-### 12.2.4 Definition <a href="#definition" class="header-anchor">#</a>
+### 12.2.4 Definition
 
 Beta coding is a most common way to represent numbers in *binary
 notation*.
 
-### 12.2.5 Examples <a href="#examples" class="header-anchor">#</a>
+### 12.2.5 Examples
 
 <table>
 <thead>
@@ -2059,7 +2054,7 @@ notation*.
 </tbody>
 </table>
 
-### 12.2.6 Parameters <a href="#parameters" class="header-anchor">#</a>
+### 12.2.6 Parameters
 
 CRAM format defines the following parameters of beta coding:
 
@@ -2085,16 +2080,16 @@ CRAM format defines the following parameters of beta coding:
 </tbody>
 </table>
 
-### 12.2.7 Gamma coding <a href="#gamma-coding" class="header-anchor">#</a>
+### 12.2.7 Gamma coding
 
-### 12.2.8 Definition <a href="#definition-1" class="header-anchor">#</a>
+### 12.2.8 Definition
 
 *Elias gamma code* is a prefix encoding of positive integers. This is a
 combination of unary coding and beta coding. The first is used to
 capture the number of bits required for beta coding to capture the
 value.
 
-### 12.2.9 Encoding <a href="#encoding-1" class="header-anchor">#</a>
+### 12.2.9 Encoding
 
 1.  Write it in binary.
 
@@ -2111,7 +2106,7 @@ value.
 6.  Append the remaining $N$ binary digits to this representation of
     $N$.
 
-### 12.2.10 Decoding <a href="#decoding" class="header-anchor">#</a>
+### 12.2.10 Decoding
 
 1.  Read and count 0s from the stream until you reach the first 1. Call
     this count of zeroes $N$.
@@ -2120,7 +2115,7 @@ value.
     integer, with a value of $2N$, read the remaining $N$ digits of the
     integer.
 
-### 12.2.11 Examples <a href="#examples-1" class="header-anchor">#</a>
+### 12.2.11 Examples
 
 <table>
 <thead>
@@ -2149,7 +2144,7 @@ value.
 </tbody>
 </table>
 
-### 12.2.12 Parameters <a href="#parameters-1" class="header-anchor">#</a>
+### 12.2.12 Parameters
 
 <table>
 <thead>
@@ -2168,9 +2163,9 @@ value.
 </tbody>
 </table>
 
-### 12.2.13 Golomb coding <a href="#golomb-coding" class="header-anchor">#</a>
+### 12.2.13 Golomb coding
 
-### 12.2.14 Definition <a href="#definition-2" class="header-anchor">#</a>
+### 12.2.14 Definition
 
 *Golomb encoding* is a prefix encoding optimal for representation of
 random positive numbers following geometric distribution.
@@ -2206,7 +2201,7 @@ random positive numbers following geometric distribution.
             2.  If $r \ge 2^{b}$ code the number $r+2^{b}$ in plain
                 binary representation using $b$ bits.
 
-### 12.2.15 Examples <a href="#examples-2" class="header-anchor">#</a>
+### 12.2.15 Examples
 
 <table>
 <thead>
@@ -2235,7 +2230,7 @@ random positive numbers following geometric distribution.
 </tbody>
 </table>
 
-### 12.2.16 Parameters <a href="#parameters-2" class="header-anchor">#</a>
+### 12.2.16 Parameters
 
 Golomb coding takes the following parameters:
 
@@ -2261,23 +2256,23 @@ Golomb coding takes the following parameters:
 </tbody>
 </table>
 
-### 12.2.17 Golomb-Rice coding <a href="#golomb-rice-coding" class="header-anchor">#</a>
+### 12.2.17 Golomb-Rice coding
 
 Golomb-Rice coding is a special case of Golomb coding when the M
 parameter is a power of 2. The reason for this coding is that the
 division operations in Golomb coding can be replaced with bit shift
 operators.
 
-### 12.2.18 Subexponential coding <a href="#subexponential-coding" class="header-anchor">#</a>
+### 12.2.18 Subexponential coding
 
-### 12.2.19 Definition <a href="#definition-3" class="header-anchor">#</a>
+### 12.2.19 Definition
 
 Subexponential coding is parametrized by a non-nengative integer $k$.
 The main feature of the subexponential code is its length. For integers
 $n < 2k+1$ the code length increases linearly with $n$, but for larger
 $n$ it increases logarithmically.
 
-### 12.2.20 Encoding <a href="#encoding-2" class="header-anchor">#</a>
+### 12.2.20 Encoding
 
 1.  Determine the group index i using the following rules:
 
@@ -2294,7 +2289,7 @@ $n$ it increases logarithmically.
     $(i + k - 1)$-bit binary number if $i > 0$ and $n$ as a $k$-bit
     binary number otherwise.
 
-### 12.2.21 Decoding <a href="#decoding-1" class="header-anchor">#</a>
+### 12.2.21 Decoding
 
 1.  Let $i$ be the number of leading 1s (prefix) in the codeword.
 
@@ -2319,7 +2314,7 @@ $n$ it increases logarithmically.
 
 7.  Go to step 1 to process the next codeword.
 
-### 12.2.22 Examples <a href="#examples-3" class="header-anchor">#</a>
+### 12.2.22 Examples
 
 <table>
 <thead>
@@ -2400,7 +2395,7 @@ $n$ it increases logarithmically.
 </tbody>
 </table>
 
-### 12.2.23 Parameters <a href="#parameters-3" class="header-anchor">#</a>
+### 12.2.23 Parameters
 
 <table>
 <thead>
@@ -2424,7 +2419,7 @@ $n$ it increases logarithmically.
 </tbody>
 </table>
 
-### 12.2.24 Huffman coding <a href="#huffman-coding" class="header-anchor">#</a>
+### 12.2.24 Huffman coding
 
 CRAM uses canonical *huffman coding*, which requires only bit-lengths of
 codewords to restore data. The canonical huffman code follows two
@@ -2436,7 +2431,7 @@ be easily restored.
 **Important note: for alphabets with only one value there is no output
 bits at all.**
 
-### 12.2.25 Code computation <a href="#code-computation" class="header-anchor">#</a>
+### 12.2.25 Code computation
 
 $\bullet$ Sort the alphabet ascending using bit-lengths and then using
 numerical order of the values.
@@ -2452,7 +2447,7 @@ $\bullet$ When you reach a longer codeword, then after incrementing,
 append zeros until the length of the new codeword is equal to the length
 of the old codeword.
 
-### 12.2.26 Parameters <a href="#parameters-4" class="header-anchor">#</a>
+### 12.2.26 Parameters
 
 <table>
 <thead>
@@ -2476,13 +2471,13 @@ of the old codeword.
 </tbody>
 </table>
 
-### 12.2.27 Byte array coding <a href="#byte-array-coding" class="header-anchor">#</a>
+### 12.2.27 Byte array coding
 
 Often there is a need to encode an array of bytes. This can be optimized
 if the length of the encoded arrays is known. For such cases
 BYTE_ARRAY_LEN and BYTE_ARRAY_STOP codings can be used.
 
-### 12.2.28 BYTE_ARRAY_LEN  <a href="#byte_array_len" class="header-anchor">#</a>
+### 12.2.28 BYTE_ARRAY_LEN 
 
 Byte arrays are captured length-first, meaning that the length of every
 array is written using an additional encoding. For example this could be
@@ -2510,7 +2505,7 @@ a golomb encoding. The parameter for BYTE_ARRAY_LEN are listed below:
 </tbody>
 </table>
 
-### 12.2.29 BYTE_ARRAY_STOP  <a href="#byte_array_stop" class="header-anchor">#</a>
+### 12.2.29 BYTE_ARRAY_STOP 
 
 Byte arrays are captured as a sequence of bytes terminated by a special
 stop byteFor example this could be a golomb encoding. The parameter for
@@ -2538,7 +2533,7 @@ BYTE_ARRAY_STOP are listed below:
 </tbody>
 </table>
 
-## 12.3 **Choosing the container size** <a href="#choosing-the-container-size" class="header-anchor">#</a>
+## 12.3 **Choosing the container size**
 
 CRAM format does not constrain the size of the containers. However, the
 following should be considered when deciding the container size:

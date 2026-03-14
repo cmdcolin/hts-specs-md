@@ -96,7 +96,7 @@ def main():
         "-t", "gfm-tex_math_gfm+tex_math_dollars",
         "--lua-filter", lua_filter,
         "--markdown-headings=atx",
-        "--mathjax",
+        "--mathjax",  # preserves $...$ delimiters for remark-math to process
         "-M", f"commit={commit}",
         "-M", f"date={date}",
     ]
@@ -107,7 +107,7 @@ def main():
         if temp_tex != input_tex and os.path.exists(temp_tex):
             os.remove(temp_tex)
 
-    # Add Jekyll-style front matter (Astro compatible)
+    # Add YAML front matter for Astro
     front_matter = f"""---
 title: "{title}"
 commit: {commit}
@@ -146,29 +146,13 @@ This printing is version {commit} from the [hts-specs](https://github.com/samtoo
     # Fix image paths for Astro (they are now in public/img)
     final_content = final_content.replace('src="img/', 'src="/hts-specs-md/img/')
     final_content = final_content.replace('](img/', '](/hts-specs-md/img/')
-    
-    # Also unescape quotes that pandoc might have escaped inside HTML blocks
-    final_content = final_content.replace('\\"', '"')
-    
-    # Remove PDF artifacts like "Continued on next page" (Markdown style)
-    final_content = re.sub(r'\| _\.\.\.Continued from previous page_ *\|\n(?:\|[- :+]*\|\n)*', '', final_content, flags=re.IGNORECASE)
-    final_content = re.sub(r'\| _Continued on next page\.\.\._ *\|\n(?:\|[- :+]*\|\n)*', '', final_content, flags=re.IGNORECASE)
-    
-    # Remove PDF artifacts like "Continued on next page" (HTML style)
-    final_content = re.sub(r'<tr>\s*<td[^>]*><em>…Continued from previous.*?</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+
+    # Remove PDF longtable artifacts ("Continued on next page", duplicate headers)
+    final_content = re.sub(r'<tr>\s*<td[^>]*><em>…?Continued from previous.*?</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
     final_content = re.sub(r'<tr>\s*<td[^>]*><em>Continued on next.*?</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
-    
-    # Remove duplicate headers (Markdown style)
-    # Using flexible whitespace matching for pipes
-    final_content = re.sub(r'\| +Key +\| +Number +\| +Type +\| +Description +\|\n\|[- :+]*\|\n', '', final_content, flags=re.IGNORECASE)
-    final_content = re.sub(r'\| +Field +\| +Number +\| +Type +\| +Description +\|\n\|[- :+]*\|\n', '', final_content, flags=re.IGNORECASE)
-    
-    # Remove duplicate headers (HTML style)
-    final_content = re.sub(r'<tr>\s*<td[^>]*>(?:Key|Field)</td>\s*<td[^>]*>Number</td>\s*<td[^>]*>Type</td>\s*<td[^>]*>Description</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
-    
-    # Final cleanup of any remaining snippets
-    final_content = re.sub(r'<em>…Continued from previous.*?</em>', '', final_content, flags=re.IGNORECASE)
+    final_content = re.sub(r'<em>…?Continued from previous.*?</em>', '', final_content, flags=re.IGNORECASE)
     final_content = re.sub(r'<em>Continued on next.*?</em>', '', final_content, flags=re.IGNORECASE)
+    final_content = re.sub(r'<tr>\s*<td[^>]*>(?:Key|Field)</td>\s*<td[^>]*>Number</td>\s*<td[^>]*>Type</td>\s*<td[^>]*>Description</td>\s*</tr>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
 
     # Fix nested $ in \text{}/\textrm{} inside math - remark-math splits on inner $
     # e.g. \textrm{if $i < 1$} -> \textrm{if } i < 1

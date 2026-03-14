@@ -33,7 +33,7 @@ in SAM always use '`.`' for the decimal-point character.
 The regular expressions in this specification are written using the
 POSIX / IEEE Std 1003.1 extended syntax.
 
-## 1.1 An example <a href="#sec:example" class="header-anchor">#</a>
+## 1.1 An example
 
 Suppose we have the following alignment with bases in lowercase clipped
 from the alignment. Read `r001/1` and `r001/2` constitute a read pair;
@@ -60,7 +60,7 @@ The corresponding SAM format is:[^2]
 >     r003 2064 ref 29 17 6H5M       *  0   0 TAGGC             * SA:Z:ref,9,+,5S6M,30,1;
 >     r001  147 ref 37 30 9M         =  7 -39 CAGCGGCAT         * NM:i:1
 
-## 1.2 Terminologies and Concepts <a href="#terminologies-and-concepts" class="header-anchor">#</a>
+## 1.2 Terminologies and Concepts
 
 Template  
 A DNA/RNA sequence part of which is sequenced on a sequencing machine or
@@ -123,7 +123,7 @@ Phred scale
 Given a probability $0<p\le 1$, the phred scale of $p$ equals
 $-10\log_{10}p$, rounded to the closest integer.
 
-### 1.2.1 Character set restrictions <a href="#sec:charset" class="header-anchor">#</a>
+### 1.2.1 Character set restrictions
 
 Reference sequence names, CIGAR strings, and several other field types
 are used as values or parts of values of other fields in SAM and related
@@ -155,7 +155,7 @@ regular expression notation to use `=` to indicate the omission of ''
 and '`=`' from the character class. Thus this regular expression can be
 written more clearly as `[=][]*`.
 
-## 1.3 The header section <a href="#the-header-section" class="header-anchor">#</a>
+## 1.3 The header section
 
 Each header line begins with the character '`@`' followed by one of the
 two-letter header record type codes defined in this section. In the
@@ -588,7 +588,7 @@ lines are allowed. UTF-8 encoding may be used.</td>
 
 </div>
 
-### 1.3.1 Defined sub-sort terms <a href="#sec:sub-sort" class="header-anchor">#</a>
+### 1.3.1 Defined sub-sort terms
 
 While the `SS` sub-sort field allows implementation-defined keywords,
 some terms are predefined with specific meanings.
@@ -616,7 +616,7 @@ is a lexicographical sort by the UMI tag. The `MI` tag should be used
 for comparing UMIs. The RX tag may be used in its absence but is not
 guaranteed to be unique across multiple libraries.
 
-### 1.3.2 Reference MD5 calculation <a href="#sec:ref-md5" class="header-anchor">#</a>
+### 1.3.2 Reference MD5 calculation
 
 The `M5` tag on `@SQ` lines allows reference sequences to be uniquely
 identified through the MD5 digest of the sequence itself. As the digest
@@ -667,7 +667,7 @@ Section [3.2](#sec:padded-sam), the padded version of the reference is
 
 and the corresponding tag is `M5:caad65b937c4bc0b33c08f62a9fb5411`.
 
-## 1.4 The alignment section: mandatory fields <a href="#sec:alnrecord" class="header-anchor">#</a>
+## 1.4 The alignment section: mandatory fields
 
 In the SAM format, each alignment line typically represents the linear
 alignment of a segment. Each line consists of 11 or more TAB-separated
@@ -1088,7 +1088,7 @@ represented.
     '\*', SEQ must not be a '\*' and the length of the quality string
     ought to equal the length of SEQ.
 
-## 1.5 The alignment section: optional fields <a href="#sec:alnaux" class="header-anchor">#</a>
+## 1.5 The alignment section: optional fields
 
 All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a
 two-character string that matches `/[A-Za-z][A-Za-z0-9]/`. Within each
@@ -1161,7 +1161,7 @@ that may be of general interest. Tags starting with '`X`', '`Y`' or
 reserved for local use and will not be formally defined in any future
 version of these specifications.
 
-# 2 Recommended Practice for the SAM Format <a href="#sec:recommended-practice" class="header-anchor">#</a>
+# 2 Recommended Practice for the SAM Format
 
 This section describes the best practice for representing data in the
 SAM format. They are not required in general, but may be required by a
@@ -1319,11 +1319,9 @@ specific software package for it to function properly.
         circular genome, any GFF3 feature line wrapping the origin must
         be split into two segments in SAM.
 
-# 3 Guide for Describing Assembly Sequences in SAM <a href="#guide-for-describing-assembly-sequences-in-sam"
-class="header-anchor">#</a>
+# 3 Guide for Describing Assembly Sequences in SAM
 
-## 3.1 Unpadded versus padded representation <a href="#unpadded-versus-padded-representation"
-class="header-anchor">#</a>
+## 3.1 Unpadded versus padded representation
 
 To describe alignments, we can regard the reference sequence with no
 respect to other alignments against it. Such a reference sequence is
@@ -1351,7 +1349,7 @@ by the start and end coordinates without using complex CIGAR strings.
 SAM traditionally uses the padded representation for *de novo* assembly.
 The ACE assembly format uses the padded representation exclusively.
 
-## 3.2 Padded SAM <a href="#sec:padded-sam" class="header-anchor">#</a>
+## 3.2 Padded SAM
 
 The SAM format is typically used to describe alignments against an
 unpadded reference sequence, but it is also able to describe alignments
@@ -1398,9 +1396,9 @@ Section [2](#sec:recommended-practice). See also the separate *Optional
 Fields Specification* for full details of the `CT` and `PT` annotation
 tags. [^14]
 
-# 4 The BAM Format Specification <a href="#the-bam-format-specification" class="header-anchor">#</a>
+# 4 The BAM Format Specification
 
-## 4.1 The BGZF compression format <a href="#the-bgzf-compression-format" class="header-anchor">#</a>
+## 4.1 The BGZF compression format
 
 BGZF is block compression implemented on top of the standard gzip file
 format.[^15] The goal of BGZF is to provide good compression while
@@ -1622,7 +1620,7 @@ is limited to the range $[0,65536]$. BSIZE can represent BGZF block
 sizes in the range $[1,65536]$, though typically BSIZE will be rather
 less than ISIZE due to compression.
 
-### 4.1.1 Random access <a href="#random-access" class="header-anchor">#</a>
+### 4.1.1 Random access
 
 BGZF files support random access through the BAM file index. To achieve
 this, the BAM file index uses *virtual file offsets* into the BGZF file.
@@ -1634,7 +1632,7 @@ that BGZF block. Virtual file offsets can be compared, but subtraction
 between virtual file offsets and addition between a virtual offset and
 an integer are both disallowed.
 
-### 4.1.2 End-of-file marker <a href="#end-of-file-marker" class="header-anchor">#</a>
+### 4.1.2 End-of-file marker
 
 An end-of-file (EOF) trailer or marker block should be written at the
 end of BGZF files, so that unintended file truncation can be easily
@@ -1663,7 +1661,7 @@ checking that the last 28 bytes of the file are exactly the bytes above
 are both sufficient tests; each is likely more convenient in different
 circumstances.
 
-## 4.2 The BAM format <a href="#the-bam-format" class="header-anchor">#</a>
+## 4.2 The BAM format
 
 BAM is compressed in the BGZF format. All multi-byte numbers in BAM are
 little-endian, regardless of the machine endianness. The format is
@@ -1920,7 +1918,7 @@ signed; those marked "*limited*" are limited by available memory and the
 practical size of the data represented well before they are limited by,
 e.g., Java's signed 32-bit integer maximum array size.
 
-### 4.2.1 BIN field calculation <a href="#sec:bin-field" class="header-anchor">#</a>
+### 4.2.1 BIN field calculation
 
 BIN is calculated using the reg2bin() function in
 Section [5.3](#sec:code). For mapped reads this uses $\mathsf{POS}-1$
@@ -1932,7 +1930,7 @@ consume no reference bases at all, the alignment is treated as being of
 length one. Note unmapped reads with POS 0 (which becomes $-1$ in BAM)
 therefore use $\mathsf{reg2bin}(-1, 0)$ which is computed as 4680.
 
-### 4.2.2 N_CIGAR_OP field <a href="#sec:ncigar" class="header-anchor">#</a>
+### 4.2.2 N_CIGAR_OP field
 
 With 16 bits, n_cigar_op can keep at most 65535 CIGAR operations in BAM
 files. For an alignment with more CIGAR operations, BAM stores the real
@@ -1946,7 +1944,7 @@ and the first CIGAR operation clips the entire read, a BAM parsing
 library is expected to update n_cigar_op and cigar with the real CIGAR
 stored in the `CG` tag and remove the now-redundant `CG` tag.
 
-### 4.2.3 SEQ and QUAL encoding <a href="#sec:seq" class="header-anchor">#</a>
+### 4.2.3 SEQ and QUAL encoding
 
 Sequence is encoded in 4-bit values, with adjacent bases packed into the
 same byte starting with the highest 4 bits first. When l_seq is odd the
@@ -1962,7 +1960,7 @@ Base qualities are stored as bytes in the range $[0,93]$, without any
 +33 conversion to printable ASCII. When base qualities are omitted but
 the sequence is not, qual is filled with `0xFF` bytes (to length l_seq).
 
-### 4.2.4 Auxiliary data encoding <a href="#sec:aux-type-codes" class="header-anchor">#</a>
+### 4.2.4 Auxiliary data encoding
 
 Optional alignment fields are stored immediately after each other
 immediately following the qual field, and are included in block_size.
@@ -2065,7 +2063,7 @@ integers or IEEE floats sized according to the sub-type:
 
 </div>
 
-# 5 Indexing BAM <a href="#indexing-bam" class="header-anchor">#</a>
+# 5 Indexing BAM
 
 Indexing aims to achieve fast retrieval of alignments overlapping a
 specified region without going through the whole alignments. BAM must be
@@ -2077,9 +2075,9 @@ BAM indices and its implementation in the long-established BAI format.
 The CSI format documented elsewhere uses a similar binning scheme and
 can also be used to index BAM.
 
-## 5.1 Algorithm <a href="#algorithm" class="header-anchor">#</a>
+## 5.1 Algorithm
 
-### 5.1.1 Basic binning index <a href="#basic-binning-index" class="header-anchor">#</a>
+### 5.1.1 Basic binning index
 
 The UCSC binning scheme was suggested by Richard Durbin and Lincoln
 Stein and is explained in Kent *et al.* In this scheme, each bin
@@ -2114,7 +2112,7 @@ reference chromosome sequences longer than $2^{29}-1$.
 The CSI format generalises the sizes of the bins, and supports reference
 sequences of the same length as are supported by SAM and BAM.
 
-### 5.1.2 Reducing small chunks <a href="#reducing-small-chunks" class="header-anchor">#</a>
+### 5.1.2 Reducing small chunks
 
 Around the boundary of two adjacent bins, we may see many small chunks
 with some having a shorter bin while the rest having a larger bin. To
@@ -2124,7 +2122,7 @@ will contain alignments with different bins. We need to keep in the
 index the file offset of the end of each chunk to identify its
 boundaries.
 
-### 5.1.3 Combining with linear index <a href="#combining-with-linear-index" class="header-anchor">#</a>
+### 5.1.3 Combining with linear index
 
 For an alignment starting beyond 64Mbp, we always need to seek to some
 chunks in bin 0, which can be avoided by using a linear index. In the
@@ -2137,7 +2135,7 @@ containing rbeg.
 With both binning and linear indices, we can retrieve alignments in most
 of regions with just one seek call.
 
-### 5.1.4 A conceptual example <a href="#a-conceptual-example" class="header-anchor">#</a>
+### 5.1.4 A conceptual example
 
 Suppose we have a genome shorter than 144kbp. We can design a binning
 scheme which consists of three types of bins: bin 0 spans 0-144kbp, bin
@@ -2206,8 +2204,7 @@ it belongs to bin 0. But with a linear index, we know that such an
 alignment stops before 64kbp and cannot overlap the specified region. A
 seek call can thus be saved.
 
-## 5.2 The BAI index format for BAM files <a href="#the-bai-index-format-for-bam-files"
-class="header-anchor">#</a>
+## 5.2 The BAI index format for BAM files
 
 <table>
 <thead>
@@ -2404,7 +2401,7 @@ reference sequence, whether they are mapped or placed unmapped. Thus
 they are equal to the minimum chunk_beg and maximum chunk_end
 respectively.
 
-## 5.3 C source code for computing bin number and overlapping bins <a href="#sec:code" class="header-anchor">#</a>
+## 5.3 C source code for computing bin number and overlapping bins
 
 The following functions compute bin numbers and overlaps for a BAI-style
 binning scheme with 6 levels and a minimum bin size of $2^{14}$ bp. See
@@ -2447,7 +2444,7 @@ returns $[\,0, 0, 8, 72, 584, 4680\,]$.
 
 <div class="appendices">
 
-# 6 Parsing region notation <a href="#sec:parse-region" class="header-anchor">#</a>
+# 6 Parsing region notation
 
 Parsing region notation such as *name*`[:`*begin*`[-`*end*`]]` (in which
 omission of the outer bracketed portion indicates a request for the
@@ -2496,7 +2493,7 @@ the reference sequence name— `{`*name*`}``[:`*begin*`[-`*end*`]]` —as
 being memorable, easily typed, unambiguous, and not expanded by most
 shells.
 
-# 7 SAM Version History <a href="#sec:history" class="header-anchor">#</a>
+# 7 SAM Version History
 
 This lists the date of each tagged SAM version along with changes that
 have been made while that version was current. The key changes that
@@ -2505,7 +2502,7 @@ caused the version number to change are shown in bold.
 Additions and changes to the standard predefined tags are listed in the
 separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
-## 7.1 1.6: 28 November 2017 to current <a href="#november-2017-to-current" class="header-anchor">#</a>
+## 7.1 1.6: 28 November 2017 to current
 
 - Add `SINGULAR` to the list of `@RG PL` header tag values. (May 2023)
 
@@ -2559,7 +2556,7 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 - **Add support for CIGAR strings with more than 65,535 operations.**
   (Nov 2017)
 
-## 7.2 1.5: 23 May 2013 to November 2017 <a href="#may-2013-to-november-2017" class="header-anchor">#</a>
+## 7.2 1.5: 23 May 2013 to November 2017
 
 - Add `@SQ AN` header tag, allowing only alphanumeric and '`*+.@_|-`'
   characters in its names. (Jul 2017)
@@ -2594,7 +2591,7 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
 - **Add SUPPLEMENTARY flag bit**. (May 2013)
 
-## 7.3 1.4: 21 April 2011 to May 2013 <a href="#april-2011-to-may-2013" class="header-anchor">#</a>
+## 7.3 1.4: 21 April 2011 to May 2013
 
 - Add guide to using sequence annotations (`CT/PT` tags). (Mar 2012)
 
@@ -2614,7 +2611,7 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 
 - **Permit QNAME "".** (Apr 2011)
 
-## 7.4 1.3: July 2010 to April 2011 <a href="#july-2010-to-april-2011" class="header-anchor">#</a>
+## 7.4 1.3: July 2010 to April 2011
 
 - Add `RG PG` header field. (Nov 2010)
 
@@ -2627,7 +2624,7 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
 - The `SM` header field, previously mandatory for `@RG`, is now
   optional. (July 2010)
 
-## 7.5 1.0: 2009 to July 2010 <a href="#to-july-2010" class="header-anchor">#</a>
+## 7.5 1.0: 2009 to July 2010
 
 Initial edition.
 

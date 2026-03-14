@@ -15,7 +15,7 @@ linear **chromosome**. The file extension for the
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 format is `.bed`.
 
-## 1.1 Scope <a href="#scope" class="header-anchor">#</a>
+## 1.1 Scope
 
 This specification formalizes reasonable interpretations of the
 <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
@@ -24,7 +24,7 @@ acronym-form="singular+short">BED</span> description. This specification
 also makes clear potential interoperability issues in the current
 format, which could be addressed in a future specification.
 
-## 1.2 Typographic conventions <a href="#typographic-conventions" class="header-anchor">#</a>
+## 1.2 Typographic conventions
 
 This document uses several typographic
 conventions ([\[tab:typographic-conventions\]](#tab:typographic-conventions)).
@@ -46,7 +46,7 @@ acronym-form="singular+short">regex</span>es[^2] &
 
 </div>
 
-## 1.3 Terminology and concepts <a href="#sec:terms" class="header-anchor">#</a>
+## 1.3 Terminology and concepts
 
 0-based, half-open coordinate system:  
 A coordinate system where the first base starts at position 0, and the
@@ -152,14 +152,14 @@ newline (`\``n`, equivalent to `\``x0a`), or carriage return followed by
 newline (`\``r``\``n`, equivalent to `\``x0d``\``x0a`). The same **line
 separator** must be used throughout the **file**.
 
-## 1.4 Lines <a href="#sec:lines" class="header-anchor">#</a>
+## 1.4 Lines
 
-### 1.4.1 Data lines <a href="#data-lines" class="header-anchor">#</a>
+### 1.4.1 Data lines
 
 **Data line**s contain **feature** data. A **data line** is composed
 of **field**s separated by **field separator**s.
 
-### 1.4.2 Comment lines and blank lines <a href="#comment-lines-and-blank-lines" class="header-anchor">#</a>
+### 1.4.2 Comment lines and blank lines
 
 Both **comment line**s and **blank line**s provide no **feature** data.
 
@@ -172,7 +172,7 @@ and blank **line**s may appear as any **line** in a **file**, at the
 beginning, middle, or end of the **file**. They may appear in any
 quantity.
 
-## 1.5 <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields <a href="#bed-fields" class="header-anchor">#</a>
+## 1.5 <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
 
 Each **data line** contains between 3 and 12 **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s delimited by a **field
@@ -242,7 +242,7 @@ must have the same number of **field**s. The positions in
 field**s are all described in the **0-based, half-open coordinate
 system**.
 
-## 1.6 Coordinates <a href="#coordinates" class="header-anchor">#</a>
+## 1.6 Coordinates
 
 1.  <span class="sans-serif">chrom</span>: The name of
     the **chromosome** where the **feature** is present. Limiting to
@@ -280,7 +280,7 @@ system**.
     <span class="sans-serif">chromEnd</span> must be less than or equal
     to $2^{64} - 1$, the maximum size of an unsigned 64-bit integer.
 
-## 1.7 Simple attributes <a href="#simple-attributes" class="header-anchor">#</a>
+## 1.7 Simple attributes
 
 4.  <span class="sans-serif">name</span>: String that describes
     the **feature**. <span class="sans-serif">name</span> must be 1 to
@@ -314,7 +314,7 @@ system**.
     <span class="sans-serif">strand</span> should be treated as `.` when
     parsing files that are not **BED6+**.
 
-## 1.8 Display attributes <a href="#display-attributes" class="header-anchor">#</a>
+## 1.8 Display attributes
 
 7.  <span class="sans-serif">thickStart</span>: Start position at which
     the **feature** is visualized with a thicker or accented display.
@@ -359,7 +359,7 @@ system**.
     <span class="sans-serif">itemRgb</span>s, `0` should be used as the
     <span class="sans-serif">itemRgb</span> on every **data line**.
 
-## 1.9 Blocks <a href="#blocks" class="header-anchor">#</a>
+## 1.9 Blocks
 
 10. <span class="sans-serif">blockCount</span>: Number of **block**s in
     the **feature**. <span class="sans-serif">blockCount</span> must be
@@ -399,7 +399,7 @@ system**.
     ascending order. <span class="sans-serif">blockStarts</span> is
     mandatory in **BED12+** **file**s.
 
-## 1.10 Custom fields <a href="#custom-fields" class="header-anchor">#</a>
+## 1.10 Custom fields
 
 **Custom field**s defined by the **file** creator may contain any
 printable 7-bit US <span acronym-label="ASCII"
@@ -411,9 +411,9 @@ specification does not contain a means for interchanging custom
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 format definitions.
 
-# 2 Examples <a href="#examples" class="header-anchor">#</a>
+# 2 Examples
 
-## 2.1 Example BED6 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ[^7] <a href="#sec:example-bed6" class="header-anchor">#</a>
+## 2.1 Example BED6 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ[^7]
 
     chr7  127471196  127472363  Pos1  0  +
     chr7  127472363  127473530  Pos2  0  +
@@ -425,8 +425,7 @@ format definitions.
     chr7  127479365  127480532  Pos5  0  +
     chr7  127480532  127481699  Neg4  0  -
 
-## 2.2 Example BED12 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ <a href="#example-bed12-file-from-the-ucsc-genome-browser-faq"
-class="header-anchor">#</a>
+## 2.2 Example BED12 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ
 
     chr22 1000 5000 cloneA 960 + 1000 5000 0 2 567,488, 0,3512
     chr22 2000 6000 cloneB 900 - 2000 6000 0 2 433,399, 0,3601
@@ -439,10 +438,9 @@ at <span class="sans-serif">chromEnd</span> since the last **block**
 starts at position 4512 (1000+3512) with size 488, and therefore ends at
 position 5000 (4512+488).
 
-# 3 Recommended practice for the <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> format <a href="#recommended-practice-for-the-bed-format"
-class="header-anchor">#</a>
+# 3 Recommended practice for the <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> format
 
-## 3.1 Mandatory <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields <a href="#mandatory-bed-fields" class="header-anchor">#</a>
+## 3.1 Mandatory <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
 
 - <span class="sans-serif">chrom</span>: The name of each **chromosome**
   should also match the names from a reference genome, if applicable.
@@ -452,7 +450,7 @@ class="header-anchor">#</a>
   both `17` and `chr17` to represent the same **chromosome** in the
   same **file**.
 
-## 3.2 Optional <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields <a href="#sec:optional" class="header-anchor">#</a>
+## 3.2 Optional <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> fields
 
 - <span class="sans-serif">name</span>: Names should avoid using the
   space character even if the only **field separator** is a single tab
@@ -464,7 +462,7 @@ class="header-anchor">#</a>
   difficult for humans to distinguish.[^8] Color schemes should be
   colorblind-friendly. Red-green color schemes should be avoided.
 
-## 3.3 Custom fields <a href="#custom-fields-1" class="header-anchor">#</a>
+## 3.3 Custom fields
 
 Definitions of a custom <span acronym-label="BED"
 acronym-form="singular+short">BED</span> format should restrict the type
@@ -493,7 +491,7 @@ The AutoSQL format[^10] provides one method for defining custom
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 formats in a separate file.
 
-## 3.4 Sorting <a href="#sorting" class="header-anchor">#</a>
+## 3.4 Sorting
 
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 **file**s should be sorted by <span class="sans-serif">chrom</span>,
@@ -532,7 +530,7 @@ acronym-form="singular+short">BED</span> **file**s can prevent
 downstream analyses from producing different results depending on sort
 order.
 
-## 3.5 Whitespace <a href="#sec:whitespace" class="header-anchor">#</a>
+## 3.5 Whitespace
 
 We recommend that only a single tab (`\``t`) be used as **field
 separator**. This is because almost all tools support tabs while some
@@ -545,7 +543,7 @@ It would be sensible for future major versions of this specification or
 overlay formats built on top of this specification to require that only
 a single tab be used as **field separator**.
 
-## 3.6 Large <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> files <a href="#large-bed-files" class="header-anchor">#</a>
+## 3.6 Large <span acronym-label="BED" acronym-form="singular+abbrv">BED</span> files
 
 If a **file** intended for visualization is over 50   in size,
 the **file** should be converted to `bigBed` format, which is an indexed
@@ -556,7 +554,7 @@ Tabix is another option for storing larger <span acronym-label="BED"
 acronym-form="singular+short">BED</span> **file**s.[^13] Tabix works
 only on **file**s using a single tab as the **field separator**.
 
-# 4 Information supplied out-of-band <a href="#information-supplied-out-of-band" class="header-anchor">#</a>
+# 4 Information supplied out-of-band
 
 Some information about a <span acronym-label="BED"
 acronym-form="singular+short">BED</span> **file** can only be supplied
@@ -583,7 +581,7 @@ this information. Information that must be supplied out-of-band include:
 
 - Whether the **field separator** is a single tab character.
 
-# 5 <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> track files <a href="#ucsc-track-files" class="header-anchor">#</a>
+# 5 <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> track files
 
 Track files are files that contain additional information intended for a
 visualization tool such as the <span acronym-label="UCSC"
@@ -597,13 +595,13 @@ browser or track lines. To distinguish between <span acronym-label="BED"
 acronym-form="singular+short">BED</span> **file**s and track files,
 track files should use the file extension `.track`.
 
-# 6 Acronyms <a href="#acronyms" class="header-anchor">#</a>
+# 6 Acronyms
 
 <div class="acronym">
 
 </div>
 
-# 7 Acknowledgments <a href="#acknowledgments" class="header-anchor">#</a>
+# 7 Acknowledgments
 
 We thank W. James Kent and the <span acronym-label="UCSC"
 acronym-form="singular+short">UCSC</span> Genome Browser team for
