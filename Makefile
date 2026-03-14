@@ -17,7 +17,17 @@ PDFS =	BCFv1_qref.pdf \
 	VCFv4.4.pdf \
 	VCFv4.5.pdf
 
-pdf: $(PDFS:%=new/%)
+MDS = $(PDFS:%.pdf=src/_posts/%.md)
+
+markdown: $(MDS)
+
+src/_posts/%.md: %.tex scripts/tex2md.py scripts/pandoc-filter.lua | src/_posts
+	scripts/tex2md.py $< $@
+
+src/_posts:
+	mkdir -p src/_posts
+
+all: pdf markdown
 
 %.pdf: new/%.pdf
 	cp $^ $@
@@ -83,6 +93,7 @@ mostlyclean:
 clean: mostlyclean
 	-rm -f $(PDFS:%=new/%)$(if $(wildcard new),; rmdir new)
 	-rm -f $(PDFS:%=diff/%)$(if $(wildcard diff),; rmdir diff)
+	-rm -rf src/_posts
 	-rm -rf .jekyll-cache .jekyll-metadata _site
 
 

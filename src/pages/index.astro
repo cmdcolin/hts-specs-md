@@ -1,0 +1,39 @@
+---
+import { getAllPosts } from '../lib/api';
+import Layout from '../layouts/Layout.astro';
+
+const postIds = new Set((await getAllPosts()).map(p => p.id));
+
+const sections = [
+  {
+    heading: 'SAM/BAM and related specifications',
+    ids: ['SAMv1', 'SAMtags', 'CRAMv2.1', 'CRAMv3', 'CRAMcodecs', 'CSIv1', 'tabix'],
+  },
+  {
+    heading: 'Variant calling data files',
+    ids: ['VCFv4.1', 'VCFv4.2', 'VCFv4.3', 'VCFv4.4', 'VCFv4.5', 'BCFv1_qref', 'BCFv2_qref'],
+  },
+  {
+    heading: 'Discrete genomic feature data files',
+    ids: ['BEDv1'],
+  },
+  {
+    heading: 'File encryption',
+    ids: ['crypt4gh'],
+  },
+];
+---
+
+<Layout title="hts-specs-md">
+  <p>This site provides Markdown renderings of the <a href="https://github.com/samtools/hts-specs">hts-specs</a> specifications.</p>
+  {sections.map((section) => (
+    <div>
+      <h2>{section.heading}</h2>
+      <ul>
+        {section.ids.filter(id => postIds.has(id)).map(id => (
+          <li><a href={`${import.meta.env.BASE_URL}/${id}`}>{id}</a></li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</Layout>

@@ -24,3 +24,6 @@ GNUmakefile
 /.jekyll-cache
 /.jekyll-metadata
 /_site
+node_modules
+dist
+.astro
