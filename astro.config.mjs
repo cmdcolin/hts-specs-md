@@ -11,7 +11,7 @@ export default defineConfig({
     syntaxHighlight: false,
     remarkPlugins: [remarkMath],
     rehypePlugins: [
-      [rehypeKatex, { output: 'mathml' }],
+      [rehypeKatex, { output: 'mathml', strict: false }],
       [rehypeAutolinkHeadings, {
         behavior: 'append',
         properties: { className: ['header-anchor'], ariaHidden: true },
