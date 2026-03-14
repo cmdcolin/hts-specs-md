@@ -5,6 +5,26 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { visit } from 'unist-util-visit';
 
+function rehypeSetSectionIds() {
+  return (tree) => {
+    visit(tree, 'element', (node) => {
+      if (/^h[1-6]$/.test(node.tagName)) {
+        const getText = (n) => {
+          if (n.type === 'text') return n.value;
+          if (n.children) return n.children.map(getText).join('');
+          return '';
+        };
+        const text = getText(node);
+        const match = text.match(/^(\d+(?:\.\d+)*)\s/);
+        if (match) {
+          node.properties = node.properties || {};
+          node.properties.id = match[1];
+        }
+      }
+    });
+  };
+}
+
 function remarkStripHeaderAnchors() {
   return (tree) => {
     visit(tree, 'heading', (node) => {
@@ -31,6 +51,7 @@ export default defineConfig({
     syntaxHighlight: false,
     remarkPlugins: [remarkStripHeaderAnchors, remarkMath],
     rehypePlugins: [
+      rehypeSetSectionIds,
       rehypeSlug,
       [rehypeKatex, { output: 'mathml', strict: false }],
       [rehypeAutolinkHeadings, {

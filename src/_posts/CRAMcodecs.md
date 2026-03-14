@@ -917,7 +917,7 @@ transformations to be applied. The specifics of each sub-format are
 listed below, in the order they are applied.
 
 - **<span class="smallcaps">Stripe</span>**: rANS Nx16 with multi-way
-  interleaving (see Section [3.6](#sec:ransstripe)).
+  interleaving (see Section [3.6](#3.6)).
 
 - **<span class="smallcaps">NoSize</span>**: Do not store the size of
   the uncompressed data stream. This information is not required when
@@ -943,13 +943,12 @@ listed below, in the order they are applied.
   Length Encoding has been applied to the data. If set, the reverse
   transorm will be applied using
   <span class="smallcaps">DecodeRLE</span> after Order-0 or Order-1
-  uncompression (see Section [3.4](#sec:ransRLE)).
+  uncompression (see Section [3.4](#3.4)).
 
 - **<span class="smallcaps">Pack</span>**: Bit field indicating the data
-  was packed prior to compression (see Section [3.5](#sec:ranspack)). If
-  set, unpack the bits after any RLE decoding has been applied (if
-  required) using the <span class="smallcaps">DecodePack</span>
-  function.
+  was packed prior to compression (see Section [3.5](#3.5)). If set,
+  unpack the bits after any RLE decoding has been applied (if required)
+  using the <span class="smallcaps">DecodePack</span> function.
 
 ## 3.1 Frequency tables
 
@@ -2844,7 +2843,7 @@ may uniformly map 0$\rightarrow$<!-- -->127 to 0$\rightarrow$<!-- -->15
 to utilise 4 bits of our 16-bit combined context.
 
 <figure data-latex-placement="h">
-
+<img src="/hts-specs-md/img/tikz/CRAMcodecs_1.svg" />
 <figcaption>An example FQZComp configuration.</figcaption>
 </figure>
 

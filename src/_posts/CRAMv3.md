@@ -376,8 +376,8 @@ log<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
 </tbody>
 </table>
 
-See section [13](#sec:encodings) for more detailed descriptions of all
-the above coding algorithms and their parameters.
+See section [13](#13) for more detailed descriptions of all the above
+coding algorithms and their parameters.
 
 # 4 **Checksums**
 
@@ -408,6 +408,8 @@ special end-of-file container.
 
 <div class="center">
 
+![image](/hts-specs-md/img/tikz/CRAMv3_1.svg)
+
 Figure 1: A CRAM file consists of a file definition, followed by a
 header container, then other containers.
 
@@ -425,6 +427,8 @@ than the combined size of blocks held within it.
 
 <div class="center">
 
+![image](/hts-specs-md/img/tikz/CRAMv3_2.svg)
+
 Figure 2: The the first container holds the CRAM header text.
 
 </div>
@@ -436,6 +440,8 @@ Each block starts with a block header structure followed by the block
 data.
 
 <div class="center">
+
+![image](/hts-specs-md/img/tikz/CRAMv3_3.svg)
 
 Figure 3: Containers as a series of blocks
 
@@ -449,6 +455,8 @@ primary bulk of CRAM data. The data blocks are further subdivided into a
 core data block and one or more external data blocks.
 
 <div class="center">
+
+![image](/hts-specs-md/img/tikz/CRAMv3_4.svg)
 
 Figure 4: Slices formed from a series of concatenated blocks
 
@@ -607,9 +615,9 @@ the value 0.
 ## 7.1 **CRAM header container**
 
 The first container in a CRAM file contains a textual header in one or
-more blocks. See section [8.3](#subsec:header-block) for more details on
-the layout of data within these blocks and constraints applied to the
-contents of the SAM header.
+more blocks. See section [8.3](#8.3) for more details on the layout of
+data within these blocks and constraints applied to the contents of the
+SAM header.
 
 The landmarks field of the container header structure may be used to
 indicate the offsets of the blocks used in the header container. These
@@ -779,13 +787,13 @@ the values from these data series will be interleaved.
 ## 8.3 **CRAM header block(s)**
 
 The SAM header is stored in the first block of the CRAM header container
-(see section [7.1](#subsec:cram-header-container)). This block may be
-uncompressed or gzip compressed only. This block is followed by zero or
-more uncompressed expansion blocks. If present, these permit in-place
-editing of the CRAM header, allowing it to grow or shrink with a
-compensatory size change applied to the subsequence expansion block,
-avoiding the need to rewrite the remainder of the file. The contents of
-any expansion blocks should be zero bytes (nul characters).
+(see section [7.1](#7.1)). This block may be uncompressed or gzip
+compressed only. This block is followed by zero or more uncompressed
+expansion blocks. If present, these permit in-place editing of the CRAM
+header, allowing it to grow or shrink with a compensatory size change
+applied to the subsequence expansion block, avoiding the need to rewrite
+the remainder of the file. The contents of any expansion blocks should
+be zero bytes (nul characters).
 
 The format of the initial SAM header block is a 32-bit little-endian
 integer holding the length of the text of the SAM header, minus
@@ -1331,6 +1339,8 @@ shown in the following picture:
 
 <div class="center">
 
+![image](/hts-specs-md/img/tikz/CRAMv3_5.svg)
+
 Figure 5: The relationship between core and external encodings, and core
 and external data blocks.
 
@@ -1572,32 +1582,31 @@ data series name corresponds to the data series encoding map.
 <td>-</td>
 <td>-</td>
 <td>Positional data</td>
-<td>See section <a href="#subsec:positions">10.2</a></td>
+<td>See section <a href="#10.2">10.2</a></td>
 </tr>
 <tr>
 <td>-</td>
 <td>-</td>
 <td>Read names</td>
-<td>See section <a href="#subsec:names">10.3</a></td>
+<td>See section <a href="#10.3">10.3</a></td>
 </tr>
 <tr>
 <td>-</td>
 <td>-</td>
 <td>Mate records</td>
-<td>See section <a href="#subsec:mate">10.4</a></td>
+<td>See section <a href="#10.4">10.4</a></td>
 </tr>
 <tr>
 <td>-</td>
 <td>-</td>
 <td>Auxiliary tags</td>
-<td>See section <a href="#subsec:tags">10.5</a></td>
+<td>See section <a href="#10.5">10.5</a></td>
 </tr>
 <tr>
 <td>-</td>
 <td>-</td>
 <td>Sequences</td>
-<td>See sections <a href="#subsec:mapped">10.6</a> and <a
-href="#subsec:unmapped">10.7</a></td>
+<td>See sections <a href="#10.6">10.6</a> and <a href="#10.7">10.7</a></td>
 </tr>
 </tbody>
 </table>
@@ -1854,15 +1863,15 @@ Integer)
 
 Read names can be preserved in the CRAM format, but this is optional and
 is governed by the `RN` preservation map key in the container
-compression header. See section [8.4](#subsec:compression-header). When
-read names are not preserved the CRAM decoder should generate names,
-typically based on the file name and a numeric ID of the read using the
-record counter field of the slice header block. Note read names may
-still be preserved even when the `RN` compression header key indicates
-otherwise, such as where a read is part of a read-pair and the pair
-spans multiple slices. In this situation the record will be marked as
-detached (see the CF data series) and the mate data below (section
-[10.4](#subsec:mate)) will contain the read name.
+compression header. See section [8.4](#8.4). When read names are not
+preserved the CRAM decoder should generate names, typically based on the
+file name and a numeric ID of the read using the record counter field of
+the slice header block. Note read names may still be preserved even when
+the `RN` compression header key indicates otherwise, such as where a
+read is part of a read-pair and the pair spans multiple slices. In this
+situation the record will be marked as detached (see the CF data series)
+and the mate data below (section [10.4](#10.4)) will contain the read
+name.
 
 <table>
 <thead>
@@ -2056,9 +2065,8 @@ also not listed in the above algorithm, for brevity.
 
 Tags are encoded using a tag line (TL data series) integer into the tag
 dictionary (TD field in the compression header preservation map, see
-section [8.4](#subsec:compression-header)). See section
-[\[subsubsec:tags\]](#subsubsec:tags) for a more detailed description of
-this process.
+section [8.4](#8.4)). See section [\[subsubsec:tags\]](#8.4.3) for a
+more detailed description of this process.
 
 <table>
 <thead>
@@ -2673,6 +2681,8 @@ slice container are shown in the diagram below.
 
 <div class="center">
 
+![image](/hts-specs-md/img/tikz/CRAMv3_6.svg)
+
 </div>
 
 ### 12.0.3 BAM index
@@ -2891,7 +2901,7 @@ This encoding can therefore be considered as a nested encoding, with
 each pair of nested encodings containing their own set of parameters.
 The byte stream for parameters of the BYTE_ARRAY_LEN encoding is
 therefore the concatenation of the length and value encoding parameters
-as described in section [2.3](#subsec:writing-bytes).
+as described in section [2.3](#2.3).
 
 The parameter for BYTE_ARRAY_LEN are listed below:
 
@@ -3486,7 +3496,7 @@ rules. In most cases these should coincide with ASCII, making the
 translation trivial.
 
 Each method has an associated numeric code which is defined in
-Section [8](#sec:block-struct).
+Section [8](#8).
 
 ## 14.1 **Gzip**
 
@@ -3728,7 +3738,7 @@ The format is otherwise identical to 3.0.
     [doi:10.1101/gr.114819.110](http://dx.doi.org/doi:10.1101/gr.114819.110);
     pmid:21245279.
 
-[^2]: The precise order is defined in section [10](#sec:record).
+[^2]: The precise order is defined in section [10](#10).
 
 [^3]: Unmapped reads can be *placed* or *unplaced*. By placed unmapped
     read we mean a read that is unmapped according to bit 0x4 of the BF

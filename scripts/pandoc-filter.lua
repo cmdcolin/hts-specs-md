@@ -6,6 +6,26 @@ local date = "unknown"
 -- Counters for section numbering
 local section_counters = {0, 0, 0, 0, 0, 0}
 
+-- Map from LaTeX label to section number string (built in scan pass)
+local label_to_section = {}
+local scan_counters = {0, 0, 0, 0, 0, 0}
+
+local function scan_header(el)
+  local level = el.level
+  scan_counters[level] = scan_counters[level] + 1
+  for i = level + 1, #scan_counters do
+    scan_counters[i] = 0
+  end
+  local num_parts = {}
+  for i = 1, level do
+    table.insert(num_parts, tostring(scan_counters[i]))
+  end
+  local section_num = table.concat(num_parts, ".")
+  if el.identifier and el.identifier ~= "" then
+    label_to_section[el.identifier] = section_num
+  end
+end
+
 function get_vars(meta)
   if meta.commit then
     commit = pandoc.utils.stringify(meta.commit)
@@ -361,11 +381,19 @@ end
 
 function Link(el)
   el.attributes = {}
+  if el.target:sub(1, 1) == "#" then
+    local label = el.target:sub(2)
+    local section = label_to_section[label]
+    if section then
+      el.target = "#" .. section
+    end
+  end
   return el
 end
 
 -- Pandoc 3.x uses meta to pass metadata
 return {
   { Meta = get_vars },
+  { Header = scan_header },
   { RawInline = RawInline, Inline = Inline, Div = Div, Code = Code, CodeBlock = CodeBlock, Table = Table, Math = Math, Header = Header, Link = Link }
 }

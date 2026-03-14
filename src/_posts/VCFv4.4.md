@@ -123,14 +123,14 @@ IEEE-754, formatted to match one of the regular expressions
 `^[-+]?(INF|INFINITY|NAN)$` case insensitively), [^1] Flag, Character,
 and String. For the Integer type, the values from $-2^{31}$ to
 $-2^{31}+7$ cannot be stored in the binary version and therefore are
-disallowed in both VCF and BCF, see [6.3.3](#BcfTypeEncoding).
+disallowed in both VCF and BCF, see [6.3.3](#6.3.3).
 
 ## 1.4 Meta-information lines
 
 File meta-information lines start with "`##`" and must appear first in
-the VCF file, before the header line (section [1.5](#header-line)) and
-data record lines (section [1.6](#data-lines)). They may be either
-*unstructured* or *structured*.
+the VCF file, before the header line (section [1.5](#1.5)) and data
+record lines (section [1.6](#1.6)). They may be either *unstructured* or
+*structured*.
 
 An *unstructured* meta-information line consists of a *key* (denoting
 the type of meta-information recorded) and a *value* (which may not be
@@ -208,7 +208,7 @@ cases:
 
 - A: The field has one value per alternate allele. The values must be in
   the same order as listed in the ALT column (described in section
-  [1.6](#data-lines)).
+  [1.6](#1.6)).
 
 - R: The field has one value for each possible allele, including the
   reference. The order of the values must be the reference allele first,
@@ -267,8 +267,8 @@ In symbolic alternate alleles for structural variants, the ID field
 indicates the type of structural variant, and can be a colon-separated
 list of types and subtypes. ID values are case sensitive strings and
 must not contain whitespace, commas or angle brackets (See
-[1.6.1](#fixed-fields).[\[fixed-fields-alt\]](#fixed-fields-alt)) The
-first level type must be one of the following:
+[1.6.1](#1.6.1).[\[fixed-fields-alt\]](#fixed-fields-alt)) The first
+level type must be one of the following:
 
 - DEL Region of lowered copy number relative to the reference, or a
   deletion breakpoint
@@ -291,7 +291,7 @@ subtype does not change either the copy number or breakpoint
 interpretation of a symbolic structural variant allele. The following
 subtypes are recommended:
 
-- CNV:TR Tandem repeat. See [5.7](#tandem-repeats) for further details.
+- CNV:TR Tandem repeat. See [5.7](#5.7) for further details.
 
 - DUP:TANDEM Tandem duplication
 
@@ -384,7 +384,7 @@ or a link to a database:
 
     ##pedigreeDB=URL
 
-See [5.4.11](#PedigreeInDetail) for details.
+See [5.4.11](#5.4.11) for details.
 
 ## 1.5 Header line syntax
 
@@ -465,12 +465,12 @@ There are 8 fixed fields per record. Fixed fields are:
     '\*' symbol (allele missing due to overlapping deletion); the
     MISSING value '.' (no variant); an angle-bracketed ID String
     ("\<ID\>"); the unspecified allele "\<\*\>" as described in Section
-    [5.5](#unspecified-allele); or a breakend replacement string as
-    described in Section [5.4](#Breakends). If there are no alternative
-    alleles, then the MISSING value must be used. Tools processing VCF
-    files are not required to preserve case in the allele String, except
-    for IDs, which are case sensitive. (String; no whitespace, commas,
-    or angle-brackets are permitted in the ID String itself)
+    [5.5](#5.5); or a breakend replacement string as described in
+    Section [5.4](#5.4). If there are no alternative alleles, then the
+    MISSING value must be used. Tools processing VCF files are not
+    required to preserve case in the allele String, except for IDs,
+    which are case sensitive. (String; no whitespace, commas, or
+    angle-brackets are permitted in the ID String itself)
 
 6.  QUAL — quality: Phred-scaled quality score for the assertion made in
     ALT. i.e. $-10log_{10}$ prob(call in ALT is wrong). If ALT is '.'
@@ -496,8 +496,7 @@ There are 8 fixed fields per record. Fixed fields are:
     permitted in these values, and literal commas ('`,`') are permitted
     only as delimiters for lists of values; characters with special
     meaning can be encoded using percent encoding, see
-    Section [1.2](#character-encoding). Space characters are allowed in
-    values.
+    Section [1.2](#1.2). Space characters are allowed in values.
 
     INFO keys must match the regular expression
     `^([A-Za-z_][0-9A-Za-z_.]*|1000G)$`, please note that "1000G" is
@@ -510,8 +509,8 @@ There are 8 fixed fields per record. Fixed fields are:
     meta-information (as described above). Example of a complete INFO
     field: `DP=154;MQ=52;H2`. Keys without corresponding values may be
     used to indicate group membership (e.g. H2 indicates the SNP is
-    found in HapMap 2). See Section [3](#sv-info-keys) for additional
-    reserved INFO keys used to encode structural variants.
+    found in HapMap 2). See Section [3](#3) for additional reserved INFO
+    keys used to encode structural variants.
 
 <div id="table:reserved-info">
 
@@ -670,11 +669,11 @@ reference allele</td>
   an explicit END INFO field provides variant span information that is
   otherwise unknown. If a record containing a symbolic structural
   variant allele does not have an END field, it must be computed from
-  the SVLEN field as per Section [3](#sv-info-keys).
+  the SVLEN field as per Section [3](#3).
 
-  This field is used to compute BCF's `rlen` field
-  (see [6.3.1](#BcfSiteEncoding)) and is important when indexing VCF/BCF
-  files to enable random access and querying by position.
+  This field is used to compute BCF's `rlen` field (see [6.3.1](#6.3.1))
+  and is important when indexing VCF/BCF files to enable random access
+  and querying by position.
 
 ### 1.6.2 Genotype fields
 
@@ -699,9 +698,8 @@ which should always be present if specified in the FORMAT field.
 As with the INFO field, there are several common, reserved keywords that
 are standards across the community. See their detailed definitions
 below, as well as Table [2](#table:reserved-genotypes) for their
-reference Number, Type and Description. See also
-Section [4](#sv-format-keys) for a list of genotype keys reserved for
-structural variants.
+reference Number, Type and Description. See also Section [4](#4) for a
+list of genotype keys reserved for structural variants.
 
 <div id="table:reserved-genotypes">
 
@@ -1209,7 +1207,7 @@ as the record end position for indexing purposes.
     ##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
 
 This field has been deprecated due to redundancy with ALT. Refer to
-section [1.4.5](#altfield) for the set of valid ALT field symbolic
+section [1.4.5](#1.4.5) for the set of valid ALT field symbolic
 structural variant alleles.
 
     ##INFO=<ID=SVLEN,Number=A,Type=Integer,Description="Length of structural variant">
@@ -1451,7 +1449,7 @@ purposes of determining RUS, RUL, RB, CIRB, RUC and CIRUC lengths, the
 missing value "." should be treated as 0. If this field is missing, the
 RN for each \<CNV:TR\> allele is assumed to be 1 and 0 otherwise.
 
-See section [5.7](#tandem-repeats) for further details.
+See section [5.7](#5.7) for further details.
 
     ##INFO=<ID=RUS,Number=.,Type=String,Description="Repeat unit sequence of the corresponding repeat sequence">
     ##INFO=<ID=RUL,Number=.,Type=Integer,Description="Repeat unit length of the corresponding repeat sequence">
@@ -1482,7 +1480,7 @@ approximately equal RUL\*RUC but is not required to match exactly. If
 RUS is present but RUL is not, RUL should be inferred to be equal to the
 length of the corresponding RUS.
 
-See section [5.7](#tandem-repeats) for an example and further details.
+See section [5.7](#5.7) for an example and further details.
 
     ##INFO=<ID=CIRUC,Number=.,Type=Float,Description="Confidence interval around RUC">
     ##INFO=<ID=CIRB,Number=.,Type=Integer,Description="Confidence interval around RB">
@@ -1501,7 +1499,7 @@ unbounded estimate. That is, the length of repeat has been determined to
 be at least a certain length but a reasonable limit of total length of
 the repeat could not be determined.
 
-See section [5.7](#tandem-repeats) for an example and further details.
+See section [5.7](#5.7) for an example and further details.
 
     ##INFO=<ID=RUB,Number=.,Type=Integer,Description="Number of bases in each individual repeat unit">
 
@@ -1519,7 +1517,7 @@ For the vast majority of tandem repeats, this field can be omitted and
 is only required in complex situations such as when a VNTR contains one
 or more variable length STRs.
 
-See section [5.7](#tandem-repeats) for an example and further details.
+See section [5.7](#5.7) for an example and further details.
 
 # 4 FORMAT keys used for structural variants
 
@@ -2999,9 +2997,8 @@ occurred as in Figure 7, then even if we have no evidence for the (W,X)
 adjacency, for accounting purposes an adjacency between W and X may also
 be recorded in the VCF file. These two breakends W and X can still be
 crossed-referenced as mates. The 4 VCF records describing this situation
-would look exactly as in section [5.4.4](#explicit-partners), but
-perhaps with a special quality or filter value for the breakends W and
-X.
+would look exactly as in section [5.4.4](#5.4.4), but perhaps with a
+special quality or filter value for the breakends W and X.
 
 Another possible reason for calling single breakends is an observed but
 unexplained change in copy number along a chromosome.
@@ -3925,7 +3922,7 @@ of samples in the header</td>
 <tr>
 <td>n_fmt</td>
 <td>uint8_t</td>
-<td>The number of FORMAT keys. See <a href="#GenotypeEncoding">6.3.2</a></td>
+<td>The number of FORMAT keys. See <a href="#6.3.2">6.3.2</a></td>
 </tr>
 <tr>
 <td>ID</td>
@@ -4216,7 +4213,7 @@ future use:
 
 **Character** values are not explicitly typed in BCF2. Instead, VCF
 Character values must be encoded by a single character string. See also
-[1.2](#character-encoding).
+[1.2](#1.2).
 
 **Flags** values — which can only appear in INFO fields — in BCF2 should
 be encoded by any non-reserved value. The recommended best practice is
@@ -4993,7 +4990,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - Characters with special meaning (such as ';' in INFO, ':' in FORMAT,
   and '%' in both) can be encoded using percent encoding (see
-  Section [1.2](#character-encoding))
+  Section [1.2](#1.2))
 
 - The character encoding of VCF files is UTF-8.
 
@@ -5030,7 +5027,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 - Removed unused and ill-defined GLE FORMAT tag.
 
 - Chromosome names cannot use reserved symbolic alleles and contain
-  characters used by breakpoints (Section [1.4.7](#sec-contig-field)).
+  characters used by breakpoints (Section [1.4.7](#1.4.7)).
 
 - IUPAC ambiguity codes should be converted to a concrete base.
 

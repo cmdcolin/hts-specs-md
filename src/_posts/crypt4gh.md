@@ -147,8 +147,8 @@ number.
 
 Reader's public key ($K_{pr}$) \
 This key is passed to the writer so that they can encrypt header packets
-(section [3.2.1](#header:encryption)) for the reader. It is derived from
-$K_{sr}$ (see section [\[header:X25519\]](#header:X25519)).
+(section [3.2.1](#3.2.1)) for the reader. It is derived from $K_{sr}$
+(see section [\[header:X25519\]](#header:X25519)).
 
 Writer's secret key ($K_{sw}$) \
 This key is used by the writer to encrypt header packets. It should
@@ -156,11 +156,10 @@ either be kept private, or deleted after use. It is generated using a
 cryptographically-secure random number.
 
 Writer's public key ($K_{pw}$) \
-This key is included in the header packet
-(section [3.2.1](#header:encryption)) so that the reader can use it to
-derive the shared key ($K_{shared}$, see below) needed to decrypt header
-packet data. It is derived from $K_{sw}$ (see
-section [\[header:X25519\]](#header:X25519)).
+This key is included in the header packet (section [3.2.1](#3.2.1)) so
+that the reader can use it to derive the shared key ($K_{shared}$, see
+below) needed to decrypt header packet data. It is derived from $K_{sw}$
+(see section [\[header:X25519\]](#header:X25519)).
 
 </div>
 
@@ -178,20 +177,21 @@ section [\[header:X25519\]](#header:X25519). The writer will use the
 first of these derivations and the reader will use the second.
 
 Data key ($K_{data}$) \
-This key is used to encrypt the actual file data
-(section [3.4](#data:encryption)). It is generated using a
-cryptographically-secure random number. The data key SHOULD be generated
-uniquely for each file. This key is stored in a
-data_encryption_parameters header packet (see
-section [3.2.3](#header:data_encryption_parameters)). It is possible to
-encrypt parts of a file with different data keys, in which case each key
-will be stored in a separate data_encryption_parameters header packet.
+This key is used to encrypt the actual file data (section [3.4](#3.4)).
+It is generated using a cryptographically-secure random number. The data
+key SHOULD be generated uniquely for each file. This key is stored in a
+data_encryption_parameters header packet (see section [3.2.3](#3.2.3)).
+It is possible to encrypt parts of a file with different data keys, in
+which case each key will be stored in a separate
+data_encryption_parameters header packet.
 
 </div>
 
 ## 2.2 File Structure
 
 <div class="center">
+
+![image](/hts-specs-md/img/tikz/crypt4gh_1.svg)
 
 </div>
 
@@ -226,7 +226,7 @@ the following parts:
 
     The first item in the encrypted header packet data is a code
     indicating the packet type. This is followed by type-specific data,
-    described in section [2.3](#overview:header_packet_types).
+    described in section [2.3](#2.3).
 
 - The encrypted data. This is the actual application data, stored in a
   sequence of blocks containing:
@@ -548,7 +548,7 @@ is the number of items in the array.
 is an array of byte counts.
 
 Application of the edit list to the plain-text is described in
-section [4.2](#data:edit_list).
+section [4.2](#4.2).
 
 It is not permitted to have more than one edit list. If more than one
 edit list is present, the file SHOULD be rejected.
@@ -598,8 +598,8 @@ are used; the rest are discarded.
 
 The header packet type, data and any padding is then encrypted using the
 method described in the chacha20_ietf_poly1305 Encryption
-section [3.4.1](#data:chacha20_encryption). Note that header packets are
-not segmented; they are always encrypted in a single block.
+section [3.4.1](#3.4.1). Note that header packets are not segmented;
+they are always encrypted in a single block.
 
 Finally, the packet length, encryption type, writer's public key
 $K_{pw}$, the nonce $N$ and the encrypted header packet data are

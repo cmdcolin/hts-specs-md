@@ -15,7 +15,7 @@ fields for flexible or aligner specific information.
 
 This specification is for version 1.6 of the SAM and BAM formats. Each
 SAM and BAM file may optionally specify the version being used via the
-`@HD VN` tag. For full version history see Appendix [7](#sec:history).
+`@HD VN` tag. For full version history see Appendix [7](#7).
 
 SAM file contents are 7-bit US-ASCII, except for certain field values as
 individually specified which may contain other Unicode characters
@@ -87,8 +87,8 @@ chimeric alignment is considered the "representative" alignment, and the
 others are called "supplementary" and are distinguished by the
 supplementary alignment flag. All the SAM records in a chimeric
 alignment have the same QNAME and the same values for 0x40 and 0x80
-flags (see Section [1.4](#sec:alnrecord)). The decision regarding which
-linear alignment is representative is arbitrary.
+flags (see Section [1.4](#1.4)). The decision regarding which linear
+alignment is representative is arbitrary.
 
 Read alignment  
 A linear alignment or a chimeric alignment that is the complete
@@ -168,10 +168,10 @@ significant.
 The following table describes the header record types that may be used
 and their predefined tags. Tags listed with '\*' are required; e.g.,
 every `@SQ` header line must have `SN` and `LN` fields. As with
-alignment optional fields (see Section [1.5](#sec:alnaux)), you can
-freely add new tags for further data fields. Tags containing lowercase
-letters are reserved for local use and will not be formally defined in
-any future version of this specification. [^4]
+alignment optional fields (see Section [1.5](#1.5)), you can freely add
+new tags for further data fields. Tags containing lowercase letters are
+reserved for local use and will not be formally defined in any future
+version of this specification. [^4]
 
 <div class="center">
 
@@ -223,7 +223,7 @@ differing definitions of the queryname sort order, meaning care should
 be taken when operating on multiple files of varying provenance. Tools
 may wish to use the sub-sort field to explicitly distinguish between
 natural and lexicographical ordering. See Section <a
-href="#sec:sub-sort">1.3.1</a>.<a href="#fnref1" class="footnote-back"
+href="#1.3.1">1.3.1</a>.<a href="#fnref1" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></td>
@@ -247,7 +247,7 @@ are grouped by <span>RNAME</span>/<span>POS</span>).</td>
 <span><code>SO</code></span> tag and <em>sub-sort</em> is an
 implementation-dependent colon-separated string further describing the
 sort order, but with some predefined terms defined in Section <a
-href="#sec:sub-sort">1.3.1</a>. For example, if an algorithm relies on a
+href="#1.3.1">1.3.1</a>. For example, if an algorithm relies on a
 <span><code>coordinate</code></span> sort that, at each coordinate, is
 further sorted by query name then the header could contain
 <span><code>@HD SO:coordinate SS:coordinate:queryname</code></span>. <a
@@ -358,8 +358,7 @@ class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <tr>
 <td><span>2-3</span></td>
 <td><span><code>M5</code></span></td>
-<td>MD5 checksum of the sequence. See Section <a
-href="#sec:ref-md5">1.3.2</a></td>
+<td>MD5 checksum of the sequence. See Section <a href="#1.3.2">1.3.2</a></td>
 </tr>
 <tr>
 <td><span>2-3</span></td>
@@ -626,8 +625,8 @@ are in fact the same.
 The reference sequence must be in the 7-bit US-ASCII character set. All
 valid reference bases can be represented in this set, and it avoids the
 problem of determining exactly which 8-bit representation may have been
-used. Padding characters (See Section [3.2](#sec:padded-sam)) must be
-represented only using the '\*' character.
+used. Padding characters (See Section [3.2](#3.2)) must be represented
+only using the '\*' character.
 
 The digest is calculated as follows:
 
@@ -658,8 +657,8 @@ then the digest is that of the string
 `M5:dfabdbb36e239a6da88957841f32b8e4`.
 
 In padded SAM files, the padding bases should be inserted into the
-reference as '\*' characters. Taking the example in
-Section [3.2](#sec:padded-sam), the padded version of the reference is
+reference as '\*' characters. Taking the example in Section [3.2](#3.2),
+the padded version of the reference is
 
     AGCATGTTAGATAA**GATAGCTGTGCTAGTAGGCAGTCAGCGCCAT
 
@@ -1368,8 +1367,8 @@ a padded SAM, the insertion and padding CIGAR operations ('`I`' and
 the insertions.
 
 The following shows the padded SAM for the example alignment in
-Section [1.1](#sec:example). Notably, the length of `ref` is 47 instead
-of 45. POS of the last three alignments are all shifted by 2. CIGAR of
+Section [1.1](#1.1). Notably, the length of `ref` is 47 instead of 45.
+POS of the last three alignments are all shifted by 2. CIGAR of
 alignments bridging the 2bp insertion are also changed.
 
 > @HD VN:1.6 SO:coordinate
@@ -1390,9 +1389,8 @@ set to 1 and FLAG to 516 (filtered and unmapped); for an annotation,
 FLAG should be set to 768 (filtered and secondary) with no restriction
 to QNAME. Dummy reads for annotation would typically have a `CT` tag to
 hold the annotation information; see the discussion of dummy reads in
-Section [2](#sec:recommended-practice). See also the separate *Optional
-Fields Specification* for full details of the `CT` and `PT` annotation
-tags. [^14]
+Section [2](#2). See also the separate *Optional Fields Specification*
+for full details of the `CT` and `PT` annotation tags. [^14]
 
 # 4 The BAM Format Specification
 
@@ -1786,7 +1784,7 @@ padding</td>
 <tr>
 <td><span>2-6</span></td>
 <td>bin</td>
-<td>BAI index bin, see Section <a href="#sec:bin-field">4.2.1</a></td>
+<td>BAI index bin, see Section <a href="#4.2.1">4.2.1</a></td>
 <td><span><code>uint16_t</code></span></td>
 <td></td>
 </tr>
@@ -1794,7 +1792,7 @@ padding</td>
 <td><span>2-6</span></td>
 <td>n_cigar_op</td>
 <td>Number of operations in <u>CIGAR</u>, see Section <a
-href="#sec:ncigar">4.2.2</a></td>
+href="#4.2.2">4.2.2</a></td>
 <td><span><code>uint16_t</code></span></td>
 <td></td>
 </tr>
@@ -1857,14 +1855,14 @@ trailing '<span><code>\0</code></span>')</td>
 <td>seq</td>
 <td>4-bit encoded read:
 '<span><code>=ACMGRSVTWYHKDBN</code></span>'<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>15</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\to[0,15]</annotation></semantics></math>.
-See Section <a href="#sec:seq">4.2.3</a></td>
+See Section <a href="#4.2.3">4.2.3</a></td>
 <td><span><code>uint8_t[(</code><span><code>l_seq</code></span><code>+1)/2]</code></span></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>qual</td>
-<td>Phred-scaled base qualities. See Section <a href="#sec:seq">4.2.3</a></td>
+<td>Phred-scaled base qualities. See Section <a href="#4.2.3">4.2.3</a></td>
 <td><span><code>char[</code><span><code>l_seq</code></span><code>]</code></span></td>
 <td></td>
 </tr>
@@ -1888,7 +1886,7 @@ the alignment block)</em></span></td>
 <td></td>
 <td><span>val_type</span></td>
 <td>Value type: <span><code>AcCsSiIfZHB</code></span>, see Section <a
-href="#sec:aux-type-codes">4.2.4</a></td>
+href="#4.2.4">4.2.4</a></td>
 <td><span><code>char</code></span></td>
 </tr>
 <tr>
@@ -1918,12 +1916,11 @@ e.g., Java's signed 32-bit integer maximum array size.
 
 ### 4.2.1 BIN field calculation
 
-BIN is calculated using the reg2bin() function in
-Section [5.3](#sec:code). For mapped reads this uses $\mathsf{POS}-1$
-(i.e., 0-based left position) and the alignment end point using the
-alignment length from the CIGAR string. For unmapped reads
-(e.g., paired-end reads where only one part is mapped, see
-Section [2](#sec:recommended-practice)) and reads whose CIGAR strings
+BIN is calculated using the reg2bin() function in Section [5.3](#5.3).
+For mapped reads this uses $\mathsf{POS}-1$ (i.e., 0-based left
+position) and the alignment end point using the alignment length from
+the CIGAR string. For unmapped reads (e.g., paired-end reads where only
+one part is mapped, see Section [2](#2)) and reads whose CIGAR strings
 consume no reference bases at all, the alignment is treated as being of
 length one. Note unmapped reads with POS 0 (which becomes $-1$ in BAM)
 therefore use $\mathsf{reg2bin}(-1, 0)$ which is computed as 4680.
@@ -2510,10 +2507,9 @@ separate *Sequence Alignment/Map Optional Fields Specification*. [^20]
   previous `AN` set. (Jan 2019)
 
   We recommend that implementations validating reference sequence names
-  do so using the rules in Section [1.2.1](#sec:charset); are more
-  lenient for files declaring $\tt @HD VN \leq 1.5$; and validate `AN`
-  only against these rules, not the previous more restrictive `AN`
-  rules.
+  do so using the rules in Section [1.2.1](#1.2.1); are more lenient for
+  files declaring $\tt @HD VN \leq 1.5$; and validate `AN` only against
+  these rules, not the previous more restrictive `AN` rules.
 
 - Add `@HD SS` sorting details header tag. (Oct 2018)
 
@@ -2622,7 +2618,7 @@ Initial edition.
 [^3]: Characters that are *not* disallowed include '`|`', which
     historically appeared in reference names derived from NCBI FASTA
     files, and '`:`', which appears in HLA allele names.
-    Appendix [6](#sec:parse-region) describes approaches for parsing
+    Appendix [6](#6) describes approaches for parsing
     *name*`[:`*begin*`-`*end*`]` region notation unambiguously even
     though *name* may itself contain colons.
 
@@ -2657,6 +2653,8 @@ Initial edition.
     segment aligns beyond the start of the last segment.
 
     <div class="center">
+
+    ![image](/hts-specs-md/img/tikz/SAMv1_1.svg) ![image](/hts-specs-md/img/tikz/SAMv1_2.svg)
 
     </div>
 
@@ -2704,9 +2702,9 @@ Initial edition.
 
 [^19]: By *placed unmapped read* we mean a read that is unmapped
     according to its FLAG but whose RNAME and POS fields are filled in,
-    thus "placing" it on a reference sequence (see
-    Section [2](#sec:recommended-practice)). In contrast, *unplaced*
-    unmapped reads have '\*' and 0 for RNAME and POS.
+    thus "placing" it on a reference sequence (see Section [2](#2)). In
+    contrast, *unplaced* unmapped reads have '\*' and 0 for RNAME
+    and POS.
 
 [^20]: See Appendix A of
     [`SAMtags.pdf`](http://samtools.github.io/hts-specs/SAMtags.pdf) at

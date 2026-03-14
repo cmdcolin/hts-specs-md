@@ -32,8 +32,8 @@ conventions ([\[tab:typographic-conventions\]](#tab:typographic-conventions)).
 <div class="tabularx">
 
 r L L Style & Meaning & Examples\
-Bold & Terms defined in subsections [1.3](#sec:terms)–[1.4](#sec:lines)
-& **chromosomefile**\
+Bold & Terms defined in subsections [1.3](#1.3)–[1.4](#1.4) &
+**chromosomefile**\
 Sans serif & Names of **field**s &
 <span class="sans-serif">chrom</span><span class="sans-serif">chromStart</span><span class="sans-serif">chromEnd</span>\
 Fixed-width & Literals or <span acronym-label="regex"
@@ -142,7 +142,7 @@ Sequence of one or more **line**s.
 line:  
 String terminated by a **line separator**, in one of the following
 classes. Either a **data line**, a **comment line**, or a **blank
-line**. Discussed more fully in [1.4](#sec:lines).
+line**. Discussed more fully in [1.4](#1.4).
 
 line separator:  
 Either carriage return (`\``r`, equivalent to `\``x0d`),

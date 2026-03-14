@@ -2714,7 +2714,7 @@ of samples in the header</td>
 <tr>
 <td>n_fmt</td>
 <td>uint8_t</td>
-<td>The number of FORMAT keys. See <a href="#GenotypeEncoding">6.3.2</a></td>
+<td>The number of FORMAT keys. See <a href="#6.3.2">6.3.2</a></td>
 </tr>
 <tr>
 <td>ID</td>

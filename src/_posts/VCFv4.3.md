@@ -123,14 +123,14 @@ IEEE-754, formatted to match one of the regular expressions
 `^[-+]?(INF|INFINITY|NAN)$` case insensitively), [^1] Flag, Character,
 and String. For the Integer type, the values from $-2^{31}$ to
 $-2^{31}+7$ cannot be stored in the binary version and therefore are
-disallowed in both VCF and BCF, see [6.3.3](#BcfTypeEncoding).
+disallowed in both VCF and BCF, see [6.3.3](#6.3.3).
 
 ## 1.4 Meta-information lines
 
 File meta-information lines start with "`##`" and must appear first in
-the VCF file, before the header line (section [1.5](#header-line)) and
-data record lines (section [1.6](#data-lines)). They may be either
-*unstructured* or *structured*.
+the VCF file, before the header line (section [1.5](#1.5)) and data
+record lines (section [1.6](#1.6)). They may be either *unstructured* or
+*structured*.
 
 An *unstructured* meta-information line consists of a *key* (denoting
 the type of meta-information recorded) and a *value* (which may not be
@@ -202,7 +202,7 @@ cases:
 
 - A: The field has one value per alternate allele. The values must be in
   the same order as listed in the ALT column (described in section
-  [1.6](#data-lines)).
+  [1.6](#1.6)).
 
 - R: The field has one value for each possible allele, including the
   reference. The order of the values must be the reference allele first,
@@ -356,7 +356,7 @@ or a link to a database:
 
     ##pedigreeDB=URL
 
-See [5.4.11](#PedigreeInDetail) for details.
+See [5.4.11](#5.4.11) for details.
 
 ## 1.5 Header line syntax
 
@@ -433,7 +433,7 @@ There are 8 fixed fields per record. Fixed fields are:
     A,C,G,T,N (case insensitive) or the '\*' symbol (allele missing due
     to overlapping deletion) or a MISSING value '.' (no variant) or an
     angle-bracketed ID String ("\<ID\>") or a breakend replacement
-    string as described in Section [5.4](#Breakends). If there are no
+    string as described in Section [5.4](#5.4). If there are no
     alternative alleles, then the MISSING value must be used. In other
     words, the ALT field must be a symbolic allele, or a breakend
     replacement string, or match the regular expression
@@ -466,8 +466,7 @@ There are 8 fixed fields per record. Fixed fields are:
     permitted in these values, and literal commas ('`,`') are permitted
     only as delimiters for lists of values; characters with special
     meaning can be encoded using percent encoding, see
-    Section [1.2](#character-encoding). Space characters are allowed in
-    values.
+    Section [1.2](#1.2). Space characters are allowed in values.
 
     INFO keys must match the regular expression
     `^([A-Za-z_][0-9A-Za-z_.]*|1000G)$`, please note that "1000G" is
@@ -480,8 +479,8 @@ There are 8 fixed fields per record. Fixed fields are:
     meta-information (as described above). Example of a complete INFO
     field: `DP=154;MQ=52;H2`. Keys without corresponding values may be
     used to indicate group membership (e.g. H2 indicates the SNP is
-    found in HapMap 2). See Section [3](#sv-info-keys) for additional
-    reserved INFO keys used to encode structural variants.
+    found in HapMap 2). See Section [3](#3) for additional reserved INFO
+    keys used to encode structural variants.
 
 <div id="table:reserved-info">
 
@@ -640,9 +639,9 @@ reference allele</td>
   an explicit END INFO field provides variant span information that is
   otherwise unknown.
 
-  This field is used to compute BCF's `rlen` field
-  (see [6.3.1](#BcfSiteEncoding)) and is important when indexing VCF/BCF
-  files to enable random access and querying by position.
+  This field is used to compute BCF's `rlen` field (see [6.3.1](#6.3.1))
+  and is important when indexing VCF/BCF files to enable random access
+  and querying by position.
 
 ### 1.6.2 Genotype fields
 
@@ -667,9 +666,8 @@ which should always be present if specified in the FORMAT field.
 As with the INFO field, there are several common, reserved keywords that
 are standards across the community. See their detailed definitions
 below, as well as Table [2](#table:reserved-genotypes) for their
-reference Number, Type and Description. See also
-Section [4](#sv-format-keys) for a list of genotype keys reserved for
-structural variants.
+reference Number, Type and Description. See also Section [4](#4) for a
+list of genotype keys reserved for structural variants.
 
 <div id="table:reserved-genotypes">
 
@@ -3326,7 +3324,7 @@ of samples in the header</td>
 <tr>
 <td>n_fmt</td>
 <td>uint8_t</td>
-<td>The number of FORMAT keys. See <a href="#GenotypeEncoding">6.3.2</a></td>
+<td>The number of FORMAT keys. See <a href="#6.3.2">6.3.2</a></td>
 </tr>
 <tr>
 <td>ID</td>
@@ -3617,7 +3615,7 @@ future use:
 
 **Character** values are not explicitly typed in BCF2. Instead, VCF
 Character values must be encoded by a single character string. See also
-[1.2](#character-encoding).
+[1.2](#1.2).
 
 **Flags** values — which can only appear in INFO fields — in BCF2 should
 be encoded by any non-reserved value. The recommended best practice is
@@ -4323,7 +4321,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - Characters with special meaning (such as ';' in INFO, ':' in FORMAT,
   and '%' in both) can be encoded using percent encoding (see
-  Section [1.2](#character-encoding))
+  Section [1.2](#1.2))
 
 - The character encoding of VCF files is UTF-8.
 
@@ -4360,7 +4358,7 @@ section 4 as BAM files and other block-compressed files with BGZF.
 - Removed unused and ill-defined GLE FORMAT tag.
 
 - Chromosome names cannot use reserved symbolic alleles and contain
-  characters used by breakpoints (Section [1.4.7](#sec-contig-field)).
+  characters used by breakpoints (Section [1.4.7](#1.4.7)).
 
 - IUPAC ambiguity codes should be converted to a concrete base.
 
