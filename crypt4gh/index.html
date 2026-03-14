@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>GA4GH File Encryption Standard - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
-</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>GA4GH File Encryption Standard</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/778115b"><code>778115b</code></a>, dated 3 Feb 2023.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#11-purpose">1.1 Purpose</a> </li><li class="depth-2"> <a href="#12-requirements">1.2 Requirements</a> </li><li class="depth-2"> <a href="#13-terminology">1.3 Terminology</a> </li><li class="depth-2"> <a href="#21-keys">2.1 Keys</a> </li><li class="depth-3"> <a href="#211-asymmetric-keys">2.1.1 Asymmetric Keys</a> </li><li class="depth-3"> <a href="#212-symmetric-keys">2.1.2 Symmetric keys</a> </li><li class="depth-2"> <a href="#22-file-structure">2.2 File Structure</a> </li><li class="depth-2"> <a href="#23-header-packet-types">2.3 Header Packet Types</a> </li><li class="depth-2"> <a href="#24-encoding-for-multiple-publicsecret-key-pairs">2.4 Encoding For Multiple Public/Secret Key Pairs</a> </li><li class="depth-2"> <a href="#31-overall-conventions">3.1 Overall Conventions</a> </li><li class="depth-3"> <a href="#311-hexadecimal-numbers">3.1.1 Hexadecimal Numbers</a> </li><li class="depth-3"> <a href="#312-byte-ordering">3.1.2 Byte Ordering</a> </li><li class="depth-3"> <a href="#313-integer-types">3.1.3 Integer Types</a> </li><li class="depth-3"> <a href="#314-multi-byte-integer-types">3.1.4 Multi-byte Integer Types</a> </li><li class="depth-3"> <a href="#315-structures">3.1.5 Structures</a> </li><li class="depth-3"> <a href="#316-enumerated-types">3.1.6 Enumerated Types</a> </li><li class="depth-3"> <a href="#317-variants">3.1.7 Variants</a> </li><li class="depth-2"> <a href="#32-header">3.2 Header</a> </li><li class="depth-3"> <a href="#321-header-packets">3.2.1 Header Packets</a> </li><li class="depth-3"> <a href="#322-header-packet-encrypted-payload">3.2.2 Header packet encrypted payload</a> </li><li class="depth-3"> <a href="#323-data_encryption_parameters-packet">3.2.3 data_encryption_parameters packet</a> </li><li class="depth-3"> <a href="#324-data_edit_list-packet">3.2.4 data_edit_list packet</a> </li><li class="depth-2"> <a href="#33-header-packet-encryption">3.3 Header packet encryption</a> </li><li class="depth-3"> <a href="#331-x25519_chacha20_ietf_poly1305-encryption">3.3.1 X25519_chacha20_ietf_poly1305 Encryption</a> </li><li class="depth-3"> <a href="#332-x25519_chacha20_ietf_poly1305-decryption">3.3.2 X25519_chacha20_ietf_poly1305 Decryption</a> </li><li class="depth-3"> <a href="#333-reading-the-header">3.3.3 Reading the header</a> </li><li class="depth-2"> <a href="#34-encrypted-data">3.4 Encrypted Data</a> </li><li class="depth-3"> <a href="#341-chacha20_ietf_poly1305-encryption">3.4.1 chacha20_ietf_poly1305 Encryption</a> </li><li class="depth-3"> <a href="#342-segmenting-the-input">3.4.2 Segmenting the input</a> </li><li class="depth-2"> <a href="#41-chacha20_ietf_poly1305-decryption">4.1 chacha20_ietf_poly1305 Decryption</a> </li><li class="depth-2"> <a href="#42-edit-list">4.2 Edit List</a> </li><li class="depth-3"> <a href="#421-example">4.2.1 Example</a> </li><li class="depth-2"> <a href="#51-threat-analysis">5.1 Threat Analysis</a> </li><li class="depth-2"> <a href="#52-selection-of-keys">5.2 Selection of Keys</a> </li><li class="depth-2"> <a href="#53-nonce-selection">5.3 Nonce selection</a> </li><li class="depth-2"> <a href="#54-message-forgery">5.4 Message Forgery</a> </li><li class="depth-2"> <a href="#55-no-file-updates-permitted">5.5 No File Updates Permitted</a> </li><li class="depth-2"> <a href="#56-normative-references">5.6 Normative References</a> </li><li class="depth-2"> <a href="#57-informational-references">5.7 Informational References</a> </li><li class="depth-2"> <a href="#61-symmetric-encryption">6.1 Symmetric Encryption</a> </li><li class="depth-2"> <a href="#62-public-key-algorithm">6.2 Public-key Algorithm</a> </li><li class="depth-2"> <a href="#63-other-considerations">6.3 Other Considerations</a> </li> </ul> </details>  <h2 id="11-purpose">1.1 Purpose<a class="header-anchor" aria-hidden="" href="#11-purpose">#</a></h2>
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>GA4GH File Encryption Standard - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}tfoot.tablenotes td{font-size:.85em;color:#555;background:#f8f9fa;border-top:2px solid #bbb}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
+</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>GA4GH File Encryption Standard</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/778115b"><code>778115b</code></a>, dated 3 Feb 2023.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#1.1">1.1 Purpose</a> </li><li class="depth-2"> <a href="#1.2">1.2 Requirements</a> </li><li class="depth-2"> <a href="#1.3">1.3 Terminology</a> </li><li class="depth-2"> <a href="#2.1">2.1 Keys</a> </li><li class="depth-3"> <a href="#2.1.1">2.1.1 Asymmetric Keys</a> </li><li class="depth-3"> <a href="#2.1.2">2.1.2 Symmetric keys</a> </li><li class="depth-2"> <a href="#2.2">2.2 File Structure</a> </li><li class="depth-2"> <a href="#2.3">2.3 Header Packet Types</a> </li><li class="depth-2"> <a href="#2.4">2.4 Encoding For Multiple Public/Secret Key Pairs</a> </li><li class="depth-2"> <a href="#3.1">3.1 Overall Conventions</a> </li><li class="depth-3"> <a href="#3.1.1">3.1.1 Hexadecimal Numbers</a> </li><li class="depth-3"> <a href="#3.1.2">3.1.2 Byte Ordering</a> </li><li class="depth-3"> <a href="#3.1.3">3.1.3 Integer Types</a> </li><li class="depth-3"> <a href="#3.1.4">3.1.4 Multi-byte Integer Types</a> </li><li class="depth-3"> <a href="#3.1.5">3.1.5 Structures</a> </li><li class="depth-3"> <a href="#3.1.6">3.1.6 Enumerated Types</a> </li><li class="depth-3"> <a href="#3.1.7">3.1.7 Variants</a> </li><li class="depth-2"> <a href="#3.2">3.2 Header</a> </li><li class="depth-3"> <a href="#3.2.1">3.2.1 Header Packets</a> </li><li class="depth-3"> <a href="#3.2.2">3.2.2 Header packet encrypted payload</a> </li><li class="depth-3"> <a href="#3.2.3">3.2.3 data_encryption_parameters packet</a> </li><li class="depth-3"> <a href="#3.2.4">3.2.4 data_edit_list packet</a> </li><li class="depth-2"> <a href="#3.3">3.3 Header packet encryption</a> </li><li class="depth-3"> <a href="#3.3.1">3.3.1 X25519_chacha20_ietf_poly1305 Encryption</a> </li><li class="depth-3"> <a href="#3.3.2">3.3.2 X25519_chacha20_ietf_poly1305 Decryption</a> </li><li class="depth-3"> <a href="#3.3.3">3.3.3 Reading the header</a> </li><li class="depth-2"> <a href="#3.4">3.4 Encrypted Data</a> </li><li class="depth-3"> <a href="#3.4.1">3.4.1 chacha20_ietf_poly1305 Encryption</a> </li><li class="depth-3"> <a href="#3.4.2">3.4.2 Segmenting the input</a> </li><li class="depth-2"> <a href="#4.1">4.1 chacha20_ietf_poly1305 Decryption</a> </li><li class="depth-2"> <a href="#4.2">4.2 Edit List</a> </li><li class="depth-3"> <a href="#4.2.1">4.2.1 Example</a> </li><li class="depth-2"> <a href="#5.1">5.1 Threat Analysis</a> </li><li class="depth-2"> <a href="#5.2">5.2 Selection of Keys</a> </li><li class="depth-2"> <a href="#5.3">5.3 Nonce selection</a> </li><li class="depth-2"> <a href="#5.4">5.4 Message Forgery</a> </li><li class="depth-2"> <a href="#5.5">5.5 No File Updates Permitted</a> </li><li class="depth-2"> <a href="#5.6">5.6 Normative References</a> </li><li class="depth-2"> <a href="#5.7">5.7 Informational References</a> </li><li class="depth-2"> <a href="#6.1">6.1 Symmetric Encryption</a> </li><li class="depth-2"> <a href="#6.2">6.2 Public-key Algorithm</a> </li><li class="depth-2"> <a href="#6.3">6.3 Other Considerations</a> </li> </ul> </details>  <h2 id="1.1">1.1 Purpose<a class="header-anchor" aria-hidden="" href="#1.1">#</a></h2>
 <p>By its nature, genomic data can include information of a confidential
 nature about the health of individuals. It is important that such
 information is not accidentally disclosed. One part of the defence
@@ -34,11 +34,11 @@ blocks.</p>
 <p>The format does not provide any way of authenticating files.</p>
 </li>
 </ul>
-<h2 id="12-requirements">1.2 Requirements<a class="header-anchor" aria-hidden="" href="#12-requirements">#</a></h2>
+<h2 id="1.2">1.2 Requirements<a class="header-anchor" aria-hidden="" href="#1.2">#</a></h2>
 <p>The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”,
 “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this
 document are to be interpreted as described in .</p>
-<h2 id="13-terminology">1.3 Terminology<a class="header-anchor" aria-hidden="" href="#13-terminology">#</a></h2>
+<h2 id="1.3">1.3 Terminology<a class="header-anchor" aria-hidden="" href="#1.3">#</a></h2>
 <p>cipher-text<br>
  <br>
 The encrypted version of the data.</p>
@@ -98,13 +98,13 @@ the message has not been altered after the MAC was generated.</p>
 A byte pattern that can be used for file format identification. Usually
 put at the start of a file so that software can probe the first few
 bytes to determine what sort of file it is reading.</p>
-<h1 id="2-encrypted-format-overview">2 Encrypted Format Overview<a class="header-anchor" aria-hidden="" href="#2-encrypted-format-overview">#</a></h1>
-<h2 id="21-keys">2.1 Keys<a class="header-anchor" aria-hidden="" href="#21-keys">#</a></h2>
+<h1 id="2">2 Encrypted Format Overview<a class="header-anchor" aria-hidden="" href="#2">#</a></h1>
+<h2 id="2.1">2.1 Keys<a class="header-anchor" aria-hidden="" href="#2.1">#</a></h2>
 <p>A number of cryptographic keys are required by the format. The type and
 function of each key is listed here, along with symbols (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">K_x</annotation></semantics></math></span> where
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow></mrow><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">_x</annotation></semantics></math></span> is the key type) used to refer to the key in the rest of this
 specification.</p>
-<h3 id="211-asymmetric-keys">2.1.1 Asymmetric Keys<a class="header-anchor" aria-hidden="" href="#211-asymmetric-keys">#</a></h3>
+<h3 id="2.1.1">2.1.1 Asymmetric Keys<a class="header-anchor" aria-hidden="" href="#2.1.1">#</a></h3>
 <p>This specification uses the term “secret key” rather than “private key”
 so that the symbol <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">K_s</annotation></semantics></math></span> can be used for secret keys and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">K_p</annotation></semantics></math></span> for
 public keys.</p>
@@ -115,20 +115,19 @@ be kept private. It is generated using a cryptographically-secure random
 number.</p>
 <p>Reader’s public key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>p</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{pr}</annotation></semantics></math></span>) <br>
 This key is passed to the writer so that they can encrypt header packets
-(section <a href="#header:encryption">3.2.1</a>) for the reader. It is derived from
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sr}</annotation></semantics></math></span> (see section <a href="#header:X25519">[header:X25519]</a>).</p>
+(section <a href="#3.2.1">3.2.1</a>) for the reader. It is derived from <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sr}</annotation></semantics></math></span>
+(see section <a href="#header:X25519">[header:X25519]</a>).</p>
 <p>Writer’s secret key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sw}</annotation></semantics></math></span>) <br>
 This key is used by the writer to encrypt header packets. It should
 either be kept private, or deleted after use. It is generated using a
 cryptographically-secure random number.</p>
 <p>Writer’s public key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>p</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{pw}</annotation></semantics></math></span>) <br>
-This key is included in the header packet
-(section <a href="#header:encryption">3.2.1</a>) so that the reader can use it to
-derive the shared key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{shared}</annotation></semantics></math></span>, see below) needed to decrypt header
-packet data. It is derived from <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sw}</annotation></semantics></math></span> (see
-section <a href="#header:X25519">[header:X25519]</a>).</p>
+This key is included in the header packet (section <a href="#3.2.1">3.2.1</a>) so
+that the reader can use it to derive the shared key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{shared}</annotation></semantics></math></span>, see
+below) needed to decrypt header packet data. It is derived from <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sw}</annotation></semantics></math></span>
+(see section <a href="#header:X25519">[header:X25519]</a>).</p>
 </div>
-<h3 id="212-symmetric-keys">2.1.2 Symmetric keys<a class="header-anchor" aria-hidden="" href="#212-symmetric-keys">#</a></h3>
+<h3 id="2.1.2">2.1.2 Symmetric keys<a class="header-anchor" aria-hidden="" href="#2.1.2">#</a></h3>
 <div class="description">
 <p>Diffie-Hellman key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>d</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{dh}</annotation></semantics></math></span>) <br>
 This is generated as part of the derivation of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{shared}</annotation></semantics></math></span>.</p>
@@ -138,17 +137,17 @@ from (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><sema
 section <a href="#header:X25519">[header:X25519]</a>. The writer will use the
 first of these derivations and the reader will use the second.</p>
 <p>Data key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{data}</annotation></semantics></math></span>) <br>
-This key is used to encrypt the actual file data
-(section <a href="#data:encryption">3.4</a>). It is generated using a
-cryptographically-secure random number. The data key SHOULD be generated
-uniquely for each file. This key is stored in a
-data_encryption_parameters header packet (see
-section <a href="#header:data_encryption_parameters">3.2.3</a>). It is possible to
-encrypt parts of a file with different data keys, in which case each key
-will be stored in a separate data_encryption_parameters header packet.</p>
+This key is used to encrypt the actual file data (section <a href="#3.4">3.4</a>).
+It is generated using a cryptographically-secure random number. The data
+key SHOULD be generated uniquely for each file. This key is stored in a
+data_encryption_parameters header packet (see section <a href="#3.2.3">3.2.3</a>).
+It is possible to encrypt parts of a file with different data keys, in
+which case each key will be stored in a separate
+data_encryption_parameters header packet.</p>
 </div>
-<h2 id="22-file-structure">2.2 File Structure<a class="header-anchor" aria-hidden="" href="#22-file-structure">#</a></h2>
+<h2 id="2.2">2.2 File Structure<a class="header-anchor" aria-hidden="" href="#2.2">#</a></h2>
 <div class="center">
+<p><img src="/hts-specs-md/img/tikz/crypt4gh_1.svg" alt="image"></p>
 </div>
 <p>The encrypted file structure, shown in the diagram above, consists of
 the following parts:</p>
@@ -193,7 +192,7 @@ packet.</p>
 </ul>
 <p>The first item in the encrypted header packet data is a code
 indicating the packet type. This is followed by type-specific data,
-described in section <a href="#overview:header_packet_types">2.3</a>.</p>
+described in section <a href="#2.3">2.3</a>.</p>
 </li>
 </ul>
 </li>
@@ -214,7 +213,7 @@ this).</p>
 </ul>
 </li>
 </ul>
-<h2 id="23-header-packet-types">2.3 Header Packet Types<a class="header-anchor" aria-hidden="" href="#23-header-packet-types">#</a></h2>
+<h2 id="2.3">2.3 Header Packet Types<a class="header-anchor" aria-hidden="" href="#2.3">#</a></h2>
 <p>There are two types of header packet:</p>
 <ul>
 <li>
@@ -242,7 +241,7 @@ reading, the data blocks are decrypted and then the edit list is used
 to find out which parts of the unencrypted data should be discarded.</p>
 </li>
 </ul>
-<h2 id="24-encoding-for-multiple-publicsecret-key-pairs">2.4 Encoding For Multiple Public/Secret Key Pairs<a class="header-anchor" aria-hidden="" href="#24-encoding-for-multiple-publicsecret-key-pairs">#</a></h2>
+<h2 id="2.4">2.4 Encoding For Multiple Public/Secret Key Pairs<a class="header-anchor" aria-hidden="" href="#2.4">#</a></h2>
 <p>It is sometimes useful to encrypt files so that they can be accessed
 using more than one secret key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sr}</annotation></semantics></math></span>). For example, multiple members
 of a team may need to access to a file with their own key.</p>
@@ -258,21 +257,21 @@ move on to the next one. Failing to decrypt a packet in this way SHOULD
 NOT cause an error to be reported; however an error MUST be raised if,
 on reaching the end of the header, it has not been possible to decrypt
 at least one data encryption key packet.</p>
-<h1 id="3-detailed-specification">3 Detailed Specification<a class="header-anchor" aria-hidden="" href="#3-detailed-specification">#</a></h1>
-<h2 id="31-overall-conventions">3.1 Overall Conventions<a class="header-anchor" aria-hidden="" href="#31-overall-conventions">#</a></h2>
-<h3 id="311-hexadecimal-numbers">3.1.1 Hexadecimal Numbers<a class="header-anchor" aria-hidden="" href="#311-hexadecimal-numbers">#</a></h3>
+<h1 id="3">3 Detailed Specification<a class="header-anchor" aria-hidden="" href="#3">#</a></h1>
+<h2 id="3.1">3.1 Overall Conventions<a class="header-anchor" aria-hidden="" href="#3.1">#</a></h2>
+<h3 id="3.1.1">3.1.1 Hexadecimal Numbers<a class="header-anchor" aria-hidden="" href="#3.1.1">#</a></h3>
 <p>Hexadecimal values are written using the digits 0-9, and letters a-f for
 values 10-15. Values are written with the most-significant digit on the
 left, and prefixed with “0x”.</p>
-<h3 id="312-byte-ordering">3.1.2 Byte Ordering<a class="header-anchor" aria-hidden="" href="#312-byte-ordering">#</a></h3>
+<h3 id="3.1.2">3.1.2 Byte Ordering<a class="header-anchor" aria-hidden="" href="#3.1.2">#</a></h3>
 <p>The basic data size is the byte (8 bits). All multi-byte values are
 stored in least-significant byte first (“little-endian”) order. For
 example, the value 1234 decimal (0x4d2) is stored as the byte stream
 0xd2 0x04.</p>
-<h3 id="313-integer-types">3.1.3 Integer Types<a class="header-anchor" aria-hidden="" href="#313-integer-types">#</a></h3>
+<h3 id="3.1.3">3.1.3 Integer Types<a class="header-anchor" aria-hidden="" href="#3.1.3">#</a></h3>
 <p>Integers can be either signed or unsigned. Signed values are stored in
 two’s complement form.</p>
-<h3 id="314-multi-byte-integer-types">3.1.4 Multi-byte Integer Types<a class="header-anchor" aria-hidden="" href="#314-multi-byte-integer-types">#</a></h3>
+<h3 id="3.1.4">3.1.4 Multi-byte Integer Types<a class="header-anchor" aria-hidden="" href="#3.1.4">#</a></h3>
 <div class="center">
 <table>
 <thead>
@@ -323,7 +322,7 @@ two’s complement form.</p>
 </tbody>
 </table>
 </div>
-<h3 id="315-structures">3.1.5 Structures<a class="header-anchor" aria-hidden="" href="#315-structures">#</a></h3>
+<h3 id="3.1.5">3.1.5 Structures<a class="header-anchor" aria-hidden="" href="#3.1.5">#</a></h3>
 <p>Structure types may be defined (in C-like notation) for convenience.</p>
 <pre><code>struct demo {
   byte string[8];
@@ -335,7 +334,7 @@ two’s complement form.</p>
 given order with no padding between them. The above structure would be
 written as twenty bytes - eight for the array ‘string’, four for the
 integer ‘number1’, and eight for the integer ‘number2’.</p>
-<h3 id="316-enumerated-types">3.1.6 Enumerated Types<a class="header-anchor" aria-hidden="" href="#316-enumerated-types">#</a></h3>
+<h3 id="3.1.6">3.1.6 Enumerated Types<a class="header-anchor" aria-hidden="" href="#3.1.6">#</a></h3>
 <p>Enumerated types may only take one of a given set of values. The data
 type used to store the enumerated value is given in angle brackets after
 the type name. Every element of an enumerated type must be assigned a
@@ -347,7 +346,7 @@ except to compare for (in)equality.</p>
   rabbit = 3;
 };
 </code></pre>
-<h3 id="317-variants">3.1.7 Variants<a class="header-anchor" aria-hidden="" href="#317-variants">#</a></h3>
+<h3 id="3.1.7">3.1.7 Variants<a class="header-anchor" aria-hidden="" href="#3.1.7">#</a></h3>
 <p>Parts of structures may vary depending on information available at the
 time of decoding. Which variant to use is selected by an enumerated
 type. There must be a case for every possible enumerated value. Cases
@@ -372,7 +371,7 @@ little-endian value.</p>
 <p>If the cases are different lengths (as above), then the size of the
 overall structure depends on the variant chosen. There is NO padding to
 make the cases the same length unless it is explicitly defined.</p>
-<h2 id="32-header">3.2 Header<a class="header-anchor" aria-hidden="" href="#32-header">#</a></h2>
+<h2 id="3.2">3.2 Header<a class="header-anchor" aria-hidden="" href="#3.2">#</a></h2>
 <p>The file starts with a header, with the following structure:</p>
 <pre><code>struct Header {
   byte                          magic_number[8];
@@ -389,7 +388,7 @@ integer. The current version number is 1.</p>
 ============= magic_number============= ===== version =====
 </code></pre>
 <p>is the number of header packets that follow.</p>
-<h3 id="321-header-packets">3.2.1 Header Packets<a class="header-anchor" aria-hidden="" href="#321-header-packets">#</a></h3>
+<h3 id="3.2.1">3.2.1 Header Packets<a class="header-anchor" aria-hidden="" href="#3.2.1">#</a></h3>
 <p>The header packets are defined as:</p>
 <pre><code>enum Header_encryption_method&#x3C;le_uint32> {
   X25519_chacha20_ietf_poly1305 = 0;
@@ -426,7 +425,7 @@ described below.</p>
 <p>Implementations should ignore any header packets that they cannot
 decrypt successfully, as these may have been intended for a different
 reader.</p>
-<h3 id="322-header-packet-encrypted-payload">3.2.2 Header packet encrypted payload<a class="header-anchor" aria-hidden="" href="#322-header-packet-encrypted-payload">#</a></h3>
+<h3 id="3.2.2">3.2.2 Header packet encrypted payload<a class="header-anchor" aria-hidden="" href="#3.2.2">#</a></h3>
 <p>The part of the header packet contains the following plain-text:</p>
 <pre><code>enum Header_packet_type&#x3C;le_uint32> {
   data_encryption_parameters = 0;
@@ -455,7 +454,7 @@ struct Encrypted_header_packet {
 };
 </code></pre>
 <p>defines what sort of data packet this is.</p>
-<h3 id="323-data_encryption_parameters-packet">3.2.3 data_encryption_parameters packet<a class="header-anchor" aria-hidden="" href="#323-data_encryption_parameters-packet">#</a></h3>
+<h3 id="3.2.3">3.2.3 data_encryption_parameters packet<a class="header-anchor" aria-hidden="" href="#3.2.3">#</a></h3>
 <p>This packet contains the parameters needed to decrypt the data part of
 the file.</p>
 <p>is an enumerated type that describes the type of encryption used.</p>
@@ -464,17 +463,17 @@ the file.</p>
 keys, more than one of this packet type may be present. If there is more
 than one, the MUST be the same for all of them to prevent problems with
 random access in the encrypted file.</p>
-<h3 id="324-data_edit_list-packet">3.2.4 data_edit_list packet<a class="header-anchor" aria-hidden="" href="#324-data_edit_list-packet">#</a></h3>
+<h3 id="3.2.4">3.2.4 data_edit_list packet<a class="header-anchor" aria-hidden="" href="#3.2.4">#</a></h3>
 <p>This packet contains a list of edits that should be applied to the
 plain-text data following decryption.</p>
 <p>is the number of items in the array.</p>
 <p>is an array of byte counts.</p>
 <p>Application of the edit list to the plain-text is described in
-section <a href="#data:edit_list">4.2</a>.</p>
+section <a href="#4.2">4.2</a>.</p>
 <p>It is not permitted to have more than one edit list. If more than one
 edit list is present, the file SHOULD be rejected.</p>
-<h2 id="33-header-packet-encryption">3.3 Header packet encryption<a class="header-anchor" aria-hidden="" href="#33-header-packet-encryption">#</a></h2>
-<h3 id="331-x25519_chacha20_ietf_poly1305-encryption">3.3.1 X25519_chacha20_ietf_poly1305 Encryption<a class="header-anchor" aria-hidden="" href="#331-x25519_chacha20_ietf_poly1305-encryption">#</a></h3>
+<h2 id="3.3">3.3 Header packet encryption<a class="header-anchor" aria-hidden="" href="#3.3">#</a></h2>
+<h3 id="3.3.1">3.3.1 X25519_chacha20_ietf_poly1305 Encryption<a class="header-anchor" aria-hidden="" href="#3.3.1">#</a></h3>
 <p> <span id="header:X25519" label="header:X25519"></span></p>
 <p>This method uses Elliptic Curve Diffie-Hellman key exchange with
 additional hashing to generate a shared key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{shared}</annotation></semantics></math></span>). <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{shared}</annotation></semantics></math></span>
@@ -505,8 +504,8 @@ is Blake2b, as described in .</p>
 are used; the rest are discarded.</p>
 <p>The header packet type, data and any padding is then encrypted using the
 method described in the chacha20_ietf_poly1305 Encryption
-section <a href="#data:chacha20_encryption">3.4.1</a>. Note that header packets are
-not segmented; they are always encrypted in a single block.</p>
+section <a href="#3.4.1">3.4.1</a>. Note that header packets are not segmented;
+they are always encrypted in a single block.</p>
 <p>Finally, the packet length, encryption type, writer’s public key
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>p</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{pw}</annotation></semantics></math></span>, the nonce <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span> and the encrypted header packet data are
 combined to make the header packet.</p>
@@ -517,7 +516,7 @@ as long as the other public key is known. Deleting the writer’s key
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sw}</annotation></semantics></math></span> ensures only the holder of the reader’s secret key <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sr}</annotation></semantics></math></span> can
 decode the header packet. As long as the writer uses randomly-generated
 keys, it also makes accidental nonce reuse very unlikely.</p>
-<h3 id="332-x25519_chacha20_ietf_poly1305-decryption">3.3.2 X25519_chacha20_ietf_poly1305 Decryption<a class="header-anchor" aria-hidden="" href="#332-x25519_chacha20_ietf_poly1305-decryption">#</a></h3>
+<h3 id="3.3.2">3.3.2 X25519_chacha20_ietf_poly1305 Decryption<a class="header-anchor" aria-hidden="" href="#3.3.2">#</a></h3>
 <p>To decrypt the header packet, the reader obtains the writer’s public key
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>p</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{pw}</annotation></semantics></math></span> and the nonce from the beginning of the packet. Also needed are
 the reader’s public and secret keys (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>p</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{pr}</annotation></semantics></math></span> and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sr}</annotation></semantics></math></span>).</p>
@@ -531,7 +530,7 @@ the remainder of the packet.</p>
 <p>If the header packet was intended for a different reader, the reader
 will be unable to decode the header packet as the Poly1305 MAC will be
 incorrect. This should not be considered an error.</p>
-<h3 id="333-reading-the-header">3.3.3 Reading the header<a class="header-anchor" aria-hidden="" href="#333-reading-the-header">#</a></h3>
+<h3 id="3.3.3">3.3.3 Reading the header<a class="header-anchor" aria-hidden="" href="#3.3.3">#</a></h3>
 <p>The reader should check that the and in the header match the expected
 values.</p>
 <p>It should then attempt to decode all of the header packets, ignoring any
@@ -545,8 +544,8 @@ section.</p>
 <p>If a packet is found, the reader should store it for use while
 processing the data blocks. If more than one packet is present, the file
 SHOULD be rejected.</p>
-<h2 id="34-encrypted-data">3.4 Encrypted Data<a class="header-anchor" aria-hidden="" href="#34-encrypted-data">#</a></h2>
-<h3 id="341-chacha20_ietf_poly1305-encryption">3.4.1 chacha20_ietf_poly1305 Encryption<a class="header-anchor" aria-hidden="" href="#341-chacha20_ietf_poly1305-encryption">#</a></h3>
+<h2 id="3.4">3.4 Encrypted Data<a class="header-anchor" aria-hidden="" href="#3.4">#</a></h2>
+<h3 id="3.4.1">3.4.1 chacha20_ietf_poly1305 Encryption<a class="header-anchor" aria-hidden="" href="#3.4.1">#</a></h3>
 <p>ChaCha20 is a stream cipher which maps a 256-bit key, nonce and counter
 to a 512-bit key-stream block. In IETF mode the nonce is 96 bits long
 and the counter is 32 bits. The counter starts at 1, and is incremented
@@ -560,7 +559,7 @@ cipher-text it is not possible to authenticate partially decrypted data.</p>
 in section 2.8 of . This construction allows additional authenticated
 data (AAD) to be included in the Poly1305 MAC calculation. For the
 purposes of this format, the AAD is zero bytes long.</p>
-<h3 id="342-segmenting-the-input">3.4.2 Segmenting the input<a class="header-anchor" aria-hidden="" href="#342-segmenting-the-input">#</a></h3>
+<h3 id="3.4.2">3.4.2 Segmenting the input<a class="header-anchor" aria-hidden="" href="#3.4.2">#</a></h3>
 <p>To allow random access without having to authenticate the entire file,
 the plain-text is divided into 65536-byte (64KiB) segments. If the
 plain-text is not a multiple of 64KiB long, the last segment will be
@@ -580,8 +579,8 @@ by the encrypted data, and then the MAC.</p>
 chacha20_ietf_poly1305, this expansion will be 28 bytes, so a 65536 byte
 plain-text input will become a 65564 byte encrypted and authenticated
 cipher-text output.</p>
-<h1 id="4-decryption">4 Decryption<a class="header-anchor" aria-hidden="" href="#4-decryption">#</a></h1>
-<h2 id="41-chacha20_ietf_poly1305-decryption">4.1 chacha20_ietf_poly1305 Decryption<a class="header-anchor" aria-hidden="" href="#41-chacha20_ietf_poly1305-decryption">#</a></h2>
+<h1 id="4">4 Decryption<a class="header-anchor" aria-hidden="" href="#4">#</a></h1>
+<h2 id="4.1">4.1 chacha20_ietf_poly1305 Decryption<a class="header-anchor" aria-hidden="" href="#4.1">#</a></h2>
 <p>The cipher-text is decrypted by authenticating and decrypting the
 segment(s) enclosing the requested byte range <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>P</mi><mo separator="true">;</mo><mi>Q</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[P;Q]</annotation></semantics></math></span>, where <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>&#x3C;</mo><mi>Q</mi></mrow><annotation encoding="application/x-tex">P&#x3C;Q</annotation></semantics></math></span>. For
 a range starting at position <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span>, the location of the segment containing
@@ -614,7 +613,7 @@ key at these points. If this is unacceptable, readers could either try
 each key for every block (although this may still be vulnerable to
 timing attacks which try to detect which key was successful); or simply
 insist that only one key is used for the whole file.</p>
-<h2 id="42-edit-list">4.2 Edit List<a class="header-anchor" aria-hidden="" href="#42-edit-list">#</a></h2>
+<h2 id="4.2">4.2 Edit List<a class="header-anchor" aria-hidden="" href="#4.2">#</a></h2>
 <p>The edit list is designed to assist splicing of encrypted files (for
 example to remove parts that are not needed for later analysis) without
 having to decrypt and re-encrypt the entire file. It is only possible to
@@ -634,17 +633,28 @@ shorter if the requested part extends beyond the end of the input
 string). <span class="smallcaps">StringConcatenate</span> returns the
 string concatenation of its input parameters in order from left to
 right.</p>
-<div class="algorithmic">
-<p><strong>return</strong> <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">input</annotation></semantics></math></span> "" 0 <span class="smallcaps">length</span>(input)
-<span class="smallcaps">RemoveFirst</span>(edlist) <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>o</mi><mi>s</mi><mo>+</mo><mi>d</mi><mi>i</mi><mi>s</mi><mi>c</mi><mi>a</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">pos + discard</annotation></semantics></math></span>
-<span class="smallcaps">substr</span>(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo separator="true">,</mo><mi>p</mi><mi>o</mi><mi>s</mi><mo separator="true">,</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo>−</mo><mi>p</mi><mi>o</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">input, pos, len - pos</annotation></semantics></math></span>)
-<span class="smallcaps">StringConcatenate</span>(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo separator="true">,</mo><mtext> </mtext><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">output,\ part</annotation></semantics></math></span>)
-<span class="smallcaps">RemoveFirst</span>(edlist)
-<span class="smallcaps">substr</span>(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo separator="true">,</mo><mi>p</mi><mi>o</mi><mi>s</mi><mo separator="true">,</mo><mi>k</mi><mi>e</mi><mi>e</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">input, pos, keep</annotation></semantics></math></span>)
-<span class="smallcaps">StringConcatenate</span>(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo separator="true">,</mo><mtext> </mtext><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">output,\ part</annotation></semantics></math></span>)
-<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>o</mi><mi>s</mi><mo>+</mo><mi>k</mi><mi>e</mi><mi>e</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">pos + keep</annotation></semantics></math></span> <strong>return</strong> <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">output</annotation></semantics></math></span></p>
+<div class="code-math-block">
+<p>Function ApplyEditList(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mi>d</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo separator="true">,</mo><mtext> </mtext><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">edlist,\ input</annotation></semantics></math></span>)<br>
+  if <span class="smallcaps">IsEmpty</span>(edlist):<br>
+    \textbf{return} <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">input</annotation></semantics></math></span>  // Trivial case with no edit list<br>
+  <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">output \gets</annotation></semantics></math></span> “”  // Initial output is empty<br>
+  <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>o</mi><mi>s</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">pos \gets</annotation></semantics></math></span> <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span>  // Current position in the unedited plain-text<br>
+  <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">len \gets</annotation></semantics></math></span> <span class="smallcaps">length</span>(input)  // Length of input string<br>
+  repeat:<br>
+    <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mi>c</mi><mi>a</mi><mi>r</mi><mi>d</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">discard \gets</annotation></semantics></math></span> <span class="smallcaps">RemoveFirst</span>(edlist)  // Pull number of bytes to discard from list<br>
+    <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>o</mi><mi>s</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">pos \gets</annotation></semantics></math></span> <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>o</mi><mi>s</mi><mo>+</mo><mi>d</mi><mi>i</mi><mi>s</mi><mi>c</mi><mi>a</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">pos + discard</annotation></semantics></math></span><br>
+    if <span class="smallcaps">IsEmpty</span>(edlist):<br>
+      <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">part \gets</annotation></semantics></math></span> <span class="smallcaps">substr</span>(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo separator="true">,</mo><mi>p</mi><mi>o</mi><mi>s</mi><mo separator="true">,</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo>−</mo><mi>p</mi><mi>o</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">input, pos, len - pos</annotation></semantics></math></span>)  // Append the remainder of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">input</annotation></semantics></math></span><br>
+      <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">output \gets</annotation></semantics></math></span> <span class="smallcaps">StringConcatenate</span>(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo separator="true">,</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">output, part</annotation></semantics></math></span>)<br>
+    else:<br>
+      <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>e</mi><mi>e</mi><mi>p</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">keep \gets</annotation></semantics></math></span> <span class="smallcaps">RemoveFirst</span>(edlist)  // Pull number of bytes to keep from the list<br>
+      <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">part \gets</annotation></semantics></math></span> <span class="smallcaps">substr</span>(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo separator="true">,</mo><mi>p</mi><mi>o</mi><mi>s</mi><mo separator="true">,</mo><mi>k</mi><mi>e</mi><mi>e</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">input, pos, keep</annotation></semantics></math></span>)  // Append this part to <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">output</annotation></semantics></math></span><br>
+      <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">output \gets</annotation></semantics></math></span> <span class="smallcaps">StringConcatenate</span>(<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi><mo separator="true">,</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">output, part</annotation></semantics></math></span>)<br>
+      <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>o</mi><mi>s</mi><mo>←</mo></mrow><annotation encoding="application/x-tex">pos \gets</annotation></semantics></math></span> <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>o</mi><mi>s</mi><mo>+</mo><mi>k</mi><mi>e</mi><mi>e</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">pos + keep</annotation></semantics></math></span><br>
+  until <span class="smallcaps">IsEmpty</span>(edlist)<br>
+  \textbf{return} <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">output</annotation></semantics></math></span></p>
 </div>
-<h3 id="421-example">4.2.1 Example<a class="header-anchor" aria-hidden="" href="#421-example">#</a></h3>
+<h3 id="4.2.1">4.2.1 Example<a class="header-anchor" aria-hidden="" href="#4.2.1">#</a></h3>
 <p>Imagine that for some reason we have made an encrypted copy of
 ERR2436651. <sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
 <p>We would like to make a new encrypted file including just the data
@@ -715,8 +725,8 @@ block) = 51299 bytes in total.</p>
 extends all the way to the end of the file.</p>
 </li>
 </ul>
-<h1 id="5-security-considerations">5 Security Considerations<a class="header-anchor" aria-hidden="" href="#5-security-considerations">#</a></h1>
-<h2 id="51-threat-analysis">5.1 Threat Analysis<a class="header-anchor" aria-hidden="" href="#51-threat-analysis">#</a></h2>
+<h1 id="5">5 Security Considerations<a class="header-anchor" aria-hidden="" href="#5">#</a></h1>
+<h2 id="5.1">5.1 Threat Analysis<a class="header-anchor" aria-hidden="" href="#5.1">#</a></h2>
 <p>This format is primarily designed to protect files at rest and in
 transport from accidental disclosure. Attackers are assumed to have read
 access to encrypted files. Even if this is the case, it should not be
@@ -783,13 +793,13 @@ in a sand-box environment) on a machine where encrypted data is being
 processed.</p>
 </li>
 </ul>
-<h2 id="52-selection-of-keys">5.2 Selection of Keys<a class="header-anchor" aria-hidden="" href="#52-selection-of-keys">#</a></h2>
+<h2 id="5.2">5.2 Selection of Keys<a class="header-anchor" aria-hidden="" href="#5.2">#</a></h2>
 <p>The security of the format depends on attackers not being able to guess
 secret keys (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sr}</annotation></semantics></math></span> and <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sw}</annotation></semantics></math></span>) or the data encryption key
 (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{data}</annotation></semantics></math></span>). The keys MUST be generated using a
 cryptographically-secure pseudo-random number generator. This makes the
 chance of guessing a key vanishingly small.</p>
-<h2 id="53-nonce-selection">5.3 Nonce selection<a class="header-anchor" aria-hidden="" href="#53-nonce-selection">#</a></h2>
+<h2 id="5.3">5.3 Nonce selection<a class="header-anchor" aria-hidden="" href="#5.3">#</a></h2>
 <p>All header packets encrypted with the same combination of writer’s
 secret key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sw}</annotation></semantics></math></span>) and reader’s public key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>p</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{pr}</annotation></semantics></math></span>) MUST use a
 unique nonce. If the writer uses the same secret key (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>s</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">K_{sw}</annotation></semantics></math></span>) for more
@@ -811,19 +821,19 @@ generating a long enough stream of unique values. Due to the birthday
 problem, this method will have a non-zero (but very small) probability
 of failing. For example, a file of 24 Terabytes will have a reused nonce
 with probability of approximately <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-12}</annotation></semantics></math></span></p>
-<h2 id="54-message-forgery">5.4 Message Forgery<a class="header-anchor" aria-hidden="" href="#54-message-forgery">#</a></h2>
+<h2 id="5.4">5.4 Message Forgery<a class="header-anchor" aria-hidden="" href="#5.4">#</a></h2>
 <p>Using ChaCha20-IETF-Poly1305 authenticates the content of each header
 packet and each segment of the encrypted cipher-text. It does not
 protect against the addition or removal of header packets, or the
 addition, removal or rearrangement of data segments. crypt4gh files are
 not signed, so there is no direct way to prove that a file was created
 by a given writer.</p>
-<h2 id="55-no-file-updates-permitted">5.5 No File Updates Permitted<a class="header-anchor" aria-hidden="" href="#55-no-file-updates-permitted">#</a></h2>
+<h2 id="5.5">5.5 No File Updates Permitted<a class="header-anchor" aria-hidden="" href="#5.5">#</a></h2>
 <p>Implementations MUST NOT update encrypted files. Once written, a section
 of the file must never be altered.</p>
 <div class="thebibliography">
 <p>XXXXXXX</p>
-<h2 id="56-normative-references">5.6 Normative References<a class="header-anchor" aria-hidden="" href="#56-normative-references">#</a></h2>
+<h2 id="5.6">5.6 Normative References<a class="header-anchor" aria-hidden="" href="#5.6">#</a></h2>
 <p>Bradner, S.,<br>
 <em>“Key words for use in RFCs to Indicate Requirement Levels”, BCP 14, RFC
 2119</em>,<br>
@@ -847,7 +857,7 @@ January 2017</p>
 <em>“ChaCha20 and Poly1305 for IETF Protocols”, RFC8439</em>,<br>
 <a href="https://tools.ietf.org/html/rfc8439">https://tools.ietf.org/html/rfc8439</a>,<br>
 June 2018</p>
-<h2 id="57-informational-references">5.7 Informational References<a class="header-anchor" aria-hidden="" href="#57-informational-references">#</a></h2>
+<h2 id="5.7">5.7 Informational References<a class="header-anchor" aria-hidden="" href="#5.7">#</a></h2>
 <p>Callas, J., PGP Corporation, Donnerhacke, L., IKS GmbH, Finney, H., PGP
 Corporation, Shaw, D., Thayer, R.,<br>
 <em>“OpenPGP Message Format”, RFC 4880</em>,<br>
@@ -892,7 +902,7 @@ Keane, T. M., GA4GH Streaming Task Team <em>“htsget: a protocol for
 securely streaming genomic data”</em>
 <a href="https://doi.org/10.1093/bioinformatics/bty492">https://doi.org/10.1093/bioinformatics/bty492</a> June 2018.</p>
 </div>
-<h1 id="6-rationale">6 Rationale<a class="header-anchor" aria-hidden="" href="#6-rationale">#</a></h1>
+<h1 id="6">6 Rationale<a class="header-anchor" aria-hidden="" href="#6">#</a></h1>
 <p>Using authenticated encryption in individual segments mirrors solutions
 like Transport Layer Security (TLS) as described in  and prevents
 undetected modification of segments. Dividing the file into fixed-size
@@ -906,7 +916,7 @@ allowing the current choice to be replaced in a future revision if it is
 found to have any vulnerabilities. The criteria for choosing encryption
 methods included having strong security guarantees, good library support
 and being used in other common standards like TLS version 1.3.</p>
-<h2 id="61-symmetric-encryption">6.1 Symmetric Encryption<a class="header-anchor" aria-hidden="" href="#61-symmetric-encryption">#</a></h2>
+<h2 id="6.1">6.1 Symmetric Encryption<a class="header-anchor" aria-hidden="" href="#6.1">#</a></h2>
 <p>For symmetric encryption, the main candidates for authenticated
 encryption were AES-GCM and ChaCha20-Poly1305. Both have good security
 guarantees, and thanks to their use in TLS 1.3 both have good library
@@ -923,7 +933,7 @@ protocols and the nonce length allows a very large number of messages to
 be encrypted under a single key. The message length restriction of
 ChaCha20-IETF-Poly1305 (<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64</mn><mo>∗</mo><msup><mn>2</mn><mn>32</mn></msup><mo>−</mo><mn>64</mn></mrow><annotation encoding="application/x-tex">64*2^{32}-64</annotation></semantics></math></span> bytes) is not a problem as our
 “messages” are at most 64 Kbytes long.</p>
-<h2 id="62-public-key-algorithm">6.2 Public-key Algorithm<a class="header-anchor" aria-hidden="" href="#62-public-key-algorithm">#</a></h2>
+<h2 id="6.2">6.2 Public-key Algorithm<a class="header-anchor" aria-hidden="" href="#6.2">#</a></h2>
 <p>For public-key encryption Elliptic Curve Diffie-Hellman using X25519 was
 chosen. Elliptic Curve Diffie-Hellman is faster and uses smaller keys
 than methods such as RSA or traditional Diffie–Hellman. X25519 is based
@@ -948,7 +958,7 @@ quantum computer. At the time of writing, quantum-computing resistant
 algorithms are undergoing standardisation . A future revision of this
 specification will add quantum-computing resistant algorithms once this
 process is complete and a suitable replacement becomes widely available.</p>
-<h2 id="63-other-considerations">6.3 Other Considerations<a class="header-anchor" aria-hidden="" href="#63-other-considerations">#</a></h2>
+<h2 id="6.3">6.3 Other Considerations<a class="header-anchor" aria-hidden="" href="#6.3">#</a></h2>
 <p>This specification provides no way of authenticating files by signing
 them. Implementing such a scheme would also involve creating
 infrastructure for validating the generated signatures. This was deemed

@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Sequence Alignment/Map Optional Fields Specification - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
-</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>Sequence Alignment/Map Optional Fields Specification</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/a71164e"><code>a71164e</code></a>, dated 9 Sep 2024.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#11-additional-template-and-mapping-data">1.1 Additional Template and Mapping data</a> </li><li class="depth-2"> <a href="#12-metadata">1.2 Metadata</a> </li><li class="depth-2"> <a href="#13-barcodes">1.3 Barcodes</a> </li><li class="depth-2"> <a href="#14-original-data">1.4 Original data</a> </li><li class="depth-2"> <a href="#15-annotation-and-padding">1.5 Annotation and Padding</a> </li><li class="depth-2"> <a href="#16-technology-specific-data">1.6 Technology-specific data</a> </li><li class="depth-3"> <a href="#161-color-space">1.6.1 Color space</a> </li><li class="depth-2"> <a href="#17-base-modifications">1.7 Base modifications</a> </li><li class="depth-3"> <a href="#401-september-2024">4.0.1 September 2024</a> </li><li class="depth-3"> <a href="#402-february-2022">4.0.2 February 2022</a> </li><li class="depth-3"> <a href="#403-december-2021">4.0.3 December 2021</a> </li><li class="depth-3"> <a href="#404-july-2021">4.0.4 July 2021</a> </li><li class="depth-3"> <a href="#405-march-2020">4.0.5 March 2020</a> </li><li class="depth-3"> <a href="#406-january-2019">4.0.6 January 2019</a> </li><li class="depth-3"> <a href="#407-july-2018">4.0.7 July 2018</a> </li><li class="depth-3"> <a href="#408-may-2018">4.0.8 May 2018</a> </li><li class="depth-3"> <a href="#409-november-2017">4.0.9 November 2017</a> </li><li class="depth-3"> <a href="#4010-august-2017">4.0.10 August 2017</a> </li><li class="depth-3"> <a href="#4011-june-2017">4.0.11 June 2017</a> </li><li class="depth-3"> <a href="#4012-september-2016">4.0.12 September 2016</a> </li><li class="depth-3"> <a href="#4013-february-2014">4.0.13 February 2014</a> </li><li class="depth-3"> <a href="#4014-may-2013">4.0.14 May 2013</a> </li><li class="depth-3"> <a href="#4015-march-2012">4.0.15 March 2012</a> </li><li class="depth-3"> <a href="#4016-october-2011">4.0.16 October 2011</a> </li><li class="depth-3"> <a href="#4017-september-2011">4.0.17 September 2011</a> </li><li class="depth-3"> <a href="#4018-april-2011">4.0.18 April 2011</a> </li><li class="depth-3"> <a href="#4019-march-2011">4.0.19 March 2011</a> </li><li class="depth-3"> <a href="#4020-november-2010">4.0.20 November 2010</a> </li><li class="depth-3"> <a href="#4021-july-2010">4.0.21 July 2010</a> </li><li class="depth-3"> <a href="#4022-july-2009">4.0.22 July 2009</a> </li> </ul> </details>  <p>Predefined standard tags are listed in the following table and described
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Sequence Alignment/Map Optional Fields Specification - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}tfoot.tablenotes td{font-size:.85em;color:#555;background:#f8f9fa;border-top:2px solid #bbb}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
+</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>Sequence Alignment/Map Optional Fields Specification</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/a71164e"><code>a71164e</code></a>, dated 9 Sep 2024.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#1.1">1.1 Additional Template and Mapping data</a> </li><li class="depth-2"> <a href="#1.2">1.2 Metadata</a> </li><li class="depth-2"> <a href="#1.3">1.3 Barcodes</a> </li><li class="depth-2"> <a href="#1.4">1.4 Original data</a> </li><li class="depth-2"> <a href="#1.5">1.5 Annotation and Padding</a> </li><li class="depth-2"> <a href="#1.6">1.6 Technology-specific data</a> </li><li class="depth-3"> <a href="#1.6.1">1.6.1 Color space</a> </li><li class="depth-2"> <a href="#1.7">1.7 Base modifications</a> </li><li class="depth-3"> <a href="#4.0.1">4.0.1 September 2024</a> </li><li class="depth-3"> <a href="#4.0.2">4.0.2 February 2022</a> </li><li class="depth-3"> <a href="#4.0.3">4.0.3 December 2021</a> </li><li class="depth-3"> <a href="#4.0.4">4.0.4 July 2021</a> </li><li class="depth-3"> <a href="#4.0.5">4.0.5 March 2020</a> </li><li class="depth-3"> <a href="#4.0.6">4.0.6 January 2019</a> </li><li class="depth-3"> <a href="#4.0.7">4.0.7 July 2018</a> </li><li class="depth-3"> <a href="#4.0.8">4.0.8 May 2018</a> </li><li class="depth-3"> <a href="#4.0.9">4.0.9 November 2017</a> </li><li class="depth-3"> <a href="#4.0.10">4.0.10 August 2017</a> </li><li class="depth-3"> <a href="#4.0.11">4.0.11 June 2017</a> </li><li class="depth-3"> <a href="#4.0.12">4.0.12 September 2016</a> </li><li class="depth-3"> <a href="#4.0.13">4.0.13 February 2014</a> </li><li class="depth-3"> <a href="#4.0.14">4.0.14 May 2013</a> </li><li class="depth-3"> <a href="#4.0.15">4.0.15 March 2012</a> </li><li class="depth-3"> <a href="#4.0.16">4.0.16 October 2011</a> </li><li class="depth-3"> <a href="#4.0.17">4.0.17 September 2011</a> </li><li class="depth-3"> <a href="#4.0.18">4.0.18 April 2011</a> </li><li class="depth-3"> <a href="#4.0.19">4.0.19 March 2011</a> </li><li class="depth-3"> <a href="#4.0.20">4.0.20 November 2010</a> </li><li class="depth-3"> <a href="#4.0.21">4.0.21 July 2010</a> </li><li class="depth-3"> <a href="#4.0.22">4.0.22 July 2009</a> </li> </ul> </details>  <p>Predefined standard tags are listed in the following table and described
 in greater detail in later subsections. Optional fields are usually
 displayed as <code>TAG:TYPE:VALUE</code>; the <em>type</em> may be one of <code>A</code> (character),
 <code>B</code> (general array), <code>f</code> (real number), <code>H</code> (hexadecimal array), <code>i</code>
@@ -15,353 +15,351 @@ displayed as <code>TAG:TYPE:VALUE</code>; the <em>type</em> may be one of <code>
 </thead>
 <tbody>
 <tr>
-<td><span><code>AM</code></span></td>
+<td><code>AM</code></td>
 <td>i</td>
 <td>The smallest template-independent mapping quality in the template</td>
 </tr>
 <tr>
-<td><span><code>AS</code></span></td>
+<td><code>AS</code></td>
 <td>i</td>
 <td>Alignment score generated by aligner</td>
 </tr>
 <tr>
-<td><span><code>BC</code></span></td>
+<td><code>BC</code></td>
 <td>Z</td>
 <td>Barcode sequence identifying the sample</td>
 </tr>
 <tr>
-<td><span><code>BQ</code></span></td>
+<td><code>BQ</code></td>
 <td>Z</td>
 <td>Offset to base alignment quality (BAQ)</td>
 </tr>
 <tr>
-<td><span><code>BZ</code></span></td>
+<td><code>BZ</code></td>
 <td>Z</td>
 <td>Phred quality of the unique molecular barcode bases in the
-<span><code>OX</code></span> tag</td>
+<code>OX</code> tag</td>
 </tr>
 <tr>
-<td><span><code>CB</code></span></td>
+<td><code>CB</code></td>
 <td>Z</td>
 <td>Cell identifier</td>
 </tr>
 <tr>
-<td><span><code>CC</code></span></td>
+<td><code>CC</code></td>
 <td>Z</td>
 <td>Reference name of the next hit</td>
 </tr>
 <tr>
-<td><span><code>CG</code></span></td>
+<td><code>CG</code></td>
 <td>B,I</td>
 <td>BAM only: <span>CIGAR</span> in BAM's binary encoding if (and only if)
 it consists of >65535 operators</td>
 </tr>
 <tr>
-<td><span><code>CM</code></span></td>
+<td><code>CM</code></td>
 <td>i</td>
 <td>Edit distance between the color sequence and the color reference (see
-also <span><code>NM</code></span>)</td>
+also <code>NM</code>)</td>
 </tr>
 <tr>
-<td><span><code>CO</code></span></td>
+<td><code>CO</code></td>
 <td>Z</td>
 <td>Free-text comments</td>
 </tr>
 <tr>
-<td><span><code>CP</code></span></td>
+<td><code>CP</code></td>
 <td>i</td>
 <td>Leftmost coordinate of the next hit</td>
 </tr>
 <tr>
-<td><span><code>CQ</code></span></td>
+<td><code>CQ</code></td>
 <td>Z</td>
 <td>Color read base qualities</td>
 </tr>
 <tr>
-<td><span><code>CR</code></span></td>
+<td><code>CR</code></td>
 <td>Z</td>
 <td>Cellular barcode sequence bases (uncorrected)</td>
 </tr>
 <tr>
-<td><span><code>CS</code></span></td>
+<td><code>CS</code></td>
 <td>Z</td>
 <td>Color read sequence</td>
 </tr>
 <tr>
-<td><span><code>CT</code></span></td>
+<td><code>CT</code></td>
 <td>Z</td>
 <td>Complete read annotation tag, used for consensus annotation dummy
 features</td>
 </tr>
 <tr>
-<td><span><code>CY</code></span></td>
+<td><code>CY</code></td>
 <td>Z</td>
-<td>Phred quality of the cellular barcode sequence in the
-<span><code>CR</code></span> tag</td>
+<td>Phred quality of the cellular barcode sequence in the <code>CR</code>
+tag</td>
 </tr>
 <tr>
-<td><span><code>E2</code></span></td>
+<td><code>E2</code></td>
 <td>Z</td>
 <td>The 2nd most likely base calls</td>
 </tr>
 <tr>
-<td><span><code>FI</code></span></td>
+<td><code>FI</code></td>
 <td>i</td>
 <td>The index of segment in the template</td>
 </tr>
 <tr>
-<td><span><code>FS</code></span></td>
+<td><code>FS</code></td>
 <td>Z</td>
 <td>Segment suffix</td>
 </tr>
 <tr>
-<td><span><code>FZ</code></span></td>
+<td><code>FZ</code></td>
 <td>B,S</td>
 <td>Flow signal intensities</td>
 </tr>
 <tr>
-<td><span><code>GC</code></span></td>
+<td><code>GC</code></td>
 <td>?</td>
 <td>Reserved for backwards compatibility reasons</td>
 </tr>
 <tr>
-<td><span><code>GQ</code></span></td>
+<td><code>GQ</code></td>
 <td>?</td>
 <td>Reserved for backwards compatibility reasons</td>
 </tr>
 <tr>
-<td><span><code>GS</code></span></td>
+<td><code>GS</code></td>
 <td>?</td>
 <td>Reserved for backwards compatibility reasons</td>
 </tr>
 <tr>
-<td><span><code>H0</code></span></td>
+<td><code>H0</code></td>
 <td>i</td>
 <td>Number of perfect hits</td>
 </tr>
 <tr>
-<td><span><code>H1</code></span></td>
+<td><code>H1</code></td>
 <td>i</td>
-<td>Number of 1-difference hits (see also <span><code>NM</code></span>)</td>
+<td>Number of 1-difference hits (see also <code>NM</code>)</td>
 </tr>
 <tr>
-<td><span><code>H2</code></span></td>
+<td><code>H2</code></td>
 <td>i</td>
 <td>Number of 2-difference hits</td>
 </tr>
 <tr>
-<td><span><code>HI</code></span></td>
+<td><code>HI</code></td>
 <td>i</td>
 <td>Query hit index</td>
 </tr>
 <tr>
-<td><span><code>IH</code></span></td>
+<td><code>IH</code></td>
 <td>i</td>
 <td>Query hit total count</td>
 </tr>
 <tr>
-<td><span><code>LB</code></span></td>
+<td><code>LB</code></td>
 <td>Z</td>
 <td>Library</td>
 </tr>
 <tr>
-<td><span><code>MC</code></span></td>
+<td><code>MC</code></td>
 <td>Z</td>
 <td>CIGAR string for mate/next segment</td>
 </tr>
 <tr>
-<td><span><code>MD</code></span></td>
+<td><code>MD</code></td>
 <td>Z</td>
 <td>String encoding mismatched and deleted reference bases</td>
 </tr>
 <tr>
-<td><span><code>MF</code></span></td>
+<td><code>MF</code></td>
 <td>?</td>
 <td>Reserved for backwards compatibility reasons</td>
 </tr>
 <tr>
-<td><span><code>MI</code></span></td>
+<td><code>MI</code></td>
 <td>Z</td>
 <td>Molecular identifier; a string that uniquely identifies the molecule
 from which the record was derived</td>
 </tr>
 <tr>
-<td><span><code>ML</code></span></td>
+<td><code>ML</code></td>
 <td>B,C</td>
 <td>Base modification probabilities</td>
 </tr>
 <tr>
-<td><span><code>MM</code></span></td>
+<td><code>MM</code></td>
 <td>Z</td>
 <td>Base modifications / methylation</td>
 </tr>
 <tr>
-<td><span><code>MN</code></span></td>
+<td><code>MN</code></td>
 <td>i</td>
-<td>Length of sequence at the time <span><code>MM</code></span> and
-<span><code>ML</code></span> were produced</td>
+<td>Length of sequence at the time <code>MM</code> and <code>ML</code> were
+produced</td>
 </tr>
 <tr>
-<td><span><code>MQ</code></span></td>
+<td><code>MQ</code></td>
 <td>i</td>
 <td>Mapping quality of the mate/next segment</td>
 </tr>
 <tr>
-<td><span><code>NH</code></span></td>
+<td><code>NH</code></td>
 <td>i</td>
 <td>Number of reported alignments that contain the query in the current
 record</td>
 </tr>
 <tr>
-<td><span><code>NM</code></span></td>
+<td><code>NM</code></td>
 <td>i</td>
 <td>Edit distance to the reference</td>
 </tr>
 <tr>
-<td><span><code>OA</code></span></td>
+<td><code>OA</code></td>
 <td>Z</td>
 <td>Original alignment</td>
 </tr>
 <tr>
-<td><span><code>OC</code></span></td>
+<td><code>OC</code></td>
 <td>Z</td>
-<td>Original CIGAR (deprecated; use <span><code>OA</code></span> instead)</td>
+<td>Original CIGAR (deprecated; use <code>OA</code> instead)</td>
 </tr>
 <tr>
-<td><span><code>OP</code></span></td>
+<td><code>OP</code></td>
 <td>i</td>
-<td>Original mapping position (deprecated; use <span><code>OA</code></span>
-instead)</td>
+<td>Original mapping position (deprecated; use <code>OA</code> instead)</td>
 </tr>
 <tr>
-<td><span><code>OQ</code></span></td>
+<td><code>OQ</code></td>
 <td>Z</td>
 <td>Original base quality</td>
 </tr>
 <tr>
-<td><span><code>OX</code></span></td>
+<td><code>OX</code></td>
 <td>Z</td>
 <td>Original unique molecular barcode bases</td>
 </tr>
 <tr>
-<td><span><code>PG</code></span></td>
+<td><code>PG</code></td>
 <td>Z</td>
 <td>Program</td>
 </tr>
 <tr>
-<td><span><code>PQ</code></span></td>
+<td><code>PQ</code></td>
 <td>i</td>
 <td>Phred likelihood of the template</td>
 </tr>
 <tr>
-<td><span><code>PT</code></span></td>
+<td><code>PT</code></td>
 <td>Z</td>
 <td>Read annotations for parts of the padded read sequence</td>
 </tr>
 <tr>
-<td><span><code>PU</code></span></td>
+<td><code>PU</code></td>
 <td>Z</td>
 <td>Platform unit</td>
 </tr>
 <tr>
-<td><span><code>Q2</code></span></td>
+<td><code>Q2</code></td>
 <td>Z</td>
-<td>Phred quality of the mate/next segment sequence in the
-<span><code>R2</code></span> tag</td>
+<td>Phred quality of the mate/next segment sequence in the <code>R2</code>
+tag</td>
 </tr>
 <tr>
-<td><span><code>QT</code></span></td>
+<td><code>QT</code></td>
 <td>Z</td>
-<td>Phred quality of the sample barcode sequence in the
-<span><code>BC</code></span> tag</td>
+<td>Phred quality of the sample barcode sequence in the <code>BC</code> tag</td>
 </tr>
 <tr>
-<td><span><code>QX</code></span></td>
+<td><code>QX</code></td>
 <td>Z</td>
-<td>Quality score of the unique molecular identifier in the
-<span><code>RX</code></span> tag</td>
+<td>Quality score of the unique molecular identifier in the <code>RX</code>
+tag</td>
 </tr>
 <tr>
-<td><span><code>R2</code></span></td>
+<td><code>R2</code></td>
 <td>Z</td>
 <td>Sequence of the mate/next segment in the template</td>
 </tr>
 <tr>
-<td><span><code>RG</code></span></td>
+<td><code>RG</code></td>
 <td>Z</td>
 <td>Read group</td>
 </tr>
 <tr>
-<td><span><code>RT</code></span></td>
+<td><code>RT</code></td>
 <td>?</td>
 <td>Reserved for backwards compatibility reasons</td>
 </tr>
 <tr>
-<td><span><code>RX</code></span></td>
+<td><code>RX</code></td>
 <td>Z</td>
 <td>Sequence bases of the (possibly corrected) unique molecular identifier</td>
 </tr>
 <tr>
-<td><span><code>S2</code></span></td>
+<td><code>S2</code></td>
 <td>?</td>
 <td>Reserved for backwards compatibility reasons</td>
 </tr>
 <tr>
-<td><span><code>SA</code></span></td>
+<td><code>SA</code></td>
 <td>Z</td>
 <td>Other canonical alignments in a chimeric alignment</td>
 </tr>
 <tr>
-<td><span><code>SM</code></span></td>
+<td><code>SM</code></td>
 <td>i</td>
 <td>Template-independent mapping quality</td>
 </tr>
 <tr>
-<td><span><code>SQ</code></span></td>
+<td><code>SQ</code></td>
 <td>?</td>
 <td>Reserved for backwards compatibility reasons</td>
 </tr>
 <tr>
-<td><span><code>TC</code></span></td>
+<td><code>TC</code></td>
 <td>i</td>
 <td>The number of segments in the template</td>
 </tr>
 <tr>
-<td><span><code>TS</code></span></td>
+<td><code>TS</code></td>
 <td>A</td>
 <td>Transcript strand</td>
 </tr>
 <tr>
-<td><span><code>U2</code></span></td>
+<td><code>U2</code></td>
 <td>Z</td>
 <td>Phred probability of the 2nd call being wrong conditional on the best
 being wrong</td>
 </tr>
 <tr>
-<td><span><code>UQ</code></span></td>
+<td><code>UQ</code></td>
 <td>i</td>
 <td>Phred likelihood of the segment, conditional on the mapping being
 correct</td>
 </tr>
 <tr>
-<td><span><code>X?</code></span></td>
+<td><code>X?</code></td>
 <td>?</td>
 <td>Reserved for end users</td>
 </tr>
 <tr>
-<td><span><code>Y?</code></span></td>
+<td><code>Y?</code></td>
 <td>?</td>
 <td>Reserved for end users</td>
 </tr>
 <tr>
-<td><span><code>Z?</code></span></td>
+<td><code>Z?</code></td>
 <td>?</td>
 <td>Reserved for end users</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h2 id="11-additional-template-and-mapping-data">1.1 Additional Template and Mapping data<a class="header-anchor" aria-hidden="" href="#11-additional-template-and-mapping-data">#</a></h2>
+<h2 id="1.1">1.1 Additional Template and Mapping data<a class="header-anchor" aria-hidden="" href="#1.1">#</a></h2>
 <p>AM:i:<br>
 The smallest template-independent mapping quality of any segment in the
 same template as this read. (See also <code>SM</code>.)</p>
@@ -493,7 +491,7 @@ associated base calls.</p>
 <p>UQ:i:<br>
 Phred likelihood of the segment, conditional on the mapping being
 correct.</p>
-<h2 id="12-metadata">1.2 Metadata<a class="header-anchor" aria-hidden="" href="#12-metadata">#</a></h2>
+<h2 id="1.2">1.2 Metadata<a class="header-anchor" aria-hidden="" href="#1.2">#</a></h2>
 <p>RG:Z:<br>
 The read group to which the read belongs. If <code>@RG</code> headers are present,
 then <em>readgroup</em> must match the <code>RG-ID</code> field of one of the headers.</p>
@@ -509,7 +507,7 @@ present, then <em>platformunit</em> must match the <code>RG-PU</code> field of o
 headers.</p>
 <p>CO:Z:<br>
 Free-text comments.</p>
-<h2 id="13-barcodes">1.3 Barcodes<a class="header-anchor" aria-hidden="" href="#13-barcodes">#</a></h2>
+<h2 id="1.3">1.3 Barcodes<a class="header-anchor" aria-hidden="" href="#1.3">#</a></h2>
 <p>DNA barcodes can be used to identify the provenance of the underlying
 reads. There are currently three varieties of barcodes that may
 co-exist: Sample Barcode, Cell Barcode, and Unique Molecular Identifier
@@ -624,7 +622,7 @@ and <code>BZ</code> respectively.) The lengths of the <code>QX</code> and the <c
 match. In the case of multiple unique molecular identifiers (e.g., one
 on each end of the template) the recommended implementation concatenates
 all the quality strings with a space (”) between the different strings.</p>
-<h2 id="14-original-data">1.4 Original data<a class="header-anchor" aria-hidden="" href="#14-original-data">#</a></h2>
+<h2 id="1.4">1.4 Original data<a class="header-anchor" aria-hidden="" href="#1.4">#</a></h2>
 <p>OA:Z:<br>
 The original alignment information of the record prior to realignment or
 unalignment by a subsequent tool. Each original alignment entry contains
@@ -654,7 +652,7 @@ of the more general <code>OA</code>.</p>
 <p>OQ:Z:<br>
 Original base quality, usually before recalibration. Same encoding as
 QUAL.</p>
-<h2 id="15-annotation-and-padding">1.5 Annotation and Padding<a class="header-anchor" aria-hidden="" href="#15-annotation-and-padding">#</a></h2>
+<h2 id="1.5">1.5 Annotation and Padding<a class="header-anchor" aria-hidden="" href="#1.5">#</a></h2>
 <p>The SAM format can be used to represent <em>de novo</em> assemblies, generally
 by using padded reference sequences and the annotation tags described
 here. See the <em>Guide for Describing Assembly Sequences</em> in the <a href="http://samtools.github.io/hts-specs/SAMv1.pdf"><em>SAM
@@ -691,11 +689,11 @@ reverse strand, ‘<code>.</code>’ for unstranded or ‘<code>?</code>’ for 
 strand.</p>
 <p>The <em>type</em> and any <em>keys</em> and their optional <em>values</em> are all percent
 encoded as in the <code>CT</code> tag.</p>
-<h2 id="16-technology-specific-data">1.6 Technology-specific data<a class="header-anchor" aria-hidden="" href="#16-technology-specific-data">#</a></h2>
+<h2 id="1.6">1.6 Technology-specific data<a class="header-anchor" aria-hidden="" href="#1.6">#</a></h2>
 <p>FZ:B:S,<br>
 Flow signal intensities on the original strand of the read, stored as
 <code>(uint16_t) round(value * 100.0)</code>.</p>
-<h3 id="161-color-space">1.6.1 Color space<a class="header-anchor" aria-hidden="" href="#161-color-space">#</a></h3>
+<h3 id="1.6.1">1.6.1 Color space<a class="header-anchor" aria-hidden="" href="#1.6.1">#</a></h3>
 <p>CM:i:<br>
 Edit distance between the color sequence and the color reference (see
 also <code>NM</code>).</p>
@@ -705,7 +703,7 @@ must be included.</p>
 <p>CQ:Z:<br>
 Color read quality on the original strand of the read. Same encoding as
 QUAL; same length as <code>CS</code>.</p>
-<h2 id="17-base-modifications">1.7 Base modifications<a class="header-anchor" aria-hidden="" href="#17-base-modifications">#</a></h2>
+<h2 id="1.7">1.7 Base modifications<a class="header-anchor" aria-hidden="" href="#1.7">#</a></h2>
 <p>Base modifications, including base methylation, are represented as a
 series of edits from the primary unmodified sequence as originally
 reported by the sequencing instrument. This potentially differs to the
@@ -961,14 +959,14 @@ out-of-date. The tag is optional, but recommended, and if it is absent
 then there is an implicit assumption that the <code>MM</code> data is valid unless
 evidence implies otherwise (e.g., by having coordinates beyond the end
 of the sequence).</p>
-<h1 id="2-draft-tags">2 Draft tags<a class="header-anchor" aria-hidden="" href="#2-draft-tags">#</a></h1>
+<h1 id="2">2 Draft tags<a class="header-anchor" aria-hidden="" href="#2">#</a></h1>
 <p>These are tags which have been proposed and are broadly accepted to
 become standard tags, but a review or probationary period has been
 deemed useful. They use the locally-defined tag namespace and processing
 software should consider that the tags may have local usage for other
 purposes.</p>
 <p>There are currently no tags with draft status.</p>
-<h1 id="3-locally-defined-tags">3 Locally-defined tags<a class="header-anchor" aria-hidden="" href="#3-locally-defined-tags">#</a></h1>
+<h1 id="3">3 Locally-defined tags<a class="header-anchor" aria-hidden="" href="#3">#</a></h1>
 <p>You can freely add new tags. Note that tags starting with ‘<code>X</code>’, ‘<code>Y</code>’,
 or ‘<code>Z</code>’ and tags containing lowercase letters in either position are
 reserved for local use and will not be formally defined in any future
@@ -978,65 +976,65 @@ added to this specification. Additions can be proposed by opening a new
 issue at <a href="https://github.com/samtools/hts-specs/issues">https://github.com/samtools/hts-specs/issues</a> and/or by
 sending email to .</p>
 <div class="appendices">
-<h1 id="4-tag-history">4 Tag History<a class="header-anchor" aria-hidden="" href="#4-tag-history">#</a></h1>
+<h1 id="4">4 Tag History<a class="header-anchor" aria-hidden="" href="#4">#</a></h1>
 <p>This appendix lists when standard tags were initially defined or
 significantly changed, and other historical events that affect how tags
 are interpreted or what files they may appear in.</p>
-<h3 id="401-september-2024">4.0.1 September 2024<a class="header-anchor" aria-hidden="" href="#401-september-2024">#</a></h3>
+<h3 id="4.0.1">4.0.1 September 2024<a class="header-anchor" aria-hidden="" href="#4.0.1">#</a></h3>
 <p>Added the MN tag for validating base modification tag consistency.</p>
-<h3 id="402-february-2022">4.0.2 February 2022<a class="header-anchor" aria-hidden="" href="#402-february-2022">#</a></h3>
+<h3 id="4.0.2">4.0.2 February 2022<a class="header-anchor" aria-hidden="" href="#4.0.2">#</a></h3>
 <p>Base modification tags changed to use the predefined standard names MM
 and ML, as their review period has finished. Programs outputting the
 draft Mm and Ml tags should be changed to use MM and ML instead.</p>
-<h3 id="403-december-2021">4.0.3 December 2021<a class="header-anchor" aria-hidden="" href="#403-december-2021">#</a></h3>
+<h3 id="4.0.3">4.0.3 December 2021<a class="header-anchor" aria-hidden="" href="#4.0.3">#</a></h3>
 <p>Amended draft Mm tag to provide hints about the modification status of
 skipped sequence bases.</p>
-<h3 id="404-july-2021">4.0.4 July 2021<a class="header-anchor" aria-hidden="" href="#404-july-2021">#</a></h3>
+<h3 id="4.0.4">4.0.4 July 2021<a class="header-anchor" aria-hidden="" href="#4.0.4">#</a></h3>
 <p>Added the Mm and Ml draft tags describing base modifications.</p>
-<h3 id="405-march-2020">4.0.5 March 2020<a class="header-anchor" aria-hidden="" href="#405-march-2020">#</a></h3>
+<h3 id="4.0.5">4.0.5 March 2020<a class="header-anchor" aria-hidden="" href="#4.0.5">#</a></h3>
 <p>Transcript strand tag TS added, equivalent to the locally-defined XS tag
 produced by several RNA aligners.</p>
-<h3 id="406-january-2019">4.0.6 January 2019<a class="header-anchor" aria-hidden="" href="#406-january-2019">#</a></h3>
+<h3 id="4.0.6">4.0.6 January 2019<a class="header-anchor" aria-hidden="" href="#4.0.6">#</a></h3>
 <p>Added the OA tag for recording original/previous alignment information.</p>
 <p>Deprecated the OC and OP tags.</p>
-<h3 id="407-july-2018">4.0.7 July 2018<a class="header-anchor" aria-hidden="" href="#407-july-2018">#</a></h3>
+<h3 id="4.0.7">4.0.7 July 2018<a class="header-anchor" aria-hidden="" href="#4.0.7">#</a></h3>
 <p>Clarified the calculation of NM score.</p>
-<h3 id="408-may-2018">4.0.8 May 2018<a class="header-anchor" aria-hidden="" href="#408-may-2018">#</a></h3>
+<h3 id="4.0.8">4.0.8 May 2018<a class="header-anchor" aria-hidden="" href="#4.0.8">#</a></h3>
 <p>Cellular barcode tags CB, CR, and CY added.</p>
 <p>Removed the RT:Z tag, which was a long-deprecated synonym for BC.</p>
-<h3 id="409-november-2017">4.0.9 November 2017<a class="header-anchor" aria-hidden="" href="#409-november-2017">#</a></h3>
+<h3 id="4.0.9">4.0.9 November 2017<a class="header-anchor" aria-hidden="" href="#4.0.9">#</a></h3>
 <p>SAM version number <code>VN:1.6</code> introduced, indicating the addition of the
 CG tag representation of very long CIGAR strings. Files that contain
 records with more than 65,535 CIGAR operators should not declare a
 version number lower than 1.6 in their <code>@HD</code> headers.</p>
-<h3 id="4010-august-2017">4.0.10 August 2017<a class="header-anchor" aria-hidden="" href="#4010-august-2017">#</a></h3>
+<h3 id="4.0.10">4.0.10 August 2017<a class="header-anchor" aria-hidden="" href="#4.0.10">#</a></h3>
 <p>Unique molecular identifier tags BZ, MI, OX, QX, and RX added.</p>
 <p>Usage of sample barcode tag BC clarified.</p>
-<h3 id="4011-june-2017">4.0.11 June 2017<a class="header-anchor" aria-hidden="" href="#4011-june-2017">#</a></h3>
+<h3 id="4.0.11">4.0.11 June 2017<a class="header-anchor" aria-hidden="" href="#4.0.11">#</a></h3>
 <p>Corrected the description of the E2 (second-most-likely bases) tag,
 which was previously unclear as to whether it contains bases or base
 qualities.</p>
-<h3 id="4012-september-2016">4.0.12 September 2016<a class="header-anchor" aria-hidden="" href="#4012-september-2016">#</a></h3>
+<h3 id="4.0.12">4.0.12 September 2016<a class="header-anchor" aria-hidden="" href="#4.0.12">#</a></h3>
 <p>Predefined tags, previously listed as a brief table within the main SAM
 specification, have been split out into this new document. There is now
 space for clearer and more complete tag descriptions.</p>
-<h3 id="4013-february-2014">4.0.13 February 2014<a class="header-anchor" aria-hidden="" href="#4013-february-2014">#</a></h3>
+<h3 id="4.0.13">4.0.13 February 2014<a class="header-anchor" aria-hidden="" href="#4.0.13">#</a></h3>
 <p>MC tag added.</p>
-<h3 id="4014-may-2013">4.0.14 May 2013<a class="header-anchor" aria-hidden="" href="#4014-may-2013">#</a></h3>
+<h3 id="4.0.14">4.0.14 May 2013<a class="header-anchor" aria-hidden="" href="#4.0.14">#</a></h3>
 <p>SAM version number <code>VN:1.5</code> introduced, with limited impact for tags
 other than indicating that the CT/PT annotation tag definitions are
 considered finalised.</p>
 <p>SA tag added.</p>
-<h3 id="4015-march-2012">4.0.15 March 2012<a class="header-anchor" aria-hidden="" href="#4015-march-2012">#</a></h3>
+<h3 id="4.0.15">4.0.15 March 2012<a class="header-anchor" aria-hidden="" href="#4.0.15">#</a></h3>
 <p>Descriptions of CT and PT annotation tags significantly clarified.</p>
-<h3 id="4016-october-2011">4.0.16 October 2011<a class="header-anchor" aria-hidden="" href="#4016-october-2011">#</a></h3>
+<h3 id="4.0.16">4.0.16 October 2011<a class="header-anchor" aria-hidden="" href="#4.0.16">#</a></h3>
 <p>Sample barcode tags QT and RT added, with RT being identified as a
 deprecated alternative to BC.</p>
 <p>Read annotation tags CT and PT added.</p>
-<h3 id="4017-september-2011">4.0.17 September 2011<a class="header-anchor" aria-hidden="" href="#4017-september-2011">#</a></h3>
+<h3 id="4.0.17">4.0.17 September 2011<a class="header-anchor" aria-hidden="" href="#4.0.17">#</a></h3>
 <p>FZ tag’s type changed from <code>H</code> to <code>B,S</code>-array.</p>
 <p>BC and CO tags added.</p>
-<h3 id="4018-april-2011">4.0.18 April 2011<a class="header-anchor" aria-hidden="" href="#4018-april-2011">#</a></h3>
+<h3 id="4.0.18">4.0.18 April 2011<a class="header-anchor" aria-hidden="" href="#4.0.18">#</a></h3>
 <p>SAM version number <code>VN:1.4</code> introduced, indicating the addition of the
 <code>B</code>-array tag type. Files that contain records with <code>B</code>-array fields
 should not declare a version number lower than 1.4 in their <code>@HD</code>
@@ -1044,11 +1042,11 @@ headers.</p>
 <p>FZ tag added, with type <code>H</code>.</p>
 <p>MD tag description changed to allow IUPAC ambiguity codes in addition to
 <code>ACGTN</code>.</p>
-<h3 id="4019-march-2011">4.0.19 March 2011<a class="header-anchor" aria-hidden="" href="#4019-march-2011">#</a></h3>
+<h3 id="4.0.19">4.0.19 March 2011<a class="header-anchor" aria-hidden="" href="#4.0.19">#</a></h3>
 <p>CC and CP tags reinstated with their original meanings.</p>
-<h3 id="4020-november-2010">4.0.20 November 2010<a class="header-anchor" aria-hidden="" href="#4020-november-2010">#</a></h3>
+<h3 id="4.0.20">4.0.20 November 2010<a class="header-anchor" aria-hidden="" href="#4.0.20">#</a></h3>
 <p>BQ tag added.</p>
-<h3 id="4021-july-2010">4.0.21 July 2010<a class="header-anchor" aria-hidden="" href="#4021-july-2010">#</a></h3>
+<h3 id="4.0.21">4.0.21 July 2010<a class="header-anchor" aria-hidden="" href="#4.0.21">#</a></h3>
 <p>The specification was rewritten as a LaTeX document specifying SAM
 version number <code>VN:1.3</code>.</p>
 <p>Tags FI, FS, OC, OP, OQ, and TC added.</p>
@@ -1058,7 +1056,7 @@ compatibility. Existing tags MF:i (MAQ pair flag), SQ:H (suboptimal
 bases), and S2:H (mate’s suboptimal bases) removed and noted as reserved
 for backwards compatibility.</p>
 <p>CC and CP tags temporarily removed.</p>
-<h3 id="4022-july-2009">4.0.22 July 2009<a class="header-anchor" aria-hidden="" href="#4022-july-2009">#</a></h3>
+<h3 id="4.0.22">4.0.22 July 2009<a class="header-anchor" aria-hidden="" href="#4.0.22">#</a></h3>
 <p>The original SAM “0.1.2-draft” specification specified version number
 <code>VN:1.0</code> and defined a total of thirty standard tags (though SQ and S2
 were already deprecated in favour of E2 and U2):</p>

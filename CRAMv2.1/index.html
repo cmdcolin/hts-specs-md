@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>CRAM format specification (version 2.1) - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
-</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>CRAM format specification (version 2.1)</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/703ef9b"><code>703ef9b</code></a>, dated 2 Feb 2023.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#21-logical-data-types">2.1 Logical data types</a> </li><li class="depth-2"> <a href="#22-writing-bits-to-a-bit-stream">2.2 Writing bits to a bit stream</a> </li><li class="depth-3"> <a href="#221-example-of-writing-to-bit-stream">2.2.1 Example of writing to bit stream</a> </li><li class="depth-3"> <a href="#222-note-on-writing-to-bit-stream">2.2.2 Note on writing to bit stream</a> </li><li class="depth-2"> <a href="#23-writing-bytes-to-a-byte-stream">2.3 Writing bytes to a byte stream</a> </li><li class="depth-3"> <a href="#231-encoding">2.3.1 Encoding</a> </li><li class="depth-3"> <a href="#232-map">2.3.2 Map</a> </li><li class="depth-2"> <a href="#24-strings">2.4 Strings</a> </li><li class="depth-2"> <a href="#61-cram-header-in-the-first-container">6.1 CRAM header in the first container</a> </li><li class="depth-2"> <a href="#71-block-content-types">7.1 Block content types</a> </li><li class="depth-2"> <a href="#72-block-content-id">7.2 Block content id</a> </li><li class="depth-3"> <a href="#721-data-blocks">7.2.1 Data blocks</a> </li><li class="depth-2"> <a href="#73-bam-header-block">7.3 BAM header block</a> </li><li class="depth-2"> <a href="#74-compression-header-block">7.4 Compression header block</a> </li><li class="depth-3"> <a href="#741-preservation-map">7.4.1 Preservation map</a> </li><li class="depth-3"> <a href="#742-data-series-encodings">7.4.2 Data series encodings</a> </li><li class="depth-3"> <a href="#743-encoding-tags">7.4.3 Encoding tags</a> </li><li class="depth-3"> <a href="#744-encoding-tag-values">7.4.4 Encoding tag values</a> </li><li class="depth-2"> <a href="#75-slice-header-block">7.5 Slice header block</a> </li><li class="depth-2"> <a href="#76-core-data-block">7.6 Core data block</a> </li><li class="depth-2"> <a href="#77-external-data-block">7.7 External data block</a> </li><li class="depth-2"> <a href="#91-cram-record">9.1 CRAM record</a> </li><li class="depth-2"> <a href="#92-read-bases">9.2 Read bases</a> </li><li class="depth-2"> <a href="#93-cram-record-bit-flags-bf-data-series">9.3 CRAM record bit flags (BF data series)</a> </li><li class="depth-2"> <a href="#94-read-feature-records">9.4 Read feature records</a> </li><li class="depth-3"> <a href="#941-read-feature-codes">9.4.1 Read feature codes</a> </li><li class="depth-3"> <a href="#942-base-substitution-codes-bs-data-series">9.4.2 Base substitution codes (BS data series)</a> </li><li class="depth-2"> <a href="#95-mate-record">9.5 Mate record</a> </li><li class="depth-3"> <a href="#951">9.5.1</a> </li><li class="depth-3"> <a href="#952-next-mate-bit-flags-mf-data-series">9.5.2 Next mate bit flags (MF data series)</a> </li><li class="depth-3"> <a href="#953-read-names-rn-data-series">9.5.3 Read names (RN data series)</a> </li><li class="depth-2"> <a href="#96-compression-bit-flags-cf-data-series">9.6 Compression bit flags (CF data series)</a> </li><li class="depth-3"> <a href="#1101-general-notes">11.0.1 General notes</a> </li><li class="depth-3"> <a href="#1102-cram-index">11.0.2 CRAM index</a> </li><li class="depth-3"> <a href="#1103-bam-index">11.0.3 BAM index</a> </li><li class="depth-2"> <a href="#121-external-encoding">12.1 External encoding</a> </li><li class="depth-2"> <a href="#122-codings">12.2 Codings</a> </li><li class="depth-3"> <a href="#1221-introduction">12.2.1 Introduction</a> </li><li class="depth-3"> <a href="#1222-offset">12.2.2 Offset</a> </li><li class="depth-3"> <a href="#1223-beta-coding">12.2.3 Beta coding</a> </li><li class="depth-3"> <a href="#1224-definition">12.2.4 Definition</a> </li><li class="depth-3"> <a href="#1225-examples">12.2.5 Examples</a> </li><li class="depth-3"> <a href="#1226-parameters">12.2.6 Parameters</a> </li><li class="depth-3"> <a href="#1227-gamma-coding">12.2.7 Gamma coding</a> </li><li class="depth-3"> <a href="#1228-definition">12.2.8 Definition</a> </li><li class="depth-3"> <a href="#1229-encoding">12.2.9 Encoding</a> </li><li class="depth-3"> <a href="#12210-decoding">12.2.10 Decoding</a> </li><li class="depth-3"> <a href="#12211-examples">12.2.11 Examples</a> </li><li class="depth-3"> <a href="#12212-parameters">12.2.12 Parameters</a> </li><li class="depth-3"> <a href="#12213-golomb-coding">12.2.13 Golomb coding</a> </li><li class="depth-3"> <a href="#12214-definition">12.2.14 Definition</a> </li><li class="depth-3"> <a href="#12215-examples">12.2.15 Examples</a> </li><li class="depth-3"> <a href="#12216-parameters">12.2.16 Parameters</a> </li><li class="depth-3"> <a href="#12217-golomb-rice-coding">12.2.17 Golomb-Rice coding</a> </li><li class="depth-3"> <a href="#12218-subexponential-coding">12.2.18 Subexponential coding</a> </li><li class="depth-3"> <a href="#12219-definition">12.2.19 Definition</a> </li><li class="depth-3"> <a href="#12220-encoding">12.2.20 Encoding</a> </li><li class="depth-3"> <a href="#12221-decoding">12.2.21 Decoding</a> </li><li class="depth-3"> <a href="#12222-examples">12.2.22 Examples</a> </li><li class="depth-3"> <a href="#12223-parameters">12.2.23 Parameters</a> </li><li class="depth-3"> <a href="#12224-huffman-coding">12.2.24 Huffman coding</a> </li><li class="depth-3"> <a href="#12225-code-computation">12.2.25 Code computation</a> </li><li class="depth-3"> <a href="#12226-parameters">12.2.26 Parameters</a> </li><li class="depth-3"> <a href="#12227-byte-array-coding">12.2.27 Byte array coding</a> </li><li class="depth-3"> <a href="#12228-byte_array_len">12.2.28 BYTE_ARRAY_LEN</a> </li><li class="depth-3"> <a href="#12229-byte_array_stop">12.2.29 BYTE_ARRAY_STOP</a> </li><li class="depth-2"> <a href="#123-choosing-the-container-size">12.3 Choosing the container size</a> </li> </ul> </details>  <p>This specification describes the CRAM 2.1 format.</p>
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>CRAM format specification (version 2.1) - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}tfoot.tablenotes td{font-size:.85em;color:#555;background:#f8f9fa;border-top:2px solid #bbb}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
+</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>CRAM format specification (version 2.1)</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/703ef9b"><code>703ef9b</code></a>, dated 2 Feb 2023.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#2.1">2.1 Logical data types</a> </li><li class="depth-2"> <a href="#2.2">2.2 Writing bits to a bit stream</a> </li><li class="depth-3"> <a href="#2.2.1">2.2.1 Example of writing to bit stream</a> </li><li class="depth-3"> <a href="#2.2.2">2.2.2 Note on writing to bit stream</a> </li><li class="depth-2"> <a href="#2.3">2.3 Writing bytes to a byte stream</a> </li><li class="depth-3"> <a href="#2.3.1">2.3.1 Encoding</a> </li><li class="depth-3"> <a href="#2.3.2">2.3.2 Map</a> </li><li class="depth-2"> <a href="#2.4">2.4 Strings</a> </li><li class="depth-2"> <a href="#6.1">6.1 CRAM header in the first container</a> </li><li class="depth-2"> <a href="#7.1">7.1 Block content types</a> </li><li class="depth-2"> <a href="#7.2">7.2 Block content id</a> </li><li class="depth-3"> <a href="#7.2.1">7.2.1 Data blocks</a> </li><li class="depth-2"> <a href="#7.3">7.3 BAM header block</a> </li><li class="depth-2"> <a href="#7.4">7.4 Compression header block</a> </li><li class="depth-3"> <a href="#7.4.1">7.4.1 Preservation map</a> </li><li class="depth-3"> <a href="#7.4.2">7.4.2 Data series encodings</a> </li><li class="depth-3"> <a href="#7.4.3">7.4.3 Encoding tags</a> </li><li class="depth-3"> <a href="#7.4.4">7.4.4 Encoding tag values</a> </li><li class="depth-2"> <a href="#7.5">7.5 Slice header block</a> </li><li class="depth-2"> <a href="#7.6">7.6 Core data block</a> </li><li class="depth-2"> <a href="#7.7">7.7 External data block</a> </li><li class="depth-2"> <a href="#9.1">9.1 CRAM record</a> </li><li class="depth-2"> <a href="#9.2">9.2 Read bases</a> </li><li class="depth-2"> <a href="#9.3">9.3 CRAM record bit flags (BF data series)</a> </li><li class="depth-2"> <a href="#9.4">9.4 Read feature records</a> </li><li class="depth-3"> <a href="#9.4.1">9.4.1 Read feature codes</a> </li><li class="depth-3"> <a href="#9.4.2">9.4.2 Base substitution codes (BS data series)</a> </li><li class="depth-2"> <a href="#9.5">9.5 Mate record</a> </li><li class="depth-3"> <a href="#951">9.5.1</a> </li><li class="depth-3"> <a href="#9.5.2">9.5.2 Next mate bit flags (MF data series)</a> </li><li class="depth-3"> <a href="#9.5.3">9.5.3 Read names (RN data series)</a> </li><li class="depth-2"> <a href="#9.6">9.6 Compression bit flags (CF data series)</a> </li><li class="depth-3"> <a href="#11.0.1">11.0.1 General notes</a> </li><li class="depth-3"> <a href="#11.0.2">11.0.2 CRAM index</a> </li><li class="depth-3"> <a href="#11.0.3">11.0.3 BAM index</a> </li><li class="depth-2"> <a href="#12.1">12.1 External encoding</a> </li><li class="depth-2"> <a href="#12.2">12.2 Codings</a> </li><li class="depth-3"> <a href="#12.2.1">12.2.1 Introduction</a> </li><li class="depth-3"> <a href="#12.2.2">12.2.2 Offset</a> </li><li class="depth-3"> <a href="#12.2.3">12.2.3 Beta coding</a> </li><li class="depth-3"> <a href="#12.2.4">12.2.4 Definition</a> </li><li class="depth-3"> <a href="#12.2.5">12.2.5 Examples</a> </li><li class="depth-3"> <a href="#12.2.6">12.2.6 Parameters</a> </li><li class="depth-3"> <a href="#12.2.7">12.2.7 Gamma coding</a> </li><li class="depth-3"> <a href="#12.2.8">12.2.8 Definition</a> </li><li class="depth-3"> <a href="#12.2.9">12.2.9 Encoding</a> </li><li class="depth-3"> <a href="#12.2.10">12.2.10 Decoding</a> </li><li class="depth-3"> <a href="#12.2.11">12.2.11 Examples</a> </li><li class="depth-3"> <a href="#12.2.12">12.2.12 Parameters</a> </li><li class="depth-3"> <a href="#12.2.13">12.2.13 Golomb coding</a> </li><li class="depth-3"> <a href="#12.2.14">12.2.14 Definition</a> </li><li class="depth-3"> <a href="#12.2.15">12.2.15 Examples</a> </li><li class="depth-3"> <a href="#12.2.16">12.2.16 Parameters</a> </li><li class="depth-3"> <a href="#12.2.17">12.2.17 Golomb-Rice coding</a> </li><li class="depth-3"> <a href="#12.2.18">12.2.18 Subexponential coding</a> </li><li class="depth-3"> <a href="#12.2.19">12.2.19 Definition</a> </li><li class="depth-3"> <a href="#12.2.20">12.2.20 Encoding</a> </li><li class="depth-3"> <a href="#12.2.21">12.2.21 Decoding</a> </li><li class="depth-3"> <a href="#12.2.22">12.2.22 Examples</a> </li><li class="depth-3"> <a href="#12.2.23">12.2.23 Parameters</a> </li><li class="depth-3"> <a href="#12.2.24">12.2.24 Huffman coding</a> </li><li class="depth-3"> <a href="#12.2.25">12.2.25 Code computation</a> </li><li class="depth-3"> <a href="#12.2.26">12.2.26 Parameters</a> </li><li class="depth-3"> <a href="#12.2.27">12.2.27 Byte array coding</a> </li><li class="depth-3"> <a href="#12.2.28">12.2.28 BYTE_ARRAY_LEN</a> </li><li class="depth-3"> <a href="#12.2.29">12.2.29 BYTE_ARRAY_STOP</a> </li><li class="depth-2"> <a href="#12.3">12.3 Choosing the container size</a> </li> </ul> </details>  <p>This specification describes the CRAM 2.1 format.</p>
 <p>CRAM has the following major objectives:</p>
 <ol>
 <li>
@@ -28,14 +28,14 @@ general purpose compressors (gzip, bzip2). CRAM records are compressed
 using a number of different encoding strategies. For example, bases are
 reference compressed by encoding base differences rather than storing
 the bases themselves.<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
-<h1 id="2-data-types">2 <strong>Data types</strong><a class="header-anchor" aria-hidden="" href="#2-data-types">#</a></h1>
+<h1 id="2">2 <strong>Data types</strong><a class="header-anchor" aria-hidden="" href="#2">#</a></h1>
 <p>CRAM specification uses logical data types and storage data types;
 logical data types are written as words (e.g. int) while physical data
 types are written using single letters (e.g. i). The difference between
 the two is that storage data types define how logical data types are
 stored in CRAM. Data in CRAM is stored either as as bits or as bytes.
 Writing values as bits and bytes is described in detail below.</p>
-<h2 id="21-logical-data-types">2.1 <strong>Logical data types</strong><a class="header-anchor" aria-hidden="" href="#21-logical-data-types">#</a></h2>
+<h2 id="2.1">2.1 <strong>Logical data types</strong><a class="header-anchor" aria-hidden="" href="#2.1">#</a></h2>
 <p>Byte<br>
  <br>
 Signed byte (8 bits).</p>
@@ -48,13 +48,13 @@ Signed 64-bit integer.</p>
 <p>Array<br>
  <br>
 An array of any logical data type: <code>&#x3C;</code>type<code>></code>[ ]</p>
-<h2 id="22-writing-bits-to-a-bit-stream">2.2 <strong>Writing bits to a bit stream</strong><a class="header-anchor" aria-hidden="" href="#22-writing-bits-to-a-bit-stream">#</a></h2>
+<h2 id="2.2">2.2 <strong>Writing bits to a bit stream</strong><a class="header-anchor" aria-hidden="" href="#2.2">#</a></h2>
 <p>A bit stream consists of a sequence of 1s and 0s. The bits are written
 most significant bit first where new bits are stacked to the right and
 full bytes on the left are written out. In a bit stream the last byte
 will be incomplete if less than 8 bits have been written to it. In this
 case the bits in the last byte are shifted to the left.</p>
-<h3 id="221-example-of-writing-to-bit-stream">2.2.1 Example of writing to bit stream<a class="header-anchor" aria-hidden="" href="#221-example-of-writing-to-bit-stream">#</a></h3>
+<h3 id="2.2.1">2.2.1 Example of writing to bit stream<a class="header-anchor" aria-hidden="" href="#2.2.1">#</a></h3>
 <p>Let’s consider the following example. The table below shows a sequence
 of write operations:</p>
 <table>
@@ -111,7 +111,7 @@ left and became 0x70 after that:</p>
 <code>1011000001110000</code></p>
 <p>When reading the bits from the bit sequence it must be known that only
 12 bits are meaningful and the bit stream should not be read after that.</p>
-<h3 id="222-note-on-writing-to-bit-stream">2.2.2 Note on writing to bit stream<a class="header-anchor" aria-hidden="" href="#222-note-on-writing-to-bit-stream">#</a></h3>
+<h3 id="2.2.2">2.2.2 Note on writing to bit stream<a class="header-anchor" aria-hidden="" href="#2.2.2">#</a></h3>
 <p>When writing to a bit stream both the value and the number of bits in
 the value must be known. This is because programming languages normally
 operate with bytes (8 bits) and to specify which bits are to be written
@@ -122,7 +122,7 @@ possible bit combinations are either known in advance or it is possible
 to calculate how many bits will follow based on the first few bits.
 Alternatively, two codes can be combined, where the first contains the
 number of bits to read.</p>
-<h2 id="23-writing-bytes-to-a-byte-stream">2.3 <strong>Writing bytes to a byte stream</strong><a class="header-anchor" aria-hidden="" href="#23-writing-bytes-to-a-byte-stream">#</a></h2>
+<h2 id="2.3">2.3 <strong>Writing bytes to a byte stream</strong><a class="header-anchor" aria-hidden="" href="#2.3">#</a></h2>
 <p>The interpretation of byte stream is straightforward. CRAM uses <em>little
 endianness</em> for bytes when applicable and defines the following storage
 data types:</p>
@@ -156,7 +156,7 @@ byte consisting of just 1s or 0xFF value.</p>
  <br>
 Array length is written first as integer (itf8), followed by the
 elements of the array.</p>
-<h3 id="231-encoding">2.3.1 Encoding<a class="header-anchor" aria-hidden="" href="#231-encoding">#</a></h3>
+<h3 id="2.3.1">2.3.1 Encoding<a class="header-anchor" aria-hidden="" href="#2.3.1">#</a></h3>
 <p>Encoding is a data type that specifies how data series have been
 compressed. Encodings are defined as encoding<code>&#x3C;</code>type<code>></code> where the type
 is a logical data type as opposed to a storage data type.</p>
@@ -202,7 +202,7 @@ follow (13).</p>
 (itf8) offset and boolean (bool) unary bit:</p>
 <p>K = 0x1 = 1</p>
 <p>offset = 0x0 = 0</p>
-<h3 id="232-map">2.3.2 Map<a class="header-anchor" aria-hidden="" href="#232-map">#</a></h3>
+<h3 id="2.3.2">2.3.2 Map<a class="header-anchor" aria-hidden="" href="#2.3.2">#</a></h3>
 <p>A map is a collection of keys and associated values. A map with N keys
 is written as follows:</p>
 <table>
@@ -224,11 +224,11 @@ is written as follows:</p>
 <p>Both the size in bytes and the number of keys are written as integer
 (itf8). Keys and values are written according to their data types and
 are specific to each map.</p>
-<h2 id="24-strings">2.4 <strong>Strings</strong><a class="header-anchor" aria-hidden="" href="#24-strings">#</a></h2>
+<h2 id="2.4">2.4 <strong>Strings</strong><a class="header-anchor" aria-hidden="" href="#2.4">#</a></h2>
 <p>Strings are represented as byte arrays using UTF-8 format. Read names,
 reference sequence names and tag values with type ‘Z’ are stored as
 UTF-8.</p>
-<h1 id="3-encodings">3 <strong>Encodings</strong><a class="header-anchor" aria-hidden="" href="#3-encodings">#</a></h1>
+<h1 id="3">3 <strong>Encodings</strong><a class="header-anchor" aria-hidden="" href="#3">#</a></h1>
 <p>Encoding is a data structure that captures information about compression
 details of a data series that are required to uncompress it. This could
 be a set of constants required to initialize a specific decompression
@@ -316,7 +316,7 @@ encoding<code>&#x3C;</code>byte<code>></code> bytes</td>
 </table>
 <p>See the later <strong>Encodings</strong> sections for more detailed descriptions of
 all the above coding algorithms and their parameters.</p>
-<h1 id="4-file-structure">4 <strong>File structure</strong><a class="header-anchor" aria-hidden="" href="#4-file-structure">#</a></h1>
+<h1 id="4">4 <strong>File structure</strong><a class="header-anchor" aria-hidden="" href="#4">#</a></h1>
 <p>The overall CRAM file structure is described in this section. Please
 refer to other sections of this document for more detailed information.</p>
 <p>A CRAM file starts with a fixed length file definition followed by one
@@ -350,7 +350,7 @@ header block. The core data block may be followed by one or more
 external data blocks.</p>
 <p><img src="/hts-specs-md/img/CRAMFileFormat2-1-fig006.png" style="width:392pt;height:149pt" alt="image"></p>
 <p>Pic.5 Data blocks are divided into core and external data blocks.</p>
-<h1 id="5-file-definition">5 <strong>File definition</strong><a class="header-anchor" aria-hidden="" href="#5-file-definition">#</a></h1>
+<h1 id="5">5 <strong>File definition</strong><a class="header-anchor" aria-hidden="" href="#5">#</a></h1>
 <p>Each CRAM file starts with a fixed length (26 bytes) definition with the
 following fields:</p>
 <table>
@@ -401,7 +401,7 @@ implementation vs specification differences in <em>1.0</em>.</p>
 improvements for unsorted data.</p>
 </li>
 </ul>
-<h1 id="6-container-structure">6 <strong>Container structure</strong><a class="header-anchor" aria-hidden="" href="#6-container-structure">#</a></h1>
+<h1 id="6">6 <strong>Container structure</strong><a class="header-anchor" aria-hidden="" href="#6">#</a></h1>
 <p>The file definition is followed by one or more containers with the
 following header structure where the container content is stored in the
 ‘blocks’ field:</p>
@@ -468,14 +468,14 @@ array. Landmarks are used for random access indexing.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="61-cram-header-in-the-first-container">6.1 <strong>CRAM header in the first container</strong><a class="header-anchor" aria-hidden="" href="#61-cram-header-in-the-first-container">#</a></h2>
+<h2 id="6.1">6.1 <strong>CRAM header in the first container</strong><a class="header-anchor" aria-hidden="" href="#6.1">#</a></h2>
 <p>The first container in the CRAM file contains the BAM header in an
 uncompressed block. BAM header is terminated with \0 byte and any extra
 bytes in the block can be used to expand the BAM header. For example
 when updating @SQ records additional space may be required for the BAM
 header. It is recommended to reserve 50% more space in the CRAM header
 block than it is required by the BAM header.</p>
-<h1 id="7-block-structure">7 <strong>Block structure</strong><a class="header-anchor" aria-hidden="" href="#7-block-structure">#</a></h1>
+<h1 id="7">7 <strong>Block structure</strong><a class="header-anchor" aria-hidden="" href="#7">#</a></h1>
 <p>Containers consist of one or more blocks. Block compression is applied
 independently and in addition to any encodings used to compress data
 within the block. The block have the following header structure with the
@@ -530,7 +530,7 @@ additional fields ( header blocks)</td>
 </table>
 <p>* Note on raw method: both compressed and raw sizes must be set to the
 same value.</p>
-<h2 id="71-block-content-types">7.1 <strong>Block content types</strong><a class="header-anchor" aria-hidden="" href="#71-block-content-types">#</a></h2>
+<h2 id="7.1">7.1 <strong>Block content types</strong><a class="header-anchor" aria-hidden="" href="#7.1">#</a></h2>
 <p>CRAM has the following block content types:</p>
 <table>
 <thead>
@@ -580,14 +580,14 @@ same value.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="72-block-content-id">7.2 <strong>Block content id</strong><a class="header-anchor" aria-hidden="" href="#72-block-content-id">#</a></h2>
+<h2 id="7.2">7.2 <strong>Block content id</strong><a class="header-anchor" aria-hidden="" href="#7.2">#</a></h2>
 <p>Block content id is used to distinguish between external blocks in the
 same slice. Each external encoding has an id parameter which must be one
 of the external block content ids. For external blocks the content id is
 a positive integer. For all other blocks content id should be 0.
 Consequently, all external encodings must not use content id less than
 1.</p>
-<h3 id="721-data-blocks">7.2.1 Data blocks<a class="header-anchor" aria-hidden="" href="#721-data-blocks">#</a></h3>
+<h3 id="7.2.1">7.2.1 Data blocks<a class="header-anchor" aria-hidden="" href="#7.2.1">#</a></h3>
 <p>Data is stored in data blocks. There are two types of data blocks: core
 data blocks and external data blocks.The difference between core and
 external data blocks is that core data blocks consist of data series
@@ -600,7 +600,7 @@ In case of external encoding the block content id is used to identify
 the block where the data series is stored. Please note that external
 blocks can have multiple data series associated with them; in this case
 the values from these data series will be interleaved.</p>
-<h2 id="73-bam-header-block">7.3 <strong>BAM header block</strong><a class="header-anchor" aria-hidden="" href="#73-bam-header-block">#</a></h2>
+<h2 id="7.3">7.3 <strong>BAM header block</strong><a class="header-anchor" aria-hidden="" href="#7.3">#</a></h2>
 <p>The BAM header is stored in a single block within the first container.</p>
 <p>The following constraints apply to the BAM header:</p>
 <ul>
@@ -615,10 +615,10 @@ embedded into the file.</p>
 <p>The HD:SO sort order is always POS.</p>
 </li>
 </ul>
-<h2 id="74-compression-header-block">7.4 <strong>Compression header block</strong><a class="header-anchor" aria-hidden="" href="#74-compression-header-block">#</a></h2>
+<h2 id="7.4">7.4 <strong>Compression header block</strong><a class="header-anchor" aria-hidden="" href="#7.4">#</a></h2>
 <p>The compression header block consists of 3 parts: preservation map, data
 series encoding map and tag encoding map.</p>
-<h3 id="741-preservation-map">7.4.1 Preservation map<a class="header-anchor" aria-hidden="" href="#741-preservation-map">#</a></h3>
+<h3 id="7.4.1">7.4.1 Preservation map<a class="header-anchor" aria-hidden="" href="#7.4.1">#</a></h3>
 <p>The preservation map contains information about which data was preserved
 in the CRAM file. It is stored as a map with byte[2] keys:</p>
 <table>
@@ -663,7 +663,7 @@ in the CRAM file. It is stored as a map with byte[2] keys:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="742-data-series-encodings">7.4.2 Data series encodings<a class="header-anchor" aria-hidden="" href="#742-data-series-encodings">#</a></h3>
+<h3 id="7.4.2">7.4.2 Data series encodings<a class="header-anchor" aria-hidden="" href="#7.4.2">#</a></h3>
 <p>Each data series has an encoding. These encoding are stored in a map
 with byte[2] keys:</p>
 <table>
@@ -841,7 +841,7 @@ with byte[2] keys:</p>
 </tbody>
 </table>
 <p>* The data series is reset for each slice.</p>
-<h3 id="743-encoding-tags">7.4.3 Encoding tags<a class="header-anchor" aria-hidden="" href="#743-encoding-tags">#</a></h3>
+<h3 id="7.4.3">7.4.3 Encoding tags<a class="header-anchor" aria-hidden="" href="#7.4.3">#</a></h3>
 <p>The TL (tag list) data series represents combined information about the
 number of tags in a record and their ids.</p>
 <p>Let <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mi>i</mi></msub><mo>=</mo><mo stretchy="false">{</mo><msub><mi>T</mi><mrow><mi>i</mi><mn>0</mn></mrow></msub><mo separator="true">,</mo><msub><mi>T</mi><mrow><mi>i</mi><mn>1</mn></mrow></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>x</mi></mrow></msub><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">L_{i}=\{T_{i0}, T_{i1}, \ldots, T_{ix}\}</annotation></semantics></math></span> be sorted list of all tag
@@ -857,7 +857,7 @@ with \0. Each <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathM
 followed by tag value type. For example AMiOQZ\0OQZ\0, where the TD
 consists of just two values: integer 0 for tags {AM:i,OQ:Z} and 1 for
 tag {OQ:Z}.</p>
-<h3 id="744-encoding-tag-values">7.4.4 Encoding tag values<a class="header-anchor" aria-hidden="" href="#744-encoding-tag-values">#</a></h3>
+<h3 id="7.4.4">7.4.4 Encoding tag values<a class="header-anchor" aria-hidden="" href="#7.4.4">#</a></h3>
 <p>The encodings used for different tags are stored in a map. The map has
 integer keys composed of the two letter tag abbreviation followed by the
 tag type as defined in the SAM specification, for example ‘OQZ’ for
@@ -899,7 +899,7 @@ is finally written as ITF8.</p>
 convert tag values into byte array and back are the same as in BAM with
 the exception of value type being captured in the tag key rather in the
 value.</p>
-<h2 id="75-slice-header-block">7.5 <strong>Slice header block</strong><a class="header-anchor" aria-hidden="" href="#75-slice-header-block">#</a></h2>
+<h2 id="7.5">7.5 <strong>Slice header block</strong><a class="header-anchor" aria-hidden="" href="#7.5">#</a></h2>
 <p>The slice header block is never compressed (block method=raw). For
 reference mapped reads the slice header also defines the reference
 sequence context of the data blocks associated with the slice. Mapped
@@ -965,7 +965,7 @@ bytes for unmapped or unsorted reads</td>
 </tr>
 </tbody>
 </table>
-<h2 id="76-core-data-block">7.6 <strong>Core data block</strong><a class="header-anchor" aria-hidden="" href="#76-core-data-block">#</a></h2>
+<h2 id="7.6">7.6 <strong>Core data block</strong><a class="header-anchor" aria-hidden="" href="#7.6">#</a></h2>
 <p>A core data block is a bit stream (most significant bit first)
 consisting of one or more CRAM records. Please note that one byte could
 hold more then one CRAM record as a minimal CRAM record could be just a
@@ -996,7 +996,7 @@ few bits long. The core data block has the following fields:</p>
 </tr>
 </tbody>
 </table>
-<h2 id="77-external-data-block">7.7 <strong>External data block</strong><a class="header-anchor" aria-hidden="" href="#77-external-data-block">#</a></h2>
+<h2 id="7.7">7.7 <strong>External data block</strong><a class="header-anchor" aria-hidden="" href="#7.7">#</a></h2>
 <p>Relationship between core data block and external data blocks is shown
 in the following picture:</p>
 <p><img src="/hts-specs-md/img/CRAMFileFormat2-1-fig007.png" style="width:451pt;height:350pt" alt="image"></p>
@@ -1007,7 +1007,7 @@ data blocks. The specific encodings are presented only for demonstration
 purposes, the main point here is to distinguish between bit encodings
 whose output is always stored in core data block and the external
 encoding which simply stored the bytes into external data blocks.</p>
-<h1 id="8-end-of-file-marker">8 <strong>End of file marker</strong><a class="header-anchor" aria-hidden="" href="#8-end-of-file-marker">#</a></h1>
+<h1 id="8">8 <strong>End of file marker</strong><a class="header-anchor" aria-hidden="" href="#8">#</a></h1>
 <p>A special container is used to mark the end of a file or stream. It is
 optional in version preceding 2.1 but required in later versions. The
 idea is to provide an easy and a quick way to detect that a CRAM file or
@@ -1168,7 +1168,7 @@ seq id set to -1 (unaligned) and alignment start set to 4542278.</p>
 hex representation is:</p>
 <p>0b 00 00 00 ff ff ff ff ff e0 45 4f 46 00 00 00 00 01 00 00 01 00 06 06
 01 00 01 00 01 00</p>
-<h1 id="9-record-structure">9 <strong>Record structure</strong><a class="header-anchor" aria-hidden="" href="#9-record-structure">#</a></h1>
+<h1 id="9">9 <strong>Record structure</strong><a class="header-anchor" aria-hidden="" href="#9">#</a></h1>
 <p>CRAM record is based on the SAM record but has additional features
 allowing for more efficient data storage. In contrast to BAM record CRAM
 record uses bits as well as bytes for data storage. This way, for
@@ -1176,7 +1176,7 @@ example, various coding techniques which output variable length binary
 codes can be used directly in CRAM. On the other hand, data series that
 do not require binary coding can be stored separately in external blocks
 with some other compression applied to them independently.</p>
-<h2 id="91-cram-record">9.1 <strong>CRAM record</strong><a class="header-anchor" aria-hidden="" href="#91-cram-record">#</a></h2>
+<h2 id="9.1">9.1 <strong>CRAM record</strong><a class="header-anchor" aria-hidden="" href="#9.1">#</a></h2>
 <p>Both mapped and unmapped reads start with the following fields. Please
 note that the data series type refers to the logical data type and the
 data series name corresponds to the data series encoding map.</p>
@@ -1328,12 +1328,12 @@ additional fields:</p>
 </tr>
 </tbody>
 </table>
-<h2 id="92-read-bases">9.2 <strong>Read bases</strong><a class="header-anchor" aria-hidden="" href="#92-read-bases">#</a></h2>
+<h2 id="9.2">9.2 <strong>Read bases</strong><a class="header-anchor" aria-hidden="" href="#9.2">#</a></h2>
 <p>CRAM format supports ACGTN bases only. All non-ACGTN read bases must be
 replaced with N (unknown) base. In case of mismatching non-ACGTN read
 base and non-ACGTN reference base a ReadBase read feature should be used
 to capture the fact that the read base should be restored as N base.</p>
-<h2 id="93-cram-record-bit-flags-bf-data-series">9.3 <strong>CRAM record bit flags (BF data series)</strong><a class="header-anchor" aria-hidden="" href="#93-cram-record-bit-flags-bf-data-series">#</a></h2>
+<h2 id="9.3">9.3 <strong>CRAM record bit flags (BF data series)</strong><a class="header-anchor" aria-hidden="" href="#9.3">#</a></h2>
 <p>The following flags are defined for each CRAM read record:</p>
 <table>
 <thead>
@@ -1402,7 +1402,7 @@ to capture the fact that the read base should be restored as N base.</p>
 </tbody>
 </table>
 <p>* For segments within the same slice.</p>
-<h2 id="94-read-feature-records">9.4 <strong>Read feature records</strong><a class="header-anchor" aria-hidden="" href="#94-read-feature-records">#</a></h2>
+<h2 id="9.4">9.4 <strong>Read feature records</strong><a class="header-anchor" aria-hidden="" href="#9.4">#</a></h2>
 <p>Read features are used to store read details that are expressed using
 read coordinates (e.g. base differences respective to the reference
 sequence). The read feature records start with the number of read
@@ -1450,7 +1450,7 @@ features followed by the read features themselves:</p>
 </table>
 <p>*1 Repeated for each read feature.</p>
 <p>*2 See <strong>read feature codes</strong> below.</p>
-<h3 id="941-read-feature-codes">9.4.1 Read feature codes<a class="header-anchor" aria-hidden="" href="#941-read-feature-codes">#</a></h3>
+<h3 id="9.4.1">9.4.1 Read feature codes<a class="header-anchor" aria-hidden="" href="#9.4.1">#</a></h3>
 <p>The following codes are used to distinguish variations in read
 coordinates:</p>
 <table>
@@ -1536,7 +1536,7 @@ coordinates:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="942-base-substitution-codes-bs-data-series">9.4.2 Base substitution codes (BS data series)<a class="header-anchor" aria-hidden="" href="#942-base-substitution-codes-bs-data-series">#</a></h3>
+<h3 id="9.4.2">9.4.2 Base substitution codes (BS data series)<a class="header-anchor" aria-hidden="" href="#9.4.2">#</a></h3>
 <p>A base substitution is defined as a change from one nucleotide base
 (reference base) to another (read base) including N as an unknown or
 missing base. There are 5 possible bases ACGTN, 4 possible substitutions
@@ -1565,7 +1565,7 @@ in this case. The whole substitution matrix is written as 5 bytes, one
 for each reference base in the alphabetical order: A, C, G, T and N.</p>
 <p>Note: the last two bits of each substitution code are redundant but
 still required to simplify the reading.</p>
-<h2 id="95-mate-record">9.5 <strong>Mate record</strong><a class="header-anchor" aria-hidden="" href="#95-mate-record">#</a></h2>
+<h2 id="9.5">9.5 <strong>Mate record</strong><a class="header-anchor" aria-hidden="" href="#9.5">#</a></h2>
 <p>There are two ways in which mate information can be preserved in CRAM:
 number of records downstream (distance) to the next fragment in the
 template and a special mate record if the next fragment is not in the
@@ -1635,7 +1635,7 @@ structure is included into the CRAM record:</p>
 </tbody>
 </table>
 <h3 id="951">9.5.1<a class="header-anchor" aria-hidden="" href="#951">#</a></h3>
-<h3 id="952-next-mate-bit-flags-mf-data-series">9.5.2 Next mate bit flags (MF data series)<a class="header-anchor" aria-hidden="" href="#952-next-mate-bit-flags-mf-data-series">#</a></h3>
+<h3 id="9.5.2">9.5.2 Next mate bit flags (MF data series)<a class="header-anchor" aria-hidden="" href="#9.5.2">#</a></h3>
 <p>The next mate bit flags expressed as an integer represent the MF data
 series. The following bit flags are defined:</p>
 <table>
@@ -1659,7 +1659,7 @@ series. The following bit flags are defined:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="953-read-names-rn-data-series">9.5.3 Read names (RN data series)<a class="header-anchor" aria-hidden="" href="#953-read-names-rn-data-series">#</a></h3>
+<h3 id="9.5.3">9.5.3 Read names (RN data series)<a class="header-anchor" aria-hidden="" href="#9.5.3">#</a></h3>
 <p>Read names can be preserved in the CRAM format. However, it is
 anticipated that in the majority of cases original read names will not
 be preserved and sequential integer numbers will be used as read names.
@@ -1670,7 +1670,7 @@ the original ones. Their only two requirements are:</p>
 <p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∙</mo></mrow><annotation encoding="application/x-tex">\bullet</annotation></semantics></math></span> read name must be the same for all fragments of the same
 template</p>
 <p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∙</mo></mrow><annotation encoding="application/x-tex">\bullet</annotation></semantics></math></span> read name of a template must be unique within a file</p>
-<h2 id="96-compression-bit-flags-cf-data-series">9.6 <strong>Compression bit flags (CF data series)</strong><a class="header-anchor" aria-hidden="" href="#96-compression-bit-flags-cf-data-series">#</a></h2>
+<h2 id="9.6">9.6 <strong>Compression bit flags (CF data series)</strong><a class="header-anchor" aria-hidden="" href="#9.6">#</a></h2>
 <p>The compression bit flags expressed as an integer represent the CF data
 series. The following compression flags are defined for each CRAM read
 record:</p>
@@ -1701,7 +1701,7 @@ read bases.</td>
 </tr>
 </tbody>
 </table>
-<h1 id="10-reference-sequences">10 <strong>Reference sequences</strong><a class="header-anchor" aria-hidden="" href="#10-reference-sequences">#</a></h1>
+<h1 id="10">10 <strong>Reference sequences</strong><a class="header-anchor" aria-hidden="" href="#10">#</a></h1>
 <p>CRAM format is natively based upon usage of reference sequences even
 though in some cases they are not required. In contrast to BAM format
 CRAM format has strict rules about reference sequences.</p>
@@ -1714,7 +1714,7 @@ MD5 is to remove any non-base symbols (like \n, sequence name or
 length and spaces) and upper case the rest. Here are some examples:</p>
 <p><code>> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -</code><br>
 <code>1b22b98cdeb4a9304cb5d48026a85128 -</code></p>
-<p><code>> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^``>``' tr -d '\n' tr a-z A-Z md5sum -</code><br>
+<p><code>> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -</code><br>
 <code>0f2a4865e3952676ffad2c3671f14057 -</code></p>
 <p>Please note that the latter calculates the checksum for 11 bases
 from position 10 (inclusive) to 20 (inclusive) and the bases are
@@ -1735,8 +1735,8 @@ out of range reference bases are all assumed to be ‘N’.</p>
 multiref slices.</p>
 </li>
 </ol>
-<h1 id="11-indexing">11 <strong>Indexing</strong><a class="header-anchor" aria-hidden="" href="#11-indexing">#</a></h1>
-<h3 id="1101-general-notes">11.0.1 General notes<a class="header-anchor" aria-hidden="" href="#1101-general-notes">#</a></h3>
+<h1 id="11">11 <strong>Indexing</strong><a class="header-anchor" aria-hidden="" href="#11">#</a></h1>
+<h3 id="11.0.1">11.0.1 General notes<a class="header-anchor" aria-hidden="" href="#11.0.1">#</a></h3>
 <p>Please note that CRAM indexing is external to the file format itself and
 may change independently of the file format specification in the future.
 For example, a new type of index files may appear.</p>
@@ -1751,7 +1751,7 @@ does not require any CRAM records to be read. All indexing information
 can be obtained from container headers, namely sequence id, alignment
 start and span, container start byte offset and slice byte offset inside
 the container.</p>
-<h3 id="1102-cram-index">11.0.2 CRAM index<a class="header-anchor" aria-hidden="" href="#1102-cram-index">#</a></h3>
+<h3 id="11.0.2">11.0.2 CRAM index<a class="header-anchor" aria-hidden="" href="#11.0.2">#</a></h3>
 <p>A CRAM index is a gzipped tab delimited file containing the following
 columns:</p>
 <ol>
@@ -1776,7 +1776,7 @@ columns:</p>
 </ol>
 <p>Each line represents a slice in the CRAM file. Please note that all
 slices must be listed in index file.</p>
-<h3 id="1103-bam-index">11.0.3 BAM index<a class="header-anchor" aria-hidden="" href="#1103-bam-index">#</a></h3>
+<h3 id="11.0.3">11.0.3 BAM index<a class="header-anchor" aria-hidden="" href="#11.0.3">#</a></h3>
 <p>BAM indexes are supported by using 4-byte integer pointers called
 landmarks that are stored in container header. BAM index pointer is a
 64-bit value with 48 bits reserved for the BAM block start position and
@@ -1789,8 +1789,8 @@ used to access the appropriate slice.</p>
 BAM file. This allows to apply BAM indexing to CRAM files, however it
 introduces some overhead in seeking specific alignment start because all
 preceding records in the slice must be read and discarded.</p>
-<h1 id="12-appendix">12 <strong>Appendix</strong><a class="header-anchor" aria-hidden="" href="#12-appendix">#</a></h1>
-<h2 id="121-external-encoding">12.1 <strong>External encoding</strong><a class="header-anchor" aria-hidden="" href="#121-external-encoding">#</a></h2>
+<h1 id="12">12 <strong>Appendix</strong><a class="header-anchor" aria-hidden="" href="#12">#</a></h1>
+<h2 id="12.1">12.1 <strong>External encoding</strong><a class="header-anchor" aria-hidden="" href="#12.1">#</a></h2>
 <p>External encoding operates on bytes only. Therefore any data series must
 be translated into bytes before sending data into an external block. The
 following agreements are defined.</p>
@@ -1799,8 +1799,8 @@ array of bytes.</p>
 <p>Strings, like read name, are translated into bytes according to UTF8
 rules. In most cases these should coincide with ASCII, making the
 translation trivial.</p>
-<h2 id="122-codings">12.2 <strong>Codings</strong><a class="header-anchor" aria-hidden="" href="#122-codings">#</a></h2>
-<h3 id="1221-introduction">12.2.1 Introduction<a class="header-anchor" aria-hidden="" href="#1221-introduction">#</a></h3>
+<h2 id="12.2">12.2 <strong>Codings</strong><a class="header-anchor" aria-hidden="" href="#12.2">#</a></h2>
+<h3 id="12.2.1">12.2.1 Introduction<a class="header-anchor" aria-hidden="" href="#12.2.1">#</a></h3>
 <p>The basic idea for codings is to efficiently represent some values in
 binary format. This can be achieved in a number of ways that most
 frequently involve some knowledge about the nature of the values being
@@ -1808,7 +1808,7 @@ encoded, for example, distribution statistics. The methods for choosing
 the best encoding and determining its parameters are very diverse and
 are not part of the CRAM format specification, which only describes how
 the information needed to decode the values should be stored.</p>
-<h3 id="1222-offset">12.2.2 Offset<a class="header-anchor" aria-hidden="" href="#1222-offset">#</a></h3>
+<h3 id="12.2.2">12.2.2 Offset<a class="header-anchor" aria-hidden="" href="#12.2.2">#</a></h3>
 <p>Most of the codings listed below encode positive integer numbers. An
 integer offset value is used to allow any integer numbers and not just
 positive ones to be encoded. It can also be used for monotonically
@@ -1816,11 +1816,11 @@ decreasing distributions with the maximum not equal to zero. For
 example, given offset is 10 and the value to be encoded is 1, the
 actually encoded value would be offset+value=11. Then when decoding, the
 offset would be subtracted from the decoded value.</p>
-<h3 id="1223-beta-coding">12.2.3 Beta coding<a class="header-anchor" aria-hidden="" href="#1223-beta-coding">#</a></h3>
-<h3 id="1224-definition">12.2.4 Definition<a class="header-anchor" aria-hidden="" href="#1224-definition">#</a></h3>
+<h3 id="12.2.3">12.2.3 Beta coding<a class="header-anchor" aria-hidden="" href="#12.2.3">#</a></h3>
+<h3 id="12.2.4">12.2.4 Definition<a class="header-anchor" aria-hidden="" href="#12.2.4">#</a></h3>
 <p>Beta coding is a most common way to represent numbers in <em>binary
 notation</em>.</p>
-<h3 id="1225-examples">12.2.5 Examples<a class="header-anchor" aria-hidden="" href="#1225-examples">#</a></h3>
+<h3 id="12.2.5">12.2.5 Examples<a class="header-anchor" aria-hidden="" href="#12.2.5">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -1847,7 +1847,7 @@ notation</em>.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="1226-parameters">12.2.6 Parameters<a class="header-anchor" aria-hidden="" href="#1226-parameters">#</a></h3>
+<h3 id="12.2.6">12.2.6 Parameters<a class="header-anchor" aria-hidden="" href="#12.2.6">#</a></h3>
 <p>CRAM format defines the following parameters of beta coding:</p>
 <table>
 <thead>
@@ -1870,13 +1870,13 @@ notation</em>.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="1227-gamma-coding">12.2.7 Gamma coding<a class="header-anchor" aria-hidden="" href="#1227-gamma-coding">#</a></h3>
-<h3 id="1228-definition">12.2.8 Definition<a class="header-anchor" aria-hidden="" href="#1228-definition">#</a></h3>
+<h3 id="12.2.7">12.2.7 Gamma coding<a class="header-anchor" aria-hidden="" href="#12.2.7">#</a></h3>
+<h3 id="12.2.8">12.2.8 Definition<a class="header-anchor" aria-hidden="" href="#12.2.8">#</a></h3>
 <p><em>Elias gamma code</em> is a prefix encoding of positive integers. This is a
 combination of unary coding and beta coding. The first is used to
 capture the number of bits required for beta coding to capture the
 value.</p>
-<h3 id="1229-encoding">12.2.9 Encoding<a class="header-anchor" aria-hidden="" href="#1229-encoding">#</a></h3>
+<h3 id="12.2.9">12.2.9 Encoding<a class="header-anchor" aria-hidden="" href="#12.2.9">#</a></h3>
 <ol>
 <li>
 <p>Write it in binary.</p>
@@ -1900,7 +1900,7 @@ and the remaining <span class="katex"><math xmlns="http://www.w3.org/1998/Math/M
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span>.</p>
 </li>
 </ol>
-<h3 id="12210-decoding">12.2.10 Decoding<a class="header-anchor" aria-hidden="" href="#12210-decoding">#</a></h3>
+<h3 id="12.2.10">12.2.10 Decoding<a class="header-anchor" aria-hidden="" href="#12.2.10">#</a></h3>
 <ol>
 <li>
 <p>Read and count 0s from the stream until you reach the first 1. Call
@@ -1912,7 +1912,7 @@ integer, with a value of <span class="katex"><math xmlns="http://www.w3.org/1998
 integer.</p>
 </li>
 </ol>
-<h3 id="12211-examples">12.2.11 Examples<a class="header-anchor" aria-hidden="" href="#12211-examples">#</a></h3>
+<h3 id="12.2.11">12.2.11 Examples<a class="header-anchor" aria-hidden="" href="#12.2.11">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -1939,7 +1939,7 @@ integer.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="12212-parameters">12.2.12 Parameters<a class="header-anchor" aria-hidden="" href="#12212-parameters">#</a></h3>
+<h3 id="12.2.12">12.2.12 Parameters<a class="header-anchor" aria-hidden="" href="#12.2.12">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -1956,8 +1956,8 @@ integer.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="12213-golomb-coding">12.2.13 Golomb coding<a class="header-anchor" aria-hidden="" href="#12213-golomb-coding">#</a></h3>
-<h3 id="12214-definition">12.2.14 Definition<a class="header-anchor" aria-hidden="" href="#12214-definition">#</a></h3>
+<h3 id="12.2.13">12.2.13 Golomb coding<a class="header-anchor" aria-hidden="" href="#12.2.13">#</a></h3>
+<h3 id="12.2.14">12.2.14 Definition<a class="header-anchor" aria-hidden="" href="#12.2.14">#</a></h3>
 <p><em>Golomb encoding</em> is a prefix encoding optimal for representation of
 random positive numbers following geometric distribution.</p>
 <ol>
@@ -1979,7 +1979,7 @@ random positive numbers following geometric distribution.</p>
 <p>Generate Codeword</p>
 <ol>
 <li>
-<p>The Code format : <code>&#x3C;</code>Quotient Code<code>>``&#x3C;</code>Remainder Code<code>></code>, where</p>
+<p>The Code format : <code>&#x3C;</code>Quotient Code<code>>&#x3C;</code>Remainder Code<code>></code>, where</p>
 </li>
 <li>
 <p>Quotient Code (in unary coding)</p>
@@ -2017,7 +2017,7 @@ binary representation using <span class="katex"><math xmlns="http://www.w3.org/1
 </ol>
 </li>
 </ol>
-<h3 id="12215-examples">12.2.15 Examples<a class="header-anchor" aria-hidden="" href="#12215-examples">#</a></h3>
+<h3 id="12.2.15">12.2.15 Examples<a class="header-anchor" aria-hidden="" href="#12.2.15">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -2044,7 +2044,7 @@ binary representation using <span class="katex"><math xmlns="http://www.w3.org/1
 </tr>
 </tbody>
 </table>
-<h3 id="12216-parameters">12.2.16 Parameters<a class="header-anchor" aria-hidden="" href="#12216-parameters">#</a></h3>
+<h3 id="12.2.16">12.2.16 Parameters<a class="header-anchor" aria-hidden="" href="#12.2.16">#</a></h3>
 <p>Golomb coding takes the following parameters:</p>
 <table>
 <thead>
@@ -2067,18 +2067,18 @@ binary representation using <span class="katex"><math xmlns="http://www.w3.org/1
 </tr>
 </tbody>
 </table>
-<h3 id="12217-golomb-rice-coding">12.2.17 Golomb-Rice coding<a class="header-anchor" aria-hidden="" href="#12217-golomb-rice-coding">#</a></h3>
+<h3 id="12.2.17">12.2.17 Golomb-Rice coding<a class="header-anchor" aria-hidden="" href="#12.2.17">#</a></h3>
 <p>Golomb-Rice coding is a special case of Golomb coding when the M
 parameter is a power of 2. The reason for this coding is that the
 division operations in Golomb coding can be replaced with bit shift
 operators.</p>
-<h3 id="12218-subexponential-coding">12.2.18 Subexponential coding<a class="header-anchor" aria-hidden="" href="#12218-subexponential-coding">#</a></h3>
-<h3 id="12219-definition">12.2.19 Definition<a class="header-anchor" aria-hidden="" href="#12219-definition">#</a></h3>
+<h3 id="12.2.18">12.2.18 Subexponential coding<a class="header-anchor" aria-hidden="" href="#12.2.18">#</a></h3>
+<h3 id="12.2.19">12.2.19 Definition<a class="header-anchor" aria-hidden="" href="#12.2.19">#</a></h3>
 <p>Subexponential coding is parametrized by a non-nengative integer <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span>.
 The main feature of the subexponential code is its length. For integers
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&#x3C;</mo><mn>2</mn><mi>k</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n &#x3C; 2k+1</annotation></semantics></math></span> the code length increases linearly with <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span>, but for larger
 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span> it increases logarithmically.</p>
-<h3 id="12220-encoding">12.2.20 Encoding<a class="header-anchor" aria-hidden="" href="#12220-encoding">#</a></h3>
+<h3 id="12.2.20">12.2.20 Encoding<a class="header-anchor" aria-hidden="" href="#12.2.20">#</a></h3>
 <ol>
 <li>
 <p>Determine the group index i using the following rules:</p>
@@ -2104,7 +2104,7 @@ The main feature of the subexponential code is its length. For integers
 binary number otherwise.</p>
 </li>
 </ol>
-<h3 id="12221-decoding">12.2.21 Decoding<a class="header-anchor" aria-hidden="" href="#12221-decoding">#</a></h3>
+<h3 id="12.2.21">12.2.21 Decoding<a class="header-anchor" aria-hidden="" href="#12.2.21">#</a></h3>
 <ol>
 <li>
 <p>Let <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span> be the number of leading 1s (prefix) in the codeword.</p>
@@ -2145,7 +2145,7 @@ represented by the tail.</p>
 <p>Go to step 1 to process the next codeword.</p>
 </li>
 </ol>
-<h3 id="12222-examples">12.2.22 Examples<a class="header-anchor" aria-hidden="" href="#12222-examples">#</a></h3>
+<h3 id="12.2.22">12.2.22 Examples<a class="header-anchor" aria-hidden="" href="#12.2.22">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -2224,7 +2224,7 @@ represented by the tail.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="12223-parameters">12.2.23 Parameters<a class="header-anchor" aria-hidden="" href="#12223-parameters">#</a></h3>
+<h3 id="12.2.23">12.2.23 Parameters<a class="header-anchor" aria-hidden="" href="#12.2.23">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -2246,7 +2246,7 @@ represented by the tail.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="12224-huffman-coding">12.2.24 Huffman coding<a class="header-anchor" aria-hidden="" href="#12224-huffman-coding">#</a></h3>
+<h3 id="12.2.24">12.2.24 Huffman coding<a class="header-anchor" aria-hidden="" href="#12.2.24">#</a></h3>
 <p>CRAM uses canonical <em>huffman coding</em>, which requires only bit-lengths of
 codewords to restore data. The canonical huffman code follows two
 additional rules: the alphabet has a natural sort order and codewords
@@ -2255,7 +2255,7 @@ containing bit-lengths for each value in the alphabet the codewords can
 be easily restored.</p>
 <p><strong>Important note: for alphabets with only one value there is no output
 bits at all.</strong></p>
-<h3 id="12225-code-computation">12.2.25 Code computation<a class="header-anchor" aria-hidden="" href="#12225-code-computation">#</a></h3>
+<h3 id="12.2.25">12.2.25 Code computation<a class="header-anchor" aria-hidden="" href="#12.2.25">#</a></h3>
 <p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∙</mo></mrow><annotation encoding="application/x-tex">\bullet</annotation></semantics></math></span> Sort the alphabet ascending using bit-lengths and then using
 numerical order of the values.</p>
 <p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∙</mo></mrow><annotation encoding="application/x-tex">\bullet</annotation></semantics></math></span> The first symbol in the list gets assigned a codeword which is
@@ -2266,7 +2266,7 @@ sequence, ensuring that following codes are always higher in value.</p>
 <p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∙</mo></mrow><annotation encoding="application/x-tex">\bullet</annotation></semantics></math></span> When you reach a longer codeword, then after incrementing,
 append zeros until the length of the new codeword is equal to the length
 of the old codeword.</p>
-<h3 id="12226-parameters">12.2.26 Parameters<a class="header-anchor" aria-hidden="" href="#12226-parameters">#</a></h3>
+<h3 id="12.2.26">12.2.26 Parameters<a class="header-anchor" aria-hidden="" href="#12.2.26">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -2288,11 +2288,11 @@ of the old codeword.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="12227-byte-array-coding">12.2.27 Byte array coding<a class="header-anchor" aria-hidden="" href="#12227-byte-array-coding">#</a></h3>
+<h3 id="12.2.27">12.2.27 Byte array coding<a class="header-anchor" aria-hidden="" href="#12.2.27">#</a></h3>
 <p>Often there is a need to encode an array of bytes. This can be optimized
 if the length of the encoded arrays is known. For such cases
 BYTE_ARRAY_LEN and BYTE_ARRAY_STOP codings can be used.</p>
-<h3 id="12228-byte_array_len">12.2.28 BYTE_ARRAY_LEN<a class="header-anchor" aria-hidden="" href="#12228-byte_array_len">#</a></h3>
+<h3 id="12.2.28">12.2.28 BYTE_ARRAY_LEN<a class="header-anchor" aria-hidden="" href="#12.2.28">#</a></h3>
 <p>Byte arrays are captured length-first, meaning that the length of every
 array is written using an additional encoding. For example this could be
 a golomb encoding. The parameter for BYTE_ARRAY_LEN are listed below:</p>
@@ -2317,7 +2317,7 @@ a golomb encoding. The parameter for BYTE_ARRAY_LEN are listed below:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="12229-byte_array_stop">12.2.29 BYTE_ARRAY_STOP<a class="header-anchor" aria-hidden="" href="#12229-byte_array_stop">#</a></h3>
+<h3 id="12.2.29">12.2.29 BYTE_ARRAY_STOP<a class="header-anchor" aria-hidden="" href="#12.2.29">#</a></h3>
 <p>Byte arrays are captured as a sequence of bytes terminated by a special
 stop byteFor example this could be a golomb encoding. The parameter for
 BYTE_ARRAY_STOP are listed below:</p>
@@ -2342,7 +2342,7 @@ BYTE_ARRAY_STOP are listed below:</p>
 </tr>
 </tbody>
 </table>
-<h2 id="123-choosing-the-container-size">12.3 <strong>Choosing the container size</strong><a class="header-anchor" aria-hidden="" href="#123-choosing-the-container-size">#</a></h2>
+<h2 id="12.3">12.3 <strong>Choosing the container size</strong><a class="header-anchor" aria-hidden="" href="#12.3">#</a></h2>
 <p>CRAM format does not constrain the size of the containers. However, the
 following should be considered when deciding the container size:</p>
 <p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∙</mo></mrow><annotation encoding="application/x-tex">\bullet</annotation></semantics></math></span> Data can be compressed better by using larger containers</p>

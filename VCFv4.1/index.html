@@ -1,10 +1,10 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>The Variant Call Format (VCF) Version 4.1 Specification (Superseded by the VCF v4.2 through v4.5 specifications) - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
-</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>The Variant Call Format (VCF) Version 4.1 Specification (Superseded by the VCF v4.2 through v4.5 specifications)</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/c101c79"><code>c101c79</code></a>, dated 5 Nov 2025.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#11-an-example">1.1 An example</a> </li><li class="depth-2"> <a href="#12-meta-information-lines">1.2 Meta-information lines</a> </li><li class="depth-3"> <a href="#121-file-format">1.2.1 File format</a> </li><li class="depth-3"> <a href="#122-information-field-format">1.2.2 Information field format</a> </li><li class="depth-3"> <a href="#123-filter-field-format">1.2.3 Filter field format</a> </li><li class="depth-3"> <a href="#124-individual-format-field-format">1.2.4 Individual format field format</a> </li><li class="depth-3"> <a href="#125-alternative-allele-field-format">1.2.5 Alternative allele field format</a> </li><li class="depth-3"> <a href="#126-assembly-field-format">1.2.6 Assembly field format</a> </li><li class="depth-3"> <a href="#127-contig-field-format">1.2.7 Contig field format</a> </li><li class="depth-3"> <a href="#128-sample-field-format">1.2.8 Sample field format</a> </li><li class="depth-3"> <a href="#129-pedigree-field-format">1.2.9 Pedigree field format</a> </li><li class="depth-2"> <a href="#13-header-line-syntax">1.3 Header line syntax</a> </li><li class="depth-2"> <a href="#14-data-lines">1.4 Data lines</a> </li><li class="depth-3"> <a href="#141-fixed-fields">1.4.1 Fixed fields</a> </li><li class="depth-3"> <a href="#142-genotype-fields">1.4.2 Genotype fields</a> </li><li class="depth-2"> <a href="#51-creating-vcf-entries-for-snps-and-small-indels">5.1 Creating VCF entries for SNPs and small indels</a> </li><li class="depth-3"> <a href="#511-example-1">5.1.1 Example 1</a> </li><li class="depth-3"> <a href="#512-example-2">5.1.2 Example 2</a> </li><li class="depth-3"> <a href="#513-example-3">5.1.3 Example 3</a> </li><li class="depth-2"> <a href="#52-decoding-vcf-entries-for-snps-and-small-indels">5.2 Decoding VCF entries for SNPs and small indels</a> </li><li class="depth-3"> <a href="#521-snp-vcf-record">5.2.1 SNP VCF record</a> </li><li class="depth-3"> <a href="#522-insertion-vcf-record">5.2.2 Insertion VCF record</a> </li><li class="depth-3"> <a href="#523-deletion-vcf-record">5.2.3 Deletion VCF record</a> </li><li class="depth-3"> <a href="#524-mixed-vcf-record-for-a-microsatellite">5.2.4 Mixed VCF record for a microsatellite</a> </li><li class="depth-2"> <a href="#53-encoding-structural-variants">5.3 Encoding Structural Variants</a> </li><li class="depth-2"> <a href="#54-specifying-complex-rearrangements-with-breakends">5.4 Specifying complex rearrangements with breakends</a> </li><li class="depth-3"> <a href="#541-inserted-sequence">5.4.1 Inserted Sequence</a> </li><li class="depth-3"> <a href="#542-large-insertions">5.4.2 Large Insertions</a> </li><li class="depth-3"> <a href="#543-multiple-mates">5.4.3 Multiple mates</a> </li><li class="depth-3"> <a href="#544-explicit-partners">5.4.4 Explicit partners</a> </li><li class="depth-3"> <a href="#545-telomeres">5.4.5 Telomeres</a> </li><li class="depth-3"> <a href="#546-event-modifiers">5.4.6 Event modifiers</a> </li><li class="depth-3"> <a href="#547-inversions">5.4.7 Inversions</a> </li><li class="depth-3"> <a href="#548-uncertainty-around-breakend-location">5.4.8 Uncertainty around breakend location</a> </li><li class="depth-3"> <a href="#549-single-breakends">5.4.9 Single breakends</a> </li><li class="depth-3"> <a href="#5410-sample-mixtures">5.4.10 Sample mixtures</a> </li><li class="depth-3"> <a href="#5411-clonal-derivation-relationships">5.4.11 Clonal derivation relationships</a> </li><li class="depth-3"> <a href="#5412-phasing-adjacencies-in-an-aneuploid-context">5.4.12 Phasing adjacencies in an aneuploid context</a> </li><li class="depth-2"> <a href="#61-overall-file-organization">6.1 Overall file organization</a> </li><li class="depth-2"> <a href="#62-header">6.2 Header</a> </li><li class="depth-3"> <a href="#621-dictionary-of-strings">6.2.1 Dictionary of strings</a> </li><li class="depth-3"> <a href="#622-dictionary-of-contigs">6.2.2 Dictionary of contigs</a> </li><li class="depth-2"> <a href="#63-bcf2-records">6.3 BCF2 records</a> </li><li class="depth-3"> <a href="#631-site-encoding">6.3.1 Site encoding</a> </li><li class="depth-3"> <a href="#632-genotype-encoding">6.3.2 Genotype encoding</a> </li><li class="depth-3"> <a href="#633-type-encoding">6.3.3 Type encoding</a> </li><li class="depth-2"> <a href="#64-encoding-a-vcf-record-example">6.4 Encoding a VCF record example</a> </li><li class="depth-3"> <a href="#641-encoding-chrom-and-pos">6.4.1 Encoding CHROM and POS</a> </li><li class="depth-3"> <a href="#642-encoding-qual">6.4.2 Encoding QUAL</a> </li><li class="depth-3"> <a href="#643-encoding-id">6.4.3 Encoding ID</a> </li><li class="depth-3"> <a href="#644-encoding-refalt-fields">6.4.4 Encoding REF/ALT fields</a> </li><li class="depth-3"> <a href="#645-encoding-filter">6.4.5 Encoding FILTER</a> </li><li class="depth-3"> <a href="#646-encoding-the-info-fields">6.4.6 Encoding the INFO fields</a> </li><li class="depth-3"> <a href="#647-encoding-genotypes">6.4.7 Encoding Genotypes</a> </li><li class="depth-2"> <a href="#65-bcf2-block-gzip-and-indexing">6.5 BCF2 block gzip and indexing</a> </li> </ul> </details>  <p>VCF is a text file format (most likely stored in a compressed manner).
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>The Variant Call Format (VCF) Version 4.1 Specification (Superseded by the VCF v4.2 through v4.5 specifications) - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}tfoot.tablenotes td{font-size:.85em;color:#555;background:#f8f9fa;border-top:2px solid #bbb}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
+</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>The Variant Call Format (VCF) Version 4.1 Specification (Superseded by the VCF v4.2 through v4.5 specifications)</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/c101c79"><code>c101c79</code></a>, dated 5 Nov 2025.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#1.1">1.1 An example</a> </li><li class="depth-2"> <a href="#1.2">1.2 Meta-information lines</a> </li><li class="depth-3"> <a href="#1.2.1">1.2.1 File format</a> </li><li class="depth-3"> <a href="#1.2.2">1.2.2 Information field format</a> </li><li class="depth-3"> <a href="#1.2.3">1.2.3 Filter field format</a> </li><li class="depth-3"> <a href="#1.2.4">1.2.4 Individual format field format</a> </li><li class="depth-3"> <a href="#1.2.5">1.2.5 Alternative allele field format</a> </li><li class="depth-3"> <a href="#1.2.6">1.2.6 Assembly field format</a> </li><li class="depth-3"> <a href="#1.2.7">1.2.7 Contig field format</a> </li><li class="depth-3"> <a href="#1.2.8">1.2.8 Sample field format</a> </li><li class="depth-3"> <a href="#1.2.9">1.2.9 Pedigree field format</a> </li><li class="depth-2"> <a href="#1.3">1.3 Header line syntax</a> </li><li class="depth-2"> <a href="#1.4">1.4 Data lines</a> </li><li class="depth-3"> <a href="#1.4.1">1.4.1 Fixed fields</a> </li><li class="depth-3"> <a href="#1.4.2">1.4.2 Genotype fields</a> </li><li class="depth-2"> <a href="#5.1">5.1 Creating VCF entries for SNPs and small indels</a> </li><li class="depth-3"> <a href="#5.1.1">5.1.1 Example 1</a> </li><li class="depth-3"> <a href="#5.1.2">5.1.2 Example 2</a> </li><li class="depth-3"> <a href="#5.1.3">5.1.3 Example 3</a> </li><li class="depth-2"> <a href="#5.2">5.2 Decoding VCF entries for SNPs and small indels</a> </li><li class="depth-3"> <a href="#5.2.1">5.2.1 SNP VCF record</a> </li><li class="depth-3"> <a href="#5.2.2">5.2.2 Insertion VCF record</a> </li><li class="depth-3"> <a href="#5.2.3">5.2.3 Deletion VCF record</a> </li><li class="depth-3"> <a href="#5.2.4">5.2.4 Mixed VCF record for a microsatellite</a> </li><li class="depth-2"> <a href="#5.3">5.3 Encoding Structural Variants</a> </li><li class="depth-2"> <a href="#5.4">5.4 Specifying complex rearrangements with breakends</a> </li><li class="depth-3"> <a href="#5.4.1">5.4.1 Inserted Sequence</a> </li><li class="depth-3"> <a href="#5.4.2">5.4.2 Large Insertions</a> </li><li class="depth-3"> <a href="#5.4.3">5.4.3 Multiple mates</a> </li><li class="depth-3"> <a href="#5.4.4">5.4.4 Explicit partners</a> </li><li class="depth-3"> <a href="#5.4.5">5.4.5 Telomeres</a> </li><li class="depth-3"> <a href="#5.4.6">5.4.6 Event modifiers</a> </li><li class="depth-3"> <a href="#5.4.7">5.4.7 Inversions</a> </li><li class="depth-3"> <a href="#5.4.8">5.4.8 Uncertainty around breakend location</a> </li><li class="depth-3"> <a href="#5.4.9">5.4.9 Single breakends</a> </li><li class="depth-3"> <a href="#5.4.10">5.4.10 Sample mixtures</a> </li><li class="depth-3"> <a href="#5.4.11">5.4.11 Clonal derivation relationships</a> </li><li class="depth-3"> <a href="#5.4.12">5.4.12 Phasing adjacencies in an aneuploid context</a> </li><li class="depth-2"> <a href="#6.1">6.1 Overall file organization</a> </li><li class="depth-2"> <a href="#6.2">6.2 Header</a> </li><li class="depth-3"> <a href="#6.2.1">6.2.1 Dictionary of strings</a> </li><li class="depth-3"> <a href="#6.2.2">6.2.2 Dictionary of contigs</a> </li><li class="depth-2"> <a href="#6.3">6.3 BCF2 records</a> </li><li class="depth-3"> <a href="#6.3.1">6.3.1 Site encoding</a> </li><li class="depth-3"> <a href="#6.3.2">6.3.2 Genotype encoding</a> </li><li class="depth-3"> <a href="#6.3.3">6.3.3 Type encoding</a> </li><li class="depth-2"> <a href="#6.4">6.4 Encoding a VCF record example</a> </li><li class="depth-3"> <a href="#6.4.1">6.4.1 Encoding CHROM and POS</a> </li><li class="depth-3"> <a href="#6.4.2">6.4.2 Encoding QUAL</a> </li><li class="depth-3"> <a href="#6.4.3">6.4.3 Encoding ID</a> </li><li class="depth-3"> <a href="#6.4.4">6.4.4 Encoding REF/ALT fields</a> </li><li class="depth-3"> <a href="#6.4.5">6.4.5 Encoding FILTER</a> </li><li class="depth-3"> <a href="#6.4.6">6.4.6 Encoding the INFO fields</a> </li><li class="depth-3"> <a href="#6.4.7">6.4.7 Encoding Genotypes</a> </li><li class="depth-2"> <a href="#6.5">6.5 BCF2 block gzip and indexing</a> </li> </ul> </details>  <p>VCF is a text file format (most likely stored in a compressed manner).
 It contains meta-information lines, a header line, and then data lines
 each containing information about a position in the genome. The format
 also has the ability to contain genotype information on samples for each
 position.</p>
-<h2 id="11-an-example">1.1 An example<a class="header-anchor" aria-hidden="" href="#11-an-example">#</a></h2>
+<h2 id="1.1">1.1 An example<a class="header-anchor" aria-hidden="" href="#1.1">#</a></h2>
 <pre><code>##fileformat=VCFv4.1
 ##fileDate=20090805
 ##source=myImputationProgramV3.1
@@ -41,20 +41,20 @@ given for three samples, two of which are phased and the third unphased,
 with per sample genotype quality, depth and haplotype qualities (the
 latter only for the phased samples) given as well as the genotypes. The
 microsatellite calls are unphased.</p>
-<h2 id="12-meta-information-lines">1.2 Meta-information lines<a class="header-anchor" aria-hidden="" href="#12-meta-information-lines">#</a></h2>
+<h2 id="1.2">1.2 Meta-information lines<a class="header-anchor" aria-hidden="" href="#1.2">#</a></h2>
 <p>File meta-information is included after the ## string and must be
 key=value pairs. It is strongly encouraged that information lines
 describing the INFO, FILTER and FORMAT entries used in the body of the
 VCF file be included in the meta-information section. Although they are
 optional, if these lines are present then they must be completely
 well-formed.</p>
-<h3 id="121-file-format">1.2.1 File format<a class="header-anchor" aria-hidden="" href="#121-file-format">#</a></h3>
+<h3 id="1.2.1">1.2.1 File format<a class="header-anchor" aria-hidden="" href="#1.2.1">#</a></h3>
 <p>A single ‘fileformat’ field is always required, must be the first line
 in the file, and details the VCF format version number. For example, for
 VCF version 4.1, this line should read:</p>
 <pre><code>##fileformat=VCFv4.1
 </code></pre>
-<h3 id="122-information-field-format">1.2.2 Information field format<a class="header-anchor" aria-hidden="" href="#122-information-field-format">#</a></h3>
+<h3 id="1.2.2">1.2.2 Information field format<a class="header-anchor" aria-hidden="" href="#1.2.2">#</a></h3>
 <p>INFO fields should be described as follows (all keys are required):</p>
 <pre><code>##INFO=&#x3C;ID=ID,Number=number,Type=type,Description="description">
 </code></pre>
@@ -72,19 +72,19 @@ not contain a Value entry, and hence the Number should be 0 in this
 case. The Description value must be surrounded by double-quotes.
 Double-quote character can be escaped with backslash <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">\</mi></mrow><annotation encoding="application/x-tex">\backslash</annotation></semantics></math></span> and
 backslash as <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">\</mi><mi mathvariant="normal">\</mi></mrow><annotation encoding="application/x-tex">\backslash\backslash</annotation></semantics></math></span>.</p>
-<h3 id="123-filter-field-format">1.2.3 Filter field format<a class="header-anchor" aria-hidden="" href="#123-filter-field-format">#</a></h3>
+<h3 id="1.2.3">1.2.3 Filter field format<a class="header-anchor" aria-hidden="" href="#1.2.3">#</a></h3>
 <p>FILTERs that have been applied to the data should be described as
 follows:</p>
 <pre><code>##FILTER=&#x3C;ID=ID,Description="description">
 </code></pre>
-<h3 id="124-individual-format-field-format">1.2.4 Individual format field format<a class="header-anchor" aria-hidden="" href="#124-individual-format-field-format">#</a></h3>
+<h3 id="1.2.4">1.2.4 Individual format field format<a class="header-anchor" aria-hidden="" href="#1.2.4">#</a></h3>
 <p>Likewise, Genotype fields specified in the FORMAT field should be
 described as follows:</p>
 <pre><code>##FORMAT=&#x3C;ID=ID,Number=number,Type=type,Description="description">
 </code></pre>
 <p>Possible Types for FORMAT fields are: Integer, Float, Character, and
 String (this field is otherwise defined precisely as the INFO field).</p>
-<h3 id="125-alternative-allele-field-format">1.2.5 Alternative allele field format<a class="header-anchor" aria-hidden="" href="#125-alternative-allele-field-format">#</a></h3>
+<h3 id="1.2.5">1.2.5 Alternative allele field format<a class="header-anchor" aria-hidden="" href="#1.2.5">#</a></h3>
 <p>Symbolic alternate alleles for imprecise structural variants:</p>
 <pre><code>##ALT=&#x3C;ID=type,Description="description">
 </code></pre>
@@ -126,7 +126,7 @@ applied. Reserved subtypes include:</p>
 include tags describing the reference and contigs backing the data
 contained in the file. These tags are based on the SQ field from the SAM
 spec; all tags are optional (see the VCF example above).</p>
-<h3 id="126-assembly-field-format">1.2.6 Assembly field format<a class="header-anchor" aria-hidden="" href="#126-assembly-field-format">#</a></h3>
+<h3 id="1.2.6">1.2.6 Assembly field format<a class="header-anchor" aria-hidden="" href="#1.2.6">#</a></h3>
 <p>Breakpoint assemblies for structural variations may use an external
 file:</p>
 <pre><code>##assembly=url
@@ -134,7 +134,7 @@ file:</p>
 <p>The URL field specifies the location of a fasta file containing
 breakpoint assemblies referenced in the VCF records for structural
 variants via the BKPTID INFO key.</p>
-<h3 id="127-contig-field-format">1.2.7 Contig field format<a class="header-anchor" aria-hidden="" href="#127-contig-field-format">#</a></h3>
+<h3 id="1.2.7">1.2.7 Contig field format<a class="header-anchor" aria-hidden="" href="#1.2.7">#</a></h3>
 <p>As with chromosomal sequences it is highly recommended (but not
 required) that the header include tags describing the contigs referred
 to in the VCF file. This furthermore allows these contigs to come from
@@ -143,11 +143,11 @@ sequence, but with an additional URL tag to indicate where that sequence
 can be found. For example:.</p>
 <pre><code>##contig=&#x3C;ID=ctg1,URL=ftp://somewhere.org/assembly.fa,...>
 </code></pre>
-<h3 id="128-sample-field-format">1.2.8 Sample field format<a class="header-anchor" aria-hidden="" href="#128-sample-field-format">#</a></h3>
+<h3 id="1.2.8">1.2.8 Sample field format<a class="header-anchor" aria-hidden="" href="#1.2.8">#</a></h3>
 <p>It is possible to define sample to genome mappings as shown below:</p>
 <pre><code>##SAMPLE=&#x3C;ID=S_ID,Genomes=G1_ID;G2_ID; ...;GK_ID,Mixture=N1;N2; ...;NK,Description=S1;S2; ...;SK>
 </code></pre>
-<h3 id="129-pedigree-field-format">1.2.9 Pedigree field format<a class="header-anchor" aria-hidden="" href="#129-pedigree-field-format">#</a></h3>
+<h3 id="1.2.9">1.2.9 Pedigree field format<a class="header-anchor" aria-hidden="" href="#1.2.9">#</a></h3>
 <p>It is possible to record relationships between genomes using the
 following syntax:</p>
 <pre><code>##PEDIGREE=&#x3C;Name_0=G0-ID,Name_1=G1-ID,...,Name_N=GN-ID>
@@ -155,7 +155,7 @@ following syntax:</p>
 <p>or a link to a database:</p>
 <pre><code>##pedigreeDB=URL
 </code></pre>
-<h2 id="13-header-line-syntax">1.3 Header line syntax<a class="header-anchor" aria-hidden="" href="#13-header-line-syntax">#</a></h2>
+<h2 id="1.3">1.3 Header line syntax<a class="header-anchor" aria-hidden="" href="#1.3">#</a></h2>
 <p>The header line names the 8 fixed, mandatory columns. These columns are
 as follows:</p>
 <ol>
@@ -187,8 +187,8 @@ as follows:</p>
 <p>If genotype data is present in the file, these are followed by a FORMAT
 column header, then an arbitrary number of sample IDs. Duplicate sample
 IDs are not allowed. The header line is tab-delimited.</p>
-<h2 id="14-data-lines">1.4 Data lines<a class="header-anchor" aria-hidden="" href="#14-data-lines">#</a></h2>
-<h3 id="141-fixed-fields">1.4.1 Fixed fields<a class="header-anchor" aria-hidden="" href="#141-fixed-fields">#</a></h3>
+<h2 id="1.4">1.4 Data lines<a class="header-anchor" aria-hidden="" href="#1.4">#</a></h2>
+<h3 id="1.4.1">1.4.1 Fixed fields<a class="header-anchor" aria-hidden="" href="#1.4.1">#</a></h3>
 <p>There are 8 fixed fields per record. All data lines are tab-delimited.
 In all cases, missing values are specified with a dot (’.’). Fixed
 fields are:</p>
@@ -346,7 +346,7 @@ to indicate group membership (e.g. H2 indicates the SNP is found in
 HapMap 2). It is not necessary to list all the properties that a site
 does NOT have, by e.g. H2=0. See below for additional reserved INFO
 sub-fields used to encode structural variants.</p>
-<h3 id="142-genotype-fields">1.4.2 Genotype fields<a class="header-anchor" aria-hidden="" href="#142-genotype-fields">#</a></h3>
+<h3 id="1.4.2">1.4.2 Genotype fields<a class="header-anchor" aria-hidden="" href="#1.4.2">#</a></h3>
 <p>If genotype information is present, then the same types of data must be
 present for all samples. First a FORMAT field is given specifying the
 data types and order (colon-separated alphanumeric String). This is
@@ -465,7 +465,7 @@ in the FORMAT field).</p>
 variants. Additional Genotype fields can be defined in the
 meta-information. However, software support for such fields is not
 guaranteed.</p>
-<h1 id="2-understanding-the-vcf-format-and-the-haplotype-representation">2 Understanding the VCF format and the haplotype representation<a class="header-anchor" aria-hidden="" href="#2-understanding-the-vcf-format-and-the-haplotype-representation">#</a></h1>
+<h1 id="2">2 Understanding the VCF format and the haplotype representation<a class="header-anchor" aria-hidden="" href="#2">#</a></h1>
 <p>VCF records use a single general system for representing genetic
 variation data composed of:</p>
 <ul>
@@ -488,7 +488,7 @@ constructed from the REF haplotype by taking the REF allele bases at the
 POS in the reference genotype and replacing them with the ALT bases. In
 essence, the VCF record specifies a-REF-t and the alternative haplotypes
 are a-ALT-t for each alternative allele.</p>
-<h1 id="3-info-keys-used-for-structural-variants">3 INFO keys used for structural variants<a class="header-anchor" aria-hidden="" href="#3-info-keys-used-for-structural-variants">#</a></h1>
+<h1 id="3">3 INFO keys used for structural variants<a class="header-anchor" aria-hidden="" href="#3">#</a></h1>
 <p>When the INFO keys reserved for encoding structural variants are used
 for imprecise variants, the values should be best estimates. When a key
 reflects a property of a single alt allele (e.g. SVLEN), then when there
@@ -537,7 +537,7 @@ the characteristics of the alt allele contigs.</p>
 ##INFO=&#x3C;ID=CICN,Number=2,Type=Integer,Description="Confidence interval around copy number for the segment">
 ##INFO=&#x3C;ID=CICNADJ,Number=.,Type=Integer,Description="Confidence interval around copy number for the adjacency">
 </code></pre>
-<h1 id="4-format-keys-used-for-structural-variants">4 FORMAT keys used for structural variants<a class="header-anchor" aria-hidden="" href="#4-format-keys-used-for-structural-variants">#</a></h1>
+<h1 id="4">4 FORMAT keys used for structural variants<a class="header-anchor" aria-hidden="" href="#4">#</a></h1>
 <pre><code>##FORMAT=&#x3C;ID=CN,Number=1,Type=Integer,Description="Copy number genotype for imprecise events">
 ##FORMAT=&#x3C;ID=CNQ,Number=1,Type=Float,Description="Copy number genotype quality for imprecise events">
 ##FORMAT=&#x3C;ID=CNL,Number=.,Type=Float,Description="Copy number genotype likelihood for imprecise events">
@@ -553,9 +553,9 @@ sample. CNQ is encoded as a phred quality <span class="katex"><math xmlns="http:
 genotype call is wrong). CNL specifies a list of <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">log_{10}</annotation></semantics></math></span> likelihoods
 for each potential copy number, starting from zero. When possible,
 GT/GQ/GL should be used instead of (or in addition to) these keys.</p>
-<h1 id="5-representing-variation-in-vcf-records">5 Representing variation in VCF records<a class="header-anchor" aria-hidden="" href="#5-representing-variation-in-vcf-records">#</a></h1>
-<h2 id="51-creating-vcf-entries-for-snps-and-small-indels">5.1 Creating VCF entries for SNPs and small indels<a class="header-anchor" aria-hidden="" href="#51-creating-vcf-entries-for-snps-and-small-indels">#</a></h2>
-<h3 id="511-example-1">5.1.1 Example 1<a class="header-anchor" aria-hidden="" href="#511-example-1">#</a></h3>
+<h1 id="5">5 Representing variation in VCF records<a class="header-anchor" aria-hidden="" href="#5">#</a></h1>
+<h2 id="5.1">5.1 Creating VCF entries for SNPs and small indels<a class="header-anchor" aria-hidden="" href="#5.1">#</a></h2>
+<h3 id="5.1.1">5.1.1 Example 1<a class="header-anchor" aria-hidden="" href="#5.1.1">#</a></h3>
 <p>For example, suppose we are looking at a locus in the genome:</p>
 <table>
 <thead>
@@ -649,7 +649,7 @@ is the reference allele</p>
 </tr>
 </tbody>
 </table>
-<h3 id="512-example-2">5.1.2 Example 2<a class="header-anchor" aria-hidden="" href="#512-example-2">#</a></h3>
+<h3 id="5.1.2">5.1.2 Example 2<a class="header-anchor" aria-hidden="" href="#5.1.2">#</a></h3>
 <p>Suppose I see a the following in a population of individuals and want to
 represent these three segregating alleles:</p>
 <table>
@@ -706,7 +706,7 @@ corresponding VCF record:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="513-example-3">5.1.3 Example 3<a class="header-anchor" aria-hidden="" href="#513-example-3">#</a></h3>
+<h3 id="5.1.3">5.1.3 Example 3<a class="header-anchor" aria-hidden="" href="#5.1.3">#</a></h3>
 <p>Now suppose I have this more complex example:</p>
 <table>
 <thead>
@@ -772,8 +772,8 @@ above in the per-base alignment is discarded, so the actual placement of
 equivalent g isn’t retained. For completeness, VCF records are
 dynamically typed, so whether a VCF record is a SNP, Indel, Mixed, or
 Reference site depends on the properties of the alleles in the record.</p>
-<h2 id="52-decoding-vcf-entries-for-snps-and-small-indels">5.2 Decoding VCF entries for SNPs and small indels<a class="header-anchor" aria-hidden="" href="#52-decoding-vcf-entries-for-snps-and-small-indels">#</a></h2>
-<h3 id="521-snp-vcf-record">5.2.1 SNP VCF record<a class="header-anchor" aria-hidden="" href="#521-snp-vcf-record">#</a></h3>
+<h2 id="5.2">5.2 Decoding VCF entries for SNPs and small indels<a class="header-anchor" aria-hidden="" href="#5.2">#</a></h2>
+<h3 id="5.2.1">5.2.1 SNP VCF record<a class="header-anchor" aria-hidden="" href="#5.2.1">#</a></h3>
 <p>Suppose I receive the following VCF record:</p>
 <table>
 <thead>
@@ -824,7 +824,7 @@ two alleles so I have the two following segregating haplotypes:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="522-insertion-vcf-record">5.2.2 Insertion VCF record<a class="header-anchor" aria-hidden="" href="#522-insertion-vcf-record">#</a></h3>
+<h3 id="5.2.2">5.2.2 Insertion VCF record<a class="header-anchor" aria-hidden="" href="#5.2.2">#</a></h3>
 <p>Suppose I receive the following VCF record:</p>
 <table>
 <thead>
@@ -876,7 +876,7 @@ only two alleles so I have the two following segregating haplotypes:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="523-deletion-vcf-record">5.2.3 Deletion VCF record<a class="header-anchor" aria-hidden="" href="#523-deletion-vcf-record">#</a></h3>
+<h3 id="5.2.3">5.2.3 Deletion VCF record<a class="header-anchor" aria-hidden="" href="#5.2.3">#</a></h3>
 <p>Suppose I receive the following VCF record:</p>
 <table>
 <thead>
@@ -928,7 +928,7 @@ only two alleles so I have the two following segregating haplotypes:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="524-mixed-vcf-record-for-a-microsatellite">5.2.4 Mixed VCF record for a microsatellite<a class="header-anchor" aria-hidden="" href="#524-mixed-vcf-record-for-a-microsatellite">#</a></h3>
+<h3 id="5.2.4">5.2.4 Mixed VCF record for a microsatellite<a class="header-anchor" aria-hidden="" href="#5.2.4">#</a></h3>
 <p>Suppose I receive the following VCF record:</p>
 <table>
 <thead>
@@ -1015,7 +1015,7 @@ alignment:</p>
 </tr>
 </tbody>
 </table>
-<h2 id="53-encoding-structural-variants">5.3 Encoding Structural Variants<a class="header-anchor" aria-hidden="" href="#53-encoding-structural-variants">#</a></h2>
+<h2 id="5.3">5.3 Encoding Structural Variants<a class="header-anchor" aria-hidden="" href="#5.3">#</a></h2>
 <p>The following page contains examples of structural variants encoded in
 VCF:</p>
 <div class="landscape">
@@ -1080,7 +1080,7 @@ is copy number 3 (one extra copy of the duplicated sequence).</p>
 number 5 (but the two haplotypes are not known).</p>
 </li>
 </ol>
-<h2 id="54-specifying-complex-rearrangements-with-breakends">5.4 Specifying complex rearrangements with breakends<a class="header-anchor" aria-hidden="" href="#54-specifying-complex-rearrangements-with-breakends">#</a></h2>
+<h2 id="5.4">5.4 Specifying complex rearrangements with breakends<a class="header-anchor" aria-hidden="" href="#5.4">#</a></h2>
 <p>An arbitrary rearrangement event can be summarized as a set of novel
 <strong>adjacencies</strong>. Each adjacency ties together 2 <strong>breakends</strong>. The two
 breakends at either end of a novel adjacency are called <strong>mates</strong>.</p>
@@ -1224,7 +1224,7 @@ Notice how the ALT field expresses the orientation of the breakends.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="541-inserted-sequence">5.4.1 Inserted Sequence<a class="header-anchor" aria-hidden="" href="#541-inserted-sequence">#</a></h3>
+<h3 id="5.4.1">5.4.1 Inserted Sequence<a class="header-anchor" aria-hidden="" href="#5.4.1">#</a></h3>
 <p>Sometimes, as shown in Figure 2, some bases are inserted between the two
 breakends, this information is also carried in the ALT column:</p>
 <figure data-latex-placement="h">
@@ -1267,7 +1267,7 @@ breakends, this information is also carried in the ALT column:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="542-large-insertions">5.4.2 Large Insertions<a class="header-anchor" aria-hidden="" href="#542-large-insertions">#</a></h3>
+<h3 id="5.4.2">5.4.2 Large Insertions<a class="header-anchor" aria-hidden="" href="#5.4.2">#</a></h3>
 <p>If the insertion is too long to be conveniently stored in the ALT
 column, as in the 329 base insertion shown in Figure 3, it can be
 represented by a contig from the assembly file:</p>
@@ -1437,7 +1437,7 @@ is represented by adding a circular adjacency:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="543-multiple-mates">5.4.3 Multiple mates<a class="header-anchor" aria-hidden="" href="#543-multiple-mates">#</a></h3>
+<h3 id="5.4.3">5.4.3 Multiple mates<a class="header-anchor" aria-hidden="" href="#5.4.3">#</a></h3>
 <p>If a breakend has multiple mates such as in Figure 4 (either because of
 breakend reuse or of uncertainty in the measurement), these alternate
 adjacencies are treated as alternate alleles:</p>
@@ -1491,7 +1491,7 @@ adjacencies are treated as alternate alleles:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="544-explicit-partners">5.4.4 Explicit partners<a class="header-anchor" aria-hidden="" href="#544-explicit-partners">#</a></h3>
+<h3 id="5.4.4">5.4.4 Explicit partners<a class="header-anchor" aria-hidden="" href="#5.4.4">#</a></h3>
 <p>Two breakends which are connected in the reference genome but
 disconnected in the variants are called partners. Each breakend only has
 one partner, typically one basepair left or right. However, it is not
@@ -1558,7 +1558,7 @@ Figure 5.:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="545-telomeres">5.4.5 Telomeres<a class="header-anchor" aria-hidden="" href="#545-telomeres">#</a></h3>
+<h3 id="5.4.5">5.4.5 Telomeres<a class="header-anchor" aria-hidden="" href="#5.4.5">#</a></h3>
 <p>For a rearrangement involving the telomere end of a reference
 chromosome, we define a virtual telomeric breakend that serves as a
 breakend partner for the breakend at the telomere. That way every
@@ -1627,7 +1627,7 @@ chromosome 1 into chromosome 13, as illustrated in Figure 6:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="546-event-modifiers">5.4.6 Event modifiers<a class="header-anchor" aria-hidden="" href="#546-event-modifiers">#</a></h3>
+<h3 id="5.4.6">5.4.6 Event modifiers<a class="header-anchor" aria-hidden="" href="#5.4.6">#</a></h3>
 <p>As mentioned previously, a single rearrangement event can be described
 as a set of novel adjacencies. For example, a reciprocal rearrangement
 such as in Figure 7:</p>
@@ -1692,7 +1692,7 @@ such as in Figure 7:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="547-inversions">5.4.7 Inversions<a class="header-anchor" aria-hidden="" href="#547-inversions">#</a></h3>
+<h3 id="5.4.7">5.4.7 Inversions<a class="header-anchor" aria-hidden="" href="#5.4.7">#</a></h3>
 <p>Similarly an inversion such as in Figure 8:</p>
 <figure data-latex-placement="ht">
 <img src="/hts-specs-md/img/inversion-400x95.png" style="width:4in;height:0.95in">
@@ -1783,7 +1783,7 @@ hand notation described previously (recommended for simple cases):</p>
 </tr>
 </tbody>
 </table>
-<h3 id="548-uncertainty-around-breakend-location">5.4.8 Uncertainty around breakend location<a class="header-anchor" aria-hidden="" href="#548-uncertainty-around-breakend-location">#</a></h3>
+<h3 id="5.4.8">5.4.8 Uncertainty around breakend location<a class="header-anchor" aria-hidden="" href="#5.4.8">#</a></h3>
 <p>It sometimes is difficult to determine the exact position of a break,
 generally because of homologies between the sequences being modified,
 such as in Figure 9. The breakend is then placed arbitrarily at the left
@@ -1851,7 +1851,7 @@ of V and Y is the partner of U from their locations alone. This partner
 relationship can be specified explicitly with the tag PARID=bnd_X in the
 VCF line for breakend V and PARID=bnd_Y in the VCF line for breakend U,
 and vice versa.</p>
-<h3 id="549-single-breakends">5.4.9 Single breakends<a class="header-anchor" aria-hidden="" href="#549-single-breakends">#</a></h3>
+<h3 id="5.4.9">5.4.9 Single breakends<a class="header-anchor" aria-hidden="" href="#5.4.9">#</a></h3>
 <p>We allow for the definition of a breakend that is not part of a novel
 adjacency, also identified by the tag SVTYPE=BND. We call these single
 breakends, because they lack a mate. Breakends that are unobserved
@@ -2024,7 +2024,7 @@ sequence can be provided on that line, in analogy to paired breakends:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="5410-sample-mixtures">5.4.10 Sample mixtures<a class="header-anchor" aria-hidden="" href="#5410-sample-mixtures">#</a></h3>
+<h3 id="5.4.10">5.4.10 Sample mixtures<a class="header-anchor" aria-hidden="" href="#5.4.10">#</a></h3>
 <p>It may be extremely difficult to obtain clinically perfect samples, with
 only one type of cell. Let’s imagine that two samples are taken from a
 cancer patient: healthy blood, and some tumor tissue with an estimated
@@ -2186,7 +2186,7 @@ data:</p>
 </tbody>
 </table>
 </div>
-<h3 id="5411-clonal-derivation-relationships">5.4.11 Clonal derivation relationships<a class="header-anchor" aria-hidden="" href="#5411-clonal-derivation-relationships">#</a></h3>
+<h3 id="5.4.11">5.4.11 Clonal derivation relationships<a class="header-anchor" aria-hidden="" href="#5.4.11">#</a></h3>
 <p>In cancer, each VCF file represents several genomes from a patient, but
 one genome is special in that it represents the germline genome of the
 patient. This genome is contrasted to a second genome, the cancer tumor
@@ -2252,7 +2252,7 @@ haplotype, one copy retains the original haplotype identifier, and the
 others are considered to be novel haplotypes with their own unique
 identifiers. All these novel haplotypes have in common their <strong>haplotype
 ancestor</strong> in the parent genome.</p>
-<h3 id="5412-phasing-adjacencies-in-an-aneuploid-context">5.4.12 Phasing adjacencies in an aneuploid context<a class="header-anchor" aria-hidden="" href="#5412-phasing-adjacencies-in-an-aneuploid-context">#</a></h3>
+<h3 id="5.4.12">5.4.12 Phasing adjacencies in an aneuploid context<a class="header-anchor" aria-hidden="" href="#5.4.12">#</a></h3>
 <p>In a cancer genome, due to duplication followed by mutation, there can
 in principle exist any number of haplotypes in the sampled genome for a
 given location in the reference genome. We assume each haplotype that
@@ -2370,7 +2370,7 @@ table as follows.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="6-bcf-specification">6 BCF specification<a class="header-anchor" aria-hidden="" href="#6-bcf-specification">#</a></h1>
+<h1 id="6">6 BCF specification<a class="header-anchor" aria-hidden="" href="#6">#</a></h1>
 <p>VCF is very expressive, accommodates multiple samples, and is widely
 used in the community. Its biggest drawback is that it is big and slow.
 Files are text and therefore require a lot of space on disk. A normal
@@ -2384,7 +2384,7 @@ a subset of VCF, in that all info and genotype fields must have their
 full types specified. That is, BCF2 requires that if e.g. an info field
 <code>AC</code> is present then it must contain an equivalent VCF header line
 noting that <code>AC</code> is an allele indexed array of type integer.</p>
-<h2 id="61-overall-file-organization">6.1 Overall file organization<a class="header-anchor" aria-hidden="" href="#61-overall-file-organization">#</a></h2>
+<h2 id="6.1">6.1 Overall file organization<a class="header-anchor" aria-hidden="" href="#6.1">#</a></h2>
 <p>A BCF2 file is composed of a mandatory header, followed by a series of
 BGZF compressed blocks of binary BCF2 records. The BGZF blocks allow
 BCF2 files to be indexed with tabix.</p>
@@ -2406,7 +2406,7 @@ should be thrown when converting a VCF to BCF2 when an unknown or not
 fully specified field is encountered in the records.</p>
 </li>
 </ul>
-<h2 id="62-header">6.2 Header<a class="header-anchor" aria-hidden="" href="#62-header">#</a></h2>
+<h2 id="6.2">6.2 Header<a class="header-anchor" aria-hidden="" href="#6.2">#</a></h2>
 <p>The BCF2 header contains the following items:</p>
 <table>
 <thead>
@@ -2420,7 +2420,7 @@ fully specified field is encountered in the records.</p>
 <tr>
 <td>magic</td>
 <td>char[3]</td>
-<td>The characters "<span><code>BCF</code></span>"</td>
+<td>The characters "<code>BCF</code>"</td>
 </tr>
 <tr>
 <td>major_version</td>
@@ -2453,7 +2453,7 @@ extension for BCF2 formatted files is <em>.bcf</em>. BCF2 supports encoding
 values in a dictionary of strings. The string map is provided by the
 keyword <code>##dictionary=S0,S1,...,SN</code> as a comma-separate ordered list of
 strings. See the “Dictionary of strings” section for more details.</p>
-<h3 id="621-dictionary-of-strings">6.2.1 Dictionary of strings<a class="header-anchor" aria-hidden="" href="#621-dictionary-of-strings">#</a></h3>
+<h3 id="6.2.1">6.2.1 Dictionary of strings<a class="header-anchor" aria-hidden="" href="#6.2.1">#</a></h3>
 <p>Throughout the BCF file most string values are be specified by integer
 reference to their dictionary values. For example, the following VCF
 record:</p>
@@ -2485,7 +2485,7 @@ into the list of contig declarations.</p>
 <p>Note that “PASS” is always implicitly encoded as the first entry in the
 header dictionary. This is because VCF allows FILTER fields to be PASS
 without explicitly listing this in the FILTER field itself.</p>
-<h3 id="622-dictionary-of-contigs">6.2.2 Dictionary of contigs<a class="header-anchor" aria-hidden="" href="#622-dictionary-of-contigs">#</a></h3>
+<h3 id="6.2.2">6.2.2 Dictionary of contigs<a class="header-anchor" aria-hidden="" href="#6.2.2">#</a></h3>
 <p>The CHROM field in BCF2 is encoded as an integer offset into the list of
 <code>##contig</code> field headers in the VCF header. The offsets begin, like the
 dictionary of strings, at 0. So for example if in BCF2 the contig value
@@ -2501,7 +2501,7 @@ the ordered list of <code>##contig</code> elements. Here’s a more concrete exa
 </code></pre>
 <p>the actual CHROM field values in the encoded BCF2 records would be 0, 1,
 and 2 corresponding to the first (offset 0) <code>##contig</code> element, etc.</p>
-<h2 id="63-bcf2-records">6.3 BCF2 records<a class="header-anchor" aria-hidden="" href="#63-bcf2-records">#</a></h2>
+<h2 id="6.3">6.3 BCF2 records<a class="header-anchor" aria-hidden="" href="#6.3">#</a></h2>
 <p>In BCF2, the original VCF records are converted to binary and encoded as
 BGZF blocks. Each record is conceptually two parts. First is the site
 information (chr, pos, INFO field). Immediately after the sites data is
@@ -2509,7 +2509,7 @@ the genotype data for every sample in the BCF2 file. The genotype data
 may be omitted entirely from the record if there is no genotype data in
 the VCF file. Note that it’s acceptable to not BGZF compress a BCF2
 file, but not all readers may handle this uncompressed encoding.</p>
-<h3 id="631-site-encoding">6.3.1 Site encoding<a class="header-anchor" aria-hidden="" href="#631-site-encoding">#</a></h3>
+<h3 id="6.3.1">6.3.1 Site encoding<a class="header-anchor" aria-hidden="" href="#6.3.1">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -2571,7 +2571,7 @@ of samples in the header</td>
 <tr>
 <td>n_fmt</td>
 <td>uint8_t</td>
-<td>The number of FORMAT keys. See <a href="#GenotypeEncoding">6.3.2</a></td>
+<td>The number of FORMAT keys. See <a href="#6.3.2">6.3.2</a></td>
 </tr>
 <tr>
 <td>ID</td>
@@ -2604,7 +2604,7 @@ second value is a typed vector giving the value of the field</td>
 </tr>
 </tbody>
 </table>
-<h3 id="632-genotype-encoding">6.3.2 Genotype encoding<a class="header-anchor" aria-hidden="" href="#632-genotype-encoding">#</a></h3>
+<h3 id="6.3.2">6.3.2 Genotype encoding<a class="header-anchor" aria-hidden="" href="#6.3.2">#</a></h3>
 <p>Genotype fields are encoded not by sample as in VCF but rather by field,
 with a vector of values for each sample following each field. In BCF2,
 the following VCF line:</p>
@@ -2685,7 +2685,7 @@ a good idea to respect the ordering as specified in the input VCF/BCF2
 file.</p>
 <p>If there are no sample records (genotype data) in this VCF/BCF2 file,
 the size of the genotypes block will be 0.</p>
-<h3 id="633-type-encoding">6.3.3 Type encoding<a class="header-anchor" aria-hidden="" href="#633-type-encoding">#</a></h3>
+<h3 id="6.3.3">6.3.3 Type encoding<a class="header-anchor" aria-hidden="" href="#6.3.3">#</a></h3>
 <p>In BCF2 values are all strongly typed in the file. The type information
 is encoded in a prefix byte before the value, which contains information
 about the low-level type of the value(s) such as int32 or float, as well
@@ -3041,14 +3041,14 @@ followed by
 <p>The final example is something seen on chrX when we have a haploid male
 and a diploid female. The spare male allele is just assigned the missing
 value.</p>
-<h2 id="64-encoding-a-vcf-record-example">6.4 Encoding a VCF record example<a class="header-anchor" aria-hidden="" href="#64-encoding-a-vcf-record-example">#</a></h2>
+<h2 id="6.4">6.4 Encoding a VCF record example<a class="header-anchor" aria-hidden="" href="#6.4">#</a></h2>
 <p>Let’s encode a realistic (but made-up) VCF record. This is a A/C SNP in
 HM3 (not really) called in 3 samples. In this section we’ll build up the
 BCF2 encoding for this record.</p>
 <pre><code>#CHROM POS ID REF ALT QUAL FILTER INFO FORMAT NA00001 NA00002 NA00003
 chr1 101 rs123 A C 30.1 PASS HM3;AC=3;AN=6;AA=C GT:GQ:DP:AD:PL 0/0:10:32:32,0:0,10,100 0/1:10:48:32,16:10,0,100 1/1:10:64:0,64:100,10,0
 </code></pre>
-<h3 id="641-encoding-chrom-and-pos">6.4.1 Encoding CHROM and POS<a class="header-anchor" aria-hidden="" href="#641-encoding-chrom-and-pos">#</a></h3>
+<h3 id="6.4.1">6.4.1 Encoding CHROM and POS<a class="header-anchor" aria-hidden="" href="#6.4.1">#</a></h3>
 <p>First, let’s assume that <code>chr1</code> is the second chromosome to appear in
 the contig list—right after <code>chrM</code> (<code>MT</code>). So its offset is 1. The <code>POS</code>
 BCF2 field value is 101 (obviously). Because these are both typed values
@@ -3074,7 +3074,7 @@ byte 0x65. So in total these are represented as:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="642-encoding-qual">6.4.2 Encoding QUAL<a class="header-anchor" aria-hidden="" href="#642-encoding-qual">#</a></h3>
+<h3 id="6.4.2">6.4.2 Encoding QUAL<a class="header-anchor" aria-hidden="" href="#6.4.2">#</a></h3>
 <p>The QUAL field value is 30.1, which we encode as an untyped single
 precision 32-bit float:</p>
 <table>
@@ -3087,7 +3087,7 @@ precision 32-bit float:</p>
 <tbody>
 </tbody>
 </table>
-<h3 id="643-encoding-id">6.4.3 Encoding ID<a class="header-anchor" aria-hidden="" href="#643-encoding-id">#</a></h3>
+<h3 id="6.4.3">6.4.3 Encoding ID<a class="header-anchor" aria-hidden="" href="#6.4.3">#</a></h3>
 <p>For ID type byte would is a 5-element string (type descriptor 0x57),
 which would then be followed by the five bytes for the string of
 <code>0x72 0x73 0x31 0x32 0x33</code>. The full encoding is:</p>
@@ -3101,7 +3101,7 @@ which would then be followed by the five bytes for the string of
 <tbody>
 </tbody>
 </table>
-<h3 id="644-encoding-refalt-fields">6.4.4 Encoding REF/ALT fields<a class="header-anchor" aria-hidden="" href="#644-encoding-refalt-fields">#</a></h3>
+<h3 id="6.4.4">6.4.4 Encoding REF/ALT fields<a class="header-anchor" aria-hidden="" href="#6.4.4">#</a></h3>
 <p>We encode each of REF and ALT as typed strings, first REF followed
 immediately by ALT. Each is a 1 element string (0x17), which would then
 be followed by the single bytes for the bases of 0x43 and 0x41:</p>
@@ -3123,7 +3123,7 @@ be followed by the single bytes for the bases of 0x43 and 0x41:</p>
 thing that could change is that there would be another typed string
 following immediately after C encoding 0x17 (1 element string) with the
 value of 0x54.</p>
-<h3 id="645-encoding-filter">6.4.5 Encoding FILTER<a class="header-anchor" aria-hidden="" href="#645-encoding-filter">#</a></h3>
+<h3 id="6.4.5">6.4.5 Encoding FILTER<a class="header-anchor" aria-hidden="" href="#6.4.5">#</a></h3>
 <p>“PASS” is implicitly encoded as the last entry in the header dictionary
 (see dictionary of strings). Here we encode the PASS FILTER field as a
 vector of size 1 of type 8-bit, which has type byte is 0x11. The value
@@ -3138,7 +3138,7 @@ is the offset 0:</p>
 <tbody>
 </tbody>
 </table>
-<h3 id="646-encoding-the-info-fields">6.4.6 Encoding the INFO fields<a class="header-anchor" aria-hidden="" href="#646-encoding-the-info-fields">#</a></h3>
+<h3 id="6.4.6">6.4.6 Encoding the INFO fields<a class="header-anchor" aria-hidden="" href="#6.4.6">#</a></h3>
 <p>HM3;AC=3;AN=6;AA=C Let’s assume that the header dictionary elements for
 HM3, AC, AN, and AA are at 80, 81, 82, and 83 respectively. All of these
 can be encoded by 1-element INT8 values (0x11), with associated hex
@@ -3198,7 +3198,7 @@ key/value pair is:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="647-encoding-genotypes">6.4.7 Encoding Genotypes<a class="header-anchor" aria-hidden="" href="#647-encoding-genotypes">#</a></h3>
+<h3 id="6.4.7">6.4.7 Encoding Genotypes<a class="header-anchor" aria-hidden="" href="#6.4.7">#</a></h3>
 <p>Continuing with our example:</p>
 <table>
 <thead>
@@ -3398,7 +3398,7 @@ the PL field is encoded as 0x1105 0x31 0x000A64 0x0A0064 0x640A00</p>
 </tbody>
 </table>
 <p>That’s quite a lot of information encoded in only 96 bytes!</p>
-<h2 id="65-bcf2-block-gzip-and-indexing">6.5 BCF2 block gzip and indexing<a class="header-anchor" aria-hidden="" href="#65-bcf2-block-gzip-and-indexing">#</a></h2>
+<h2 id="6.5">6.5 BCF2 block gzip and indexing<a class="header-anchor" aria-hidden="" href="#6.5">#</a></h2>
 <p>These raw binary records may be subsequently encoded into BGZF blocks
 following the BGZF compression format, section 3 of the SAM format
 specification. BCF2 records can be raw, though, in cases where the
