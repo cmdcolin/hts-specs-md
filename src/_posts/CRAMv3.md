@@ -723,15 +723,11 @@ CRAM has the following block content types:
 </tr>
 <tr>
 <td>SLICE_HEADER<sup>a</sup></td>
-<td>2</td>
+<td>2
+3</td>
 <td>Slice header block</td>
-<td>See specific section</td>
-</tr>
-<tr>
-<td></td>
-<td>3</td>
-<td></td>
-<td>reserved</td>
+<td>See specific section
+reserved</td>
 </tr>
 <tr>
 <td>EXTERNAL_DATA</td>
@@ -1105,10 +1101,10 @@ The encodings used for different tags are stored in a map. The key is 3
 bytes formed from the BAM tag id and type code, matching the TD
 dictionary described above. Unlike the Data Series Encoding Map, the key
 is stored in the map as an ITF8 encoded integer, constructed using
-$(char1<<16) + (char2<<8) + type$. For example, the 3-byte
-representation of OQ:Z is {0x4F, 0x51, 0x5A} and these bytes are
-interpreted as the integer key 0x004F515A, leading to an ITF8 byte
-stream {0xE0, 0x4F, 0x51, 0x5A}.
+$(\textit{char}1<<16) + (\textit{char}2<<8) + \textit{type}$. For
+example, the 3-byte representation of OQ:Z is {0x4F, 0x51, 0x5A} and
+these bytes are interpreted as the integer key 0x004F515A, leading to an
+ITF8 byte stream {0xE0, 0x4F, 0x51, 0x5A}.
 
 <table>
 <thead>
@@ -1988,8 +1984,8 @@ flags are defined:
 
 ### 10.4.2 **Decode mate pseudocode**
 
-In the following pseudocode we are assuming the current record is $this$
-and its mate is $next\_frag$.
+In the following pseudocode we are assuming the current record is
+$\textit{this}$ and its mate is $\textit{next\_frag}$.
 
 <pre><code>Procedure DecodeMateData()
   if CF AND 2:  // Detached from mate
@@ -2021,12 +2017,13 @@ more than two alignment records. In this case the "mate" for each record
 is considered to be the next record, with the mate for the last record
 being the first to form a circular list. The above algorithm is a
 simplification that does not deal with this scenario. The full method
-needs to observe when record $this+NF$ is also labelled as having an
-additional mate downstream. One recommended approach is to resolve the
-mate information in a second pass, once the entire slice has been
-decoded. The final segment in the mate chain needs to set $bam\_flags$
-fields 0x20 and 0x08 accordingly based on the first segment. This is
-also not listed in the above algorithm, for brevity.
+needs to observe when record $\textit{this}+NF$ is also labelled as
+having an additional mate downstream. One recommended approach is to
+resolve the mate information in a second pass, once the entire slice has
+been decoded. The final segment in the mate chain needs to set
+$\textit{bam\_flags}$ fields 0x20 and 0x08 accordingly based on the
+first segment. This is also not listed in the above algorithm, for
+brevity.
 
 ## 10.5 Auxiliary tags
 
@@ -2068,16 +2065,17 @@ tag dictionary</td>
     tag(type) ← last character of ele
     tag(name) ← ReadItem(ele, Byte[])</code></pre>
 
-In the above procedure, $name$ is a two letter tag name and $type$ is
-one of the permitted types documented in the SAM/BAM specification. Type
-is `A` (a single character), `c` (signed 8-bit integer), `C` (unsigned
-8-bit integer), `s` (signed 16-bit integer), `S` (unsigned 16-bit
-integer), `i` (signed 32-bit integer), `I` (unsigned 32-bit integer),
-`f` (32-bit float), `Z` (nul-terminated string), `H` (nul-terminated
-string of hex digits) and `B` (binary data in array format with the
-first byte being one of c,C,s,S,i,I,f using the meaning above, a 32-bit
-integer for the number of array elements, followed by array data encoded
-using the specified format). All integers are little endian encoded.
+In the above procedure, $\textit{name}$ is a two letter tag name and
+$\textit{type}$ is one of the permitted types documented in the SAM/BAM
+specification. Type is `A` (a single character), `c` (signed 8-bit
+integer), `C` (unsigned 8-bit integer), `s` (signed 16-bit integer), `S`
+(unsigned 16-bit integer), `i` (signed 32-bit integer), `I` (unsigned
+32-bit integer), `f` (32-bit float), `Z` (nul-terminated string), `H`
+(nul-terminated string of hex digits) and `B` (binary data in array
+format with the first byte being one of c,C,s,S,i,I,f using the meaning
+above, a 32-bit integer for the number of array elements, followed by
+array data encoded using the specified format). All integers are little
+endian encoded.
 
 For example a SAM tag `MQ:i` has name `MQ` and type `i` and will be
 decoded using one of MQc, MQC, MQs, MQS, MQi and MQI data series
@@ -3107,7 +3105,7 @@ logarithmically with $n$.
 1.  Add $\mathit{offset}$ to $n$.
 
 2.  Determine $u$ and $b$ values from $n$
-    $$\begin{aligned} b = \begin{cases} \ k & \text{ if } n < 2^k  \\ \ \lfloor log_{2}n \rfloor & \text{ if } n \ge 2^k  \end{cases} &\ &u = \begin{cases} \ 0 & \text{ if } n < 2^k  \\ \ b-k+1 & \text{ if } n \ge 2^k  \end{cases} \end{aligned}$$
+    $$\begin{aligned} b = \begin{cases} \ k & \text{ if } n < 2^k  \\ \ \lfloor \textit{log}_{2}n \rfloor & \text{ if } n \ge 2^k  \end{cases} &\ &u = \begin{cases} \ 0 & \text{ if } n < 2^k  \\ \ b-k+1 & \text{ if } n \ge 2^k  \end{cases} \end{aligned}$$
 
 3.  Write $u$ in unary form; $u$ 1 bits followed by a single 0 bit.
 
@@ -3352,7 +3350,7 @@ random positive numbers following geometric distribution.
 
     3.  Remainder Code (in truncated binary encoding)
 
-        Set $b=\lceil log_{2}(M) \rceil$
+        Set $b=\lceil \textit{log}_{2}(M) \rceil$
 
         1.  If $r < 2^{b}-M$ code $r$ as plain binary using $b-1$ bits.
 
@@ -3364,7 +3362,7 @@ random positive numbers following geometric distribution.
 1.  Read $q$ via unary coding: count the number of 1 bits and consume
     the following 0 bits.
 
-2.  Set $b=\lceil log_{2}(M) \rceil$
+2.  Set $b=\lceil \textit{log}_{2}(M) \rceil$
 
 3.  Read $r$ via $b-1$ bits of binary coding
 

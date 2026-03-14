@@ -25,7 +25,17 @@ const sections = [
 ---
 
 <Layout title="hts-specs-md">
-  <p>This site provides Markdown renderings of the <a href="https://github.com/samtools/hts-specs">hts-specs</a> specifications.</p>
+  <p>
+    This is an unofficial project by <a href="https://github.com/cmdcolin">cmdcolin</a> to convert the
+    <a href="https://samtools.github.io/hts-specs/">hts-specs specifications</a> from their
+    original LaTeX/PDF formats into Markdown for easier reading and linking in the browser.
+    Each section heading has a clickable anchor link, making it easy to share direct links
+    to specific parts of any specification.
+  </p>
+  <p>
+    For the official specifications, please visit the
+    <a href="https://samtools.github.io/hts-specs/">samtools/hts-specs</a> project.
+  </p>
   {sections.map((section) => (
     <div>
       <h2>{section.heading}</h2>

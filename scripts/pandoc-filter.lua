@@ -283,6 +283,13 @@ local function math_to_text(text)
   text = text:gsub("\\textsc{([^}]*)}", "%1")
   -- Escaped underscore (\_) and other special chars in math → literal
   text = text:gsub("\\_", "_")
+  -- Common symbols
+  text = text:gsub("\\ldots", "\xe2\x80\xa6")   -- …
+  text = text:gsub("\\cdots", "\xe2\x80\xa6")   -- …
+  text = text:gsub("\\cdot%f[^%a]", "\xc2\xb7") -- ·
+  text = text:gsub("\\sum", "\xe2\x88\x91")      -- ∑
+  -- Binomial coefficient: {n \choose k} → C(n, k)
+  text = text:gsub("{([^}]-) \\choose ([^}]-)}", "C(%1, %2)")
   -- Subscripts / superscripts
   text = text:gsub("_{([^}]*)}", "_%1")
   text = text:gsub("%^{([^}]*)}", "^%1")

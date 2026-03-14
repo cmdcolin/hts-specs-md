@@ -44,19 +44,19 @@ Writing values as bits and bytes is described in detail below.
 ## 2.1 **Logical data types**
 
 Byte  
- \
+
 Signed byte (8 bits).
 
 Integer  
- \
+
 Signed 32-bit integer.
 
 Long  
- \
+
 Signed 64-bit integer.
 
 Array  
- \
+
 An array of any logical data type: `<`type`>`\[ \]
 
 ## 2.2 **Writing bits to a bit stream**
@@ -120,7 +120,7 @@ left and became 0x70 after that:
 
 `> echo "obase=16; ibase=2; 00000111" bc`\
 `7`\
-\
+
 `> echo "obase=16; ibase=2; 01110000" bc`\
 `70`
 
@@ -152,20 +152,20 @@ endianness* for bytes when applicable and defines the following storage
 data types:
 
 Boolean (bool)  
- \
+
 Boolean is written as 1-byte with 0x0 being 'false' and 0x1 being
 'true'.
 
 Integer (int32)  
- \
+
 Signed 32-bit integer, written as 4 bytes in little-endian byte order.
 
 Long (int64)  
- \
+
 Signed 64-bit integer, written as 8 bytes in little-endian byte order.
 
 ITF-8 integer (itf8)  
- \
+
 This is an alternative way to write an integer value. The idea is
 similar to UTF-8 encoding and therefore this encoding is called ITF-8
 (Integer Transformation Format - 8 bit).
@@ -177,14 +177,14 @@ such representation requires 5 bytes with only 4 lower bits used in the
 last byte 5.
 
 LTF-8 long or (ltf8)  
- \
+
 See ITF-8 for more details. The only difference between ITF-8 and LTF-8
 is the number of bytes used to encode a single value. To do so 64 bits
 are required and this can be done with 9 byte at most with the first
 byte consisting of just 1s or 0xFF value.
 
 Array (\[ \])  
- \
+
 Array length is written first as integer (itf8), followed by the
 elements of the array.
 
@@ -645,15 +645,11 @@ CRAM has the following block content types:
 </tr>
 <tr>
 <td>MAPPED_SLICE_HEADER</td>
-<td>2</td>
+<td>2
+3</td>
 <td>Slice header block</td>
-<td>See specific section</td>
-</tr>
-<tr>
-<td></td>
-<td>3</td>
-<td></td>
-<td>reserved</td>
+<td>See specific section
+reserved</td>
 </tr>
 <tr>
 <td>EXTERNAL_DATA</td>
@@ -2189,9 +2185,10 @@ random positive numbers following geometric distribution.
     3.  Remainder Code (in truncated binary encoding)
 
         1.  If $M$ is power of 2, code remainder as binary format. So
-            $log_{2}(M)$ bits are needed. (Rice code)
+            $\textit{log}_{2}(M)$ bits are needed. (Rice code)
 
-        2.  If $M$ is not a power of 2, set $b=\lceil log_{2}(M) \rceil$
+        2.  If $M$ is not a power of 2, set
+            $b=\lceil \textit{log}_{2}(M) \rceil$
 
             1.  If $r < 2^{b}-M$ code $r$ as plain binary using $b-1$
                 bits.
@@ -2299,14 +2296,14 @@ $n$ it increases logarithmically.
 
 3.  Skip the next 0 (separator).
 
-4.  Compute the length of the tail, $c_{tail}$ as
+4.  Compute the length of the tail, $c_{\textit{tail}}$ as
 
     1.  $k$, if $i = 0$
 
     2.  $k + i - 1$, if $i \ge 1$
 
-5.  The next $c_{tail}$ bits are the tail. Form a run of 0s of length
-    represented by the tail.
+5.  The next $c_{\textit{tail}}$ bits are the tail. Form a run of 0s of
+    length represented by the tail.
 
 6.  Append 1 to the run of 0s.
 

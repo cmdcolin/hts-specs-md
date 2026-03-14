@@ -539,6 +539,21 @@ date: {date}
     # Clean up empty \text{} / \textrm{} left by the above
     final_content = re.sub(r'\\text(?:rm)?\{\}', '', final_content)
 
+    # Unwrap <span class="math inline">$...$</span> so remark-math can process the math
+    final_content = re.sub(
+        r'<span\s+class="math inline">\s*(\$[^$]+\$)\s*</span>',
+        r'\1',
+        final_content,
+        flags=re.DOTALL,
+    )
+    # Same for display math
+    final_content = re.sub(
+        r'<span\s+class="math display">\s*(\$\$.*?\$\$)\s*</span>',
+        r'\1',
+        final_content,
+        flags=re.DOTALL,
+    )
+
     # Remove stray trailing backslashes from LaTeX line breaks (\\, \\*, \\[8pt])
     # that pandoc converts to markdown hard breaks (\) — these render as literal
     # backslashes in HTML, especially inside HTML block elements like <div>

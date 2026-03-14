@@ -312,7 +312,8 @@ role="doc-backlink">↩︎</a></p></li>
 <td>10</td>
 <td><span class="sans-serif">blockCount</span></td>
 <td>Int</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mtext mathvariant="sans-serif">𝖼𝗁𝗋𝗈𝗆𝖤𝗇𝖽</mtext><mo>−</mo><mtext mathvariant="sans-serif">𝖼𝗁𝗋𝗈𝗆𝖲𝗍𝖺𝗋𝗍</mtext><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0, \textsf{chromEnd}-\textsf{chromStart}]</annotation></semantics></math><a
+<td>$[0,
+\textsf{\textit{chromEnd}}-\textsf{\textit{chromStart}}]$<a
 href="#fn1" class="footnote-ref" id="fnref1"
 role="doc-noteref"><sup>1</sup></a>
 <section id="footnotes" class="footnotes footnotes-end-of-document"
@@ -339,9 +340,8 @@ role="doc-noteref"><sup>1</sup></a>
 role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>For example,
-if <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="sans-serif">𝖻𝗅𝗈𝖼𝗄𝖢𝗈𝗎𝗇𝗍</mtext><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\textsf{blockCount} = 4</annotation></semantics></math>,
-then the allowed <span data-acronym-label="regex"
+<li id="fn1"><p>For example, if $\textsf{\textit{blockCount}} = 4$, then the
+allowed <span data-acronym-label="regex"
 data-acronym-form="singular+short">regex</span> would
 be <code>([[:digit:]]+,){3}[[:digit:]]+,?</code><a href="#fnref1"
 class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -513,10 +513,12 @@ system**.
     in <span class="sans-serif">blockStarts</span> is paired with the
     corresponding element in <span class="sans-serif">blockSizes</span>.
     Each <span class="sans-serif">blockStarts</span> element must be an
-    integer between 0 and $\textsf{chromEnd} - \textsf{chromStart}$,
+    integer between 0
+    and $\textsf{\textit{chromEnd}} - \textsf{\textit{chromStart}}$,
     inclusive. For each couple $i$
-    of $(\textsf{blockStarts}_i, \textsf{blockSizes}_i)$, the
-    quantity $\textsf{chromStart} + \textsf{blockStarts}_i + \textsf{blockSizes}_i$
+    of $(\textsf{\textit{blockStarts}}_i, \textsf{\textit{blockSizes}}_i)$,
+    the
+    quantity $\textsf{\textit{chromStart}} + \textsf{\textit{blockStarts}}_i + \textsf{\textit{blockSizes}}_i$
     must be less or equal to <span class="sans-serif">chromEnd</span>.
     These conditions enforce that each **block** is contained within
     the **feature**. The first **block** must start

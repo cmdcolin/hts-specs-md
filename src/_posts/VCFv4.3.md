@@ -319,11 +319,7 @@ sequence names: they may contain any printable ASCII characters in the
 range `[!-~]` apart from '`` \ , "`' () [] {} <> ``' and may not start
 with '' or '`=`'. Thus they match the following regular expression:
 
-<div class="code-math-block">
-
-    \[0-9A-Za-z!#$%&+./:;?@^_|~-][0-9A-Za-z!#$%&\*+./:;=?@^\_\|~-\]\*
-
-</div>
+<pre><code>    [0-9A-Za-z!#%&amp;*+./:;=?@^_|~-]*</code></pre>
 
 In particular, excluding commas facilitates parsing `##contig` lines,
 and excluding the characters '`<>[]`' and initial '' avoids clashes with
@@ -442,10 +438,11 @@ There are 8 fixed fields per record. Fixed fields are:
     are permitted in the ID String itself)
 
 6.  QUAL — quality: Phred-scaled quality score for the assertion made in
-    ALT. i.e. $-10log_{10}$ prob(call in ALT is wrong). If ALT is '.'
-    (no variant) then this is $-10log_{10}$ prob(variant), and if ALT is
-    not '.' this is $-10log_{10}$ prob(no variant). If unknown, the
-    MISSING value must be specified. (Float)
+    ALT. i.e. $-10\textit{log}_{10}$ prob(call in ALT is wrong). If ALT
+    is '.' (no variant) then this is $-10\textit{log}_{10}$
+    prob(variant), and if ALT is not '.' this is $-10\textit{log}_{10}$
+    prob(no variant). If unknown, the MISSING value must be specified.
+    (Float)
 
 7.  FILTER — filter status: PASS if this position has passed all
     filters, i.e., a call is made at this position. Otherwise, if the
@@ -803,8 +800,8 @@ integer</td>
   semicolons permitted.
 
 - GQ (Integer): Conditional genotype quality, encoded as a phred quality
-  $-10log_{10}$ p(genotype call is wrong, conditioned on the site's
-  being variant).
+  $-10\textit{log}_{10}$ p(genotype call is wrong, conditioned on the
+  site's being variant).
 
 - GP (Float): Genotype posterior probabilities in the range 0 to 1 using
   the same ordering as the GL field; one use can be to store imputed
@@ -828,10 +825,10 @@ integer</td>
   - $\mid$ : genotype phased
 
 - GL (Float): Genotype likelihoods comprised of comma separated floating
-  point $log_{10}$-scaled likelihoods for all possible genotypes given
-  the set of alleles defined in the REF and ALT fields. In presence of
-  the GT field the same ploidy is expected; without GT field, diploidy
-  is assumed.
+  point $\textit{log}_{10}$-scaled likelihoods for all possible
+  genotypes given the set of alleles defined in the REF and ALT fields.
+  In presence of the GT field the same ploidy is expected; without GT
+  field, diploidy is assumed.
 
   <span class="smallcaps">Genotype Ordering.</span>
   <span id="genotype-fields:genotype-ordering"
@@ -841,36 +838,24 @@ integer</td>
   be expressed by the following pseudocode with as many nested loops as
   ploidy: [^3]
 
-  <div class="code-math-block">
-
-    for $a_P = 0\ldots N$\
-      for $a_{P-1} = 0\ldots a_P$\
-          $\ldots$\
-          for $a_1 = 0\ldots a_{2}$\
-              println $a_1 a_2  \ldots  a_P$
-
-  </div>
+  <pre><code>  for a_P = 0… N
+      for a_P-1 = 0… a_P
+          …
+          for a_1 = 0… a_2
+              println a_1 a_2 … a_P</code></pre>
 
   Alternatively, the same can be achieved recursively with the following
   pseudocode:
 
-  <div class="code-math-block">
-
-      Ordering($P$, $N$, suffix=""):\
-          for $a$ in $0\ldots N$\
-              if ($P == 1$) println str($a$) + suffix\
-              if ($P > 1$) Ordering($P$-1, $a$, str($a$) + suffix)
-
-  </div>
+  <pre><code>    Ordering(P, N, suffix=""):
+          for a in 0… N
+              if (P == 1) println str(a) + suffix
+              if (P &gt; 1) Ordering(P-1, a, str(a) + suffix)</code></pre>
 
   Conversely, the index of the value corresponding to the genotype
   $k_1\le k_2\le\ldots\le k_P$ is
 
-  <div class="code-math-block">
-
-      Index($k_1/k_2/\ldots/k_P$) = $\sum_{m=1}^{P} {k_m + m - 1 \choose m}$
-
-  </div>
+  <pre><code>    Index(k_1/k_2/…/k_P) = ∑_m=1^P C(k_m + m - 1, m)</code></pre>
 
   Examples:
 
@@ -962,8 +947,9 @@ be multiple values for the key corresponding to each allele
     ##INFO=<ID=NOVEL,Number=0,Type=Flag,Description="Indicates a novel structural variation">
     ##INFO=<ID=END,Number=1,Type=Integer,Description="End position of the variant described in this record">
 
-For precise variants, END is $POS + length of REF allele - 1$, and the
-for imprecise variants the corresponding best estimate.
+For precise variants, END is
+$\textit{POS} + \textit{length of \textit{REF} \textit{allele}} - 1$,
+and the for imprecise variants the corresponding best estimate.
 
     ##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
 
@@ -1032,13 +1018,13 @@ These keys are analogous to GT/GQ/GL/GP and are provided for genotyping
 imprecise events by copy number (either because there is an unknown
 number of alternate alleles or because the haplotypes cannot be
 determined). CN specifies the integer copy number of the variant in this
-sample. CNQ is encoded as a phred quality $-10log_{10}$ p(copy number
-genotype call is wrong). CNL specifies a list of $log_{10}$ likelihoods
-for each potential copy number, starting from zero. CNP is 0 to 1-scaled
-copy number posterior probabilities (and otherwise defined precisely as
-the CNL field), intended to store imputed genotype probabilities. When
-possible, GT/GQ/GL/GP should be used instead of (or in addition to)
-these keys.
+sample. CNQ is encoded as a phred quality $-10\textit{log}_{10}$ p(copy
+number genotype call is wrong). CNL specifies a list of
+$\textit{log}_{10}$ likelihoods for each potential copy number, starting
+from zero. CNP is 0 to 1-scaled copy number posterior probabilities (and
+otherwise defined precisely as the CNL field), intended to store imputed
+genotype probabilities. When possible, GT/GQ/GL/GP should be used
+instead of (or in addition to) these keys.
 
 # 5 Representing variation in VCF records
 
@@ -1236,8 +1222,9 @@ Now suppose I have this more complex example:
 </tbody>
 </table>
 
-There are actually four segregating alleles: $\{tCg,tg,t,tCAg\}$ over
-bases 2–4. This complex set of allele is represented in VCF as:
+There are actually four segregating alleles:
+$\{\textit{tCg},tg,t,\textit{tCAg}\}$ over bases 2–4. This complex set
+of allele is represented in VCF as:
 
 <table>
 <thead>
@@ -3796,12 +3783,12 @@ element INT8 vector: 0x21. Next we have the encoding for each sample, A
 A **Genotype (GT) field** is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
 the maximum ploidy among all samples at a site. For one individual, each
-integer in the vector is organized as $(allele+1) << 1 \mid phased$
-where allele is set to $-1$ if the allele in GT is a dot '.' (thus the
-higher bits are all 0). The vector is padded with the END_OF_VECTOR
-values if the GT having fewer ploidy. We note specifically that except
-for the END_OF_VECTOR byte, no other negative values are allowed in the
-GT array.
+integer in the vector is organized as
+$(\textit{allele}+1) << 1 \mid \textit{phased}$ where allele is set to
+$-1$ if the allele in GT is a dot '.' (thus the higher bits are all 0).
+The vector is padded with the END_OF_VECTOR values if the GT having
+fewer ploidy. We note specifically that except for the END_OF_VECTOR
+byte, no other negative values are allowed in the GT array.
 
 Examples:
 

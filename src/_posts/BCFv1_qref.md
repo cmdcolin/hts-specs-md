@@ -1,5 +1,5 @@
 ---
-title: "BCFv1_qref.tex"
+title: "/home/cdiesh/src/hts-specs/BCFv1_qref.tex"
 commit: 39feb09
 date: 20 Nov 2019
 ---
@@ -127,7 +127,7 @@ date: 20 Nov 2019
 <td><code>float[n*G]</code></td>
 <td>Log10 likelihood of data;
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mfrac><mrow><mi>A</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">G=\frac{A(A+1)}{2}</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>#</mi><mo stretchy="false" form="prefix">{</mo><mi>a</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>l</mi><mi>e</mi><mi>s</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">A=\#\{alleles\}</annotation></semantics></math></td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>#</mi><mo stretchy="false" form="prefix">{</mo><mtext mathvariant="italic">𝑎𝑙𝑙𝑒𝑙𝑒𝑠</mtext><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">A=\#\{\textit{alleles}\}</annotation></semantics></math></td>
 </tr>
 <tr>
 <td><code>GT</code></td>

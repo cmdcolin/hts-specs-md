@@ -261,13 +261,14 @@ fields are:
     angle-brackets are permitted in the ID String itself)
 
 6.  QUAL - quality: Phred-scaled quality score for the assertion made in
-    ALT. i.e. $-10log_{10}$ prob(call in ALT is wrong). If ALT is '.'
-    (no variant) then this is $-10log_{10}$ prob(variant), and if ALT is
-    not '.' this is $-10log_{10}$ prob(no variant). High QUAL scores
-    indicate high confidence calls. Although traditionally people use
-    integer phred scores, this field is permitted to be a floating point
-    to enable higher resolution for low confidence calls if desired. If
-    unknown, the missing value should be specified. (Numeric)
+    ALT. i.e. $-10\textit{log}_{10}$ prob(call in ALT is wrong). If ALT
+    is '.' (no variant) then this is $-10\textit{log}_{10}$
+    prob(variant), and if ALT is not '.' this is $-10\textit{log}_{10}$
+    prob(no variant). High QUAL scores indicate high confidence calls.
+    Although traditionally people use integer phred scores, this field
+    is permitted to be a floating point to enable higher resolution for
+    low confidence calls if desired. If unknown, the missing value
+    should be specified. (Numeric)
 
 7.  FILTER - filter status: PASS if this position has passed all
     filters, i.e., a call is made at this position. Otherwise, if the
@@ -378,15 +379,15 @@ are standards across the community:
   permitted)
 
 - GL : genotype likelihoods comprised of comma separated floating point
-  $log_{10}$-scaled likelihoods for all possible genotypes given the set
-  of alleles defined in the REF and ALT fields. In presence of the GT
-  field the same ploidy is expected and the canonical order is used;
-  without GT field, diploidy is assumed. If A is the allele in REF and
-  B,C,... are the alleles as ordered in ALT, the ordering of genotypes
-  for the likelihoods is given by: F(j/k) = (k\*(k+1)/2)+j. In other
-  words, for biallelic sites the ordering is: AA,AB,BB; for triallelic
-  sites the ordering is: AA,AB,BB,AC,BC,CC, etc. For example: GT:GL
-  0/1:-323.03,-99.29,-802.53 (Floats)
+  $\textit{log}_{10}$-scaled likelihoods for all possible genotypes
+  given the set of alleles defined in the REF and ALT fields. In
+  presence of the GT field the same ploidy is expected and the canonical
+  order is used; without GT field, diploidy is assumed. If A is the
+  allele in REF and B,C,... are the alleles as ordered in ALT, the
+  ordering of genotypes for the likelihoods is given by: F(j/k) =
+  (k\*(k+1)/2)+j. In other words, for biallelic sites the ordering is:
+  AA,AB,BB; for triallelic sites the ordering is: AA,AB,BB,AC,BC,CC,
+  etc. For example: GT:GL 0/1:-323.03,-99.29,-802.53 (Floats)
 
 - GLE : genotype likelihoods of heterogeneous ploidy, used in presence
   of uncertain copy number. For example:
@@ -400,8 +401,8 @@ are standards across the community:
   probabilities (Floats)
 
 - GQ : conditional genotype quality, encoded as a phred quality
-  $-10log_{10}$ p(genotype call is wrong, conditioned on the site's
-  being variant) (Integer)
+  $-10\textit{log}_{10}$ p(genotype call is wrong, conditioned on the
+  site's being variant) (Integer)
 
 - HQ : haplotype qualities, two comma separated phred qualities
   (Integers)
@@ -532,10 +533,11 @@ These keys are analogous to GT/GQ/GL and are provided for genotyping
 imprecise events by copy number (either because there is an unknown
 number of alternate alleles or because the haplotypes cannot be
 determined). CN specifies the integer copy number of the variant in this
-sample. CNQ is encoded as a phred quality $-10log_{10}$ p(copy number
-genotype call is wrong). CNL specifies a list of $log_{10}$ likelihoods
-for each potential copy number, starting from zero. When possible,
-GT/GQ/GL should be used instead of (or in addition to) these keys.
+sample. CNQ is encoded as a phred quality $-10\textit{log}_{10}$ p(copy
+number genotype call is wrong). CNL specifies a list of
+$\textit{log}_{10}$ likelihoods for each potential copy number, starting
+from zero. When possible, GT/GQ/GL should be used instead of (or in
+addition to) these keys.
 
 # 5 Representing variation in VCF records
 
@@ -585,8 +587,9 @@ Representing these as VCF records would be done as follows:
 2.  A single base deletion of C $\rightarrow \{tC,t\} \rightarrow$ tC is
     the reference allele
 
-3.  A single base insertion of A $\rightarrow \{tC,tCA\} \rightarrow$ tC
-    is the reference allele
+3.  A single base insertion of A
+    $\rightarrow \{tC,\textit{tCA}\} \rightarrow$ tC is the reference
+    allele
 
 <table>
 <thead>
@@ -733,8 +736,9 @@ Now suppose I have this more complex example:
 </tbody>
 </table>
 
-There are actually four segregating alleles: $\{tCg,tg,t,tCAg\}$ over
-bases 2-4. This complex set of allele is represented in VCF as:
+There are actually four segregating alleles:
+$\{\textit{tCg},tg,t,\textit{tCAg}\}$ over bases 2-4. This complex set
+of allele is represented in VCF as:
 
 <table>
 <thead>
@@ -3143,10 +3147,10 @@ missing values; the BCF2 codec should signal an error in this case.
 A **Genotype (GT) field** is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
 the maximum ploidy among all samples at a site. For one individual, each
-integer in the vector is organized as $(allele+1) << 1 \mid phased$
-where allele is set to -1 if the allele in GT is a dot '.' (thus the
-higher bits are all 0). The vector is padded with missing values if the
-GT having fewer ploidy.
+integer in the vector is organized as
+$(\textit{allele}+1) << 1 \mid \textit{phased}$ where allele is set to
+-1 if the allele in GT is a dot '.' (thus the higher bits are all 0).
+The vector is padded with missing values if the GT having fewer ploidy.
 
 Examples:
 

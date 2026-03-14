@@ -253,13 +253,13 @@ The Number field is defined as per the INFO Number field with the
 following additional possibilities:
 
 - LA: Identical to A except the only alternate alleles defined in the
-  `LAA` field are considered present.
+  $\textit{LAA}$ field are considered present.
 
 - LR: Identical to R except the only alternate alleles defined in the
-  `LAA` field are considered present.
+  $\textit{LAA}$ field are considered present.
 
 - LG: Identical to G except the only alternate alleles defined in the
-  `LAA` field are considered present.
+  $\textit{LAA}$ field are considered present.
 
 - P: The field has one value for each allele value defined in `GT`.
 
@@ -471,11 +471,7 @@ sequence names: they may contain any printable ASCII characters in the
 range `[!-~]` apart from '`` \ , "`' () [] {} <> ``' and may not start
 with '' or '`=`'. Thus they match the following regular expression:
 
-<div class="code-math-block">
-
-    \[0-9A-Za-z!#$%&+./:;?@^_|~-][0-9A-Za-z!#$%&\*+./:;=?@^\_\|~-\]\*
-
-</div>
+<pre><code>    [0-9A-Za-z!#%&amp;*+./:;=?@^_|~-]*</code></pre>
 
 In particular, excluding commas facilitates parsing `##contig` lines,
 and excluding the characters '`<>[]`' and initial '' avoids clashes with
@@ -596,10 +592,11 @@ There are 8 fixed fields per record. Fixed fields are:
     angle-brackets are permitted in the ID String itself)
 
 6.  QUAL — quality: Phred-scaled quality score for the assertion made in
-    ALT. i.e. $-10log_{10}$ prob(call in ALT is wrong). If ALT is '.'
-    (no variant) then this is $-10log_{10}$ prob(variant), and if ALT is
-    not '.' this is $-10log_{10}$ prob(no variant). If unknown, the
-    MISSING value must be specified. (Float)
+    ALT. i.e. $-10\textit{log}_{10}$ prob(call in ALT is wrong). If ALT
+    is '.' (no variant) then this is $-10\textit{log}_{10}$
+    prob(variant), and if ALT is not '.' this is $-10\textit{log}_{10}$
+    prob(no variant). If unknown, the MISSING value must be specified.
+    (Float)
 
 7.  FILTER — filter status: PASS if this position has passed all
     filters, i.e., a call is made at this position. Otherwise, if the
@@ -1251,8 +1248,8 @@ integer</td>
   semicolons permitted.
 
 - GQ (Integer): Conditional genotype quality, encoded as a phred quality
-  $-10log_{10}$ p(genotype call is wrong, conditioned on the site's
-  being variant).
+  $-10\textit{log}_{10}$ p(genotype call is wrong, conditioned on the
+  site's being variant).
 
 - GP (Float): Genotype posterior probabilities in the range 0 to 1 using
   the same ordering as the GL field; one use can be to store imputed
@@ -1290,10 +1287,10 @@ integer</td>
   from the record containing only symbolic SVs.
 
 - GL (Float): Genotype likelihoods comprised of comma separated floating
-  point $log_{10}$-scaled likelihoods for all possible genotypes given
-  the set of alleles defined in the REF and ALT fields. In presence of
-  the GT field the same ploidy is expected; without GT field, diploidy
-  is assumed.
+  point $\textit{log}_{10}$-scaled likelihoods for all possible
+  genotypes given the set of alleles defined in the REF and ALT fields.
+  In presence of the GT field the same ploidy is expected; without GT
+  field, diploidy is assumed.
 
   <span class="smallcaps">Genotype Ordering.</span>
   <span id="genotype-fields:genotype-ordering"
@@ -1303,36 +1300,24 @@ integer</td>
   be expressed by the following pseudocode with as many nested loops as
   ploidy: [^3]
 
-  <div class="code-math-block">
-
-    for $a_P = 0\ldots N$\
-      for $a_{P-1} = 0\ldots a_P$\
-          $\ldots$\
-          for $a_1 = 0\ldots a_{2}$\
-              println $a_1 a_2  \ldots  a_P$
-
-  </div>
+  <pre><code>  for a_P = 0… N
+      for a_P-1 = 0… a_P
+          …
+          for a_1 = 0… a_2
+              println a_1 a_2 … a_P</code></pre>
 
   Alternatively, the same can be achieved recursively with the following
   pseudocode:
 
-  <div class="code-math-block">
-
-      Ordering($P$, $N$, suffix=""):\
-          for $a$ in $0\ldots N$\
-              if ($P == 1$) println str($a$) + suffix\
-              if ($P > 1$) Ordering($P$-1, $a$, str($a$) + suffix)
-
-  </div>
+  <pre><code>    Ordering(P, N, suffix=""):
+          for a in 0… N
+              if (P == 1) println str(a) + suffix
+              if (P &gt; 1) Ordering(P-1, a, str(a) + suffix)</code></pre>
 
   Conversely, the index of the value corresponding to the genotype
   $k_1\le k_2\le\ldots\le k_P$ is
 
-  <div class="code-math-block">
-
-      Index($k_1/k_2/\ldots/k_P$) = $\sum_{m=1}^{P} {k_m + m - 1 \choose m}$
-
-  </div>
+  <pre><code>    Index(k_1/k_2/…/k_P) = ∑_m=1^P C(k_m + m - 1, m)</code></pre>
 
   Examples:
 
@@ -1790,17 +1775,19 @@ strings.
     ##INFO=<ID=IMPRECISE,Number=0,Type=Flag,Description="Imprecise structural variation">
 
 Indicates that this record contains an imprecise structural variant
-`ALT` allele. ALT alleles missing `CIPOS` are to be interpreted as
-imprecise variants with an unspecified confidence interval.
+$\textit{ALT}$ allele. ALT alleles missing $\textit{CIPOS}$ are to be
+interpreted as imprecise variants with an unspecified confidence
+interval.
 
-If a precise ALT allele is present in a record with the `IMPRECISE`
-flag, `CIPOS` must be explicitly set for that allele, even if it is
-'0,0'.
+If a precise ALT allele is present in a record with the
+$\textit{IMPRECISE}$ flag, $\textit{CIPOS}$ must be explicitly set for
+that allele, even if it is '0,0'.
 
     ##INFO=<ID=NOVEL,Number=0,Type=Flag,Description="Indicates a novel structural variation">
     ##INFO=<ID=END,Number=1,Type=Integer,Description="Deprecated. Present for backwards compatibility with earlier versions of VCF.">
 
-`END` has been deprecated in favour of INFO SVLEN and FORMAT LEN.
+$\textit{END}$ has been deprecated in favour of INFO SVLEN and FORMAT
+LEN.
 
     ##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
 
@@ -1813,53 +1800,57 @@ structural variant alleles.
 One value for each ALT allele.
 
 SVLEN must be specified for symbolic structural variant alleles. SVLEN
-is defined for `INS`, `DUP`, `INV`, and `DEL` symbolic alleles as the
-number of the inserted, duplicated, inverted, and deleted bases
-respectively. SVLEN is defined for `CNV` symbolic alleles as the length
-of the segment over which the copy number variant is defined. The
-missing value $.$ should be used for all other ALT alleles, including
-ALT alleles using breakend notation.
+is defined for $\textit{INS}$, $\textit{DUP}$, $\textit{INV}$, and
+$\textit{DEL}$ symbolic alleles as the number of the inserted,
+duplicated, inverted, and deleted bases respectively. SVLEN is defined
+for $\textit{CNV}$ symbolic alleles as the length of the segment over
+which the copy number variant is defined. The missing value $.$ should
+be used for all other ALT alleles, including ALT alleles using breakend
+notation.
 
 For backwards compatibility, a missing SVLEN should be inferred from the
-`END` field.
+$\textit{END}$ field.
 
 For backwards compatibility, the absolute value of SVLEN should be taken
 and a negative SVLEN should be treated as positive values.
 
-Note that for structural variant symbolic alleles, `POS` corresponds to
-the base immediately preceding the variant.
+Note that for structural variant symbolic alleles, $\textit{POS}$
+corresponds to the base immediately preceding the variant.
 
     ##INFO=<ID=CIPOS,Number=.,Type=Integer,Description="Confidence interval around POS for symbolic structural variants">
 
 If present, the number of entries must be twice the number of ALT
-alleles. `CIPOS` consists of successive pairs of records indicating the
-start and end offsets relative to `POS` of the confidence interval for
-each ALT allele. For example, `CIPOS=-5,5,0,0` indicates a 5bp
-confidence interval in each direction for the first ALT allele, and an
-exact position for the second alt allele.
+alleles. $\textit{CIPOS}$ consists of successive pairs of records
+indicating the start and end offsets relative to $\textit{POS}$ of the
+confidence interval for each ALT allele. For example,
+$\textit{CIPOS}=-5,5,0,0$ indicates a 5bp confidence interval in each
+direction for the first ALT allele, and an exact position for the second
+alt allele.
 
-When breakpoint sequence homology exists, `CIPOS` should be used in
-conjunction with `HOMSEQ` to specify the interval of homology.
+When breakpoint sequence homology exists, $\textit{CIPOS}$ should be
+used in conjunction with $\textit{HOMSEQ}$ to specify the interval of
+homology.
 
-If both `IMPRECISE` and `CIPOS` are omitted, `CIPOS` is implicitly
-defined as 0,0 for all alleles.
+If both $\textit{IMPRECISE}$ and $\textit{CIPOS}$ are omitted,
+$\textit{CIPOS}$ is implicitly defined as 0,0 for all alleles.
 
-Each `CIPOS` interval must span 0. That is, the lower bound cannot be
-greater than 0, and the upper bound cannot be less than 0.
+Each $\textit{CIPOS}$ interval must span 0. That is, the lower bound
+cannot be greater than 0, and the upper bound cannot be less than 0.
 
     ##INFO=<ID=CIEND,Number=.,Type=Integer,Description="Confidence interval around the inferred END for symbolic structural variants">
 
 If present, the number of entries must be twice the number of ALT
-alleles. `CIEND` consists of successive pairs of records encoding the
-confidence interval start and end offsets relative to the `END` position
-inferred by `SVLEN` for each ALT allele. For symbolic structural
-variants, the first in the pair must not be greater than 0, and the
-second must not be less than 0. For all other alleles, both should be
-the missing value $.$. For example, `CIEND=-5,5,.,.` indicates a 5bp
-confidence interval in each direction around the end position for the
-first ALT allele, and no `CIEND` is defined for the second alt allele.
+alleles. $\textit{CIEND}$ consists of successive pairs of records
+encoding the confidence interval start and end offsets relative to the
+$\textit{END}$ position inferred by $\textit{SVLEN}$ for each ALT
+allele. For symbolic structural variants, the first in the pair must not
+be greater than 0, and the second must not be less than 0. For all other
+alleles, both should be the missing value $.$. For example,
+$\textit{CIEND}=-5,5,.,.$ indicates a 5bp confidence interval in each
+direction around the end position for the first ALT allele, and no
+$\textit{CIEND}$ is defined for the second alt allele.
 
-If `CIEND` is missing, it is assumed to match `CIPOS`.
+If $\textit{CIEND}$ is missing, it is assumed to match $\textit{CIPOS}$.
 
     ##INFO=<ID=HOMLEN,Number=A,Type=Integer,Description="Length of base pair identical micro-homology at breakpoints">
 
@@ -1875,14 +1866,14 @@ the characteristics of the alt allele contigs.
     ##INFO=<ID=MEINFO,Number=.,Type=String,Description="Mobile element info of the form NAME,START,END,POLARITY">
 
 If present, the number of entries must be four (4) times the number of
-ALT alleles. `MEINFO` consists of successive quadruplets of records for
-each ALT allele.
+ALT alleles. $\textit{MEINFO}$ consists of successive quadruplets of
+records for each ALT allele.
 
     ##INFO=<ID=METRANS,Number=.,Type=String,Description="Mobile element transduction info of the form CHR,START,END,POLARITY">
 
 If present, the number of entries must be four (4) times the number of
-ALT alleles. `METRANS` consists of successive quadruplets of records for
-each ALT allele.
+ALT alleles. $\textit{METRANS}$ consists of successive quadruplets of
+records for each ALT allele.
 
     ##INFO=<ID=DGVID,Number=A,Type=String,Description="ID of this element in Database of Genomic Variation">
     ##INFO=<ID=DBVARID,Number=A,Type=String,Description="ID of this element in DBVAR">
@@ -1895,12 +1886,12 @@ each ALT allele.
 Whilst simple events such as deletions and duplications can be wholly
 represented by a single VCF record, complex rearrangements such as
 chromothripsis result in a large number of breakpoints. VCF uses the
-`EVENT` field to group such related records together, and `EVENTTYPE` to
-classify these events. All records with the same `EVENT` value are
-considered to be part of the same event.
+$\textit{EVENT}$ field to group such related records together, and
+$\textit{EVENTTYPE}$ to classify these events. All records with the same
+$\textit{EVENT}$ value are considered to be part of the same event.
 
-The following `EVENTTYPE` values are reserved and should be used when
-appropriate:
+The following $\textit{EVENTTYPE}$ values are reserved and should be
+used when appropriate:
 
 - DEL - Deletion
 
@@ -1932,24 +1923,25 @@ appropriate:
 
 - DOUBLEMINUTE - Double minute
 
-The semantics of other `EVENTTYPE` values is implementation-defined. The
-use of `EVENT` is not restricted to structural variation and can also be
-used to associate non-symbolic alleles. Such linking is useful for
-scenarios such as kataegis or when there is variant position ambiguity
-in segmentally duplicated regions.
+The semantics of other $\textit{EVENTTYPE}$ values is
+implementation-defined. The use of $\textit{EVENT}$ is not restricted to
+structural variation and can also be used to associate non-symbolic
+alleles. Such linking is useful for scenarios such as kataegis or when
+there is variant position ambiguity in segmentally duplicated regions.
 
     ##INFO=<ID=CILEN,Number=.,Type=Integer,Description="Confidence interval for the SVLEN field">
 
 If present, the number of entries must be twice the number of ALT
-alleles. `CILEN` consists of successive pairs of records indicating the
-lower and upper bounds of the `SVLEN` confidence interval.
+alleles. $\textit{CILEN}$ consists of successive pairs of records
+indicating the lower and upper bounds of the $\textit{SVLEN}$ confidence
+interval.
 
     ##INFO=<ID=CN,Number=A,Type=Float,Description="Copy number of CNV/breakpoint">
     ##INFO=<ID=CICN,Number=.,Type=Float,Description="Confidence interval around copy number">
 
 If present, the number of entries must be twice the number of ALT
-alleles. `CICN` consists of successive pairs of records indicating the
-lower and upper copy number bounds.
+alleles. $\textit{CICN}$ consists of successive pairs of records
+indicating the lower and upper copy number bounds.
 
     ##INFO=<ID=SVCLAIM,Number=A,Type=String,Description="Claim made by the structural variant call. Valid values are D, J, DJ for abundance, adjacency and both respectively">
 
@@ -2062,12 +2054,12 @@ fields contain the flattened and concatenated list contents in the same
 order as either corresponding ALT allele.
 
 Each \<CNV:TR\> allele consists of `RN` repeat sequences each containing
-`RUC` repeat units with sequence `RUS`.
+$\textit{RUC}$ repeat units with sequence $\textit{RUS}$.
 
 For example, if a \<CNV:TR\> allele sequence is
-$(CAG)_{10}(TG)_{7}(CAGG)_{3}$, the RN for that ALT allele would be 3,
-the RUS `CAG,TG,CAGG`, the RUL $3,2,4$, the RUC $10,7,3$ and the RB
-$30,14,12$.
+$(\textit{CAG})_{10}(TG)_{7}(\textit{CAGG})_{3}$, the RN for that ALT
+allele would be 3, the RUS $\textit{CAG},TG,\textit{CAGG}$, the RUL
+$3,2,4$, the RUC $10,7,3$ and the RB $30,14,12$.
 
 RUS may contain only IUPAC nucleotide codes (ambiguous bases are
 allowed) or the missing value ('.'). If both RUS and RUL are present and
@@ -2086,15 +2078,15 @@ Confidence interval around RUC and RB respectively. The length of these
 fields must be twice that of their corresponding fields. CIRUC/CIRB must
 not be non-missing for any alleles with no corresponding RUC/RB value.
 
-These fields are defined in the same manner as `CIPOS` and contain the
-difference between the lower and upper confidence interval bounds and
-the value of the corresponding field. The lower bound must be less than
-or equal to zero and the upper bound must be greater than or equal to
-zero. If the lower bound is the missing value ".", is assumed to be 0
-and if the upper bound is the missing value ".", it is assumed to be an
-unbounded estimate. That is, the length of repeat has been determined to
-be at least a certain length but a reasonable limit of total length of
-the repeat could not be determined.
+These fields are defined in the same manner as $\textit{CIPOS}$ and
+contain the difference between the lower and upper confidence interval
+bounds and the value of the corresponding field. The lower bound must be
+less than or equal to zero and the upper bound must be greater than or
+equal to zero. If the lower bound is the missing value ".", is assumed
+to be 0 and if the upper bound is the missing value ".", it is assumed
+to be an unbounded estimate. That is, the length of repeat has been
+determined to be at least a certain length but a reasonable limit of
+total length of the repeat could not be determined.
 
 See section [5.7](#5.7) for an example and further details.
 
@@ -2107,8 +2099,9 @@ field uses the same list-of-list encoding as RUS/RUL/RUC/RB but contains
 a list for each RC entry, the length of which is determined by the
 corresponding integer RUC value. This field contains the length of each
 individual repeat unit for each RUC entry. If RUB is missing or not
-specified, the `RUB` for each individual repeat unit is considered to be
-equal to the `RUL` for the corresponding repeat sequence.
+specified, the $\textit{RUB}$ for each individual repeat unit is
+considered to be equal to the $\textit{RUL}$ for the corresponding
+repeat sequence.
 
 For the vast majority of tandem repeats, this field can be omitted and
 is only required in complex situations such as when a VNTR contains one
@@ -2131,12 +2124,13 @@ CN specifies the total copy number over the region defined in the
 \<CNV\>, \<DEL\>, \<DUP\> alleles. When FORMAT CN is present, all
 \<CNV\>, \<DEL\> and \<DUP\> alleles must have the same SVLEN. CNQ, CNL,
 and CNP are analogous to GQ/GL/GP fields. CNQ is encoded as a phred
-quality $-10log_{10}$ p(copy number genotype call is wrong). CNL
-specifies a list of $log_{10}$ likelihoods for each potential copy
-number, starting from zero. CNP is 0 to 1-scaled copy number posterior
-probabilities (and otherwise defined precisely as the CNL field),
-intended to store imputed genotype probabilities. When possible,
-GT/GQ/GL/GP should be used instead of (or in addition to) these keys.
+quality $-10\textit{log}_{10}$ p(copy number genotype call is wrong).
+CNL specifies a list of $\textit{log}_{10}$ likelihoods for each
+potential copy number, starting from zero. CNP is 0 to 1-scaled copy
+number posterior probabilities (and otherwise defined precisely as the
+CNL field), intended to store imputed genotype probabilities. When
+possible, GT/GQ/GL/GP should be used instead of (or in addition to)
+these keys.
 
 # 5 Representing variation in VCF records
 
@@ -2334,8 +2328,9 @@ Now suppose I have this more complex example:
 </tbody>
 </table>
 
-There are actually four segregating alleles: $\{tCg,tg,t,tCAg\}$ over
-bases 2–4. This complex set of allele is represented in VCF as:
+There are actually four segregating alleles:
+$\{\textit{tCg},tg,t,\textit{tCAg}\}$ over bases 2–4. This complex set
+of allele is represented in VCF as:
 
 <table>
 <thead>
@@ -2656,7 +2651,7 @@ VCF, showing in order:
 
 7.  A single breakend
 
-The sequence of $chrA$ in this example is ATGCGAAAAAAATGT.
+The sequence of $\textit{chrA}$ in this example is ATGCGAAAAAAATGT.
 
 <div class="landscape">
 
@@ -3962,9 +3957,10 @@ SNP, indel, or otherwise).
 
 Positions implicitly called by a preceding \<\*\> for a sample must have
 `GT` set to the missing value ('.') and have no FORMAT fields other than
-`LAA` present. If `LAA` is present and a reference block start is being
-defined for a given sample, the \<\*\> allele must be included as an
-`LAA` allele for that sample even though the `GT` is $0/0$.
+$\textit{LAA}$ present. If $\textit{LAA}$ is present and a reference
+block start is being defined for a given sample, the \<\*\> allele must
+be included as an $\textit{LAA}$ allele for that sample even though the
+`GT` is $0/0$.
 
 Reference blocks were originally introduced by the gVCF file format[^5].
 Unfortunately, gVCF has issues scaling to many samples as the use of
@@ -4152,7 +4148,8 @@ is, \<CNV:TR\> records can encode multiple different repeat motifs in a
 single allele but do not support "nested" repeats.
 
 Figure 11 outlines the field encoding for a STR locus with alleles of
-sequence `CAGCAGCAGTTGTTG` ($(CAG)_{4}(TTG)_{2}$), and `CACACA`
+sequence $\textit{CAGCAGCAGTTGTTG}$
+($(\textit{CAG})_{4}(\textit{TTG})_{2}$), and $\textit{CACACA}$
 ($(CA)_{3}$). `RN=2,1` indicates that the first allele has two repeat
 sequences and the second allele one. RUS, RUL, and RUC fields encode the
 repeat unit sequence, length, and count within each repeat sequence. RB
@@ -4171,9 +4168,10 @@ A tandem repeat allele can be described by both a \<CNV:TR\> 'summary'
 record as well as non-symbolic records. When possible, these records
 should be phased with their corresponding \<CNV:TR\> record as outlined
 in the following example. In the following example, the reference genome
-contains a $(CAG)_{10}$ repeat at positions 101 to 130 inclusive, the
-first allele expands this to $(CAG)_{30}$ and the second allele is
-missing a $G$ from the 6th repeat unit $(CAG)_{5}(CA)_{1}(CAG)_{4}$:
+contains a $(\textit{CAG})_{10}$ repeat at positions 101 to 130
+inclusive, the first allele expands this to $(\textit{CAG})_{30}$ and
+the second allele is missing a $G$ from the 6th repeat unit
+$(\textit{CAG})_{5}(CA)_{1}(\textit{CAG})_{4}$:
 
 <div class="landscape">
 
@@ -4265,20 +4263,21 @@ Note the following:
 In some cases, it is desirable to report the full repeat sequence of all
 alleles at a given repeat locus in a single VCF records. There are no
 restrictions on doing so and in the above example, instead of reporting
-$precise\_alt1$ and $precise\_alt2$, the variants can be represented
-directly in a single record with a `REF` of:
+$\textit{precise\_alt}1$ and $\textit{precise\_alt}2$, the variants can
+be represented directly in a single record with a $\textit{REF}$ of:
 
     CAGCAGCAGCAGCAGCAGCAGCAGCAGCAG
 
-and an `ALT` of:
+and an $\textit{ALT}$ of:
 
     CAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAG,CAGCAGCAGCAGCAGCACAGCAGCAGCAG
 
 When the length or number of repeat units in a repeat sequence cannot be
 determined precisely, CIRB and/or CIRUC can be used to define the
-bounds. For example, if the total number of `CAG` repeats at the above
-locus was at least 50 ($(CAG)_{50-}$) and the mostly likely number of
-repeats was 65, then the \<CNV:TR\> could be encoded as follows:
+bounds. For example, if the total number of $\textit{CAG}$ repeats at
+the above locus was at least 50 ($(\textit{CAG})_{50-}$) and the mostly
+likely number of repeats was 65, then the \<CNV:TR\> could be encoded as
+follows:
 
     chr1 100 . T <CNV:TR> . . SVLEN=30;CN=6.5;RUS=CAG;RUC=65;CIRUC=-15,. GT ./.
 
@@ -4293,14 +4292,15 @@ Note that:
 
 Exactly representing nested repeats results in the loss of some repeat
 information when representing with a \<CNV:TR\> record. For repeats such
-as $((ACCGGC)_{4}(ACCAGT))_{3-5}$, summarising the repeat structure in a
-\<CNV:TR\> record requires either unrolling the inner repeats, or
-treating each outer repeat as a separate repeat sequence (the full
-repeat structure can be stored in a caller-specific non-standard INFO
-field). For many VNTRs, the critical information to retain is the length
-of each repeat unit. This length information can be encoded in the RUB
-field. For example, a 10,000bp VNTRs domain repeated 5 times, each
-repeat 500bp longer than the previous can be encoded as follows:
+as $((\textit{ACCGGC})_{4}(\textit{ACCAGT}))_{3-5}$, summarising the
+repeat structure in a \<CNV:TR\> record requires either unrolling the
+inner repeats, or treating each outer repeat as a separate repeat
+sequence (the full repeat structure can be stored in a caller-specific
+non-standard INFO field). For many VNTRs, the critical information to
+retain is the length of each repeat unit. This length information can be
+encoded in the RUB field. For example, a 10,000bp VNTRs domain repeated
+5 times, each repeat 500bp longer than the previous can be encoded as
+follows:
 
     chr1 1000000 . T <CNV:TR> . . SVLEN=20000;CN=1.25;RUL=10000;RUC=5;RUB=10000,10500,11000,11500,12000 GT ./.
 
@@ -5007,14 +5007,15 @@ element INT8 vector: 0x21. Next we have the encoding for each sample, A
 A **Genotype (GT) field** is encoded in a typed integer vector (can be
 8, 16, or even 32 bit if necessary) with the number of elements equal to
 the maximum ploidy among all samples at a site. For one individual, each
-integer in the vector is organized as $(allele+1) << 1 \mid phased$
-where allele is set to $-1$ if the allele in GT is a dot '.' (thus the
-higher bits are all 0). The vector is padded with the END_OF_VECTOR
-values if the GT having fewer ploidy. We note specifically that except
-for the END_OF_VECTOR byte, no other negative values are allowed in the
-GT array. When processing VCF version 4.3 or earlier files, the phasing
-of the first allele should be treated as missing and inferred from the
-remaining alleles.
+integer in the vector is organized as
+$(\textit{allele}+1) << 1 \mid \textit{phased}$ where allele is set to
+$-1$ if the allele in GT is a dot '.' (thus the higher bits are all 0).
+The vector is padded with the END_OF_VECTOR values if the GT having
+fewer ploidy. We note specifically that except for the END_OF_VECTOR
+byte, no other negative values are allowed in the GT array. When
+processing VCF version 4.3 or earlier files, the phasing of the first
+allele should be treated as missing and inferred from the remaining
+alleles.
 
 Examples:
 
@@ -5553,12 +5554,12 @@ section 4 as BAM files and other block-compressed files with BGZF.
   defined as a prefix notation with the first phasing indicator
   optional.
 
-- Redefined $Number=$ for SVLEN, CIPOS, CIEND, HOMLEN, HOMSEQ, BKPTID,
-  MEINFO, METRANS, DGVID, DBVARID, DBRIPID, MATEID, PARID, EVENT, CN,
-  CICN to support multiple symbolic alleles.
+- Redefined $\textit{Number}=$ for SVLEN, CIPOS, CIEND, HOMLEN, HOMSEQ,
+  BKPTID, MEINFO, METRANS, DGVID, DBVARID, DBRIPID, MATEID, PARID,
+  EVENT, CN, CICN to support multiple symbolic alleles.
 
 - Redefined END as the end position of the longest ALT allele. Note that
-  END remains $Number=1$.
+  END remains $\textit{Number}=1$.
 
 - Redefined SVLEN to always be positive and be meaningful for INV
   variants.
