@@ -296,7 +296,9 @@ local function math_to_text(text)
 end
 
 function CodeBlock(el)
-  if not el.text:match("%$.*%$") then
+  local has_math = el.text:match("%$.*%$")
+  local has_latex = el.text:match("\\%a+{")
+  if not has_math and not has_latex then
     return el
   end
   local result_lines = {}
@@ -305,8 +307,11 @@ function CodeBlock(el)
     local result = line:gsub("%$([^%$]+)%$", function(m)
       return math_to_text(m)
     end)
-    -- Convert \textsc{Name} to Name (function names in pseudocode)
+    -- Convert LaTeX font commands to plain text in pseudocode
     result = result:gsub("\\textsc{([^}]*)}", "%1")
+    result = result:gsub("\\textit{([^}]*)}", "%1")
+    result = result:gsub("\\textbf{([^}]*)}", "%1")
+    result = result:gsub("\\texttt{([^}]*)}", "%1")
     -- Ensure space after assignment arrow
     result = result:gsub("\xe2\x86\x90([^ \n])", "\xe2\x86\x90 %1")
     -- Strip LaTeX spacing/special commands outside math

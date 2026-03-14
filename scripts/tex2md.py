@@ -145,6 +145,10 @@ def convert_inline_alg(text):
     Handles \\algalign{var}{op}, \\Return, and LaTeX spacing commands."""
     text = re.sub(r'\\algalign\{([^}]*)\}\{([^}]*)\}', r'$\1 \2$', text)
     text = re.sub(r'^\\Return\s*', 'return ', text)
+    # Strip LaTeX font commands (e.g. \textbf{return} -> return)
+    text = re.sub(r'\\text(?:bf|it|tt|sc)\{([^}]*)\}', r'\1', text)
+    # Convert TeX quotes to plain quotes
+    text = text.replace("``", '"').replace("''", '"')
     text = re.sub(r'\\[ ,;]|\\quad', ' ', text)
     return text.strip()
 
@@ -197,6 +201,7 @@ def convert_algorithmic(content):
 
         if cmd == 'Statex':
             text, comment = split_comment(rest)
+            text = re.sub(r'\\text(?:it|bf|tt|sc)\{([^}]*)\}', r'\1', text)
             text = text.strip().lstrip('(').rstrip(')')
             if text:
                 result.append(_line(indent, f'// {text}'))

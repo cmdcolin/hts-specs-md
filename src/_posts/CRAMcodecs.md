@@ -2769,7 +2769,7 @@ unsigned integers and nul-terminated strings. We reuse the
 <span class="smallcaps">ReadUint32</span> and related functions with the
 byte array specified as input.
 
-<pre><code>// \textit{(Convert an integer to a string form in base-10 digits, at least len bytes long with leading zeros)}
+<pre><code>// Convert an integer to a string form in base-10 digits, at least len bytes long with leading zeros
 Function LeftPadNumber(val, len)
   str ← val  // Implicit language-specific Integer to String conversion
   while Length(str) &lt; len:
@@ -2786,41 +2786,41 @@ previous $m^{th}$ name ($N_m$). The tokens $T$ are used in `MATCH` and
 Now we have the basic primitives for pulling from the $B$ byte streams,
 decoding the $n^{th}$ individual name is as follows[^7]:
 
-<pre><code>// \textit{(Decodes the n^th name, returning N_n and updating globals N_n and T_n)}
+<pre><code>// Decodes the n^th name, returning N_n and updating globals N_n and T_n)}
 Function DecodeSingleName(n)
   type ← ReadUint8(B_0,TYPE)
   dist ← ReadUint32(B_0,type)
   m ← n-dist
-  if type = \texttt{DUP}:
+  if type = DUP:
     N_n ← N_m
     T_n ← T_m  // Copy for all T_n,*
     return N_n
 &#10;  t ← 1  // Token number t
   repeat:
     type ← ReadUint8(B_t,TYPE)
-    if type = \texttt{CHAR}:
+    if type = CHAR:
       T_n,t ← ReadChar(B_t,CHAR)
-    else if type = \texttt{STRING}:
+    else if type = STRING:
       T_n,t ← ReadString(B_t,STRING)
-    else if type = \texttt{DIGITS}:
+    else if type = DIGITS:
       T_n,t ← ReadUint32(B_t,DIGITS)
-    else if type = \texttt{DIGITS0}:
+    else if type = DIGITS0:
       d ← ReadUnt32(B_t,DIGITS0)
       l ← ReadUint8(B_t,DZLEN)
       T_n,t ← LeftPadNumber(d, l)
-    else if type = \texttt{DELTA}:
+    else if type = DELTA:
       T_n,t ← T_m,t + ReadUint8(B_t,DELTA)
-    else if type = \texttt{DELTA0}:
+    else if type = DELTA0:
       d ← T_m,t + ReadUint8(B_t,DELTA0)
       l ← Length(T_m,t)  // String length including leading zeros
       T_n,t ← LeftPadNumber(d, l)
-    else if type = \texttt{MATCH}:
+    else if type = MATCH:
       T_n,t ← T_m,t
     else:
       T_n,t ← `'
     N_n ← N_n ++ T_n,t
     t ← t+1
-  until type = \texttt{END}
+  until type = END
   return N_n</code></pre>
 
 Given a complex name with both position and type specific values, this
@@ -2956,7 +2956,7 @@ as many MATCH types as are needed.
 The $\textit{cdata}$ stream itself is as described in the relevant
 entropy encoder section above (rANS or arithmetic coding).
 
-<pre><code>// \textit{(Decodes and uncompresses the serialised token byte streams)}
+<pre><code>// Decodes and uncompresses the serialised token byte streams
 Function DecodeTokenByteStreams(use_arith)
   sz ← 0
   t ← -1
@@ -2983,7 +2983,7 @@ Function DecodeTokenByteStreams(use_arith)
   until EOF()
   return B</code></pre>
 
-<pre><code>// \textit{(Decodes all names, returning N)}
+<pre><code>// Decodes all names, returning N
 Function DecodeNames()
   ulen ← ReadUint32()
   nnames ← ReadUint32()
@@ -3643,7 +3643,7 @@ elsewhere).
   FQZCreateModels()
   i ← 0  // Position in total quality block
   pos ← 0  // Remaining base count current quality string
-  \texttt{next_record:}:
+  next_record::
   while i &lt; buf_len:
     if pos = 0:  // Reset state at start of each new record
       x ← FQZNewRecord()
