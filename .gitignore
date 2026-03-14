@@ -26,4 +26,6 @@ GNUmakefile
 /_site
 node_modules
 dist
+
+*.pyc
 .astro

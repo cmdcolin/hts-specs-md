@@ -760,16 +760,27 @@ string). <span class="smallcaps">StringConcatenate</span> returns the
 string concatenation of its input parameters in order from left to
 right.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-**return** $input$ "" 0 <span class="smallcaps">length</span>(input)
-<span class="smallcaps">RemoveFirst</span>(edlist) $pos + discard$
-<span class="smallcaps">substr</span>($input, pos, len - pos$)
-<span class="smallcaps">StringConcatenate</span>($output,\ part$)
-<span class="smallcaps">RemoveFirst</span>(edlist)
-<span class="smallcaps">substr</span>($input, pos, keep$)
-<span class="smallcaps">StringConcatenate</span>($output,\ part$)
-$pos + keep$ **return** $output$
+Function ApplyEditList($edlist,\ input$)\
+  if <span class="smallcaps">IsEmpty</span>(edlist):\
+    \textbf{return} $input$  // Trivial case with no edit list\
+  $output \gets$ \`\`''  // Initial output is empty\
+  $pos \gets$ $0$  // Current position in the unedited plain-text\
+  $len \gets$ <span class="smallcaps">length</span>(input)  // Length of input string\
+  repeat:\
+    $discard \gets$ <span class="smallcaps">RemoveFirst</span>(edlist)  // Pull number of bytes to discard from list\
+    $pos \gets$ $pos + discard$\
+    if <span class="smallcaps">IsEmpty</span>(edlist):\
+      $part \gets$ <span class="smallcaps">substr</span>($input, pos, len - pos$)  // Append the remainder of $input$\
+      $output \gets$ <span class="smallcaps">StringConcatenate</span>($output, part$)\
+    else:\
+      $keep \gets$ <span class="smallcaps">RemoveFirst</span>(edlist)  // Pull number of bytes to keep from the list\
+      $part \gets$ <span class="smallcaps">substr</span>($input, pos, keep$)  // Append this part to $output$\
+      $output \gets$ <span class="smallcaps">StringConcatenate</span>($output, part$)\
+      $pos \gets$ $pos + keep$\
+  until <span class="smallcaps">IsEmpty</span>(edlist)\
+  \textbf{return} $output$
 
 </div>
 

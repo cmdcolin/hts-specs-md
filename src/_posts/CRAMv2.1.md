@@ -1904,7 +1904,7 @@ CRAM format has strict rules about reference sequences.
     `> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`\
     `1b22b98cdeb4a9304cb5d48026a85128 -`
 
-    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^``>``' tr -d '\n' tr a-z A-Z md5sum -`\
+    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`\
     `0f2a4865e3952676ffad2c3671f14057 -`
 
     Please note that the latter calculates the checksum for 11 bases
@@ -2178,7 +2178,7 @@ random positive numbers following geometric distribution.
 
 3.  Generate Codeword
 
-    1.  The Code format : `<`Quotient Code`>``<`Remainder Code`>`, where
+    1.  The Code format : `<`Quotient Code`><`Remainder Code`>`, where
 
     2.  Quotient Code (in unary coding)
 

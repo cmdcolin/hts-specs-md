@@ -94,9 +94,199 @@ def compile_tikz_to_svg(tikz_code, preamble, output_svg_path):
         if result.returncode != 0 or not os.path.exists(svg_path):
             print(f"  dvisvgm failed:\n{result.stderr[-400:]}")
             return False
-        os.makedirs(os.path.dirname(output_svg_path), exist_ok=True)
         shutil.copy(svg_path, output_svg_path)
         return True
+
+
+def normalize_col_spec(spec):
+    return spec.replace('L', 'l').replace('X', 'l').replace('C', 'c').replace('R', 'r')
+
+
+def get_first_brace(text):
+    """Extract content of first balanced {..} group. Returns (content, rest_of_text)."""
+    text = text.strip()
+    if not text.startswith('{'):
+        return '', text
+    depth = 0
+    for i, c in enumerate(text):
+        if c == '{':
+            depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0:
+                return text[1:i], text[i+1:].strip()
+    return text[1:], ''
+
+
+def split_comment(text):
+    """Split text into (main_content, comment) by extracting trailing \\Comment{...}.
+    Also strips \\ref{...} from the comment since refs can't be resolved in lstlisting."""
+    m = re.search(r'\\Comment\{', text)
+    if not m:
+        return text.rstrip(), None
+    comment_start = m.start() + len('\\Comment')
+    comment, _ = get_first_brace(text[comment_start:])
+    # Strip \ref{...} and \label{...} from comment text - unresolvable in verbatim context
+    comment = re.sub(r'\\(?:ref|label)\{[^}]*\}', '', comment).strip()
+    # Drop comment if it became a useless fragment (e.g. "See section" with no number)
+    if not comment or len(comment) <= 4 or comment.lower() in ('see section', 'see'):
+        return text[:m.start()].rstrip(), None
+    return text[:m.start()].rstrip(), comment
+
+
+_ALGORITHMIC_RE = re.compile(
+    r'\\begin\{algorithmic\}(?:\[\d+\])?\n?(.*?)\n?\\end\{algorithmic\}',
+    re.DOTALL
+)
+
+
+def convert_inline_alg(text):
+    """Convert inline algorithmic constructs to lstlisting-compatible text.
+    Handles \\algalign{var}{op}, \\Return, and LaTeX spacing commands."""
+    text = re.sub(r'\\algalign\{([^}]*)\}\{([^}]*)\}', r'$\1 \2$', text)
+    text = re.sub(r'^\\Return\s*', 'return ', text)
+    text = re.sub(r'\\[ ,;]|\\quad', ' ', text)
+    return text.strip()
+
+
+def _line(indent, text, comment=None):
+    """Build an indented pseudocode line, optionally appending a comment."""
+    out = '  ' * indent + text
+    if comment:
+        out += f'  // {comment}'
+    return out
+
+
+def convert_algorithmic(content):
+    """Parse an algorithmic environment body and return a lstlisting block string."""
+    indent = 0
+    result = []
+
+    for raw_line in content.split('\n'):
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        m = re.match(r'\\(\w+)(.*)', line, re.DOTALL)
+        if not m:
+            continue
+        cmd = m.group(1)
+        rest = m.group(2).strip()
+
+        if cmd in ('Procedure', 'Function'):
+            name, rest = get_first_brace(rest)
+            args, rest = get_first_brace(rest)
+            _, comment = split_comment(rest)
+            result.append(_line(indent, f'{cmd} {name}({args})', comment))
+            indent += 1
+
+        elif cmd in ('EndProcedure', 'EndFunction'):
+            indent = max(0, indent - 1)
+
+        elif cmd == 'State':
+            # \State may be followed by a block command or a regular statement
+            inner = re.match(r'\\(\w+)(.*)', rest, re.DOTALL)
+            if inner and inner.group(1) in ('If', 'ElsIf', 'Else', 'For', 'ForAll', 'Foreach', 'While', 'Return'):
+                cmd = inner.group(1)
+                rest = inner.group(2).strip()
+                # Fall through to block-command handling below
+            else:
+                stmt, comment = split_comment(rest)
+                result.append(_line(indent, convert_inline_alg(stmt), comment))
+                continue
+
+        if cmd == 'Statex':
+            text, comment = split_comment(rest)
+            text = text.strip().lstrip('(').rstrip(')')
+            if text:
+                result.append(_line(indent, f'// {text}'))
+            elif comment:
+                result.append(_line(indent, f'// {comment}'))
+            else:
+                result.append('')
+            continue
+
+        if cmd == 'If':
+            cond, rest = get_first_brace(rest)
+            _, comment = split_comment(rest)
+            result.append(_line(indent, f'if {cond}:', comment))
+            indent += 1
+
+        elif cmd == 'ElsIf':
+            indent = max(0, indent - 1)
+            cond, rest = get_first_brace(rest)
+            _, comment = split_comment(rest)
+            result.append(_line(indent, f'else if {cond}:', comment))
+            indent += 1
+
+        elif cmd == 'Else':
+            indent = max(0, indent - 1)
+            _, comment = split_comment(rest)
+            result.append(_line(indent, 'else:', comment))
+            indent += 1
+
+        elif cmd == 'EndIf':
+            indent = max(0, indent - 1)
+
+        elif cmd in ('For', 'ForAll', 'Foreach'):
+            spec, rest = get_first_brace(rest)
+            _, comment = split_comment(rest)
+            kw = {'For': 'for', 'ForAll': 'for all', 'Foreach': 'for each'}[cmd]
+            result.append(_line(indent, f'{kw} {spec}:', comment))
+            indent += 1
+
+        elif cmd in ('EndFor', 'EndForeach'):
+            indent = max(0, indent - 1)
+
+        elif cmd == 'While':
+            cond, rest = get_first_brace(rest)
+            _, comment = split_comment(rest)
+            result.append(_line(indent, f'while {cond}:', comment))
+            indent += 1
+
+        elif cmd == 'EndWhile':
+            indent = max(0, indent - 1)
+
+        elif cmd == 'Repeat':
+            result.append(_line(indent, 'repeat:'))
+            indent += 1
+
+        elif cmd == 'Until':
+            indent = max(0, indent - 1)
+            cond, _ = get_first_brace(rest)
+            result.append(_line(indent, f'until {cond}'))
+
+        elif cmd == 'Return':
+            stmt, comment = split_comment(rest)
+            result.append(_line(indent, f'return {convert_inline_alg(stmt)}', comment))
+
+        elif cmd == 'Comment':
+            cmt, _ = get_first_brace(rest)
+            if result:
+                result[-1] = result[-1] + f'  // {cmt}'
+
+        elif cmd == 'Goto':
+            label, _ = get_first_brace(rest)
+            result.append(_line(indent, f'go to {convert_inline_alg(label)}'))
+
+        elif cmd == 'Label':
+            stmt, comment = split_comment(rest)
+            result.append(_line(indent, f'{convert_inline_alg(stmt)}:', comment))
+
+        elif cmd == 'settowidth':
+            pass  # layout-only, ignore
+
+    # Strip leading/trailing blank lines
+    start = next((i for i, l in enumerate(result) if l.strip()), len(result))
+    result = result[start:]
+    while result and not result[-1].strip():
+        result.pop()
+    return '\\begin{lstlisting}\n' + '\n'.join(result) + '\n\\end{lstlisting}'
+
+
+def preprocess_algorithmic(body):
+    """Replace \\begin{algorithmic}...\\end{algorithmic} with formatted lstlisting blocks."""
+    return _ALGORITHMIC_RE.sub(lambda m: convert_algorithmic(m.group(1)), body)
 
 
 def generate_tikz_svgs(content, tex_basename, img_dir):
@@ -113,6 +303,7 @@ def generate_tikz_svgs(content, tex_basename, img_dir):
         return content
 
     tikz_img_dir = os.path.join(img_dir, 'tikz')
+    os.makedirs(tikz_img_dir, exist_ok=True)
     replacements = []
     for i, (start, end, tikz_code) in enumerate(figures):
         svg_filename = f"{tex_basename}_{i+1}.svg"
@@ -180,12 +371,11 @@ def main():
 
     # Convert embedded TikZ diagrams to SVG before pandoc processing.
     # Requires pdflatex and dvisvgm; skipped silently if either is missing.
-    tex_basename = os.path.splitext(os.path.basename(input_tex))[0]
-    img_dir = os.path.join(os.path.dirname(input_tex) or '.', 'img')
     has_tikz_tools = (shutil.which('pdflatex') is not None and
                       shutil.which('dvisvgm') is not None)
-    if re.search(r'\\begin\{tikzpicture\}', content) and has_tikz_tools:
-        print(f"  Converting TikZ figures in {input_tex}...")
+    if has_tikz_tools:
+        tex_basename = os.path.splitext(os.path.basename(input_tex))[0]
+        img_dir = os.path.join(os.path.dirname(input_tex) or '.', 'img')
         content = generate_tikz_svgs(content, tex_basename, img_dir)
 
     # We'll use a lua filter to handle some custom commands
@@ -199,8 +389,32 @@ def main():
         # Strip problematic macros that confuse pandoc but aren't needed for MD
         body = re.sub(r'\\algblockdefx\[Foreach\].*?\n', '', body)
         body = re.sub(r'\\algnewcommand.*?\n', '', body)
+        # Expand custom algorithmic operators into standard LaTeX math text
+        body = body.replace(r'\algorithmicto', r'\text{ \textbf{to} }')
+        body = body.replace(r'\algorithmicin', r'\text{ \textbf{in} }')
+        body = body.replace(r'\algorithmicgoto', r'\textbf{go to}')
         # Convert \Call{Name}{args} to \textsc{Name}(args) since pandoc drops \Call
-        body = re.sub(r'\\Call{(\w+)}{([^}]*)}', r'\\textsc{\1}(\2)', body)
+        body = re.sub(r'\\Call\{([^}]+)\}\{([^}]*)\}', r'\\textsc{\1}(\2)', body)
+        # Convert algorithmic environments to formatted lstlisting blocks
+        body = preprocess_algorithmic(body)
+        # Convert tabularx/tabular* to tabular so pandoc produces a proper Table AST node.
+        # tabularx takes an extra width arg before the column spec; strip it and normalize
+        # extended column types (L/X/C/R from tabularx) to standard l/c/r.
+        body = re.sub(
+            r'\\begin\{tabularx\}\{[^}]*\}\{([^}]*)\}',
+            lambda m: r'\begin{tabular}{' + normalize_col_spec(m.group(1)) + '}',
+            body,
+        )
+        body = body.replace(r'\end{tabularx}', r'\end{tabular}')
+        body = re.sub(r'\\begin\{tabular\*\}\{[^}]*\}\{([^}]*)\}',
+                      lambda m: r'\begin{tabular}{' + normalize_col_spec(m.group(1)) + '}',
+                      body)
+        body = body.replace(r'\end{tabular*}', r'\end{tabular}')
+        # Remove pure layout wrappers that pandoc can't handle and don't add content
+        body = re.sub(r'\\begin\{savenotes\}', '', body)
+        body = re.sub(r'\\end\{savenotes\}', '', body)
+        body = re.sub(r'\\begin\{adjustwidth\}\{[^}]*\}\{[^}]*\}', '', body)
+        body = re.sub(r'\\end\{adjustwidth\}', '', body)
         with open(temp_tex, 'w') as f:
             f.write(body)
     else:

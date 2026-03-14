@@ -320,7 +320,7 @@ Examples:
 <td>C</td>
 <td>A</td>
 <td>GT:M5mC</td>
-<td><span><code>0/1:0.95</code></span></td>
+<td><code>0/1:0.95</code></td>
 </tr>
 <tr>
 <td>chr</td>
@@ -328,7 +328,7 @@ Examples:
 <td>C</td>
 <td>CTAG</td>
 <td>GT:M5mC</td>
-<td><span><code>0/1:0,0.5,0.7</code></span></td>
+<td><code>0/1:0,0.5,0.7</code></td>
 </tr>
 <tr>
 <td>chr</td>
@@ -336,7 +336,7 @@ Examples:
 <td>C</td>
 <td>.</td>
 <td>GT:M5mC:M5hmC</td>
-<td><span><code>0|0:0.9,0:0,0.1</code></span></td>
+<td><code>0|0:0.9,0:0,0.1</code></td>
 </tr>
 <tr>
 <td>chr</td>
@@ -344,7 +344,7 @@ Examples:
 <td>C</td>
 <td>A,T,G,ACG</td>
 <td>GT:M5mC</td>
-<td><span><code>/3|1/0|4|0/0/3/1:0.25,0.1,0.5,0.6,.</code></span></td>
+<td><code>/3|1/0|4|0/0/3/1:0.25,0.1,0.5,0.6,.</code></td>
 </tr>
 </tbody>
 </table>
@@ -468,9 +468,8 @@ For example:
 
 Contig names follow the same rules as the SAM format's reference
 sequence names: they may contain any printable ASCII characters in the
-range `[!-~]` apart from '`\```  , "`' () []  ```{}`` <>`' and may not
-start with '' or '`=`'. Thus they match the following regular
-expression:
+range `[!-~]` apart from '`` \ , "`' () [] {} <> ``' and may not start
+with '' or '`=`'. Thus they match the following regular expression:
 
 <div class="code-math-block">
 
@@ -1527,7 +1526,7 @@ integer</td>
   <td>C</td>
   <td>.</td>
   <td>GT:M5mC:DPM5mC:ADM5mC</td>
-  <td><span><code>0/0:0.5:2:1</code></span></td>
+  <td><code>0/0:0.5:2:1</code></td>
   </tr>
   <tr>
   <td>chr</td>
@@ -1535,7 +1534,7 @@ integer</td>
   <td>G</td>
   <td>.</td>
   <td>GT:M5mC:DPM5mC:ADM5mC</td>
-  <td><span><code>0/0:.:.:.</code></span></td>
+  <td><code>0/0:.:.:.</code></td>
   </tr>
   <tr>
   <td>chr</td>
@@ -1543,7 +1542,7 @@ integer</td>
   <td>C</td>
   <td>.</td>
   <td>GT:PS:M5mC:DPM5mC:ADM5mC</td>
-  <td><span><code>0|0:20:0.75,.:4,.:3,.</code></span></td>
+  <td><code>0|0:20:0.75,.:4,.:3,.</code></td>
   </tr>
   <tr>
   <td>chr</td>
@@ -1551,7 +1550,7 @@ integer</td>
   <td>G</td>
   <td>A</td>
   <td>GT:PS:M5mC:DPM5mC:ADM5mC</td>
-  <td><span><code>0|1:20:0.33:3:1</code></span></td>
+  <td><code>0|1:20:0.33:3:1</code></td>
   </tr>
   </tbody>
   </table>
@@ -1634,7 +1633,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>|0/1:chr19*5*1,.</code></span></td>
+  <td><code>|0/1:chr19*5*1,.</code></td>
   </tr>
   <tr>
   <td>chr20</td>
@@ -1646,7 +1645,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>|1/2|3:chr20*10*1,.,chr19*5*1</code></span><code> </code></td>
+  <td><code>|1/2|3:chr20*10*1,.,chr19*5*1 </code></td>
   </tr>
   <tr>
   <td>chr20</td>
@@ -1658,7 +1657,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>1|2:.,chr20*10*1</code></span></td>
+  <td><code>1|2:.,chr20*10*1</code></td>
   </tr>
   </tbody>
   </table>
@@ -1697,7 +1696,7 @@ integer</td>
   <td>&lt;DUP&gt;</td>
   <td>SVCLAIM=DJ</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|1:.,.,chr1*10*3:.,.,3</code></span></td>
+  <td><code>/0/0|1:.,.,chr1*10*3:.,.,3</code></td>
   </tr>
   <tr>
   <td>chr1</td>
@@ -1706,7 +1705,7 @@ integer</td>
   <td>G</td>
   <td>.</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code></span><code> </code></td>
+  <td><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,4,1 </code></td>
   </tr>
   <tr>
   <td>chr1</td>
@@ -1715,7 +1714,7 @@ integer</td>
   <td>T</td>
   <td>.</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code></span><code> </code></td>
+  <td><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,2,5 </code></td>
   </tr>
   </tbody>
   </table>
@@ -4360,7 +4359,7 @@ The BCF2 header contains the following items:
 <tr>
 <td>magic</td>
 <td>char[3]</td>
-<td>The characters "<span><code>BCF</code></span>"</td>
+<td>The characters "<code>BCF</code>"</td>
 </tr>
 <tr>
 <td>major_version</td>
@@ -5603,10 +5602,10 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - The set of characters allowed in VCF contig names is now the same as
   that allowed in SAM reference sequence names, which was restricted in
-  January 2019. The characters '`\```  , "`' ()  ```{}`' are now invalid
-  in VCF contig names, while '' is now valid when not the first
-  character. (The characters '`[] <>`' and initial ''/'`=`' were already
-  invalid and remain so.)
+  January 2019. The characters '`` \ , "`' () {} ``' are now invalid in
+  VCF contig names, while '' is now valid when not the first character.
+  (The characters '`[] <>`' and initial ''/'`=`' were already invalid
+  and remain so.)
 
   The VCF specification previously disallowed colons ('`:`') in contig
   names to avoid confusion when parsing breakends, but this was

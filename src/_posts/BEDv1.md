@@ -25,22 +25,52 @@ format, which could be addressed in a future specification.
 ## 1.2 Typographic conventions
 
 This document uses several typographic
-conventions ([\[tab:typographic-conventions\]](#tab:typographic-conventions)).
+conventions ([1](#tab:typographic-conventions)).
 
-<div class="savenotes">
+<div id="tab:typographic-conventions">
 
-<div class="tabularx">
-
-r L L Style & Meaning & Examples\
-Bold & Terms defined in subsections [1.3](#1.3)–[1.4](#1.4) &
-**chromosomefile**\
-Sans serif & Names of **field**s &
-<span class="sans-serif">chrom</span><span class="sans-serif">chromStart</span><span class="sans-serif">chromEnd</span>\
-Fixed-width & Literals or <span acronym-label="regex"
-acronym-form="singular+short">regex</span>es[^2] &
-`.bed``grep``[[:alnum:]]+``ATCG`\
-
-</div>
+<table>
+<thead>
+<tr>
+<th>Style</th>
+<th>Meaning</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bold</td>
+<td>Terms defined in subsections <a href="#1.3">1.3</a>–<a
+href="#1.4">1.4</a></td>
+<td><strong>chromosomefile</strong></td>
+</tr>
+<tr>
+<td>Sans serif</td>
+<td>Names of <strong>field</strong>s</td>
+<td><span class="sans-serif">chrom</span><span
+class="sans-serif">chromStart</span><span
+class="sans-serif">chromEnd</span></td>
+</tr>
+<tr>
+<td>Fixed-width</td>
+<td>Literals or <span data-acronym-label="regex"
+data-acronym-form="singular+short">regex</span>es<a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>POSIX/IEEE 1003.1–2017 Extended Regular Expressions, for
+the "C" locale. <em>IEEE Standard for Information Technology—Portable
+Operating System Interface (POSIX) Base Specifications</em>,
+IEEE 1003.1–2017, 2017<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
+<td><code>.bedgrep[[:alnum:]]+ATCG</code></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -125,12 +155,12 @@ ChIP-seq data, or transcript.
 field:  
 Data stored as non-tab text. All **field**s are 7-bit US
 <span acronym-label="ASCII" acronym-form="singular+short">ASCII</span>
-printable characters[^3].
+printable characters[^2].
 
 field separator:  
 One or more horizontal whitespace characters (space or tab). The **field
 separator** must match the <span acronym-label="regex"
-acronym-form="singular+short">regex</span> `[ ``\``t]+`. The **field
+acronym-form="singular+short">regex</span> `[ \t]+`. The **field
 separator** can vary throughout the **file**. Some capabilities of the
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 format, however, are available only when a single tab is used as the
@@ -145,10 +175,10 @@ classes. Either a **data line**, a **comment line**, or a **blank
 line**. Discussed more fully in [1.4](#1.4).
 
 line separator:  
-Either carriage return (`\``r`, equivalent to `\``x0d`),
-newline (`\``n`, equivalent to `\``x0a`), or carriage return followed by
-newline (`\``r``\``n`, equivalent to `\``x0d``\``x0a`). The same **line
-separator** must be used throughout the **file**.
+Either carriage return (`\r`, equivalent to `\x0d`), newline (`\n`,
+equivalent to `\x0a`), or carriage return followed by newline (`\r\n`,
+equivalent to `\x0d\x0a`). The same **line separator** must be used
+throughout the **file**.
 
 ## 1.4 Lines
 
@@ -178,8 +208,7 @@ separator**. The first 3 **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s are mandatory, and the
 last 9 **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s are
-optional ([\[tab:fields\]](#tab:fields)). In
-optional **<span acronym-label="BED"
+optional ([2](#tab:fields)). In optional **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field**s, the order is
 binding—if an optional **<span acronym-label="BED"
 acronym-form="singular+abbrv">BED</span> field** is filled, then all
@@ -189,47 +218,147 @@ Any **<span acronym-label="BED" acronym-form="singular+abbrv">BED</span>
 field** included on any **data line** in the **file** must not be empty
 on any other **data line**. **BED10** and **BED11** are prohibited.
 
-<div class="savenotes">
+<div id="tab:fields">
 
-<div class="adjustwidth">
-
--0.5in-0.5in
-
-<div class="tabularx">
-
-r l l l L Col & <span acronym-label="BED"
-acronym-form="singular+abbrv">BED</span> Field & Type & Regex or range &
-Brief description\
-& <span class="sans-serif">chrom</span> & String &
-`[[:alnum:]_]{1,255}`[^4] & **Chromosome** name\
-2 & <span class="sans-serif">chromStart</span> & Int & $[0, 2^{64}-1]$ &
-**Feature** start position\
-3 & <span class="sans-serif">chromEnd</span> & Int & $[0, 2^{64} -1]$ &
-**Feature** end position\
-4 & <span class="sans-serif">name</span> & String &
-`[``\``x20-``\``x7e]{1,255}` & **Feature** description\
-5 & <span class="sans-serif">score</span> & Int & $[0, 1000]$ & A
-numerical value\
-6 & <span class="sans-serif">strand</span> & String & `[-+.]` &
-**Feature** strand\
-7 & <span class="sans-serif">thickStart</span> & Int & $[0, 2^{64}-1]$ &
-Thick start position\
-8 & <span class="sans-serif">thickEnd</span> & Int & $[0, 2^{64}-1]$ &
-Thick end position\
-9 & <span class="sans-serif">itemRgb</span> & Int,Int,Int &
-`(`$[0, 255], [0,255], [0,255]$`) | 0` & Display color\
-10 & <span class="sans-serif">blockCount</span> & Int &
-$[0, \textsf{chromEnd}-\textsf{chromStart}]$[^5] & Number of **block**s\
-11 & <span class="sans-serif">blockSizes</span> & List\[Int\] &
-`([[:digit:]]+,){`<span class="sans-serif">`blockCount`</span>$-1$`}[[:digit:]]+,?`[^6]
-& **Block** sizes\
-12 & <span class="sans-serif">blockStarts</span> & List\[Int\] &
-`([[:digit:]]+,){`<span class="sans-serif">`blockCount`</span>$-1$`}[[:digit:]]+,?`
-& **Block** start positions\
-
-</div>
-
-</div>
+<table>
+<thead>
+<tr>
+<th>Col</th>
+<th><span data-acronym-label="BED"
+data-acronym-form="singular+abbrv">BED</span> Field</th>
+<th>Type</th>
+<th>Regex or range</th>
+<th>Brief description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><span class="sans-serif">chrom</span></td>
+<td>String</td>
+<td><code>[[:alnum:]_]{1,255}</code><a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p><code>[[:alnum:]_]</code> is equivalent to the <span
+data-acronym-label="regex"
+data-acronym-form="singular+short">regex</span>
+<code>[A-Za-z0-9_]</code>. It is also equivalent to the Perl extension
+<code>[[:word:]]</code><a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
+<td><strong>Chromosome</strong> name</td>
+</tr>
+<tr>
+<td>2</td>
+<td><span class="sans-serif">chromStart</span></td>
+<td>Int</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><msup><mn>2</mn><mn>64</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0, 2^{64}-1]</annotation></semantics></math></td>
+<td><strong>Feature</strong> start position</td>
+</tr>
+<tr>
+<td>3</td>
+<td><span class="sans-serif">chromEnd</span></td>
+<td>Int</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><msup><mn>2</mn><mn>64</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0, 2^{64} -1]</annotation></semantics></math></td>
+<td><strong>Feature</strong> end position</td>
+</tr>
+<tr>
+<td>4</td>
+<td><span class="sans-serif">name</span></td>
+<td>String</td>
+<td><code>[\x20-\x7e]{1,255}</code></td>
+<td><strong>Feature</strong> description</td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="sans-serif">score</span></td>
+<td>Int</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1000</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0, 1000]</annotation></semantics></math></td>
+<td>A numerical value</td>
+</tr>
+<tr>
+<td>6</td>
+<td><span class="sans-serif">strand</span></td>
+<td>String</td>
+<td><code>[-+.]</code></td>
+<td><strong>Feature</strong> strand</td>
+</tr>
+<tr>
+<td>7</td>
+<td><span class="sans-serif">thickStart</span></td>
+<td>Int</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><msup><mn>2</mn><mn>64</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0, 2^{64}-1]</annotation></semantics></math></td>
+<td>Thick start position</td>
+</tr>
+<tr>
+<td>8</td>
+<td><span class="sans-serif">thickEnd</span></td>
+<td>Int</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><msup><mn>2</mn><mn>64</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0, 2^{64}-1]</annotation></semantics></math></td>
+<td>Thick end position</td>
+</tr>
+<tr>
+<td>9</td>
+<td><span class="sans-serif">itemRgb</span></td>
+<td>Int,Int,Int</td>
+<td><code>(</code><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>255</mn><mo stretchy="false" form="postfix">]</mo><mo>,</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>255</mn><mo stretchy="false" form="postfix">]</mo><mo>,</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>255</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0, 255], [0,255], [0,255]</annotation></semantics></math><code>) | 0</code></td>
+<td>Display color</td>
+</tr>
+<tr>
+<td>10</td>
+<td><span class="sans-serif">blockCount</span></td>
+<td>Int</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mtext mathvariant="sans-serif">𝖼𝗁𝗋𝗈𝗆𝖤𝗇𝖽</mtext><mo>−</mo><mtext mathvariant="sans-serif">𝖼𝗁𝗋𝗈𝗆𝖲𝗍𝖺𝗋𝗍</mtext><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0, \textsf{chromEnd}-\textsf{chromStart}]</annotation></semantics></math><a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p><span class="sans-serif">chromEnd</span>-<span
+class="sans-serif">chromStart</span> is the maximum number
+of <strong>block</strong>s that may exist without overlaps<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
+<td>Number of <strong>block</strong>s</td>
+</tr>
+<tr>
+<td>11</td>
+<td><span class="sans-serif">blockSizes</span></td>
+<td>List[Int]</td>
+<td><code>([[:digit:]]+,){</code><span
+class="sans-serif"><code>blockCount</code></span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math><code>}[[:digit:]]+,?</code><a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>For example,
+if <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="sans-serif">𝖻𝗅𝗈𝖼𝗄𝖢𝗈𝗎𝗇𝗍</mtext><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\textsf{blockCount} = 4</annotation></semantics></math>,
+then the allowed <span data-acronym-label="regex"
+data-acronym-form="singular+short">regex</span> would
+be <code>([[:digit:]]+,){3}[[:digit:]]+,?</code><a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
+<td><strong>Block</strong> sizes</td>
+</tr>
+<tr>
+<td>12</td>
+<td><span class="sans-serif">blockStarts</span></td>
+<td>List[Int]</td>
+<td><code>([[:digit:]]+,){</code><span
+class="sans-serif"><code>blockCount</code></span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math><code>}[[:digit:]]+,?</code></td>
+<td><strong>Block</strong> start positions</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -411,7 +540,7 @@ format definitions.
 
 # 2 Examples
 
-## 2.1 Example BED6 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ[^7]
+## 2.1 Example BED6 file from the <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span> Genome Browser FAQ[^3]
 
     chr7  127471196  127472363  Pos1  0  +
     chr7  127472363  127473530  Pos2  0  +
@@ -457,7 +586,7 @@ position 5000 (4512+488).
 
 - <span class="sans-serif">itemRgb</span>: Eight or fewer colors should
   be used as too many colors may slow down visualizations and are
-  difficult for humans to distinguish.[^8] Color schemes should be
+  difficult for humans to distinguish.[^4] Color schemes should be
   colorblind-friendly. Red-green color schemes should be avoided.
 
 ## 3.3 Custom fields
@@ -466,26 +595,56 @@ Definitions of a custom <span acronym-label="BED"
 acronym-form="singular+short">BED</span> format should restrict the type
 of each **custom field** to the extent possible. Each **custom field**
 should contain either one of several specified data
-types ([\[tab:custom-data-types\]](#tab:custom-data-types)) or a
-comma-separated list of Integer, Unsigned, or Float.
+types ([3](#tab:custom-data-types)) or a comma-separated list of
+Integer, Unsigned, or Float.
 
-<div class="savenotes">
+<div id="tab:custom-data-types">
 
-<div class="tabularx">
-
-r L Type & Definition\
-Integer & Decimal string representation of 64-bit signed integer\
-Unsigned & Decimal string representation of 64-bit unsigned integer\
-Float & Decimal string representation of 64-bit floating point
-number[^9]\
-Character & One printable character\
-String & One or more printable characters\
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integer</td>
+<td>Decimal string representation of 64-bit signed integer</td>
+</tr>
+<tr>
+<td>Unsigned</td>
+<td>Decimal string representation of 64-bit unsigned integer</td>
+</tr>
+<tr>
+<td>Float</td>
+<td>Decimal string representation of 64-bit floating point number<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p><em>IEEE Standard for Binary Floating-Point
+Arithmetic.</em> IEEE 754–1985, 1985<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></td>
+</tr>
+<tr>
+<td>Character</td>
+<td>One printable character</td>
+</tr>
+<tr>
+<td>String</td>
+<td>One or more printable characters</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
-</div>
-
-The AutoSQL format[^10] provides one method for defining custom
+The AutoSQL format[^5] provides one method for defining custom
 <span acronym-label="BED" acronym-form="singular+short">BED</span>
 formats in a separate file.
 
@@ -530,7 +689,7 @@ order.
 
 ## 3.5 Whitespace
 
-We recommend that only a single tab (`\``t`) be used as **field
+We recommend that only a single tab (`\t`) be used as **field
 separator**. This is because almost all tools support tabs while some
 tools do not support other kinds of whitespace. Also, spaces within
 the <span class="sans-serif">name</span> **<span acronym-label="BED"
@@ -545,12 +704,12 @@ a single tab be used as **field separator**.
 
 If a **file** intended for visualization is over 50   in size,
 the **file** should be converted to `bigBed` format, which is an indexed
-binary format.[^11] The `bedToBigBed` program may perform this
-conversion.[^12]
+binary format.[^6] The `bedToBigBed` program may perform this
+conversion.[^7]
 
 Tabix is another option for storing larger <span acronym-label="BED"
-acronym-form="singular+short">BED</span> **file**s.[^13] Tabix works
-only on **file**s using a single tab as the **field separator**.
+acronym-form="singular+short">BED</span> **file**s.[^8] Tabix works only
+on **file**s using a single tab as the **field separator**.
 
 # 4 Information supplied out-of-band
 
@@ -583,9 +742,9 @@ this information. Information that must be supplied out-of-band include:
 
 Track files are files that contain additional information intended for a
 visualization tool such as the <span acronym-label="UCSC"
-acronym-form="singular+short">UCSC</span> Genome Browser.[^14] Track
+acronym-form="singular+short">UCSC</span> Genome Browser.[^9] Track
 files contain browser lines and track lines that precede lines from a
-file format supported by the Genome Browser.[^15] Track files are not
+file format supported by the Genome Browser.[^10] Track files are not
 valid <span acronym-label="BED" acronym-form="singular+short">BED</span>
 **file**s—valid <span acronym-label="BED"
 acronym-form="singular+short">BED</span> **file**s must not have any
@@ -624,58 +783,38 @@ File Formats Task Team for comments on this specification.
     <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
     Genome Browser FAQ, <https://genome.ucsc.edu/FAQ/FAQformat.html>
 
-[^2]: POSIX/IEEE 1003.1–2017 Extended Regular Expressions, for the "C"
-    locale. *IEEE Standard for Information Technology—Portable Operating
-    System Interface (POSIX) Base Specifications*, IEEE 1003.1–2017,
-    2017
+[^2]: Characters in the range `\x20` to `\x7e`, therefore not including
+    any control characters
 
-[^3]: Characters in the range `\``x20` to `\``x7e`, therefore not
-    including any control characters
-
-[^4]: `[[:alnum:]_]` is equivalent to the <span acronym-label="regex"
-    acronym-form="singular+short">regex</span> `[A-Za-z0-9_]`. It is
-    also equivalent to the Perl extension `[[:word:]]`
-
-[^5]: <span class="sans-serif">chromEnd</span>-<span class="sans-serif">chromStart</span>
-    is the maximum number of **block**s that may exist without overlaps
-
-[^6]: For example, if $\textsf{blockCount} = 4$, then the allowed
-    <span acronym-label="regex"
-    acronym-form="singular+short">regex</span> would
-    be `([[:digit:]]+,){3}[[:digit:]]+,?`
-
-[^7]: "Frequently Asked Questions: Data File Formats."
+[^3]: "Frequently Asked Questions: Data File Formats."
     <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
     Genome Browser FAQ, <https://genome.ucsc.edu/FAQ/FAQformat.html>
 
-[^8]: "Frequently Asked Questions: Data File Formats."
+[^4]: "Frequently Asked Questions: Data File Formats."
     <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
     Genome Browser FAQ, <https://genome.ucsc.edu/FAQ/FAQformat.html>
 
-[^9]: *IEEE Standard for Binary Floating-Point Arithmetic.* IEEE
-    754–1985, 1985
-
-[^10]: Kent, W. James. (2000) "AutoSQL."
+[^5]: Kent, W. James. (2000) "AutoSQL."
     <https://hgwdev.gi.ucsc.edu/~kent/exe/doc/autoSql.doc>
 
-[^11]: Kent, W. James et al. (2010) "BigWig and BigBed: enabling
-    browsing of large distributed datasets." *Bioinformatics*
-    26(17):2204–2207. <https://doi.org/10.1093/bioinformatics/btq351>
+[^6]: Kent, W. James et al. (2010) "BigWig and BigBed: enabling browsing
+    of large distributed datasets." *Bioinformatics* 26(17):2204–2207.
+    <https://doi.org/10.1093/bioinformatics/btq351>
 
-[^12]: "bigBed Track Format." <span acronym-label="UCSC"
+[^7]: "bigBed Track Format." <span acronym-label="UCSC"
     acronym-form="singular+short">UCSC</span> Genome Browser FAQ,
     <https://genome.ucsc.edu/goldenPath/help/bigBed.html>
 
-[^13]: Li H. (2011) "Tabix: fast retrieval of sequence features from
+[^8]: Li H. (2011) "Tabix: fast retrieval of sequence features from
     generic TAB-delimited files." *Bioinformatics* 27(5):718–719.
     <https://doi.org/10.1093/bioinformatics/btq671>
 
-[^14]: Haeussler, Maximilian et al. (2019) "The
+[^9]: Haeussler, Maximilian et al. (2019) "The
     <span acronym-label="UCSC" acronym-form="singular+abbrv">UCSC</span>
     Genome Browser database: 2019 update." *Nucleic Acids Research*
     47(D1):D853–D858. <https://doi.org/10.1093/nar/gky1095>
 
-[^15]: "Displaying your own annotations in the Genome Browser."
+[^10]: "Displaying your own annotations in the Genome Browser."
     <span acronym-label="UCSC" acronym-form="singular+short">UCSC</span>
     Genome Browser FAQ,
     <https://genome.ucsc.edu/goldenPath/help/customTrack.html#lines>

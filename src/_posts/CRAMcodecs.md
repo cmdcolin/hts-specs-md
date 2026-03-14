@@ -299,13 +299,18 @@ implicit offset of how many bytes so far have been read.
 7-bit integer encoding stores values 7-bits at a time with the top bit
 set if further bytes are required.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Read a variable sized unsigned integer 7-bits at a time. Returns the
-value.) $value \gets 0$ $length \gets 0$ $c \gets$
-<span class="smallcaps">ReadUint8</span>()
-$value \gets (value \ll 7) + (c \text{AND} 127)$
-$length \gets length + 1$ $value$
+// Read a variable sized unsigned integer 7-bits at a time.  Returns the value.\
+Function ReadUint7($source$)  // If $source$ is unspecified then it is the default input stream\
+  $value \gets 0$\
+  $length \gets 0$\
+  repeat:\
+    $c \gets$ <span class="smallcaps">ReadUint8</span>()\
+    $value \gets (value \shiftl 7) + (c \bitand 127)$\
+    $length \gets length + 1$\
+  until $c < 128$\
+  return $value$
 
 </div>
 
@@ -314,24 +319,30 @@ the count of the top bits set in the initial byte (ending with a zero
 bit), followed by any subsequent whole bytes. See the main CRAM
 specification for more details.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Read a variable sized unsigned integer with ITF8 encoding. Returns the
-value.) $v \gets$ <span class="smallcaps">ReadUint8</span>()
-$v \gets (v\ \text{AND} \mathtt{0x0f}) \ll 28$ $v \gets v + ($
-<span class="smallcaps">ReadUint8</span>() $\ll 20)$ $v \gets v + ($
-<span class="smallcaps">ReadUint8</span>() $\ll 12)$ $v \gets v + ($
-<span class="smallcaps">ReadUint8</span>() $\ll 4)$ $v \gets v + ($
-<span class="smallcaps">ReadUint8</span>() $\gg 4)$
-$v \gets (v\ \text{AND} \mathtt{0x0f}) \ll 24$ $v \gets v + ($
-<span class="smallcaps">ReadUint8</span>() $\ll 16)$ $v \gets v + ($
-<span class="smallcaps">ReadUint8</span>() $\ll 8)$ $v \gets v +$
-<span class="smallcaps">ReadUint8</span>()
-$v \gets (v\ \text{AND} \mathtt{0x1f}) \ll 16$ $v \gets v + ($
-<span class="smallcaps">ReadUint8</span>() $\ll 8)$ $v \gets v +$
-<span class="smallcaps">ReadUint8</span>()
-$v \gets (v\ \text{AND} \mathtt{0x3f}) \ll 8$ $v \gets v +$
-<span class="smallcaps">ReadUint8</span>() $v$
+// Read a variable sized unsigned integer with ITF8 encoding.  Returns the value.\
+Function ReadITF8($source$)  // If $source$ is unspecified then it is the default input stream\
+  $v \gets$ <span class="smallcaps">ReadUint8</span>()\
+  if $i >= \mathtt{0xf0}$:  // 1111xxxx =\> +4 bytes\
+    $v \gets (v \bitand \mathtt{0x0f}) \shiftl 28$\
+    $v \gets v + ($ <span class="smallcaps">ReadUint8</span>() $\shiftl 20)$\
+    $v \gets v + ($ <span class="smallcaps">ReadUint8</span>() $\shiftl 12)$\
+    $v \gets v + ($ <span class="smallcaps">ReadUint8</span>() $\shiftl  4)$\
+    $v \gets v + ($ <span class="smallcaps">ReadUint8</span>() $\shiftr  4)$\
+  else if $i >= \mathtt{0xe0}$:  // 1110xxxx =\> +3 bytes\
+    $v \gets (v \bitand \mathtt{0x0f}) \shiftl 24$\
+    $v \gets v + ($ <span class="smallcaps">ReadUint8</span>() $\shiftl 16)$\
+    $v \gets v + ($ <span class="smallcaps">ReadUint8</span>() $\shiftl 8)$\
+    $v \gets v +$ <span class="smallcaps">ReadUint8</span>()\
+  else if $i >= \mathtt{0xc0}$:  // 110xxxxx =\> +2 bytes\
+    $v \gets (v \bitand \mathtt{0x1f}) \shiftl 16$\
+    $v \gets v + ($ <span class="smallcaps">ReadUint8</span>() $\shiftl 8)$\
+    $v \gets v +$ <span class="smallcaps">ReadUint8</span>()\
+  else if $i >= \mathtt{0x80}$:  // 10xxxxxx =\> +1 bytes\
+    $v \gets (v \bitand \mathtt{0x3f}) \shiftl 8$\
+    $v \gets v +$ <span class="smallcaps">ReadUint8</span>()\
+  return $v$
 
 </div>
 
@@ -822,13 +833,16 @@ unsigned byte from an unspecified input source. Similarly for
 <span class="smallcaps">ReadUint32</span> (32-bit unsigned integer in
 little endian format).
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-${}\gets$ <span class="smallcaps">ReadUint8</span>() ${}\gets$
-<span class="smallcaps">ReadUint32</span>() ${}\gets$
-<span class="smallcaps">ReadUint32</span>()
-<span class="smallcaps">RansDecode0</span>($output,\ n\_out$)
-<span class="smallcaps">RansDecode1</span>($output,\ n\_out$)
+Procedure RansDecode($input,\ output$)\
+  $order \gets$ <span class="smallcaps">ReadUint8</span>()  // Implicit read from $input$\
+  $n\_in \gets$ <span class="smallcaps">ReadUint32</span>()\
+  $n\_out \gets$ <span class="smallcaps">ReadUint32</span>()\
+  if $order = 0$:\
+    <span class="smallcaps">RansDecode0</span>($output, n\_out$)\
+  else:\
+    <span class="smallcaps">RansDecode1</span>($output, n\_out$)
 
 </div>
 
@@ -838,33 +852,63 @@ The Order-0 code is the simplest variant. Here we also define some of
 the functions for manipulating the rANS state, which are shared between
 Order-0 and Order-1 decoders.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Reads a table of Order-0 symbol frequencies $F_i$) (and sets the
-cumulative frequency table $C_{i+1} = C_i+F_i$) $s \gets$
-<span class="smallcaps">ReadUint8</span>() $last\_sym \gets s$
-$rle \gets 0$ ${}\gets$ <span class="smallcaps">ReadITF8</span>()
-${}\gets$ $rle-1$ ${}\gets$ $s+1$ $s \gets$
-<span class="smallcaps">ReadUint8</span>() $rle \gets$
-<span class="smallcaps">ReadUint8</span>() $last\_sym \gets s$  (Compute
-cumulative frequencies $C_i$ from $F_i$) $C_0 \gets 0$
-$C_{s+1} \gets C_s + F_s$
-
-(Bottom 12 bits of our rANS state $R$ are our frequency) $R\ \text{AND}$
-0xfff (Convert frequency to a symbol. Find $s$ such that
-$C_s \le f < C_{s+1}$) (We would normally implement this via a lookup
-table) $s \gets 0$ $s \gets s+1$ $s$ (Compute the next rANS state $R$
-given frequency $f$ and cumulative freq $c$)
-$f \times (R \gg 12) + (R\ \text{AND}$ 0xfff$) - c$ (If too small, feed
-in more bytes to the rANS state $R$)
-$R \gets (R \ll 8) +$ <span class="smallcaps">ReadUint8</span>() $R$
-<span class="smallcaps">ReadFrequencies0</span>(`F, C`) $R_j \gets$
-<span class="smallcaps">ReadUint32</span>() $j \gets i \bmod 4$
-$f \gets$ <span class="smallcaps">RansGetCumulativeFreq</span>($R_j$)
-$s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C,\ f$)
-$output_i \gets s$
-$R_j \gets$ <span class="smallcaps">RansAdvanceStep</span>($R_j,\ C_s,\ F_s$)
-$R_j \gets$ <span class="smallcaps">RansRenorm</span>($R_j$)
+// Reads a table of Order-0 symbol frequencies $F_i$\
+// and sets the cumulative frequency table $C_{i+1} = C_i+F_i$\
+Procedure ReadFrequencies0($F,\ C$)\
+  $s \gets$ <span class="smallcaps">ReadUint8</span>()  // Next alphabet symbol\
+  $last\_sym \gets s$\
+  $rle \gets 0$\
+  repeat:\
+    $F_s \gets$ <span class="smallcaps">ReadITF8</span>()\
+    if $rle > 0$:\
+      $rle \gets$ $rle-1$\
+      $s \gets$ $s+1$\
+    else:\
+      $s \gets$ <span class="smallcaps">ReadUint8</span>()\
+      if $s = last\_sym+1$:\
+        $rle \gets$ <span class="smallcaps">ReadUint8</span>()\
+    $last\_sym \gets s$\
+  until $s = 0$\
+  // \quad\\(Compute cumulative frequencies $C_i$ from $F_i$\
+  $C_0 \gets 0$\
+  for $s\gets 0 \text{ \textbf{to} } 255$:\
+    $C_{s+1} \gets C_s + F_s$\
+\
+// Bottom 12 bits of our rANS state $R$ are our frequency\
+Function RansGetCumulativeFreq($R$)\
+  return $R \bitand$ 0xfff\
+\
+// Convert frequency to a symbol. Find $s$ such that $C_s \le f < C_{s+1}$\
+// We would normally implement this via a lookup table\
+Function RansGetSymbolFromFreq($C, f$)\
+  $s \gets 0$\
+  while $f >= C_{s+1}$:\
+    $s \gets s+1$\
+  return $s$\
+\
+// Compute the next rANS state $R$ given frequency $f$ and cumulative freq $c$\
+Function RansAdvanceStep($R, c, f$)\
+  return $f \times (R \shiftr 12) + (R \bitand$ 0xfff$) - c$\
+\
+// If too small, feed in more bytes to the rANS state $R$\
+Function RansRenorm($R$)\
+  while $R < (1 \shiftl 23)$:\
+    $R \gets (R \shiftl 8) +$ <span class="smallcaps">ReadUint8</span>()\
+  return $R$\
+\
+Procedure RansDecode0($output$, $nbytes$)\
+  <span class="smallcaps">ReadFrequencies0</span>($F, C$)\
+  for $j\gets 0 \text{ \textbf{to} } 3$:  // Initialise the 4 interleaved streams\
+    $R_j \gets$ <span class="smallcaps">ReadUint32</span>()  // Unsigned 32-bit little endian\
+  for $i\gets 0 \text{ \textbf{to} } nbytes-1$:\
+    $j \gets i \bmod 4$\
+    $f \gets$ <span class="smallcaps">RansGetCumulativeFreq</span>($R_j$)\
+    $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C, f$)\
+    $output_i \gets s$\
+    $R_j \gets$ <span class="smallcaps">RansAdvanceStep</span>($R_j, C_s, F_s$)\
+    $R_j \gets$ <span class="smallcaps">RansRenorm</span>($R_j$)
 
 </div>
 
@@ -882,6 +926,53 @@ This is not necessarily the most efficient implementation.
 Note the code for dealing with the remaining bytes when an output buffer
 is not an exact multiple of 4 is less elegant in the Order-1 code. This
 is correct, but it is unfortunately a design oversight.
+
+<div class="code-math-block">
+
+// Reads a table of Order-1 symbol frequencies $F_{i,j}$\
+// and sets the cumulative frequency table $C_{i,j+1} = C_{i,j}+F_{i,j}$\
+Procedure ReadFrequencies1($F,\ C$)\
+  $sym \gets$ <span class="smallcaps">ReadUint8</span>()  // Next alphabet symbol\
+  $last\_sym \gets sym$\
+  $rle \gets 0$\
+  repeat:\
+    <span class="smallcaps">ReadFrequencies0</span>($F_i, C_i$)\
+    if $rle > 0$:\
+      $rle \gets$ $rle-1$\
+      $sym \gets$ $sym+1$\
+    else:\
+      $sym \gets$ <span class="smallcaps">ReadUint8</span>()\
+      if $sym = last\_sym+1$:\
+        $rle \gets$ <span class="smallcaps">ReadUint8</span>()\
+    $last\_sym \gets sym$\
+  until $sym = 0$\
+\
+Procedure RansDecode1($output$, $nbytes$)\
+  <span class="smallcaps">ReadFrequencies1</span>($F, C$)\
+  for $j\gets 0 \text{ \textbf{to} } 3$:  // Initialise 4 interleaved streams\
+    $R_j \gets$ <span class="smallcaps">ReadUint32</span>()  // Unsigned 32-bit little endian\
+    $L_j \gets 0$  // Last symbol\
+  $i \gets 0$\
+  while $i < \lfloor nbytes/4 \rfloor$:\
+    for $j\gets 0 \text{ \textbf{to} } 3$:\
+      $f \gets$ <span class="smallcaps">RansGetCumulativeFreq</span>($R_j$)\
+      $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C_{L_j), f$}\
+      $output_{i + j \times \lfloor nbytes/4 \rfloor} \gets s$\
+      $R_j \gets$ <span class="smallcaps">RansAdvanceStep</span>($R_j, C_{L_j,s), F_{L_j,s}$}\
+      $R_j \gets$ <span class="smallcaps">RansRenorm</span>($R_j$)\
+      $L_j \gets s$\
+    $i \gets i+1$\
+  // \\\\\\\\(Now deal with the remainder if buffer size is not a multiple of 4,\
+  // \\\\\\\\(using rANS state 3 exclusively.\
+  for $i \gets i \times 4 \text{ \textbf{to} } len-1$:\
+    $f \gets$ <span class="smallcaps">RansGetCumulativeFreq</span>($R_3$)\
+    $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C_{L_3), f$}\
+    $output_i \gets s$\
+    $R_3 \gets$ <span class="smallcaps">RansAdvanceStep</span>($R_3, C_{L_3,s), F_{L_3,s}$}\
+    $R_3 \gets$ <span class="smallcaps">RansRenorm</span>($R_3$)\
+    $L_3 \gets s$
+
+</div>
 
 # 3 rANS Nx16
 
@@ -969,32 +1060,63 @@ applied after reading the frequencies to scale them appropriately. This
 is required as the Order-1 frequencies may be scaled differently for
 each context.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Reads a set of symbols $A$ used in our alphabet) $s \gets$
-<span class="smallcaps">ReadUint8</span>() $last\_sym \gets s$
-$rle \gets 0$ $A \gets (A,s)$ ${}\gets$ $rle-1$ ${}\gets$ $s+1$
-$s \gets$ <span class="smallcaps">ReadUint8</span>() $rle \gets$
-<span class="smallcaps">ReadUint8</span>() $last\_sym \gets s$ $A$
+// Reads a set of symbols $A$ used in our alphabet\
+Function ReadAlphabet()\
+  $s \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $last\_sym \gets s$\
+  $rle \gets 0$\
+  repeat:\
+    $A \gets (A,s)$  // Append $s$ to the symbol set $A$\
+    if $rle > 0$:\
+      $rle \gets$ $rle-1$\
+      $s \gets$ $s+1$\
+    else:\
+      $s \gets$ <span class="smallcaps">ReadUint8</span>()\
+      if $s = last\_sym+1$:\
+        $rle \gets$ <span class="smallcaps">ReadUint8</span>()\
+    $last\_sym \gets s$\
+  until $s = 0$\
+  return $A$
 
 </div>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Reads a table of Order-0 symbol frequencies $F_i$) (and sets the
-cumulative frequency table $C_{i+1} = C_i+F_i$) $F \gets (0,\ ...)$ (Set
-to zero for all $i \in \{0, 1, ..., 255\}$) $A \gets$
-<span class="smallcaps">ReadAlphabet</span>() $F_i \gets$
-<span class="smallcaps">ReadUint7</span>() $C_0 \gets 0$
-$C_{s+1} \gets C_s + F_s$
+// Reads a table of Order-0 symbol frequencies $F_i$\
+// and sets the cumulative frequency table $C_{i+1} = C_i+F_i$\
+Procedure ReadFrequenciesNx16\\0($F,\ C$)\
+  $F \gets (0, ...)$ \Comment(Set to zero for all \$i \in \\0, 1,\
+  $A \gets$ <span class="smallcaps">ReadAlphabet</span>()\
+  for each $i \text{ \textbf{in} } A$:\
+    $F_i \gets$ <span class="smallcaps">ReadUint7</span>()\
+  \
+  <span class="smallcaps">NormaliseFrequenciesNx16\\0</span>($F, 12$)\
+  \
+  $C_0 \gets 0$\
+  for $s\gets 0 \text{ \textbf{to} } 255$:  // All 256 possible byte values\
+    $C_{s+1} \gets C_s + F_s$
 
 </div>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Normalises a table of frequencies $F_i$ to sum to a specified power of
-2.) $tot \gets 0$ $tot \gets tot + F_i$ $shift \gets 0$
-$tot \gets tot*2$ $shift \gets shift+1$ $F_i \gets F_i \ll shift$
+// Normalises a table of frequencies $F_i$ to sum to a specified power of 2.\
+Procedure NormaliseFrequenciesNx16\\0($F,\ bits$)\
+  $tot \gets 0$\
+  for $i\gets 0 \text{ \textbf{to} } 255$:\
+    $tot \gets tot + F_i$\
+  if $tot = 0 \logor tot = (1 \shiftl bits)$:\
+    return \
+  \
+  $shift \gets 0$\
+  while $tot < (1 \shiftl bits)$:\
+    $tot \gets tot*2$\
+    $shift \gets shift+1$\
+  \
+  for $i\gets 0 \text{ \textbf{to} } 255$:\
+    $F_i \gets F_i \shiftl shift$
 
 </div>
 
@@ -1015,22 +1137,37 @@ default (unspecified) source. The top 4 bits of the first byte indicate
 the number of bits used for the frequency tables. Permitted values are
 10 and 12.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Reads a table of Order-1 symbol frequencies $F_{i,j}$) (and sets the
-cumulative frequency table $C_{i,j+1} = C_{i,j}+F_{i,j}$) $comp \gets$
-<span class="smallcaps">ReadUint8</span>() $bits \gets comp \gg 4$
-$u\_size \gets$ <span class="smallcaps">ReadUint7</span>()
-$c\_size \gets$ <span class="smallcaps">ReadUint7</span>()
-$c\_data \gets$ <span class="smallcaps">ReadData</span>($c\_size$)
-$source \gets$ (define $source$ to be the default input stream)
-$F \gets ((0,\ ...),\ ...)$ (Set to zero for all $i$ and
-$j \in \{0, 1, ..., 255\}$) $A \gets$
-<span class="smallcaps">ReadAlphabet</span>(from $source$) $run \gets 0$
-$run \gets run-1$ $F_{i,j} \gets$
-<span class="smallcaps">ReadUint7</span>(from $source$) $run \gets$
-<span class="smallcaps">ReadUint8</span>(from $source$)
-$C_{i,0} \gets 0$ $C_{i,j+1} \gets C_{i,j} + F_{i,j}$
+// Reads a table of Order-1 symbol frequencies $F_{i,j}$\
+// and sets the cumulative frequency table $C_{i,j+1} = C_{i,j}+F_{i,j}$\
+Procedure ReadFrequenciesNx16\\1($F,\ C,\ bits$)\
+  $comp \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $bits \gets comp \shiftr 4$\
+  if $(comp \logand 1) \ne 0$:\
+    $u\_size \gets$ <span class="smallcaps">ReadUint7</span>()  // Uncompressed size\
+    $c\_size \gets$ <span class="smallcaps">ReadUint7</span>()  // Compressed size\
+    $c\_data \gets$ <span class="smallcaps">ReadData</span>($c\_size$)\
+    $source \gets$ <span class="smallcaps">RansDecodeNx16\\0</span>($c\_data, 4$)  // Create $u\_size$ bytes of $source$ from $c\_data$\
+  else:\
+    (define $source$ to be the default input stream)\
+\
+  $F \gets ((0, ...), ...)$ \Comment(Set to zero for all $i$ and $j  \in \{0, 1, ..., 255\}$)\
+  $A \gets$ <span class="smallcaps">ReadAlphabet</span>(from $source$)\
+  for each $i \text{ \textbf{in} } A$:\
+    $run \gets 0$\
+    for each $j \text{ \textbf{in} } A$:\
+      if $run > 0$:\
+        $run \gets run-1$  // $F_{i,j}$ is implicitly zero already\
+      else:\
+        $F_{i,j} \gets$ <span class="smallcaps">ReadUint7</span>(from $source$)\
+        if $F_{i,j} = 0$:\
+          $run \gets$ <span class="smallcaps">ReadUint8</span>(from $source$)\
+    <span class="smallcaps">NormaliseFrequenciesNx16\\0</span>($F_i$, $bits$)\
+    \
+    $C_{i,0} \gets 0$\
+    for $j\gets 0 \text{ \textbf{to} } 255$:\
+      $C_{i,j+1} \gets C_{i,j} + F_{i,j}$
 
 </div>
 
@@ -1043,18 +1180,31 @@ states. This is similar to the old (4x8) rANS decoder, but the
 single 16-bit renormalisation instead of a loop using 8-bit values and
 can interleave to different amounts.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$R\ \text{AND} ((1 \ll bits) -1)$
-$f \times (R \gg bits) + (R\ \text{AND} ((1 \ll bits) -1) - c$
-$R \gets (R \ll 16) +$ <span class="smallcaps">ReadUint16</span>() $R$
-$R_j \gets$ <span class="smallcaps">ReadUint32</span>()
-$j \gets i \bmod N$ $f \gets$
-<span class="smallcaps">RansGetCumulativeFreqNx16</span>($R_j,\ 12$)
-$s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C,\ f$)
-$out_i \gets s$
-$R_j \gets$ <span class="smallcaps">RansAdvanceStepNx16</span>($R_j,\ C_s,\ F_s,\ 12$)
-$R_j \gets$ <span class="smallcaps">RansRenormNx16</span>($R_j$) $out$
+Function RansGetCumulativeFreqNx16($R,\ bits$)\
+  return $R \bitand ((1 \shiftl bits) -1)$\
+\
+Function RansAdvanceStepNx16($R, c, f, bits$)\
+  return $f \times (R \shiftr bits) + (R \bitand ((1 \shiftl bits) -1) - c$\
+\
+Function RansRenormNx16($R$)\
+  if $R < (1 \shiftl 15)$:\
+    $R \gets (R \shiftl 16) +$ <span class="smallcaps">ReadUint16</span>()\
+  return $R$\
+\
+Function RansDecodeNx16\\0($len, N$)\
+  <span class="smallcaps">ReadFrequenciesNx16\\0</span>($F$, $C$)\
+  for $j \gets 0 \text{ \textbf{to} } N-1$:\
+    $R_j \gets$ <span class="smallcaps">ReadUint32</span>()\
+  for $i\gets 0 \text{ \textbf{to} } len-1$:\
+    $j \gets i \bmod N$\
+    $f \gets$ <span class="smallcaps">RansGetCumulativeFreqNx16</span>($R_j, 12$)\
+    $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C, f$)\
+    $out_i \gets s$\
+    $R_j \gets$ <span class="smallcaps">RansAdvanceStepNx16</span>($R_j, C_s, F_s, 12$)\
+    $R_j \gets$ <span class="smallcaps">RansRenormNx16</span>($R_j$)\
+  return $out$
 
 </div>
 
@@ -1070,6 +1220,34 @@ distinct regions so they can utilise their previous symbols without
 inter-dependency between the decoded output of the rANS states. This
 makes the handling of data that isn't a multiple of N is a little more
 complex too.
+
+<div class="code-math-block">
+
+Function RansDecodeNx16\\1($len,\ N$)\
+  <span class="smallcaps">ReadFrequenciesNx16\\1</span>($F$, $C$, $bits$)\
+  for $j \gets 0 \text{ \textbf{to} } N-1$:\
+    $R_j \gets$ <span class="smallcaps">ReadUint32</span>()\
+    $L_j \gets 0$  // Last symbol\
+  // The primary unrollable loop\
+  for $i\gets 0 \text{ \textbf{to} } \lfloor len/N \rfloor - 1$:\
+    for $j\gets 0 \text{ \textbf{to} } N-1$:\
+      $f \gets$ <span class="smallcaps">RansGetCumulativeFreqNx16</span>($R_j, bits$)\
+      $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C_{L_j), f$}\
+      $out_{i + j \times \lfloor len/N \rfloor} \gets s$\
+      $R_j \gets$ <span class="smallcaps">RansAdvanceStepNx16</span>($R_j, C_{L_j, s), F_{L_j, s}, bits$}\
+      $R_j \gets$ <span class="smallcaps">RansRenormNx16</span>($R_j$)\
+      $L_j \gets s$\
+  // The remainder for data not a multiple of N in size, using $R_{N-1}$ throughout.\
+  for $i \gets i \times N \text{ \textbf{to} } len-1$:\
+    $f \gets$ <span class="smallcaps">RansGetCumulativeFreqNx16</span>($R_{N-1), bits$}\
+    $s \gets$ <span class="smallcaps">RansGetSymbolFromFreq</span>($C_{L_{N-1)}, f$}\
+    $out_i \gets s$\
+    $R_{N-1} \gets$ <span class="smallcaps">RansAdvanceStepNx16</span>($R_{N-1), C_{L_{N-1},s}, F_{L_{N-1},s}, bits$}\
+    $R_{N-1} \gets$ <span class="smallcaps">RansRenormNx16</span>($R_{N-1)$}\
+    $L_{N-1} \gets s$\
+  return $out$
+
+</div>
 
 ## 3.4 rANS Nx16 Run Length Encoding
 
@@ -1131,15 +1309,51 @@ associated with them (zero being interpreted as all of them) and the
 list of these symbol values. This is followed by the run lengths encoded
 as variable sized integers in the *uint7* format.
 
+<div class="code-math-block">
+
+// Reads and optionally uncompresses the blob of run-lengths and the array $L$\
+// indicating which symbols have associates run-lengths.\
+Function DecodeRLEMeta($N$)\
+  $L \gets (0, ...)$ \Comment(Set to zero for all \$i \in \\0, 1,\
+  $rle\_meta\_len \gets$<span class="smallcaps">ReadUint7</span>()\
+  $len \gets$<span class="smallcaps">ReadUint7</span>()  // Length of uncompressed O0/O1 data, pre-expansion\
+  if $rle\_meta\_len \bitand 1$:\
+    $rle\_meta \gets$<span class="smallcaps">ReadData</span>($\lfloor{)rle\_meta\_len/2\rfloor{}$}\
+  else:\
+    $comp\_meta\_len \gets$<span class="smallcaps">ReadUint7</span>()\
+    $rle\_meta \gets$<span class="smallcaps">ReadData</span>($comp\_meta\_len$)\
+    \$rle\\meta \gets\
+\
+  $n \gets$ <span class="smallcaps">ReadUint8</span>($metadata$)\
+  if $n = 0$:\
+    $n \gets 256$\
+  for $i \gets 0 \text{ \textbf{to} } n-1$:\
+    $s \gets$ <span class="smallcaps">ReadUint8</span>($metadata$)\
+    $L_s \gets 1$\
+\
+  return ($L$, $rle\_meta$, $len$)
+
+</div>
+
 The use of the run length meta-data occurs when expanding the
 uncompressed data, after Order-0 or Order-1 data decompression.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Expands data ($in$) using run-length metadata) $j \gets 0$ $sym \gets$
-<span class="smallcaps">ReadUint8</span>($in$) $run \gets$
-<span class="smallcaps">ReadUint7</span>($metadata$) $out_{j+k} \gets s$
-$j \gets j + run + 1$ $out_j \gets s$ $j \gets j + 1$ $out$
+// Expands data ($in$) using run-length metadata\
+Function DecodeRLE($in,\ L,\ metadata,\ in\_len$)\
+  $j \gets 0$\
+  for $i \gets 0 \text{ \textbf{to} } in\_len - 1$:\
+    $sym \gets$ <span class="smallcaps">ReadUint8</span>($in$)\
+    if $L_s$:\
+      $run \gets$ <span class="smallcaps">ReadUint7</span>($metadata$)\
+      for $k \gets 0 \text{ \textbf{to} } run$:\
+        $out_{j+k} \gets s$\
+      $j \gets j + run + 1$\
+    else:\
+      $out_j \gets s$\
+      $j \gets j + 1$\
+  return $out$
 
 </div>
 
@@ -1198,11 +1412,14 @@ possible. Bits are unpacked from low to high.
 Decoding this meta-data is implemented by the
 <span class="smallcaps">DecodePackMeta</span> function below.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$nsym \gets$<span class="smallcaps">ReadUint8</span>() $P_i \gets$
-<span class="smallcaps">ReadUint8</span>() $len \gets$
-<span class="smallcaps">ReadUint7</span>() $(P,\ nsym, \ len)$
+Function DecodePackMeta()\
+  $nsym \gets$<span class="smallcaps">ReadUint8</span>()\
+  for $i \gets 0$ to $nsym-1$:\
+    $P_i \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $len \gets$ <span class="smallcaps">ReadUint7</span>()\
+  return $(P, nsym,  len)$
 
 </div>
 
@@ -1210,13 +1427,42 @@ After uncompressing the main data stream, it should be unpacked using
 <span class="smallcaps">DecodePack</span> below. The format of this data
 stream is packed data as described above.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$j \gets 0$ $out_i \gets P_0$ $v \gets data_j$ $j \gets j+1$
-$out_i \gets P_{(v \text{AND} 1)}$ $v = v \gg 1$ $v \gets data_j$
-$j \gets j+1$ $out_i \gets P_{(v \text{AND} 3)}$ $v = v \gg 2$
-$v \gets data_j$ $j \gets j+1$ $out_i \gets P_{(v \text{AND} 15)}$
-$v = v \gg 4$ <span class="smallcaps">Error</span>() out
+Function DecodePack($data,\ P,\ nsym,\ len$)\
+  $j \gets 0$  // Index into $data$; $i$ is index into output\
+  if $nsym \le 1$:  // Constant value\
+    for $i \gets 0$ to $len-1$:\
+      $out_i \gets P_0$\
+\
+  else if $nsym \le 2$:  // 1 bit per value\
+    for $i \gets 0$ to $len-1$:\
+      if $i \bmod 8 = 0$:\
+        $v \gets data_j$\
+        $j \gets j+1$\
+      $out_i \gets P_{(v \bitand 1)}$\
+      $v = v \shiftr 1$\
+\
+  else if $nsym \le 4$:  // 2 bits per value\
+    for $i \gets 0$ to $len-1$:\
+      if $i \bmod 4 = 0$:\
+        $v \gets data_j$\
+        $j \gets j+1$\
+      $out_i \gets P_{(v \bitand 3)}$\
+      $v = v \shiftr 2$\
+\
+  else if $nsym \le 16$:  // 4 bits per value\
+    for $i \gets 0$ to $len-1$:\
+      if $i \bmod 2 = 0$:\
+        $v \gets data_j$\
+        $j \gets j+1$\
+      $out_i \gets P_{(v \bitand 15)}$\
+      $v = v \shiftr 4$\
+\
+  else:\
+    <span class="smallcaps">Error</span>()\
+\
+  return out
 
 </div>
 
@@ -1274,13 +1520,21 @@ $T_{j,i} = D_{i N +j}$
 
 $D_i = T_{(i \bmod N),\ (i \text{div} N)}$
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$N \gets$<span class="smallcaps">ReadUint8</span>()
-$clen_j \gets$<span class="smallcaps">ReadUint7</span>()
-$ulen_j \gets (len \text{div} N) + ((len \bmod N) > j)$
-$T_j \gets$<span class="smallcaps">RansDecodeNx16</span>($ulen_j$)
-$out_{i \times N + j} \gets T_{j,i}$ $out$
+Function RansDecodeStripe($len$)\
+  $N \gets$<span class="smallcaps">ReadUint8</span>()\
+  for $j \gets 0$ to $N$:  // Fetch N compressed lengths\
+    $clen_j \gets$<span class="smallcaps">ReadUint7</span>()\
+\
+  for $j \gets 0$ to $N$:  // Decode N streams\
+    $ulen_j \gets (len \bdiv N) + ((len \bmod N) > j)$  // $(x > y)$ expression being 1 if true, 0 if false\
+    $T_j \gets$<span class="smallcaps">RansDecodeNx16</span>($ulen_j$)\
+\
+  for $j \gets 0$ to $N - 1$:  // Stripe\
+    for $i \gets 0$ to $ulen_j - 1$:\
+      $out_{i \times N + j} \gets T_{j,i}$\
+  return $out$
 
 </div>
 
@@ -1548,21 +1802,39 @@ followed by Unpack transforms to yield the original uncompressed data.
 <span class="smallcaps">RansDecodeNx16</span> describes the decoding of
 the generalised RANS Nx16 decoder.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$flags \gets$<span class="smallcaps">ReadUint8</span>()
-$len \gets$<span class="smallcaps">ReadUint7</span>()
-$data \gets$<span class="smallcaps">RansDecodeStripe</span>($len$)
-$data$ $N \gets 32$ $N \gets 4$ $pack\_len \gets len$
-$(P,\ nsym,\ len) \gets$<span class="smallcaps">DecodePackMeta</span>()
-$rle\_len \gets len$
-$(L,\ rle\_meta,\ len) \gets$<span class="smallcaps">DecodeRLEMeta</span>($N$)
-$data \gets$<span class="smallcaps">ReadData</span>($len$) $data \gets$
-$data \gets$
-$data \gets$<span class="smallcaps">DecodeRLE</span>($data$, $L$,
-$rle\_meta$, $rle\_len$)
-$data \gets$<span class="smallcaps">DecodePack</span>($data$, $P$,
-$nsym$, $pack\_len$) $data$
+Function RansDecodeNx16($len$)\
+  $flags \gets$<span class="smallcaps">ReadUint8</span>()\
+  if $flags \bitand$ <span class="smallcaps">NoSize</span> $\ne 0$:\
+    $len \gets$<span class="smallcaps">ReadUint7</span>()\
+  if $flags \bitand$ <span class="smallcaps">Stripe</span>:\
+    $data \gets$<span class="smallcaps">RansDecodeStripe</span>($len$)\
+    return $data$\
+  if $flags \bitand$ <span class="smallcaps">N32</span>:\
+    $N \gets 32$\
+  else:\
+    $N \gets 4$\
+  // Read meta-data\
+  if $flags \bitand$ <span class="smallcaps">Pack</span>:\
+    $pack\_len \gets len$\
+    $(P, nsym, len) \gets$<span class="smallcaps">DecodePackMeta</span>()\
+  if $flags \bitand$ <span class="smallcaps">RLE</span>:\
+    $rle\_len \gets len$\
+    $(L, rle\_meta, len) \gets$<span class="smallcaps">DecodeRLEMeta</span>($N$)\
+  // Uncompress main data block\
+  if $flags \bitand$ <span class="smallcaps">Cat</span>:\
+    $data \gets$<span class="smallcaps">ReadData</span>($len$)\
+  else if $flags \bitand$ <span class="smallcaps">Order</span>:\
+    $data \gets$<span class="smallcaps">RansDecodeNx16\\1</span>($len, N$)\
+  else:\
+    $data \gets$<span class="smallcaps">RansDecodeNx16\\0</span>($len, N$)\
+  // Apply data transformations\
+  if $flags \bitand$ <span class="smallcaps">RLE</span>:\
+    $data \gets$<span class="smallcaps">DecodeRLE</span>($data$, $L$, $rle\_meta$, $rle\_len$)\
+  if $flags \bitand$ <span class="smallcaps">Pack</span>:\
+    $data \gets$<span class="smallcaps">DecodePack</span>($data$, $P$, $nsym$, $pack\_len$)\
+  return $data$
 
 </div>
 
@@ -1759,30 +2031,37 @@ precision overflows in encoder we describe this implementation too.
 <span class="smallcaps">RangeDecodeCreate</span> initialises the range
 coder, reading the first bytes of the compressed data stream.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-${}\gets$ $2^{32}-1$ ${}\gets$ 0
-$code \gets (code \ll 8) +$<span class="smallcaps">ReadUint8</span>()
-$code \gets code \text{AND} 2^{32}-1$ this range coder ($range$, $code$)
+Function RangeDecodeCreate()\
+  $range \gets$ $2^{32}-1$  // Maximum 32-bit unsigned value\
+  $code \gets$ $0$  // 32-bit unsigned\
+  for $i \gets 0$ to $4$:\
+    $code \gets (code \shiftl 8) +$<span class="smallcaps">ReadUint8</span>()\
+  $code \gets code \bitand 2^{32}-1$\
+  return this range coder ($range$, $code$)
 
 </div>
 
 Decoding each symbol is in two parts; getting the current frequency and
 updating the range.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$range \gets range \text{div} tot\_freq$ $code \text{div} range$
+Function RangeGetFreq($tot\_freq$)\
+  $range \gets range \bdiv tot\_freq$\
+  return $code \bdiv range$
 
 </div>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-${}\gets$ $code - sym\_low \times range$ ${}\gets$
-$range \times sym\_freq$
-
-${}\gets$ $range \ll 8$ ${}\gets$
-$(code\ll 8) +$<span class="smallcaps">ReadUint8</span>()
+Procedure RangeDecode($sym\_low,\ sym\_freq,\ tot\_freq$)\
+  $code \gets$ $code - sym\_low \times range$\
+  $range \gets$ $range \times sym\_freq$\
+  while $range < 2^{24}$:  // Renormalise\
+    $range \gets$ $range \shiftl 8$\
+    $code \gets$ $(code\shiftl8) +$<span class="smallcaps">ReadUint8</span>()
 
 </div>
 
@@ -1801,13 +2080,19 @@ forward reversal of the <span class="smallcaps">RangeDecode</span>, with
 the exception of the special code for shifting the top byte out of the
 $low$ variable.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-${}\gets$ $low$ ${}\gets$ $range \text{div} tot\_freq$ ${}\gets$
-$low + sym\_low \times range$ ${}\gets$ $range \times sym\_freq$
-
-$carry \gets 1$ ${}\gets$ $range \ll 8$
-<span class="smallcaps">RangeShiftLow</span>()
+Procedure RangeEncode($sym\_low,\ sym\_freq,\ tot\_freq$)\
+  $old\_low \gets$ $low$\
+  $range \gets$ $range \bdiv tot\_freq$\
+  $low \gets$ $low + sym\_low \times range$\
+  $range \gets$ $range \times sym\_freq$\
+\
+  if low \< old\\low:\
+    $carry \gets 1$  // overflow\
+  while $range < 2^{24}$:  // Renormalise\
+    $range \gets$ $range \shiftl 8$\
+    <span class="smallcaps">RangeShiftLow</span>()
 
 </div>
 
@@ -1816,29 +2101,48 @@ encoder renormalisation. It tracks the total number of extra bytes to
 emit and $carry$ indicates whether they are a string of 0xFF or 0x00
 values.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-<span class="smallcaps">WriteByte</span>($cache$)
-<span class="smallcaps">WriteByte</span>(0xff) $FFnum \gets FFnum - 1$
-<span class="smallcaps">WriteByte</span>($cache + 1$)
-<span class="smallcaps">WriteByte</span>(0) $FFnum \gets FFnum - 1$
-$cache \gets low \gg 24$ $carry \gets 0$ $FFnum \gets FFnum + 1$
-$low \gets low \ll 8$
+Procedure RangeShiftLow()\
+  if $low <$ 0xff000000 $\logor carry \ne 0$:\
+    if $carry = 0$:\
+      <span class="smallcaps">WriteByte</span>($cache$)  // top byte $cache$ plus FFs\
+      while $FFnum > 0$:\
+        <span class="smallcaps">WriteByte</span>(0xff)\
+        $FFnum \gets FFnum - 1$\
+    else:\
+      <span class="smallcaps">WriteByte</span>($cache + 1$)  // top byte $cache+1$ plus 00s\
+      while $FFnum > 0$:\
+        <span class="smallcaps">WriteByte</span>(0)\
+        $FFnum \gets FFnum - 1$\
+    $cache \gets low \shiftr 24$  // Copy of top byte ready for next flush\
+    $carry \gets 0$\
+  else:\
+    $FFnum \gets FFnum + 1$\
+\
+  $low \gets low \shiftl 8$
 
 </div>
 
 For completeness, the Encoder initialisation and finish functions are
 below.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-${}\gets$ 0 ${}\gets$ $2^{32}-1$ ${}\gets$ 0 ${}\gets$ 0 ${}\gets$ 0
+Procedure RangeEncodeStart()\
+  $low \gets$ $0$\
+  $range \gets$ $2^{32}-1$\
+  $FFnum \gets$ $0$\
+  $carry \gets$ $0$\
+  $cache \gets$ $0$
 
 </div>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-<span class="smallcaps">RangeShiftLow</span>()
+Procedure RangeEncodeEnd()\
+  for $i \gets 0$ to $4$:  // Flush any residual state in $low$\
+    <span class="smallcaps">RangeShiftLow</span>()
 
 </div>
 
@@ -1877,10 +2181,15 @@ through the cumulative frequencies.
 setting every symbol to have a frequency of 1. (At no point do we permit
 any symbol to have zero frequency.)
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$total\_freq \gets num\_sym$ $max\_sym \gets num\_sym-1$ $S_i \gets i$
-$F_i \gets 1$ this model ($total\_freq$, $max\_sym$, $S$, $F$)
+Function ModelCreate($num\_sym$)\
+  $total\_freq \gets num\_sym$\
+  $max\_sym \gets num\_sym-1$\
+  for $i \gets 0$ to $max\_sym$:\
+    $S_i \gets i$\
+    $F_i \gets 1$\
+  return this model ($total\_freq$, $max\_sym$, $S$, $F$)
 
 </div>
 
@@ -1888,14 +2197,39 @@ $F_i \gets 1$ this model ($total\_freq$, $max\_sym$, $S$, $F$)
 decoded symbol. It returns the next symbol and updates the model
 frequencies automatically.
 
+<div class="code-math-block">
+
+Function ModelDecode(rc)\
+  $freq \gets$ $rc.$<span class="smallcaps">RangeGetFrequency</span>($total\_freq$)\
+  $x \gets 0$\
+  $acc \gets 0$\
+  while $acc + F_x \le freq$:\
+    $acc \gets acc + F_x$\
+    $x \gets x+1$\
+  $rc.$<span class="smallcaps">RangeDecode</span>($acc, F_x, total\_freq$)\
+  $F_x \gets F_x + 16$  // Update model frequencies\
+  $total\_freq \gets total\_freq + 16$\
+  if $total\_freq > 2^{16}-17$:\
+    <span class="smallcaps">ModelRenormalise</span>()\
+  $sym \gets S_x$\
+  if $x > 0 \logand F_x > F_{x-1}$:\
+    <span class="smallcaps">Swap</span>($F_x$, $F_{x-1)$}\
+    <span class="smallcaps">Swap</span>($S_x$, $S_{x-1)$}\
+  return $sym$
+
+</div>
+
 <span class="smallcaps">ModelRenormalise</span> is called whenever the
 total frequencies get too high. The frequencies are halved, taking sure
 to avoid any zero frequencies being created.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$total\_freq \gets 0$ $F_i \gets F_i - (F_i \text{div} 2)$
-$total\_freq \gets total\_freq + F_i$
+Procedure ModelRenormalise()\
+  $total\_freq \gets 0$\
+  for $i \gets 0$ to $max\_sym$:\
+    $F_i \gets F_i - (F_i \bdiv 2)$\
+    $total\_freq \gets total\_freq + F_i$
 
 </div>
 
@@ -1904,14 +2238,18 @@ $total\_freq \gets total\_freq + F_i$
 We can combine the model defined above and the range coder to provide a
 simple function to perform Order-0 entropy decoder.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$max\_sym \gets$<span class="smallcaps">ReadUint8</span>()
-$max\_sym \gets 256$
-$model\_lit \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)
-$rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()
-$out_i \gets model\_lit.$<span class="smallcaps">ModelDecode</span>($rc$)
-$out$
+Function DecodeOrder0($len$)\
+  $max\_sym \gets$<span class="smallcaps">ReadUint8</span>()\
+  if $max\_sym = 0$:\
+    $max\_sym \gets 256$\
+  $model\_lit \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)\
+\
+  $rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()\
+  for $i \gets 0$ to $len-1$:\
+    $out_i \gets model\_lit.$<span class="smallcaps">ModelDecode</span>($rc$)\
+  return $out$
 
 </div>
 
@@ -1919,15 +2257,21 @@ The Order-1 variant simply uses an array of models and selects the
 appropriate model based on the previous value encoded or decoded. This
 array index is our "context".
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$max\_sym \gets$<span class="smallcaps">ReadUint8</span>()
-$max\_sym \gets 256$
-$model\_lit_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)
-$rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()
-$last \gets 0$
-$out_i \gets model\_lit_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)
-$last \gets out_i$ $out$
+Function DecodeOrder1($len$)\
+  $max\_sym \gets$<span class="smallcaps">ReadUint8</span>()\
+  if $max\_sym = 0$:\
+    $max\_sym \gets 256$\
+  for $i \gets 0$ to $max\_sym-1$:\
+    $model\_lit_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)\
+\
+  $rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()\
+  $last \gets 0$\
+  for $i \gets 0$ to $len-1$:\
+    $out_i \gets model\_lit_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)\
+    $last \gets out_i$\
+  return $out$
 
 </div>
 
@@ -1952,20 +2296,31 @@ length 3 (context 256), length 3 (context 257), and length 1 (context
 For example, if we have the string "ABBCCCCDDDDD" we will record
 "A"\<0\> "B"\<1\> "C"\<3,0\> and "D"\<3,1\>.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$max\_sym \gets$<span class="smallcaps">ReadUint8</span>()
-$max\_sym \gets 256$
-$model\_lit \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)
-
-$model\_run_i \gets$<span class="smallcaps">ModelCreate</span>(4)
-$rc \gets$<span class="smallcaps">RangeDecodeCreate</span>() $i \gets 0$
-$out_i \gets model\_lit.$<span class="smallcaps">ModelDecode</span>($rc$)
-$part \gets model\_run_{out_i}.$<span class="smallcaps">ModelDecode</span>($rc$)
-$run \gets part$ $rctx \gets 256$
-$part \gets model\_run_{rctx}.$<span class="smallcaps">ModelDecode</span>($rc$)
-$rctx \gets 257$ $run \gets run + part$ $out_{i+j} \gets out_i$
-$i \gets run+1$ $out$
+Function DecodeRLE0($len$)\
+  $max\_sym \gets$<span class="smallcaps">ReadUint8</span>()\
+  if $max\_sym = 0$:\
+    $max\_sym \gets 256$\
+  $model\_lit \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)\
+  for $i \gets 0$ to $257$:\
+    $model\_run_i \gets$<span class="smallcaps">ModelCreate</span>($4$)\
+\
+  $rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()\
+  $i \gets 0$\
+  while $i < len$:\
+    $out_i \gets model\_lit.$<span class="smallcaps">ModelDecode</span>($rc$)\
+    $part \gets model\_run_{out_i}.$<span class="smallcaps">ModelDecode</span>($rc$)\
+    $run \gets part$\
+    $rctx \gets 256$\
+    while $part = 3$:\
+      $part \gets model\_run_{rctx}.$<span class="smallcaps">ModelDecode</span>($rc$)\
+      $rctx \gets 257$\
+      $run \gets run + part$\
+    for $j \gets 1$ to $run$:\
+      $out_{i+j} \gets out_i$\
+    $i \gets run+1$\
+  return $out$
 
 </div>
 
@@ -1973,21 +2328,34 @@ The order-1 run length variant is identical to order-0 except the
 previous symbol is used as the context for the next literal. The context
 for the run length does not change.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$max\_sym \gets$<span class="smallcaps">ReadUint8</span>()
-$max\_sym \gets 256$
-$model\_lit_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)
-$model\_run_i \gets$<span class="smallcaps">ModelCreate</span>(4)
-$rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()
-$last \gets 0$ $i \gets 0$
-$out_i \gets model\_lit_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)
-$last \gets out_i$
-$part \gets model\_run_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)
-$run \gets part$ $rctx \gets 256$
-$part \gets model\_run_{rctx}.$<span class="smallcaps">ModelDecode</span>($rc$)
-$rctx \gets 257$ $run \gets run + part$ $out_{i+j} \gets last$
-$i \gets run+1$ $out$
+Function DecodeRLE1($len$)\
+  $max\_sym \gets$<span class="smallcaps">ReadUint8</span>()\
+  if $max\_sym = 0$:\
+    $max\_sym \gets 256$\
+  for $i \gets 0$ to $max\_sym-1$:\
+    $model\_lit_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym$)\
+  for $i \gets 0$ to $257$:\
+    $model\_run_i \gets$<span class="smallcaps">ModelCreate</span>($4$)\
+\
+  $rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()\
+  $last \gets 0$\
+  $i \gets 0$\
+  while $i < len$:\
+    $out_i \gets model\_lit_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)\
+    $last \gets out_i$\
+    $part \gets model\_run_{last}.$<span class="smallcaps">ModelDecode</span>($rc$)\
+    $run \gets part$\
+    $rctx \gets 256$\
+    while $part = 3$:\
+      $part \gets model\_run_{rctx}.$<span class="smallcaps">ModelDecode</span>($rc$)\
+      $rctx \gets 257$\
+      $run \gets run + part$\
+    for $j \gets 1$ to $run$:\
+      $out_{i+j} \gets last$\
+    $i \gets run+1$\
+  return $out$
 
 </div>
 
@@ -2248,21 +2616,37 @@ after decompression. For example value 193 is indicates a byte stream
 should be decoded with an RLE aware order-1 entropy encoder and then
 unpacked.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$flags \gets$<span class="smallcaps">ReadUint8</span>()
-$len \gets$<span class="smallcaps">ReadUint7</span>()
-$data \gets$<span class="smallcaps">DecodeStripe</span>($len$) $data$
-$pack\_len \gets len$
-$(P,\ nsym,\ len) \gets$<span class="smallcaps">DecodePackMeta</span>()
-$data \gets$<span class="smallcaps">ReadData</span>($len$)
-$data \gets$<span class="smallcaps">DecodeEXT</span>($len$)
-$data \gets$<span class="smallcaps">DecodeRLE1</span>($len$)
-$data \gets$<span class="smallcaps">DecodeRLE0</span>($len$)
-$data \gets$<span class="smallcaps">DecodeOrder1</span>($len$)
-$data \gets$<span class="smallcaps">DecodeOrder0</span>($len$)
-$data \gets$<span class="smallcaps">DecodePack</span>($data$, $P$,
-$nsym$, $pack\_len$) $data$
+Function ArithDecode($len$)\
+  $flags \gets$<span class="smallcaps">ReadUint8</span>()\
+  if $flags\ \bitand$ <span class="smallcaps">NoSize</span> $\ne 0$:\
+    $len \gets$<span class="smallcaps">ReadUint7</span>()\
+  if $flags\ \bitand$ <span class="smallcaps">Stripe</span>:\
+    $data \gets$<span class="smallcaps">DecodeStripe</span>($len$)\
+    return $data$\
+  if $flags\ \bitand$ <span class="smallcaps">Pack</span>:\
+    $pack\_len \gets len$\
+    $(P, nsym, len) \gets$<span class="smallcaps">DecodePackMeta</span>()\
+  // Entropy Decoding\
+  if $flags\ \bitand$ <span class="smallcaps">Cat</span>:\
+    $data \gets$<span class="smallcaps">ReadData</span>($len$)\
+  else if $flags\ \bitand$ <span class="smallcaps">Ext</span>:\
+    $data \gets$<span class="smallcaps">DecodeEXT</span>($len$)\
+  else if $flags\ \bitand$ <span class="smallcaps">RLE</span>:\
+    if $flags\ \bitand$ <span class="smallcaps">Order</span>:\
+      $data \gets$<span class="smallcaps">DecodeRLE1</span>($len$)\
+    else:\
+      $data \gets$<span class="smallcaps">DecodeRLE0</span>($len$)\
+  else:\
+    if $flags\ \bitand$ <span class="smallcaps">Order</span>:\
+      $data \gets$<span class="smallcaps">DecodeOrder1</span>($len$)\
+    else:\
+      $data \gets$<span class="smallcaps">DecodeOrder0</span>($len$)\
+  // Apply data transformations\
+  if $flags\ \bitand$ <span class="smallcaps">Pack</span>:\
+    $data \gets$<span class="smallcaps">DecodePack</span>($data$, $P$, $nsym$, $pack\_len$)\
+  return $data$
 
 </div>
 
@@ -2282,13 +2666,21 @@ The specifics of each sub-format are described below, in the order
   <span class="smallcaps">Stripe</span> to compress each of the 4 8-bit
   components together with their own algorithm.
 
-  <div class="algorithmic">
+  <div class="code-math-block">
 
-  $N \gets$<span class="smallcaps">ReadUint8</span>()
-  $clen_j \gets$<span class="smallcaps">ReadUint7</span>()
-  $ulen_j \gets (len \text{div} N) + ((len \bmod N) > j)$
-  $T_j \gets$<span class="smallcaps">ArithDecode</span>($ulen_j$)
-  $out_{i \times N + j} \gets T_{j,i}$ $out$
+  Function DecodeStripe($len$)\
+    $N \gets$<span class="smallcaps">ReadUint8</span>()\
+    for $j \gets 0$ to $N$:  // Fetch N compressed lengths\
+      $clen_j \gets$<span class="smallcaps">ReadUint7</span>()\
+  \
+    for $j \gets 0$ to $N$:  // Decode N streams\
+      $ulen_j \gets (len \bdiv N) + ((len \bmod N) > j)$  // $(x > y)$ expression being 1 if true, 0 if false\
+      $T_j \gets$<span class="smallcaps">ArithDecode</span>($ulen_j$)\
+  \
+    for $j \gets 0$ to $N - 1$:  // Stripe\
+      for $i \gets 0$ to $ulen_j - 1$:\
+        $out_{i \times N + j} \gets T_{j,i}$\
+    return $out$
 
   </div>
 
@@ -2334,9 +2726,13 @@ The specifics of each sub-format are described below, in the order
   restructuring so for compatibility with v3.0 these have been placed
   into this single codec.
 
-  <div class="algorithmic">
+  <div class="code-math-block">
 
-  <span class="smallcaps">DecodeBzip2</span>($len$) Error
+  Function DecodeExt($len$)\
+    if Bzip2 magic number is present:\
+      return <span class="smallcaps">DecodeBzip2</span>($len$)\
+    else:\
+      Error
 
   </div>
 
@@ -2581,11 +2977,14 @@ unsigned integers and nul-terminated strings. We reuse the
 <span class="smallcaps">ReadUint32</span> and related functions with the
 byte array specified as input.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-*(Convert an integer to a string form in base-10 digits, at least $len$
-bytes long with leading zeros)* $str \gets val$ $str \gets$ '0'
-$\mathbin{++}str$ $str$
+// \textit{(Convert an integer to a string form in base-10 digits, at least $len$ bytes long with leading zeros)}\
+Function LeftPadNumber($val,\ len$)\
+  $str \gets val$  // Implicit language-specific Integer to String conversion\
+  while <span class="smallcaps">Length</span>($str$) \< $len$:\
+    $str \gets$ \`$0$' $\concat str$\
+  return $str$
 
 </div>
 
@@ -2598,6 +2997,48 @@ previous $m^{th}$ name ($N_m$). The tokens $T$ are used in `MATCH` and
 
 Now we have the basic primitives for pulling from the $B$ byte streams,
 decoding the $n^{th}$ individual name is as follows[^7]:
+
+<div class="code-math-block">
+
+// \textit{(Decodes the $n^{th}$ name, returning $N_n$ and updating globals $N_n$ and $T_n$)}\
+Function DecodeSingleName($n$)\
+  $type \gets$ <span class="smallcaps">ReadUint8</span>($B_{0,\textit{TYPE)}$}\
+  $dist \gets$ <span class="smallcaps">ReadUint32</span>($B_{0,type)$}\
+  $m \gets n-dist$\
+  if $type =$ \texttt{DUP}:\
+    $N_n \gets N_m$\
+    $T_n \gets T_m$  // Copy for all $T_{n,*}$\
+    return $N_n$\
+\
+  $t \gets 1$  // Token number $t$\
+  repeat:\
+    $type \gets$ <span class="smallcaps">ReadUint8</span>($B_{t,\texttt{TYPE)}$}\
+    if $type =$ \texttt{CHAR}:\
+      $T_{n,t} \gets$ <span class="smallcaps">ReadChar</span>($B_{t,\texttt{CHAR)}$}\
+    else if $type =$ \texttt{STRING}:\
+      $T_{n,t} \gets$ <span class="smallcaps">ReadString</span>($B_{t,\texttt{STRING)}$}\
+    else if $type =$ \texttt{DIGITS}:\
+      $T_{n,t} \gets$ <span class="smallcaps">ReadUint32</span>($B_{t,\texttt{DIGITS)}$}\
+    else if $type =$ \texttt{DIGITS0}:\
+      $d \gets$ <span class="smallcaps">ReadUnt32</span>($B_{t,\texttt{DIGITS0)}$}\
+      $l \gets$ <span class="smallcaps">ReadUint8</span>($B_{t,\texttt{DZLEN)}$}\
+      $T_{n,t} \gets$ <span class="smallcaps">LeftPadNumber</span>($d, l$)\
+    else if $type =$ \texttt{DELTA}:\
+      $T_{n,t} \gets T_{m,t} +$ <span class="smallcaps">ReadUint8</span>($B_{t,\texttt{DELTA)}$}\
+    else if $type =$ \texttt{DELTA0}:\
+      $d \gets T_{m,t} +$ <span class="smallcaps">ReadUint8</span>($B_{t,\texttt{DELTA0)}$}\
+      $l \gets$ <span class="smallcaps">Length</span>($T_{m,t)$}  // String length including leading zeros\
+      $T_{n,t} \gets$ <span class="smallcaps">LeftPadNumber</span>($d, l$)\
+    else if $type =$ \texttt{MATCH}:\
+      $T_{n,t} \gets T_{m,t}$\
+    else:\
+      $T_{n,t} \gets$ \`'\
+    $N_n \gets N_n \concat T_{n,t}$\
+    $t \gets t+1$\
+  until $type =$ \texttt{END}\
+  return $N_n$
+
+</div>
 
 Given a complex name with both position and type specific values, this
 can lead to many separate data streams. The name tokeniser codec is a
@@ -2738,35 +3179,49 @@ DIGITS type followed by as many MATCH types as are needed.
 The $cdata$ stream itself is as described in the relevant entropy
 encoder section above (rANS or arithmetic coding).
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-*(Decodes and uncompresses the serialised token byte streams)*
-$sz \gets 0$ $t \gets -1$ $ttype \gets$
-<span class="smallcaps">ReadUint8</span>()
-$tok\_new \gets ttype \text{AND} 128$
-$tok\_dup \gets ttype \text{AND} 64$ $type \gets ttype \text{AND} 63$
-$t \gets t+1$
-$B_{t,\texttt{TYPE}} \gets (type, \texttt{TOK\_MATCH}, \texttt{TOK\_MATCH}, ...)$
-$dup\_pos \gets$ <span class="smallcaps">ReadUint8</span>()
-$dup\_type \gets$ <span class="smallcaps">ReadUint8</span>()
-$B_{t,type} \gets B_{dup\_pos,dup\_type}$ $clen \gets$
-<span class="smallcaps">ReadUint7</span>() $data \gets$
-<span class="smallcaps">ReadData</span>($clen$) $B_{t,type} \gets$
-<span class="smallcaps">ArithDecode</span>($clen,\ source=data$)
-$B_{t,type} \gets$
-<span class="smallcaps">RansDecodeNx16</span>($clen,\ source=data$) $B$
+// \textit{(Decodes and uncompresses the serialised token byte streams)}\
+Function DecodeTokenByteStreams($use\_arith$)\
+  $sz \gets 0$\
+  $t \gets -1$\
+  repeat:\
+    $ttype \gets$ <span class="smallcaps">ReadUint8</span>()\
+    $tok\_new \gets ttype \bitand 128$\
+    $tok\_dup \gets ttype \bitand 64$\
+    $type \gets ttype \bitand 63$\
+    if $tok\_new \ne 0$:\
+      $t \gets t+1$\
+      if $type \ne \texttt{TYPE}$:\
+        $B_{t,\texttt{TYPE}} \gets (type, \texttt{TOK\_MATCH}, \texttt{TOK\_MATCH}, ...)$  // for $nnames-1$ times\
+\
+    if $tok\_dup \ne 0$:\
+      $dup\_pos \gets$ <span class="smallcaps">ReadUint8</span>()\
+      $dup\_type \gets$ <span class="smallcaps">ReadUint8</span>()\
+      $B_{t,type} \gets B_{dup\_pos,dup\_type}$\
+    else:\
+      $clen \gets$ <span class="smallcaps">ReadUint7</span>()\
+      $data \gets$ <span class="smallcaps">ReadData</span>($clen$)\
+      if $use\_arith$:\
+        $B_{t,type} \gets$ <span class="smallcaps">ArithDecode</span>($clen, source=data$)\
+      else:\
+        $B_{t,type} \gets$ <span class="smallcaps">RansDecodeNx16</span>($clen, source=data$)\
+  until <span class="smallcaps">EOF</span>()\
+  return $B$
 
 </div>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-*(Decodes all names, returning $N$)* $ulen \gets$
-<span class="smallcaps">ReadUint32</span>() $nnames \gets$
-<span class="smallcaps">ReadUint32</span>() $use\_arith \gets$
-<span class="smallcaps">ReadUint8</span>() $B \gets$
-<span class="smallcaps">DecodeTokenByteStreams</span>($use\_arith$)
-
-$N_n \gets$ <span class="smallcaps">DecodeSingleName</span>($n$) $N$
+// \textit{(Decodes all names, returning $N$)}\
+Function DecodeNames()\
+  $ulen \gets$ <span class="smallcaps">ReadUint32</span>()\
+  $nnames \gets$ <span class="smallcaps">ReadUint32</span>()\
+  $use\_arith \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $B \gets$ <span class="smallcaps">DecodeTokenByteStreams</span>($use\_arith$)\
+  for $n \gets 0$ to $nnames-1$:\
+    $N_n \gets$ <span class="smallcaps">DecodeSingleName</span>($n$)\
+  return $N$
 
 </div>
 
@@ -2884,18 +3339,25 @@ following pseudocode. Note for brevity this is assuming the $pos$,
 $delta$, $prevq$, $qctx$ and $sel$ parameters referred are global and
 updateable.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-(Add quality $q$ to produce and return a new context $ctx$)
-$ctx \gets params.context$
-$qctx \gets (qctx \ll params.qshift) + qtab_q$
-$ctx \gets ctx + ((qctx \text{AND} (2^{params.qbits}-1)) \ll params.qloc)$
-$p \gets$<span class="smallcaps">Min</span>($pos$, 1023)
-$ctx \gets ctx + (ptab_p \ll params.ploc)$
-$d \gets$<span class="smallcaps">Min</span>($delta$, 255)
-$ctx \gets ctx + (dtab_d \ll params.dloc)$ $delta \gets delta+1$
-$prevq \gets q$ $ctx \gets ctx + (sel \ll params.sloc)$
-$ctx \text{AND} (2^{16}-1)$
+// Add quality $q$ to produce and return a new context $ctx$\
+Function FQZUpdateContext($params,\ q$)\
+  $ctx \gets params.context$  // Also the initial value\
+  $qctx \gets (qctx \shiftl params.qshift) + qtab_q$\
+  $ctx   \gets ctx + ((qctx \bitand (2^{params.qbits}-1)) \shiftl params.qloc)$\
+  if $params.pflags \bitand 32$:  // $have\_ptab$\
+    $p \gets$<span class="smallcaps">Min</span>($pos$, $1023$)\
+    $ctx \gets ctx + (ptab_p \shiftl params.ploc)$\
+  if $params.pflags \bitand 64$:  // $have\_dtab$\
+    $d \gets$<span class="smallcaps">Min</span>($delta$, $255$)\
+    $ctx \gets ctx + (dtab_d \shiftl params.dloc)$\
+    if $prevq \ne q$:\
+      $delta \gets delta+1$\
+    $prevq \gets q$\
+  if $params.pflags \bitand 8$:  // $do\_sel$\
+    $ctx \gets ctx + (sel \shiftl params.sloc)$\
+  return $ctx\bitand (2^{16}-1)$
 
 </div>
 
@@ -3378,42 +3840,59 @@ pflag is set:</em></td>
 <span class="smallcaps">FQZDecodeParams</span> below describes the
 pseudocode for reading the parameter block.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$vers \gets$<span class="smallcaps">ReadUint8</span>() ERROR
-$gflags \gets$ <span class="smallcaps">ReadUint8</span>() $nparam \gets$
-<span class="smallcaps">ReadUint8</span>() $max\_sel \gets nparam$
-$nparam \gets 1$ $max\_sel \gets 0$ $max\_sel \gets$
-<span class="smallcaps">ReadUint8</span>() $stab \gets$
-<span class="smallcaps">ReadArray</span>(256) $max\_sym \gets 0$
-$param_p \gets$ <span class="smallcaps">FQZDecodeSingleParam</span>()
-$max\_sym \gets param_p.max\_sym$
+Procedure FQZDecodeParams()\
+  $vers \gets$<span class="smallcaps">ReadUint8</span>()\
+  if $vers \ne 5$:\
+    ERROR\
+  $gflags \gets$ <span class="smallcaps">ReadUint8</span>()\
+  if $gflags \bitand 1$:  // $multi\_param$\
+    $nparam \gets$ <span class="smallcaps">ReadUint8</span>()\
+    $max\_sel \gets nparam$\
+  else:\
+    $nparam \gets 1$\
+    $max\_sel \gets 0$\
+  if $gflags \bitand 2$:  // $have\_stab$\
+    $max\_sel \gets$ <span class="smallcaps">ReadUint8</span>()\
+    $stab \gets$ <span class="smallcaps">ReadArray</span>($256$)\
+  $max\_sym \gets 0$\
+  for $p \gets 0$ to $nparam-1$:\
+    $param_p \gets$ <span class="smallcaps">FQZDecodeSingleParam</span>()\
+    if $max\_sym < param_p.max\_sym$:\
+      $max\_sym \gets param_p.max\_sym$  // Maximum across all param sets
 
 </div>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-${}\gets$ <span class="smallcaps">ReadUint16</span>() ${}\gets$
-<span class="smallcaps">ReadUint8</span>() ${}\gets$
-<span class="smallcaps">ReadUint8</span>() ${}\gets$ 1
-
-${}\gets$ <span class="smallcaps">ReadUint8</span>() ${}\gets$
-$x \text{div} 16$ ${}\gets$ $x \bmod 16$ ${}\gets$
-<span class="smallcaps">ReadUint8</span>() ${}\gets$ $x \text{div} 16$
-${}\gets$ $x \bmod 16$ ${}\gets$
-<span class="smallcaps">ReadUint8</span>() ${}\gets$ $x \text{div} 16$
-${}\gets$ $x \bmod 16$
-
-$p.qmap_i \gets$ <span class="smallcaps">ReadUint8</span>()
-
-$p.qtab \gets$ <span class="smallcaps">ReadArray</span>(256)
-$p.qtab_i \gets i$
-
-$p.ptab \gets$ <span class="smallcaps">ReadArray</span>(1024)
-
-$p.dtab \gets$ <span class="smallcaps">ReadArray</span>(256)
-
-$p$
+Function FQZDecodeSingleParam()\
+  $p.context \gets$ <span class="smallcaps">ReadUint16</span>()\
+  $p.flags \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $p.max\_sym \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $p.first\_len \gets$ $1$\
+  $x \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $p.qbits \gets$ $x \bdiv 16$\
+  $p.qshift \gets$ $x \bmod 16$\
+  $x \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $p.qloc \gets$ $x \bdiv 16$\
+  $p.sloc \gets$ $x \bmod 16$\
+  $x \gets$ <span class="smallcaps">ReadUint8</span>()\
+  $p.ploc \gets$ $x \bdiv 16$\
+  $p.dloc \gets$ $x \bmod 16$\
+  if $p.flags\bitand 16$:  // Have qmap\
+    for $i \gets 0$ to $p.max\_sym-1$:\
+      $p.qmap_i \gets$ <span class="smallcaps">ReadUint8</span>()\
+  if $p.flags\bitand 128$:  // Have qtab\
+    $p.qtab \gets$ <span class="smallcaps">ReadArray</span>($256$)\
+  else:\
+    for $i \gets 0$ to $256$:\
+      $p.qtab_i \gets i$\
+  if $p.flags\bitand 32$:  // Have ptab\
+    $p.ptab \gets$ <span class="smallcaps">ReadArray</span>($1024$)\
+  if $p.flags\bitand 64$:  // Have dtab\
+    $p.dtab \gets$ <span class="smallcaps">ReadArray</span>($256$)\
+  return $p$
 
 </div>
 
@@ -3422,14 +3901,18 @@ models based on the above parameters and the shared range coder.
 
 <div class="program">
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()
-$model\_len_i \gets$<span class="smallcaps">ModelCreate</span>(256)
-$model\_qual_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym+1$)
-$model\_dup \gets$<span class="smallcaps">ModelCreate</span>(2)
-$model\_rev \gets$<span class="smallcaps">ModelCreate</span>(2)
-$model\_sel \gets$<span class="smallcaps">ModelCreate</span>($max\_sel+1$)
+Procedure FQZCreateModels()\
+  $rc \gets$<span class="smallcaps">RangeDecodeCreate</span>()\
+  for $i \gets 0$ to $3$:\
+    $model\_len_i \gets$<span class="smallcaps">ModelCreate</span>($256$)\
+  for $i \gets 0$ to $2^{16}-1$:\
+    $model\_qual_i \gets$<span class="smallcaps">ModelCreate</span>($max\_sym+1$)\
+  $model\_dup \gets$<span class="smallcaps">ModelCreate</span>($2$)\
+  $model\_rev \gets$<span class="smallcaps">ModelCreate</span>($2$)\
+  if $max\_sel > 0$:\
+    $model\_sel \gets$<span class="smallcaps">ModelCreate</span>($max\_sel+1$)
 
 </div>
 
@@ -3459,16 +3942,38 @@ The final array `R2` is the stored data stream. The decoder process is
 the reverse of the above, starting by converting `R2` to $R$ and then
 $A$. The following pseudocode demonstrates this process.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$i,j,z \gets 0$ $last \gets -1$ $run \gets$
-<span class="smallcaps">ReadUint8</span>() $R_j \gets run$ $j \gets j+1$
-$z \gets z + run$ $copy \gets$
-<span class="smallcaps">ReadUint8</span>() $R_j \gets run$ $j \gets j+1$
-$z \gets z + run \times copy$ $last \gets run$ $i,j,z \gets 0$
-$run\_len \gets 0$ $part \gets R_j$ $j \gets j + 1$
-$run\_len \gets run\_len + part$ $A_z \gets i$ $z \gets z+1$
-$i \gets i+1$ $A$
+Function ReadArray(n)\
+  $i,j,z \gets 0$\
+  $last \gets -1$\
+  while $z < n$:  // Convert $R2$ to $R$\
+    $run \gets$ <span class="smallcaps">ReadUint8</span>()\
+    $R_j \gets run$\
+    $j \gets j+1$\
+    $z \gets z + run$\
+    if $run = last$:\
+      $copy \gets$ <span class="smallcaps">ReadUint8</span>()\
+      for $x \gets 1$ to $copy$:\
+        $R_j \gets run$\
+        $j \gets j+1$\
+      $z \gets z + run \times copy$\
+    $last \gets run$\
+\
+  $i,j,z \gets 0$\
+  while $z < n$:  // Convert $R$ to $A$\
+    $run\_len \gets 0$\
+    repeat:\
+      $part \gets R_j$\
+      $j \gets j + 1$\
+      $run\_len \gets run\_len + part$\
+    until $part \ne 255$\
+    for $x \gets 1$ to $run\_len$:\
+      $A_z \gets i$\
+      $z \gets z+1$\
+    $i \gets i+1$\
+\
+  return $A$
 
 </div>
 
@@ -3486,52 +3991,89 @@ qualities encoded in CRAM for this sequence record and this does not
 necessarily have to match the number of base calls (for example where
 qualities are explicitly specified for SNP bases but not elsewhere).
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$sel \gets 0$ $x \gets 0$
-$sel \gets model\_sel.$<span class="smallcaps">ModelDecode</span>($rc$)
-$x \gets stab_{sel}$ $param \gets params_x$
-
-$rec\_len \gets$<span class="smallcaps">DecodeLength</span>(rc)
-$param.last\_len \gets rec\_len$ $param.first\_len = 0$
-$rec\_len \gets param.last\_len$ $pos \gets rec\_len$
-
-$rev_{rec} \gets model\_rev.$<span class="smallcaps">ModelDecode</span>($rc$)
-$len_{rec} \gets rec\_len$ $rec \gets rec+1$
-
-$is\_dup \gets 0$ $is\_dup \gets 1$ $qctx \gets 0$ $delta \gets 0$
-$prevq \gets 0$ $x$
+Function FQZNewRecord()\
+  $sel \gets 0$\
+  $x \gets 0$\
+  if $max\_sel > 0$:  // Find parameter selector\
+    $sel \gets model\_sel.$<span class="smallcaps">ModelDecode</span>($rc$)\
+    if $have\_stab$:\
+      $x \gets stab_{sel}$\
+  $param \gets params_x$\
+\
+  if $param.do\_len \logor param.first\_len$:  // Decode read length\
+    $rec\_len \gets$<span class="smallcaps">DecodeLength</span>(rc)\
+    $param.last\_len \gets rec\_len$\
+    $param.first\_len = 0$\
+  else:\
+    $rec\_len \gets param.last\_len$\
+  $pos \gets rec\_len$\
+\
+  if $param.do\_rev$:  // Check if needs reversal\
+    $rev_{rec} \gets model\_rev.$<span class="smallcaps">ModelDecode</span>($rc$)\
+    $len_{rec} \gets rec\_len$\
+  $rec \gets rec+1$\
+\
+  $is\_dup \gets 0$\
+  if $do\_dedup$:  // Duplicate last string if appropriate\
+    if $model\_dup.$<span class="smallcaps">ModelDecode</span>($rc$) \> 0:\
+      $is\_dup \gets 1$\
+\
+  $qctx \gets 0$\
+  $delta \gets 0$\
+  $prevq \gets 0$\
+  return $x$  // Tabulated parameter selector
 
 </div>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$buf\_len \gets$ <span class="smallcaps">ReadUint7</span>()
-<span class="smallcaps">FQZDecodeParams</span>()
-<span class="smallcaps">FQZCreateModels</span>() $i \gets 0$
-$pos \gets 0$ `next_record:`
-$x \gets$<span class="smallcaps">FQZNewRecord</span>()
-$output_{i+j} \gets output_{i+j-rec\_len}$ $i \gets i+rec\_len$
-$pos \gets 0$
-
-$param \gets params_x$ $ctx \gets param.context$
-$q \gets model\_qual_{ctx}.$<span class="smallcaps">ModelDecode</span>($rc$)
-$output_i \gets qmap_q$ $output_i \gets q$
-$ctx \gets$<span class="smallcaps">FQZUpdateContext</span>($param, q$)
-$i \gets i + 1$ $pos \gets pos - 1$
-<span class="smallcaps">ReverseQualities</span>($output,\ buf\_len,\ rev,\ len$)
+Procedure FQZDecode()\
+  $buf\_len \gets$ <span class="smallcaps">ReadUint7</span>()\
+  <span class="smallcaps">FQZDecodeParams</span>()\
+  <span class="smallcaps">FQZCreateModels</span>()\
+  $i \gets 0$  // Position in total quality block\
+  $pos \gets 0$  // Remaining base count current quality string\
+  \texttt{next\\record:}:\
+  while $i < buf\_len$:\
+    if $pos = 0$:  // Reset state at start of each new record\
+      $x \gets$<span class="smallcaps">FQZNewRecord</span>()\
+      if $is\_dup = 1$:\
+        for $j \gets 0$ to $rec\_len-1$:\
+          $output_{i+j} \gets output_{i+j-rec\_len}$\
+        $i \gets i+rec\_len$\
+        $pos \gets 0$\
+        \Goto{next\\record}\
+\
+      $param \gets params_x$\
+      $ctx \gets param.context$\
+\
+    $q \gets model\_qual_{ctx}.$<span class="smallcaps">ModelDecode</span>($rc$)  // Decode a single quality value\
+    if $param.have\_qmap$:\
+      $output_i \gets qmap_q$\
+    else:\
+      $output_i \gets q$\
+\
+    $ctx \gets$<span class="smallcaps">FQZUpdateContext</span>($param, q$)  // Also updates qctx, prevq and delta\
+\
+    $i \gets i + 1$\
+    $pos \gets pos - 1$\
+  if $do\_rev$:\
+    <span class="smallcaps">ReverseQualities</span>($output, buf\_len, rev, len$)
 
 </div>
 
 Read lengths are encoded as 4 8-bit bytes, each having its own model.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$rec\_len \gets model\_len_0.$<span class="smallcaps">ModelDecode</span>($rc$)
-$rec\_len \gets rec\_len + (model\_len_1.$<span class="smallcaps">ModelDecode</span>($rc$)$\ll 8)$
-$rec\_len \gets rec\_len + (model\_len_2.$<span class="smallcaps">ModelDecode</span>($rc$)$\ll 16)$
-$rec\_len \gets rec\_len + (model\_len_3.$<span class="smallcaps">ModelDecode</span>($rc$)$\ll 24)$
-$rec\_len$
+Function DecodeLength($rc$)\
+  $rec\_len \gets model\_len_0.$<span class="smallcaps">ModelDecode</span>($rc$)\
+  $rec\_len \gets rec\_len + (model\_len_1.$<span class="smallcaps">ModelDecode</span>($rc$)$\shiftl 8)$\
+  $rec\_len \gets rec\_len + (model\_len_2.$<span class="smallcaps">ModelDecode</span>($rc$)$\shiftl 16)$\
+  $rec\_len \gets rec\_len + (model\_len_3.$<span class="smallcaps">ModelDecode</span>($rc$)$\shiftl 24)$\
+  return $rec\_len$
 
 </div>
 
@@ -3541,6 +4083,24 @@ orientation and it may be beneficial for compression purposes to reverse
 them first. If so $do\_rev$ will be set and the
 <span class="smallcaps">ReverseQualities</span> procedure called below
 after decoding.
+
+<div class="code-math-block">
+
+Procedure ReverseQualities($qual,\ qual\_len,\ rev,\ len$)\
+  $rec \gets 0$\
+  $i \gets 0$\
+  while $i < qual\_len$:\
+    if $rev_{rec} \ne 0$:\
+      $j \gets 0$\
+      $k \gets len_{rec}-1$\
+      while $j < k$:\
+        <span class="smallcaps">Swap</span>($qual_{i+j)$, $qual_{i+k}$}\
+        $j \gets j+1$\
+        $k \gets k-1$\
+      $i \gets i + len_{rec}$\
+      $rec \gets rec+1$
+
+</div>
 
 [^1]: J. Duda, *Asymmetric numeral systems: entropy coding combining
     speed of Huffman coding with compression rate of arithmetic coding*,

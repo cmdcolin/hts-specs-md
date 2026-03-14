@@ -2549,7 +2549,7 @@ The BCF2 header contains the following items:
 <tr>
 <td>magic</td>
 <td>char[3]</td>
-<td>The characters "<span><code>BCF</code></span>"</td>
+<td>The characters "<code>BCF</code>"</td>
 </tr>
 <tr>
 <td>major_version</td>

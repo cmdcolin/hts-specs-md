@@ -33,32 +33,32 @@ types and their missing values:
 <tbody>
 <tr>
 <td>1</td>
-<td><span><code>int8_t</code></span></td>
-<td><span><code>0x80</code></span></td>
+<td><code>int8_t</code></td>
+<td><code>0x80</code></td>
 <td>signed 8-bit integer</td>
 </tr>
 <tr>
 <td>2</td>
-<td><span><code>int16_t</code></span></td>
-<td><span><code>0x8000</code></span></td>
+<td><code>int16_t</code></td>
+<td><code>0x8000</code></td>
 <td>signed 16-bit integer</td>
 </tr>
 <tr>
 <td>3</td>
-<td><span><code>int32_t</code></span></td>
-<td><span><code>0x80000000</code></span></td>
+<td><code>int32_t</code></td>
+<td><code>0x80000000</code></td>
 <td>signed 32-bit integer</td>
 </tr>
 <tr>
 <td>5</td>
-<td><span><code>float</code></span></td>
-<td><span><code>0x7F800001</code></span></td>
+<td><code>float</code></td>
+<td><code>0x7F800001</code></td>
 <td>IEEE 32-bit floating pointer number</td>
 </tr>
 <tr>
 <td>7</td>
-<td><span><code>char</code></span></td>
-<td>'<span><code> 0</code></span>'</td>
+<td><code>char</code></td>
+<td>'<code> 0</code>'</td>
 <td>character</td>
 </tr>
 </tbody>
@@ -90,21 +90,21 @@ endian.
 <tr>
 <td><span>1-6</span></td>
 <td>BCF2 magic string</td>
-<td><span><code>char[5]</code></span></td>
-<td><span><code>BCF 2 1</code></span></td>
+<td><code>char[5]</code></td>
+<td><code>BCF 2 1</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>1-6</span></td>
 <td>Length of the header text, including any <span>NULL</span> padding</td>
-<td><span><code>uint32_t</code></span></td>
+<td><code>uint32_t</code></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td><span>1-6</span></td>
 <td><span>NULL</span>-terminated plain VCF header text</td>
-<td><span><code>char[</code><span><code>l_text</code></span><code>]</code></span></td>
+<td><code>char[l_text]</code></td>
 <td></td>
 <td></td>
 </tr>
@@ -119,64 +119,63 @@ endian.
 <td><span>2-6</span></td>
 <td>l_shared</td>
 <td>Data length from <span>CHROM</span> to the end of <span>INFO</span></td>
-<td><span><code>uint32_t</code></span></td>
+<td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>l_indiv</td>
 <td>Data length of <span>FORMAT</span> and individual genotype fields</td>
-<td><span><code>uint32_t</code></span></td>
+<td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>CHROM</td>
 <td>Reference sequence ID</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>POS</td>
 <td>0-based leftmost coordinate</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>rlen</td>
 <td>Length of reference sequence</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>QUAL</td>
-<td>Variant quality; <span><code>0x7F800001</code></span> for a missing
-value</td>
-<td><span><code>float</code></span></td>
+<td>Variant quality; <code>0x7F800001</code> for a missing value</td>
+<td><code>float</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>n_allele_info</td>
-<td><span><code>n_allele 16 n_info</code></span></td>
-<td><span><code>uint32_t</code></span></td>
+<td><code>n_allele 16 n_info</code></td>
+<td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>n_fmt_sample</td>
-<td><span><code>n_fmt 24 n_sample</code></span></td>
-<td><span><code>uint32_t</code></span></td>
+<td><code>n_fmt 24 n_sample</code></td>
+<td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>ID</td>
 <td>Variant identifier</td>
-<td><span><code>typed str</code></span></td>
+<td><code>typed str</code></td>
 <td></td>
 </tr>
 <tr>
@@ -192,13 +191,13 @@ value</td>
 <td></td>
 <td><span>allele</span></td>
 <td>A reference or alternate allele</td>
-<td><span><code>typed str</code></span></td>
+<td><code>typed str</code></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
 <td>FILTER</td>
 <td>List of filters; filters are defined in the dictionary</td>
-<td><span><code>typed vec</code></span></td>
+<td><code>typed vec</code></td>
 <td></td>
 </tr>
 <tr>
@@ -214,14 +213,14 @@ value</td>
 <td></td>
 <td><span>info_key</span></td>
 <td>Info key, defined in the dictionary</td>
-<td><span><code>typed int</code></span></td>
+<td><code>typed int</code></td>
 </tr>
 <tr>
 <td><span>3-6</span></td>
 <td></td>
 <td><span>info_value</span></td>
 <td>Value</td>
-<td><span><code>typed val</code></span></td>
+<td><code>typed val</code></td>
 </tr>
 <tr>
 <td><span>2-6</span></td>
@@ -236,7 +235,7 @@ value</td>
 <td></td>
 <td><span>fmt_key</span></td>
 <td>Format key, defined in the dictionary</td>
-<td><span><code>typed int</code></span></td>
+<td><code>typed int</code></td>
 </tr>
 <tr>
 <td><span>3-6</span></td>
@@ -244,7 +243,7 @@ value</td>
 <td><span>fmt_type</span></td>
 <td>Typing byte of each individual value, possibly followed by a typed int
 for the vector length</td>
-<td><span><code>uint8_t+</code></span></td>
+<td><code>uint8_t+</code></td>
 </tr>
 <tr>
 <td><span>3-6</span></td>
@@ -253,7 +252,7 @@ for the vector length</td>
 <td>Array of values. The information of each individual is concatenated in
 the vector. Every value is of the same <span>fmt_type</span>.
 Variable-length vectors are padded with missing values; a string is
-stored as a vector of <span><code>char</code></span>.</td>
+stored as a vector of <code>char</code>.</td>
 <td>(by <span>fmt_type</span>)</td>
 </tr>
 <tr>

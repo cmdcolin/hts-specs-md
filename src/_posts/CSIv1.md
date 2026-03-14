@@ -19,15 +19,15 @@ date: 19 Jul 2020
 <tr>
 <td><span>1-7</span></td>
 <td>Magic string</td>
-<td><span><code>char[4]</code></span></td>
-<td><span><code>CSI 1</code></span></td>
+<td><code>char[4]</code></td>
+<td><code>CSI 1</code></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td><span>1-7</span></td>
 <td># bits for the minimal interval</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td>[14]</td>
 <td></td>
 <td></td>
@@ -35,7 +35,7 @@ date: 19 Jul 2020
 <tr>
 <td><span>1-7</span></td>
 <td>Depth of the binning index</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td>[5]</td>
 <td></td>
 <td></td>
@@ -43,7 +43,7 @@ date: 19 Jul 2020
 <tr>
 <td><span>1-7</span></td>
 <td>Length of auxiliary data</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td>[0]</td>
 <td></td>
 <td></td>
@@ -51,7 +51,7 @@ date: 19 Jul 2020
 <tr>
 <td><span>1-7</span></td>
 <td>Auxiliary data</td>
-<td><span><code>uint8_t[l_aux]</code></span></td>
+<td><code>uint8_t[l_aux]</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -59,7 +59,7 @@ date: 19 Jul 2020
 <tr>
 <td><span>1-7</span></td>
 <td># reference sequences</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -76,7 +76,7 @@ date: 19 Jul 2020
 <td><span>2-7</span></td>
 <td>n_bin</td>
 <td># distinct bins</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td></td>
 <td></td>
 </tr>
@@ -94,7 +94,7 @@ date: 19 Jul 2020
 <td></td>
 <td>bin</td>
 <td>Distinct bin</td>
-<td><span><code>uint32_t</code></span></td>
+<td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
@@ -102,7 +102,7 @@ date: 19 Jul 2020
 <td></td>
 <td>loffset</td>
 <td>(Virtual) file offset of the first overlapping record</td>
-<td><span><code>uint64_t</code></span></td>
+<td><code>uint64_t</code></td>
 <td></td>
 </tr>
 <tr>
@@ -110,7 +110,7 @@ date: 19 Jul 2020
 <td></td>
 <td>n_chunk</td>
 <td># chunks</td>
-<td><span><code>int32_t</code></span></td>
+<td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
@@ -127,7 +127,7 @@ date: 19 Jul 2020
 <td></td>
 <td><span>chunk_beg</span></td>
 <td>(Virtual) file offset of the start of the chunk</td>
-<td><span><code>uint64_t</code></span></td>
+<td><code>uint64_t</code></td>
 </tr>
 <tr>
 <td><span>4-7</span></td>
@@ -135,12 +135,12 @@ date: 19 Jul 2020
 <td></td>
 <td><span>chunk_end</span></td>
 <td>(Virtual) file offset of the end of the chunk</td>
-<td><span><code>uint64_t</code></span></td>
+<td><code>uint64_t</code></td>
 </tr>
 <tr>
 <td><span>1-7</span></td>
 <td># unmapped unplaced reads (<span>RNAME</span> *)</td>
-<td><span><code>uint64_t</code></span></td>
+<td><code>uint64_t</code></td>
 <td></td>
 <td></td>
 <td></td>

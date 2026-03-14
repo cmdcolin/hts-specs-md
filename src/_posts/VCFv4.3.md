@@ -316,9 +316,8 @@ For example:
 
 Contig names follow the same rules as the SAM format's reference
 sequence names: they may contain any printable ASCII characters in the
-range `[!-~]` apart from '`\```  , "`' () []  ```{}`` <>`' and may not
-start with '' or '`=`'. Thus they match the following regular
-expression:
+range `[!-~]` apart from '`` \ , "`' () [] {} <> ``' and may not start
+with '' or '`=`'. Thus they match the following regular expression:
 
 <div class="code-math-block">
 
@@ -3149,7 +3148,7 @@ The BCF2 header contains the following items:
 <tr>
 <td>magic</td>
 <td>char[3]</td>
-<td>The characters "<span><code>BCF</code></span>"</td>
+<td>The characters "<code>BCF</code>"</td>
 </tr>
 <tr>
 <td>major_version</td>
@@ -4296,10 +4295,10 @@ section 4 as BAM files and other block-compressed files with BGZF.
 
 - The set of characters allowed in VCF contig names is now the same as
   that allowed in SAM reference sequence names, which was restricted in
-  January 2019. The characters '`\```  , "`' ()  ```{}`' are now invalid
-  in VCF contig names, while '' is now valid when not the first
-  character. (The characters '`[] <>`' and initial ''/'`=`' were already
-  invalid and remain so.)
+  January 2019. The characters '`` \ , "`' () {} ``' are now invalid in
+  VCF contig names, while '' is now valid when not the first character.
+  (The characters '`[] <>`' and initial ''/'`=`' were already invalid
+  and remain so.)
 
   The VCF specification previously disallowed colons ('`:`') in contig
   names to avoid confusion when parsing breakends, but this was

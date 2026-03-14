@@ -11,7 +11,8 @@
     "predeploy": "yarn build",
     "deploy": "gh-pages -d dist -t --nojekyll",
     "postdeploy": "git push",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check-links": "astro build && bash scripts/check-links.sh"
   },
   "dependencies": {
     "astro": "^6.0.4",

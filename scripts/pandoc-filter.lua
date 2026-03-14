@@ -140,20 +140,56 @@ function CodeBlock(el)
     end
 
     local NBSP = "\u{00A0}"
+
+    -- Split a plain text segment into inlines, handling \textsc{...} for small-caps
+    local function text_to_inlines(text, is_line_start)
+      local inlines = {}
+      if is_line_start then
+        local spaces = text:match("^( +)")
+        if spaces then
+          table.insert(inlines, pandoc.Str(spaces:gsub(" ", NBSP)))
+          text = text:sub(#spaces + 1)
+        end
+      end
+      local pos = 1
+      while pos <= #text do
+        local sc_start, sc_content_start = text:find("\\textsc%{", pos)
+        if not sc_start then
+          local remaining = text:sub(pos)
+          if #remaining > 0 then table.insert(inlines, pandoc.Str(remaining)) end
+          break
+        end
+        if sc_start > pos then
+          table.insert(inlines, pandoc.Str(text:sub(pos, sc_start - 1)))
+        end
+        local depth = 0
+        local i = sc_content_start
+        while i <= #text do
+          local c = text:sub(i, i)
+          if c == '{' then depth = depth + 1
+          elseif c == '}' then
+            depth = depth - 1
+            if depth == 0 then
+              local name = text:sub(sc_content_start + 1, i - 1)
+              table.insert(inlines, pandoc.SmallCaps({pandoc.Str(name)}))
+              pos = i + 1
+              break
+            end
+          end
+          i = i + 1
+        end
+        if i > #text then break end
+      end
+      return inlines
+    end
+
     for i, line in ipairs(lines) do
       local last_pos = 1
       for start_pos, content, end_pos in line:gmatch("()%$([^%$]+)%$()") do
         if start_pos > last_pos then
             local text = line:sub(last_pos, start_pos - 1)
-            if last_pos == 1 then
-                local spaces = text:match("^( +)")
-                if spaces then
-                    table.insert(all_content, pandoc.Str(spaces:gsub(" ", NBSP)))
-                    text = text:sub(#spaces + 1)
-                end
-            end
-            if #text > 0 then
-                table.insert(all_content, pandoc.Str(text))
+            for _, inline in ipairs(text_to_inlines(text, last_pos == 1)) do
+              table.insert(all_content, inline)
             end
         end
         table.insert(all_content, pandoc.Math("InlineMath", content))
@@ -161,23 +197,16 @@ function CodeBlock(el)
       end
       if last_pos <= #line then
         local text = line:sub(last_pos)
-        if last_pos == 1 then
-            local spaces = text:match("^( +)")
-            if spaces then
-                table.insert(all_content, pandoc.Str(spaces:gsub(" ", NBSP)))
-                text = text:sub(#spaces + 1)
-            end
-        end
-        if #text > 0 then
-            table.insert(all_content, pandoc.Str(text))
+        for _, inline in ipairs(text_to_inlines(text, last_pos == 1)) do
+          table.insert(all_content, inline)
         end
       end
-      
+
       if i < #lines then
         table.insert(all_content, pandoc.LineBreak())
       end
     end
-    
+
     -- Use raw HTML for the div to avoid fenced divs syntax
     return {
       pandoc.RawBlock('html', '<div class="code-math-block">'),
@@ -391,9 +420,46 @@ function Link(el)
   return el
 end
 
+-- Pandoc represents {\textbackslash} inside \texttt{} as Span([Code('\')]) with no
+-- classes or attributes. This helper unwraps such bare Spans to a plain Code element
+-- so adjacent Code spans can be merged.
+local function unwrap_span_code(el)
+  if el.tag == "Span" and #el.content == 1 and el.content[1].tag == "Code"
+     and el.attr.identifier == "" and #el.attr.classes == 0 and #el.attr.attributes == 0 then
+    return el.content[1]
+  end
+  return el
+end
+
+-- Merge adjacent Code spans that have no space between them.
+-- This fixes pandoc splitting \texttt{{\textbackslash}x20} into `\``x20`
+-- instead of the correct single span `\x20`.
+function Inlines(ils)
+  local result = {}
+  local i = 1
+  while i <= #ils do
+    local cur = unwrap_span_code(ils[i])
+    if cur.tag == "Code" then
+      local merged = cur.text
+      while i + 1 <= #ils do
+        local nxt = unwrap_span_code(ils[i + 1])
+        if nxt.tag ~= "Code" then break end
+        i = i + 1
+        merged = merged .. nxt.text
+      end
+      table.insert(result, pandoc.Code(merged))
+    else
+      table.insert(result, cur)
+    end
+    i = i + 1
+  end
+  return pandoc.Inlines(result)
+end
+
 -- Pandoc 3.x uses meta to pass metadata
 return {
   { Meta = get_vars },
   { Header = scan_header },
-  { RawInline = RawInline, Inline = Inline, Div = Div, Code = Code, CodeBlock = CodeBlock, Table = Table, Math = Math, Header = Header, Link = Link }
+  { Inlines = Inlines },
+  { RawInline = RawInline, Inline = Inline, Div = Div, Code = Code, CodeBlock = CodeBlock, Table = Table, Math = Math, Header = Header, Link = Link },
 }

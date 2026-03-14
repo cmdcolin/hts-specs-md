@@ -1762,17 +1762,20 @@ formats depending on whether the record is aligned (mapped).
 
 ### 10.1.3 **Decode pseudocode**
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-${}\gets$ <span class="smallcaps">ReadItem</span>(BF, Integer) ${}\gets$
-<span class="smallcaps">ReadItem</span>(CF, Integer)
-<span class="smallcaps">DecodePositions</span>()
-<span class="smallcaps">DecodeNames</span>()
-<span class="smallcaps">DecodeMateData</span>()
-<span class="smallcaps">DecodeTagData</span>()
-
-<span class="smallcaps">DecodeMappedRead</span>()
-<span class="smallcaps">DecodeUnmappedRead</span>()
+Procedure DecodeRecord()\
+  $BAM\_flags \gets$  <span class="smallcaps">ReadItem</span>(BF, Integer)\
+  $CRAM\_flags \gets$ <span class="smallcaps">ReadItem</span>(CF, Integer)\
+  <span class="smallcaps">DecodePositions</span>()\
+  <span class="smallcaps">DecodeNames</span>()\
+  <span class="smallcaps">DecodeMateData</span>()\
+  <span class="smallcaps">DecodeTagData</span>()\
+\
+  if $(BF$ AND $4) = 0$:  // Unmapped flag\
+    <span class="smallcaps">DecodeMappedRead</span>()\
+  else:\
+    <span class="smallcaps">DecodeUnmappedRead</span>()
 
 </div>
 
@@ -1845,17 +1848,22 @@ header, starting from 0 with -1 for no group</td>
 </tbody>
 </table>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$reference\_id\gets$ <span class="smallcaps">ReadItem</span>(RI,
-Integer) $reference\_id\gets slice\_header.reference\_sequence\_id$
-$read\_length \gets$ <span class="smallcaps">ReadItem</span>(RL,
-Integer) $last\_position\gets$ $slice\_header.alignment\_start$
-$alignment\_position \gets$ <span class="smallcaps">ReadItem</span>(AP,
-Integer) + $last\_position$ $last\_position \gets alignment\_position$
-$alignment\_position \gets$ <span class="smallcaps">ReadItem</span>(AP,
-Integer) $read\_group \gets$ <span class="smallcaps">ReadItem</span>(RG,
-Integer)
+Procedure DecodePositions()\
+  if $slice\_header.reference\_sequence\_id = -2$:\
+    $reference\_id\gets$ <span class="smallcaps">ReadItem</span>(RI, Integer)\
+  else:\
+    $reference\_id\gets slice\_header.reference\_sequence\_id$\
+  $read\_length \gets$ <span class="smallcaps">ReadItem</span>(RL, Integer)\
+  if $container\_pmap.AP\_delta \ne 0$:\
+    if $first\_record\_in\_slice$:\
+      $last\_position\gets$ $slice\_header.alignment\_start$\
+    $alignment\_position \gets$ <span class="smallcaps">ReadItem</span>(AP, Integer) + $last\_position$\
+    $last\_position \gets alignment\_position$\
+  else:\
+    $alignment\_position \gets$ <span class="smallcaps">ReadItem</span>(AP, Integer)\
+  $read\_group \gets$ <span class="smallcaps">ReadItem</span>(RG, Integer)
 
 </div>
 
@@ -1892,10 +1900,13 @@ name.
 </tbody>
 </table>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$read\_name \gets$ <span class="smallcaps">ReadItem</span>(RN, Byte\[\])
-$read\_name \gets$ <span class="smallcaps">GenerateName</span>()
+Procedure DecodeNames()\
+  if $container\_pmap.read\_names\_included = 1$:\
+    $read\_name \gets$ <span class="smallcaps">ReadItem</span>(RN, Byte\[\])\
+  else:\
+    $read\_name \gets$ <span class="smallcaps">GenerateName</span>()
 
 </div>
 
@@ -2025,27 +2036,32 @@ flags are defined:
 In the following pseudocode we are assuming the current record is $this$
 and its mate is $next\_frag$.
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$mate\_flags\gets$ <span class="smallcaps">ReadItem</span>(MF,Integer)
-$bam\_flags\gets bam\_flags$ OR 0x20
-$bam\_flags\gets bam\_flags$ OR 0x08 $read\_name \gets$
-<span class="smallcaps">ReadItem</span>(RN, Byte\[\]) ${}\gets$
-<span class="smallcaps">ReadItem</span>(NS, Integer) ${}\gets$
-<span class="smallcaps">ReadItem</span>(NP, Integer) ${}\gets$
-<span class="smallcaps">ReadItem</span>(TS, Integer)
-$this.bam\_flags \gets this.bam\_flags$ OR 0x20
-$this.bam\_flags \gets this.bam\_flags$ OR 0x08 $next\_frag\gets$
-<span class="smallcaps">ReadItem</span>(NF,Integer)
-$next\_record\gets this\_record + next\_frag + 1$ Resolve
-$mate\_ref\_id$ for $this\_record$ and $next\_record$ once both have
-been decoded Resolve $mate\_position$ for $this\_record$ and
-$next\_record$ once both have been decoded Find leftmost and rightmost
-mapped coordinate in records $this\_record$ and $next\_record$. For
-leftmost of $this\_record$ and $next\_record$:
-$template\_size\gets rightmost-leftmost+1$ For rightmost of
-$this\_record$ and $next\_record$:
-$template\_size\gets -(rightmost-leftmost+1)$
+Procedure DecodeMateData()\
+  if $CF$ AND $2$:  // Detached from mate\
+    $mate\_flags\gets$ <span class="smallcaps">ReadItem</span>(MF,Integer)\
+    if $mate\_flags$ AND 1:\
+      $bam\_flags\gets bam\_flags$ OR 0x20  // Mate is reverse-complemented\
+    if $mate\_flags$ AND 2:\
+      $bam\_flags\gets bam\_flags$ OR 0x08  // Mate is unmapped\
+    if $container\_pmap.read\_names\_included \ne 1$:\
+      $read\_name \gets$ <span class="smallcaps">ReadItem</span>(RN, Byte\[\])\
+    $mate\_ref\_id \gets$  <span class="smallcaps">ReadItem</span>(NS, Integer)\
+    $mate\_position \gets$ <span class="smallcaps">ReadItem</span>(NP, Integer)\
+    $template\_size \gets$ <span class="smallcaps">ReadItem</span>(TS, Integer)\
+  else if $CF$ AND $4$:  // Mate is downstream\
+    if $next\_frag.bam\_flags$ AND 0x10:\
+      $this.bam\_flags \gets this.bam\_flags$ OR 0x20  // next segment reverse complemented\
+    if $next\_frag.bam\_flags$ AND 0x04:\
+      $this.bam\_flags \gets this.bam\_flags$ OR 0x08  // next segment unmapped\
+    $next\_frag\gets$ <span class="smallcaps">ReadItem</span>(NF,Integer)\
+    $next\_record\gets this\_record + next\_frag + 1$\
+    Resolve $mate\_ref\_id$ for $this\_record$ and $next\_record$ once both have been decoded\
+    Resolve $mate\_position$ for $this\_record$ and $next\_record$ once both have been decoded\
+    Find leftmost and rightmost mapped coordinate in records $this\_record$ and $next\_record$.\
+    For leftmost of $this\_record$ and $next\_record$: $template\_size\gets rightmost-leftmost+1$\
+    For rightmost of $this\_record$ and $next\_record$: $template\_size\gets -(rightmost-leftmost+1)$
 
 </div>
 
@@ -2094,12 +2110,14 @@ tag dictionary</td>
 </tbody>
 </table>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$tag\_line\gets$ <span class="smallcaps">ReadItem</span>(TL,Integer)
-$name\gets$ first two characters of $ele$ $tag(type)\gets$ last
-character of $ele$ $tag(name)\gets$
-<span class="smallcaps">ReadItem</span>($ele$, Byte\[\])
+Procedure DecodeTagData()\
+  $tag\_line\gets$ <span class="smallcaps">ReadItem</span>(TL,Integer)\
+  for all $ele \in container\_pmap.tag\_dict(tag\_line)$:\
+    $name\gets$ first two characters of $ele$\
+    $tag(type)\gets$ last character of $ele$\
+    $tag(name)\gets$ <span class="smallcaps">ReadItem</span>($ele$, Byte\[\])
 
 </div>
 
@@ -2521,30 +2539,47 @@ Then the substitution codes are T=0, G=1, C=2, N=3.
 
 ### 10.6.6 Decode mapped read pseudocode
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$feature\_number\gets$ <span class="smallcaps">ReadItem</span>(FN,
-Integer) $last\_feature\_position\gets 0$
-<span class="smallcaps">DecodeFeature</span>() $mapping\_quality\gets$
-<span class="smallcaps">ReadItem</span>(MQ, Integer)
-$quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS,
-Integer) ${}\gets$ <span class="smallcaps">ReadItem</span>(FC, Integer)
-${}\gets$ <span class="smallcaps">ReadItem</span>(FP, Integer)
-$+\ last\_feature\_position$
-$last\_feature\_position\gets feature\_position$ ${}\gets$
-<span class="smallcaps">ReadItem</span>(BA, Byte) ${}\gets$
-<span class="smallcaps">ReadItem</span>(QS, Byte) ${}\gets$
-<span class="smallcaps">ReadItem</span>(BS, Byte) ${}\gets$
-<span class="smallcaps">ReadItem</span>(IN, Byte\[\]) ${}\gets$
-<span class="smallcaps">ReadItem</span>(SC, Byte\[\]) ${}\gets$
-<span class="smallcaps">ReadItem</span>(HC, Integer) ${}\gets$
-<span class="smallcaps">ReadItem</span>(PD, Integer) ${}\gets$
-<span class="smallcaps">ReadItem</span>(DL, Integer) ${}\gets$
-<span class="smallcaps">ReadItem</span>(RS, Integer) ${}\gets$
-<span class="smallcaps">ReadItem</span>(BA, Byte) ${}\gets$
-<span class="smallcaps">ReadItem</span>(BB, Byte\[\]) ${}\gets$
-<span class="smallcaps">ReadItem</span>(QQ, Byte\[\]) ${}\gets$
-<span class="smallcaps">ReadItem</span>(QS, Byte)
+Procedure DecodeMappedRead()\
+  $feature\_number\gets$ <span class="smallcaps">ReadItem</span>(FN, Integer)\
+  $last\_feature\_position\gets 0$\
+  for $i\gets 1 \text{ \textbf{to} } feature\_number$:\
+    <span class="smallcaps">DecodeFeature</span>()\
+  $mapping\_quality\gets$ <span class="smallcaps">ReadItem</span>(MQ, Integer)\
+  if $CF$ AND $1$:  // Quality stored as an array\
+    for $i\gets 1 \text{ \textbf{to} } read\_length$:\
+      $quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS, Integer)\
+\
+Procedure DecodeFeature()\
+  $feature\_code \gets$       <span class="smallcaps">ReadItem</span>(FC, Integer)\
+  $feature\_position \gets$   <span class="smallcaps">ReadItem</span>(FP, Integer) $+ last\_feature\_position$\
+  $last\_feature\_position\gets feature\_position$\
+  if $feature\_code =$\`B':\
+    $base \gets$              <span class="smallcaps">ReadItem</span>(BA, Byte)\
+    $quality\_score \gets$    <span class="smallcaps">ReadItem</span>(QS, Byte)\
+  else if $feature\_code =$\`X':\
+    $substitution\_code \gets$ <span class="smallcaps">ReadItem</span>(BS, Byte)\
+  else if $feature\_code =$\`I':\
+    $inserted\_bases \gets$   <span class="smallcaps">ReadItem</span>(IN, Byte\[\])\
+  else if $feature\_code =$\`S':\
+    $softclip\_bases \gets$   <span class="smallcaps">ReadItem</span>(SC, Byte\[\])\
+  else if $feature\_code =$\`H':\
+    $hardclip\_length \gets$  <span class="smallcaps">ReadItem</span>(HC, Integer)\
+  else if $feature\_code =$\`P':\
+    $pad\_length \gets$       <span class="smallcaps">ReadItem</span>(PD, Integer)\
+  else if $feature\_code =$\`D':\
+    $deletion\_length \gets$  <span class="smallcaps">ReadItem</span>(DL, Integer)\
+  else if $feature\_code =$\`N':\
+    $ref\_skip\_length \gets$ <span class="smallcaps">ReadItem</span>(RS, Integer)\
+  else if $feature\_code =$\`i':\
+    $base \gets$              <span class="smallcaps">ReadItem</span>(BA, Byte)\
+  else if $feature\_code =$\`b':\
+    $bases \gets$             <span class="smallcaps">ReadItem</span>(BB, Byte\[\])\
+  else if $feature\_code =$\`q':\
+    $quality\_scores \gets$   <span class="smallcaps">ReadItem</span>(QQ, Byte\[\])\
+  else if $feature\_code =$\`Q':\
+    $quality\_score \gets$    <span class="smallcaps">ReadItem</span>(QS, Byte)
 
 </div>
 
@@ -2578,10 +2613,14 @@ additional fields:
 </tbody>
 </table>
 
-<div class="algorithmic">
+<div class="code-math-block">
 
-$base\gets$ <span class="smallcaps">ReadItem</span>(BA, Byte)
-$quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS, Byte)
+Procedure DecodeUnmappedRead()\
+  for $i\gets 1 \text{ \textbf{to} } read\_length$:\
+    $base\gets$ <span class="smallcaps">ReadItem</span>(BA, Byte)\
+  if $CF$ AND $1$:  // Quality stored as an array\
+    for $i\gets 1 \text{ \textbf{to} } read\_length$:\
+      $quality\_score\gets$ <span class="smallcaps">ReadItem</span>(QS, Byte)
 
 </div>
 
@@ -2600,7 +2639,7 @@ CRAM format has strict rules about reference sequences.
     `> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`\
     `1b22b98cdeb4a9304cb5d48026a85128 -`
 
-    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^``>``' tr -d '\n' tr a-z A-Z md5sum -`\
+    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`\
     `0f2a4865e3952676ffad2c3671f14057 -`
 
     Please note that the latter calculates the checksum for 11 bases
@@ -3374,7 +3413,7 @@ random positive numbers following geometric distribution.
 
 3.  Generate Codeword
 
-    1.  The Code format : `<`Quotient Code`>``<`Remainder Code`>`, where
+    1.  The Code format : `<`Quotient Code`><`Remainder Code`>`, where
 
     2.  Quotient Code (in unary coding)
 
