@@ -262,7 +262,7 @@ effectively the major sort. For example, if sorted by an auxiliary tag
 contain
 <span><code>@HD SO:unsorted SS:unsorted:MI:coordinate</code></span>.<br />
 <em>Regular expression</em>:
-<span><code>(coordinate&#124;queryname&#124;unsorted)(:[</code><code>A-Za-z0-9_-</code><code>]+)+</code></span>
+<span><code>(coordinate|queryname|unsorted)(:[</code><code>A-Za-z0-9_-</code><code>]+)+</code></span>
 <section id="footnotes" class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
 <hr />
@@ -442,7 +442,7 @@ concatenates all the barcodes separating them with hyphens
 nucleotides used for each flow of each read. Multi-base flows are
 encoded in IUPAC format, and non-nucleotide flows by various other
 characters. <em>Format</em>:
-<span><code>/*&#124;[ACMGRSVTWYHKDBN]+/</code></span></td>
+<span><code>/*|[ACMGRSVTWYHKDBN]+/</code></span></td>
 </tr>
 <tr>
 <td><span>2-3</span></td>
@@ -708,7 +708,7 @@ overview of these mandatory fields in the SAM format:
 <td>3</td>
 <td><span>RNAME</span></td>
 <td>String</td>
-<td><span><code>\*</code><code>&#124;[=][]*</code></span></td>
+<td><span><code>\*</code><code>|[=][]*</code></span></td>
 <td>Reference sequence NAME</td>
 </tr>
 <tr>
@@ -729,14 +729,14 @@ overview of these mandatory fields in the SAM format:
 <td>6</td>
 <td><span>CIGAR</span></td>
 <td>String</td>
-<td><span><code>*&#124;([0-9]+[MIDNSHP=X])+</code></span></td>
+<td><span><code>*|([0-9]+[MIDNSHP=X])+</code></span></td>
 <td>CIGAR string</td>
 </tr>
 <tr>
 <td>7</td>
 <td><span>RNEXT</span></td>
 <td>String</td>
-<td><span><code>\*</code><code>&#124;=&#124;[=][]*</code></span></td>
+<td><span><code>\*</code><code>|=|[=][]*</code></span></td>
 <td>Reference name of the mate/next read</td>
 </tr>
 <tr>
@@ -757,7 +757,7 @@ overview of these mandatory fields in the SAM format:
 <td>10</td>
 <td><span>SEQ</span></td>
 <td>String</td>
-<td><span><code>*&#124;[A-Za-z=.]+</code></span></td>
+<td><span><code>*|[A-Za-z=.]+</code></span></td>
 <td>segment SEQuence</td>
 </tr>
 <tr>

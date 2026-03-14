@@ -2,8 +2,7 @@
 import { getAllPosts } from '../lib/api';
 import Layout from '../layouts/Layout.astro';
 
-const allPosts = await getAllPosts();
-const postMap = Object.fromEntries(allPosts.map(p => [p.id, p]));
+const postIds = new Set((await getAllPosts()).map(p => p.id));
 
 const sections = [
   {
@@ -31,16 +30,9 @@ const sections = [
     <div>
       <h2>{section.heading}</h2>
       <ul>
-        {section.ids.filter(id => postMap[id]).map((id) => {
-          const spec = postMap[id];
-          return (
-            <li>
-              {spec.date && <span>{spec.date} - </span>}
-              <a href={`${import.meta.env.BASE_URL}/${spec.id}`}>{spec.id}</a>
-              {spec.title && spec.title !== spec.id && <span> — {spec.title}</span>}
-            </li>
-          );
-        })}
+        {section.ids.filter(id => postIds.has(id)).map(id => (
+          <li><a href={`${import.meta.env.BASE_URL}/${id}`}>{id}</a></li>
+        ))}
       </ul>
     </div>
   ))}

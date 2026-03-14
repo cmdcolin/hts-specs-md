@@ -21,27 +21,13 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
         color: #24292e;
         background-color: #ffffff;
       }
-      /* Native MathML styling to match page fonts */
-      math {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        font-size: 0.9em;
-      }
-      /* Aggressively target MathML internals to prevent serif defaults */
+      /* Override MathML serif defaults to match page font */
       math, math * {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
         font-style: normal !important;
-        mathvariant: normal !important;
-        text-transform: none !important;
       }
-      /* Firefox-specific fix for MathML tokens */
-      @-moz-document url-prefix() {
-        math mi, math mo, math mn, math mtext {
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-        }
-      }
-      /* Allow operators to stretch if needed but keep font */
-      math mo {
-        font-variant-logic: normal !important;
+      math {
+        font-size: 0.9em;
       }
       .katex-display {
         margin: 1.2em 0;
@@ -201,11 +187,9 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4);
         text-decoration: underline;
       }
       nav {
-        margin-bottom: 2rem;
-      }
-      nav {
         display: flex;
         gap: 1rem;
+        margin-bottom: 2rem;
       }
       nav a {
         text-decoration: none;

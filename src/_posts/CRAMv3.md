@@ -335,15 +335,15 @@ data series</td>
 <tr>
 <td>HUFFMAN</td>
 <td>3</td>
-<td>array<code>&lt;</code>int<code>></code>,
-array<code>&lt;</code>int<code>></code></td>
+<td>array<code>&lt;</code>int<code>&gt;</code>,
+array<code>&lt;</code>int<code>&gt;</code></td>
 <td>coding with int/byte values</td>
 </tr>
 <tr>
 <td>BYTE_ARRAY_LEN</td>
 <td>4</td>
-<td>encoding<code>&lt;</code>int<code>></code> array length,
-encoding<code>&lt;</code>byte<code>></code> bytes</td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code> array length,
+encoding<code>&lt;</code>byte<code>&gt;</code> bytes</td>
 <td>coding of byte arrays with array length</td>
 </tr>
 <tr>
@@ -575,7 +575,7 @@ sequence id matching this value.</td>
 <td>the total number of blocks in this container</td>
 </tr>
 <tr>
-<td>array<code>&lt;</code>itf8<code>></code></td>
+<td>array<code>&lt;</code>itf8<code>&gt;</code></td>
 <td>landmarks</td>
 <td>the locations of slices in this container as byte offsets from the end
 of this container header, used for random access indexing. For sequence
@@ -847,7 +847,7 @@ in the CRAM file. It is stored as a map with byte\[2\] keys:
 </tr>
 <tr>
 <td>TD</td>
-<td>array<code>&lt;</code>byte<code>></code></td>
+<td>array<code>&lt;</code>byte<code>&gt;</code></td>
 <td>tag ids dictionary</td>
 <td>a list of lists of tag ids, see tag encoding section</td>
 </tr>
@@ -877,31 +877,31 @@ with byte\[2\] keys and are decoded in approximately this order[^2]:
 <tbody>
 <tr>
 <td>BF</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>BAM bit flags</td>
 <td>see separate section</td>
 </tr>
 <tr>
 <td>CF</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>CRAM bit flags</td>
 <td>see specific section</td>
 </tr>
 <tr>
 <td>RI</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>reference id</td>
 <td>record reference id from the SAM file header</td>
 </tr>
 <tr>
 <td>RL</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>read lengths</td>
 <td>read lengths</td>
 </tr>
 <tr>
 <td>AP</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>in-seq positions</td>
 <td>if <strong>AP-Delta</strong> = true: 0-based alignment start delta from
 the AP value in the previous record. Note this delta may be negative,
@@ -914,140 +914,140 @@ start position directly (1-based)</td>
 </tr>
 <tr>
 <td>RG</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>read groups</td>
 <td>read groups. Special value '-1' stands for no group.</td>
 </tr>
 <tr>
 <td>RN</td>
-<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>encoding<code>&lt;</code>byte[ ]<code>&gt;</code></td>
 <td>read names</td>
 <td>read names</td>
 </tr>
 <tr>
 <td>MF</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>next mate bit flags</td>
 <td>see specific section</td>
 </tr>
 <tr>
 <td>NS</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>next fragment reference sequence id</td>
 <td>reference sequence ids for the next fragment</td>
 </tr>
 <tr>
 <td>NP</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>next mate alignment start</td>
 <td>alignment positions for the next fragment (1-based)</td>
 </tr>
 <tr>
 <td>TS</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>template size</td>
 <td>template sizes</td>
 </tr>
 <tr>
 <td>NF</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>distance to next fragment</td>
 <td>number of records to skip to the next fragment</td>
 </tr>
 <tr>
 <td>TL</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>tag ids</td>
 <td>list of tag ids, see tag encoding section</td>
 </tr>
 <tr>
 <td>FN</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>number of read features</td>
 <td>number of read features in each record</td>
 </tr>
 <tr>
 <td>FC</td>
-<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>encoding<code>&lt;</code>byte<code>&gt;</code></td>
 <td>read features codes</td>
 <td>see separate section</td>
 </tr>
 <tr>
 <td>FP</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>in-read positions</td>
 <td>positions of the read features; a positive delta to the last position
 (starting with zero)</td>
 </tr>
 <tr>
 <td>DL</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>deletion lengths</td>
 <td>base-pair deletion lengths</td>
 </tr>
 <tr>
 <td>BB</td>
-<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>encoding<code>&lt;</code>byte[ ]<code>&gt;</code></td>
 <td>stretches of bases</td>
 <td>bases</td>
 </tr>
 <tr>
 <td>QQ</td>
-<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>encoding<code>&lt;</code>byte[ ]<code>&gt;</code></td>
 <td>stretches of quality scores</td>
 <td>quality scores</td>
 </tr>
 <tr>
 <td>BS</td>
-<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>encoding<code>&lt;</code>byte<code>&gt;</code></td>
 <td>base substitution codes</td>
 <td>base substitution codes</td>
 </tr>
 <tr>
 <td>IN</td>
-<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>encoding<code>&lt;</code>byte[ ]<code>&gt;</code></td>
 <td>insertion</td>
 <td>inserted bases</td>
 </tr>
 <tr>
 <td>RS</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>reference skip length</td>
 <td>number of skipped bases for the 'N' read feature</td>
 </tr>
 <tr>
 <td>PD</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>padding</td>
 <td>number of padded bases</td>
 </tr>
 <tr>
 <td>HC</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>hard clip</td>
 <td>number of hard clipped bases</td>
 </tr>
 <tr>
 <td>SC</td>
-<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>encoding<code>&lt;</code>byte[ ]<code>&gt;</code></td>
 <td>soft clip</td>
 <td>soft clipped bases</td>
 </tr>
 <tr>
 <td>MQ</td>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>mapping qualities</td>
 <td>mapping quality scores</td>
 </tr>
 <tr>
 <td>BA</td>
-<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>encoding<code>&lt;</code>byte<code>&gt;</code></td>
 <td>bases</td>
 <td>bases</td>
 </tr>
 <tr>
 <td>QS</td>
-<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>encoding<code>&lt;</code>byte<code>&gt;</code></td>
 <td>quality scores</td>
 <td>quality scores</td>
 </tr>
@@ -1139,7 +1139,7 @@ stream {0xE0, 0x4F, 0x51, 0x5A}.
 <tbody>
 <tr>
 <td>TAG ID 1:TAG TYPE 1</td>
-<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>encoding<code>&lt;</code>byte[ ]<code>&gt;</code></td>
 <td>read tag 1</td>
 <td>tag values (names and types are available in the data series code)</td>
 </tr>
@@ -1151,7 +1151,7 @@ stream {0xE0, 0x4F, 0x51, 0x5A}.
 </tr>
 <tr>
 <td>TAG ID N:TAG TYPE N</td>
-<td>encoding<code>&lt;</code>byte[ ]<code>></code></td>
+<td>encoding<code>&lt;</code>byte[ ]<code>&gt;</code></td>
 <td>read tag N</td>
 <td>...</td>
 </tr>
@@ -2911,12 +2911,12 @@ The parameter for BYTE_ARRAY_LEN are listed below:
 </thead>
 <tbody>
 <tr>
-<td>encoding<code>&lt;</code>int<code>></code></td>
+<td>encoding<code>&lt;</code>int<code>&gt;</code></td>
 <td>lengths encoding</td>
 <td>an encoding describing how the arrays lengths are captured</td>
 </tr>
 <tr>
-<td>encoding<code>&lt;</code>byte<code>></code></td>
+<td>encoding<code>&lt;</code>byte<code>&gt;</code></td>
 <td>values encoding</td>
 <td>an encoding describing how the values are captured</td>
 </tr>

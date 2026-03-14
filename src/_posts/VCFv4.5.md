@@ -338,7 +338,7 @@ Examples:
 <td>C</td>
 <td>.</td>
 <td>GT:M5mC:M5hmC</td>
-<td><span><code>0&#124;0:0.9,0:0,0.1</code></span></td>
+<td><span><code>0|0:0.9,0:0,0.1</code></span></td>
 </tr>
 <tr>
 <td>chr</td>
@@ -346,7 +346,7 @@ Examples:
 <td>C</td>
 <td>A,T,G,ACG</td>
 <td>GT:M5mC</td>
-<td><span><code>/3&#124;1/0&#124;4&#124;0/0/3/1:0.25,0.1,0.5,0.6,.</code></span></td>
+<td><span><code>/3|1/0|4|0/0/3/1:0.25,0.1,0.5,0.6,.</code></span></td>
 </tr>
 </tbody>
 </table>
@@ -1559,7 +1559,7 @@ integer</td>
   <td>C</td>
   <td>.</td>
   <td>GT:PS:M5mC:DPM5mC:ADM5mC</td>
-  <td><span><code>0&#124;0:20:0.75,.:4,.:3,.</code></span></td>
+  <td><span><code>0|0:20:0.75,.:4,.:3,.</code></span></td>
   </tr>
   <tr>
   <td>chr</td>
@@ -1567,7 +1567,7 @@ integer</td>
   <td>G</td>
   <td>A</td>
   <td>GT:PS:M5mC:DPM5mC:ADM5mC</td>
-  <td><span><code>0&#124;1:20:0.33:3:1</code></span></td>
+  <td><span><code>0|1:20:0.33:3:1</code></span></td>
   </tr>
   </tbody>
   </table>
@@ -1650,7 +1650,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>&#124;0/1:chr19*5*1,.</code></span></td>
+  <td><span><code>|0/1:chr19*5*1,.</code></span></td>
   </tr>
   <tr>
   <td>chr20</td>
@@ -1662,7 +1662,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>&#124;1/2&#124;3:chr20*10*1,.,chr19*5*1</code></span></td>
+  <td><span><code>|1/2|3:chr20*10*1,.,chr19*5*1</code></span><code> </code></td>
   </tr>
   <tr>
   <td>chr20</td>
@@ -1674,7 +1674,7 @@ integer</td>
   <td>PASS</td>
   <td>DP=100</td>
   <td>GT:PSL</td>
-  <td><span><code>1&#124;2:.,chr20*10*1</code></span></td>
+  <td><span><code>1|2:.,chr20*10*1</code></span></td>
   </tr>
   </tbody>
   </table>
@@ -1713,7 +1713,7 @@ integer</td>
   <td>&lt;DUP&gt;</td>
   <td>SVCLAIM=DJ</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0&#124;1:.,.,chr1*10*3:.,.,3</code></span></td>
+  <td><span><code>/0/0|1:.,.,chr1*10*3:.,.,3</code></span></td>
   </tr>
   <tr>
   <td>chr1</td>
@@ -1722,7 +1722,7 @@ integer</td>
   <td>G</td>
   <td>.</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code></span></td>
+  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,4,1</code></span><code> </code></td>
   </tr>
   <tr>
   <td>chr1</td>
@@ -1731,7 +1731,7 @@ integer</td>
   <td>T</td>
   <td>.</td>
   <td>GT:PSL:PSO</td>
-  <td><span><code>/0/0&#124;0&#124;1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code></span></td>
+  <td><span><code>/0/0|0|1:.,.,chr1*10*1,chr1*10*3:.,.,2,5</code></span><code> </code></td>
   </tr>
   </tbody>
   </table>

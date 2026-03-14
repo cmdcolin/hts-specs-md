@@ -170,16 +170,11 @@ This printing is version {commit} from the [hts-specs](https://github.com/samtoo
     final_content = re.sub(r'<em>…Continued from previous.*?</em>', '', final_content, flags=re.IGNORECASE)
     final_content = re.sub(r'<em>Continued on next.*?</em>', '', final_content, flags=re.IGNORECASE)
 
-    # Fix nested $ in \textrm{} and \text{} inside math - remark-math splits on inner $
+    # Fix nested $ in \text{}/\textrm{} inside math - remark-math splits on inner $
     # e.g. \textrm{if $i < 1$} -> \textrm{if } i < 1
     final_content = re.sub(
-        r'\\textrm\{([^$}]*)\$([^$]*)\$([^}]*)\}',
-        r'\\textrm{\1} \2 \\textrm{\3}',
-        final_content
-    )
-    final_content = re.sub(
-        r'\\text\{([^$}]*)\$([^$]*)\$([^}]*)\}',
-        r'\\text{\1} \2 \\text{\3}',
+        r'\\(text(?:rm)?)\{([^$}]*)\$([^$]*)\$([^}]*)\}',
+        r'\\\1{\2} \3 \\\1{\4}',
         final_content
     )
 

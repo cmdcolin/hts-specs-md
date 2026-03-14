@@ -135,7 +135,7 @@ This printing is version 39feb09 from the [hts-specs](https://github.com/samtool
 <tr>
 <td><span><code>GT</code></span></td>
 <td><span><code>uint8_t[n]</code></span></td>
-<td><span><code>missing 7 &#124; phased 6 &#124; allele1 3 &#124; allele2</code></span></td>
+<td><span><code>missing 7 | phased 6 | allele1 3 | allele2</code></span></td>
 </tr>
 <tr>
 <td><span><code>_GT</code></span></td>

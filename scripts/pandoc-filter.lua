@@ -73,8 +73,6 @@ end
 
 function Div(el)
   if el.classes:includes("framed") then
-    -- Convert to a div with a specific class for Jekyll/kramdown
-    -- or just a blockquote
     return pandoc.BlockQuote(el.content)
   end
   -- Remove samepage class which is internal PDF stuff and causes fenced divs output
@@ -183,28 +181,6 @@ local function blocks_to_html(blocks)
   return html
 end
 
-local function escape_pipes(content)
-  if not content then return end
-  for i, el in ipairs(content) do
-    if el.t == "Str" then
-      el.text = el.text:gsub("|", "&#124;")
-      content[i] = el
-    elseif el.t == "Code" then
-      if el.text:match("^%s*$") then
-        content[i] = pandoc.Str(el.text)
-      else
-        -- Convert Code element to raw HTML <code> tag to protect pipes
-        local html = el.text:gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("|", "&#124;")
-        content[i] = pandoc.RawInline('html', '<code>' .. html .. '</code>')
-      end
-    elseif el.content then
-      escape_pipes(el.content)
-    elseif el.caption and el.caption.content then
-      escape_pipes(el.caption.content)
-    end
-  end
-end
-
 function Table(el)
   local header = el.head.rows[1]
   local is_empty_header = true
@@ -277,7 +253,6 @@ function Table(el)
       for i = 1, actual_max_cols do
         local cell = row.cells[i]
         if cell then
-          escape_pipes(cell.contents)
           table.insert(html, "<th>" .. blocks_to_html(cell.contents) .. "</th>")
         else
           table.insert(html, "<th></th>")
@@ -296,7 +271,6 @@ function Table(el)
       for i = 1, actual_max_cols do
         local cell = row.cells[i]
         if cell then
-          escape_pipes(cell.contents)
           table.insert(html, "<td>" .. blocks_to_html(cell.contents) .. "</td>")
         else
           table.insert(html, "<td></td>")
@@ -313,37 +287,31 @@ end
 
 -- Simplify custom hts-specs LaTeX operators into standard LaTeX/text
 local function simplify_math_text(text)
-  -- Remove % comments (everything from unescaped % to end of line)
-  -- But preserve \% (escaped percent/modulo)
-  text = text:gsub("\\%%", "\0ESCAPED_PERCENT\0")
+  -- Preserve \% (escaped percent/modulo) before stripping comments
+  text = text:gsub("\\%%", "\0PCTESC\0")
   text = text:gsub("%%[^\n]*\n%s*", " ")
   text = text:gsub("%%[^\n]*$", "")
-  text = text:gsub("\0ESCAPED_PERCENT\0", "\\%%")
-  -- Remove spacing macros: \nonscript\mskip-\medmuskip\mkern 5mu
+  text = text:gsub("\0PCTESC\0", "\\%%")
+
+  -- Remove hts-specs custom spacing: \nonscript\mskip-\medmuskip[\mkern 5mu]
   text = text:gsub("\\nonscript\\mskip%-\\medmuskip\\mkern%s*5mu", " ")
-  -- Remove standalone \nonscript\mskip-\medmuskip
   text = text:gsub("\\nonscript\\mskip%-\\medmuskip", " ")
-  -- Remove \penalty NNN\mkern 5mu
   text = text:gsub("\\penalty%s*%d+\\mkern%s*5mu", " ")
-  -- Replace \mathbin{\operator@font \textbf{word}} with the word
+
+  -- Replace custom operator macros with standard LaTeX
   text = text:gsub("\\mathbin{\\operator@font%s+\\textbf{(%w+)}}", " \\textbf{%1} ")
-  -- Replace \mathbin{\operator@font WORD} with the word
   text = text:gsub("\\mathbin{\\operator@font%s+(%w+)}", " \\text{%1} ")
-  -- Replace shift operators: \mathbin{<\mkern-3mu<\,} -> \ll
-  text = text:gsub("\\mathbin{<\\mkern%-3mu<\\,}", "\\ll ")
-  -- Replace shift operators: \mathbin{>\mkern-3mu>\,} -> \gg
-  text = text:gsub("\\mathbin{>\\mkern%-3mu>\\,}", "\\gg ")
-  -- Replace concat: \mathbin{+\mkern-10mu+\,} -> ++
-  text = text:gsub("\\mathbin{%+\\mkern%-10mu%+\\,}", "\\mathbin{++}")
-  -- Replace \underline{content} with content (pandoc can't do underline in math)
+  text = text:gsub("\\mathbin{<[^}]*}", "\\ll ")
+  text = text:gsub("\\mathbin{>[^}]*}", "\\gg ")
+  text = text:gsub("\\mathbin{%+[^}]*}", "\\mathbin{++}")
+
+  -- Replace unsupported font/layout commands with pandoc-compatible equivalents
   text = text:gsub("\\underline{([^}]*)}", "%1")
-  -- Replace \mbox{content} with content (not supported in pandoc math)
   text = text:gsub("\\mbox{([^}]*)}", "%1")
-  -- Replace {\sf content} with \mathsf{content} (pandoc doesn't support \sf in math)
   text = text:gsub("{\\sf%s+([^}]*)}", "\\mathsf{%1}")
-  -- Replace bare \sf WORD with \mathsf{WORD}
   text = text:gsub("\\sf%s+([%w_]+)", "\\mathsf{%1}")
-  -- Clean up multiple spaces
+
+  -- Normalize whitespace
   text = text:gsub("%s+", " ")
   text = text:gsub("^%s+", ""):gsub("%s+$", "")
   return text
