@@ -138,7 +138,7 @@ bits, shifting in zeros</td>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mrow><mi>+</mi><mo>+</mo></mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">a \mathbin{++}b</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mtext mathvariant="normal">++</mtext><mi>b</mi></mrow><annotation encoding="application/x-tex">a \text{++} b</annotation></semantics></math></td>
 <td>String concatenation of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
 and
@@ -172,10 +172,10 @@ may be passed into a function.</td>
 </tbody>
 </table>
 
-Note that string concatenation with the $\mathbin{++}$ operator assumes
-the left and right values are converted to string form. For example
-"level" $\mathbin{++}42$ will convert the integer 42 to "42" and produce
-the string "level42".
+Note that string concatenation with the $\text{++}$ operator assumes the
+left and right values are converted to string form. For example "level"
+$\text{++} 42$ will convert the integer 42 to "42" and produce the
+string "level42".
 
 ## 1.3 Implicit functions
 

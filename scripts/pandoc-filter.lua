@@ -131,7 +131,7 @@ local function simplify_math_text(text)
   text = text:gsub("\\bitxor", "\\mathbin{\\text{XOR}}")
   text = text:gsub("\\logor",  "\\text{ \\textbf{or} }")
   text = text:gsub("\\logand", "\\text{ \\textbf{and} }")
-  text = text:gsub("\\concat", "\\mathbin{+\\!\\!+}")
+  -- \concat is replaced in tex2md.py before pandoc expands the macro
 
   -- Replace custom operator macros with standard LaTeX
   text = text:gsub("\\mathbin{\\operator@font%s+\\textbf{(%w+)}}", "\\mathbin{\\textbf{%1}}")
@@ -270,6 +270,7 @@ local function math_to_text(text)
   text = text:gsub("\\text{ \\textbf{or} }",  " or ")
   text = text:gsub("\\text{ \\textbf{and} }", " and ")
   text = text:gsub("\\mathbin{%+%+}", "++")
+  text = text:gsub("\\text{%+%+}", "++")
   text = text:gsub("\\mathbin{[^{}]*}", " ")
   -- Font commands: strip wrapper, keep content
   text = text:gsub("\\mathtt{([^}]*)}", "%1")
@@ -278,7 +279,6 @@ local function math_to_text(text)
   text = text:gsub("\\textit{([^}]*)}", "%1")
   text = text:gsub("\\text{([^}]*)}", "%1")
   text = text:gsub("\\textbf{([^}]*)}", "%1")
-  text = text:gsub("\\textit{([^}]*)}", "%1")
   text = text:gsub("\\texttt{([^}]*)}", "%1")
   text = text:gsub("\\textsc{([^}]*)}", "%1")
   -- Escaped underscore (\_) and other special chars in math → literal

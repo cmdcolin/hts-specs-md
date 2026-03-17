@@ -351,19 +351,11 @@ def main():
     with open(input_tex, 'r') as f:
         content = f.read()
     
-    title_raw = input_tex
     title_start = content.find(r'\title{')
     if title_start != -1:
-        start_pos = title_start + 7
-        brace_count = 1
-        for i in range(start_pos, len(content)):
-            if content[i] == '{':
-                brace_count += 1
-            elif content[i] == '}':
-                brace_count -= 1
-            if brace_count == 0:
-                title_raw = content[start_pos:i]
-                break
+        title_raw, _ = get_first_brace(content[title_start + 6:])
+    else:
+        title_raw = input_tex
     
     # Use pandoc to clean up the title
     title_proc = subprocess.run(["pandoc", "-f", "latex", "-t", "plain"], input=title_raw, capture_output=True, text=True)
@@ -392,6 +384,9 @@ def main():
     if doc_start_match:
         body = content[doc_start_match.start():]
         # Strip problematic macros that confuse pandoc but aren't needed for MD
+        # Replace \concat with plain ++ before pandoc expands the \newcommand
+        body = re.sub(r'\\newcommand\\concat\{[^}]*\{[^}]*\}\}.*?\n', '', body)
+        body = re.sub(r'\\concat\b', r'\\text{++}', body)
         body = re.sub(r'\\algblockdefx\[Foreach\].*?\n', '', body)
         body = re.sub(r'\\algnewcommand.*?\n', '', body)
         # Strip non-standard \Comment(...) with parentheses (may span lines)
@@ -493,24 +488,16 @@ date: {date}
 
 """
     
-    # Clean up some common pandoc artifacts
-    # Remove everything up to and including the first # Title if it exists
-    # or just start from the first # Section
+    # Skip pandoc's title heading (# Title) or start from the first ## Section
     lines = md_content.splitlines()
     start_idx = 0
-    found_title = False
     for i, line in enumerate(lines[:30]):
         if line.startswith("# "):
             start_idx = i + 1
-            found_title = True
             break
-            
-    if not found_title:
-        # If no # Title found, look for first ## Section
-        for i, line in enumerate(lines[:30]):
-            if line.startswith("## "):
-                start_idx = i
-                break
+        if line.startswith("## "):
+            start_idx = i
+            break
 
     final_content = front_matter + "\n".join(lines[start_idx:])
     
