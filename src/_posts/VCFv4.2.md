@@ -2787,8 +2787,6 @@ would encoded as the equivalent of:
 <th>DP=1,8,5</th>
 </tr>
 </thead>
-<tbody>
-</tbody>
 </table>
 
 Suppose there are i genotype fields in a specific record. Each i is
@@ -3011,8 +3009,6 @@ the type byte is the four byte ASCII encoding of "`ACAC`": 0x41 0x43
 <th>String type with inline size of 4 followed by ACAC in ASCII</th>
 </tr>
 </thead>
-<tbody>
-</tbody>
 </table>
 
 Suppose you want to encode the string "`VariantCallFormatSampleText`", a
@@ -3288,8 +3284,6 @@ precision 32-bit float:
 <th>QUAL = 30.1 as 32-bit float</th>
 </tr>
 </thead>
-<tbody>
-</tbody>
 </table>
 
 ### 6.4.3 Encoding ID
@@ -3305,8 +3299,6 @@ which would then be followed by the five bytes for the string of
 <th>ID</th>
 </tr>
 </thead>
-<tbody>
-</tbody>
 </table>
 
 ### 6.4.4 Encoding REF/ALT fields
@@ -3349,8 +3341,6 @@ is the offset 0:
 <th>FILTER field PASS</th>
 </tr>
 </thead>
-<tbody>
-</tbody>
 </table>
 
 ### 6.4.6 Encoding the INFO fields
@@ -3372,8 +3362,6 @@ Altogether we have:
 <th>HM3 flag is present</th>
 </tr>
 </thead>
-<tbody>
-</tbody>
 </table>
 
 Now let's encode the two atomic 8-bit integer fields AC and AN:

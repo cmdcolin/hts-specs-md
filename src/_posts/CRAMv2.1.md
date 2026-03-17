@@ -118,15 +118,15 @@ After flushing the above bit stream the following bytes are written:
 0xB0 0x70. Please note that the last byte was 0x7 before shifting to the
 left and became 0x70 after that:
 
-`> echo "obase=16; ibase=2; 00000111" bc`\
-`7`\
+`> echo "obase=16; ibase=2; 00000111" bc`
+`7`
 
-`> echo "obase=16; ibase=2; 01110000" bc`\
+`> echo "obase=16; ibase=2; 01110000" bc`
 `70`
 
 And the whole bit sequence:
 
-`> echo "obase=2; ibase=16; B070" bc`\
+`> echo "obase=2; ibase=16; B070" bc`
 `1011000001110000`
 
 When reading the bits from the bit sequence it must be known that only
@@ -262,8 +262,6 @@ is written as follows:
 <th>value N</th>
 </tr>
 </thead>
-<tbody>
-</tbody>
 </table>
 
 Both the size in bytes and the number of keys are written as integer
@@ -1892,10 +1890,10 @@ CRAM format has strict rules about reference sequences.
     MD5 is to remove any non-base symbols (like \n, sequence name or
     length and spaces) and upper case the rest. Here are some examples:
 
-    `> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`\
+    `> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`
     `1b22b98cdeb4a9304cb5d48026a85128 -`
 
-    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`\
+    `> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -`
     `0f2a4865e3952676ffad2c3671f14057 -`
 
     Please note that the latter calculates the checksum for 11 bases

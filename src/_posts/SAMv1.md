@@ -1775,52 +1775,48 @@ type character and then its value, whose length is determined by the
 field's type.
 
 Single character '`A`' fields have a total length of 4 bytes, with the
-value represented as a single byte:
+value represented as a single byte: 
 
-<div class="center">
+<table class="bytebox-diagram">
+<tbody>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">A</td><td style="text-align:center">char</td></tr>
+</tbody>
+</table>
 
-</div>
+
 
 While all single (i.e., non-array) integer types are stored in SAM as
 '`i`', in BAM any of '`cCsSiI`' may be used together with the
 correspondingly-sized binary integer value, chosen according to the
 field value's magnitude. [^17] Similarly floating point '`f`' fields are
 represented as IEEE 754-2008 binary32 values. Thus BAM numeric fields
-have a total length of 4, 5, or 7 bytes:
+have a total length of 4, 5, or 7 bytes: 
 
-<div class="center">
-
-<table>
-<thead>
-<tr>
-<th>(i.e., <code>int8_t</code>)</th>
-</tr>
-</thead>
+<table class="bytebox-diagram">
 <tbody>
-<tr>
-<td>(i.e., <code>uint8_t</code>)</td>
-</tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">c</td><td style="text-align:center">i8</td><td style="border:none;padding-left:1em">i.e., int8_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">i</td><td style="min-width:12em;text-align:center">int32_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">C</td><td style="text-align:center">u8</td><td style="border:none;padding-left:1em">i.e., uint8_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">I</td><td style="min-width:12em;text-align:center">uint32_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">s</td><td style="min-width:6em;text-align:center">int16_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">f</td><td style="min-width:12em;text-align:center">float</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">S</td><td style="min-width:6em;text-align:center">uint16_t</td></tr>
 </tbody>
 </table>
 
-</div>
+
 
 String fields and hex-formatted byte arrays are represented as
-`NUL`-terminated text strings: [^18]
+`NUL`-terminated text strings: [^18] 
 
-<div class="center">
-
-<table>
-<thead>
-<tr>
-<th></th>
-</tr>
-</thead>
+<table class="bytebox-diagram">
 <tbody>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">Z</td><td style="text-align:center">char</td><td style="text-align:center">char</td><td style="text-align:center">...</td><td style="text-align:center">char</td><td style="text-align:center">NUL</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">H</td><td style="min-width:6em;text-align:center">hex hex</td><td style="min-width:6em;text-align:center">hex hex</td><td style="text-align:center">...</td><td style="min-width:6em;text-align:center">hex hex</td><td style="text-align:center">NUL</td></tr>
 </tbody>
 </table>
 
-</div>
+
 
 The representation of a '`B`' array field starts with a sub-type
 character similar to the numeric field types above and a *count*
@@ -1828,22 +1824,20 @@ character similar to the numeric field types above and a *count*
 elements in the array. The array elements follow, encoded as binary
 integers or IEEE floats sized according to the sub-type:
 
-<div class="center">
 
-<table>
-<thead>
-<tr>
-<th>(i.e., <code>int8_t</code> elements)</th>
-</tr>
-</thead>
+<table class="bytebox-diagram">
 <tbody>
-<tr>
-<td>(i.e., <code>uint8_t</code> elements)</td>
-</tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">B</td><td style="text-align:center">c</td><td style="min-width:12em;text-align:center">count</td><td style="text-align:center">i8</td><td style="text-align:center">i8</td><td style="text-align:center">...</td><td style="text-align:center">i8</td><td style="border:none;padding-left:1em">i.e., int8_t elements</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">B</td><td style="text-align:center">C</td><td style="min-width:12em;text-align:center">count</td><td style="text-align:center">u8</td><td style="text-align:center">u8</td><td style="text-align:center">...</td><td style="text-align:center">u8</td><td style="border:none;padding-left:1em">i.e., uint8_t elements</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">B</td><td style="text-align:center">s</td><td style="min-width:12em;text-align:center">count</td><td style="min-width:6em;text-align:center">int16_t</td><td style="min-width:6em;text-align:center">int16_t</td><td style="text-align:center">...</td><td style="min-width:6em;text-align:center">int16_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">B</td><td style="text-align:center">S</td><td style="min-width:12em;text-align:center">count</td><td style="min-width:6em;text-align:center">uint16_t</td><td style="min-width:6em;text-align:center">uint16_t</td><td style="text-align:center">...</td><td style="min-width:6em;text-align:center">uint16_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">B</td><td style="text-align:center">i</td><td style="min-width:12em;text-align:center">count</td><td style="min-width:12em;text-align:center">int32_t</td><td style="min-width:12em;text-align:center">int32_t</td><td style="text-align:center">...</td><td style="min-width:12em;text-align:center">int32_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">B</td><td style="text-align:center">I</td><td style="min-width:12em;text-align:center">count</td><td style="min-width:12em;text-align:center">uint32_t</td><td style="min-width:12em;text-align:center">uint32_t</td><td style="text-align:center">...</td><td style="min-width:12em;text-align:center">uint32_t</td></tr>
+<tr><td style="min-width:6em;text-align:center">tag</td><td style="text-align:center">B</td><td style="text-align:center">f</td><td style="min-width:12em;text-align:center">count</td><td style="min-width:12em;text-align:center">float</td><td style="min-width:12em;text-align:center">float</td><td style="text-align:center">...</td><td style="min-width:12em;text-align:center">float</td></tr>
 </tbody>
 </table>
 
-</div>
+
 
 # 5 Indexing BAM
 

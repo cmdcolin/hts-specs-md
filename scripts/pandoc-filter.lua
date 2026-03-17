@@ -621,7 +621,63 @@ function Table(el)
   table.insert(html, "</tbody>")
   table.insert(html, "</table>")
 
-  return pandoc.RawBlock('html', table.concat(html, "\n"))
+  local result = table.concat(html, "\n")
+  -- Strip empty <tbody></tbody> (from single-row header-only tables)
+  result = result:gsub("\n<tbody>\n</tbody>", "")
+  return pandoc.RawBlock('html', result)
+end
+
+-- Convert math expressions containing \textsf (which Pandoc's math writer
+-- can't handle) into Pandoc inline elements so blocks_to_html() renders
+-- them as regular HTML instead of broken MathML.
+local function math_with_textsf_to_inlines(text)
+  local result = {}
+  local i = 1
+  while i <= #text do
+    local ts = text:find("\\textsf%s*{", i)
+    if not ts then
+      local rest = text:sub(i):gsub("^%s+", ""):gsub("%s+$", "")
+      if #rest > 0 then
+        -- Convert remaining simple math tokens to text
+        rest = rest:gsub("\\textit{([^}]*)}", "%1")
+        rest = rest:gsub("\\mathit{([^}]*)}", "%1")
+        rest = rest:gsub("\\text{([^}]*)}", "%1")
+        rest = rest:gsub("%-", "\xe2\x88\x92")
+        table.insert(result, pandoc.Str(rest))
+      end
+      break
+    end
+    -- Text before \textsf
+    if ts > i then
+      local before = text:sub(i, ts - 1):gsub("^%s+", ""):gsub("%s+$", "")
+      if #before > 0 then
+        before = before:gsub("%-", "\xe2\x88\x92")
+        table.insert(result, pandoc.Str(before))
+      end
+    end
+    -- Find the balanced brace group after \textsf
+    local brace_start = text:find("{", ts)
+    local depth = 0
+    local j = brace_start
+    while j <= #text do
+      if text:sub(j, j) == "{" then depth = depth + 1
+      elseif text:sub(j, j) == "}" then
+        depth = depth - 1
+        if depth == 0 then break end
+      end
+      j = j + 1
+    end
+    local inner = text:sub(brace_start + 1, j - 1)
+    -- Strip \textit{} wrapper if present
+    inner = inner:gsub("^\\textit{(.*)}$", "%1")
+    inner = inner:gsub("^\\mathit{(.*)}$", "%1")
+    table.insert(result, pandoc.Span(
+      {pandoc.Str(inner)},
+      pandoc.Attr("", {"sans-serif"})
+    ))
+    i = j + 1
+  end
+  return result
 end
 
 -- Simplify custom hts-specs LaTeX operators into standard LaTeX/text
@@ -640,6 +696,12 @@ function Math(el)
     -- Convert all-caps field names like $CIPOS$ to code literals
     if el.text:match("^[A-Z][A-Z_0-9=,%. %/-]*[A-Z_0-9=,%. %/-]$") then
       return pandoc.Code(el.text)
+    end
+
+    -- Convert math containing \textsf to inline elements since Pandoc's
+    -- math writer can't handle \textsf and produces broken MathML
+    if el.text:match("\\textsf") then
+      return math_with_textsf_to_inlines(el.text)
     end
   end
   return el

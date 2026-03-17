@@ -312,10 +312,9 @@ role="doc-backlink">↩︎</a></p></li>
 <td>10</td>
 <td><span class="sans-serif">blockCount</span></td>
 <td>Int</td>
-<td>$[0,
-\textsf{\textit{chromEnd}}-\textsf{\textit{chromStart}}]$<a
-href="#fn1" class="footnote-ref" id="fnref1"
-role="doc-noteref"><sup>1</sup></a>
+<td>[0,<span class="sans-serif">chromEnd</span>−<span
+class="sans-serif">chromStart</span>]<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a>
 <section id="footnotes" class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
 <hr />
@@ -340,8 +339,9 @@ role="doc-noteref"><sup>1</sup></a>
 role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>For example, if $\textsf{\textit{blockCount}} = 4$, then the
-allowed <span data-acronym-label="regex"
+<li id="fn1"><p>For example, if <span
+class="sans-serif">blockCount</span>= 4, then the allowed <span
+data-acronym-label="regex"
 data-acronym-form="singular+short">regex</span> would
 be <code>([[:digit:]]+,){3}[[:digit:]]+,?</code><a href="#fnref1"
 class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -514,11 +514,11 @@ system**.
     corresponding element in <span class="sans-serif">blockSizes</span>.
     Each <span class="sans-serif">blockStarts</span> element must be an
     integer between 0
-    and $\textsf{\textit{chromEnd}} - \textsf{\textit{chromStart}}$,
+    and <span class="sans-serif">chromEnd</span>−<span class="sans-serif">chromStart</span>,
     inclusive. For each couple $i$
-    of $(\textsf{\textit{blockStarts}}_i, \textsf{\textit{blockSizes}}_i)$,
+    of (<span class="sans-serif">blockStarts</span>\_i,<span class="sans-serif">blockSizes</span>\_i),
     the
-    quantity $\textsf{\textit{chromStart}} + \textsf{\textit{blockStarts}}_i + \textsf{\textit{blockSizes}}_i$
+    quantity <span class="sans-serif">chromStart</span>+<span class="sans-serif">blockStarts</span>\_i +<span class="sans-serif">blockSizes</span>\_i
     must be less or equal to <span class="sans-serif">chromEnd</span>.
     These conditions enforce that each **block** is contained within
     the **feature**. The first **block** must start

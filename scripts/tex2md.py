@@ -327,6 +327,131 @@ def generate_tikz_svgs(content, tex_basename, img_dir):
     return content[:body_start] + new_body
 
 
+_bytebox_store = {}
+
+
+def _parse_bytebox_label(text):
+    """Clean a bytebox label: strip font commands like \\tt, \\em, convert \\_."""
+    text = re.sub(r'\\tt\s+', '', text)
+    text = re.sub(r'\\em\s+', '', text)
+    text = re.sub(r'\\texttt\{([^}]*)\}', r'\1', text)
+    text = text.replace(r'\_', '_')
+    return text.strip()
+
+
+def _expand_bytebox_line(line):
+    """Expand a line of bytebox macros into a list of (width, label) tuples."""
+    # First expand \arraytagfield{subtype}{size}{label}
+    while r'\arraytagfield{' in line:
+        idx = line.index(r'\arraytagfield{')
+        subtype, rest = get_first_brace(line[idx + len(r'\arraytagfield'):])
+        size, rest = get_first_brace(rest)
+        label, rest = get_first_brace(rest)
+        replacement = (r'\tagfield{B}{\bytebox{1}{\tt ' + subtype + r'}\bytebox{4}{\em count}'
+                        r'\byteboxvector{' + size + '}{' + label + '}}')
+        line = line[:idx] + replacement + rest
+
+    # Expand \tagfield{type}{content} using balanced brace parsing
+    while r'\tagfield{' in line:
+        idx = line.index(r'\tagfield{')
+        typ, rest = get_first_brace(line[idx + len(r'\tagfield'):])
+        content, rest = get_first_brace(rest)
+        replacement = r'\firstbytebox{2}{\em tag}\bytebox{1}{\tt ' + typ + '}' + content
+        line = line[:idx] + replacement + rest
+
+    # Expand \byteboxvector{size}{label}
+    def expand_vector(m):
+        size, label = m.group(1), m.group(2)
+        return (r'\bytebox{' + size + '}{' + label + r'}\bytebox{' + size + '}{' + label
+                + r'}\bytebox{1}{...}\firstbytebox{' + size + '}{' + label + '}')
+    line = re.sub(r'\\byteboxvector\{([^}]*)\}\{([^}]*)\}', expand_vector, line)
+
+    # Parse all \firstbytebox and \bytebox
+    boxes = []
+    pos = 0
+    while pos < len(line):
+        m = re.search(r'\\(?:first)?bytebox\{([^}]*)\}\{([^}]*)\}', line[pos:])
+        if not m:
+            break
+        width = int(m.group(1)) if m.group(1).isdigit() else 1
+        label = _parse_bytebox_label(m.group(2))
+        boxes.append((width, label))
+        pos += m.end()
+
+    # Extract trailing annotation like \quad (i.e., int8_t)
+    trail = re.search(r'\\quad\s*\(([^)]*)\)', line)
+    annotation = trail.group(1).replace(r'\_', '_') if trail else None
+
+    return boxes, annotation
+
+
+def _boxes_to_html_row(boxes, annotation=None):
+    """Convert a list of (width, label) boxes to an HTML table row string."""
+    cells = []
+    for width, label in boxes:
+        style = f' style="min-width:{width * 3}em;text-align:center"' if width > 1 else ' style="text-align:center"'
+        cells.append(f'<td{style}>{label}</td>')
+    if annotation:
+        ann_text = re.sub(r'\\tt\s+', '', annotation)
+        ann_text = re.sub(r'\{([^}]*)\}', r'\1', ann_text)
+        cells.append(f'<td style="border:none;padding-left:1em">{ann_text}</td>')
+    return '<tr>' + ''.join(cells) + '</tr>'
+
+
+def preprocess_bytebox_diagrams(body):
+    """Replace \\begin{center}...bytebox...\\end{center} blocks with placeholders.
+    The actual HTML is stored and substituted after Pandoc runs."""
+    pattern = re.compile(
+        r'\\begin\{center\}\s*\\small\s*\\byteboxsetup\s*'
+        r'(.*?)'
+        r'\\end\{center\}',
+        re.DOTALL
+    )
+    counter = [0]
+
+    def replace_block(m):
+        content = m.group(1)
+        content = re.sub(r'\\begin\{tabular\}\{[^}]*\}', '', content)
+        content = re.sub(r'\\end\{tabular\}', '', content)
+
+        rows = re.split(r'\\\\', content)
+        html_rows = []
+        for row in rows:
+            row = row.strip()
+            if not row or row == '&':
+                continue
+            parts = row.split('&')
+            for part in parts:
+                part = part.strip()
+                if not part:
+                    continue
+                boxes, annotation = _expand_bytebox_line(part)
+                if boxes:
+                    html_rows.append(_boxes_to_html_row(boxes, annotation))
+
+        if not html_rows:
+            return ''
+
+        html = '<table class="bytebox-diagram">\n<tbody>\n'
+        html += '\n'.join(html_rows)
+        html += '\n</tbody>\n</table>'
+
+        key = f'BYTEBOX_PLACEHOLDER_{counter[0]}'
+        counter[0] += 1
+        _bytebox_store[key] = html
+        return key
+
+    return pattern.sub(replace_block, body)
+
+
+def postprocess_bytebox_placeholders(md_content):
+    """Replace BYTEBOX_PLACEHOLDER_N markers with the stored HTML."""
+    for key, html in _bytebox_store.items():
+        md_content = md_content.replace(key, '\n\n' + html + '\n\n')
+    _bytebox_store.clear()
+    return md_content
+
+
 def main():
     if len(sys.argv) < 2:
         print("Usage: tex2md.py <input.tex> [output.md]")
@@ -461,6 +586,8 @@ def main():
         # Replace dagger symbols (\dag, \dagger) with Unicode dagger before pandoc
         body = re.sub(r'\\dagger\b', '†', body)
         body = re.sub(r'\\dag\b', '†', body)
+        # Expand bytebox diagram blocks into HTML tables before pandoc
+        body = preprocess_bytebox_diagrams(body)
         # Remove pure layout wrappers that pandoc can't handle and don't add content
         body = re.sub(r'\\begin\{savenotes\}', '', body)
         body = re.sub(r'\\end\{savenotes\}', '', body)
@@ -488,6 +615,13 @@ def main():
     finally:
         if temp_tex != input_tex and os.path.exists(temp_tex):
             os.remove(temp_tex)
+
+    # Replace bytebox placeholders with actual HTML
+    md_content = postprocess_bytebox_placeholders(md_content)
+
+    # Remove trailing backslash line breaks that Pandoc generates from
+    # LaTeX \\ inside \texttt{} blocks. These render as literal backslashes.
+    md_content = re.sub(r'`\\' + '\n', '`\n', md_content)
 
     # Add YAML front matter for Astro
     front_matter = f"""---
