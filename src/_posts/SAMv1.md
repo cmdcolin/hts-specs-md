@@ -178,25 +178,21 @@ version of this specification. [^4]
 <table>
 <thead>
 <tr>
-<th><span>1-3</span></th>
+<th><strong>Tag</strong></th>
 <th><span><strong>Description</strong></span></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span>1-3</span></td>
+<td><code>@HD</code></td>
 <td>File-level metadata. Optional. If present, there must be only one
 <code>@HD</code> line and it must be the first line of the file.</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>VN</code>*</td>
 <td>Format version. <em>Accepted format</em>: <code>/[0-9]+.[0-9]+$/</code>.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>SO</code></td>
 <td>Sorting order of alignments. <em>Valid values</em>: <code>unknown</code>
 (default), <code> unsorted</code>, <code>queryname</code> and
@@ -225,7 +221,6 @@ role="doc-backlink">↩︎</a></p></li>
 </section></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>GO</code></td>
 <td>Grouping of alignments, indicating that similar alignment records are
 grouped together but the file is not necessarily sorted overall.
@@ -235,7 +230,6 @@ grouped together but the file is not necessarily sorted overall.
 <span>RNAME</span>/<span>POS</span>).</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>SS</code></td>
 <td>Sub-sorting order of alignments. Valid values are of the form
 <em>sort-order</em><code>:</code><em>sub-sort</em>, where
@@ -269,13 +263,11 @@ class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </section></td>
 </tr>
 <tr>
-<td><span>1-3</span></td>
+<td><code>@SQ</code></td>
 <td>Reference sequence dictionary. The order of <code>@SQ</code> lines
 defines the alignment sorting order.</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>SN</code>*</td>
 <td>Reference sequence name. The <code>SN</code> tags and all individual
 <code>AN</code> names in all <code>@SQ</code> lines must be distinct.
@@ -284,13 +276,11 @@ The value of this field is used in the alignment records in
 <code>[=][]*</code></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>LN</code>*</td>
 <td>Reference sequence length. <em>Range</em>:
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[1,\,2^{31}-1]</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>AH</code></td>
 <td>Indicates that this sequence is an alternate locus. <a href="#fn1"
 class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The
@@ -314,7 +304,6 @@ role="doc-backlink">↩︎</a></p></li>
 </section></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>AN</code></td>
 <td>Alternative reference sequence names. A comma-separated list of
 alternative names that tools may use when referring to this reference
@@ -338,27 +327,22 @@ class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </section></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>AS</code></td>
 <td>Genome assembly identifier.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>DS</code></td>
 <td>Description. UTF-8 encoding may be used.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>M5</code></td>
 <td>MD5 checksum of the sequence. See Section <a href="#1.3.2">1.3.2</a></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>SP</code></td>
 <td>Species.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>TP</code></td>
 <td>Molecule topology. <em>Valid values</em>: <code>linear</code> (default)
 and <code>circular</code>. <a href="#fn1" class="footnote-ref"
@@ -375,7 +359,6 @@ role="doc-backlink">↩︎</a></p></li>
 </section></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>UR</code></td>
 <td>URI of the sequence. This value may start with one of the standard
 protocols, e.g., '<code>http:</code>' or '<code>ftp:</code>'. If it does
@@ -383,12 +366,10 @@ not start with one of these protocols, it is assumed to be a file-system
 path.</td>
 </tr>
 <tr>
-<td><span>1-3</span></td>
+<td><code>@RG</code></td>
 <td>Read group. Unordered multiple <code>@RG</code> lines are allowed.</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>ID</code>*</td>
 <td>Read group identifier. Each <code>@RG</code> line must have a unique
 <code>ID</code>. The value of <code>ID</code> is used in the RG tags of
@@ -397,7 +378,6 @@ section. Read group IDs may be modified when merging SAM files in order
 to handle collisions.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>BC</code></td>
 <td>Barcode sequence identifying the sample or library. This value is the
 expected barcode bases as read by the sequencing machine in the absence
@@ -407,22 +387,18 @@ concatenates all the barcodes separating them with hyphens
 ('<code>-</code>').</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>CN</code></td>
 <td>Name of sequencing center producing the read.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>DS</code></td>
 <td>Description. UTF-8 encoding may be used.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>DT</code></td>
 <td>Date the run was produced (ISO8601 date or date/time).</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>FO</code></td>
 <td>Flow order. The array of nucleotide bases that correspond to the
 nucleotides used for each flow of each read. Multi-base flows are
@@ -430,28 +406,23 @@ encoded in IUPAC format, and non-nucleotide flows by various other
 characters. <em>Format</em>: <code>/*|[ACMGRSVTWYHKDBN]+/</code></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>KS</code></td>
 <td>The array of nucleotide bases that correspond to the key sequence of
 each read.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>LB</code></td>
 <td>Library.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>PG</code></td>
 <td>Programs used for processing the read group.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>PI</code></td>
 <td>Predicted median insert size, rounded to the nearest integer.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>PL</code></td>
 <td>Platform/technology used to produce the reads. <em>Valid values</em>:
 <code>CAPILLARY</code>, <code>DNBSEQ</code> (MGI/BGI),
@@ -476,29 +447,24 @@ href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </section></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>PM</code></td>
 <td>Platform model. Free-form text providing further details of the
 platform/technology used.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>PU</code></td>
 <td>Platform unit (e.g., flowcell-barcode.lane for Illumina or slide for
 SOLiD). Unique identifier.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>SM</code></td>
 <td>Sample. Use pool name where a pool is being sequenced.</td>
 </tr>
 <tr>
-<td><span>1-3</span></td>
+<td><code>@PG</code></td>
 <td>Program.</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>ID</code>*</td>
 <td>Program record identifier. Each <code>@PG</code> line must have a unique
 <code>ID</code>. The value of <code>ID</code> is used in the alignment
@@ -507,17 +473,14 @@ lines. <code>PG</code> IDs may be modified when merging SAM files in
 order to handle collisions.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>PN</code></td>
 <td>Program name</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>CL</code></td>
 <td>Command line. UTF-8 encoding may be used.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>PP</code></td>
 <td>Previous <code>@PG-ID</code>. Must match another <code>@PG</code>
 header's <code>ID</code> tag. <code>@PG</code> records may be chained
@@ -537,25 +500,17 @@ the program in that <code>PG</code> record, and the program(s) referred
 to via the <code>PP</code> tag.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>DS</code></td>
 <td>Description. UTF-8 encoding may be used.</td>
 </tr>
 <tr>
-<td><span>2-3</span></td>
 <td><code>VN</code></td>
 <td>Program version</td>
 </tr>
 <tr>
-<td><span>1-3</span></td>
+<td><code>@CO</code></td>
 <td>One-line text comment. Unordered multiple <code>@CO</code> lines are
 allowed. UTF-8 encoding may be used.</td>
-<td></td>
-</tr>
-<tr>
-<td><span>1-3</span></td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -769,69 +724,68 @@ represented.
     <tr>
     <th>Bit</th>
     <th>Description</th>
-    <th></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-    <td>1</td>
-    <td>0x1</td>
+    <td>1
+    0x1</td>
     <td>template having multiple segments in sequencing</td>
     </tr>
     <tr>
-    <td>2</td>
-    <td>0x2</td>
+    <td>2
+    0x2</td>
     <td>each segment properly aligned according to the aligner</td>
     </tr>
     <tr>
-    <td>4</td>
-    <td>0x4</td>
+    <td>4
+    0x4</td>
     <td>segment unmapped</td>
     </tr>
     <tr>
-    <td>8</td>
-    <td>0x8</td>
+    <td>8
+    0x8</td>
     <td>next segment in the template unmapped</td>
     </tr>
     <tr>
-    <td>16</td>
-    <td>0x10</td>
+    <td>16
+    0x10</td>
     <td><span>SEQ</span> being reverse complemented</td>
     </tr>
     <tr>
-    <td>32</td>
-    <td>0x20</td>
+    <td>32
+    0x20</td>
     <td><span>SEQ</span> of the next segment in the template being reverse
     complemented</td>
     </tr>
     <tr>
-    <td>64</td>
-    <td>0x40</td>
+    <td>64
+    0x40</td>
     <td>the first segment in the template</td>
     </tr>
     <tr>
-    <td>128</td>
-    <td>0x80</td>
+    <td>128
+    0x80</td>
     <td>the last segment in the template</td>
     </tr>
     <tr>
-    <td>256</td>
-    <td>0x100</td>
+    <td>256
+    0x100</td>
     <td>secondary alignment</td>
     </tr>
     <tr>
-    <td>512</td>
-    <td>0x200</td>
+    <td>512
+    0x200</td>
     <td>not passing filters, such as platform/vendor quality controls</td>
     </tr>
     <tr>
-    <td>1024</td>
-    <td>0x400</td>
+    <td>1024
+    0x400</td>
     <td>PCR or optical duplicate</td>
     </tr>
     <tr>
-    <td>2048</td>
-    <td>0x800</td>
+    <td>2048
+    0x800</td>
     <td>supplementary alignment</td>
     </tr>
     </tbody>
@@ -1412,176 +1366,117 @@ RFC1952.)
 <table>
 <thead>
 <tr>
-<th><span>1-6</span></th>
+<th><strong>Field</strong></th>
 <th><strong>Description</strong></th>
 <th><strong>Type</strong></th>
 <th><strong>Value</strong></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of compression blocks (until the end
+of the file)</em></span></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>ID1</td>
 <td>gzip IDentifier1</td>
 <td><code>uint8_t</code></td>
 <td>31</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>ID2</td>
 <td>gzip IDentifier2</td>
 <td><code>uint8_t</code></td>
 <td>139</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>CM</td>
 <td>gzip Compression Method</td>
 <td><code>uint8_t</code></td>
 <td>8</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>FLG</td>
 <td>gzip FLaGs</td>
 <td><code>uint8_t</code></td>
 <td>4</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>MTIME</td>
 <td>gzip Modification TIME</td>
 <td><code>uint32_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>XFL</td>
 <td>gzip eXtra FLags</td>
 <td><code>uint8_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>OS</td>
 <td>gzip Operating System</td>
 <td><code>uint8_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>XLEN</td>
 <td>gzip eXtra LENgth</td>
 <td><code>uint16_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
-<td><span style="color: gray"><em>Extra subfield(s) (total
+<td colspan="4"><span style="color: gray"><em>Extra subfield(s) (total
 size=XLEN)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
-<td><span style="color: gray"><em>Additional RFC1952 extra subfields if
+<td colspan="4"><span style="color: gray"><em>Additional RFC1952 extra subfields if
 present</em></span></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>SI1</span></td>
 <td>Subfield Identifier1</td>
 <td><code>uint8_t</code></td>
 <td>66</td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>SI2</span></td>
 <td>Subfield Identifier2</td>
 <td><code>uint8_t</code></td>
 <td>67</td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>SLEN</span></td>
 <td>Subfield LENgth</td>
 <td><code>uint16_t</code></td>
 <td>2</td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>BSIZE</span></td>
 <td>total Block SIZE minus 1</td>
 <td><code>uint16_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
-<td><span style="color: gray"><em>Additional RFC1952 extra subfields if
+<td colspan="4"><span style="color: gray"><em>Additional RFC1952 extra subfields if
 present</em></span></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>CDATA</td>
 <td>Compressed DATA by <span>zlib::deflate()</span></td>
 <td><code>uint8_t[BSIZE-XLEN-19]</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>CRC32</td>
 <td>CRC-32</td>
 <td><code>uint32_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>ISIZE</td>
 <td>Input SIZE (length of uncompressed data)</td>
 <td><code>uint32_t</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 </tbody>
@@ -1646,86 +1541,70 @@ underlined word in uppercase denotes a field in the SAM format.
 <table>
 <thead>
 <tr>
-<th><span>1-6</span></th>
+<th><strong>Field</strong></th>
 <th><strong>Description</strong></th>
 <th><strong>Type</strong></th>
 <th><strong>Value</strong></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span>1-6</span></td>
+<td>magic</td>
 <td>BAM magic string</td>
 <td><code>char[4]</code></td>
 <td><code>BAM 1</code></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
+<td>l_text</td>
 <td>Length of the header text, including any <code>NUL</code> padding</td>
 <td><code>uint32_t</code></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
+<td>text</td>
 <td>Plain header text in SAM; not necessarily <code>NUL</code>-terminated</td>
 <td><code>char[l_text]</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
+<td>n_ref</td>
 <td># reference sequences</td>
 <td><code>uint32_t</code></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of reference information
+(n=n_ref)</em></span></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>l_name</td>
 <td>Length of the reference name plus 1 (including <code>NUL</code>)</td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>name</td>
 <td>Reference sequence name; <code>NUL</code>-terminated</td>
 <td><code>char[l_name]</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>l_ref</td>
 <td>Length of the reference sequence</td>
 <td><code>uint32_t</code></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of alignments (until the end of the
+file)</em></span></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>block_size</td>
 <td>Total length of the alignment record, excluding this field</td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>refID</td>
 <td>Reference sequence ID,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>≤</mo><mtext mathvariant="italic">𝑟𝑒𝑓𝐼𝐷</mtext><mo>&lt;</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">_</mi><mtext mathvariant="italic">𝑟𝑒𝑓</mtext></mrow></mrow><annotation encoding="application/x-tex">-1\leq\mathsf{\textit{refID}}&lt;\mathsf{n\_\textit{ref}}</annotation></semantics></math>;
@@ -1734,7 +1613,6 @@ underlined word in uppercase denotes a field in the SAM format.
 <td>[-1]</td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>pos</td>
 <td>0-based leftmost coordinate ($=\sf
 \textit{POS}-1$)</td>
@@ -1742,7 +1620,6 @@ underlined word in uppercase denotes a field in the SAM format.
 <td>[-1]</td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>l_read_name</td>
 <td>Length of <span>read_name</span> below ($=\mathsf{\textit{length}}(\sf
 \textit{QNAME})+1$)</td>
@@ -1750,21 +1627,18 @@ underlined word in uppercase denotes a field in the SAM format.
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>mapq</td>
 <td>Mapping quality (=<u>MAPQ</u>)</td>
 <td><code>uint8_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>bin</td>
 <td>BAI index bin, see Section <a href="#4.2.1">4.2.1</a></td>
 <td><code>uint16_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>n_cigar_op</td>
 <td>Number of operations in <u>CIGAR</u>, see Section <a
 href="#4.2.2">4.2.2</a></td>
@@ -1772,21 +1646,18 @@ href="#4.2.2">4.2.2</a></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>flag</td>
 <td>Bitwise flags (= <u>FLAG</u>) </td>
 <td><code>uint16_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>l_seq</td>
 <td>Length of <u>SEQ</u></td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>next_refID</td>
 <td>Ref-ID of the next segment
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>≤</mo><mtext mathvariant="italic">𝑛𝑒𝑥𝑡_𝑟𝑒𝑓𝐼𝐷</mtext><mo>&lt;</mo><mrow><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">_</mi><mtext mathvariant="italic">𝑟𝑒𝑓</mtext></mrow></mrow><annotation encoding="application/x-tex">-1\le\mathsf{\textit{next\_refID}}&lt;\mathsf{n\_\textit{ref}}</annotation></semantics></math>)</td>
@@ -1794,21 +1665,18 @@ href="#4.2.2">4.2.2</a></td>
 <td>[-1]</td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>next_pos</td>
 <td>0-based leftmost pos of the next segment ($=\sf \textit{PNEXT}-1$)</td>
 <td><code>int32_t</code></td>
 <td>[-1]</td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>tlen</td>
 <td>Template length ($=\sf \textit{TLEN}$)</td>
 <td><code>int32_t</code></td>
 <td>[0]</td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>read_name</td>
 <td>Read name, <code>NUL</code>-terminated (<u>QNAME</u> with trailing
 '<code>\0</code>')</td>
@@ -1816,7 +1684,6 @@ href="#4.2.2">4.2.2</a></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>cigar</td>
 <td>CIGAR: <code>op_len 4</code>.
 '<code>MIDNSHP=X</code>'<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>'012345678'</td>
@@ -1824,7 +1691,6 @@ href="#4.2.2">4.2.2</a></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>seq</td>
 <td>4-bit encoded read:
 '<code>=ACMGRSVTWYHKDBN</code>'<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>15</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\to[0,15]</annotation></semantics></math>.
@@ -1833,47 +1699,32 @@ See Section <a href="#4.2.3">4.2.3</a></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>qual</td>
 <td>Phred-scaled base qualities. See Section <a href="#4.2.3">4.2.3</a></td>
 <td><code>char[l_seq]</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
-<td><span style="color: gray"><em>List of auxiliary data (until the end of
+<td colspan="4"><span style="color: gray"><em>List of auxiliary data (until the end of
 the alignment block)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>tag</span></td>
 <td>Two-character tag</td>
 <td><code>char[2]</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>val_type</span></td>
 <td>Value type: <code>AcCsSiIfZHB</code>, see Section <a
 href="#4.2.4">4.2.4</a></td>
 <td><code>char</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>value</span></td>
 <td>Tag value</td>
 <td>(by <span>val_type</span>)</td>
-</tr>
-<tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 </tbody>
@@ -2089,50 +1940,15 @@ scheme which consists of three types of bins: bin 0 spans 0-144kbp, bin
 <table>
 <thead>
 <tr>
-<th><span>1-9</span></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>0 (0–144kbp)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span>1-9</span></td>
-<td>2 (48–96kbp)</td>
-<td>3 (96–144kbp)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>1 (0–48kbp)</td>
 </tr>
 <tr>
-<td><span>1-9</span> 4 (0–16k)</td>
-<td>5 (16–32k)</td>
-<td>6 (32–48k)</td>
-<td>7 (48–64k)</td>
-<td>8 (64–80k)</td>
-<td>9 (80–96k)</td>
-<td>10</td>
-<td>11</td>
-<td>12</td>
-</tr>
-<tr>
-<td><span>1-9</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>4 (0–16k)</td>
 </tr>
 </tbody>
 </table>
@@ -2154,134 +1970,84 @@ seek call can thus be saved.
 <table>
 <thead>
 <tr>
-<th><span>1-7</span></th>
+<th><strong>Field</strong></th>
 <th><strong>Description</strong></th>
 <th><strong>Type</strong></th>
 <th><strong>Value</strong></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span>1-7</span></td>
+<td>magic</td>
 <td>Magic string</td>
 <td><code>char[4]</code></td>
 <td><code>BAI 1</code></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
+<td>n_ref</td>
 <td># reference sequences</td>
 <td><code>uint32_t</code></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of indices (n=n_ref)</em></span></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td>n_bin</td>
 <td># distinct bins (for the binning index)</td>
 <td><code>uint32_t</code></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>37451</mn></mrow><annotation encoding="application/x-tex">\le 37451</annotation></semantics></math></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td><span style="color: gray"><em>List of distinct bins
+<td colspan="4"><span style="color: gray"><em>List of distinct bins
 (n=n_bin)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td>bin</td>
 <td>Distinct bin</td>
 <td><code>uint32_t</code></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>37450</mn></mrow><annotation encoding="application/x-tex">\le 37450</annotation></semantics></math></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td>n_chunk</td>
 <td># chunks</td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
-<td><span style="color: gray"><em>List of chunks (n=n_chunk)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of chunks (n=n_chunk)</em></span></td>
 </tr>
 <tr>
-<td><span>4-7</span></td>
-<td></td>
-<td></td>
 <td><span>chunk_beg</span></td>
 <td>(Virtual) file offset of the start of the chunk</td>
 <td><code>uint64_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>4-7</span></td>
-<td></td>
-<td></td>
 <td><span>chunk_end</span></td>
 <td>(Virtual) file offset of the end of the chunk</td>
 <td><code>uint64_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td>n_intv</td>
 <td># 16kbp intervals (for the linear index)</td>
 <td><code>uint32_t</code></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><msup><mn>2</mn><mn>17</mn></msup></mrow><annotation encoding="application/x-tex">\le 2^{17}</annotation></semantics></math></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td><span style="color: gray"><em>List of intervals (n=n_intv)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of intervals (n=n_intv)</em></span></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td>ioffset</td>
 <td>(Virtual) file offset of the first alignment in the interval</td>
 <td><code>uint64_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
+<td><span>n_no_coor</span> (optional)</td>
 <td>Number of unplaced unmapped reads (<span>RNAME</span> *)</td>
 <td><code>uint64_t</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><span>1-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 </tbody>

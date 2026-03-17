@@ -723,11 +723,15 @@ CRAM has the following block content types:
 </tr>
 <tr>
 <td>SLICE_HEADER<sup>a</sup></td>
-<td>2
-3</td>
+<td>2</td>
 <td>Slice header block</td>
-<td>See specific section
-reserved</td>
+<td>See specific section</td>
+</tr>
+<tr>
+<td></td>
+<td>3</td>
+<td></td>
+<td>reserved</td>
 </tr>
 <tr>
 <td>EXTERNAL_DATA</td>
@@ -1350,10 +1354,7 @@ Here is a complete content of the EOF container explained in detail:
 </thead>
 <tbody>
 <tr>
-<td><em>Container header</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Container header</em></td>
 </tr>
 <tr>
 <td>0f 00 00 00</td>
@@ -1416,10 +1417,7 @@ Here is a complete content of the EOF container explained in detail:
 <td>container header CRC32</td>
 </tr>
 <tr>
-<td><em>Compression header block</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Compression header block</em></td>
 </tr>
 <tr>
 <td>00</td>
@@ -1452,10 +1450,7 @@ Here is a complete content of the EOF container explained in detail:
 <td>uncompressed size</td>
 </tr>
 <tr>
-<td><em>Compression header</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Compression header</em></td>
 </tr>
 <tr>
 <td>01</td>
@@ -2313,58 +2308,55 @@ this:
 <th></th>
 <th><strong>Seq. base</strong></th>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Ref. base</strong></td>
-<td><strong>A</strong></td>
-<td><strong>C</strong></td>
-<td><strong>G</strong></td>
-<td><strong>T</strong></td>
+<td><strong>A</strong>
+<strong>C</strong>
+<strong>G</strong>
+<strong>T</strong></td>
 <td><strong>N</strong></td>
 </tr>
 <tr>
 <td>A</td>
-<td>-</td>
-<td>1</td>
-<td>2</td>
-<td>0</td>
+<td>-
+1
+2
+0</td>
 <td>3</td>
 </tr>
 <tr>
 <td>C</td>
-<td>1</td>
-<td>-</td>
-<td>0</td>
-<td>2</td>
+<td>1
+-
+0
+2</td>
 <td>3</td>
 </tr>
 <tr>
 <td>G</td>
-<td>2</td>
-<td>0</td>
-<td>-</td>
-<td>1</td>
+<td>2
+0
+-
+1</td>
 <td>3</td>
 </tr>
 <tr>
 <td>T</td>
-<td>0</td>
-<td>2</td>
-<td>1</td>
-<td>-</td>
+<td>0
+2
+1
+-</td>
 <td>3</td>
 </tr>
 <tr>
 <td>N</td>
-<td>0</td>
-<td>1</td>
-<td>2</td>
-<td>3</td>
+<td>0
+1
+2
+3</td>
 <td>-</td>
 </tr>
 </tbody>
@@ -2403,53 +2395,50 @@ data as above with codes sorted into 0, 1, 2, 3 order.
 <tr>
 <th></th>
 <th><strong>BS Code</strong></th>
-<th></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Ref. base</strong></td>
-<td><strong>0</strong></td>
-<td><strong>1</strong></td>
-<td><strong>2</strong></td>
-<td><strong>3</strong></td>
+<td><strong>0</strong>
+<strong>1</strong>
+<strong>2</strong>
+<strong>3</strong></td>
 </tr>
 <tr>
 <td>A</td>
-<td>T</td>
-<td>C</td>
-<td>G</td>
-<td>N</td>
+<td>T
+C
+G
+N</td>
 </tr>
 <tr>
 <td>C</td>
-<td>G</td>
-<td>A</td>
-<td>T</td>
-<td>N</td>
+<td>G
+A
+T
+N</td>
 </tr>
 <tr>
 <td>G</td>
-<td>C</td>
-<td>T</td>
-<td>A</td>
-<td>N</td>
+<td>C
+T
+A
+N</td>
 </tr>
 <tr>
 <td>T</td>
-<td>A</td>
-<td>G</td>
-<td>C</td>
-<td>N</td>
+<td>A
+G
+C
+N</td>
 </tr>
 <tr>
 <td>N</td>
-<td>A</td>
-<td>C</td>
-<td>G</td>
-<td>T</td>
+<td>A
+C
+G
+T</td>
 </tr>
 </tbody>
 </table>

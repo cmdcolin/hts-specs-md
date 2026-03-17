@@ -59,47 +59,41 @@ date: 20 Nov 2019
 <td></td>
 </tr>
 <tr>
-<td><em></em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em></em></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td><span>seq_id</span></td>
 <td>Reference sequence ID</td>
 <td><code>int32_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td><span>pos</span></td>
 <td>Position</td>
 <td><code>int32_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td><span>qual</span></td>
 <td>Variant quality</td>
 <td><code>float</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td><span>l_str</span></td>
 <td>Length of <span>str</span></td>
 <td><code>int32_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td><span>str</span></td>
 <td><code>ID+REF+ALT+FILTER+INFO+FORMAT</code>, <code>NULL</code> padded</td>
 <td><code>char[l_str]</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td>Blocks of data; #blocks and formats defined by <code>FORMAT</code>
+<td colspan="4">Blocks of data; #blocks and formats defined by <code>FORMAT</code>
 (table below)</td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table>

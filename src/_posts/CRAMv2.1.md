@@ -645,11 +645,15 @@ CRAM has the following block content types:
 </tr>
 <tr>
 <td>MAPPED_SLICE_HEADER</td>
-<td>2
-3</td>
+<td>2</td>
 <td>Slice header block</td>
-<td>See specific section
-reserved</td>
+<td>See specific section</td>
+</tr>
+<tr>
+<td></td>
+<td>3</td>
+<td></td>
+<td>reserved</td>
 </tr>
 <tr>
 <td>EXTERNAL_DATA</td>
@@ -1147,10 +1151,7 @@ Here is a complete content of the EOF container explained in detail:
 </thead>
 <tbody>
 <tr>
-<td><em>Container header</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Container header</em></td>
 </tr>
 <tr>
 <td>0b 00 00 00</td>
@@ -1207,10 +1208,7 @@ Here is a complete content of the EOF container explained in detail:
 <td>landmarks</td>
 </tr>
 <tr>
-<td><em>Compression header block</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Compression header block</em></td>
 </tr>
 <tr>
 <td>00</td>
@@ -1243,10 +1241,7 @@ Here is a complete content of the EOF container explained in detail:
 <td>uncompressed size</td>
 </tr>
 <tr>
-<td><em>Compression header</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Compression header</em></td>
 </tr>
 <tr>
 <td>01</td>

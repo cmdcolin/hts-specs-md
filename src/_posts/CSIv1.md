@@ -7,150 +7,99 @@ date: 19 Jul 2020
 <table>
 <thead>
 <tr>
-<th><span>1-7</span></th>
+<th><strong>Field</strong></th>
 <th><strong>Description</strong></th>
 <th><strong>Type</strong></th>
 <th><strong>Value</strong></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span>1-7</span></td>
+<td>magic</td>
 <td>Magic string</td>
 <td><code>char[4]</code></td>
 <td><code>CSI 1</code></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
+<td>min_shift</td>
 <td># bits for the minimal interval</td>
 <td><code>int32_t</code></td>
 <td>[14]</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
+<td>depth</td>
 <td>Depth of the binning index</td>
 <td><code>int32_t</code></td>
 <td>[5]</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
+<td>l_aux</td>
 <td>Length of auxiliary data</td>
 <td><code>int32_t</code></td>
 <td>[0]</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
+<td>aux</td>
 <td>Auxiliary data</td>
 <td><code>uint8_t[l_aux]</code></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
+<td>n_ref</td>
 <td># reference sequences</td>
 <td><code>int32_t</code></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of indices (n=n_ref)</em></span></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td>n_bin</td>
 <td># distinct bins</td>
 <td><code>int32_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td><span style="color: gray"><em>List of distinct bins
+<td colspan="4"><span style="color: gray"><em>List of distinct bins
 (n=n_bin)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td>bin</td>
 <td>Distinct bin</td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td>loffset</td>
 <td>(Virtual) file offset of the first overlapping record</td>
 <td><code>uint64_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td>n_chunk</td>
 <td># chunks</td>
 <td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
-<td><span style="color: gray"><em>List of chunks (n=n_chunk)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of chunks (n=n_chunk)</em></span></td>
 </tr>
 <tr>
-<td><span>4-7</span></td>
-<td></td>
-<td></td>
 <td><span>chunk_beg</span></td>
 <td>(Virtual) file offset of the start of the chunk</td>
 <td><code>uint64_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>4-7</span></td>
-<td></td>
-<td></td>
 <td><span>chunk_end</span></td>
 <td>(Virtual) file offset of the end of the chunk</td>
 <td><code>uint64_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>1-7</span></td>
+<td><span>n_no_coor</span> (optional)</td>
 <td># unmapped unplaced reads (<span>RNAME</span> *)</td>
 <td><code>uint64_t</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><span>1-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 </tbody>

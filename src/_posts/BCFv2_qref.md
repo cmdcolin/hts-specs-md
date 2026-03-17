@@ -79,187 +79,145 @@ endian.
 <table>
 <thead>
 <tr>
-<th><span>1-6</span></th>
+<th><strong>Field</strong></th>
 <th><strong>Description</strong></th>
 <th><strong>Type</strong></th>
 <th><strong>Value</strong></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span>1-6</span></td>
+<td>magic</td>
 <td>BCF2 magic string</td>
 <td><code>char[5]</code></td>
 <td><code>BCF 2 1</code></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
+<td>l_text</td>
 <td>Length of the header text, including any <span>NULL</span> padding</td>
 <td><code>uint32_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
+<td>text</td>
 <td><span>NULL</span>-terminated plain VCF header text</td>
 <td><code>char[l_text]</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of VCF records (until the end of the
+BGZF section)</em></span></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>l_shared</td>
 <td>Data length from <span>CHROM</span> to the end of <span>INFO</span></td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>l_indiv</td>
 <td>Data length of <span>FORMAT</span> and individual genotype fields</td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>CHROM</td>
 <td>Reference sequence ID</td>
 <td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>POS</td>
 <td>0-based leftmost coordinate</td>
 <td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>rlen</td>
 <td>Length of reference sequence</td>
 <td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>QUAL</td>
 <td>Variant quality; <code>0x7F800001</code> for a missing value</td>
 <td><code>float</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>n_allele_info</td>
 <td><code>n_allele 16 n_info</code></td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>n_fmt_sample</td>
 <td><code>n_fmt 24 n_sample</code></td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>ID</td>
 <td>Variant identifier</td>
 <td><code>typed str</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
-<td><span style="color: gray"><em>List of alleles in the REF and ALT fields
+<td colspan="4"><span style="color: gray"><em>List of alleles in the REF and ALT fields
 (n=n_allele)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>allele</span></td>
 <td>A reference or alternate allele</td>
 <td><code>typed str</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>FILTER</td>
 <td>List of filters; filters are defined in the dictionary</td>
 <td><code>typed vec</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
-<td><span style="color: gray"><em>List of key-value pairs in the INFO field
+<td colspan="4"><span style="color: gray"><em>List of key-value pairs in the INFO field
 (n=n_info)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>info_key</span></td>
 <td>Info key, defined in the dictionary</td>
 <td><code>typed int</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>info_value</span></td>
 <td>Value</td>
 <td><code>typed val</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
-<td><span style="color: gray"><em>List of FORMATs and sample information
+<td colspan="4"><span style="color: gray"><em>List of FORMATs and sample information
 (n=n_fmt)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>fmt_key</span></td>
 <td>Format key, defined in the dictionary</td>
 <td><code>typed int</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>fmt_type</span></td>
 <td>Typing byte of each individual value, possibly followed by a typed int
 for the vector length</td>
 <td><code>uint8_t+</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td><span>fmt_value</span></td>
 <td>Array of values. The information of each individual is concatenated in
 the vector. Every value is of the same <span>fmt_type</span>.
 Variable-length vectors are padded with missing values; a string is
 stored as a vector of <code>char</code>.</td>
 <td>(by <span>fmt_type</span>)</td>
-</tr>
-<tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 </tbody>

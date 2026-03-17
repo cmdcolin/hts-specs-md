@@ -299,7 +299,7 @@ Function ReadUint7(source)  // If source is unspecified then it is the default i
   length ← 0
   repeat:
     c ← ReadUint8()
-    value ← (value &lt;&lt; 7) + (c &amp; 127)
+    value ← (value 7) + (c 127)
     length ← length + 1
   until c &lt; 128
   return value</code></pre>
@@ -313,22 +313,22 @@ specification for more details.
 Function ReadITF8(source)  // If source is unspecified then it is the default input stream
   v ← ReadUint8()
   if i &gt;= 0xf0:  // 1111xxxx =&gt; +4 bytes
-    v ← (v &amp; 0x0f) &lt;&lt; 28
-    v ← v + ( ReadUint8() &lt;&lt; 20)
-    v ← v + ( ReadUint8() &lt;&lt; 12)
-    v ← v + ( ReadUint8() &lt;&lt; 4)
-    v ← v + ( ReadUint8() &gt;&gt; 4)
+    v ← (v 0x0f) 28
+    v ← v + ( ReadUint8() 20)
+    v ← v + ( ReadUint8() 12)
+    v ← v + ( ReadUint8() 4)
+    v ← v + ( ReadUint8() 4)
   else if i &gt;= 0xe0:  // 1110xxxx =&gt; +3 bytes
-    v ← (v &amp; 0x0f) &lt;&lt; 24
-    v ← v + ( ReadUint8() &lt;&lt; 16)
-    v ← v + ( ReadUint8() &lt;&lt; 8)
+    v ← (v 0x0f) 24
+    v ← v + ( ReadUint8() 16)
+    v ← v + ( ReadUint8() 8)
     v ← v + ReadUint8()
   else if i &gt;= 0xc0:  // 110xxxxx =&gt; +2 bytes
-    v ← (v &amp; 0x1f) &lt;&lt; 16
-    v ← v + ( ReadUint8() &lt;&lt; 8)
+    v ← (v 0x1f) 16
+    v ← v + ( ReadUint8() 8)
     v ← v + ReadUint8()
   else if i &gt;= 0x80:  // 10xxxxxx =&gt; +1 bytes
-    v ← (v &amp; 0x3f) &lt;&lt; 8
+    v ← (v 0x3f) 8
     v ← v + ReadUint8()
   return v</code></pre>
 
@@ -567,14 +567,23 @@ Naively observed Order-1 frequencies:
 </tr>
 <tr>
 <td>a</td>
-<td>a
-b
-c
-d</td>
-<td>3
-8
-4
-5</td>
+<td>a</td>
+<td>3</td>
+</tr>
+<tr>
+<td></td>
+<td>b</td>
+<td>8</td>
+</tr>
+<tr>
+<td></td>
+<td>c</td>
+<td>4</td>
+</tr>
+<tr>
+<td></td>
+<td>d</td>
+<td>5</td>
 </tr>
 <tr>
 <td>b</td>
@@ -621,14 +630,23 @@ Normalised (per Order-0 statistics):
 </tr>
 <tr>
 <td>a</td>
-<td>a
-b
-c
-d</td>
-<td>614
-1639
-819
-1023</td>
+<td>a</td>
+<td>614</td>
+</tr>
+<tr>
+<td></td>
+<td>b</td>
+<td>1639</td>
+</tr>
+<tr>
+<td></td>
+<td>c</td>
+<td>819</td>
+</tr>
+<tr>
+<td></td>
+<td>d</td>
+<td>1023</td>
 </tr>
 <tr>
 <td>b</td>
@@ -844,7 +862,7 @@ Procedure ReadFrequencies0(F, C)
     C_s+1 ← C_s + F_s
 &#10;// Bottom 12 bits of our rANS state R are our frequency
 Function RansGetCumulativeFreq(R)
-  return R &amp; 0xfff
+  return R 0xfff
 &#10;// Convert frequency to a symbol. Find s such that C_s ≤ f &lt; C_s+1
 // We would normally implement this via a lookup table
 Function RansGetSymbolFromFreq(C, f)
@@ -854,11 +872,11 @@ Function RansGetSymbolFromFreq(C, f)
   return s
 &#10;// Compute the next rANS state R given frequency f and cumulative freq c
 Function RansAdvanceStep(R, c, f)
-  return f * (R &gt;&gt; 12) + (R &amp; 0xfff) - c
+  return f * (R 12) + (R 0xfff) - c
 &#10;// If too small, feed in more bytes to the rANS state R
 Function RansRenorm(R)
-  while R &lt; (1 &lt;&lt; 23):
-    R ← (R &lt;&lt; 8) + ReadUint8()
+  while R &lt; (1 23):
+    R ← (R 8) + ReadUint8()
   return R
 &#10;Procedure RansDecode0(output, nbytes)
   ReadFrequencies0(F, C)
@@ -1050,14 +1068,14 @@ Procedure NormaliseFrequenciesNx16_0(F, bits)
   tot ← 0
   for i ← 0 to 255:
     tot ← tot + F_i
-  if tot = 0 or tot = (1 &lt;&lt; bits):
+  if tot = 0 tot = (1 bits):
     return 
   &#10;  shift ← 0
-  while tot &lt; (1 &lt;&lt; bits):
+  while tot &lt; (1 bits):
     tot ← tot*2
     shift ← shift+1
   &#10;  for i ← 0 to 255:
-    F_i ← F_i &lt;&lt; shift</code></pre>
+    F_i ← F_i shift</code></pre>
 
 The Order-1 frequencies also store the complete alphabet of observed
 symbols (ignoring context) followed by a table of frequencies for each
@@ -1080,8 +1098,8 @@ the number of bits used for the frequency tables. Permitted values are
 // and sets the cumulative frequency table C_i,j+1 = C_i,j+F_i,j
 Procedure ReadFrequenciesNx16_1(F, C, bits)
   comp ← ReadUint8()
-  bits ← comp &gt;&gt; 4
-  if (comp and 1) ≠ 0:
+  bits ← comp 4
+  if (comp 1) ≠ 0:
     u_size ← ReadUint7()  // Uncompressed size
     c_size ← ReadUint7()  // Compressed size
     c_data ← ReadData(c_size)
@@ -1114,12 +1132,12 @@ single 16-bit renormalisation instead of a loop using 8-bit values and
 can interleave to different amounts.
 
 <pre><code>Function RansGetCumulativeFreqNx16(R, bits)
-  return R &amp; ((1 &lt;&lt; bits) -1)
+  return R ((1 bits) -1)
 &#10;Function RansAdvanceStepNx16(R, c, f, bits)
-  return f * (R &gt;&gt; bits) + (R &amp; ((1 &lt;&lt; bits) -1) - c
+  return f * (R bits) + (R ((1 bits) -1) - c
 &#10;Function RansRenormNx16(R)
-  if R &lt; (1 &lt;&lt; 15):
-    R ← (R &lt;&lt; 16) + ReadUint16()
+  if R &lt; (1 15):
+    R ← (R 16) + ReadUint16()
   return R
 &#10;Function RansDecodeNx16_0(len, N)
   ReadFrequenciesNx16_0(F, C)
@@ -1237,7 +1255,7 @@ Function DecodeRLEMeta(N)
   L ← (0, ...)
   rle_meta_len ← ReadUint7()
   len ← ReadUint7()  // Length of uncompressed O0/O1 data, pre-expansion
-  if rle_meta_len &amp; 1:
+  if rle_meta_len 1:
     rle_meta ← ReadData(⌊rle_meta_len/2⌋)
   else:
     comp_meta_len ← ReadUint7()
@@ -1346,22 +1364,22 @@ stream is packed data as described above.
       if i mod 8 = 0:
         v ← data_j
         j ← j+1
-      out_i ← P_(v &amp; 1)
-      v = v &gt;&gt; 1
+      out_i ← P_(v 1)
+      v = v 1
 &#10;  else if nsym ≤ 4:  // 2 bits per value
     for i ← 0 to len-1:
       if i mod 4 = 0:
         v ← data_j
         j ← j+1
-      out_i ← P_(v &amp; 3)
-      v = v &gt;&gt; 2
+      out_i ← P_(v 3)
+      v = v 2
 &#10;  else if nsym ≤ 16:  // 4 bits per value
     for i ← 0 to len-1:
       if i mod 2 = 0:
         v ← data_j
         j ← j+1
-      out_i ← P_(v &amp; 15)
-      v = v &gt;&gt; 4
+      out_i ← P_(v 15)
+      v = v 4
 &#10;  else:
     Error()
 &#10;  return out</code></pre>
@@ -1454,7 +1472,6 @@ data stream.
 <th><strong>Type</strong></th>
 <th><strong>Name</strong></th>
 <th><strong>Description</strong></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
@@ -1463,155 +1480,79 @@ data stream.
 <td>uint8</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑓𝑙𝑎𝑔</mtext><annotation encoding="application/x-tex">\textit{flag}</annotation></semantics></math></td>
 <td>Data format bit field</td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Unless <span class="smallcaps">NoSize</span> flag is set:</em></td>
 </tr>
 <tr>
-<td><em>Unless <span class="smallcaps">NoSize</span> flag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint7</td>
 <td>ulen</td>
 <td>Uncompressed length</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>If <span class="smallcaps">Stripe</span> flag is set:</em></td>
 </tr>
 <tr>
-<td><em>If <span class="smallcaps">Stripe</span> flag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>8</td>
+<td>uint8</td>
+<td>N</td>
+<td>Number of sub-streams</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td>8
-?
-?</td>
-<td>uint8
-uint7[]
-uint8[]</td>
-<td>N
-clen[]
-cdata[]</td>
-<td>Number of sub-streams
-N copies of compressed sub-block length
-N copies of Compressed data sub-block (recurse)</td>
+<td>?</td>
+<td>uint7[]</td>
+<td>clen[]</td>
+<td>N copies of compressed sub-block length</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>?</td>
+<td>uint8[]</td>
+<td>cdata[]</td>
+<td>N copies of Compressed data sub-block (recurse)</td>
 </tr>
 <tr>
-<td><em>If <span class="smallcaps">Cat</span> flag is set (and <span
+<td colspan="4"><em>If <span class="smallcaps">Cat</span> flag is set (and <span
 class="smallcaps">Stripe</span> flag is unset):</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint8[]</td>
 <td>udata</td>
 <td>Uncompressed data stream</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><em>If <span class="smallcaps">Pack</span> flag is set (and neither
+<td colspan="4"><em>If <span class="smallcaps">Pack</span> flag is set (and neither
 <span class="smallcaps">Stripe</span> or <span
 class="smallcaps">Cat</span> flags are set):</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint8[]</td>
 <td>pack_meta</td>
 <td>Pack lookup table</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><em>If <span class="smallcaps">RLE</span> flag is set (and neither <span
+<td colspan="4"><em>If <span class="smallcaps">RLE</span> flag is set (and neither <span
 class="smallcaps">Stripe</span> or <span class="smallcaps">Cat</span>
 flags are set):</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint8[]</td>
 <td>rle_meta</td>
 <td>RLE meta-data</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><em>If neither <span class="smallcaps">Stripe</span> or <span
+<td colspan="4"><em>If neither <span class="smallcaps">Stripe</span> or <span
 class="smallcaps">Cat</span> flags are set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint8[]</td>
 <td>cdata</td>
 <td>Entropy encoded data stream (see <span class="smallcaps">Order</span>
 flag)</td>
-</tr>
-<tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -1695,33 +1636,33 @@ the generalised RANS Nx16 decoder.
 
 <pre><code>Function RansDecodeNx16(len)
   flags ← ReadUint8()
-  if flags &amp; NoSize ≠ 0:
+  if flags NoSize ≠ 0:
     len ← ReadUint7()
-  if flags &amp; Stripe:
+  if flags Stripe:
     data ← RansDecodeStripe(len)
     return data
-  if flags &amp; N32:
+  if flags N32:
     N ← 32
   else:
     N ← 4
   // Read meta-data
-  if flags &amp; Pack:
+  if flags Pack:
     pack_len ← len
     (P, nsym, len) ← DecodePackMeta()
-  if flags &amp; RLE:
+  if flags RLE:
     rle_len ← len
     (L, rle_meta, len) ← DecodeRLEMeta(N)
   // Uncompress main data block
-  if flags &amp; Cat:
+  if flags Cat:
     data ← ReadData(len)
-  else if flags &amp; Order:
+  else if flags Order:
     data ← RansDecodeNx16_1(len, N)
   else:
     data ← RansDecodeNx16_0(len, N)
   // Apply data transformations
-  if flags &amp; RLE:
+  if flags RLE:
     data ← DecodeRLE(data, L, rle_meta, rle_len)
-  if flags &amp; Pack:
+  if flags Pack:
     data ← DecodePack(data, P, nsym, pack_len)
   return data</code></pre>
 
@@ -1912,8 +1853,8 @@ coder, reading the first bytes of the compressed data stream.
   range ← 2^32-1  // Maximum 32-bit unsigned value
   code ← 0  // 32-bit unsigned
   for i ← 0 to 4:
-    code ← (code &lt;&lt; 8) +ReadUint8()
-  code ← code &amp; 2^32-1
+    code ← (code 8) +ReadUint8()
+  code ← code 2^32-1
   return this range coder (range, code)</code></pre>
 
 Decoding each symbol is in two parts; getting the current frequency and
@@ -1927,8 +1868,8 @@ updating the range.
   code ← code - sym_low * range
   range ← range * sym_freq
   while range &lt; 2^24:  // Renormalise
-    range ← range &lt;&lt; 8
-    code ← (code &lt;&lt; 8) +ReadUint8()</code></pre>
+    range ← range 8
+    code ← (code8) +ReadUint8()</code></pre>
 
 As mentioned above, the encoder is more complex as it cannot shift out
 the top byte until it has determined the value. This can take a
@@ -1953,7 +1894,7 @@ $\textit{low}$ variable.
 &#10;  if low &lt; old_low:
     carry ← 1  // overflow
   while range &lt; 2^24:  // Renormalise
-    range ← range &lt;&lt; 8
+    range ← range 8
     RangeShiftLow()</code></pre>
 
 <span class="smallcaps">RangeShiftLow</span> is the main heart of the
@@ -1962,7 +1903,7 @@ emit and $\textit{carry}$ indicates whether they are a string of 0xFF or
 0x00 values.
 
 <pre><code>Procedure RangeShiftLow()
-  if low &lt; 0xff000000 or carry ≠ 0:
+  if low &lt; 0xff000000 carry ≠ 0:
     if carry = 0:
       WriteByte(cache)  // top byte cache plus FFs
       while FFnum &gt; 0:
@@ -1973,11 +1914,11 @@ emit and $\textit{carry}$ indicates whether they are a string of 0xFF or
       while FFnum &gt; 0:
         WriteByte(0)
         FFnum ← FFnum - 1
-    cache ← low &gt;&gt; 24  // Copy of top byte ready for next flush
+    cache ← low 24  // Copy of top byte ready for next flush
     carry ← 0
   else:
     FFnum ← FFnum + 1
-&#10;  low ← low &lt;&lt; 8</code></pre>
+&#10;  low ← low 8</code></pre>
 
 For completeness, the Encoder initialisation and finish functions are
 below.
@@ -2053,7 +1994,7 @@ frequencies automatically.
   if total_freq &gt; 2^16-17:
     ModelRenormalise()
   sym ← S_x
-  if x &gt; 0 and F_x &gt; F_x-1:
+  if x &gt; 0 F_x &gt; F_x-1:
     Swap(F_x, F_x-1)
     Swap(S_x, S_x-1)
   return sym</code></pre>
@@ -2189,7 +2130,6 @@ and N-way interleaving of the 8-bit components of a 32-bit value.
 <th><strong>Type</strong></th>
 <th><strong>Name</strong></th>
 <th><strong>Description</strong></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
@@ -2198,133 +2138,69 @@ and N-way interleaving of the 8-bit components of a 32-bit value.
 <td>uint8</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑓𝑙𝑎𝑔</mtext><annotation encoding="application/x-tex">\textit{flag}</annotation></semantics></math></td>
 <td>Data format bit field</td>
-<td></td>
 </tr>
 <tr>
-<td><span>1-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Unless <span class="smallcaps">NoSize</span> flag is set:</em></td>
 </tr>
 <tr>
-<td><em>Unless <span class="smallcaps">NoSize</span> flag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint7</td>
 <td>ulen</td>
 <td>Uncompressed length</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>If <span class="smallcaps">Stripe</span> flag is set:</em></td>
 </tr>
 <tr>
-<td><em>If <span class="smallcaps">Stripe</span> flag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>8</td>
+<td>uint8</td>
+<td>N</td>
+<td>Number of sub-streams</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td>8
-?
-?</td>
-<td>uint8
-uint7[]
-uint8[]</td>
-<td>N
-clen[]
-cdata[]</td>
-<td>Number of sub-streams
-N copies of compressed sub-block length
-N copies of Compressed data sub-block (recurse)</td>
+<td>?</td>
+<td>uint7[]</td>
+<td>clen[]</td>
+<td>N copies of compressed sub-block length</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>?</td>
+<td>uint8[]</td>
+<td>cdata[]</td>
+<td>N copies of Compressed data sub-block (recurse)</td>
 </tr>
 <tr>
-<td><em>If <span class="smallcaps">Cat</span> flag is set (and <span
+<td colspan="4"><em>If <span class="smallcaps">Cat</span> flag is set (and <span
 class="smallcaps">Stripe</span> flag is unset):</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint8[]</td>
 <td>udata</td>
 <td>Uncompressed data stream</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><em>If <span class="smallcaps">Pack</span> flag is set (and neither
+<td colspan="4"><em>If <span class="smallcaps">Pack</span> flag is set (and neither
 <span class="smallcaps">Stripe</span> or <span
 class="smallcaps">Cat</span> flags are set):</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint8[]</td>
 <td>pack_meta</td>
 <td>Pack lookup table</td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><em>If neither <span class="smallcaps">Stripe</span> or <span
+<td colspan="4"><em>If neither <span class="smallcaps">Stripe</span> or <span
 class="smallcaps">Cat</span> flags are set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-5</span></td>
 <td>?</td>
 <td>uint8[]</td>
 <td>cdata</td>
 <td>Entropy encoded data stream (see <span class="smallcaps">Order</span> /
 <span class="smallcaps">RLE</span> / <span class="smallcaps">Ext</span>
 flags)</td>
-</tr>
-<tr>
-<td><span>2-5</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -2421,31 +2297,31 @@ unpacked.
 
 <pre><code>Function ArithDecode(len)
   flags ← ReadUint8()
-  if flags &amp; NoSize ≠ 0:
+  if flags NoSize ≠ 0:
     len ← ReadUint7()
-  if flags &amp; Stripe:
+  if flags Stripe:
     data ← DecodeStripe(len)
     return data
-  if flags &amp; Pack:
+  if flags Pack:
     pack_len ← len
     (P, nsym, len) ← DecodePackMeta()
   // Entropy Decoding
-  if flags &amp; Cat:
+  if flags Cat:
     data ← ReadData(len)
-  else if flags &amp; Ext:
+  else if flags Ext:
     data ← DecodeEXT(len)
-  else if flags &amp; RLE:
-    if flags &amp; Order:
+  else if flags RLE:
+    if flags Order:
       data ← DecodeRLE1(len)
     else:
       data ← DecodeRLE0(len)
   else:
-    if flags &amp; Order:
+    if flags Order:
       data ← DecodeOrder1(len)
     else:
       data ← DecodeOrder0(len)
   // Apply data transformations
-  if flags &amp; Pack:
+  if flags Pack:
     data ← DecodePack(data, P, nsym, pack_len)
   return data</code></pre>
 
@@ -2856,8 +2732,6 @@ order to determine when the token types finish.
 <th><strong>Type</strong></th>
 <th><strong>Name</strong></th>
 <th><strong>Description</strong></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
@@ -2866,80 +2740,57 @@ order to determine when the token types finish.
 <td>uint32</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑢𝑛𝑐𝑜𝑚𝑝_𝑙𝑒𝑛𝑔𝑡ℎ</mtext><annotation encoding="application/x-tex">\textit{uncomp\_length}</annotation></semantics></math></td>
 <td>Length of uncompressed name buffer</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>4</td>
 <td>uint32</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑛𝑢𝑚_𝑟𝑒𝑎𝑑𝑠</mtext><annotation encoding="application/x-tex">\textit{num\_reads}</annotation></semantics></math></td>
 <td>Number of read names</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>1</td>
 <td>uint8</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑢𝑠𝑒_𝑎𝑟𝑖𝑡ℎ</mtext><annotation encoding="application/x-tex">\textit{use\_arith}</annotation></semantics></math></td>
 <td>Whether compression is arithmetic (1) or rANS Nx16 (0)</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><em>For each token data stream</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>For each token data stream</em></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
 <td>1</td>
 <td>uint8</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑡𝑡𝑦𝑝𝑒</mtext><annotation encoding="application/x-tex">\textit{ttype}</annotation></semantics></math></td>
 <td>Token type code plus flags (64=duplicate, 128=next token position).</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-6</span></td>
-<td><em>If ttype AND 64 (duplicate)</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>If ttype AND 64 (duplicate)</em></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
-<td>1
-1</td>
-<td>uint8
-uint8</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑢𝑝_𝑝𝑜𝑠</mtext><annotation encoding="application/x-tex">\textit{dup\_pos}</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑢𝑝_𝑡𝑦𝑝𝑒</mtext><annotation encoding="application/x-tex">\textit{dup\_type}</annotation></semantics></math></td>
-<td>Duplicate from this token position
-Duplicate from this token type ID</td>
+<td>1</td>
+<td>uint8</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑢𝑝_𝑝𝑜𝑠</mtext><annotation encoding="application/x-tex">\textit{dup\_pos}</annotation></semantics></math></td>
+<td>Duplicate from this token position</td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td><em>else if not duplicate</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>1</td>
+<td>uint8</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑢𝑝_𝑡𝑦𝑝𝑒</mtext><annotation encoding="application/x-tex">\textit{dup\_type}</annotation></semantics></math></td>
+<td>Duplicate from this token type ID</td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
-<td>?
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{clen}</annotation></semantics></math></td>
-<td>uint7
-uint8[]</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{clen}</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑑𝑎𝑡𝑎</mtext><annotation encoding="application/x-tex">\textit{cdata}</annotation></semantics></math></td>
-<td>compressed length
-compressed data stream</td>
+<td colspan="4"><em>else if not duplicate</em></td>
+</tr>
+<tr>
+<td>?</td>
+<td>uint7</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{clen}</annotation></semantics></math></td>
+<td>compressed length</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑙𝑒𝑛</mtext><annotation encoding="application/x-tex">\textit{clen}</annotation></semantics></math></td>
+<td>uint8[]</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑑𝑎𝑡𝑎</mtext><annotation encoding="application/x-tex">\textit{cdata}</annotation></semantics></math></td>
+<td>compressed data stream</td>
 </tr>
 </tbody>
 </table>
@@ -2962,9 +2813,9 @@ Function DecodeTokenByteStreams(use_arith)
   t ← -1
   repeat:
     ttype ← ReadUint8()
-    tok_new ← ttype &amp; 128
-    tok_dup ← ttype &amp; 64
-    type ← ttype &amp; 63
+    tok_new ← ttype 128
+    tok_dup ← ttype 64
+    type ← ttype 63
     if tok_new ≠ 0:
       t ← t+1
       if type ≠ TYPE:
@@ -3114,20 +2965,20 @@ $\textit{sel}$ parameters referred are global and updateable.
 <pre><code>// Add quality q to produce and return a new context ctx
 Function FQZUpdateContext(params, q)
   ctx ← params.context  // Also the initial value
-  qctx ← (qctx &lt;&lt; params.qshift) + qtab_q
-  ctx ← ctx + ((qctx &amp; (2^params.qbits-1)) &lt;&lt; params.qloc)
-  if params.pflags &amp; 32:  // have_ptab
+  qctx ← (qctx params.qshift) + qtab_q
+  ctx ← ctx + ((qctx (2^params.qbits-1)) params.qloc)
+  if params.pflags 32:  // have_ptab
     p ← Min(pos, 1023)
-    ctx ← ctx + (ptab_p &lt;&lt; params.ploc)
-  if params.pflags &amp; 64:  // have_dtab
+    ctx ← ctx + (ptab_p params.ploc)
+  if params.pflags 64:  // have_dtab
     d ← Min(delta, 255)
-    ctx ← ctx + (dtab_d &lt;&lt; params.dloc)
+    ctx ← ctx + (dtab_d params.dloc)
     if prevq ≠ q:
       delta ← delta+1
     prevq ← q
-  if params.pflags &amp; 8:  // do_sel
-    ctx ← ctx + (sel &lt;&lt; params.sloc)
-  return ctx &amp; (2^16-1)</code></pre>
+  if params.pflags 8:  // do_sel
+    ctx ← ctx + (sel params.sloc)
+  return ctx(2^16-1)</code></pre>
 
 In summary context is produced using the following models:
 
@@ -3196,8 +3047,6 @@ the decoder. The data layout is as follows.
 <th><strong>Type</strong></th>
 <th><strong>Name</strong></th>
 <th><strong>Description</strong></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
@@ -3206,8 +3055,6 @@ the decoder. The data layout is as follows.
 <td>uint8</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑣𝑒𝑟𝑠𝑖𝑜𝑛</mtext><annotation encoding="application/x-tex">\textit{version}</annotation></semantics></math></td>
 <td>FQZComp format version: must be 5</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>8</td>
@@ -3228,88 +3075,50 @@ Otherwise set
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑜_𝑟𝑒𝑣</mtext><annotation encoding="application/x-tex">\textit{do\_rev}</annotation></semantics></math>:
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑟𝑒𝑣𝑐𝑜𝑚𝑝</mtext><annotation encoding="application/x-tex">\textit{model\_revcomp}</annotation></semantics></math>
 will be used (CRAM v3.1)</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><em>If
+<td colspan="4"><em>If
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑢𝑙𝑡𝑖_𝑝𝑎𝑟𝑎𝑚</mtext><annotation encoding="application/x-tex">\textit{multi\_param}</annotation></semantics></math>
 gflag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑛𝑝𝑎𝑟𝑎𝑚</mtext><annotation encoding="application/x-tex">\textit{nparam}</annotation></semantics></math></td>
 <td>Number of parameter blocks (defaults to 1)</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><em>If
+<td colspan="4"><em>If
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_stab}</annotation></semantics></math>
 gflag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td>8
-variable</td>
-<td>uint8
-array</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑒𝑙</mtext><annotation encoding="application/x-tex">\textit{max\_sel}</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{stab}</annotation></semantics></math></td>
-<td>Maximum parameter selector value
-Parameter selector table</td>
-<td></td>
+<td>8</td>
+<td>uint8</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑒𝑙</mtext><annotation encoding="application/x-tex">\textit{max\_sel}</annotation></semantics></math></td>
+<td>Maximum parameter selector value</td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>variable</td>
+<td>array</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{stab}</annotation></semantics></math></td>
+<td>Parameter selector table</td>
 </tr>
 <tr>
-<td><em>Parameter block: repeated
+<td colspan="4"><em>Parameter block: repeated
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑛𝑝𝑎𝑟𝑎𝑚</mtext><annotation encoding="application/x-tex">\textit{nparam}</annotation></semantics></math>
 times: (selected via
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑜𝑑𝑒𝑙_𝑠𝑒𝑙</mtext><annotation encoding="application/x-tex">\textit{model\_sel}</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{stab}</annotation></semantics></math>)</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td>16</td>
 <td>uint16</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑐𝑜𝑛𝑡𝑒𝑥𝑡</mtext><annotation encoding="application/x-tex">\textit{context}</annotation></semantics></math></td>
 <td>Starting context value</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑝𝑓𝑙𝑎𝑔𝑠</mtext><annotation encoding="application/x-tex">\textit{pflags}</annotation></semantics></math></td>
@@ -3343,131 +3152,92 @@ Load
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{qtab}</annotation></semantics></math>,
 otherwise set
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="italic">𝑞𝑡𝑎𝑏</mtext><mi>i</mi></msub><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">\textit{qtab}_i = i</annotation></semantics></math></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td>8</td>
 <td>uint8</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑦𝑚</mtext><annotation encoding="application/x-tex">\textit{max\_sym}</annotation></semantics></math></td>
 <td>Total number of distinct quality values</td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td>4
-4
-4
-4
-4
-4</td>
-<td>uint4 (high)
-uint4 (low)
-uint4 (high)
-uint4 (low)
-uint4 (high)
-uint4 (low)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑏𝑖𝑡𝑠</mtext><annotation encoding="application/x-tex">\textit{qbits}</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑠ℎ𝑖𝑓𝑡</mtext><annotation encoding="application/x-tex">\textit{qshift}</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{qloc}</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{sloc}</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑝𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{ploc}</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{dloc}</annotation></semantics></math></td>
-<td>Total number of bits for quality context
-Left bit shift per successive quality in quality context
-Bit position of quality context
-Bit position of selector context
-Bit position of position context
-Bit position of delta context</td>
-<td></td>
+<td>4</td>
+<td>uint4 (high)</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑏𝑖𝑡𝑠</mtext><annotation encoding="application/x-tex">\textit{qbits}</annotation></semantics></math></td>
+<td>Total number of bits for quality context</td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td><em>If
+<td>4</td>
+<td>uint4 (low)</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑠ℎ𝑖𝑓𝑡</mtext><annotation encoding="application/x-tex">\textit{qshift}</annotation></semantics></math></td>
+<td>Left bit shift per successive quality in quality context</td>
+</tr>
+<tr>
+<td>4</td>
+<td>uint4 (high)</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{qloc}</annotation></semantics></math></td>
+<td>Bit position of quality context</td>
+</tr>
+<tr>
+<td>4</td>
+<td>uint4 (low)</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑠𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{sloc}</annotation></semantics></math></td>
+<td>Bit position of selector context</td>
+</tr>
+<tr>
+<td>4</td>
+<td>uint4 (high)</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑝𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{ploc}</annotation></semantics></math></td>
+<td>Bit position of position context</td>
+</tr>
+<tr>
+<td>4</td>
+<td>uint4 (low)</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑙𝑜𝑐</mtext><annotation encoding="application/x-tex">\textit{dloc}</annotation></semantics></math></td>
+<td>Bit position of delta context</td>
+</tr>
+<tr>
+<td colspan="4"><em>If
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑞𝑚𝑎𝑝</mtext><annotation encoding="application/x-tex">\textit{have\_qmap}</annotation></semantics></math>
 pflag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td>variable</td>
 <td>uint8[<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑚𝑎𝑥_𝑠𝑦𝑚</mtext><annotation encoding="application/x-tex">\textit{max\_sym}</annotation></semantics></math>]</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑚𝑎𝑝</mtext><annotation encoding="application/x-tex">\textit{qmap}</annotation></semantics></math></td>
 <td>Map for unbinning quality values.</td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td><em>If
+<td colspan="4"><em>If
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑞𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_qtab}</annotation></semantics></math>
 pflag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td>variable</td>
 <td>array</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑞𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{qtab}</annotation></semantics></math></td>
 <td>Quality context lookup table</td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td><em>If
+<td colspan="4"><em>If
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_tab}</annotation></semantics></math>
 pflag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td>variable</td>
 <td>array</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑝𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{ptab}</annotation></semantics></math></td>
 <td>Position context lookup table</td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td><em>If
+<td colspan="4"><em>If
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">ℎ𝑎𝑣𝑒_𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{have\_tab}</annotation></semantics></math>
 pflag is set:</em></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-6</span></td>
-<td></td>
 <td>variable</td>
 <td>array</td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="italic">𝑑𝑡𝑎𝑏</mtext><annotation encoding="application/x-tex">\textit{dtab}</annotation></semantics></math></td>
 <td>Delta context lookup table</td>
-</tr>
-<tr>
-<td><span>3-6</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><span>2-7</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -3480,13 +3250,13 @@ pseudocode for reading the parameter block.
   if vers ≠ 5:
     ERROR
   gflags ← ReadUint8()
-  if gflags &amp; 1:  // multi_param
+  if gflags 1:  // multi_param
     nparam ← ReadUint8()
     max_sel ← nparam
   else:
     nparam ← 1
     max_sel ← 0
-  if gflags &amp; 2:  // have_stab
+  if gflags 2:  // have_stab
     max_sel ← ReadUint8()
     stab ← ReadArray(256)
   max_sym ← 0
@@ -3509,17 +3279,17 @@ pseudocode for reading the parameter block.
   x ← ReadUint8()
   p.ploc ← x div 16
   p.dloc ← x mod 16
-  if p.flags &amp; 16:  // Have qmap
+  if p.flags16:  // Have qmap
     for i ← 0 to p.max_sym-1:
       p.qmap_i ← ReadUint8()
-  if p.flags &amp; 128:  // Have qtab
+  if p.flags128:  // Have qtab
     p.qtab ← ReadArray(256)
   else:
     for i ← 0 to 256:
       p.qtab_i ← i
-  if p.flags &amp; 32:  // Have ptab
+  if p.flags32:  // Have ptab
     p.ptab ← ReadArray(1024)
-  if p.flags &amp; 64:  // Have dtab
+  if p.flags64:  // Have dtab
     p.dtab ← ReadArray(256)
   return p</code></pre>
 
@@ -3617,7 +3387,7 @@ elsewhere).
     if have_stab:
       x ← stab_sel
   param ← params_x
-&#10;  if param.do_len or param.first_len:  // Decode read length
+&#10;  if param.do_len param.first_len:  // Decode read length
     rec_len ← DecodeLength(rc)
     param.last_len ← rec_len
     param.first_len = 0
@@ -3670,9 +3440,9 @@ Read lengths are encoded as 4 8-bit bytes, each having its own model.
 
 <pre><code>Function DecodeLength(rc)
   rec_len ← model_len_0.ModelDecode(rc)
-  rec_len ← rec_len + (model_len_1.ModelDecode(rc)&lt;&lt; 8)
-  rec_len ← rec_len + (model_len_2.ModelDecode(rc)&lt;&lt; 16)
-  rec_len ← rec_len + (model_len_3.ModelDecode(rc)&lt;&lt; 24)
+  rec_len ← rec_len + (model_len_1.ModelDecode(rc)8)
+  rec_len ← rec_len + (model_len_2.ModelDecode(rc)16)
+  rec_len ← rec_len + (model_len_3.ModelDecode(rc)24)
   return rec_len</code></pre>
 
 For CRAM v4.0 quality values are stored in their original FASTQ

@@ -123,15 +123,10 @@ local function simplify_math_text(text)
   text = text:gsub("\\nonscript\\mskip%-\\medmuskip", " ")
   text = text:gsub("\\penalty%s*%d+\\mkern%s*5mu", " ")
 
-  -- Replace CRAMcodecs custom math operator macros with KaTeX-compatible equivalents
-  text = text:gsub("\\shiftl", "\\mathbin{\\text{<<}}")
-  text = text:gsub("\\shiftr", "\\mathbin{\\text{>>}}")
-  text = text:gsub("\\bitand", "\\mathbin{\\&}")
-  text = text:gsub("\\bitor",  "\\mathbin{\\text{OR}}")
-  text = text:gsub("\\bitxor", "\\mathbin{\\text{XOR}}")
-  text = text:gsub("\\logor",  "\\text{ \\textbf{or} }")
-  text = text:gsub("\\logand", "\\text{ \\textbf{and} }")
-  -- \concat is replaced in tex2md.py before pandoc expands the macro
+  -- CRAMcodecs custom operators (\shiftl, \shiftr, \bitand, \bitor, \bitxor,
+  -- \logor, \logand, \concat) are defined after \begin{document}, so pandoc
+  -- expands them before the filter runs. Their expanded forms are caught by
+  -- the fallback patterns below. \concat is replaced in tex2md.py.
 
   -- Replace custom operator macros with standard LaTeX
   text = text:gsub("\\mathbin{\\operator@font%s+\\textbf{(%w+)}}", "\\mathbin{\\textbf{%1}}")
@@ -419,66 +414,161 @@ function Table(el)
     end
   end
 
-  -- Determine the actual maximum number of columns that have content in at least one row
-  local actual_max_cols = 0
-  local function get_last_non_empty_cell_index(row)
-    local last = 0
-    for i, cell in ipairs(row.cells) do
-      -- Check if cell has any content (Blocks)
-      if #cell.contents > 0 then
-        -- Further check if it's just a Plain/Para with empty content
-        local has_content = false
-        for _, block in ipairs(cell.contents) do
-          if block.t == "Plain" or block.t == "Para" then
-            if #block.content > 0 then has_content = true break end
-          else
-            has_content = true break
-          end
-        end
-        if has_content then
-          last = i
-        end
+  -- Helper: check if a cell has real content
+  local function cell_has_content(cell)
+    if not cell or #cell.contents == 0 then return false end
+    for _, block in ipairs(cell.contents) do
+      if block.t == "Plain" or block.t == "Para" then
+        if #block.content > 0 then return true end
+      else
+        return true
       end
     end
-    return last
+    return false
+  end
+
+  -- Build logical column groups from header cell col_spans.
+  -- E.g. header with cells [Bits(span=2), Type(span=1), Name(span=1), Desc(span=2)]
+  -- produces col_groups = {{1,2}, {3,3}, {4,4}, {5,6}} and num_logical = 4.
+  header = el.head.rows[1]
+  local col_groups = {}   -- each: {from_phys, to_phys}
+  local total_phys = #el.colspecs
+  if header then
+    local pos = 1
+    for _, cell in ipairs(header.cells) do
+      local span = cell.col_span or 1
+      table.insert(col_groups, {pos, pos + span - 1})
+      pos = pos + span
+    end
+  end
+  local num_logical = #col_groups
+  if num_logical == 0 then
+    for i = 1, total_phys do
+      table.insert(col_groups, {i, i})
+    end
+    num_logical = total_phys
+  end
+
+  -- Physical-to-logical column mapping
+  local phys_to_logical = {}
+  for li, group in ipairs(col_groups) do
+    for p = group[1], group[2] do
+      phys_to_logical[p] = li
+    end
+  end
+
+  -- Map a row's cells to logical columns.
+  -- Returns a list of num_logical entries: {contents=blocks, colspan=1, skip=false}
+  -- For a full-width spanning row (e.g. section header), returns a single-entry list
+  -- with colspan = num_logical.
+  local function map_row_to_logical(row)
+    local logical = {}
+    for i = 1, num_logical do
+      logical[i] = {contents = {}, colspan = 1, skip = false}
+    end
+
+    local phys = 1
+    for _, cell in ipairs(row.cells) do
+      local span = cell.col_span or 1
+      local cell_from = phys
+      local cell_to = phys + span - 1
+      phys = phys + span
+
+      local log_from = phys_to_logical[cell_from]
+      local log_to = phys_to_logical[math.min(cell_to, total_phys)]
+      if not log_from or not log_to then goto next_cell end
+
+      if log_from == 1 and log_to == num_logical and cell_has_content(cell) then
+        -- Full-width spanning row (section header)
+        local result = {}
+        for i = 1, num_logical do
+          result[i] = {contents = {}, colspan = 1, skip = true}
+        end
+        result[1] = {contents = cell.contents, colspan = num_logical, skip = false}
+        return result
+      elseif log_from == log_to then
+        -- Cell belongs to a single logical column: merge contents
+        for _, block in ipairs(cell.contents) do
+          table.insert(logical[log_from].contents, block)
+        end
+      else
+        -- Cell spans multiple logical columns
+        for _, block in ipairs(cell.contents) do
+          table.insert(logical[log_from].contents, block)
+        end
+        logical[log_from].colspan = log_to - log_from + 1
+        for li = log_from + 1, log_to do
+          logical[li].skip = true
+        end
+      end
+
+      ::next_cell::
+    end
+
+    return logical
+  end
+
+  -- Check if a logical row has any content
+  local function logical_row_has_content(lcells)
+    for _, lc in ipairs(lcells) do
+      if not lc.skip and #lc.contents > 0 then
+        if cell_has_content({contents = lc.contents}) then return true end
+      end
+    end
+    return false
+  end
+
+  -- Determine the actual number of logical columns with content (trim trailing empty)
+  local actual_logical = 0
+  local function update_max_logical(lcells)
+    for i = num_logical, 1, -1 do
+      if not lcells[i].skip and cell_has_content({contents = lcells[i].contents}) then
+        if i > actual_logical then actual_logical = i end
+        return
+      end
+    end
   end
 
   for _, row in ipairs(el.head.rows) do
-    actual_max_cols = math.max(actual_max_cols, get_last_non_empty_cell_index(row))
+    update_max_logical(map_row_to_logical(row))
   end
   for _, body in ipairs(el.bodies) do
     for _, row in ipairs(body.body) do
-      actual_max_cols = math.max(actual_max_cols, get_last_non_empty_cell_index(row))
+      update_max_logical(map_row_to_logical(row))
     end
   end
+  if actual_logical == 0 then actual_logical = num_logical end
 
-  -- If for some reason everything is empty, fallback to at least one column
-  if actual_max_cols == 0 and #el.colspecs > 0 then
-    actual_max_cols = #el.colspecs
-  end
-
-  -- Merge continuation rows (first cell empty) into the previous row's last cell.
-  -- This handles LaTeX tables where a description spans multiple rows.
-  local function is_first_cell_empty(row)
-    if not row.cells[1] then return true end
-    return get_last_non_empty_cell_index({cells = {row.cells[1]}}) == 0
-  end
-
+  -- Merge continuation rows: if a row has empty first logical cell and content
+  -- in only 1 other cell, merge it into the previous row (text overflow).
   for _, body in ipairs(el.bodies) do
     local merged = {}
     for _, row in ipairs(body.body) do
-      if #merged > 0 and is_first_cell_empty(row) and get_last_non_empty_cell_index(row) > 0 then
+      local lcells = map_row_to_logical(row)
+      if not logical_row_has_content(lcells) then goto skip_row end
+
+      local first_empty = not cell_has_content({contents = lcells[1].contents})
+      local content_count = 0
+      for i = 2, actual_logical do
+        if not lcells[i].skip and cell_has_content({contents = lcells[i].contents}) then
+          content_count = content_count + 1
+        end
+      end
+
+      if #merged > 0 and first_empty and content_count == 1 then
         local prev = merged[#merged]
-        for i = 2, actual_max_cols do
-          if row.cells[i] and #row.cells[i].contents > 0 then
-            for _, block in ipairs(row.cells[i].contents) do
-              table.insert(prev.cells[i].contents, block)
+        for i = 2, actual_logical do
+          if not lcells[i].skip then
+            for _, block in ipairs(lcells[i].contents) do
+              table.insert(prev[i].contents, block)
             end
           end
         end
       else
-        table.insert(merged, row)
+        table.insert(merged, lcells)
       end
+
+      ::skip_row::
     end
     body.body = merged
   end
@@ -490,13 +580,18 @@ function Table(el)
   if #el.head.rows > 0 then
     table.insert(html, "<thead>")
     for _, row in ipairs(el.head.rows) do
+      local lcells = map_row_to_logical(row)
       table.insert(html, "<tr>")
-      for i = 1, actual_max_cols do
-        local cell = row.cells[i]
-        if cell then
-          table.insert(html, "<th>" .. blocks_to_html(cell.contents) .. "</th>")
-        else
-          table.insert(html, "<th></th>")
+      for i = 1, actual_logical do
+        local lc = lcells[i]
+        if not lc.skip then
+          local span_attr = ""
+          if lc.colspan > 1 then
+            -- Clamp colspan to not exceed remaining columns
+            local effective = math.min(lc.colspan, actual_logical - i + 1)
+            if effective > 1 then span_attr = ' colspan="' .. effective .. '"' end
+          end
+          table.insert(html, "<th" .. span_attr .. ">" .. blocks_to_html(lc.contents) .. "</th>")
         end
       end
       table.insert(html, "</tr>")
@@ -504,27 +599,28 @@ function Table(el)
     table.insert(html, "</thead>")
   end
 
-  -- Body (skip rows where all cells are empty)
+  -- Body
   table.insert(html, "<tbody>")
   for _, body in ipairs(el.bodies) do
-    for _, row in ipairs(body.body) do
-      if get_last_non_empty_cell_index(row) > 0 then
-        table.insert(html, "<tr>")
-        for i = 1, actual_max_cols do
-          local cell = row.cells[i]
-          if cell then
-            table.insert(html, "<td>" .. blocks_to_html(cell.contents) .. "</td>")
-          else
-            table.insert(html, "<td></td>")
+    for _, lcells in ipairs(body.body) do
+      table.insert(html, "<tr>")
+      for i = 1, actual_logical do
+        local lc = lcells[i]
+        if not lc.skip then
+          local span_attr = ""
+          if lc.colspan > 1 then
+            local effective = math.min(lc.colspan, actual_logical - i + 1)
+            if effective > 1 then span_attr = ' colspan="' .. effective .. '"' end
           end
+          table.insert(html, "<td" .. span_attr .. ">" .. blocks_to_html(lc.contents) .. "</td>")
         end
-        table.insert(html, "</tr>")
       end
+      table.insert(html, "</tr>")
     end
   end
   table.insert(html, "</tbody>")
   table.insert(html, "</table>")
-  
+
   return pandoc.RawBlock('html', table.concat(html, "\n"))
 end
 

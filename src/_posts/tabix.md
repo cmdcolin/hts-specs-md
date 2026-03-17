@@ -13,8 +13,6 @@ date: 6 Jun 2018
 <th><strong>Description</strong></th>
 <th><strong>Type</strong></th>
 <th><strong>Value</strong></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
@@ -23,15 +21,11 @@ date: 6 Jun 2018
 <td>Magic string</td>
 <td><code>char[4]</code></td>
 <td>TBI<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∖</mi><annotation encoding="application/x-tex">\backslash</annotation></semantics></math>1</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>n_ref</code></td>
 <td># sequences</td>
 <td><code>int32_t</code></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 <tr>
@@ -39,15 +33,11 @@ date: 6 Jun 2018
 <td>Format (0: generic; 1: SAM; 2: VCF)</td>
 <td><code>int32_t</code></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>col_seq</code></td>
 <td>Column for the sequence name</td>
 <td><code>int32_t</code></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 <tr>
@@ -55,15 +45,11 @@ date: 6 Jun 2018
 <td>Column for the start of a region</td>
 <td><code>int32_t</code></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>col_end</code></td>
 <td>Column for the end of a region</td>
 <td><code>int32_t</code></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 <tr>
@@ -71,15 +57,11 @@ date: 6 Jun 2018
 <td>Leading character for comment lines</td>
 <td><code>int32_t</code></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>skip</code></td>
 <td># lines to skip at the beginning</td>
 <td><code>int32_t</code></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 <tr>
@@ -87,102 +69,64 @@ date: 6 Jun 2018
 <td>Length of concatenated sequence names</td>
 <td><code>int32_t</code></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>names</code></td>
 <td>Concatenated names, each zero terminated</td>
 <td><code>char[l_nm]</code></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span style="color: gray"><em>List of indices (n=n_ref)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of indices (n=n_ref)</em></span></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td><code>n_bin</code></td>
 <td># distinct bins (for the binning index)</td>
 <td><code>int32_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td><span style="color: gray"><em>List of distinct bins
+<td colspan="4"><span style="color: gray"><em>List of distinct bins
 (n=n_bin)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td><code>bin</code></td>
 <td>Distinct bin number</td>
 <td><code>uint32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td><code>n_chunk</code></td>
 <td># chunks</td>
 <td><code>int32_t</code></td>
 <td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
-<td><span style="color: gray"><em>List of chunks (n=n_chunk)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><span style="color: gray"><em>List of chunks (n=n_chunk)</em></span></td>
 </tr>
 <tr>
-<td><span>4-7</span></td>
-<td></td>
-<td></td>
 <td><code>cnk_beg</code></td>
 <td>Virtual file offset of the start of the chunk</td>
 <td><code>uint64_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>4-7</span></td>
-<td></td>
-<td></td>
 <td><code>cnk_end</code></td>
 <td>Virtual file offset of the end of the chunk</td>
 <td><code>uint64_t</code></td>
+<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
 <td><code>n_intv</code></td>
 <td># 16kb intervals (for the linear index)</td>
 <td><code>int32_t</code></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>2-7</span></td>
-<td><span style="color: gray"><em>List of distinct intervals
+<td colspan="4"><span style="color: gray"><em>List of distinct intervals
 (n=n_intv)</em></span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td><span>3-7</span></td>
-<td></td>
 <td><code>ioff</code></td>
 <td>File offset of the first record in the interval</td>
 <td><code>uint64_t</code></td>
@@ -192,8 +136,6 @@ date: 6 Jun 2018
 <td><code>n_no_coor</code> (optional)</td>
 <td># unmapped reads without coordinates set</td>
 <td><code>uint64_t</code></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 </tbody>

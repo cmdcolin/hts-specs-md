@@ -446,6 +446,10 @@ def main():
                       lambda m: r'\begin{tabular}{' + normalize_col_spec(m.group(1)) + '}',
                       body)
         body = body.replace(r'\end{tabular*}', r'\end{tabular}')
+        # Strip \cline{...} (partial horizontal rules) which pandoc misinterprets as cell content
+        body = re.sub(r'\\cline\{[^}]*\}\s*\n?', '', body)
+        # Strip empty multicolumn spacer rows (e.g. \multicolumn{6}{|l|}{}\\[-0.3em])
+        body = re.sub(r'\\multicolumn\{\d+\}\{[^}]*\}\{\}\s*\\\\(?:\[[^\]]*\])?\s*\n?', '', body)
         # Convert \tnote{marker} (threeparttable note reference) to superscript
         body = re.sub(r'\\tnote\{([^}]*)\}', r'\\textsuperscript{\1}', body)
         # Replace dagger symbols (\dag, \dagger) with Unicode dagger before pandoc
