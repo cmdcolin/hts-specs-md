@@ -1,0 +1,1068 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+"http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd" > 
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title></title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- xhtml,mathml,0,html --> 
+<meta name="src" content="BEDv1.tex" /> 
+<link rel="stylesheet" type="text/css" href="BEDv1.css" /> 
+
+<style>
+  body {
+    font-family: "Charter", "Bitstream Charter", "Georgia", serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .header-anchor {
+    text-decoration: none;
+    font-size: 0.8em;
+    opacity: 0.3;
+  }
+  .header-anchor:hover { opacity: 1; }
+  h2, h3, h4, h5 {
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+    margin-top: 1.5rem;
+  }
+  :target { scroll-margin-top: 2rem; }
+  .toc {
+    background: #f6f8fa;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5da;
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+  }
+  .toc summary { cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+  .toc ul { list-style: none; padding-left: 0; margin: 0.25rem 0 0; columns: 2; column-gap: 1.5rem; }
+  .toc li { margin: 0.1rem 0; line-height: 1.25; break-inside: avoid; }
+  .toc .depth-3 { padding-left: 0.75rem; }
+  .toc .depth-4 { padding-left: 1.5rem; }
+  .toc .depth-5 { padding-left: 2.25rem; }
+  .toc a:hover { text-decoration: underline; }
+  table { border-collapse: collapse; margin-bottom: 1rem; }
+  td, th { border: 1px solid #ddd; padding: 2px 8px; }
+  th { background-color: #f8f9fa; }
+  .banner {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  a, a span { color: revert; font-family: inherit; font-size: inherit; }
+  nav { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: center; }
+  @media (max-width: 768px) {
+    body { padding: 0.5rem; font-size: 0.9rem; }
+    .toc ul { columns: 1; }
+  }
+</style>
+</head><body 
+>
+
+<nav>
+  <a href="/hts-specs-md">hts-specs-md</a>
+  <a href="/hts-specs-md/about">About</a>
+</nav>
+
+   <div class="maketitle">                                                                                      
+                                                                                         
+                                                                                         
+                                                                                         
+
+<h2 class="titleHead">The <a 
+ id="x1-1doc"></a>BED! (BED!) format</h2>
+ <div class="author" ><span 
+class="ecrm-1200">Jeffrey Niu, Danielle Denisko, Michael M.</span><span 
+class="ecrm-1200">&#x00A0;Hoffman</span></div>
+<details class="toc" open>
+<summary>Table of Contents</summary>
+<ul>
+<li><a href="#1">1 Specification</a></li>
+<li class="depth-3"><a href="#1.1">1.1 Scope</a></li>
+<li class="depth-3"><a href="#1.2">1.2 Typographic conventions</a></li>
+<li class="depth-3"><a href="#1.3">1.3 Terminology and concepts</a></li>
+<li class="depth-3"><a href="#1.4">1.4 Lines</a></li>
+<li class="depth-4"><a href="#1.4.1">1.4.1 Data lines</a></li>
+<li class="depth-4"><a href="#1.4.2">1.4.2 Comment lines and blank lines</a></li>
+<li class="depth-3"><a href="#1.5">1.5 BED! fields</a></li>
+<li class="depth-3"><a href="#1.6">1.6 Coordinates</a></li>
+<li class="depth-3"><a href="#1.7">1.7 Simple attributes</a></li>
+<li class="depth-3"><a href="#1.8">1.8 Display attributes</a></li>
+<li class="depth-3"><a href="#1.9">1.9 Blocks</a></li>
+</ul>
+</details>
+<br />
+<div class="date" ><span 
+class="ecrm-1200">5 Jan 2022</span></div>
+   </div>
+<!--l. 81--><p class="noindent" ><span 
+class="ecrm-1000">The master version of this document can be found at </span><a 
+href="https://github.com/samtools/hts-specs" class="url" ><span 
+class="ectt-1000">https://github.com/samtools/hts-specs</span></a><span 
+class="ecrm-1000">. This printing is</span>
+<span 
+class="ecrm-1000">version</span><span 
+class="ecrm-1000">&#x00A0;9ddbc52</span><span 
+class="ecrm-1000">&#x00A0;from that repository, last modified on the date shown above.</span>
+   
+</p>
+   <h3 class="sectionHead" id="1"><span class="titlemark">1 </span>Specification <a href="#1" class="header-anchor">#</a></h3>
+<!--l. 90--><p class="noindent" ><span 
+class="ecbx-1095">BED!</span> is a whitespace-delimited file format, where each&#x00A0;<span 
+class="ecbx-1095">file </span>consists of zero or
+more&#x00A0;<span 
+class="ecbx-1095">line</span>s.<span class="footnote-mark"><sup class="textsuperscript">1</sup></span>   <a 
+ id="x1-1001f1"></a> <span class="footnote-mark"><a 
+ id="x1-1002x1"></a><a 
+ id="fn1x0"><sup class="textsuperscript">1 </sup></a></span><span 
+class="ecrm-0900">&#8220;Frequently Asked Questions: Data File Formats.&#8221; </span><span 
+class="ecbx-0900">UCSC! </span><span 
+class="ecrm-0900">(</span><span 
+class="ecbx-0900">UCSC!</span><span 
+class="ecrm-0900">) Genome Browser FAQ,</span>
+     <a 
+href="https://genome.ucsc.edu/FAQ/FAQformat.html" class="url" ><span 
+class="ectt-0900">https://genome.ucsc.edu/FAQ/FAQformat.html</span></a> 
+Data are in&#x00A0;<span 
+class="ecbx-1095">data line</span>s, which describe discrete genomic&#x00A0;<span 
+class="ecbx-1095">feature</span>s by physical start and end position on a
+linear&#x00A0;<span 
+class="ecbx-1095">chromosome</span>. The file extension for the <span 
+class="ecbx-1095">BED!</span> format is&#x00A0;<span 
+class="ectt-1095">.bed</span>.
+   
+</p>
+   <h4 class="subsectionHead" id="1.1"><span class="titlemark">1.1 </span>Scope <a href="#1.1" class="header-anchor">#</a></h4>
+<!--l. 96--><p class="noindent" >This specification formalizes reasonable interpretations of the <span 
+class="ecbx-1095">UCSC!</span> Genome Browser <span 
+class="ecbx-1095">BED!</span> description.
+This specification also makes clear potential interoperability issues in the current format, which could be
+addressed in a future specification.
+   
+</p>
+   <h4 class="subsectionHead" id="1.2"><span class="titlemark">1.2 </span>Typographic conventions <a href="#1.2" class="header-anchor">#</a></h4>
+<!--l. 101--><p class="noindent" >This document uses several typographic conventions&#x00A0;(<span 
+class="ecbx-1095">??</span>).
+</p>
+   <div class="table">
+                                                                                         
+                                                                                         
+<!--l. 105--><p class="indent" >   </p><hr class="float" /><div class="float" 
+>
+                                                                                         
+                                                                                         
+
+ <table id="TBL-4" class="tabular" 
+ 
+><colgroup id="TBL-4-1g"><col 
+id="TBL-4-1" /><col 
+id="TBL-4-2" /><col 
+id="TBL-4-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-4-1-"><td  style="text-align:right; white-space:nowrap;" id="TBL-4-1-1"  
+class="td11">      Style  </td><td  style="text-align:left;" id="TBL-4-1-2"  
+class="td11"> <!--l. 114--><p class="noindent" >Meaning                                      </p></td><td  style="text-align:left;" id="TBL-4-1-3"  
+class="td11"> <!--l. 114--><p class="noindent" >Examples                                    </p></td>
+
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-2-"><td  style="text-align:right; white-space:nowrap;" id="TBL-4-2-1"  
+class="td11">       Bold  </td><td  style="text-align:left;" id="TBL-4-2-2"  
+class="td11"> <!--l. 114--><p class="noindent" >Terms
+  defined
+  in
+  subsections&#x00A0;<span 
+class="ecbx-1095">??</span>&#8211;<span 
+class="ecbx-1095">??</span>                     </p></td><td  style="text-align:left;" id="TBL-4-2-3"  
+class="td11"> <!--l. 114--><p class="noindent" ><span 
+class="ecbx-1095">chromosome</span>
+ <span 
+class="ecbx-1095">file</span>                                       </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-3-"><td  style="text-align:right; white-space:nowrap;" id="TBL-4-3-1"  
+class="td11">   Sans serif  </td><td  style="text-align:left;" id="TBL-4-3-2"  
+class="td11"> <!--l. 114--><p class="noindent" >Names
+  of&#x00A0;<span 
+class="ecbx-1095">field</span>s                                     </p></td><td  style="text-align:left;" id="TBL-4-3-3"  
+class="td11"> <!--l. 114--><p class="noindent" ><span 
+class="ecss-1095">chrom</span>
+  <span 
+class="ecss-1095">chromStart</span>
+  <span 
+class="ecss-1095">chromEnd</span>                                    </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-4-"><td  style="text-align:right; white-space:nowrap;" id="TBL-4-4-1"  
+class="td11"> Fixed-width  </td><td  style="text-align:left;" id="TBL-4-4-2"  
+class="td11"> <!--l. 114--><p class="noindent" >Literals
+  or
+  <span 
+class="ecbx-1095">regex!</span>es<span class="footnote-mark"><sup class="textsuperscript">2</sup></span>                                       </p></td><td  style="text-align:left;" id="TBL-4-4-3"  
+class="td11"> <!--l. 114--><p class="noindent" ><span 
+class="ectt-1095">.bed</span>
+ <span 
+class="ectt-1095">grep</span>
+ <span 
+class="ectt-1095">[[:alnum:]]+</span>
+ <span 
+class="ectt-1095">ATCG</span>                           </p></td>
+
+</tr></table><a 
+ id="x1-3001r1"></a>
+                                                                                         <div class="caption" 
+><span class="id">
+Table&#x00A0;1: </span><span  
+class="content"><span 
+class="ecbx-1095">Typographic conventions.</span>
+</span></div><!--tex4ht:label?: x1-3001r1 -->
+                                                                                         
+                                                                                         
+   </div><hr class="endfloat" />
+   </div><a 
+ id="x1-3002f2"></a> <span class="footnote-mark"><a 
+ id="x1-3003x1.2"></a><a 
+ id="fn1x0"></a></span>
+   <sup class="textsuperscript"><span 
+class="ecrm-1000">2</span></sup> <span 
+class="ecrm-0900">POSIX/IEEE</span><span 
+class="ecrm-0900">&#x00A0;1003.1&#8211;2017 Extended Regular Expressions, for the &#8220;C&#8221;  locale. </span><span 
+class="ecti-0900">IEEE Standard for Information</span>
+     <span 
+class="ecti-0900">Technology&#8212;Portable Operating System Interface</span><span 
+class="ecti-0900">&#x00A0;(POSIX) Base Specifications</span><span 
+class="ecrm-0900">, IEEE</span><span 
+class="ecrm-0900">&#x00A0;1003.1&#8211;2017, 2017</span>
+
+   
+   <h4 class="subsectionHead" id="1.3"><span class="titlemark">1.3 </span>Terminology and concepts <a href="#1.3" class="header-anchor">#</a></h4>
+<!--l. 121--><p class="noindent" >
+     </p><dl class="description"><dt class="description">
+<span 
+class="ecbx-1095">0-based, half-open coordinate system:</span> </dt><dd 
+class="description">
+     <!--l. 121--><p class="noindent" >A coordinate system where the first base starts at position&#x00A0;0, and the start of the interval is
+     included but the end is not. For example, for a sequence of bases&#x00A0;<span 
+class="ectt-1095">ACTGCG</span>, the bases given by
+     the interval&#x00A0;[2,&#x00A0;4) are&#x00A0;<span 
+class="ectt-1095">TG</span>.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field:</span> </dt><dd 
+class="description">
+     <!--l. 125--><p class="noindent" >One of the 12&#x00A0;standard&#x00A0;<span 
+class="ecbx-1095">field</span>s defined in this specification. The first 3&#x00A0;<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s are
+     mandatory. The remaining 9&#x00A0;<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s are optional.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">BED!</span><!--l. 130--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>n</mi></math><span 
+class="ecbx-1095">:</span> </dt><dd 
+class="description">
+     <!--l. 130--><p class="noindent" >A&#x00A0;<span 
+class="ecbx-1095">file                             </span>with                                 the                                 first
+     <!--l. 131--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>n</mi></math>&#x00A0;<span 
+class="ecbx-1095">BED!</span>
+     <span 
+class="ecbx-1095">field</span>s.   For   example,   <span 
+class="ecbx-1095">BED3</span>&#x00A0;means   a&#x00A0;<span 
+class="ecbx-1095">file   </span>with   only   the   first   3&#x00A0;<span 
+class="ecbx-1095">BED!</span>   <span 
+class="ecbx-1095">field</span>s;
+     <span 
+class="ecbx-1095">BED12</span>&#x00A0;means a&#x00A0;<span 
+class="ecbx-1095">file </span>with all 12&#x00A0;<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">BED!</span><!--l. 134--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>n</mi></math><span 
+class="ecbx-1095">+:</span> </dt><dd 
+class="description">
+     <!--l. 134--><p class="noindent" >A&#x00A0;<span 
+class="ecbx-1095">file            </span>that              has              at              least              the              first
+     <!--l. 135--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>n</mi></math>&#x00A0;<span 
+class="ecbx-1095">BED!</span>
+     <span 
+class="ecbx-1095">field</span>s,       followed       by       zero       or       more       of       the       remaining&#x00A0;<span 
+class="ecbx-1095">BED!</span>
+     <span 
+class="ecbx-1095">field</span>s              and              zero              or              more&#x00A0;<span 
+class="ecbx-1095">custom              field</span>s.
+     A&#x00A0;<span 
+class="ecbx-1095">BED!</span><!--l. 136--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>n</mi></math>
+     <span 
+class="ecbx-1095">file            </span>also              satisfies              the              definition              of              a
+     <span 
+class="ecbx-1095">BED!</span><!--l. 136--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>n</mi></math>+
+     <span 
+class="ecbx-1095">file</span>.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">BED!</span><!--l. 138--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>n</mi></math><span 
+class="ecbx-1095">+</span><!--l. 138--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>m</mi></math><span 
+class="ecbx-1095">:</span> </dt><dd 
+class="description">
+     <!--l. 138--><p class="noindent" >A&#x00A0;<span 
+class="ecbx-1095">file      </span>that       has       a       custom       format       starting       with       the       first
+     <!--l. 139--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>n</mi></math>&#x00A0;<span 
+class="ecbx-1095">field</span>s
+     of                 the                 <span 
+class="ecbx-1095">BED!</span>               format,                 followed                 by
+     <!--l. 139--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>m</mi></math>&#x00A0;<span 
+class="ecbx-1095">custom</span>
+     <span 
+class="ecbx-1095">field</span>s.  For  example,  <span 
+class="ecbx-1095">BED6+4</span>&#x00A0;means  a&#x00A0;<span 
+class="ecbx-1095">file </span>with  the  first  6&#x00A0;<span 
+class="ecbx-1095">BED!</span>  <span 
+class="ecbx-1095">field</span>s,  followed  by
+     4&#x00A0;custom&#x00A0;<span 
+class="ecbx-1095">field</span>s.
+                                                                                         
+                                                                                         
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">blank line:</span> </dt><dd 
+class="description">
+     <!--l. 142--><p class="noindent" >A&#x00A0;<span 
+class="ecbx-1095">line </span>consisting entirely of horizontal whitespace.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">block:</span> </dt><dd 
+class="description">
+     <!--l. 145--><p class="noindent" >Linear subfeatures within a&#x00A0;<span 
+class="ecbx-1095">feature</span>. Usually used to designate exons.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">chromosome:</span> </dt><dd 
+class="description">
+     <!--l. 149--><p class="noindent" >A  sequence  of  nucleobases  with  a  name.  In  this  specification,  &#8220;chromosome&#8221;  may  also
+     describe a named scaffold that does not fit the biological definition of a chromosome. Often,
+     <span 
+class="ecbx-1095">chromosome</span>s  are  numbered  starting  from&#x00A0;<span 
+class="ectt-1095">1</span>.  There  are  also  often  sex  <span 
+class="ecbx-1095">chromosome</span>s
+     such  as&#x00A0;<span 
+class="ectt-1095">W</span>,  <span 
+class="ectt-1095">X</span>,  <span 
+class="ectt-1095">Y</span>,  and&#x00A0;<span 
+class="ectt-1095">Z</span>,  mitochondrial  <span 
+class="ecbx-1095">chromosome</span>s  such  as&#x00A0;<span 
+class="ectt-1095">M</span>,  and  possibly  scaffolds
+     from an unknown chromosome, often labeled&#x00A0;<span 
+class="ectt-1095">Un</span>. The name of each <span 
+class="ecbx-1095">chromosome </span>is often
+     prefixed with&#x00A0;<span 
+class="ectt-1095">chr</span>. Examples of <span 
+class="ecbx-1095">chromosome </span>names include&#x00A0;<span 
+class="ectt-1095">chr1</span>, <span 
+class="ectt-1095">21</span>, <span 
+class="ectt-1095">chrX</span>, <span 
+class="ectt-1095">chrM</span>, <span 
+class="ectt-1095">chrUn</span>,
+     <span 
+class="ectt-1095">chr19_KI270914v1_alt</span>, and&#x00A0;<span 
+class="ectt-1095">chrUn_KI270435v1</span>.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">comment line:</span> </dt><dd 
+class="description">
+     <!--l. 157--><p class="noindent" >A&#x00A0;<span 
+class="ecbx-1095">line </span>that starts with&#x00A0;<span 
+class="ectt-1095"># </span>with no horizontal whitespace beforehand.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">custom field:</span> </dt><dd 
+class="description">
+     <!--l. 160--><p class="noindent" >A&#x00A0;<span 
+class="ecbx-1095">field </span>defined by the <span 
+class="ecbx-1095">file</span>&#x00A0;creator. <span 
+class="ecbx-1095">Custom field</span>s occur in each <span 
+class="ecbx-1095">line </span>after any <span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">data line:</span> </dt><dd 
+class="description">
+     <!--l. 164--><p class="noindent" >A&#x00A0;<span 
+class="ecbx-1095">line </span>that contains <span 
+class="ecbx-1095">feature</span>&#x00A0;data.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">feature:</span> </dt><dd 
+class="description">
+     <!--l. 167--><p class="noindent" >A linear region of a&#x00A0;<span 
+class="ecbx-1095">chromosome </span>with specified properties. For example, a&#x00A0;<span 
+class="ecbx-1095">file</span>&#8217;s&#x00A0;<span 
+class="ecbx-1095">feature</span>s
+     might all be peaks called from ChIP-seq data, or transcript.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">field:</span> </dt><dd 
+class="description">
+     <!--l. 171--><p class="noindent" >Data    stored    as    non-tab    text.    All&#x00A0;<span 
+class="ecbx-1095">field</span>s    are    7-bit    US    <span 
+class="ecbx-1095">ASCII!</span>   printable
+     characters<span class="footnote-mark"><sup class="textsuperscript">3</sup></span>   <a 
+ id="x1-4001f3"></a> <span class="footnote-mark"><a 
+ id="x1-4002x1.3"></a><a 
+ id="fn3x0"><sup class="textsuperscript">3 </sup></a></span><span 
+class="ecrm-0900">Characters in the range </span><span 
+class="ectt-0900">\x20 </span><span 
+class="ecrm-0900">to </span><span 
+class="ectt-0900">\x7e</span><span 
+class="ecrm-0900">, therefore not including any control characters</span> .
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">field separator:</span> </dt><dd 
+class="description">
+     <!--l. 175--><p class="noindent" >One or more horizontal whitespace characters (space or tab). The <span 
+class="ecbx-1095">field separator </span>must match
+     the <span 
+class="ecbx-1095">regex!</span>&#x00A0;<span 
+class="ectt-1095">[ \t]+</span>. The <span 
+class="ecbx-1095">field separator </span>can vary throughout the <span 
+class="ecbx-1095">file</span>. Some capabilities of
+     the <span 
+class="ecbx-1095">BED!</span> format, however, are available only when a single tab is used as the <span 
+class="ecbx-1095">field separator</span>
+     throughout the <span 
+class="ecbx-1095">file</span>.
+                                                                                         
+                                                                                         
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">file:</span> </dt><dd 
+class="description">
+     <!--l. 181--><p class="noindent" >Sequence of one or more&#x00A0;<span 
+class="ecbx-1095">line</span>s.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">line:</span> </dt><dd 
+class="description">
+     <!--l. 184--><p class="noindent" >String terminated by a&#x00A0;<span 
+class="ecbx-1095">line separator</span>, in one of the following classes. Either a&#x00A0;<span 
+class="ecbx-1095">data line</span>,
+     a&#x00A0;<span 
+class="ecbx-1095">comment line</span>, or a&#x00A0;<span 
+class="ecbx-1095">blank line</span>. Discussed more fully in&#x00A0;<span 
+class="ecbx-1095">??</span>.
+     </p></dd><dt class="description">
+<span 
+class="ecbx-1095">line separator:</span> </dt><dd 
+class="description">
+     <!--l. 189--><p class="noindent" >Either carriage return&#x00A0;(<span 
+class="ectt-1095">\r</span>, equivalent to <span 
+class="ectt-1095">\x0d</span>), newline&#x00A0;(<span 
+class="ectt-1095">\n</span>, equivalent to <span 
+class="ectt-1095">\x0a</span>), or carriage
+     return followed by newline&#x00A0;(<span 
+class="ectt-1095">\r\n</span>, equivalent to <span 
+class="ectt-1095">\x0d\x0a</span>). The same <span 
+class="ecbx-1095">line separator </span>must
+     be used throughout the <span 
+class="ecbx-1095">file</span>.</p></dd></dl>
+   
+   <h4 class="subsectionHead" id="1.4"><span class="titlemark">1.4 </span>Lines <a href="#1.4" class="header-anchor">#</a></h4>
+   
+   <h5 class="subsubsectionHead" id="1.4.1"><span class="titlemark">1.4.1 </span>Data lines <a href="#1.4.1" class="header-anchor">#</a></h5>
+<!--l. 198--><p class="noindent" ><span 
+class="ecbx-1095">Data line</span>s contain <span 
+class="ecbx-1095">feature</span>&#x00A0;data. A <span 
+class="ecbx-1095">data line </span>is composed of&#x00A0;<span 
+class="ecbx-1095">field</span>s separated by <span 
+class="ecbx-1095">field</span>
+<span 
+class="ecbx-1095">separator</span>s.
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.2"><span class="titlemark">1.4.2 </span>Comment lines and blank lines <a href="#1.4.2" class="header-anchor">#</a></h5>
+<!--l. 203--><p class="noindent" >Both <span 
+class="ecbx-1095">comment line</span>s and <span 
+class="ecbx-1095">blank line</span>s provide no&#x00A0;<span 
+class="ecbx-1095">feature </span>data.
+</p><!--l. 205--><p class="indent" >   <span 
+class="ecbx-1095">Comment line</span>s start with&#x00A0;<span 
+class="ectt-1095"># </span>with no horizontal whitespace beforehand. A&#x00A0;<span 
+class="ectt-1095"># </span>appearing anywhere else
+in a <span 
+class="ecbx-1095">data line </span>is treated as&#x00A0;<span 
+class="ecbx-1095">feature </span>data, not a comment.
+</p><!--l. 208--><p class="indent" >   <span 
+class="ecbx-1095">Blank line</span>s consist entirely of horizontal whitespace. Both comment and blank <span 
+class="ecbx-1095">line</span>s may appear
+as any <span 
+class="ecbx-1095">line </span>in a&#x00A0;<span 
+class="ecbx-1095">file</span>, at the beginning, middle, or end of the <span 
+class="ecbx-1095">file</span>. They may appear in any
+quantity.
+   
+</p>
+   <h4 class="subsectionHead" id="1.5"><span class="titlemark">1.5 </span><span 
+class="ecbx-1095">BED!</span> fields <a href="#1.5" class="header-anchor">#</a></h4>
+<!--l. 214--><p class="noindent" >Each&#x00A0;<span 
+class="ecbx-1095">data line </span>contains between&#x00A0;3 and 12&#x00A0;<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s delimited by a <span 
+class="ecbx-1095">field separator</span>. The first
+3&#x00A0;<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s are mandatory, and the last 9&#x00A0;<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s are optional&#x00A0;(<span 
+class="ecbx-1095">??</span>). In optional&#x00A0;<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s,
+the order is binding&#8212;if an optional <span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field </span>is filled, then all previous&#x00A0;<span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s must also be
+filled. Any <span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field </span>included on any <span 
+class="ecbx-1095">data line </span>in the <span 
+class="ecbx-1095">file </span>must not be empty on any other <span 
+class="ecbx-1095">data line</span>.
+<span 
+class="ecbx-1095">BED10 </span>and <span 
+class="ecbx-1095">BED11 </span>are prohibited.
+</p>
+   <div class="table">
+                                                                                         
+                                                                                         
+<!--l. 222--><p class="indent" >   </p><hr class="float" /><div class="float" 
+>
+                                                                                         
+                                                                                         
+<div class="ajdustwidth" style="margin-left:-3.6135.95em;margin-right:-3.6135.95em;">
+ <table id="TBL-6" class="tabular" 
+ 
+><colgroup id="TBL-6-1g"><col 
+id="TBL-6-1" /><col 
+id="TBL-6-2" /><col 
+id="TBL-6-3" /><col 
+id="TBL-6-4" /><col 
+id="TBL-6-5" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-6-1-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-1-1"  
+class="td11"> Col  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-1-2"  
+class="td11"> <span 
+class="ecbx-1095">BED!</span> Field  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-1-3"  
+class="td11"> Type        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-1-4"  
+class="td11"> Regex or range                                                                                                                                                                               </td><td  style="text-align:left;" id="TBL-6-1-5"  
+class="td11"> <!--l. 257--><p class="noindent" >Brief
+  description </p> </td>
+
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-2-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-2-1"  
+class="td11">    1  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-2-2"  
+class="td11"> <span 
+class="ecss-1095">chrom          </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-2-3"  
+class="td11"> String       </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-2-4"  
+class="td11"> <span 
+class="ectt-1095">[[:alnum:]_]{1,255}</span><span class="footnote-mark"><sup class="textsuperscript">4</sup></span>                                                                                                                                                                                   </td><td  style="text-align:left;" id="TBL-6-2-5"  
+class="td11"> <!--l. 257--><p class="noindent" ><span 
+class="ecbx-1095">Chromosome</span>
+ name </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-3-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-3-1"  
+class="td11">    2  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-3-2"  
+class="td11"> <span 
+class="ecss-1095">chromStart    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-3-3"  
+class="td11"> Int           </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-3-4"  
+class="td11"> <!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>6</mn><mn>4</mn></mrow></msup 
+> <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn><mo 
+class="MathClass-close" stretchy="false">]</mo></math>                                                                 </td><td  style="text-align:left;" id="TBL-6-3-5"  
+class="td11"> <!--l. 257--><p class="noindent" ><span 
+class="ecbx-1095">Feature</span>
+ start
+  position </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-4-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-4-1"  
+class="td11">    3  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-4-2"  
+class="td11"> <span 
+class="ecss-1095">chromEnd     </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-4-3"  
+class="td11"> Int           </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-4-4"  
+class="td11"> <!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>6</mn><mn>4</mn></mrow></msup 
+> <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn><mo 
+class="MathClass-close" stretchy="false">]</mo></math>                                                                 </td><td  style="text-align:left;" id="TBL-6-4-5"  
+class="td11"> <!--l. 257--><p class="noindent" ><span 
+class="ecbx-1095">Feature</span>
+ end
+  position </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-5-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-5-1"  
+class="td11">    4  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-5-2"  
+class="td11"> <span 
+class="ecss-1095">name           </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-5-3"  
+class="td11"> String       </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-5-4"  
+class="td11"> <span 
+class="ectt-1095">[\x20-\x7e]{1,255}                                                                                                           </span></td><td  style="text-align:left;" id="TBL-6-5-5"  
+class="td11"> <!--l. 257--><p class="noindent" ><span 
+class="ecbx-1095">Feature</span>
+ description </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-6-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-6-1"  
+class="td11">    5  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-6-2"  
+class="td11"> <span 
+class="ecss-1095">score           </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-6-3"  
+class="td11"> Int           </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-6-4"  
+class="td11"> <!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>1</mn><mn>0</mn><mn>0</mn><mn>0</mn><mo 
+class="MathClass-close" stretchy="false">]</mo></math>                                                                 </td><td  style="text-align:left;" id="TBL-6-6-5"  
+class="td11"> <!--l. 257--><p class="noindent" >A
+  numerical
+  value </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-7-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-7-1"  
+class="td11">    6  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-7-2"  
+class="td11"> <span 
+class="ecss-1095">strand          </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-7-3"  
+class="td11"> String       </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-7-4"  
+class="td11"> <span 
+class="ectt-1095">[-+.]                                                                                                                        </span></td><td  style="text-align:left;" id="TBL-6-7-5"  
+class="td11"> <!--l. 257--><p class="noindent" ><span 
+class="ecbx-1095">Feature</span>
+ strand </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-8-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-8-1"  
+class="td11">    7  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-8-2"  
+class="td11"> <span 
+class="ecss-1095">thickStart     </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-8-3"  
+class="td11"> Int           </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-8-4"  
+class="td11"> <!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>6</mn><mn>4</mn></mrow></msup 
+> <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn><mo 
+class="MathClass-close" stretchy="false">]</mo></math>                                                                 </td><td  style="text-align:left;" id="TBL-6-8-5"  
+class="td11"> <!--l. 257--><p class="noindent" >Thick
+  start
+  position </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-9-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-9-1"  
+class="td11">    8  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-9-2"  
+class="td11"> <span 
+class="ecss-1095">thickEnd       </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-9-3"  
+class="td11"> Int           </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-9-4"  
+class="td11"> <!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>6</mn><mn>4</mn></mrow></msup 
+> <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn><mo 
+class="MathClass-close" stretchy="false">]</mo></math>                                                                 </td><td  style="text-align:left;" id="TBL-6-9-5"  
+class="td11"> <!--l. 257--><p class="noindent" >Thick
+  end
+  position </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-10-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-10-1"  
+class="td11">    9  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-10-2"  
+class="td11"> <span 
+class="ecss-1095">itemRgb       </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-10-3"  
+class="td11"> Int,Int,Int  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-10-4"  
+class="td11"> <span 
+class="ectt-1095">(</span><!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>2</mn><mn>5</mn><mn>5</mn><mo 
+class="MathClass-close" stretchy="false">]</mo><mo 
+class="MathClass-punc" stretchy="false">,</mo><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>2</mn><mn>5</mn><mn>5</mn><mo 
+class="MathClass-close" stretchy="false">]</mo><mo 
+class="MathClass-punc" stretchy="false">,</mo><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>2</mn><mn>5</mn><mn>5</mn><mo 
+class="MathClass-close" stretchy="false">]</mo></math><span 
+class="ectt-1095">) | 0                                    </span></td><td  style="text-align:left;" id="TBL-6-10-5"  
+class="td11"> <!--l. 257--><p class="noindent" >Display
+  color </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-11-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-11-1"  
+class="td11">   10  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-11-2"  
+class="td11"> <span 
+class="ecss-1095">blockCount   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-11-3"  
+class="td11"> Int           </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-11-4"  
+class="td11"> <!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mstyle 
+class="text"><mtext class="textsf" mathvariant="sans-serif" >chromEnd</mtext></mstyle> <mo 
+class="MathClass-bin" stretchy="false">-</mo><mstyle 
+class="text"><mtext class="textsf" mathvariant="sans-serif" >chromStart</mtext></mstyle><mo 
+class="MathClass-close" stretchy="false">]</mo></math><span class="footnote-mark"><sup class="textsuperscript">5</sup></span>                                                                      </td><td  style="text-align:left;" id="TBL-6-11-5"  
+class="td11"> <!--l. 257--><p class="noindent" >Number
+  of
+  <span 
+class="ecbx-1095">block</span>s </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-12-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-12-1"  
+class="td11">   11  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-12-2"  
+class="td11"> <span 
+class="ecss-1095">blockSizes     </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-12-3"  
+class="td11"> List[Int]    </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-12-4"  
+class="td11"> <span 
+class="ectt-1095">([[:digit:]]+,){</span><span 
+class="ecss-1095">blockCount</span><!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn></math><span 
+class="ectt-1095">}[[:digit:]]+,?</span><span class="footnote-mark"><sup class="textsuperscript">6</sup></span>  </td><td  style="text-align:left;" id="TBL-6-12-5"  
+class="td11"> <!--l. 257--><p class="noindent" ><span 
+class="ecbx-1095">Block</span>
+ sizes </p> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-13-"><td  style="text-align:right; white-space:nowrap;" id="TBL-6-13-1"  
+class="td11">   12  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-13-2"  
+class="td11"> <span 
+class="ecss-1095">blockStarts    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-13-3"  
+class="td11"> List[Int]    </td><td  style="text-align:left; white-space:nowrap;" id="TBL-6-13-4"  
+class="td11"> <span 
+class="ectt-1095">([[:digit:]]+,){</span><span 
+class="ecss-1095">blockCount</span><!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn></math><span 
+class="ectt-1095">}[[:digit:]]+,?  </span></td><td  style="text-align:left;" id="TBL-6-13-5"  
+class="td11"> <!--l. 257--><p class="noindent" ><span 
+class="ecbx-1095">Block</span>
+ start
+  positions </p> </td>
+
+</tr></table></div><a 
+ id="x1-8001r2"></a>
+                                                                                         <div class="caption" 
+><span class="id">
+Table&#x00A0;2: </span><span  
+class="content"><span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">Fields.</span>
+</span></div><!--tex4ht:label?: x1-8001r2 -->
+                                                                                         
+                                                                                         
+   </div><hr class="endfloat" />
+   </div><a 
+ id="x1-8002f6"></a> <span class="footnote-mark"><a 
+ id="x1-8003x1.5"></a><a 
+ id="fn1x0"></a></span>
+   <sup class="textsuperscript"><span 
+class="ecrm-1000">4</span></sup> <span 
+class="ectt-0900">[[:alnum:]_] </span><span 
+class="ecrm-0900">is equivalent to the</span> <span 
+class="ecbx-0900">regex!</span> <span 
+class="ectt-0900">[A-Za-z0-9_]</span><span 
+class="ecrm-0900">. It is also equivalent to the Perl extension </span><span 
+class="ectt-0900">[[:word:]]</span>
+   <sup class="textsuperscript"><span 
+class="ecrm-1000">5</span></sup> <span 
+class="ecss-0900">chromEnd</span><span 
+class="ecrm-0900">-</span><span 
+class="ecss-0900">chromStart </span><span 
+class="ecrm-0900">is the maximum number of</span><span 
+class="ecrm-0900">&#x00A0;</span><span 
+class="ecbx-0900">block</span><span 
+class="ecrm-0900">s that may exist without overlaps</span>
+   <sup class="textsuperscript"><span 
+class="ecrm-1000">6</span></sup> <span 
+class="ecrm-0900">For example, if</span><span 
+class="ecrm-0900">&#x00A0;</span><!--l. 257--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mstyle 
+class="text"><mtext class="textsf" mathvariant="sans-serif" >blockCount</mtext></mstyle> <mo 
+class="MathClass-rel" stretchy="false">=</mo> <mn>4</mn></math><span 
+class="ecrm-0900">,</span>
+     <span 
+class="ecrm-0900">then the allowed</span> <span 
+class="ecbx-0900">regex!</span> <span 
+class="ecrm-0900">would be</span><span 
+class="ecrm-0900">&#x00A0;</span><span 
+class="ectt-0900">([[:digit:]]+,){3}[[:digit:]]+,?</span>
+
+<!--l. 263--><p class="indent" >   In a <span 
+class="ecbx-1095">BED!</span>&#x00A0;<span 
+class="ecbx-1095">file</span>, each&#x00A0;<span 
+class="ecbx-1095">data line </span>must have the same number of&#x00A0;<span 
+class="ecbx-1095">field</span>s. The positions in <span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">field</span>s
+are all described in the&#x00A0;<span 
+class="ecbx-1095">0-based, half-open coordinate system</span>.
+   
+</p>
+   <h4 class="subsectionHead" id="1.6"><span class="titlemark">1.6 </span>Coordinates <a href="#1.6" class="header-anchor">#</a></h4>
+<!--l. 268--><p class="noindent" >
+     </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+   1. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">chrom</span>:  The  name  of  the&#x00A0;<span 
+class="ecbx-1095">chromosome </span>where  the&#x00A0;<span 
+class="ecbx-1095">feature </span>is  present.  Limiting  to  word
+     characters only, instead of all non-whitespace printable characters, makes <span 
+class="ecbx-1095">BED!</span>&#x00A0;<span 
+class="ecbx-1095">file</span>s more
+     portable  to  varying  environments  which  may  make  different  assumptions  about  allowed
+     characters. The name must be between&#x00A0;1 and 255&#x00A0;characters long, inclusive.
+     </dd><dt class="enumerate-enumitem">
+   2. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">chromStart</span>:   Start   position   of   the&#x00A0;<span 
+class="ecbx-1095">feature   </span>on   the&#x00A0;<span 
+class="ecbx-1095">chromosome</span>.   <span 
+class="ecss-1095">chromStart</span>&#x00A0;must
+     be   an   integer   greater   than   or   equal   to&#x00A0;0   and   less   than   or   equal   to   the   total
+     number   of   bases   of   the&#x00A0;<span 
+class="ecbx-1095">chromosome   </span>to   which   it   belongs.   If   the   size   of
+     the&#x00A0;<span 
+class="ecbx-1095">chromosome   </span>is    unknown,    then    <span 
+class="ecss-1095">chromStart</span>&#x00A0;must    be    less    than    or    equal
+     to&#x00A0;<!--l. 274--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>6</mn><mn>4</mn></mrow></msup 
+> <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn></math>,
+     which is the maximum size of an unsigned 64-bit integer.
+     </dd><dt class="enumerate-enumitem">
+   3. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">chromEnd</span>:   End   position   of   the&#x00A0;<span 
+class="ecbx-1095">feature  </span>on   the&#x00A0;<span 
+class="ecbx-1095">chromosome</span>.   <span 
+class="ecss-1095">chromEnd</span>&#x00A0;must   be
+     an   integer   greater   than   or   equal   to   the   value   of&#x00A0;<span 
+class="ecss-1095">chromStart   </span>and   less   than
+     or  equal  to  the  total  number  of  bases  in  the&#x00A0;<span 
+class="ecbx-1095">chromosome  </span>to  which  it  belongs.
+     If   <span 
+class="ecss-1095">chromEnd</span>&#x00A0;is   equal   to&#x00A0;<span 
+class="ecss-1095">chromStart</span>,   this   indicates   a   <span 
+class="ecbx-1095">feature  </span>between   <span 
+class="ecss-1095">chromStart</span>
+     and  the  preceding  base,  such  as  an  insertion.  When  <span 
+class="ecss-1095">chromStart  </span>and  <span 
+class="ecss-1095">chromEnd  </span>are
+     both&#x00A0;0,   this   indicates   a   feature   before   the   entire&#x00A0;<span 
+class="ecbx-1095">chromosome</span>.   If   the   size   of
+     the&#x00A0;<span 
+class="ecbx-1095">chromosome   </span>is    unknown,    then    <span 
+class="ecss-1095">chromEnd</span>&#x00A0;must    be    less    than    or    equal
+     to&#x00A0;<!--l. 280--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>6</mn><mn>4</mn></mrow></msup 
+> <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn></math>,
+     the maximum size of an unsigned 64-bit integer.</dd></dl>
+   
+   <h4 class="subsectionHead" id="1.7"><span class="titlemark">1.7 </span>Simple attributes <a href="#1.7" class="header-anchor">#</a></h4>
+<!--l. 285--><p class="noindent" >
+     </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+   4. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">name</span>: String that describes the&#x00A0;<span 
+class="ecbx-1095">feature</span>. <span 
+class="ecss-1095">name </span>must be&#x00A0;1 to 255&#x00A0;non-tab characters. <span 
+class="ecss-1095">name</span>
+     must not contain whitespace, unless the only <span 
+class="ecbx-1095">field separator </span>is a single tab. Multiple <span 
+class="ecbx-1095">data</span>
+     <span 
+class="ecbx-1095">line</span>s may share the same <span 
+class="ecss-1095">name</span>. In <span 
+class="ecbx-1095">BED5+ file</span>s where all <span 
+class="ecbx-1095">feature</span>s have uninformative
+                                                                                         
+                                                                                         
+     <span 
+class="ecss-1095">name</span>s, dot&#x00A0;(<span 
+class="ectt-1095">.</span>) may be used as a <span 
+class="ecss-1095">name </span>on every <span 
+class="ecbx-1095">data line</span>. A visual representation of the
+     <span 
+class="ecbx-1095">BED!</span> format may display <span 
+class="ecss-1095">name </span>next to the&#x00A0;<span 
+class="ecbx-1095">feature</span>.
+     </dd><dt class="enumerate-enumitem">
+   5. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">score</span>:  Integer  between&#x00A0;0  and&#x00A0;1000,  inclusive.  In  <span 
+class="ecbx-1095">BED6+ file</span>s  where  all  <span 
+class="ecbx-1095">feature</span>s  have
+     uninformative <span 
+class="ecss-1095">score</span>s, <span 
+class="ectt-1095">0 </span>should be used as the <span 
+class="ecss-1095">score </span>on every <span 
+class="ecbx-1095">data line</span>. A visual representation
+     of the <span 
+class="ecbx-1095">BED!</span> format may shade <span 
+class="ecbx-1095">feature</span>s differently depending on their <span 
+class="ecss-1095">score</span>.
+     </dd><dt class="enumerate-enumitem">
+   6. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">strand</span>: Strand that the&#x00A0;<span 
+class="ecbx-1095">feature </span>appears on. The <span 
+class="ecss-1095">strand </span>may either refer to the&#x00A0;<span 
+class="ectt-1095">+</span>&#x00A0;(sense or
+     coding) strand or the&#x00A0;<span 
+class="ectt-1095">-</span>&#x00A0;(antisense or complementary) strand. If the <span 
+class="ecbx-1095">feature </span>has no <span 
+class="ecss-1095">strand</span>
+     information or unknown <span 
+class="ecss-1095">strand</span>, then a dot&#x00A0;(<span 
+class="ectt-1095">.</span>) must be used as an uninformative value. <span 
+class="ecss-1095">strand</span>
+     should be treated as <span 
+class="ectt-1095">. </span>when parsing files that are not <span 
+class="ecbx-1095">BED6+</span>.</dd></dl>
+   
+   <h4 class="subsectionHead" id="1.8"><span class="titlemark">1.8 </span>Display attributes <a href="#1.8" class="header-anchor">#</a></h4>
+<!--l. 306--><p class="noindent" >
+     </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+   7. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">thickStart</span>: Start position at which the&#x00A0;<span 
+class="ecbx-1095">feature </span>is visualized with a thicker or accented display.
+     This value must be an integer between&#x00A0;<span 
+class="ecss-1095">chromStart </span>and&#x00A0;<span 
+class="ecss-1095">chromEnd</span>, inclusive. In <span 
+class="ecbx-1095">BED7+ file</span>s
+     where all <span 
+class="ecbx-1095">feature</span>s have uninformative <span 
+class="ecss-1095">thickStart</span>s, the value of <span 
+class="ecss-1095">chromStart </span>should be used as
+     the <span 
+class="ecss-1095">thickStart </span>on every <span 
+class="ecbx-1095">data line</span>.
+     </dd><dt class="enumerate-enumitem">
+   8. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">thickEnd</span>: End position at which the&#x00A0;<span 
+class="ecbx-1095">feature </span>is visualized with a thicker or accented display.
+     This value must be an integer greater than or equal to&#x00A0;<span 
+class="ecss-1095">thickStart </span>and less than or equal
+     to&#x00A0;<span 
+class="ecss-1095">chromEnd</span>, inclusive. In <span 
+class="ecbx-1095">BED8+ file</span>s where all <span 
+class="ecbx-1095">feature</span>s have uninformative <span 
+class="ecss-1095">thickEnd</span>s,
+     the value of <span 
+class="ecss-1095">chromEnd </span>should be used as the <span 
+class="ecss-1095">thickEnd </span>on every <span 
+class="ecbx-1095">data line</span>. In <span 
+class="ecbx-1095">BED!</span> <span 
+class="ecbx-1095">file</span>s that
+     are not <span 
+class="ecbx-1095">BED7+</span>, the whole&#x00A0;<span 
+class="ecbx-1095">feature </span>has thick display. In <span 
+class="ecbx-1095">BED7+</span>&#x00A0;<span 
+class="ecbx-1095">file</span>s, to achieve the same
+     effect, set <span 
+class="ecss-1095">thickStart</span>&#x00A0;equal to&#x00A0;<span 
+class="ecss-1095">chromStart </span>and <span 
+class="ecss-1095">thickEnd</span>&#x00A0;equal to&#x00A0;<span 
+class="ecss-1095">chromEnd</span>. If <span 
+class="ecss-1095">thickEnd </span>is not
+     specified but <span 
+class="ecss-1095">thickStart</span>&#x00A0;is, then the entire&#x00A0;<span 
+class="ecbx-1095">feature </span>has thick display.
+     </dd><dt class="enumerate-enumitem">
+   9. </dt><dd 
+class="enumerate-enumitem"><span 
+class="ecss-1095">itemRgb</span>: A triple of integers that determines the color of this&#x00A0;<span 
+class="ecbx-1095">feature </span>when visualized. The
+     triple is three integers separated by commas. Each integer is between&#x00A0;0 and&#x00A0;255, inclusive. To
+     make a&#x00A0;<span 
+class="ecbx-1095">feature </span>black, <span 
+class="ecss-1095">itemRgb</span>&#x00A0;may be a single&#x00A0;<span 
+class="ectt-1095">0</span>, which is visualized identically to a&#x00A0;<span 
+class="ecbx-1095">feature</span>
+     with <span 
+class="ecss-1095">itemRgb </span>of <span 
+class="ectt-1095">0,0,0</span>. An <span 
+class="ecss-1095">itemRgb </span>of&#x00A0;<span 
+class="ectt-1095">0 </span>is a special case and no other single-number value is
+     valid. In <span 
+class="ecbx-1095">BED9+ file</span>s where all <span 
+class="ecbx-1095">feature</span>s have uninformative <span 
+class="ecss-1095">itemRgb</span>s, <span 
+class="ectt-1095">0 </span>should be used as
+     the <span 
+class="ecss-1095">itemRgb </span>on every <span 
+class="ecbx-1095">data line</span>.</dd></dl>
+   
+   <h4 class="subsectionHead" id="1.9"><span class="titlemark">1.9 </span>Blocks <a href="#1.9" class="header-anchor">#</a></h4>
+<!--l. 329--><p class="noindent" >
+                                                                                         
+
+

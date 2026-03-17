@@ -97,12 +97,12 @@ of write operations:</p>
 <p>After flushing the above bit stream the following bytes are written:
 0xB0 0x70. Please note that the last byte was 0x7 before shifting to the
 left and became 0x70 after that:</p>
-<p><code>> echo "obase=16; ibase=2; 00000111" bc</code><br>
-<code>7</code>\</p>
-<p><code>> echo "obase=16; ibase=2; 01110000" bc</code><br>
+<p><code>> echo "obase=16; ibase=2; 00000111" bc</code>
+<code>7</code></p>
+<p><code>> echo "obase=16; ibase=2; 01110000" bc</code>
 <code>70</code></p>
 <p>And the whole bit sequence:</p>
-<p><code>> echo "obase=2; ibase=16; B070" bc</code><br>
+<p><code>> echo "obase=2; ibase=16; B070" bc</code>
 <code>1011000001110000</code></p>
 <p>When reading the bits from the bit sequence it must be known that only
 12 bits are meaningful and the bit stream should not be read after that.</p>
@@ -1690,9 +1690,9 @@ header is required and UR (URI for the sequence fasta optionally
 gzipped file) field is strongly advised. The rule for calculating
 MD5 is to remove any non-base symbols (like \n, sequence name or
 length and spaces) and upper case the rest. Here are some examples:</p>
-<p><code>> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -</code><br>
+<p><code>> samtools faidx human_g1k_v37.fasta 1 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -</code>
 <code>1b22b98cdeb4a9304cb5d48026a85128 -</code></p>
-<p><code>> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -</code><br>
+<p><code>> samtools faidx human_g1k_v37.fasta 1:10-20 grep -v '^>' tr -d '\n' tr a-z A-Z md5sum -</code>
 <code>0f2a4865e3952676ffad2c3671f14057 -</code></p>
 <p>Please note that the latter calculates the checksum for 11 bases
 from position 10 (inclusive) to 20 (inclusive) and the bases are

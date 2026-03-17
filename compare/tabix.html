@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+"http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd" > 
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>The Tabix index file format</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- xhtml,mathml,0,html --> 
+<meta name="src" content="tabix.tex" /> 
+<link rel="stylesheet" type="text/css" href="tabix.css" /> 
+
+<style>
+  body {
+    font-family: "Charter", "Bitstream Charter", "Georgia", serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .header-anchor {
+    text-decoration: none;
+    font-size: 0.8em;
+    opacity: 0.3;
+  }
+  .header-anchor:hover { opacity: 1; }
+  h2, h3, h4, h5 {
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+    margin-top: 1.5rem;
+  }
+  :target { scroll-margin-top: 2rem; }
+  .toc {
+    background: #f6f8fa;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5da;
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+  }
+  .toc summary { cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+  .toc ul { list-style: none; padding-left: 0; margin: 0.25rem 0 0; columns: 2; column-gap: 1.5rem; }
+  .toc li { margin: 0.1rem 0; line-height: 1.25; break-inside: avoid; }
+  .toc .depth-3 { padding-left: 0.75rem; }
+  .toc .depth-4 { padding-left: 1.5rem; }
+  .toc .depth-5 { padding-left: 2.25rem; }
+  .toc a:hover { text-decoration: underline; }
+  table { border-collapse: collapse; margin-bottom: 1rem; }
+  td, th { border: 1px solid #ddd; padding: 2px 8px; }
+  th { background-color: #f8f9fa; }
+  .banner {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  a, a span { color: revert; font-family: inherit; font-size: inherit; }
+  nav { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: center; }
+  @media (max-width: 768px) {
+    body { padding: 0.5rem; font-size: 0.9rem; }
+    .toc ul { columns: 1; }
+  }
+</style>
+</head><body 
+>
+
+<nav>
+  <a href="/hts-specs-md">hts-specs-md</a>
+  <a href="/hts-specs-md/about">About</a>
+</nav>
+
+   <div class="maketitle">                                                                                       
+
+                                                                                         
+                                                                                         
+
+                                                                                         
+
+<h2 class="titleHead">The Tabix index file format</h2>
+ <div class="author" ><span 
+class="cmr-12">Heng Li</span></div>
+<br />
+<div class="date" ></div>
+   </div>
+<div class="center" 
+>
+<!--l. 31--><p class="noindent" >
+</p>
+<div class="tabular"> <table id="TBL-2" class="tabular" 
+rules="groups" 
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1" /></colgroup><colgroup id="TBL-2-2g"><col 
+id="TBL-2-2" /></colgroup><colgroup id="TBL-2-3g"><col 
+id="TBL-2-3" /></colgroup><colgroup id="TBL-2-4g"><col 
+id="TBL-2-4" /></colgroup><colgroup id="TBL-2-5g"><col 
+id="TBL-2-5" /></colgroup><colgroup id="TBL-2-6g"><col 
+id="TBL-2-6" /></colgroup><colgroup id="TBL-2-7g"><col 
+id="TBL-2-7" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-1-1"  
+class="td11"></td>         <div class="multicolumn"  style="text-align:center; white-space:nowrap;"><span 
+class="cmbx-10">Field</span></div>            <td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-5"  
+class="td11">              <div class="multicolumn"  style="text-align:center; white-space:nowrap;"><span 
+class="cmbx-10">Description</span></div>                   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-6"  
+class="td11">    <div class="multicolumn"  style="text-align:center; white-space:nowrap;"><span 
+class="cmbx-10">Type</span></div>     </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-7"  
+class="td11">                                             <div class="multicolumn"  style="text-align:center; white-space:nowrap;"><span 
+class="cmbx-10">Value</span></div>                                                              
+</td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-2-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">magic</span></div>                  <td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-5"  
+class="td11"> Magic string                                          </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-6"  
+class="td11"> <span 
+class="cmtt-10">char[4]    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-7"  
+class="td11"> TBI<!--l. 36--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-bin" stretchy="false">\</mo></math>1  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-3-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">n</span><span 
+class="cmtt-10">_ref</span></div>                  <td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-5"  
+class="td11"> # sequences                                           </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-4-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-4-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">format</span></div>                 <td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-5"  
+class="td11"> Format (0: generic; 1: SAM; 2: VCF)          </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-5-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-5-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_seq</span></div>                <td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-5"  
+class="td11"> Column for the sequence name                  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-6-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-6-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_beg</span></div>                <td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-5"  
+class="td11"> Column for the start of a region                </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-7-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-7-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_end</span></div>                <td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-5"  
+class="td11"> Column for the end of a region                  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-8-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-8-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">meta</span></div>                   <td  style="text-align:left; white-space:nowrap;" id="TBL-2-8-5"  
+class="td11"> Leading character for comment lines           </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-8-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-8-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-9-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-9-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">skip</span></div>                   <td  style="text-align:left; white-space:nowrap;" id="TBL-2-9-5"  
+class="td11"> # lines to skip at the beginning                 </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-9-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-9-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-10-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-10-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">l</span><span 
+class="cmtt-10">_nm</span></div>                   <td  style="text-align:left; white-space:nowrap;" id="TBL-2-10-5"  
+class="td11"> Length of concatenated sequence names      </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-10-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-10-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-11-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-11-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">names</span></div>                  <td  style="text-align:left; white-space:nowrap;" id="TBL-2-11-5"  
+class="td11"> Concatenated names, each zero terminated  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-11-6"  
+class="td11"> <span 
+class="cmtt-10">char[l</span><span 
+class="cmtt-10">_nm] </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-11-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-12-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-12-1"  
+class="td11"></td>                                                                              <div class="multicolumn"  style="text-align:center; white-space:nowrap;"><span id="textcolor1"><span 
+class="cmti-10">List of indices (n=n</span><span 
+class="cmti-10">_ref)</span></span></div>                                                                                                                  
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-14-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-14-1"  
+class="td11">   </td><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-14-2"  
+class="td11"> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">n</span><span 
+class="cmtt-10">_bin</span></div>             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-14-5"  
+class="td11"> # distinct bins (for the binning index)        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-14-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-14-7"  
+class="td11">                                                                                                </td>
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-16-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-16-1"  
+class="td11">   </td><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-16-2"  
+class="td11"></td>                                                                         <div class="multicolumn"  style="text-align:center; white-space:nowrap;"><span id="textcolor2"><span 
+class="cmti-10">List of distinct bins (n=n</span><span 
+class="cmti-10">_bin)</span></span></div>                                                                                                           
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-18-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-18-1"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-18-2"  
+class="td11">   </td><td colspan="2" style="text-align:left; white-space:nowrap;" id="TBL-2-18-3"  
+class="td11"> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">bin</span></div>          </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-18-5"  
+class="td11"> Distinct bin number                                </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-18-6"  
+class="td11"> <span 
+class="cmtt-10">uint32</span><span 
+class="cmtt-10">_t   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-18-7"  
+class="td11">                                                                                                </td>
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-20-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-20-1"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-20-2"  
+class="td11">   </td><td colspan="2" style="text-align:left; white-space:nowrap;" id="TBL-2-20-3"  
+class="td11"> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">n</span><span 
+class="cmtt-10">_chunk</span></div>      </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-20-5"  
+class="td11"> # chunks                                              </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-20-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-20-7"  
+class="td11">                                                                                                </td>
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-22-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-22-1"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-22-2"  
+class="td11">   </td><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-22-3"  
+class="td11"></td>                                                                        <div class="multicolumn"  style="text-align:center; white-space:nowrap;"><span id="textcolor3"><span 
+class="cmti-10">List of chunks (n=n</span><span 
+class="cmti-10">_chunk)</span></span></div>                                                                                                         
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-24-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-24-1"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-24-2"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-24-3"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-24-4"  
+class="td11"> <span 
+class="cmtt-10">cnk</span><span 
+class="cmtt-10">_beg </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-24-5"  
+class="td11"> Virtual file offset of the start of the chunk   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-24-6"  
+class="td11"> <span 
+class="cmtt-10">uint64</span><span 
+class="cmtt-10">_t   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-24-7"  
+class="td11">                                                                                                </td>
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-26-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-26-1"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-26-2"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-26-3"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-26-4"  
+class="td11"> <span 
+class="cmtt-10">cnk</span><span 
+class="cmtt-10">_end </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-26-5"  
+class="td11"> Virtual file offset of the end of the chunk     </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-26-6"  
+class="td11"> <span 
+class="cmtt-10">uint64</span><span 
+class="cmtt-10">_t   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-26-7"  
+class="td11">                                                                                                </td>
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-28-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-28-1"  
+class="td11">   </td><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-28-2"  
+class="td11"> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">n</span><span 
+class="cmtt-10">_intv</span></div>            </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-28-5"  
+class="td11"> # 16kb intervals (for the linear index)        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-28-6"  
+class="td11"> <span 
+class="cmtt-10">int32</span><span 
+class="cmtt-10">_t    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-28-7"  
+class="td11">                                                                                                </td>
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-30-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-30-1"  
+class="td11">   </td><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-30-2"  
+class="td11"></td>                                                                       <div class="multicolumn"  style="text-align:center; white-space:nowrap;"><span id="textcolor4"><span 
+class="cmti-10">List of distinct intervals (n=n</span><span 
+class="cmti-10">_intv)</span></span></div>                                                                                                        
+</tr><tr 
+class="array-cline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-32-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-32-1"  
+class="td11">   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-32-2"  
+class="td11">   </td><td colspan="2" style="text-align:left; white-space:nowrap;" id="TBL-2-32-3"  
+class="td11"> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">ioff</span></div>         </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-32-5"  
+class="td11"> File offset of the first record in the interval  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-32-6"  
+class="td11"> <span 
+class="cmtt-10">uint64</span><span 
+class="cmtt-10">_t   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-32-7"  
+class="td11">                                                                                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-33-"><td colspan="3" style="text-align:left; white-space:nowrap;" id="TBL-2-33-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"><span 
+class="cmtt-10">n</span><span 
+class="cmtt-10">_no</span><span 
+class="cmtt-10">_coor </span>(optional)</div>       <td  style="text-align:left; white-space:nowrap;" id="TBL-2-33-5"  
+class="td11"> # unmapped reads without coordinates set  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-33-6"  
+class="td11"> <span 
+class="cmtt-10">uint64</span><span 
+class="cmtt-10">_t   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-33-7"  
+class="td11">                                                                                                </td>
+</tr></table>                                                                                                                                                                              </div></div>
+<!--l. 83--><p class="indent" >   <span 
+class="cmbx-10">Notes:</span>
+</p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 86--><p class="noindent" >The index file is BGZF compressed.
+     </p></li>
+     <li class="itemize">
+     <!--l. 87--><p class="noindent" >All integers are little-endian.
+                                                                                         
+
+                                                                                         
+     </p></li>
+     <li class="itemize">
+     <!--l. 88--><p class="noindent" >When <span 
+class="cmtt-10">(format&amp;0x10000) </span>is true, the coordinate follows the <span 
+class="cmtt-10">BED </span>rule (i.e. half-closed-half-open and
+     zero based); otherwise, the coordinate follows the <span 
+class="cmtt-10">GFF </span>rule (closed and one based).
+     </p></li>
+     <li class="itemize">
+     <!--l. 91--><p class="noindent" >For the SAM format, the end of a region equals <span 
+class="cmtt-10">POS </span>plus the reference length in the alignment, inferred
+     from <span 
+class="cmtt-10">CIGAR</span>. For the VCF format, the end of a region equals <span 
+class="cmtt-10">POS </span>plus the size of the deletion.
+     </p></li>
+     <li class="itemize">
+     <!--l. 95--><p class="noindent" >Field <span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_beg </span>may equal <span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_end</span>, and in this case, the end of a region is <span 
+class="cmtt-10">end</span>=<span 
+class="cmtt-10">beg+1</span>.
+     </p></li>
+     <li class="itemize">
+     <!--l. 97--><p class="noindent" >Example. For <span 
+class="cmtt-10">GFF</span>, <span 
+class="cmtt-10">format</span>=0, <span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_seq</span>=1, <span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_beg</span>=4, <span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_end</span>=5, <span 
+class="cmtt-10">meta</span>=&#8216;<span 
+class="cmtt-10">#</span>&#8217; and <span 
+class="cmtt-10">skip</span>=0. For <span 
+class="cmtt-10">BED</span>,
+     <span 
+class="cmtt-10">format</span>=0x10000, <span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_seq</span>=1, <span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_beg</span>=2, <span 
+class="cmtt-10">col</span><span 
+class="cmtt-10">_end</span>=3, <span 
+class="cmtt-10">meta</span>=&#8216;<span 
+class="cmtt-10">#</span>&#8217; and <span 
+class="cmtt-10">skip</span>=0.
+     </p></li>
+     <li class="itemize">
+     <!--l. 102--><p class="noindent" >Given a zero-based, half-closed and half-open region <span 
+class="cmtt-10">[beg,end)</span>, the <span 
+class="cmtt-10">bin </span>number is calculated with the
+     following C function:
+                                                                                         
+
+                                                                                         
+</p>
+     <pre class="verbatim" id="verbatim-1">
+     int&#x00A0;reg2bin(int&#x00A0;beg,&#x00A0;int&#x00A0;end)&#x00A0;{
+     &#x00A0;&#x00A0;--end;
+     &#x00A0;&#x00A0;if&#x00A0;(beg&#x003E;&#x003E;14&#x00A0;==&#x00A0;end&#x003E;&#x003E;14)&#x00A0;return&#x00A0;((1&#x003C;&#x003C;15)-1)/7&#x00A0;+&#x00A0;(beg&#x003E;&#x003E;14);
+     &#x00A0;&#x00A0;if&#x00A0;(beg&#x003E;&#x003E;17&#x00A0;==&#x00A0;end&#x003E;&#x003E;17)&#x00A0;return&#x00A0;((1&#x003C;&#x003C;12)-1)/7&#x00A0;+&#x00A0;(beg&#x003E;&#x003E;17);
+     &#x00A0;&#x00A0;if&#x00A0;(beg&#x003E;&#x003E;20&#x00A0;==&#x00A0;end&#x003E;&#x003E;20)&#x00A0;return&#x00A0;&#x00A0;((1&#x003C;&#x003C;9)-1)/7&#x00A0;+&#x00A0;(beg&#x003E;&#x003E;20);
+     &#x00A0;&#x00A0;if&#x00A0;(beg&#x003E;&#x003E;23&#x00A0;==&#x00A0;end&#x003E;&#x003E;23)&#x00A0;return&#x00A0;&#x00A0;((1&#x003C;&#x003C;6)-1)/7&#x00A0;+&#x00A0;(beg&#x003E;&#x003E;23);
+     &#x00A0;&#x00A0;if&#x00A0;(beg&#x003E;&#x003E;26&#x00A0;==&#x00A0;end&#x003E;&#x003E;26)&#x00A0;return&#x00A0;&#x00A0;((1&#x003C;&#x003C;3)-1)/7&#x00A0;+&#x00A0;(beg&#x003E;&#x003E;26);
+     &#x00A0;&#x00A0;return&#x00A0;0;
+     }
+</pre>
+     <!--l. 115--><p class="nopar" >
+     </p></li>
+     <li class="itemize">
+     <!--l. 116--><p class="noindent" >The list of bins that may overlap a region <span 
+class="cmtt-10">[beg,end) </span>can be obtained with the following C
+     function.
+                                                                                         
+
+                                                                                         
+</p>
+     <pre class="verbatim" id="verbatim-2">
+     #define&#x00A0;MAX_BIN&#x00A0;(((1&#x003C;&#x003C;18)-1)/7)
+     int&#x00A0;reg2bins(int&#x00A0;rbeg,&#x00A0;int&#x00A0;rend,&#x00A0;uint16_t&#x00A0;list[MAX_BIN])
+     {
+     &#x00A0;&#x00A0;int&#x00A0;i&#x00A0;=&#x00A0;0,&#x00A0;k;
+     &#x00A0;&#x00A0;--rend;
+     &#x00A0;&#x00A0;list[i++]&#x00A0;=&#x00A0;0;
+     &#x00A0;&#x00A0;for&#x00A0;(k&#x00A0;=&#x00A0;&#x00A0;&#x00A0;&#x00A0;1&#x00A0;+&#x00A0;(rbeg&#x003E;&#x003E;26);&#x00A0;k&#x00A0;&#x003C;=&#x00A0;&#x00A0;&#x00A0;&#x00A0;1&#x00A0;+&#x00A0;(rend&#x003E;&#x003E;26);&#x00A0;++k)&#x00A0;list[i++]&#x00A0;=&#x00A0;k;
+     &#x00A0;&#x00A0;for&#x00A0;(k&#x00A0;=&#x00A0;&#x00A0;&#x00A0;&#x00A0;9&#x00A0;+&#x00A0;(rbeg&#x003E;&#x003E;23);&#x00A0;k&#x00A0;&#x003C;=&#x00A0;&#x00A0;&#x00A0;&#x00A0;9&#x00A0;+&#x00A0;(rend&#x003E;&#x003E;23);&#x00A0;++k)&#x00A0;list[i++]&#x00A0;=&#x00A0;k;
+     &#x00A0;&#x00A0;for&#x00A0;(k&#x00A0;=&#x00A0;&#x00A0;&#x00A0;73&#x00A0;+&#x00A0;(rbeg&#x003E;&#x003E;20);&#x00A0;k&#x00A0;&#x003C;=&#x00A0;&#x00A0;&#x00A0;73&#x00A0;+&#x00A0;(rend&#x003E;&#x003E;20);&#x00A0;++k)&#x00A0;list[i++]&#x00A0;=&#x00A0;k;
+     &#x00A0;&#x00A0;for&#x00A0;(k&#x00A0;=&#x00A0;&#x00A0;585&#x00A0;+&#x00A0;(rbeg&#x003E;&#x003E;17);&#x00A0;k&#x00A0;&#x003C;=&#x00A0;&#x00A0;585&#x00A0;+&#x00A0;(rend&#x003E;&#x003E;17);&#x00A0;++k)&#x00A0;list[i++]&#x00A0;=&#x00A0;k;
+     &#x00A0;&#x00A0;for&#x00A0;(k&#x00A0;=&#x00A0;4681&#x00A0;+&#x00A0;(rbeg&#x003E;&#x003E;14);&#x00A0;k&#x00A0;&#x003C;=&#x00A0;4681&#x00A0;+&#x00A0;(rend&#x003E;&#x003E;14);&#x00A0;++k)&#x00A0;list[i++]&#x00A0;=&#x00A0;k;
+     &#x00A0;&#x00A0;return&#x00A0;i;&#x00A0;//&#x00A0;#elements&#x00A0;in&#x00A0;list[]
+     }
+</pre>
+     <!--l. 132--><p class="nopar" ></p></li></ul>
+    
+</body></html> 
+
+                                                                                         
+
+
