@@ -11,3 +11,8 @@ uber-lightweight conversion). The result is optimized for HTML readability, so
 is not a basic default pandoc usage
 
 The conversion script was largely generated with Claude Code
+
+I also tested htlatex
+
+It is better in some ways and worse in others. It is actually a tossup and I am
+not really sure about this project anymore

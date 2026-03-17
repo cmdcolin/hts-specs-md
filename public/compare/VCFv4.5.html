@@ -1,0 +1,2079 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+"http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd" > 
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title></title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- xhtml,mathml,0,html --> 
+<meta name="src" content="VCFv4.5.tex" /> 
+<link rel="stylesheet" type="text/css" href="VCFv4.5.css" /> 
+
+<style>
+  body {
+    font-family: "Charter", "Bitstream Charter", "Georgia", serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .header-anchor {
+    text-decoration: none;
+    font-size: 0.8em;
+    opacity: 0.3;
+  }
+  .header-anchor:hover { opacity: 1; }
+  h2, h3, h4, h5 {
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+    margin-top: 1.5rem;
+  }
+  :target { scroll-margin-top: 2rem; }
+  .toc {
+    background: #f6f8fa;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5da;
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+  }
+  .toc summary { cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+  .toc ul { list-style: none; padding-left: 0; margin: 0.25rem 0 0; columns: 2; column-gap: 1.5rem; }
+  .toc li { margin: 0.1rem 0; line-height: 1.25; break-inside: avoid; }
+  .toc .depth-3 { padding-left: 0.75rem; }
+  .toc .depth-4 { padding-left: 1.5rem; }
+  .toc .depth-5 { padding-left: 2.25rem; }
+  .toc a:hover { text-decoration: underline; }
+  table { border-collapse: collapse; margin-bottom: 1rem; }
+  td, th { border: 1px solid #ddd; padding: 2px 8px; }
+  th { background-color: #f8f9fa; }
+  .banner {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  a, a span { color: revert; font-family: inherit; font-size: inherit; }
+  nav { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: center; }
+  @media (max-width: 768px) {
+    body { padding: 0.5rem; font-size: 0.9rem; }
+    .toc ul { columns: 1; }
+  }
+</style>
+</head><body 
+>
+
+<nav>
+  <a href="/hts-specs-md">hts-specs-md</a>
+  <a href="/hts-specs-md/about">About</a>
+</nav>
+
+   <div class="maketitle">                                                                                              
+                                                                                                
+                                                                                                
+                                                                                                
+
+<h2 class="titleHead">The Variant Call Format Specification<br />
+VCFv4.5 and BCFv2.2</h2>
+ <div class="author" ></div>
+<details class="toc" open>
+<summary>Table of Contents</summary>
+<ul>
+<li><a href="#x1-1000">Contents</a></li>
+<li><a href="#1">1 The VCF specification</a></li>
+<li class="depth-3"><a href="#1.1">1.1 An example</a></li>
+<li class="depth-3"><a href="#1.2">1.2 Character encoding, non-printable characters and characters with special meaning</a></li>
+<li class="depth-3"><a href="#1.3">1.3 Data types</a></li>
+<li class="depth-3"><a href="#1.4">1.4 Meta-information lines</a></li>
+<li class="depth-4"><a href="#1.4.1">1.4.1 File format</a></li>
+<li class="depth-4"><a href="#1.4.2">1.4.2 Information field format</a></li>
+<li class="depth-4"><a href="#1.4.3">1.4.3 Filter field format</a></li>
+<li class="depth-4"><a href="#1.4.4">1.4.4 Individual format field format</a></li>
+<li class="depth-4"><a href="#1.4.5">1.4.5 Alternative allele field format</a></li>
+<li class="depth-4"><a href="#1.4.6">1.4.6 Assembly field format</a></li>
+<li class="depth-4"><a href="#1.4.7">1.4.7 Contig field format</a></li>
+<li class="depth-4"><a href="#1.4.8">1.4.8 Sample field format</a></li>
+<li class="depth-4"><a href="#1.4.9">1.4.9 Pedigree field format</a></li>
+<li class="depth-3"><a href="#1.5">1.5 Header line syntax</a></li>
+<li class="depth-3"><a href="#1.6">1.6 Data lines</a></li>
+<li class="depth-4"><a href="#1.6.1">1.6.1 Fixed fields</a></li>
+<li class="depth-4"><a href="#1.6.2">1.6.2 Genotype fields</a></li>
+</ul>
+</details>
+<br />
+<div class="date" ><span 
+class="cmr-12">25 Feb 2026</span></div>
+   </div>
+     <blockquote class="quote">
+     <!--l. 37--><p class="noindent" ><span 
+class="cmr-9">The master version of this document can be found at </span><a 
+href="https://github.com/samtools/hts-specs" class="url" ><span 
+class="cmtt-9">https://github.com/samtools/hts-specs</span></a><span 
+class="cmr-9">.</span><br 
+class="newline" /><span 
+class="cmr-9">This printing is version</span><span 
+class="cmr-9">&#x00A0;e821e4f</span><span 
+class="cmr-9">&#x00A0;from that repository, last modified on the date shown above.</span></p></blockquote>
+<!--l. 42--><p class="indent" >
+                                                                                                
+                                                                                                
+   
+</p>
+   <h3 class="likesectionHead" id="x1-1000"><span class="titlemark"> </span>Contents <a href="#x1-1000" class="header-anchor">#</a></h3>
+<!--l. 44--><p class="noindent" >
+                                                                                                
+                                                                                                
+   
+</p>
+   <h3 class="sectionHead" id="1"><span class="titlemark">1 </span>The VCF specification <a href="#1" class="header-anchor">#</a></h3>
+<!--l. 47--><p class="noindent" >VCF is a text file format (most likely stored in a compressed manner). It contains meta-information lines
+(prefixed with &#8220;<span class="obeylines-h"><code class="verb">##</code></span>&#8221;), a header line (prefixed with &#8220;<span class="obeylines-h"><code class="verb">#</code></span>&#8221;), and data lines each containing information about a
+position in the genome and genotype information on samples for each position (text fields separated by tabs).
+Zero length fields are not allowed, a dot (&#8220;.&#8221;) must be used instead. In order to ensure interoperability across
+platforms, VCF compliant implementations must support both LF (&#8220;<span class="obeylines-h"><code class="verb">\n</code></span>&#8221;) and CR+LF (&#8220;<span class="obeylines-h"><code class="verb">\r\n</code></span>&#8221;) newline
+conventions.
+   
+</p>
+   <h4 class="subsectionHead" id="1.1"><span class="titlemark">1.1 </span>An example <a href="#1.1" class="header-anchor">#</a></h4>
+                                                                                                
+                                                                                                
+   <pre class="verbatim" id="verbatim-1">
+##fileformat=VCFv4.5
+##fileDate=20090805
+##source=myImputationProgramV3.1
+##reference=file:///seq/references/1000GenomesPilot-NCBI36.fasta
+##contig=&#x003C;ID=20,length=62435964,assembly=B36,md5=f126cdf8a6e0c7f379d618ff66beb2da,species="Homo&#x00A0;sapiens",taxonomy=x&#x003E;
+##phasing=partial
+##INFO=&#x003C;ID=NS,Number=1,Type=Integer,Description="Number&#x00A0;of&#x00A0;Samples&#x00A0;With&#x00A0;Data"&#x003E;
+##INFO=&#x003C;ID=DP,Number=1,Type=Integer,Description="Total&#x00A0;Depth"&#x003E;
+##INFO=&#x003C;ID=AF,Number=A,Type=Float,Description="Allele&#x00A0;Frequency"&#x003E;
+##INFO=&#x003C;ID=AA,Number=1,Type=String,Description="Ancestral&#x00A0;Allele"&#x003E;
+##INFO=&#x003C;ID=DB,Number=0,Type=Flag,Description="dbSNP&#x00A0;membership,&#x00A0;build&#x00A0;129"&#x003E;
+##INFO=&#x003C;ID=H2,Number=0,Type=Flag,Description="HapMap2&#x00A0;membership"&#x003E;
+##FILTER=&#x003C;ID=q10,Description="Quality&#x00A0;below&#x00A0;10"&#x003E;
+##FILTER=&#x003C;ID=s50,Description="Less&#x00A0;than&#x00A0;50%&#x00A0;of&#x00A0;samples&#x00A0;have&#x00A0;data"&#x003E;
+##FORMAT=&#x003C;ID=GT,Number=1,Type=String,Description="Genotype"&#x003E;
+##FORMAT=&#x003C;ID=GQ,Number=1,Type=Integer,Description="Genotype&#x00A0;Quality"&#x003E;
+##FORMAT=&#x003C;ID=DP,Number=1,Type=Integer,Description="Read&#x00A0;Depth"&#x003E;
+##FORMAT=&#x003C;ID=HQ,Number=2,Type=Integer,Description="Haplotype&#x00A0;Quality"&#x003E;
+#CHROM&#x00A0;POS&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ID&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;REF&#x00A0;&#x00A0;&#x00A0;&#x00A0;ALT&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;QUAL&#x00A0;FILTER&#x00A0;INFO&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;FORMAT&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;NA00001&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;NA00002&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;NA00003
+20&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;14370&#x00A0;&#x00A0;&#x00A0;rs6054257&#x00A0;G&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;A&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;29&#x00A0;&#x00A0;&#x00A0;PASS&#x00A0;&#x00A0;&#x00A0;NS=3;DP=14;AF=0.5;DB;H2&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;GT:GQ:DP:HQ&#x00A0;0|0:48:1:51,51&#x00A0;1|0:48:8:51,51&#x00A0;1/1:43:5:.,.
+20&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;17330&#x00A0;&#x00A0;&#x00A0;.&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;T&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;A&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;3&#x00A0;&#x00A0;&#x00A0;&#x00A0;q10&#x00A0;&#x00A0;&#x00A0;&#x00A0;NS=3;DP=11;AF=0.017&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;GT:GQ:DP:HQ&#x00A0;0|0:49:3:58,50&#x00A0;0|1:3:5:65,3&#x00A0;&#x00A0;&#x00A0;0/0:41:3
+20&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1110696&#x00A0;rs6040355&#x00A0;A&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;G,T&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;67&#x00A0;&#x00A0;&#x00A0;PASS&#x00A0;&#x00A0;&#x00A0;NS=2;DP=10;AF=0.333,0.667;AA=T;DB&#x00A0;GT:GQ:DP:HQ&#x00A0;1|2:21:6:23,27&#x00A0;2|1:2:0:18,2&#x00A0;&#x00A0;&#x00A0;2/2:35:4
+20&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1230237&#x00A0;.&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;T&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;.&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;47&#x00A0;&#x00A0;&#x00A0;PASS&#x00A0;&#x00A0;&#x00A0;NS=3;DP=13;AA=T&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;GT:GQ:DP:HQ&#x00A0;0|0:54:7:56,60&#x00A0;0|0:48:4:51,51&#x00A0;0/0:61:2
+20&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1234567&#x00A0;microsat1&#x00A0;GTC&#x00A0;&#x00A0;&#x00A0;&#x00A0;G,GTCT&#x00A0;&#x00A0;50&#x00A0;&#x00A0;&#x00A0;PASS&#x00A0;&#x00A0;&#x00A0;NS=3;DP=9;AA=G&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;GT:GQ:DP&#x00A0;&#x00A0;&#x00A0;&#x00A0;0/1:35:4&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;0/2:17:2&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1/1:40:3
+</pre>
+<!--l. 79--><p class="nopar" > This example shows (in order): a good simple SNP, a possible SNP that has been filtered out because its quality is below 10,
+a site at which two alternate alleles are called, with one of them (T) being ancestral (possibly a reference sequencing error), a
+site that is called monomorphic reference (i.e.&#x00A0;with no alternate alleles), and a microsatellite with two alternative alleles, one
+a deletion of 2 bases (TC), and the other an insertion of one base (T). Genotype data are given for three samples,
+two of which are phased and the third unphased, with per sample genotype quality, depth and haplotype
+qualities (the latter only for the phased samples) given as well as the genotypes. The microsatellite calls are
+unphased.
+   
+</p>
+   <h4 class="subsectionHead" id="1.2"><span class="titlemark">1.2 </span>Character encoding, non-printable characters and characters with special meaning <a href="#1.2" class="header-anchor">#</a></h4>
+<!--l. 87--><p class="noindent" >The character encoding of VCF files is UTF-8. UTF-8 is a multi-byte character encoding that is a strict superset of 7-bit
+ASCII and has the property that none of the bytes in any multi-byte characters are 7-bit ASCII bytes. As a result, most
+software that processes VCF files does not have to be aware of the possible presence of multi-byte UTF-8 characters. VCF
+files must not contain a byte order mark. Note that non-printable characters U+0000&#8211;U+0008, U+000B&#8211;U+000C,
+U+000E&#8211;U+001F are disallowed. Line separators must be CR+LF or LF and they are allowed only as line separators at
+end of line. Some characters have a special meaning when they appear (such as field delimiters &#8216;<span class="obeylines-h"><code class="verb">;</code></span>&#8217; in INFO
+or &#8216;<span class="obeylines-h"><code class="verb">:</code></span>&#8217; FORMAT fields), and for any other meaning they must be represented with the capitalized percent
+encoding:
+</p>
+   <div class="tabular"> <table id="TBL-2" class="tabular" 
+ 
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1" /><col 
+id="TBL-2-2" /><col 
+id="TBL-2-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-1-1"  
+class="td11"> <span 
+class="cmr-8">%3A  </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-1-2"  
+class="td11"> <span 
+class="cmr-8">:        </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-1-3"  
+class="td11"> <span 
+class="cmr-8">(colon)           </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-1"  
+class="td11"> <span 
+class="cmr-8">%3B   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-2"  
+class="td11"> <span 
+class="cmr-8">;        </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-3"  
+class="td11"> <span 
+class="cmr-8">(semicolon)     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-1"  
+class="td11"> <span 
+class="cmr-8">%3D   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-2"  
+class="td11"> <span 
+class="cmr-8">=      </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-3"  
+class="td11"> <span 
+class="cmr-8">(equal sign)     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-4-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-1"  
+class="td11"> <span 
+class="cmr-8">%25    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-2"  
+class="td11"> <span 
+class="cmr-8">%      </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-3"  
+class="td11"> <span 
+class="cmr-8">(percent sign)  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-5-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-1"  
+class="td11"> <span 
+class="cmr-8">%2C   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-2"  
+class="td11"> <span 
+class="cmr-8">,        </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-3"  
+class="td11"> <span 
+class="cmr-8">(comma)         </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-6-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-1"  
+class="td11"> <span 
+class="cmr-8">%0D   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-2"  
+class="td11"> <span 
+class="cmr-8">CR    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-3"  
+class="td11">               </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-7-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-1"  
+class="td11"> <span 
+class="cmr-8">%0A   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-2"  
+class="td11"> <span 
+class="cmr-8">LF     </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-3"  
+class="td11">               </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-8-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-8-1"  
+class="td11"> <span 
+class="cmr-8">%09    </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-8-2"  
+class="td11"> <span 
+class="cmr-8">TAB  </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-8-3"  
+class="td11">               </td> </tr></table>                                                                                   </div>
+   
+   <h4 class="subsectionHead" id="1.3"><span class="titlemark">1.3 </span>Data types <a href="#1.3" class="header-anchor">#</a></h4>
+<!--l. 110--><p class="noindent" >Data types supported by VCF are: Integer (32-bit, signed), Float (32-bit IEEE-754, formatted to match one of the
+regular expressions <span class="obeylines-h"><code class="verb">^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$</code></span> or <span class="obeylines-h"><code class="verb">^[-+]?(INF|INFINITY|NAN)$</code></span> case
+insensitively),<span class="footnote-mark"><sup class="textsuperscript">*</sup></span><a 
+ id="x1-5001f1"></a><span class="footnote-mark"><a 
+ id="x1-5002x1.3"></a><a 
+ id="fn1x0">   <sup class="textsuperscript">*</sup></a></span><span 
+class="cmr-8">Note Java&#8217;s </span><span 
+class="cmtt-8">Double.valueOf </span><span 
+class="cmr-8">is particular about capitalisation, so additional code is needed to parse all VCF infinite/NaN</span>
+  <span 
+class="cmr-8">values.</span>  Flag, Character, and String.
+For the Integer type, the values from <!--l. 113--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin" stretchy="false">-</mo> <msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>3</mn><mn>1</mn></mrow></msup 
+></math>
+to <!--l. 113--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin" stretchy="false">-</mo> <msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>3</mn><mn>1</mn></mrow></msup 
+> <mo 
+class="MathClass-bin" stretchy="false">+</mo> <mn>7</mn></math>
+cannot be stored in the binary version and therefore are disallowed in both VCF and BCF, see <span 
+class="cmbx-10">??</span>.
+   
+                                                                                                
+                                                                                                
+</p>
+   <h4 class="subsectionHead" id="1.4"><span class="titlemark">1.4 </span>Meta-information lines <a href="#1.4" class="header-anchor">#</a></h4>
+<!--l. 116--><p class="noindent" >File meta-information lines start with &#8220;<span class="obeylines-h"><code class="verb">##</code></span>&#8221; and must appear first in the VCF file, before the header line (section&#x00A0;<span 
+class="cmbx-10">??</span>) and
+data record lines (section&#x00A0;<span 
+class="cmbx-10">??</span>). They may be either <span 
+class="cmti-10">unstructured </span>or <span 
+class="cmti-10">structured</span>.
+</p><!--l. 119--><p class="indent" >   An <span 
+class="cmti-10">unstructured </span>meta-information line consists of a&#x00A0;<span 
+class="cmti-10">key </span>(denoting the type of meta-information recorded) and a&#x00A0;<span 
+class="cmti-10">value</span>
+(which may not be empty and must not start with a &#8216;<span class="obeylines-h"><code class="verb">&#x003C;</code></span>&#8217; character), separated by an &#8216;<span class="obeylines-h"><code class="verb">=</code></span>&#8217; character:
+     </p><blockquote class="quote">
+     <!--l. 121--><p class="noindent" ><span class="obeylines-h"><code class="verb">##</code></span><span 
+class="cmti-10">key</span><span class="obeylines-h"><code class="verb">=</code></span><span 
+class="cmti-10">value</span></p></blockquote>
+<!--l. 123--><p class="noindent" >Several unstructured meta-information lines are defined in this specification, notably <span class="obeylines-h"><code class="verb">##fileformat</code></span>. Others not defined by this
+specification, e.g.&#x00A0;<span class="obeylines-h"><code class="verb">##fileDate</code></span> and <span class="obeylines-h"><code class="verb">##source</code></span>, are commonly found in VCF files. These typically have meanings that are
+obvious, or they are immaterial for processing the file, or both.
+</p><!--l. 127--><p class="indent" >   A <span 
+class="cmti-10">structured </span>meta-information line is similar, but the value is itself a comma-separated list of key=value pairs, enclosed
+within &#8216;<span class="obeylines-h"><code class="verb">&#x003C;</code></span>&#8217; and &#8216;<span class="obeylines-h"><code class="verb">&#x003E;</code></span>&#8217; characters:
+     </p><blockquote class="quote">
+     <!--l. 129--><p class="noindent" ><span class="obeylines-h"><code class="verb">##</code></span><span 
+class="cmti-10">key</span><span class="obeylines-h"><code class="verb">=&#x003C;</code></span><span 
+class="cmti-10">key</span><span class="obeylines-h"><code class="verb">=</code></span><span 
+class="cmti-10">value</span><span class="obeylines-h"><code class="verb">,</code></span><span 
+class="cmti-10">key</span><span class="obeylines-h"><code class="verb">=</code></span><span 
+class="cmti-10">value</span><span class="obeylines-h"><code class="verb">,</code></span><span 
+class="cmti-10">key</span><span class="obeylines-h"><code class="verb">=</code></span><span 
+class="cmti-10">value</span><span class="obeylines-h"><code class="verb">,</code></span>&#x2026;<span class="obeylines-h"><code class="verb">&#x003E;</code></span></p></blockquote>
+<!--l. 131--><p class="noindent" >All structured lines require an ID which must be unique within their type, i.e., within all the meta-information lines with the
+same &#8220;<span class="obeylines-h"><code class="verb">##</code></span><span 
+class="cmti-10">key</span><span class="obeylines-h"><code class="verb">=</code></span>&#8221; prefix. For all of the structured lines (<span class="obeylines-h"><code class="verb">##INFO</code></span>, <span class="obeylines-h"><code class="verb">##FORMAT</code></span>, <span class="obeylines-h"><code class="verb">##FILTER</code></span>, etc.) described in this specification,
+optional fields can be included. For example:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-2">
+##INFO=&#x003C;ID=ALLELEID,Number=A,Type=String,Description="Allele&#x00A0;ID",Source="ClinVar",Version="20220804"&#x003E;
+</pre>
+<!--l. 136--><p class="nopar" > In the above example, the optional fields of &#8220;Source&#8221; and &#8220;Version&#8221; are provided. The values of optional fields must be
+written as quoted strings, even for numeric values. Other structured lines not defined by this specification may also be used;
+the only required field for such lines is the required <span class="obeylines-h"><code class="verb">ID</code></span> field.
+</p><!--l. 141--><p class="indent" >   It is recommended in VCF and required in BCF that the header includes tags describing the reference and contigs
+backing the data contained in the file. These tags are based on the SQ field from the SAM spec; all tags are optional (see the
+VCF example above).
+</p><!--l. 144--><p class="indent" >   To aid human readability, the order of fields should be ID, Number, Type, Description, then any optional fields.
+Implementations must not rely on the order of the fields within structured lines and are not required to preserve field
+ordering.
+</p><!--l. 147--><p class="indent" >   Meta-information lines are optional, but if they are present then they must be completely well-formed. Other than
+<span class="obeylines-h"><code class="verb">##fileformat</code></span>, they may appear in any order. Note that BCF, the binary counterpart of VCF, requires that all entries are
+present. It is recommended to include meta-information lines describing the entries used in the body of the VCF
+file.
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.1"><span class="titlemark">1.4.1 </span>File format <a href="#1.4.1" class="header-anchor">#</a></h5>
+<!--l. 154--><p class="noindent" >A single &#8216;fileformat&#8217; line is always required, must be the first line in the file, and details the VCF format version number. For
+VCF version 4.5, this line is:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-3">
+##fileformat=VCFv4.5
+</pre>
+<!--l. 159--><p class="nopar" >
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.2"><span class="titlemark">1.4.2 </span>Information field format <a href="#1.4.2" class="header-anchor">#</a></h5>
+<!--l. 163--><p class="noindent" >INFO meta-information lines are structured lines with required fields ID, Number, Type, and Description, and recommended
+optional fields Source and Version:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-4">
+##INFO=&#x003C;ID=ID,Number=number,Type=type,Description="description",Source="source",Version="version"&#x003E;
+</pre>
+<!--l. 167--><p class="nopar" >
+</p><!--l. 169--><p class="indent" >   Possible Types for INFO fields are: Integer, Float, Flag, Character, and String. The Number entry is an Integer that describes the
+number of values that can be included with the INFO field. For example, if the INFO field contains a single number, then this value must be
+<!--l. 171--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>1</mn></math>; if the INFO field describes a pair
+of numbers, then this value must be <!--l. 171--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>2</mn></math>
+and so on. There are also certain special characters used to define special cases:
+</p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 175--><p class="noindent" >A: The field has one value per alternate allele. The values must be in the same order as listed in the ALT
+     column (described in section <span 
+class="cmbx-10">??</span>).
+     </p></li>
+     <li class="itemize">
+     <!--l. 177--><p class="noindent" >R: The field has one value for each possible allele, including the reference. The order of the values must be the
+     reference allele first, then the alternate alleles as listed in the ALT column.
+     </p></li>
+     <li class="itemize">
+     <!--l. 179--><p class="noindent" >G: The field has one value for each possible genotype. The values must be in the same order as prescribed in
+     section <span 
+class="cmbx-10">??</span> (see <span 
+class="cmcsc-10">G<span 
+class="small-caps">e</span><span 
+class="small-caps">n</span><span 
+class="small-caps">o</span><span 
+class="small-caps">t</span><span 
+class="small-caps">y</span><span 
+class="small-caps">p</span><span 
+class="small-caps">e</span> O<span 
+class="small-caps">r</span><span 
+class="small-caps">d</span><span 
+class="small-caps">e</span><span 
+class="small-caps">r</span><span 
+class="small-caps">i</span><span 
+class="small-caps">n</span><span 
+class="small-caps">g</span></span>).
+     </p></li>
+     <li class="itemize">
+     <!--l. 181--><p class="noindent" >. (dot): The number of possible values varies, is unknown or unbounded.</p></li></ul>
+<!--l. 184--><p class="indent" >   The &#8216;Flag&#8217; type indicates that the INFO field does not contain a Value entry, and hence the Number must be
+<!--l. 184--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>0</mn></math> in this
+case. The Description value must be surrounded by double-quotes. Double-quote character must be escaped with backslash
+<!--l. 186--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-bin" stretchy="false">\</mo></math> and
+backslash as <!--l. 186--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-bin" stretchy="false">\</mo><mo 
+class="MathClass-bin" stretchy="false">\</mo></math>.
+Source and Version values likewise must be surrounded by double-quotes and specify the annotation source (case-insensitive,
+e.g.&#x00A0;<span class="obeylines-h"><code class="verb">"dbsnp"</code></span>) and exact version (e.g.&#x00A0;<span class="obeylines-h"><code class="verb">"138"</code></span>), respectively for computational use.
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.3"><span class="titlemark">1.4.3 </span>Filter field format <a href="#1.4.3" class="header-anchor">#</a></h5>
+<!--l. 190--><p class="noindent" >FILTER meta-information lines are structured lines with required fields ID and Description that define the possible content
+of the FILTER column in the VCF records:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-5">
+##FILTER=&#x003C;ID=ID,Description="description"&#x003E;
+</pre>
+<!--l. 194--><p class="nopar" >
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.4"><span class="titlemark">1.4.4 </span>Individual format field format <a href="#1.4.4" class="header-anchor">#</a></h5>
+<!--l. 197--><p class="noindent" >FORMAT meta-information lines are structured lines with required fields ID, Number, Type, and Description that define the
+possible content of the per-sample/genotype columns in the VCF records:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-6">
+##FORMAT=&#x003C;ID=ID,Number=number,Type=type,Description="description"&#x003E;
+</pre>
+<!--l. 201--><p class="nopar" >
+</p><!--l. 203--><p class="indent" >   Possible Types for FORMAT fields are: Integer, Float, Character, and String (this field is otherwise defined precisely as
+the INFO field). The Number field is defined as per the INFO Number field with the following additional
+possibilities:
+</p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 207--><p class="noindent" >LA: Identical to A except the only alternate alleles defined in the <!--l. 207--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>L</mi><mi 
+>A</mi><mi 
+>A</mi></math>
+     field are considered present.
+     </p></li>
+     <li class="itemize">
+     <!--l. 208--><p class="noindent" >LR: Identical to R except the only alternate alleles defined in the <!--l. 208--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>L</mi><mi 
+>A</mi><mi 
+>A</mi></math>
+     field are considered present.
+     </p></li>
+     <li class="itemize">
+     <!--l. 209--><p class="noindent" >LG: Identical to G except the only alternate alleles defined in the <!--l. 209--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>L</mi><mi 
+>A</mi><mi 
+>A</mi></math>
+     field are considered present.
+     </p></li>
+     <li class="itemize">
+     <!--l. 210--><p class="noindent" >P: The field has one value for each allele value defined in <!--l. 210--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>G</mi><mi 
+>T</mi></math>.
+     </p></li>
+     <li class="itemize">
+     <!--l. 211--><p class="noindent" >M: The field has one value for each possible base modification for the corresponding ChEBI ID.</p></li></ul>
+<!--l. 214--><p class="indent" >   The cardinality of M fields is determined by genotype and number of possible base modifications for the corresponding
+alleles. The ID of all M fields must end with A, C, G, T, U, or N which defines the base(s) that the modification can occur
+on. U must be treated as synonymous with T. If any base modification key is present for a sample, GT must be defined for
+that sample. The number of base modification values for a given allele is the number of bases on either strand in the
+allele sequence that could contain the base modification. The order of the base modification values is the
+order that these bases occur in the allele. For N base modifications, the field contains values for both the
+positive and negative strands with the negative strand value immediately after the positive strand value. For
+example, an allele of CGA has 2 M5mC values, the first defining the methylation rate on forward strand C
+at the first base pair, and the second defining the methylation rate for reverse strand C at the second base
+pair.
+</p><!--l. 223--><p class="indent" >   The order and number of alleles encoded in these fields is determined by the order and phasing in the genotype. Base
+modifications values are encoded in their GT order with one value for each possible base modification in the concatenated
+genotype allele bases. Unphased allele values are aggregated and encoded at the position of the first occurrence of the
+unphased allele value. MISSING allele values and symbolic alleles are treated as containing no relevant bases thus encode no
+base modification values.
+</p><!--l. 228--><p class="indent" >   Unstranded base modification information should be stored at the base with the lowest POS with the other values
+MISSING. Unstranded N base modifications should be stored on the positive strand with the values MISSING. For example,
+unstranded 5mC CpG methylation should be stored on the VCF recording containing the C with the M5mC value of the
+subsequent G set to MISSING or omitted entirely. Similarly, unstranded MxaoN values should be stored in the positive
+strand value with the negative strand value MISSING.
+</p><!--l. 232--><p class="indent" >   Examples:
+                                                                                                
+                                                                                                
+</p>
+   <div class="tabular"> <table id="TBL-3" class="tabular" 
+ 
+><colgroup id="TBL-3-1g"><col 
+id="TBL-3-1" /><col 
+id="TBL-3-2" /><col 
+id="TBL-3-3" /><col 
+id="TBL-3-4" /><col 
+id="TBL-3-5" /><col 
+id="TBL-3-6" /><col 
+id="TBL-3-7" /><col 
+id="TBL-3-8" /><col 
+id="TBL-3-9" /><col 
+id="TBL-3-10" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-3-1-"><td  style="text-align:left; white-space:nowrap;" id="TBL-3-1-1"  
+class="td11"> #CHROM  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-1-2"  
+class="td11"> POS                                                                                                                                                    </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-1-3"  
+class="td11"> REF  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-1-4"  
+class="td11"> ALT            </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-1-5"  
+class="td11"> FORMAT              </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-1-6"  
+class="td11"> SAMPLE                                            </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-2-"><td  style="text-align:left; white-space:nowrap;" id="TBL-3-2-1"  
+class="td11"> chr             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-2-2"  
+class="td11"> <!--l. 237--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>1</mn><mn>0</mn></math>  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-2-3"  
+class="td11"> C      </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-2-4"  
+class="td11"> A                </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-2-5"  
+class="td11"> GT:M5mC             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-2-6"  
+class="td11"> <span 
+class="cmtt-10">0/1:0.95                            </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-3-"><td  style="text-align:left; white-space:nowrap;" id="TBL-3-3-1"  
+class="td11"> chr             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-3-2"  
+class="td11"> <!--l. 238--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>2</mn><mn>0</mn></math>  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-3-3"  
+class="td11"> C      </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-3-4"  
+class="td11"> CTAG         </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-3-5"  
+class="td11"> GT:M5mC             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-3-6"  
+class="td11"> <span 
+class="cmtt-10">0/1:0,0.5,0.7                       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-4-"><td  style="text-align:left; white-space:nowrap;" id="TBL-3-4-1"  
+class="td11"> chr             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-4-2"  
+class="td11"> <!--l. 239--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>3</mn><mn>0</mn></math>  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-4-3"  
+class="td11"> C      </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-4-4"  
+class="td11"> .                 </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-4-5"  
+class="td11"> GT:M5mC:M5hmC  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-4-6"  
+class="td11"> <span 
+class="cmtt-10">0|0:0.9,0:0,0.1                     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-5-"><td  style="text-align:left; white-space:nowrap;" id="TBL-3-5-1"  
+class="td11"> chr             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-5-2"  
+class="td11"> <!--l. 240--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>4</mn><mn>0</mn></math>  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-5-3"  
+class="td11"> C      </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-5-4"  
+class="td11"> A,T,G,ACG  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-5-5"  
+class="td11"> GT:M5mC             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-3-5-6"  
+class="td11"> <span 
+class="cmtt-10">/3|1/0|4|0/0/3/1:0.25,0.1,0.5,0.6,. </span></td>
+</tr></table>                                                                                                                                                                                       </div>
+<!--l. 243--><p class="indent" >   The first record encodes a 95 percent methylation on the REF C. Since the ALT A cannot be 5mC methylated, only one
+value is present.
+</p><!--l. 246--><p class="indent" >   The second record encodes the methylation of the REF (since it&#8217;s the first allele occurring the GT field), followed by the
+methylation values of the first and fourth base of the CTAG ALT.
+</p><!--l. 248--><p class="indent" >   The third record encodes that both 5mC and 5hmC modifications are present at the homozygous C but they are mutually
+exclusive allele: 90 percent 5mC and no 5hmC on the first haplotype, and 10 percent 5hmC with no 5mC on the second
+haplotype.
+</p><!--l. 250--><p class="indent" >   The fourth record demonstrates the encoded ordering of the methylation state of a partially phased locally-octoploid
+sample. The first allele value (unphased G) encodes a 25 percent methylation of the 2 unphased copies of the G allele
+(encoded first since /3 occurs first in GT). The second allele value (phased A) is not relevant to 5mC methylation so
+there is nothing to encode. The third allele value (unphased C) encodes a 10 precent methylation rate for
+both unphased copies of the C REF allele. The fourth allele value (phased ACG) encoding the 50 and 60
+percent methylation rates of the second and third base pairs of the ACG allele. The fifth allele value (phased C)
+encodes an unknown methylation rate of the single phased copy of the C REF allele. The sixth allele value
+(unphased C) was already encoded as part of the third allele value so there is nothing more to encode. The
+seventh allele value (unphased G) was already encoded as part of the first allele value so there is nothing more
+to encode. The eighth allele value (unphased A) is not relevant to 5mC methylation so there is nothing to
+encode.
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.5"><span class="titlemark">1.4.5 </span>Alternative allele field format <a href="#1.4.5" class="header-anchor">#</a></h5>
+<!--l. 262--><p class="noindent" >ALT meta-information lines are structured lines with require fields of ID and Description that describe the possible symbolic
+alternate alleles in the ALT column of the VCF records:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-7">
+##ALT=&#x003C;ID=type,Description="description"&#x003E;
+</pre>
+<!--l. 266--><p class="nopar" >
+</p><!--l. 268--><p class="noindent" ><span 
+class="cmbx-10">Structural Variants </span><br 
+class="newline" />In symbolic alternate alleles for structural variants, the ID field indicates the type of structural variant, and can be a
+colon-separated list of types and subtypes. ID values are case sensitive strings and must not contain whitespace, commas or
+angle brackets (See <span 
+class="cmbx-10">??</span>.<span 
+class="cmbx-10">??</span>) The first level type must be one of the following: </p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 273--><p class="noindent" >DEL Region of lowered copy number relative to the reference, or a deletion breakpoint
+     </p></li>
+     <li class="itemize">
+     <!--l. 274--><p class="noindent" >INS Insertion of novel sequence relative to the reference
+     </p></li>
+     <li class="itemize">
+     <!--l. 275--><p class="noindent" >DUP Region of elevated copy number relative to the reference, or a tandem duplication breakpoint
+     </p></li>
+     <li class="itemize">
+     <!--l. 276--><p class="noindent" >INV Inversion of reference sequence
+     </p></li>
+     <li class="itemize">
+     <!--l. 277--><p class="noindent" >CNV Region of uniform copy number (may be deletion, duplication or copy number neutral)</p></li></ul>
+<!--l. 280--><p class="indent" >   The CNV symbolic allele should not be used when a more specific one (e.g. DEL, CNV:TR) can be applied.
+</p><!--l. 282--><p class="indent" >   Implementations are free to define their own subtypes. The presence of a subtype does not change either the copy number
+or breakpoint interpretation of a symbolic structural variant allele. The following subtypes are recommended:
+</p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 286--><p class="noindent" >CNV:TR Tandem repeat. See <span 
+class="cmbx-10">??</span> for further details.
+     </p></li>
+     <li class="itemize">
+     <!--l. 287--><p class="noindent" >DUP:TANDEM Tandem duplication
+     </p></li>
+     <li class="itemize">
+     <!--l. 288--><p class="noindent" >DEL:ME Deletion of mobile element relative to the reference
+     </p></li>
+     <li class="itemize">
+     <!--l. 289--><p class="noindent" >INS:ME Insertion of a mobile element relative to the reference</p></li></ul>
+<!--l. 292--><p class="indent" >   Note that the position of symbolic structural variant alleles is the position of the base immediately preceding the
+variant.
+</p><!--l. 296--><p class="noindent" ><span 
+class="cmbx-10">IUPAC ambiguity codes </span><br 
+class="newline" />Symbolic alleles can be used also to represent genuinely ambiguous data in VCF, for example:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-8">
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;##ALT=&#x003C;ID=R,Description="IUPAC&#x00A0;code&#x00A0;R&#x00A0;=&#x00A0;A/G"&#x003E;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;##ALT=&#x003C;ID=M,Description="IUPAC&#x00A0;code&#x00A0;M&#x00A0;=&#x00A0;A/C"&#x003E;
+</pre>
+<!--l. 301--><p class="nopar" >
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.6"><span class="titlemark">1.4.6 </span>Assembly field format <a href="#1.4.6" class="header-anchor">#</a></h5>
+<!--l. 304--><p class="noindent" >Breakpoint assemblies for structural variations may use an external file:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-9">
+##assembly=url
+</pre>
+<!--l. 307--><p class="nopar" >
+</p><!--l. 309--><p class="indent" >   The URL field specifies the location of a fasta file containing breakpoint assemblies referenced in the VCF records for
+structural variants via the BKPTID INFO key.
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.7"><span class="titlemark">1.4.7 </span>Contig field format <a href="#1.4.7" class="header-anchor">#</a></h5>
+<!--l. 313--><p class="noindent" >It is recommended for VCF, and required for BCF, that the header includes tags describing the contigs referred to in the file.
+The structured <span 
+class="cmtt-10">contig </span>field must include the ID attribute and can include additional optional attributes with the following
+ones reserved: </p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 317--><p class="noindent" >length: the length of the sequence
+     </p></li>
+     <li class="itemize">
+     <!--l. 318--><p class="noindent" >md5: MD5 checksum of the sequence as defined in the Sam specification v1<span class="footnote-mark"><sup class="textsuperscript">&#8224;</sup></span><a 
+ id="x1-13001f2"></a><span class="footnote-mark"><a 
+ id="x1-13002x1.4.7"></a><a 
+ id="fn2x0">    <sup class="textsuperscript">&#8224;</sup></a></span><span 
+class="cmr-8">See Reference MD5 calculation section in  </span><a 
+href="https://samtools.github.io/hts-specs/SAMv1.pdf" ><span 
+class="cmtt-8">SAM Format Specification</span></a><span 
+class="cmr-8">.</span> 
+     Briefly, the digest is calculated excluding all characters outside of the inclusive range 33 (&#8216;!&#8217;) to 126 (&#8216;&#x02DC;&#8217;). and
+     all lowercase characters converted to uppercase. The MD5 digest is calculated as described in  <a 
+href="https://tools.ietf.org/html/rfc1321" ><span 
+class="cmsl-10">RFC 1321</span></a> and
+     presented as a 32 character lowercase hexadecimal number.
+     </p></li>
+     <li class="itemize">
+     <!--l. 323--><p class="noindent" >URL: tag to indicate where the sequence can be found</p></li></ul>
+<!--l. 326--><p class="indent" >   For example:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-10">
+##contig=&#x003C;ID=ctg1,length=81195210,URL=ftp://somewhere.example/assembly.fa,md5=f126cdf8a6e0c7f379d618ff66beb2da,...&#x003E;
+</pre>
+<!--l. 330--><p class="nopar" > Contig names follow the same rules as the SAM format&#8217;s reference sequence names: they may contain any printable ASCII
+characters in the range <span class="obeylines-h"><code class="verb">[!-~]</code></span> apart from &#8216;<span class="obeylines-h"><code class="verb">\</code></span><span 
+class="cmtt-10">,"&#8216;&#8217;()[]</span><span class="obeylines-h"><code class="verb">{}</code></span><span 
+class="cmtt-10">&#x003C;&#x003E;</span>&#8217; and may not start with &#8216;<span 
+class="cmtt-10">*</span>&#8217; or &#8216;<span 
+class="cmtt-10">=</span>&#8217;. Thus they match the
+following regular expression:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-11">
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;[0-9A-Za-z!#$%&amp;+./:;?@^_|~-][0-9A-Za-z!#$%&amp;*+./:;=?@^_|~-]*
+</pre>
+<!--l. 338--><p class="nopar" > In particular, excluding commas facilitates parsing <span class="obeylines-h"><code class="verb">##contig</code></span> lines, and excluding the characters &#8216;<span class="obeylines-h"><code class="verb">&#x003C;&#x003E;[]</code></span>&#8217; and initial&#x00A0;&#8216;<span 
+class="cmtt-10">*</span>&#8217; avoids
+clashes with symbolic alleles. The contig names must not use a reserved symbolic allele name.
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.8"><span class="titlemark">1.4.8 </span>Sample field format <a href="#1.4.8" class="header-anchor">#</a></h5>
+<!--l. 345--><p class="noindent" >It is possible to define sample to genome mappings as shown below:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-12">
+##META=&#x003C;ID=Assay,Type=String,Number=.,Values=[WholeGenome,&#x00A0;Exome]&#x003E;
+##META=&#x003C;ID=Disease,Type=String,Number=.,Values=[None,&#x00A0;Cancer]&#x003E;
+##META=&#x003C;ID=Ethnicity,Type=String,Number=.,Values=[AFR,&#x00A0;CEU,&#x00A0;ASN,&#x00A0;MEX]&#x003E;
+##META=&#x003C;ID=Tissue,Type=String,Number=.,Values=[Blood,&#x00A0;Breast,&#x00A0;Colon,&#x00A0;Lung,&#x00A0;?]&#x003E;
+##SAMPLE=&#x003C;ID=Sample1,Assay=WholeGenome,Ethnicity=AFR,Disease=None,Description="Patient&#x00A0;germline&#x00A0;genome&#x00A0;from&#x00A0;unaffected",DOI=url&#x003E;
+##SAMPLE=&#x003C;ID=Sample2,Assay=Exome,Ethnicity=CEU,Disease=Cancer,Tissue=Breast,Description="European&#x00A0;patient&#x00A0;exome&#x00A0;from&#x00A0;breast&#x00A0;cancer"&#x003E;
+</pre>
+<!--l. 354--><p class="nopar" >
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.4.9"><span class="titlemark">1.4.9 </span>Pedigree field format <a href="#1.4.9" class="header-anchor">#</a></h5>
+<!--l. 357--><p class="noindent" >It is possible to record relationships between genomes using the following syntax:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-13">
+##PEDIGREE=&#x003C;ID=TumourSample,Original=GermlineID&#x003E;
+##PEDIGREE=&#x003C;ID=SomaticNonTumour,Original=GermlineID&#x003E;
+##PEDIGREE=&#x003C;ID=ChildID,Father=FatherID,Mother=MotherID&#x003E;
+##PEDIGREE=&#x003C;ID=SampleID,Name_1=Ancestor_1,...,Name_N=Ancestor_N&#x003E;
+</pre>
+<!--l. 363--><p class="nopar" > or a link to a database:
+                                                                                                
+                                                                                                
+</p>
+   <pre class="verbatim" id="verbatim-14">
+##pedigreeDB=URL
+</pre>
+<!--l. 367--><p class="nopar" >
+</p><!--l. 369--><p class="noindent" >See <span 
+class="cmbx-10">??</span> for details.
+   
+</p>
+   <h4 class="subsectionHead" id="1.5"><span class="titlemark">1.5 </span>Header line syntax <a href="#1.5" class="header-anchor">#</a></h4>
+<!--l. 374--><p class="noindent" >The mandatory header line names the 8 fixed, mandatory columns. These columns are as follows: </p>
+<div class="center" 
+>
+<!--l. 375--><p class="noindent" >
+</p><!--l. 376--><p class="noindent" >#CHROM       POS       ID       REF       ALT       QUAL       FILTER       INFO</p></div>
+<!--l. 385--><p class="noindent" >If genotype data is present in the file, these are followed by a FORMAT column header, then an arbitrary number of sample IDs.
+Duplicate sample IDs are not allowed. The header line is tab-delimited and there must be no tab characters at the end of the
+line.
+   
+</p>
+   <h4 class="subsectionHead" id="1.6"><span class="titlemark">1.6 </span>Data lines <a href="#1.6" class="header-anchor">#</a></h4>
+<!--l. 392--><p class="noindent" >All data lines are tab-delimited with no tab character at the end of the line. The last data line must end with a line
+separator. In all cases, missing values are specified with a dot (&#8216;.&#8217;).
+   
+</p>
+   <h5 class="subsubsectionHead" id="1.6.1"><span class="titlemark">1.6.1 </span>Fixed fields <a href="#1.6.1" class="header-anchor">#</a></h5>
+<!--l. 398--><p class="noindent" >There are 8 fixed fields per record. Fixed fields are:
+</p><!--l. 402--><p class="indent" >
+     </p><dl class="enumerate"><dt class="enumerate">
+  1. </dt><dd 
+class="enumerate">
+     <!--l. 402--><p class="noindent" >CHROM &#8212; chromosome: An identifier from the reference genome or an angle-bracketed ID String (&#8220;<!--l. 402--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo></math>ID<!--l. 402--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003E;</mo></math>&#8221;)
+     pointing to a contig in the assembly file (cf.&#x00A0;the ##assembly line in the header). All entries for a specific
+     CHROM must form a contiguous block within the VCF file. (String, no whitespace permitted, Required).
+     </p></dd><dt class="enumerate">
+  2. </dt><dd 
+class="enumerate">
+     <!--l. 405--><p class="noindent" >POS &#8212; position: The reference position, with the 1st base having position 1. Positions are sorted numerically,
+     in increasing order, within each reference sequence CHROM. It is permitted to have multiple records with the
+     same POS. Telomeres are indicated by using positions 0 or N+1, where N is the length of the corresponding
+     chromosome or contig. (Integer, Required)
+     </p></dd><dt class="enumerate">
+  3. </dt><dd 
+class="enumerate">
+     <!--l. 410--><p class="noindent" >ID &#8212; identifier: Semicolon-separated list of unique identifiers where available. If this is a dbSNP variant the rs
+     number(s) should be used. No identifier should be present in more than one data record. If there is no identifier
+     available, then the MISSING value should be used. (String, no whitespace or semicolons permitted, duplicate
+     values not allowed.)
+                                                                                                
+                                                                                                
+     </p></dd><dt class="enumerate">
+  4. </dt><dd 
+class="enumerate">
+     <!--l. 415--><p class="noindent" >REF &#8212; reference base(s): Each base must be one of A,C,G,T,N (case insensitive). Multiple bases are permitted.
+     The value in the POS field refers to the position of the first base in the String. For simple insertions and deletions
+     in which either the REF or one of the ALT alleles would otherwise be null/empty, the REF and ALT Strings
+     must include the base before the variant (which must be reflected in the POS field), unless the variant occurs
+     at position 1 on the contig in which case it must include the base after the variant; this padding base is not
+     required (although it is permitted) e.g. for complex substitutions or other variants where all alleles have at least
+     one base represented in their Strings. If any of the ALT alleles is a symbolic allele (an angle-bracketed ID String
+     &#8220;<!--l. 419--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo></math>ID<!--l. 419--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003E;</mo></math>&#8221;)
+     then the padding base is required and POS denotes the coordinate of the base preceding the polymorphism. The
+     exception to this is the <!--l. 420--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo></math>*<!--l. 420--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003E;</mo></math>
+     symbolic allele for which the reference call interval includes the POS base. Tools processing VCF files are not
+     required to preserve case in the REF allele Strings. (String, Required).
+     </p><!--l. 423--><p class="noindent" >If the reference sequence contains IUPAC ambiguity codes not allowed by this specification (such as R = A/G),
+     the ambiguous reference base must be reduced to a concrete base by using the one that is first alphabetically
+     (thus R as a reference base is converted to A in VCF.)
+     </p></dd><dt class="enumerate">
+  5. </dt><dd 
+class="enumerate">
+     <!--l. 425--><p class="noindent" >ALT &#8212; alternate base(s): Comma-separated list of alternate non-reference alleles. <a 
+ id="x1-180055"></a> These alleles do not have to
+     be called in any of the samples. Each allele in this list must be one of: a non-empty String of bases (A,C,G,T,N;
+     case insensitive); the &#8216;*&#8217; symbol (allele missing due to overlapping deletion); the MISSING value &#8216;.&#8217; (no variant);
+     an angle-bracketed ID String (&#8220;<!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo></math>ID<!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003E;</mo></math>&#8221;);
+     the unspecified allele &#8220;<!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo></math>*<!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003E;</mo></math>&#8221;
+     as described in Section <span 
+class="cmbx-10">??</span>; or a breakend replacement string as described in Section <span 
+class="cmbx-10">??</span>. If there are no alternative
+     alleles, then the MISSING value must be used. Tools processing VCF files are not required to preserve case in
+     the allele String, except for IDs, which are case sensitive. (String; no whitespace, commas, or angle-brackets
+     are permitted in the ID String itself)
+     </p></dd><dt class="enumerate">
+  6. </dt><dd 
+class="enumerate">
+     <!--l. 432--><p class="noindent" >QUAL &#8212; quality: Phred-scaled quality score for the assertion made in ALT. i.e.&#x00A0;<!--l. 432--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn><mn>0</mn><mi 
+>l</mi><mi 
+>o</mi><msub><mrow 
+><mi 
+>g</mi></mrow><mrow 
+><mn>1</mn><mn>0</mn></mrow></msub 
+></math>
+     prob(call in ALT is wrong). If ALT is &#8216;.&#8217; (no variant) then this is <!--l. 433--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn><mn>0</mn><mi 
+>l</mi><mi 
+>o</mi><msub><mrow 
+><mi 
+>g</mi></mrow><mrow 
+><mn>1</mn><mn>0</mn></mrow></msub 
+></math>
+     prob(variant), and if ALT is not &#8216;.&#8217; this is <!--l. 433--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn><mn>0</mn><mi 
+>l</mi><mi 
+>o</mi><msub><mrow 
+><mi 
+>g</mi></mrow><mrow 
+><mn>1</mn><mn>0</mn></mrow></msub 
+></math>
+     prob(no variant). If unknown, the MISSING value must be specified. (Float)
+     </p></dd><dt class="enumerate">
+  7. </dt><dd 
+class="enumerate">
+     <!--l. 435--><p class="noindent" >FILTER &#8212; filter status: PASS if this position has passed all filters, i.e., a call is made at this position. Otherwise,
+     if the site has not passed all filters, a semicolon-separated list of codes for filters that fail. e.g.&#x00A0;&#8220;q10;s50&#8221; might
+     indicate that at this site the quality is below 10 and the number of samples with data is below 50% of the total
+     number of samples. &#8216;0&#8217; is reserved and must not be used as a filter String. If filters have not been applied, then
+     this field must be set to the MISSING value. (String, no whitespace or semicolons permitted, duplicate values
+     not allowed.)
+     </p></dd><dt class="enumerate">
+  8. </dt><dd 
+class="enumerate">
+     <!--l. 440--><p class="noindent" >INFO &#8212; additional information: Semicolon-separated series of additional information fields, or the MISSING
+     value  &#8216;<span 
+class="cmtt-10">.</span>&#8217;&#x00A0;if  none  are  present.  Each  subfield  consists  of  a  short  <span 
+class="cmti-10">key  </span>with  optional  <span 
+class="cmti-10">values  </span>in  the  format:
+     key[=value[, &#x2026;,value]]. Literal semicolon (&#8216;<span 
+class="cmtt-10">;</span>&#8217;) and equals sign (&#8216;<span 
+class="cmtt-10">=</span>&#8217;) characters are not permitted in these values,
+     and literal commas (&#8216;<span 
+class="cmtt-10">,</span>&#8217;) are permitted only as delimiters for lists of values; characters with special meaning
+     can be encoded using percent encoding, see Section&#x00A0;<span 
+class="cmbx-10">??</span>. Space characters are allowed in values.
+     </p><!--l. 445--><p class="noindent" >INFO  keys  must  match  the  regular  expression  <span 
+class="cmtt-10">^([A-Za-z</span><span 
+class="cmtt-10">_][0-9A-Za-z</span><span 
+class="cmtt-10">_.]*|1000G)</span><span 
+class="tctt-1000">$</span>,  please  note  that
+     &#8220;1000G&#8221; is allowed as a special legacy value. Duplicate keys are not allowed. Arbitrary keys are permitted,
+     although those listed in Table&#x00A0;<span 
+class="cmbx-10">??</span> and described below are reserved (albeit optional).
+                                                                                                
+                                                                                                
+     </p><!--l. 449--><p class="noindent" >The exact format of each INFO key should be specified in the meta-information (as described above). Example
+     of a complete INFO field: <span 
+class="cmtt-10">DP=154;MQ=52;H2</span>. Keys without corresponding values may be used to indicate group
+     membership (e.g.&#x00A0;H2 indicates the SNP is found in HapMap 2). See Section&#x00A0;<span 
+class="cmbx-10">??</span> for additional reserved INFO
+     keys used to encode structural variants.</p></dd></dl>
+<!--l. 455--><p class="indent" >
+<a 
+ id="x1-18009r1"></a></p>   <!--l. 457--><div class="longtable"> <table id="TBL-4" class="longtable" 
+rules="groups" 
+><colgroup id="TBL-4-1g"><col 
+id="TBL-4-1" /></colgroup><colgroup id="TBL-4-2g"><col 
+id="TBL-4-2" /></colgroup><colgroup id="TBL-4-3g"><col 
+id="TBL-4-3" /></colgroup><colgroup id="TBL-4-4g"><col 
+id="TBL-4-4" /></colgroup>
+<tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-1-"><td  style="text-align:left;" id="TBL-4-1-1"  
+class="td11">
+ <!--l. 457--><p class="noindent" >Key                  </p></td><td  style="text-align:left;" id="TBL-4-1-2"  
+class="td11">
+ <!--l. 457--><p class="noindent" >Number    </p></td><td  style="text-align:left;" id="TBL-4-1-3"  
+class="td11">
+ <!--l. 457--><p class="noindent" >Type        </p></td><td  style="text-align:left;" id="TBL-4-1-4"  
+class="td11">
+ <!--l. 457--><p class="noindent" >Description                                                                           </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-2-"><td  style="text-align:left;" id="TBL-4-2-1"  
+class="td11"> <!--l. 458--><p class="noindent" >               </p></td>
+</tr>
+<tr  
+ style="vertical-align:baseline;" id="TBL-4-14-"><td  style="text-align:left;" id="TBL-4-14-1"  
+class="td11">
+ <!--l. 472--><p class="noindent" >AA                   </p></td><td  style="text-align:left;" id="TBL-4-14-2"  
+class="td11">
+ <!--l. 472--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-4-14-3"  
+class="td11">
+ <!--l. 472--><p class="noindent" >String       </p></td><td  style="text-align:left;" id="TBL-4-14-4"  
+class="td11">
+ <!--l. 472--><p class="noindent" >Ancestral allele                                                                      </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-15-"><td  style="text-align:left;" id="TBL-4-15-1"  
+class="td11">
+ <!--l. 473--><p class="noindent" >AC                   </p></td><td  style="text-align:left;" id="TBL-4-15-2"  
+class="td11">
+ <!--l. 473--><p class="noindent" >A            </p></td><td  style="text-align:left;" id="TBL-4-15-3"  
+class="td11">
+ <!--l. 473--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-15-4"  
+class="td11">
+ <!--l. 473--><p class="noindent" >Allele count in genotypes, for each ALT allele, in the same order as
+  listed                                                                                   </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-16-"><td  style="text-align:left;" id="TBL-4-16-1"  
+class="td11">
+ <!--l. 474--><p class="noindent" >AD                   </p></td><td  style="text-align:left;" id="TBL-4-16-2"  
+class="td11">
+ <!--l. 474--><p class="noindent" >R            </p></td><td  style="text-align:left;" id="TBL-4-16-3"  
+class="td11">
+ <!--l. 474--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-16-4"  
+class="td11">
+ <!--l. 474--><p class="noindent" >Total read depth for each allele                                                 </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-17-"><td  style="text-align:left;" id="TBL-4-17-1"  
+class="td11">
+ <!--l. 475--><p class="noindent" >ADF                 </p></td><td  style="text-align:left;" id="TBL-4-17-2"  
+class="td11">
+ <!--l. 475--><p class="noindent" >R            </p></td><td  style="text-align:left;" id="TBL-4-17-3"  
+class="td11">
+ <!--l. 475--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-17-4"  
+class="td11">
+ <!--l. 475--><p class="noindent" >Read depth for each allele on the forward strand                          </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-18-"><td  style="text-align:left;" id="TBL-4-18-1"  
+class="td11">
+ <!--l. 476--><p class="noindent" >ADR                </p></td><td  style="text-align:left;" id="TBL-4-18-2"  
+class="td11">
+ <!--l. 476--><p class="noindent" >R            </p></td><td  style="text-align:left;" id="TBL-4-18-3"  
+class="td11">
+ <!--l. 476--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-18-4"  
+class="td11">
+ <!--l. 476--><p class="noindent" >Read depth for each allele on the reverse strand                           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-19-"><td  style="text-align:left;" id="TBL-4-19-1"  
+class="td11">
+ <!--l. 477--><p class="noindent" >AF                   </p></td><td  style="text-align:left;" id="TBL-4-19-2"  
+class="td11">
+ <!--l. 477--><p class="noindent" >A            </p></td><td  style="text-align:left;" id="TBL-4-19-3"  
+class="td11">
+ <!--l. 477--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-4-19-4"  
+class="td11">
+ <!--l. 477--><p class="noindent" >Allele frequency for each ALT allele in the same order as listed
+  (estimated from primary data, not called genotypes)                     </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-20-"><td  style="text-align:left;" id="TBL-4-20-1"  
+class="td11">
+ <!--l. 478--><p class="noindent" >AN                   </p></td><td  style="text-align:left;" id="TBL-4-20-2"  
+class="td11">
+ <!--l. 478--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-4-20-3"  
+class="td11">
+ <!--l. 478--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-20-4"  
+class="td11">
+ <!--l. 478--><p class="noindent" >Total number of alleles in called genotypes                                  </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-21-"><td  style="text-align:left;" id="TBL-4-21-1"  
+class="td11">
+ <!--l. 479--><p class="noindent" >BQ                   </p></td><td  style="text-align:left;" id="TBL-4-21-2"  
+class="td11">
+ <!--l. 479--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-4-21-3"  
+class="td11">
+ <!--l. 479--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-4-21-4"  
+class="td11">
+ <!--l. 479--><p class="noindent" >RMS base quality                                                                  </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-22-"><td  style="text-align:left;" id="TBL-4-22-1"  
+class="td11">
+ <!--l. 480--><p class="noindent" >CIGAR             </p></td><td  style="text-align:left;" id="TBL-4-22-2"  
+class="td11">
+ <!--l. 480--><p class="noindent" >A            </p></td><td  style="text-align:left;" id="TBL-4-22-3"  
+class="td11">
+ <!--l. 480--><p class="noindent" >String       </p></td><td  style="text-align:left;" id="TBL-4-22-4"  
+class="td11">
+ <!--l. 480--><p class="noindent" >Cigar  string  describing  how  to  align  an  alternate  allele  to  the
+  reference allele                                                                      </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-23-"><td  style="text-align:left;" id="TBL-4-23-1"  
+class="td11">
+ <!--l. 481--><p class="noindent" >DB                   </p></td><td  style="text-align:left;" id="TBL-4-23-2"  
+class="td11">
+ <!--l. 481--><p class="noindent" >0             </p></td><td  style="text-align:left;" id="TBL-4-23-3"  
+class="td11">
+ <!--l. 481--><p class="noindent" >Flag         </p></td><td  style="text-align:left;" id="TBL-4-23-4"  
+class="td11">
+ <!--l. 481--><p class="noindent" >dbSNP membership                                                                </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-24-"><td  style="text-align:left;" id="TBL-4-24-1"  
+class="td11">
+ <!--l. 482--><p class="noindent" >DP                   </p></td><td  style="text-align:left;" id="TBL-4-24-2"  
+class="td11">
+ <!--l. 482--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-4-24-3"  
+class="td11">
+ <!--l. 482--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-24-4"  
+class="td11">
+ <!--l. 482--><p class="noindent" >Combined depth across samples                                                </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-25-"><td  style="text-align:left;" id="TBL-4-25-1"  
+class="td11">
+ <!--l. 483--><p class="noindent" >END                 </p></td><td  style="text-align:left;" id="TBL-4-25-2"  
+class="td11">
+ <!--l. 483--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-4-25-3"  
+class="td11">
+ <!--l. 483--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-25-4"  
+class="td11">
+ <!--l. 483--><p class="noindent" >Deprecated.  Present  for  backwards  compatibility  with  earlier
+  versions of VCF.                                                                    </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-26-"><td  style="text-align:left;" id="TBL-4-26-1"  
+class="td11">
+ <!--l. 484--><p class="noindent" >H2                   </p></td><td  style="text-align:left;" id="TBL-4-26-2"  
+class="td11">
+ <!--l. 484--><p class="noindent" >0             </p></td><td  style="text-align:left;" id="TBL-4-26-3"  
+class="td11">
+ <!--l. 484--><p class="noindent" >Flag         </p></td><td  style="text-align:left;" id="TBL-4-26-4"  
+class="td11">
+ <!--l. 484--><p class="noindent" >HapMap2 membership                                                            </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-27-"><td  style="text-align:left;" id="TBL-4-27-1"  
+class="td11">
+ <!--l. 485--><p class="noindent" >H3                   </p></td><td  style="text-align:left;" id="TBL-4-27-2"  
+class="td11">
+ <!--l. 485--><p class="noindent" >0             </p></td><td  style="text-align:left;" id="TBL-4-27-3"  
+class="td11">
+ <!--l. 485--><p class="noindent" >Flag         </p></td><td  style="text-align:left;" id="TBL-4-27-4"  
+class="td11">
+ <!--l. 485--><p class="noindent" >HapMap3 membership                                                            </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-28-"><td  style="text-align:left;" id="TBL-4-28-1"  
+class="td11">
+ <!--l. 486--><p class="noindent" >MQ                  </p></td><td  style="text-align:left;" id="TBL-4-28-2"  
+class="td11">
+ <!--l. 486--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-4-28-3"  
+class="td11">
+ <!--l. 486--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-4-28-4"  
+class="td11">
+ <!--l. 486--><p class="noindent" >RMS mapping quality                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-29-"><td  style="text-align:left;" id="TBL-4-29-1"  
+class="td11">
+ <!--l. 487--><p class="noindent" >MQ0                 </p></td><td  style="text-align:left;" id="TBL-4-29-2"  
+class="td11">
+ <!--l. 487--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-4-29-3"  
+class="td11">
+ <!--l. 487--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-29-4"  
+class="td11">
+ <!--l. 487--><p class="noindent" >Number of MAPQ == 0 reads                                                 </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-30-"><td  style="text-align:left;" id="TBL-4-30-1"  
+class="td11">
+ <!--l. 488--><p class="noindent" >NS                   </p></td><td  style="text-align:left;" id="TBL-4-30-2"  
+class="td11">
+ <!--l. 488--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-4-30-3"  
+class="td11">
+ <!--l. 488--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-30-4"  
+class="td11">
+ <!--l. 488--><p class="noindent" >Number of samples with data                                                   </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-31-"><td  style="text-align:left;" id="TBL-4-31-1"  
+class="td11">
+ <!--l. 489--><p class="noindent" >SB                   </p></td><td  style="text-align:left;" id="TBL-4-31-2"  
+class="td11">
+ <!--l. 489--><p class="noindent" >4             </p></td><td  style="text-align:left;" id="TBL-4-31-3"  
+class="td11">
+ <!--l. 489--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-4-31-4"  
+class="td11">
+ <!--l. 489--><p class="noindent" >Strand bias                                                                           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-32-"><td  style="text-align:left;" id="TBL-4-32-1"  
+class="td11">
+ <!--l. 490--><p class="noindent" >SOMATIC         </p></td><td  style="text-align:left;" id="TBL-4-32-2"  
+class="td11">
+ <!--l. 490--><p class="noindent" >0             </p></td><td  style="text-align:left;" id="TBL-4-32-3"  
+class="td11">
+ <!--l. 490--><p class="noindent" >Flag         </p></td><td  style="text-align:left;" id="TBL-4-32-4"  
+class="td11">
+ <!--l. 490--><p class="noindent" >Somatic mutation (for cancer genomics)                                     </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-33-"><td  style="text-align:left;" id="TBL-4-33-1"  
+class="td11">
+ <!--l. 491--><p class="noindent" >VALIDATED     </p></td><td  style="text-align:left;" id="TBL-4-33-2"  
+class="td11">
+ <!--l. 491--><p class="noindent" >0             </p></td><td  style="text-align:left;" id="TBL-4-33-3"  
+class="td11">
+ <!--l. 491--><p class="noindent" >Flag         </p></td><td  style="text-align:left;" id="TBL-4-33-4"  
+class="td11">
+ <!--l. 491--><p class="noindent" >Validated by follow-up experiment                                            </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-34-"><td  style="text-align:left;" id="TBL-4-34-1"  
+class="td11">
+ <!--l. 492--><p class="noindent" >1000G               </p></td><td  style="text-align:left;" id="TBL-4-34-2"  
+class="td11">
+ <!--l. 492--><p class="noindent" >0             </p></td><td  style="text-align:left;" id="TBL-4-34-3"  
+class="td11">
+ <!--l. 492--><p class="noindent" >Flag         </p></td><td  style="text-align:left;" id="TBL-4-34-4"  
+class="td11">
+ <!--l. 492--><p class="noindent" >1000 Genomes membership                                                      </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-37-"><td  style="text-align:left;" id="TBL-4-37-1"  
+class="td11"> <!--l. 493--><p class="noindent" >               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-38-"><td  style="text-align:left;" id="TBL-4-38-1"  
+class="td11"> <!--l. 493--><p class="noindent" >               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-39-"><td  style="text-align:left;" id="TBL-4-39-1"  
+class="td11"> <!--l. 493--><p class="noindent" >               </p></td></tr>
+<tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-11-"><td  style="text-align:left;" id="TBL-4-11-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"></div>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-12-"><td  style="text-align:left;" id="TBL-4-12-1"  
+class="td11">
+ <caption class="longtable">
+ <!--l. 469--><p class="noindent" ><span class="id">Table&#x00A0;1:&#x00A0;</span><span class="content">Reserved
+  INFO keys</span></p></caption> <!--l. 471--><p class="noindent" >         </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-13-"><td  style="text-align:left;" id="TBL-4-13-1"  
+class="td11"> <!--l. 471--><p class="noindent" >               </p></td></tr>
+                                                                                                
+                                                                                                
+   </table></div>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 497--><p class="noindent" >END: Deprecated. Retained for backwards compatibility with earlier versions of VCF and older VCF indexing
+     software which rely on this field being present.
+     </p><!--l. 500--><p class="noindent" >This is a computed field that, when present, must be set to the maximum end reference position (1-based) of: the
+     position of the final base of the REF allele, the end position corresponding to the SVLEN of a symbolic SV allele,
+     and the end positions calculated from FORMAT LEN for the <!--l. 503--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo></math>*<!--l. 503--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003E;</mo></math>
+     symbolic allele.
+     </p><!--l. 505--><p class="noindent" >The computed value of this field is used to compute BCF&#8217;s <span 
+class="cmtt-10">rlen </span>field (see&#x00A0;<span 
+class="cmbx-10">??</span>) and is important when indexing
+     VCF/BCF files to enable random access and querying by position.
+</p>
+     </li></ul>
+   
+   <h5 class="subsubsectionHead" id="1.6.2"><span class="titlemark">1.6.2 </span>Genotype fields <a href="#1.6.2" class="header-anchor">#</a></h5>
+<!--l. 510--><p class="nopar" >If genotype information is present, then the same types of data must be present for all samples. First a FORMAT field is
+given specifying the data types and order (colon-separated FORMAT keys matching the regular expression
+<span 
+class="cmtt-10">^[A-Za-z</span><span 
+class="cmtt-10">_][0-9A-Za-z</span><span 
+class="cmtt-10">_.]*</span><span 
+class="tctt-1000">$</span>, duplicate keys are not allowed). This is followed by one data block per sample, with the
+colon-separated data corresponding to the types specified in the format. The first key must always be the genotype (GT) if it
+is present. If any local-allele field is present, LAA must also be present and precede all fields other than GT. There are no
+required keys. Additional Genotype keys can be defined in the meta-information, however, software support for them is not
+guaranteed.
+</p><!--l. 518--><p class="indent" >   If any of the fields is missing, it is replaced with the MISSING value. For example if the FORMAT is GT:GQ:DP:HQ
+then <!--l. 519--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>0</mn><mo 
+class="MathClass-rel" stretchy="false">&#x2223;</mo><mn>0</mn> <mo 
+class="MathClass-punc" stretchy="false">:</mo> <mo 
+class="MathClass-punc" stretchy="false">.</mo> <mo 
+class="MathClass-punc" stretchy="false">:</mo> <mn>2</mn><mn>3</mn> <mo 
+class="MathClass-punc" stretchy="false">:</mo> <mn>2</mn><mn>3</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>3</mn><mn>4</mn></math>
+indicates that GQ is missing. If a field contains a list of missing values, it can be represented either as a single MISSING
+value (&#8216;.&#8217;) or as a list of missing values (e.g.&#x00A0;&#8216;.,.,.&#8217; if the field was Number=3). Trailing fields can be dropped, with the
+exception of the GT field, which should always be present if specified in the FORMAT field. If a field and it&#8217;s local-allele
+equivalent are both defined they must encode identical information or one must ignored by containing the MISSING value or
+omitted.
+</p><!--l. 525--><p class="indent" >   As with the INFO field, there are several common, reserved keywords that are standards across the community. See their
+detailed definitions below, as well as Table&#x00A0;<span 
+class="cmbx-10">??</span> for their reference Number, Type and Description. See also Section&#x00A0;<span 
+class="cmbx-10">??</span> for a
+list of genotype keys reserved for structural variants.
+</p><!--l. 529--><p class="indent" >
+<a 
+ id="x1-19001r2"></a></p>   <!--l. 531--><div class="longtable"> <table id="TBL-5" class="longtable" 
+rules="groups" 
+><colgroup id="TBL-5-1g"><col 
+id="TBL-5-1" /></colgroup><colgroup id="TBL-5-2g"><col 
+id="TBL-5-2" /></colgroup><colgroup id="TBL-5-3g"><col 
+id="TBL-5-3" /></colgroup><colgroup id="TBL-5-4g"><col 
+id="TBL-5-4" /></colgroup>
+<tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-1-"><td  style="text-align:left;" id="TBL-5-1-1"  
+class="td11">
+ <!--l. 531--><p class="noindent" >Field                 </p></td><td  style="text-align:left;" id="TBL-5-1-2"  
+class="td11">
+ <!--l. 531--><p class="noindent" >Number    </p></td><td  style="text-align:left;" id="TBL-5-1-3"  
+class="td11">
+ <!--l. 531--><p class="noindent" >Type        </p></td><td  style="text-align:left;" id="TBL-5-1-4"  
+class="td11">
+ <!--l. 531--><p class="noindent" >Description                                                                           </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-2-"><td  style="text-align:left;" id="TBL-5-2-1"  
+class="td11"> <!--l. 532--><p class="noindent" >               </p></td>
+</tr>
+<tr  
+ style="vertical-align:baseline;" id="TBL-5-14-"><td  style="text-align:left;" id="TBL-5-14-1"  
+class="td11">
+ <!--l. 546--><p class="noindent" >AD                   </p></td><td  style="text-align:left;" id="TBL-5-14-2"  
+class="td11">
+ <!--l. 546--><p class="noindent" >R            </p></td><td  style="text-align:left;" id="TBL-5-14-3"  
+class="td11">
+ <!--l. 546--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-14-4"  
+class="td11">
+ <!--l. 546--><p class="noindent" >Read depth for each allele                                                        </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-15-"><td  style="text-align:left;" id="TBL-5-15-1"  
+class="td11">
+ <!--l. 547--><p class="noindent" >ADF                 </p></td><td  style="text-align:left;" id="TBL-5-15-2"  
+class="td11">
+ <!--l. 547--><p class="noindent" >R            </p></td><td  style="text-align:left;" id="TBL-5-15-3"  
+class="td11">
+ <!--l. 547--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-15-4"  
+class="td11">
+ <!--l. 547--><p class="noindent" >Read depth for each allele on the forward strand                          </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-16-"><td  style="text-align:left;" id="TBL-5-16-1"  
+class="td11">
+ <!--l. 548--><p class="noindent" >ADR                </p></td><td  style="text-align:left;" id="TBL-5-16-2"  
+class="td11">
+ <!--l. 548--><p class="noindent" >R            </p></td><td  style="text-align:left;" id="TBL-5-16-3"  
+class="td11">
+ <!--l. 548--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-16-4"  
+class="td11">
+ <!--l. 548--><p class="noindent" >Read depth for each allele on the reverse strand                           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-17-"><td  style="text-align:left;" id="TBL-5-17-1"  
+class="td11">
+ <!--l. 549--><p class="noindent" >DP                   </p></td><td  style="text-align:left;" id="TBL-5-17-2"  
+class="td11">
+ <!--l. 549--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-5-17-3"  
+class="td11">
+ <!--l. 549--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-17-4"  
+class="td11">
+ <!--l. 549--><p class="noindent" >Read depth                                                                           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-18-"><td  style="text-align:left;" id="TBL-5-18-1"  
+class="td11">
+ <!--l. 550--><p class="noindent" >EC                   </p></td><td  style="text-align:left;" id="TBL-5-18-2"  
+class="td11">
+ <!--l. 550--><p class="noindent" >A            </p></td><td  style="text-align:left;" id="TBL-5-18-3"  
+class="td11">
+ <!--l. 550--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-18-4"  
+class="td11">
+ <!--l. 550--><p class="noindent" >Expected alternate allele counts                                                </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-19-"><td  style="text-align:left;" id="TBL-5-19-1"  
+class="td11">
+ <!--l. 551--><p class="noindent" >LEN                 </p></td><td  style="text-align:left;" id="TBL-5-19-2"  
+class="td11">
+ <!--l. 551--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-5-19-3"  
+class="td11">
+ <!--l. 551--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-19-4"  
+class="td11">
+ <!--l. 551--><p class="noindent" >Length of <!--l. 551--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo></math>*<!--l. 551--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003E;</mo></math>
+  reference block                                                                      </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-20-"><td  style="text-align:left;" id="TBL-5-20-1"  
+class="td11">
+ <!--l. 552--><p class="noindent" >FT                   </p></td><td  style="text-align:left;" id="TBL-5-20-2"  
+class="td11">
+ <!--l. 552--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-5-20-3"  
+class="td11">
+ <!--l. 552--><p class="noindent" >String       </p></td><td  style="text-align:left;" id="TBL-5-20-4"  
+class="td11">
+ <!--l. 552--><p class="noindent" >Filter indicating if this genotype was &#8220;called&#8221;                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-21-"><td  style="text-align:left;" id="TBL-5-21-1"  
+class="td11">
+ <!--l. 553--><p class="noindent" >GL                   </p></td><td  style="text-align:left;" id="TBL-5-21-2"  
+class="td11">
+ <!--l. 553--><p class="noindent" >G            </p></td><td  style="text-align:left;" id="TBL-5-21-3"  
+class="td11">
+ <!--l. 553--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-21-4"  
+class="td11">
+ <!--l. 553--><p class="noindent" >Genotype likelihoods                                                              </p></td>
+                                                                                                
+                                                                                                
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-22-"><td  style="text-align:left;" id="TBL-5-22-1"  
+class="td11">
+ <!--l. 554--><p class="noindent" >GP                   </p></td><td  style="text-align:left;" id="TBL-5-22-2"  
+class="td11">
+ <!--l. 554--><p class="noindent" >G            </p></td><td  style="text-align:left;" id="TBL-5-22-3"  
+class="td11">
+ <!--l. 554--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-22-4"  
+class="td11">
+ <!--l. 554--><p class="noindent" >Genotype posterior probabilities                                               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-23-"><td  style="text-align:left;" id="TBL-5-23-1"  
+class="td11">
+ <!--l. 555--><p class="noindent" >GQ                  </p></td><td  style="text-align:left;" id="TBL-5-23-2"  
+class="td11">
+ <!--l. 555--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-5-23-3"  
+class="td11">
+ <!--l. 555--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-23-4"  
+class="td11">
+ <!--l. 555--><p class="noindent" >Conditional genotype quality                                                    </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-24-"><td  style="text-align:left;" id="TBL-5-24-1"  
+class="td11">
+ <!--l. 556--><p class="noindent" >GT                   </p></td><td  style="text-align:left;" id="TBL-5-24-2"  
+class="td11">
+ <!--l. 556--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-5-24-3"  
+class="td11">
+ <!--l. 556--><p class="noindent" >String       </p></td><td  style="text-align:left;" id="TBL-5-24-4"  
+class="td11">
+ <!--l. 556--><p class="noindent" >Genotype                                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-25-"><td  style="text-align:left;" id="TBL-5-25-1"  
+class="td11">
+ <!--l. 557--><p class="noindent" >HQ                   </p></td><td  style="text-align:left;" id="TBL-5-25-2"  
+class="td11">
+ <!--l. 557--><p class="noindent" >2             </p></td><td  style="text-align:left;" id="TBL-5-25-3"  
+class="td11">
+ <!--l. 557--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-25-4"  
+class="td11">
+ <!--l. 557--><p class="noindent" >Haplotype quality                                                                  </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-26-"><td  style="text-align:left;" id="TBL-5-26-1"  
+class="td11">
+ <!--l. 558--><p class="noindent" >LA                   </p></td><td  style="text-align:left;" id="TBL-5-26-2"  
+class="td11">
+ <!--l. 558--><p class="noindent" >.              </p></td><td  style="text-align:left;" id="TBL-5-26-3"  
+class="td11">
+ <!--l. 558--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-26-4"  
+class="td11">
+ <!--l. 558--><p class="noindent" >Reserved                                                                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-27-"><td  style="text-align:left;" id="TBL-5-27-1"  
+class="td11">
+ <!--l. 559--><p class="noindent" >LAA                 </p></td><td  style="text-align:left;" id="TBL-5-27-2"  
+class="td11">
+ <!--l. 559--><p class="noindent" >.              </p></td><td  style="text-align:left;" id="TBL-5-27-3"  
+class="td11">
+ <!--l. 559--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-27-4"  
+class="td11">
+ <!--l. 559--><p class="noindent" >1-based indices into ALT, indicating which alleles are relevant (local)
+  for the current sample                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-28-"><td  style="text-align:left;" id="TBL-5-28-1"  
+class="td11">
+ <!--l. 560--><p class="noindent" >LAD                 </p></td><td  style="text-align:left;" id="TBL-5-28-2"  
+class="td11">
+ <!--l. 560--><p class="noindent" >LR           </p></td><td  style="text-align:left;" id="TBL-5-28-3"  
+class="td11">
+ <!--l. 560--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-28-4"  
+class="td11">
+ <!--l. 560--><p class="noindent" >Local-allele representation of AD                                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-29-"><td  style="text-align:left;" id="TBL-5-29-1"  
+class="td11">
+ <!--l. 561--><p class="noindent" >LADF               </p></td><td  style="text-align:left;" id="TBL-5-29-2"  
+class="td11">
+ <!--l. 561--><p class="noindent" >LR           </p></td><td  style="text-align:left;" id="TBL-5-29-3"  
+class="td11">
+ <!--l. 561--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-29-4"  
+class="td11">
+ <!--l. 561--><p class="noindent" >Local-allele representation of ADF                                            </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-30-"><td  style="text-align:left;" id="TBL-5-30-1"  
+class="td11">
+ <!--l. 562--><p class="noindent" >LADR               </p></td><td  style="text-align:left;" id="TBL-5-30-2"  
+class="td11">
+ <!--l. 562--><p class="noindent" >LR           </p></td><td  style="text-align:left;" id="TBL-5-30-3"  
+class="td11">
+ <!--l. 562--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-30-4"  
+class="td11">
+ <!--l. 562--><p class="noindent" >Local-allele representation of ADR                                            </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-31-"><td  style="text-align:left;" id="TBL-5-31-1"  
+class="td11">
+ <!--l. 563--><p class="noindent" >LEC                 </p></td><td  style="text-align:left;" id="TBL-5-31-2"  
+class="td11">
+ <!--l. 563--><p class="noindent" >LA          </p></td><td  style="text-align:left;" id="TBL-5-31-3"  
+class="td11">
+ <!--l. 563--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-31-4"  
+class="td11">
+ <!--l. 563--><p class="noindent" >Local-allele representation of EC                                               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-32-"><td  style="text-align:left;" id="TBL-5-32-1"  
+class="td11">
+ <!--l. 564--><p class="noindent" >LGL                 </p></td><td  style="text-align:left;" id="TBL-5-32-2"  
+class="td11">
+ <!--l. 564--><p class="noindent" >LG          </p></td><td  style="text-align:left;" id="TBL-5-32-3"  
+class="td11">
+ <!--l. 564--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-32-4"  
+class="td11">
+ <!--l. 564--><p class="noindent" >Local-allele representation of GL                                               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-33-"><td  style="text-align:left;" id="TBL-5-33-1"  
+class="td11">
+ <!--l. 565--><p class="noindent" >LGP                 </p></td><td  style="text-align:left;" id="TBL-5-33-2"  
+class="td11">
+ <!--l. 565--><p class="noindent" >LG          </p></td><td  style="text-align:left;" id="TBL-5-33-3"  
+class="td11">
+ <!--l. 565--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-33-4"  
+class="td11">
+ <!--l. 565--><p class="noindent" >Local-allele representation of GP                                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-34-"><td  style="text-align:left;" id="TBL-5-34-1"  
+class="td11">
+ <!--l. 566--><p class="noindent" >LPL                 </p></td><td  style="text-align:left;" id="TBL-5-34-2"  
+class="td11">
+ <!--l. 566--><p class="noindent" >LG          </p></td><td  style="text-align:left;" id="TBL-5-34-3"  
+class="td11">
+ <!--l. 566--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-34-4"  
+class="td11">
+ <!--l. 566--><p class="noindent" >Local-allele representation of PL                                               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-35-"><td  style="text-align:left;" id="TBL-5-35-1"  
+class="td11">
+ <!--l. 567--><p class="noindent" >LPP                 </p></td><td  style="text-align:left;" id="TBL-5-35-2"  
+class="td11">
+ <!--l. 567--><p class="noindent" >LG          </p></td><td  style="text-align:left;" id="TBL-5-35-3"  
+class="td11">
+ <!--l. 567--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-35-4"  
+class="td11">
+ <!--l. 567--><p class="noindent" >Local-allele representation of PP                                               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-36-"><td  style="text-align:left;" id="TBL-5-36-1"  
+class="td11">
+ <!--l. 568--><p class="noindent" >M[0-9]+[ACGTUN] </p> </td><td  style="text-align:left;" id="TBL-5-36-2"  
+class="td11">
+ <!--l. 568--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-36-3"  
+class="td11">
+ <!--l. 568--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-36-4"  
+class="td11">
+ <!--l. 568--><p class="noindent" >Fraction of bases modified with the given ChEBI ID.                    </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-37-"><td  style="text-align:left;" id="TBL-5-37-1"  
+class="td11">
+ <!--l. 569--><p class="noindent" >DPM[0-9]+[ACGTUN] </p> </td><td  style="text-align:left;" id="TBL-5-37-2"  
+class="td11">
+ <!--l. 569--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-37-3"  
+class="td11">
+ <!--l. 569--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-37-4"  
+class="td11">
+ <!--l. 569--><p class="noindent" >Total read depth for reads able to detect the base modification with
+  the given ChEBI ID.                                                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-38-"><td  style="text-align:left;" id="TBL-5-38-1"  
+class="td11">
+ <!--l. 570--><p class="noindent" >ADM[0-9]+[ACGTUN] </p> </td><td  style="text-align:left;" id="TBL-5-38-2"  
+class="td11">
+ <!--l. 570--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-38-3"  
+class="td11">
+ <!--l. 570--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-38-4"  
+class="td11">
+ <!--l. 570--><p class="noindent" >Read depth for reads with the base modification with the given
+  ChEBI ID.                                                                           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-39-"><td  style="text-align:left;" id="TBL-5-39-1"  
+class="td11">
+ <!--l. 571--><p class="noindent" >M5mC              </p></td><td  style="text-align:left;" id="TBL-5-39-2"  
+class="td11">
+ <!--l. 571--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-39-3"  
+class="td11">
+ <!--l. 571--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-39-4"  
+class="td11">
+ <!--l. 571--><p class="noindent" >Alias for M27551C 5-Methylcytosine                                          </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-40-"><td  style="text-align:left;" id="TBL-5-40-1"  
+class="td11">
+ <!--l. 572--><p class="noindent" >DPM5mC          </p></td><td  style="text-align:left;" id="TBL-5-40-2"  
+class="td11">
+ <!--l. 572--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-40-3"  
+class="td11">
+ <!--l. 572--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-40-4"  
+class="td11">
+ <!--l. 572--><p class="noindent" >Alias for DPM27551C                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-41-"><td  style="text-align:left;" id="TBL-5-41-1"  
+class="td11">
+ <!--l. 573--><p class="noindent" >ADM5mC          </p></td><td  style="text-align:left;" id="TBL-5-41-2"  
+class="td11">
+ <!--l. 573--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-41-3"  
+class="td11">
+ <!--l. 573--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-41-4"  
+class="td11">
+ <!--l. 573--><p class="noindent" >Alias for ADM27551C                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-42-"><td  style="text-align:left;" id="TBL-5-42-1"  
+class="td11">
+ <!--l. 574--><p class="noindent" >M5hmC             </p></td><td  style="text-align:left;" id="TBL-5-42-2"  
+class="td11">
+ <!--l. 574--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-42-3"  
+class="td11">
+ <!--l. 574--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-42-4"  
+class="td11">
+ <!--l. 574--><p class="noindent" >Alias for M76792C 5-Hydroxymethylcytosine                               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-43-"><td  style="text-align:left;" id="TBL-5-43-1"  
+class="td11">
+ <!--l. 575--><p class="noindent" >DPM5hmC        </p></td><td  style="text-align:left;" id="TBL-5-43-2"  
+class="td11">
+ <!--l. 575--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-43-3"  
+class="td11">
+ <!--l. 575--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-43-4"  
+class="td11">
+ <!--l. 575--><p class="noindent" >Alias for DPM76792C                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-44-"><td  style="text-align:left;" id="TBL-5-44-1"  
+class="td11">
+ <!--l. 576--><p class="noindent" >ADM5hmC        </p></td><td  style="text-align:left;" id="TBL-5-44-2"  
+class="td11">
+ <!--l. 576--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-44-3"  
+class="td11">
+ <!--l. 576--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-44-4"  
+class="td11">
+ <!--l. 576--><p class="noindent" >Alias for ADM76792C                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-45-"><td  style="text-align:left;" id="TBL-5-45-1"  
+class="td11">
+ <!--l. 577--><p class="noindent" >M5fC                </p></td><td  style="text-align:left;" id="TBL-5-45-2"  
+class="td11">
+ <!--l. 577--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-45-3"  
+class="td11">
+ <!--l. 577--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-45-4"  
+class="td11">
+ <!--l. 577--><p class="noindent" >Alias for M76794C 5-Formylcytosine                                          </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-46-"><td  style="text-align:left;" id="TBL-5-46-1"  
+class="td11">
+ <!--l. 578--><p class="noindent" >DPM5fC           </p></td><td  style="text-align:left;" id="TBL-5-46-2"  
+class="td11">
+ <!--l. 578--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-46-3"  
+class="td11">
+ <!--l. 578--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-46-4"  
+class="td11">
+ <!--l. 578--><p class="noindent" >Alias for DPM76794C                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-47-"><td  style="text-align:left;" id="TBL-5-47-1"  
+class="td11">
+ <!--l. 579--><p class="noindent" >ADM5fC           </p></td><td  style="text-align:left;" id="TBL-5-47-2"  
+class="td11">
+ <!--l. 579--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-47-3"  
+class="td11">
+ <!--l. 579--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-47-4"  
+class="td11">
+ <!--l. 579--><p class="noindent" >Alias for ADM76794C                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-48-"><td  style="text-align:left;" id="TBL-5-48-1"  
+class="td11">
+ <!--l. 580--><p class="noindent" >M5caC              </p></td><td  style="text-align:left;" id="TBL-5-48-2"  
+class="td11">
+ <!--l. 580--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-48-3"  
+class="td11">
+ <!--l. 580--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-48-4"  
+class="td11">
+ <!--l. 580--><p class="noindent" >Alias for M76793C 5-Carboxylcytosine                                       </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-49-"><td  style="text-align:left;" id="TBL-5-49-1"  
+class="td11">
+ <!--l. 581--><p class="noindent" >DPM5caC          </p></td><td  style="text-align:left;" id="TBL-5-49-2"  
+class="td11">
+ <!--l. 581--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-49-3"  
+class="td11">
+ <!--l. 581--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-49-4"  
+class="td11">
+ <!--l. 581--><p class="noindent" >Alias for DPM76793C                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-50-"><td  style="text-align:left;" id="TBL-5-50-1"  
+class="td11">
+ <!--l. 582--><p class="noindent" >ADM5caC         </p></td><td  style="text-align:left;" id="TBL-5-50-2"  
+class="td11">
+ <!--l. 582--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-50-3"  
+class="td11">
+ <!--l. 582--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-50-4"  
+class="td11">
+ <!--l. 582--><p class="noindent" >Alias for ADM76793C                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-51-"><td  style="text-align:left;" id="TBL-5-51-1"  
+class="td11">
+ <!--l. 583--><p class="noindent" >M5hmU            </p></td><td  style="text-align:left;" id="TBL-5-51-2"  
+class="td11">
+ <!--l. 583--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-51-3"  
+class="td11">
+ <!--l. 583--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-51-4"  
+class="td11">
+ <!--l. 583--><p class="noindent" >Alias for M16964T 5-Hydroxymethyluracil                                  </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-52-"><td  style="text-align:left;" id="TBL-5-52-1"  
+class="td11">
+ <!--l. 584--><p class="noindent" >DPM5hmU        </p></td><td  style="text-align:left;" id="TBL-5-52-2"  
+class="td11">
+ <!--l. 584--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-52-3"  
+class="td11">
+ <!--l. 584--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-52-4"  
+class="td11">
+ <!--l. 584--><p class="noindent" >Alias for DPM16964T                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-53-"><td  style="text-align:left;" id="TBL-5-53-1"  
+class="td11">
+ <!--l. 585--><p class="noindent" >ADM5hmU        </p></td><td  style="text-align:left;" id="TBL-5-53-2"  
+class="td11">
+ <!--l. 585--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-53-3"  
+class="td11">
+ <!--l. 585--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-53-4"  
+class="td11">
+ <!--l. 585--><p class="noindent" >Alias for ADM16964T                                                             </p></td>
+                                                                                                
+                                                                                                
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-54-"><td  style="text-align:left;" id="TBL-5-54-1"  
+class="td11">
+ <!--l. 586--><p class="noindent" >M5fU                </p></td><td  style="text-align:left;" id="TBL-5-54-2"  
+class="td11">
+ <!--l. 586--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-54-3"  
+class="td11">
+ <!--l. 586--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-54-4"  
+class="td11">
+ <!--l. 586--><p class="noindent" >Alias for M80961T 5-Formyluracil                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-55-"><td  style="text-align:left;" id="TBL-5-55-1"  
+class="td11">
+ <!--l. 587--><p class="noindent" >DPM5fU           </p></td><td  style="text-align:left;" id="TBL-5-55-2"  
+class="td11">
+ <!--l. 587--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-55-3"  
+class="td11">
+ <!--l. 587--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-55-4"  
+class="td11">
+ <!--l. 587--><p class="noindent" >Alias for DPM80961T                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-56-"><td  style="text-align:left;" id="TBL-5-56-1"  
+class="td11">
+ <!--l. 588--><p class="noindent" >ADM5fU           </p></td><td  style="text-align:left;" id="TBL-5-56-2"  
+class="td11">
+ <!--l. 588--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-56-3"  
+class="td11">
+ <!--l. 588--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-56-4"  
+class="td11">
+ <!--l. 588--><p class="noindent" >Alias for ADM80961T                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-57-"><td  style="text-align:left;" id="TBL-5-57-1"  
+class="td11">
+ <!--l. 589--><p class="noindent" >M5caU              </p></td><td  style="text-align:left;" id="TBL-5-57-2"  
+class="td11">
+ <!--l. 589--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-57-3"  
+class="td11">
+ <!--l. 589--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-57-4"  
+class="td11">
+ <!--l. 589--><p class="noindent" >Alias for M17477T 5-Carboxyluracil                                          </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-58-"><td  style="text-align:left;" id="TBL-5-58-1"  
+class="td11">
+ <!--l. 590--><p class="noindent" >DPM5caU         </p></td><td  style="text-align:left;" id="TBL-5-58-2"  
+class="td11">
+ <!--l. 590--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-58-3"  
+class="td11">
+ <!--l. 590--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-58-4"  
+class="td11">
+ <!--l. 590--><p class="noindent" >Alias for DPM17477T                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-59-"><td  style="text-align:left;" id="TBL-5-59-1"  
+class="td11">
+ <!--l. 591--><p class="noindent" >ADM5caU         </p></td><td  style="text-align:left;" id="TBL-5-59-2"  
+class="td11">
+ <!--l. 591--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-59-3"  
+class="td11">
+ <!--l. 591--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-59-4"  
+class="td11">
+ <!--l. 591--><p class="noindent" >Alias for ADM17477T                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-60-"><td  style="text-align:left;" id="TBL-5-60-1"  
+class="td11">
+ <!--l. 592--><p class="noindent" >M6mA              </p></td><td  style="text-align:left;" id="TBL-5-60-2"  
+class="td11">
+ <!--l. 592--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-60-3"  
+class="td11">
+ <!--l. 592--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-60-4"  
+class="td11">
+ <!--l. 592--><p class="noindent" >Alias for M28871A 6-Methyladenine                                          </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-61-"><td  style="text-align:left;" id="TBL-5-61-1"  
+class="td11">
+ <!--l. 593--><p class="noindent" >DPM6mA          </p></td><td  style="text-align:left;" id="TBL-5-61-2"  
+class="td11">
+ <!--l. 593--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-61-3"  
+class="td11">
+ <!--l. 593--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-61-4"  
+class="td11">
+ <!--l. 593--><p class="noindent" >Alias for DPM28871A                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-62-"><td  style="text-align:left;" id="TBL-5-62-1"  
+class="td11">
+ <!--l. 594--><p class="noindent" >ADM6mA          </p></td><td  style="text-align:left;" id="TBL-5-62-2"  
+class="td11">
+ <!--l. 594--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-62-3"  
+class="td11">
+ <!--l. 594--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-62-4"  
+class="td11">
+ <!--l. 594--><p class="noindent" >Alias for ADM28871A                                                            </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-63-"><td  style="text-align:left;" id="TBL-5-63-1"  
+class="td11">
+ <!--l. 595--><p class="noindent" >M8oxoG            </p></td><td  style="text-align:left;" id="TBL-5-63-2"  
+class="td11">
+ <!--l. 595--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-63-3"  
+class="td11">
+ <!--l. 595--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-63-4"  
+class="td11">
+ <!--l. 595--><p class="noindent" >Alias for M44605G 8-Oxoguanine                                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-64-"><td  style="text-align:left;" id="TBL-5-64-1"  
+class="td11">
+ <!--l. 596--><p class="noindent" >DPM8oxoG        </p></td><td  style="text-align:left;" id="TBL-5-64-2"  
+class="td11">
+ <!--l. 596--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-64-3"  
+class="td11">
+ <!--l. 596--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-64-4"  
+class="td11">
+ <!--l. 596--><p class="noindent" >Alias for DPM44605G                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-65-"><td  style="text-align:left;" id="TBL-5-65-1"  
+class="td11">
+ <!--l. 597--><p class="noindent" >ADM8oxoG       </p></td><td  style="text-align:left;" id="TBL-5-65-2"  
+class="td11">
+ <!--l. 597--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-65-3"  
+class="td11">
+ <!--l. 597--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-65-4"  
+class="td11">
+ <!--l. 597--><p class="noindent" >Alias for ADM44605G                                                            </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-66-"><td  style="text-align:left;" id="TBL-5-66-1"  
+class="td11">
+ <!--l. 598--><p class="noindent" >MXaoN             </p></td><td  style="text-align:left;" id="TBL-5-66-2"  
+class="td11">
+ <!--l. 598--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-66-3"  
+class="td11">
+ <!--l. 598--><p class="noindent" >Float        </p></td><td  style="text-align:left;" id="TBL-5-66-4"  
+class="td11">
+ <!--l. 598--><p class="noindent" >Alias for M18107N Xanthosine                                                 </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-67-"><td  style="text-align:left;" id="TBL-5-67-1"  
+class="td11">
+ <!--l. 599--><p class="noindent" >DPMXaoN         </p></td><td  style="text-align:left;" id="TBL-5-67-2"  
+class="td11">
+ <!--l. 599--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-67-3"  
+class="td11">
+ <!--l. 599--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-67-4"  
+class="td11">
+ <!--l. 599--><p class="noindent" >Alias for DPM18107N                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-68-"><td  style="text-align:left;" id="TBL-5-68-1"  
+class="td11">
+ <!--l. 600--><p class="noindent" >ADMXaoN        </p></td><td  style="text-align:left;" id="TBL-5-68-2"  
+class="td11">
+ <!--l. 600--><p class="noindent" >M            </p></td><td  style="text-align:left;" id="TBL-5-68-3"  
+class="td11">
+ <!--l. 600--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-68-4"  
+class="td11">
+ <!--l. 600--><p class="noindent" >Alias for ADM18107N                                                            </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-69-"><td  style="text-align:left;" id="TBL-5-69-1"  
+class="td11">
+ <!--l. 601--><p class="noindent" >MQ                  </p></td><td  style="text-align:left;" id="TBL-5-69-2"  
+class="td11">
+ <!--l. 601--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-5-69-3"  
+class="td11">
+ <!--l. 601--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-69-4"  
+class="td11">
+ <!--l. 601--><p class="noindent" >RMS mapping quality                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-70-"><td  style="text-align:left;" id="TBL-5-70-1"  
+class="td11">
+ <!--l. 602--><p class="noindent" >PL                   </p></td><td  style="text-align:left;" id="TBL-5-70-2"  
+class="td11">
+ <!--l. 602--><p class="noindent" >G            </p></td><td  style="text-align:left;" id="TBL-5-70-3"  
+class="td11">
+ <!--l. 602--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-70-4"  
+class="td11">
+ <!--l. 602--><p class="noindent" >Phred-scaled genotype likelihoods rounded to the closest integer     </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-71-"><td  style="text-align:left;" id="TBL-5-71-1"  
+class="td11">
+ <!--l. 603--><p class="noindent" >PP                   </p></td><td  style="text-align:left;" id="TBL-5-71-2"  
+class="td11">
+ <!--l. 603--><p class="noindent" >G            </p></td><td  style="text-align:left;" id="TBL-5-71-3"  
+class="td11">
+ <!--l. 603--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-71-4"  
+class="td11">
+ <!--l. 603--><p class="noindent" >Phred-scaled genotype posterior probabilities rounded to the closest
+  integer                                                                                 </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-72-"><td  style="text-align:left;" id="TBL-5-72-1"  
+class="td11">
+ <!--l. 604--><p class="noindent" >PQ                   </p></td><td  style="text-align:left;" id="TBL-5-72-2"  
+class="td11">
+ <!--l. 604--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-5-72-3"  
+class="td11">
+ <!--l. 604--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-72-4"  
+class="td11">
+ <!--l. 604--><p class="noindent" >Phasing quality                                                                     </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-73-"><td  style="text-align:left;" id="TBL-5-73-1"  
+class="td11">
+ <!--l. 605--><p class="noindent" >PS                   </p></td><td  style="text-align:left;" id="TBL-5-73-2"  
+class="td11">
+ <!--l. 605--><p class="noindent" >1             </p></td><td  style="text-align:left;" id="TBL-5-73-3"  
+class="td11">
+ <!--l. 605--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-73-4"  
+class="td11">
+ <!--l. 605--><p class="noindent" >Phase set                                                                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-74-"><td  style="text-align:left;" id="TBL-5-74-1"  
+class="td11">
+ <!--l. 606--><p class="noindent" >PSL                  </p></td><td  style="text-align:left;" id="TBL-5-74-2"  
+class="td11">
+ <!--l. 606--><p class="noindent" >P             </p></td><td  style="text-align:left;" id="TBL-5-74-3"  
+class="td11">
+ <!--l. 606--><p class="noindent" >String       </p></td><td  style="text-align:left;" id="TBL-5-74-4"  
+class="td11">
+ <!--l. 606--><p class="noindent" >Phase set list                                                                        </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-75-"><td  style="text-align:left;" id="TBL-5-75-1"  
+class="td11">
+ <!--l. 607--><p class="noindent" >PSO                 </p></td><td  style="text-align:left;" id="TBL-5-75-2"  
+class="td11">
+ <!--l. 607--><p class="noindent" >P             </p></td><td  style="text-align:left;" id="TBL-5-75-3"  
+class="td11">
+ <!--l. 607--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-75-4"  
+class="td11">
+ <!--l. 607--><p class="noindent" >Phase set list ordinal                                                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-76-"><td  style="text-align:left;" id="TBL-5-76-1"  
+class="td11">
+ <!--l. 608--><p class="noindent" >PSQ                 </p></td><td  style="text-align:left;" id="TBL-5-76-2"  
+class="td11">
+ <!--l. 608--><p class="noindent" >P             </p></td><td  style="text-align:left;" id="TBL-5-76-3"  
+class="td11">
+ <!--l. 608--><p class="noindent" >Integer     </p></td><td  style="text-align:left;" id="TBL-5-76-4"  
+class="td11">
+ <!--l. 608--><p class="noindent" >Phase set list quality                                                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-79-"><td  style="text-align:left;" id="TBL-5-79-1"  
+class="td11"> <!--l. 610--><p class="noindent" >               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-80-"><td  style="text-align:left;" id="TBL-5-80-1"  
+class="td11"> <!--l. 610--><p class="noindent" >               </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-81-"><td  style="text-align:left;" id="TBL-5-81-1"  
+class="td11"> <!--l. 610--><p class="noindent" >               </p></td></tr>
+<tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-11-"><td  style="text-align:left;" id="TBL-5-11-1"  
+class="td11"></td> <div class="multicolumn"  style="text-align:left; white-space:nowrap;"></div>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-12-"><td  style="text-align:left;" id="TBL-5-12-1"  
+class="td11">
+ <caption class="longtable">
+ <!--l. 543--><p class="noindent" ><span class="id">Table&#x00A0;2:&#x00A0;</span><span class="content">Reserved
+  genotype keys</span></p></caption> <!--l. 545--><p class="noindent" >     </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-13-"><td  style="text-align:left;" id="TBL-5-13-1"  
+class="td11"> <!--l. 545--><p class="noindent" >               </p></td></tr>
+   </table></div>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 614--><p class="noindent" >AD, ADF, ADR (Integer): Per-sample read depths for each allele; total (AD), on the forward (ADF) and the
+     reverse (ADR) strand.
+     </p></li>
+                                                                                                
+                                                                                                
+     <li class="itemize">
+     <!--l. 615--><p class="noindent" >DP (Integer): Read depth at this position for this sample.
+     </p></li>
+     <li class="itemize">
+     <!--l. 616--><p class="noindent" >EC (Integer): Comma separated list of expected alternate allele counts for each alternate allele in the same
+     order as listed in the ALT field. Typically used in association analyses.
+     </p></li>
+     <li class="itemize">
+     <!--l. 618--><p class="noindent" >LEN (Integer): length of the <!--l. 618--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo></math>*<!--l. 618--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x003E;</mo></math>
+     reference block for this sample.
+     </p></li>
+     <li class="itemize">
+     <!--l. 619--><p class="noindent" >FT (String): Sample genotype filter indicating if this genotype was &#8220;called&#8221; (similar in concept to the FILTER
+     field). Again, use PASS to indicate that all filters have been passed, a semicolon-separated list of codes for
+     filters that fail, or &#8216;.&#8217; to indicate that filters have not been applied. These values should be described in the
+     meta-information in the same way as FILTERs. No whitespace or semicolons permitted.
+     </p></li>
+     <li class="itemize">
+     <!--l. 623--><p class="noindent" >GQ (Integer): Conditional genotype quality, encoded as a phred quality <!--l. 623--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>1</mn><mn>0</mn><mi 
+>l</mi><mi 
+>o</mi><msub><mrow 
+><mi 
+>g</mi></mrow><mrow 
+><mn>1</mn><mn>0</mn></mrow></msub 
+></math>
+     p(genotype call is wrong, conditioned on the site&#8217;s being variant).
+     </p></li>
+     <li class="itemize">
+     <!--l. 624--><p class="noindent" >GP (Float): Genotype posterior probabilities in the range 0 to 1 using the same ordering as the GL field; one
+     use can be to store imputed genotype probabilities.
+     </p></li>
+     <li class="itemize">
+     <!--l. 625--><p class="noindent" >GT (String): Genotype, encoded as allele value preceded by either of
+     <!--l. 625--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo></math> or
+     <!--l. 625--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-rel" stretchy="false">&#x2223;</mo></math> depending
+     on whether that allele is considered phased. The first phasing indicator may be omitted and is implicitly defined as
+     <!--l. 626--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo></math> if any phasing
+     indicators are <!--l. 626--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo></math>
+     and <!--l. 626--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-rel" stretchy="false">&#x2223;</mo></math>
+     otherwise. The allele values are 0 for the reference allele (what is in the REF field), 1 for the first allele
+     listed in ALT, 2 for the second allele list in ALT and so on. For diploid calls examples could be
+     <!--l. 628--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>0</mn><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mn>1</mn></math>,
+     <!--l. 628--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>1</mn><mo 
+class="MathClass-rel" stretchy="false">&#x2223;</mo><mn>0</mn></math>,
+     <!--l. 628--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mn>0</mn><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mn>1</mn></math>, or
+     <!--l. 628--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>1</mn><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mn>2</mn></math>, etc. Haploid calls,
+     e.g.&#x00A0;on Y, male non-pseudoautosomal X, or mitochondria, should be indicated by having only one allele value. A triploid call might look like
+     <!--l. 630--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>0</mn><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mn>0</mn><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mn>1</mn></math>, and a partially phased
+     triploid call could be <!--l. 630--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-rel" stretchy="false">|</mo><mn>0</mn><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mn>1</mn><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mn>2</mn></math>
+     to indicate that the first allele is phased with another variant in the VCF. If a call cannot be made for a sample at a given
+     locus, &#8216;<!--l. 631--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-punc" stretchy="false">.</mo></math>&#8217;
+     must be specified for each missing allele in the <span 
+class="cmtt-10">GT </span>field (for example
+     &#8216;<!--l. 631--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-punc" stretchy="false">.</mo><mo 
+class="MathClass-bin" stretchy="false">&#x2215;</mo><mo 
+class="MathClass-punc" stretchy="false">.</mo></math>&#8217; for a diploid
+     genotype and &#8216;<!--l. 631--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-punc" stretchy="false">.</mo></math>&#8217;
+     for haploid genotype). The meanings of the phasing indicators are as follows (see the <span 
+class="cmtt-10">PS </span>and <span 
+class="cmtt-10">PSL </span>fields below for more
+     details on incorporating phasing information into the genotypes): </p>
+                                                                                                
+
+

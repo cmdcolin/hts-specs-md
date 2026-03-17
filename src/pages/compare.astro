@@ -1,5 +1,12 @@
 ---
 const base = import.meta.env.BASE_URL;
+const specs = [
+  'SAMv1', 'SAMtags', 'BEDv1',
+  'VCFv4.1', 'VCFv4.2', 'VCFv4.3', 'VCFv4.4', 'VCFv4.5',
+  'BCFv1_qref', 'BCFv2_qref',
+  'CRAMv2.1', 'CRAMv3', 'CRAMcodecs',
+  'CSIv1', 'tabix', 'crypt4gh',
+];
 ---
 <html lang="en">
   <head>
@@ -14,7 +21,9 @@ const base = import.meta.env.BASE_URL;
         padding: 2rem;
       }
       nav { display: flex; gap: 1rem; margin-bottom: 2rem; }
-      ul { line-height: 2; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #ddd; padding: 6px 12px; text-align: left; }
+      th { background: #f8f9fa; }
       a { color: #0969da; }
     </style>
   </head>
@@ -25,13 +34,26 @@ const base = import.meta.env.BASE_URL;
     </nav>
     <h1>TeX-to-HTML Converter Comparison</h1>
     <p>
-      Comparing three approaches for converting CRAMv3.tex to HTML.
+      Comparing two approaches for converting hts-specs TeX files to HTML.
       Open each in a new tab to compare side by side.
     </p>
-    <ul>
-      <li><a href={`${base}/CRAMv3`} target="_blank">Pandoc (current pipeline)</a> — TeX &rarr; GFM Markdown &rarr; Astro/HTML</li>
-      <li><a href={`${base}/compare/CRAMv3-htlatex.html`} target="_blank">htlatex (tex4ht)</a> — direct TeX &rarr; XHTML + MathML</li>
-      <li><a href={`${base}/compare/CRAMv3-latexml.html`} target="_blank">LaTeXML</a> — TeX &rarr; XML &rarr; HTML5 + MathML</li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Spec</th>
+          <th>Pandoc pipeline</th>
+          <th>htlatex (tex4ht)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {specs.map(name => (
+          <tr>
+            <td>{name}</td>
+            <td><a href={`${base}/${name}`} target="_blank">Pandoc</a></td>
+            <td><a href={`${base}/compare/${name}.html`} target="_blank">htlatex</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </body>
 </html>

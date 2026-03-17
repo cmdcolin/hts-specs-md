@@ -1,0 +1,2579 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+"http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd" > 
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title></title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- xhtml,mathml,0,html --> 
+<meta name="src" content="crypt4gh.tex" /> 
+<link rel="stylesheet" type="text/css" href="crypt4gh.css" /> 
+
+<style>
+  body {
+    font-family: "Charter", "Bitstream Charter", "Georgia", serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .header-anchor {
+    text-decoration: none;
+    font-size: 0.8em;
+    opacity: 0.3;
+  }
+  .header-anchor:hover { opacity: 1; }
+  h2, h3, h4, h5 {
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+    margin-top: 1.5rem;
+  }
+  :target { scroll-margin-top: 2rem; }
+  .toc {
+    background: #f6f8fa;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5da;
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+  }
+  .toc summary { cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+  .toc ul { list-style: none; padding-left: 0; margin: 0.25rem 0 0; columns: 2; column-gap: 1.5rem; }
+  .toc li { margin: 0.1rem 0; line-height: 1.25; break-inside: avoid; }
+  .toc .depth-3 { padding-left: 0.75rem; }
+  .toc .depth-4 { padding-left: 1.5rem; }
+  .toc .depth-5 { padding-left: 2.25rem; }
+  .toc a:hover { text-decoration: underline; }
+  table { border-collapse: collapse; margin-bottom: 1rem; }
+  td, th { border: 1px solid #ddd; padding: 2px 8px; }
+  th { background-color: #f8f9fa; }
+  .banner {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  a, a span { color: revert; font-family: inherit; font-size: inherit; }
+  nav { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: center; }
+  @media (max-width: 768px) {
+    body { padding: 0.5rem; font-size: 0.9rem; }
+    .toc ul { columns: 1; }
+  }
+</style>
+</head><body 
+>
+
+<nav>
+  <a href="/hts-specs-md">hts-specs-md</a>
+  <a href="/hts-specs-md/about">About</a>
+</nav>
+
+<div class="maketitle">                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+
+<h2 class="titleHead">GA4GH File Encryption Standard</h2>
+ <div class="author" ></div>
+<details class="toc" open>
+<summary>Table of Contents</summary>
+<ul>
+<li><a href="#x1-1000">Contents</a></li>
+<li><a href="#1">1 Introduction</a></li>
+<li class="depth-3"><a href="#1.1">1.1 Purpose</a></li>
+<li class="depth-3"><a href="#1.2">1.2 Requirements</a></li>
+<li class="depth-3"><a href="#1.3">1.3 Terminology</a></li>
+<li><a href="#2">2 Encrypted Format Overview</a></li>
+<li class="depth-3"><a href="#2.1">2.1 Keys</a></li>
+<li class="depth-4"><a href="#2.1.1">2.1.1 Asymmetric Keys</a></li>
+<li class="depth-4"><a href="#2.1.2">2.1.2 Symmetric keys</a></li>
+<li class="depth-3"><a href="#2.2">2.2 File Structure</a></li>
+<li class="depth-3"><a href="#2.3">2.3 Header Packet Types</a></li>
+<li class="depth-3"><a href="#2.4">2.4 Encoding For Multiple Public/Secret Key Pairs</a></li>
+<li><a href="#3">3 Detailed Specification</a></li>
+<li class="depth-3"><a href="#3.1">3.1 Overall Conventions</a></li>
+<li class="depth-4"><a href="#3.1.1">3.1.1 Hexadecimal Numbers</a></li>
+<li class="depth-4"><a href="#3.1.2">3.1.2 Byte Ordering</a></li>
+<li class="depth-4"><a href="#3.1.3">3.1.3 Integer Types</a></li>
+<li class="depth-4"><a href="#3.1.4">3.1.4 Multi-byte Integer Types</a></li>
+<li class="depth-4"><a href="#3.1.5">3.1.5 Structures</a></li>
+<li class="depth-4"><a href="#3.1.6">3.1.6 Enumerated Types</a></li>
+<li class="depth-4"><a href="#3.1.7">3.1.7 Variants</a></li>
+<li class="depth-3"><a href="#3.2">3.2 Header</a></li>
+<li class="depth-4"><a href="#3.2.1">3.2.1 Header Packets</a></li>
+<li class="depth-4"><a href="#3.2.2">3.2.2 Header packet encrypted payload</a></li>
+<li class="depth-4"><a href="#3.2.3">3.2.3 data_encryption_parameters packet</a></li>
+<li class="depth-4"><a href="#3.2.4">3.2.4 data_edit_list packet</a></li>
+<li class="depth-3"><a href="#3.3">3.3 Header packet encryption</a></li>
+<li class="depth-4"><a href="#3.3.1">3.3.1 X25519_chacha20_ietf_poly1305 Encryption</a></li>
+<li class="depth-4"><a href="#3.3.2">3.3.2 X25519_chacha20_ietf_poly1305 Decryption</a></li>
+<li class="depth-4"><a href="#3.3.3">3.3.3 Reading the header</a></li>
+<li class="depth-3"><a href="#3.4">3.4 Encrypted Data</a></li>
+<li class="depth-4"><a href="#3.4.1">3.4.1 chacha20_ietf_poly1305 Encryption</a></li>
+<li class="depth-4"><a href="#3.4.2">3.4.2 Segmenting the input</a></li>
+<li><a href="#4">4 Decryption</a></li>
+<li class="depth-3"><a href="#4.1">4.1 chacha20_ietf_poly1305 Decryption</a></li>
+<li class="depth-3"><a href="#4.2">4.2 Edit List</a></li>
+<li class="depth-4"><a href="#4.2.1">4.2.1 Example</a></li>
+<li><a href="#5">5 Security Considerations</a></li>
+<li class="depth-3"><a href="#5.1">5.1 Threat Analysis</a></li>
+<li class="depth-3"><a href="#5.2">5.2 Selection of Keys</a></li>
+<li class="depth-3"><a href="#5.3">5.3 Nonce selection</a></li>
+<li class="depth-3"><a href="#5.4">5.4 Message Forgery</a></li>
+<li class="depth-3"><a href="#5.5">5.5 No File Updates Permitted</a></li>
+<li><a href="#6">6 References</a></li>
+<li class="depth-3"><a href="#6.1">6.1 Normative References</a></li>
+<li class="depth-3"><a href="#6.2">6.2 Informational References</a></li>
+</ul>
+</details>
+
+<br />
+<div class="date" ><span 
+class="cmr-12">3 Feb 2023</span></div>
+</div>
+     <blockquote class="quote">
+     <!--l. 40--><p class="noindent" ><span 
+class="cmr-9">The master version of this document can be found at </span><a 
+href="https://github.com/samtools/hts-specs" class="url" ><span 
+class="cmtt-9">https://github.com/samtools/hts-specs</span></a><span 
+class="cmr-9">.</span><br 
+class="newline" /><span 
+class="cmr-9">This printing is version</span><span 
+class="cmr-9">&#x00A0;778115b</span><span 
+class="cmr-9">&#x00A0;from that repository, last modified on the date shown above.</span></p></blockquote>
+<div 
+class="abstract" 
+>
+<h3 class="abstracttitle">
+<span 
+class="cmbx-9">Abstract</span>
+</h3>
+     <!--l. 48--><p class="noindent" ><span 
+class="cmr-9">This document describes the format for Global Alliance for Genomics and Health (GA4GH) encrypted</span>
+     <span 
+class="cmr-9">files. Encryption helps to prevent accidental disclosure of confidential information. Allowing programs to</span>
+     <span 
+class="cmr-9">directly read and write data in an encrypted format reduces the chance of such disclosure. The format</span>
+     <span 
+class="cmr-9">described here can be used to encrypt any underlying file format. It also allows for seeking on the</span>
+     <span 
+class="cmr-9">encrypted data. In particular indexes on the plain text version can also be used on the encrypted file</span>
+     <span 
+class="cmr-9">without modification.</span>
+</p>
+</div>
+<!--l. 55--><p class="noindent" >
+                                                                                         
+                                                                                         
+
+</p>
+<h3 class="likesectionHead" id="x1-1000"><span class="titlemark"> </span>Contents <a href="#x1-1000" class="header-anchor">#</a></h3>
+<!--l. 57--><p class="noindent" >
+                                                                                         
+                                                                                         
+
+</p>
+<h3 class="sectionHead" id="1"><span class="titlemark">1 </span>Introduction <a href="#1" class="header-anchor">#</a></h3>
+
+<h4 class="subsectionHead" id="1.1"><span class="titlemark">1.1 </span>Purpose <a href="#1.1" class="header-anchor">#</a></h4>
+<!--l. 60--><p class="noindent" >By its nature, genomic data can include information of a confidential nature about the health of individuals. It is
+important that such information is not accidentally disclosed. One part of the defence against such disclosure is to,
+as much as possible, keep the data in an encrypted format.
+</p><!--l. 64--><p class="noindent" >This document describes a file format that can be used to store data in an encrypted state. Existing applications
+can, with minimal modification, read and write data in the encrypted format. The choice of encryption
+also allows the encrypted data to be read starting from any location, facilitating indexed access to
+files.
+</p><!--l. 69--><p class="noindent" >The format has the following properties:
+</p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 72--><p class="noindent" >Confidentiality
+     </p><!--l. 74--><p class="noindent" >Data stored in the file is only readable by holders of the correct secret decryption key. The format does
+     not hide the length of the encrypted file, although it is possible to pad some file structures to obscure
+     the length.
+     </p></li>
+     <li class="itemize">
+     <!--l. 78--><p class="noindent" >Integrity
+     </p><!--l. 80--><p class="noindent" >Data is stored in a series of 64 kilobyte blocks, each of which includes a message authentication code
+     (MAC). Attempts to change the data in a block will make the MAC invalid; it is not possible to
+     recalculate the MAC without knowing the key used to encrypt the file.
+     </p><!--l. 84--><p class="noindent" >The format only protects the contents of each individual block. It does not protect against insertion,
+     removal, or reordering of entire blocks.
+     </p></li>
+     <li class="itemize">
+     <!--l. 87--><p class="noindent" >Authentication
+     </p><!--l. 89--><p class="noindent" >The format does not provide any way of authenticating files.</p></li></ul>
+
+<h4 class="subsectionHead" id="1.2"><span class="titlemark">1.2 </span>Requirements <a href="#1.2" class="header-anchor">#</a></h4>
+                                                                                         
+                                                                                         
+<!--l. 93--><p class="noindent" >The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD
+NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in
+<span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+
+</p>
+<h4 class="subsectionHead" id="1.3"><span class="titlemark">1.3 </span>Terminology <a href="#1.3" class="header-anchor">#</a></h4>
+<!--l. 97--><p class="noindent" >
+     </p><dl class="description"><dt class="description">
+<span 
+class="cmbx-10">cipher-text</span> </dt><dd 
+class="description">
+     <!--l. 98--><p class="noindent" >&#x00A0;<br 
+class="newline" />The encrypted version of the data.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">plain-text</span> </dt><dd 
+class="description">
+     <!--l. 101--><p class="noindent" >&#x00A0;<br 
+class="newline" />The unencrypted version of the data.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">symmetric encryption</span> </dt><dd 
+class="description">
+     <!--l. 104--><p class="noindent" >&#x00A0;<br 
+class="newline" />Encryption where the writer and reader use the same key.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">public-key encryption</span> </dt><dd 
+class="description">
+     <!--l. 107--><p class="noindent" >&#x00A0;<br 
+class="newline" />Encryption where a non-secret public key is used to encrypt data and a different secret private key is
+     used to decrypt.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">Elliptic-curve cryptography (ECC)</span> </dt><dd 
+class="description">
+     <!--l. 110--><p class="noindent" >&#x00A0;<br 
+class="newline" />An approach to public-key cryptography based on the algebraic structure of elliptic curves over finite
+     fields.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">Diffie-Hellman</span> </dt><dd 
+class="description">
+     <!--l. 113--><p class="noindent" >&#x00A0;<br 
+class="newline" />A method of generating a shared cryptographic key, used for public-key encryption.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">Elliptic-curve Diffie-Hellman (ECDH)</span> </dt><dd 
+class="description">
+     <!--l. 116--><p class="noindent" >&#x00A0;<br 
+class="newline" />A variant of Diffie-Hellman using elliptic curve cryptography.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">Curve25519</span> </dt><dd 
+class="description">
+     <!--l. 119--><p class="noindent" >&#x00A0;<br 
+class="newline" />A widely used FIPS-140 approved ECC algorithm not encumbered by any patents <span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+                                                                                         
+                                                                                         
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">X25519</span> </dt><dd 
+class="description">
+     <!--l. 122--><p class="noindent" >&#x00A0;<br 
+class="newline" />An elliptic-curve Diffie-Hellman algorithm using Curve25519.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">ChaCha20-IETF-Poly1305</span> </dt><dd 
+class="description">
+     <!--l. 125--><p class="noindent" >&#x00A0;<br 
+class="newline" />ChaCha20 is a symmetric stream cipher built on a pseudo-random function that gives the advantage
+     that one can efficiently seek to any position in the key stream in constant time. It is not patented.
+     Poly1305 is a cryptographic message authentication code (MAC). It can be used to verify the data
+     integrity and the authenticity of a message <span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">nonce</span> </dt><dd 
+class="description">
+     <!--l. 132--><p class="noindent" >&#x00A0;<br 
+class="newline" />A number that is used only once. Such numbers are used to set the initial state in cryptographic
+     constructions. It is important that they are not reused as it is possible for attackers to learn information
+     about data blocks that have been encrypted using the same key and nonce. In the worst case this can
+     lead to a complete break-down of the security of the encryption.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">MAC</span> </dt><dd 
+class="description">
+     <!--l. 139--><p class="noindent" >&#x00A0;<br 
+class="newline" />Message authentication code. A MAC is a short tag generated by an algorithm which takes a message
+     and a secret key as inputs. To be secure, it should be computationally infeasible to generate the same
+     MAC without knowing the secret key. A holder of the secret key can run a verification algorithm on
+     the MAC to ensure with high probability that the message has not been altered after the MAC was
+     generated.
+     </p></dd><dt class="description">
+<span 
+class="cmbx-10">magic string</span> </dt><dd 
+class="description">
+     <!--l. 146--><p class="noindent" >&#x00A0;<br 
+class="newline" />A byte pattern that can be used for file format identification. Usually put at the start of a file so that
+     software can probe the first few bytes to determine what sort of file it is reading.
+</p>
+     </dd></dl>
+
+<h3 class="sectionHead" id="2"><span class="titlemark">2 </span>Encrypted Format Overview <a href="#2" class="header-anchor">#</a></h3>
+
+<h4 class="subsectionHead" id="2.1"><span class="titlemark">2.1 </span>Keys <a href="#2.1" class="header-anchor">#</a></h4>
+<!--l. 157--><p class="noindent" >A number of cryptographic keys are required by the format. The type and function of each key is listed here, along with
+symbols (<!--l. 159--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>x</mi></mrow></msub 
+></math>
+where <!--l. 159--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+></mrow><mrow 
+><mi 
+>x</mi></mrow></msub 
+></math> is
+the key type) used to refer to the key in the rest of this specification.
+                                                                                         
+                                                                                         
+
+</p>
+<h5 class="subsubsectionHead" id="2.1.1"><span class="titlemark">2.1.1 </span>Asymmetric Keys <a href="#2.1.1" class="header-anchor">#</a></h5>
+<!--l. 163--><p class="noindent" >This specification uses the term &#8220;secret key&#8221; rather than &#8220;private key&#8221; so that the symbol
+<!--l. 163--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi></mrow></msub 
+></math> can be used for
+secret keys and <!--l. 164--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi></mrow></msub 
+></math>
+for public keys.
+</p><!--l. 166--><p class="noindent" >
+     </p><dl class="description"><dt class="description">
+ </dt><dd 
+class="description">
+     <!--l. 168--><p class="noindent" >Reader&#8217;s secret key (<!--l. 168--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>)&#x00A0;<br 
+class="newline" />This key is used by the reader when decrypting header packets and should be kept private. It is
+     generated using a cryptographically-secure random number.
+     </p></dd><dt class="description">
+ </dt><dd 
+class="description">
+     <!--l. 172--><p class="noindent" >Reader&#8217;s public key (<!--l. 172--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+></math>)&#x00A0;<br 
+class="newline" />This key is passed to the writer so that they can encrypt header packets (section&#x00A0;<span 
+class="cmbx-10">??</span>) for the reader. It is
+     derived from <!--l. 175--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>
+     (see section&#x00A0;<span 
+class="cmbx-10">??</span>).
+     </p></dd><dt class="description">
+ </dt><dd 
+class="description">
+     <!--l. 177--><p class="noindent" >Writer&#8217;s secret key (<!--l. 177--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>)&#x00A0;<br 
+class="newline" />This key is used by the writer to encrypt header packets. It should either be kept private, or deleted
+     after use. It is generated using a cryptographically-secure random number.
+     </p></dd><dt class="description">
+ </dt><dd 
+class="description">
+     <!--l. 182--><p class="noindent" >Writer&#8217;s public key (<!--l. 182--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+></math>)&#x00A0;<br 
+class="newline" />This key is included in the header packet (section&#x00A0;<span 
+class="cmbx-10">??</span>) so that the reader can use it to derive the shared
+     key (<!--l. 184--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+></math>,
+     see below) needed to decrypt header packet data. It is derived from <!--l. 185--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>
+     (see section&#x00A0;<span 
+class="cmbx-10">??</span>).
+</p>
+     </dd></dl>
+
+<h5 class="subsubsectionHead" id="2.1.2"><span class="titlemark">2.1.2 </span>Symmetric keys <a href="#2.1.2" class="header-anchor">#</a></h5>
+<!--l. 191--><p class="noindent" >
+     </p><dl class="description"><dt class="description">
+ </dt><dd 
+class="description">
+     <!--l. 193--><p class="noindent" >Diffie-Hellman key (<!--l. 193--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>h</mi></mrow></msub 
+></math>)&#x00A0;<br 
+class="newline" />This is generated as part of the derivation of <!--l. 194--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+></math>.
+                                                                                         
+                                                                                         
+     </p></dd><dt class="description">
+ </dt><dd 
+class="description">
+     <!--l. 196--><p class="noindent" >Shared key (<!--l. 196--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+></math>)&#x00A0;<br 
+class="newline" />This key is used to encrypt header packet data. It can be derived either from (<!--l. 198--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>
+     and <!--l. 198--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+></math>)
+     or from (<!--l. 198--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>
+     and <!--l. 198--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+></math>)
+     - see section&#x00A0;<span 
+class="cmbx-10">??</span>. The writer will use the first of these derivations and the reader will use the second.
+     </p></dd><dt class="description">
+ </dt><dd 
+class="description">
+     <!--l. 201--><p class="noindent" >Data key (<!--l. 201--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>a</mi></mrow></msub 
+></math>)&#x00A0;<br 
+class="newline" />This key is used to encrypt the actual file data (section&#x00A0;<span 
+class="cmbx-10">??</span>). It is generated using a cryptographically-secure
+     random number. The data key SHOULD be generated uniquely for each file. This key is stored in a
+     data_encryption_parameters header packet (see section&#x00A0;<span 
+class="cmbx-10">??</span>). It is possible to encrypt parts of a file with
+     different data keys, in which case each key will be stored in a separate data_encryption_parameters
+     header packet.
+</p>
+     </dd></dl>
+
+<h4 class="subsectionHead" id="2.2"><span class="titlemark">2.2 </span>File Structure <a href="#2.2" class="header-anchor">#</a></h4>
+<div class="center" 
+>
+<!--l. 213--><p class="noindent" >
+</p><!--l. 214--><p class="noindent" ><img 
+src="crypt4gh0x.svg" alt="DDDDDDEEaaaaaanWnDNHttttttNMVPHHHPcrNPcaDPuLeaaaaaaoEMaeaeeearioMartaameDannAgrcaaacytnAcyatcbnadBBBBBBccCisikdddkpecECkp Eakegtellllllercoeeeeetrenetnertarooooooyntrrrtio&#8217;sctiocEthccccccpnrnrnsEkkkkkktyycdedppr[nittyutDeipmcadotbLrtDnieiyaa Korspten]ttay P4PagBachlckokeFcHetikFetleia(ld(peepl HrlaeaiaPindan-ec-terktxeettx)t)
+&#8220;PcPurCPPaLMbMleyoaaceelTeTnpucckntiPytygR6DtnkkeMghcaphptLe5e4gteetato KcPeoehia5chtt..ghdekadssd3r&#8221;.iyecte6yctk or bp nef-ytuDt bstioma dypenbtateseatSecikratfie, eococynreu e KvcsnndertcarsyKsrtipdyaotatopnetatis adaen ultdstdse hoirerpnnaeagaddc ktee ikelrneyyt cKosuhnatr aedred uenrievnecdr fyrpotmed
+ Data EwnrexcHitcEreelnyarucpd&#8217;sdrtie peyoru apnbnteplddPaiaccidrk knaaetectmsyluaed itin(Kenedp brsiwinlvohid)oceu aukaantsdldperlyurtpeeanaccdkreetyr&#8217;pste sdecforert rkeaeyde(rKsr)"  /></p></div>
+<!--l. 304--><p class="noindent" >The encrypted file structure, shown in the diagram above, consists of the following parts:
+</p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 307--><p class="noindent" >A header containing: a &#8220;magic&#8221; string, version number and header packet count. </p>
+         <ul class="itemize2">
+         <li class="itemize">
+         <!--l. 309--><p class="noindent" >A &#8220;magic&#8221; string for file type identification.
+         </p></li>
+         <li class="itemize">
+         <!--l. 310--><p class="noindent" >A version number.
+         </p></li>
+         <li class="itemize">
+         <!--l. 311--><p class="noindent" >The header packet count.
+         </p></li>
+         <li class="itemize">
+         <!--l. 312--><p class="noindent" >One or more header packets containing: </p>
+             <ul class="itemize3">
+             <li class="itemize">
+             <!--l. 314--><p class="noindent" >The packet length in bytes.
+                                                                                         
+                                                                                         
+             </p></li>
+             <li class="itemize">
+             <!--l. 315--><p class="noindent" >The method used to encrypt the header packet data.
+             </p></li>
+             <li class="itemize">
+             <!--l. 316--><p class="noindent" >The writer&#8217;s public key (<!--l. 316--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+></math>)
+             used to encrypt the header packet data. This is needed (along with the reader&#8217;s secret key
+             <!--l. 317--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>)
+             to calculate the shared key used to encrypt the header packet.
+             </p></li>
+             <li class="itemize">
+             <!--l. 319--><p class="noindent" >A random &#8220;nonce&#8221;, also required for decryption.
+             </p></li>
+             <li class="itemize">
+             <!--l. 320--><p class="noindent" >The encrypted data for the header packet.
+             </p></li>
+             <li class="itemize">
+             <!--l. 321--><p class="noindent" >A MAC calculated over the encrypted header packet data.</p></li></ul>
+         <!--l. 323--><p class="noindent" >The first item in the encrypted header packet data is a code indicating the packet type. This is followed
+         by type-specific data, described in section&#x00A0;<span 
+class="cmbx-10">??</span>.</p></li></ul>
+     </li>
+     <li class="itemize">
+     <!--l. 326--><p class="noindent" >The encrypted data. This is the actual application data, stored in a sequence of blocks containing:
+     </p>
+         <ul class="itemize2">
+         <li class="itemize">
+         <!--l. 329--><p class="noindent" >A random &#8220;nonce&#8221;, needed for decryption.
+         </p></li>
+         <li class="itemize">
+         <!--l. 330--><p class="noindent" >64 kilobytes of encrypted data (the last block may contain less than this).
+         </p></li>
+         <li class="itemize">
+         <!--l. 331--><p class="noindent" >A MAC calculated over the encrypted data.</p></li></ul>
+     </li></ul>
+
+<h4 class="subsectionHead" id="2.3"><span class="titlemark">2.3 </span>Header Packet Types <a href="#2.3" class="header-anchor">#</a></h4>
+<!--l. 336--><p class="noindent" >There are two types of header packet: </p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 338--><p class="noindent" >Data encryption key packets.
+                                                                                         
+                                                                                         
+     </p><!--l. 340--><p class="noindent" >These describe the parameters used to encrypt one or more of the data blocks. They contain a code
+     indicating the type of encryption, and the symmetric key (<!--l. 341--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>a</mi></mrow></msub 
+></math>)
+     needed to decrypt the data.
+     </p><!--l. 343--><p class="noindent" >If parts of the data have been encrypted with different keys, more than one of this packet type will be
+     present.
+     </p></li>
+     <li class="itemize">
+     <!--l. 345--><p class="noindent" >Data edit list packets.
+     </p><!--l. 347--><p class="noindent" >These packets allow parts of the data to be discarded after decryption. They can be used to avoid
+     having to decrypt and re-encrypt files during splicing operations.
+     </p><!--l. 350--><p class="noindent" >For example, a user may want to extract the blocks corresponding to Chromosome X from a CRAM
+     file and store them in a new file. If the start and end points of the extract do not correspond to a
+     64Kbyte data block boundary, they would normally have to decrypt all of the data blocks covering the
+     region, discard a few bytes from the start and end, re-encrypt the remaining data and store it in a new
+     file.
+     </p><!--l. 356--><p class="noindent" >The data edit list enables a simpler solution where the necessary encrypted data blocks are copied
+     directly into the new file. On reading, the data blocks are decrypted and then the edit list is used to
+     find out which parts of the unencrypted data should be discarded.</p></li></ul>
+
+<h4 class="subsectionHead" id="2.4"><span class="titlemark">2.4 </span>Encoding For Multiple Public/Secret Key Pairs <a href="#2.4" class="header-anchor">#</a></h4>
+<!--l. 364--><p class="noindent" >It is sometimes useful to encrypt files so that they can be accessed using more than one secret key
+(<!--l. 364--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>). For
+example, multiple members of a team may need to access to a file with their own key.
+</p><!--l. 367--><p class="noindent" >To allow this, the header packet data is encrypted using each reader&#8217;s public key
+(<!--l. 368--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+></math>) and
+stored in a separate header packet for each individual reader.
+</p><!--l. 371--><p class="noindent" >Where this is done, it is likely that anyone reading the file will only have the correct secret key
+(<!--l. 371--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>) for a
+subset of the header packets. Attempting to decode a header packet with the wrong key will result in a failure to
+verify the MAC stored in the file. When this happens, implementations should ignore the undecodable header packet
+and move on to the next one. Failing to decrypt a packet in this way SHOULD NOT cause an error to be reported;
+however an error MUST be raised if, on reaching the end of the header, it has not been possible to decrypt at least
+one data encryption key packet.
+
+</p>
+<h3 class="sectionHead" id="3"><span class="titlemark">3 </span>Detailed Specification <a href="#3" class="header-anchor">#</a></h3>
+
+<h4 class="subsectionHead" id="3.1"><span class="titlemark">3.1 </span>Overall Conventions <a href="#3.1" class="header-anchor">#</a></h4>
+
+                                                                                         
+                                                                                         
+<h5 class="subsubsectionHead" id="3.1.1"><span class="titlemark">3.1.1 </span>Hexadecimal Numbers <a href="#3.1.1" class="header-anchor">#</a></h5>
+<!--l. 382--><p class="noindent" >Hexadecimal values are written using the digits 0-9, and letters a-f for values 10-15. Values are written with the
+most-significant digit on the left, and prefixed with &#8221;0x&#8221;.
+
+</p>
+<h5 class="subsubsectionHead" id="3.1.2"><span class="titlemark">3.1.2 </span>Byte Ordering <a href="#3.1.2" class="header-anchor">#</a></h5>
+<!--l. 386--><p class="noindent" >The basic data size is the byte (8 bits). All multi-byte values are stored in least-significant byte first
+(&#8220;little-endian&#8221;) order. For example, the value 1234 decimal (0x4d2) is stored as the byte stream 0xd2
+0x04.
+
+</p>
+<h5 class="subsubsectionHead" id="3.1.3"><span class="titlemark">3.1.3 </span>Integer Types <a href="#3.1.3" class="header-anchor">#</a></h5>
+<!--l. 391--><p class="noindent" >Integers can be either signed or unsigned. Signed values are stored in two&#8217;s complement form.
+
+</p>
+<h5 class="subsubsectionHead" id="3.1.4"><span class="titlemark">3.1.4 </span>Multi-byte Integer Types <a href="#3.1.4" class="header-anchor">#</a></h5>
+<div class="center" 
+>
+<!--l. 395--><p class="noindent" >
+</p>
+<div class="tabular"> <table id="TBL-2" class="tabular" 
+ 
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1" /><col 
+id="TBL-2-2" /><col 
+id="TBL-2-3" /><col 
+id="TBL-2-4" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-1-1"  
+class="td11"> <span 
+class="cmbx-10">Name   </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-1-2"  
+class="td11"> <span 
+class="cmbx-10">Byte Ordering  </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-1-3"  
+class="td11"> <span 
+class="cmbx-10">Integer Type  </span></td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-1-4"  
+class="td11"> <span 
+class="cmbx-10">Size (bytes)  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-1"  
+class="td11"> byte        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-2"  
+class="td11">                </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-3"  
+class="td11"> unsigned          </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-4"  
+class="td11"> 1                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-1"  
+class="td11"> le_int32   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-2"  
+class="td11"> little-endian        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-3"  
+class="td11"> signed             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-4"  
+class="td11"> 4                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-4-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-1"  
+class="td11"> le_uint32  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-2"  
+class="td11"> little-endian        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-3"  
+class="td11"> unsigned          </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-4"  
+class="td11"> 4                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-5-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-1"  
+class="td11"> le_int64   </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-2"  
+class="td11"> little-endian        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-3"  
+class="td11"> signed             </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-4"  
+class="td11"> 8                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-6-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-1"  
+class="td11"> le_uint64  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-2"  
+class="td11"> little-endian        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-3"  
+class="td11"> unsigned          </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-6-4"  
+class="td11"> 8                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-7-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-1"  
+class="td11"> le_uint96  </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-2"  
+class="td11"> little-endian        </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-3"  
+class="td11"> unsigned          </td><td  style="text-align:left; white-space:nowrap;" id="TBL-2-7-4"  
+class="td11"> 12                 </td>
+</tr></table>                                                                                         </div></div>
+
+<h5 class="subsubsectionHead" id="3.1.5"><span class="titlemark">3.1.5 </span>Structures <a href="#3.1.5" class="header-anchor">#</a></h5>
+<!--l. 410--><p class="noindent" >Structure types may be defined (in C-like notation) for convenience.
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-1">
+struct&#x00A0;demo&#x00A0;{
+&#x00A0;&#x00A0;byte&#x00A0;string[8];
+&#x00A0;&#x00A0;le_int32&#x00A0;number1;
+&#x00A0;&#x00A0;le_uint64&#x00A0;number2;
+};</pre>
+<!--l. 418--><p class="nopar" >
+</p><!--l. 420--><p class="noindent" >When structures are serialised to a file, elements are written in the given order with no padding between them. The
+above structure would be written as twenty bytes - eight for the array &#8216;string&#8217;, four for the integer &#8216;number1&#8217;, and
+eight for the integer &#8216;number2&#8217;.
+
+</p>
+<h5 class="subsubsectionHead" id="3.1.6"><span class="titlemark">3.1.6 </span>Enumerated Types <a href="#3.1.6" class="header-anchor">#</a></h5>
+<!--l. 425--><p class="noindent" >Enumerated types may only take one of a given set of values. The data type used to store the enumerated
+value is given in angle brackets after the type name. Every element of an enumerated type must be
+assigned a value. It is not valid to compare values between two enumerated types, except to compare for
+(in)equality.
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-2">
+enum&#x00A0;Animal&#x003C;le_uint32&#x003E;&#x00A0;{
+&#x00A0;&#x00A0;cat&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;1;
+&#x00A0;&#x00A0;dog&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;2;
+&#x00A0;&#x00A0;rabbit&#x00A0;=&#x00A0;3;
+};</pre>
+<!--l. 437--><p class="nopar" >
+
+</p>
+<h5 class="subsubsectionHead" id="3.1.7"><span class="titlemark">3.1.7 </span>Variants <a href="#3.1.7" class="header-anchor">#</a></h5>
+<!--l. 440--><p class="noindent" >Parts of structures may vary depending on information available at the time of decoding. Which variant to use is
+selected by an enumerated type. There must be a case for every possible enumerated value. Cases have limited
+fall-through. Consecutive cases with no fields in between all contain the same fields.
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-3">
+struct&#x00A0;AnimalFeatures&#x00A0;{
+&#x00A0;&#x00A0;select&#x00A0;(enum&#x00A0;Animal)&#x00A0;{
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;cat:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;dog:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;le_uint32&#x00A0;hairyness;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;le_uint32&#x00A0;whisker_length;
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;rabbit:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;le_uint32&#x00A0;ear_length;
+&#x00A0;&#x00A0;};
+};</pre>
+<!--l. 458--><p class="nopar" >
+</p><!--l. 460--><p class="noindent" >For the &#8216;cat&#8217; and &#8216;dog&#8217; cases, &#8216;struct AnimalFeatures&#8217; is eight bytes long and contains two unsigned four-byte
+little-endian values. For the &#8216;rabbit&#8217; case it is four bytes long and contains a single four-byte little-endian
+value.
+</p><!--l. 464--><p class="noindent" >If the cases are different lengths (as above), then the size of the overall structure depends on the variant chosen.
+There is NO padding to make the cases the same length unless it is explicitly defined.
+
+</p>
+<h4 class="subsectionHead" id="3.2"><span class="titlemark">3.2 </span>Header <a href="#3.2" class="header-anchor">#</a></h4>
+<!--l. 469--><p class="noindent" >The file starts with a header, with the following structure:
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-4">
+struct&#x00A0;Header&#x00A0;{
+&#x00A0;&#x00A0;byte&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;magic_number[8];
+&#x00A0;&#x00A0;le_uint32&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;version;
+&#x00A0;&#x00A0;le_uint32&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;header_packet_count;
+&#x00A0;&#x00A0;Encrypted_header_packet&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;header_packets[header_packet_count]
+};</pre>
+<!--l. 478--><p class="nopar" >
+</p><!--l. 480--><p class="noindent" >The <span 
+class="cmtt-10">magic</span><span 
+class="cmtt-10">_number </span>is the ASCII representation of the string &#8220;crypt4gh&#8221;.
+</p><!--l. 482--><p class="noindent" >The version number is stored as a four-byte little-endian unsigned integer. The current version number is
+1.
+</p><!--l. 485--><p class="noindent" >The current byte representation of the magic number and version is:
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-5">
+0x63&#x00A0;0x72&#x00A0;0x79&#x00A0;0x70&#x00A0;0x74&#x00A0;0x34&#x00A0;0x67&#x00A0;0x68&#x00A0;0x01&#x00A0;0x00&#x00A0;0x00&#x00A0;0x00
+=============&#x00A0;magic_number=============&#x00A0;=====&#x00A0;version&#x00A0;=====</pre>
+<!--l. 489--><p class="nopar" >
+</p><!--l. 491--><p class="noindent" ><span 
+class="cmtt-10">header</span><span 
+class="cmtt-10">_packet</span><span 
+class="cmtt-10">_count </span>is the number of header packets that follow.
+
+</p>
+<h5 class="subsubsectionHead" id="3.2.1"><span class="titlemark">3.2.1 </span>Header Packets <a href="#3.2.1" class="header-anchor">#</a></h5>
+<!--l. 495--><p class="noindent" >The header packets are defined as:
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-6">
+enum&#x00A0;Header_encryption_method&#x003C;le_uint32&#x003E;&#x00A0;{
+&#x00A0;&#x00A0;X25519_chacha20_ietf_poly1305&#x00A0;=&#x00A0;0;
+};
+
+struct&#x00A0;Header_packet&#x00A0;{
+&#x00A0;&#x00A0;le_uint32&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;packet_length;
+&#x00A0;&#x00A0;Header_encryption_method&#x003C;le_uint32&#x003E;&#x00A0;packet_encryption;
+
+&#x00A0;&#x00A0;select&#x00A0;(packet_encryption)&#x00A0;{
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;X25519_chacha20_ietf_poly1305:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;byte&#x00A0;&#x00A0;&#x00A0;writer_public_key[32];
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;byte&#x00A0;&#x00A0;&#x00A0;nonce[12];
+&#x00A0;&#x00A0;};
+
+&#x00A0;&#x00A0;byte&#x00A0;encrypted_payload[];
+
+&#x00A0;&#x00A0;select&#x00A0;(packet_encryption)&#x00A0;{
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;X25519_chacha20_ietf_poly1305:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;byte&#x00A0;MAC[16];
+&#x00A0;&#x00A0;};
+};</pre>
+<!--l. 519--><p class="nopar" >
+</p><!--l. 521--><p class="noindent" ><span 
+class="cmtt-10">packet</span><span 
+class="cmtt-10">_length </span>is the length of the entire header packet (including the <span 
+class="cmtt-10">packet</span><span 
+class="cmtt-10">_length </span>itself). To prevent packet
+types from being guessed by looking at the size, it is permitted for the <span 
+class="cmtt-10">packet</span><span 
+class="cmtt-10">_length </span>to be longer than strictly
+needed to encode all of the packet data. Any remaining space after the actual data should be padded in a suitable
+manner (for example by setting it to zero) and encrypted.
+</p><!--l. 527--><p class="noindent" ><span 
+class="cmtt-10">packet</span><span 
+class="cmtt-10">_encryption </span>is the encryption method used for this header packet.
+</p><!--l. 529--><p class="noindent" ><span 
+class="cmtt-10">writer</span><span 
+class="cmtt-10">_public</span><span 
+class="cmtt-10">_key </span>(<!--l. 529--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+></math>)
+and <span 
+class="cmtt-10">nonce </span>are parameters needed to decrypt the <span 
+class="cmtt-10">encrypted</span><span 
+class="cmtt-10">_payload </span>in the packet.
+</p><!--l. 532--><p class="noindent" ><span 
+class="cmtt-10">encrypted</span><span 
+class="cmtt-10">_payload </span>is the encrypted part of the header packet, for which the plain-text is described
+below.
+</p><!--l. 534--><p class="noindent" ><span 
+class="cmtt-10">MAC </span>is a message authentication code calculated over the encrypted data.
+</p><!--l. 536--><p class="noindent" >Implementations should ignore any header packets that they cannot decrypt successfully, as these may have been
+intended for a different reader.
+
+</p>
+<h5 class="subsubsectionHead" id="3.2.2"><span class="titlemark">3.2.2 </span>Header packet encrypted payload <a href="#3.2.2" class="header-anchor">#</a></h5>
+<!--l. 541--><p class="noindent" >The <span 
+class="cmtt-10">encrypted</span><span 
+class="cmtt-10">_payload </span>part of the header packet contains the following plain-text:
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-7">
+enum&#x00A0;Header_packet_type&#x003C;le_uint32&#x003E;&#x00A0;{
+&#x00A0;&#x00A0;data_encryption_parameters&#x00A0;=&#x00A0;0;
+&#x00A0;&#x00A0;data_edit_list&#x00A0;=&#x00A0;1;
+};
+
+enum&#x00A0;Data_encryption_method&#x003C;le_uint32&#x003E;&#x00A0;{
+&#x00A0;&#x00A0;chacha20_ietf_poly1305&#x00A0;=&#x00A0;0;
+};
+
+struct&#x00A0;Encrypted_header_packet&#x00A0;{
+&#x00A0;&#x00A0;Header_packet_type&#x003C;le_uint32&#x003E;&#x00A0;packet_type;
+
+&#x00A0;&#x00A0;select&#x00A0;(packet_type)&#x00A0;{
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;data_encryption_parameters:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;enum&#x00A0;Data_encryption_method&#x003C;le_uint32&#x003E;&#x00A0;&#x00A0;data_encryption_method;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;select&#x00A0;(data_encryption_method)&#x00A0;{
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;chacha20_ietf_poly1305:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;byte&#x00A0;&#x00A0;data_key[32];
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;};
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;data_edit_list:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;le_uint32&#x00A0;number_lengths;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;le_uint64&#x00A0;lengths[number_lengths];
+&#x00A0;&#x00A0;};
+};</pre>
+<!--l. 569--><p class="nopar" >
+</p><!--l. 571--><p class="noindent" ><span 
+class="cmtt-10">packet</span><span 
+class="cmtt-10">_type </span>defines what sort of data packet this is.
+
+</p>
+<h5 class="subsubsectionHead" id="3.2.3"><span class="titlemark">3.2.3 </span>data_encryption_parameters packet <a href="#3.2.3" class="header-anchor">#</a></h5>
+<!--l. 575--><p class="noindent" >This packet contains the parameters needed to decrypt the data part of the file.
+</p><!--l. 577--><p class="noindent" ><span 
+class="cmtt-10">data</span><span 
+class="cmtt-10">_encryption</span><span 
+class="cmtt-10">_method </span>is an enumerated type that describes the type of encryption used.
+</p><!--l. 579--><p class="noindent" ><span 
+class="cmtt-10">data</span><span 
+class="cmtt-10">_key </span>is the symmetric key <!--l. 579--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>a</mi></mrow></msub 
+></math>
+used to decode the data section.
+</p><!--l. 581--><p class="noindent" >To allow parts of the data to be encrypted with different
+<!--l. 581--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>a</mi></mrow></msub 
+></math> keys,
+more than one of this packet type may be present. If there is more than one, the <span 
+class="cmtt-10">data</span><span 
+class="cmtt-10">_encryption</span><span 
+class="cmtt-10">_method </span>MUST
+be the same for all of them to prevent problems with random access in the encrypted file.
+
+                                                                                         
+                                                                                         
+</p>
+<h5 class="subsubsectionHead" id="3.2.4"><span class="titlemark">3.2.4 </span>data_edit_list packet <a href="#3.2.4" class="header-anchor">#</a></h5>
+<!--l. 588--><p class="noindent" >This packet contains a list of edits that should be applied to the plain-text data following decryption.
+</p><!--l. 590--><p class="noindent" ><span 
+class="cmtt-10">number</span><span 
+class="cmtt-10">_lengths </span>is the number of items in the <span 
+class="cmtt-10">lengths </span>array.
+</p><!--l. 592--><p class="noindent" ><span 
+class="cmtt-10">lengths </span>is an array of byte counts.
+</p><!--l. 594--><p class="noindent" >Application of the edit list to the plain-text is described in section&#x00A0;<span 
+class="cmbx-10">??</span>.
+</p><!--l. 596--><p class="noindent" >It is not permitted to have more than one edit list. If more than one edit list is present, the file SHOULD be
+rejected.
+
+</p>
+<h4 class="subsectionHead" id="3.3"><span class="titlemark">3.3 </span>Header packet encryption <a href="#3.3" class="header-anchor">#</a></h4>
+
+<h5 class="subsubsectionHead" id="3.3.1"><span class="titlemark">3.3.1 </span>X25519_chacha20_ietf_poly1305 Encryption <a href="#3.3.1" class="header-anchor">#</a></h5>
+<!--l. 601--><p class="noindent" >&#x00A0;
+</p><!--l. 603--><p class="noindent" >This method uses Elliptic Curve Diffie-Hellman key exchange with additional hashing to generate a shared key
+(<!--l. 604--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+></math>).
+<!--l. 605--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+></math> is then
+used along with a randomly-generated nonce to encrypt the header packet data using the ChaCha20-IETF-Poly1305
+construction. The elliptic curve algorithm used is X25519, described in section 5 of <span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+</p><!--l. 609--><p class="noindent" >Encryption requires the writer&#8217;s public and secret keys
+(<!--l. 609--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+></math> and
+<!--l. 609--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>), the reader&#8217;s
+public key (<!--l. 609--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+></math>)
+and a nonce (<!--l. 610--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>N</mi></math>).
+</p><!--l. 612--><p class="noindent" >The nonce is a unique initialisation vector. In ChaCha20-IETF-Poly1305 it is 12 bytes long. This value MUST be
+unique for each packet encrypted with the same reader&#8217;s and writer&#8217;s keys. The best way to ensure this is to
+generate a value with a cryptographically-secure random number generator.
+</p><!--l. 617--><p class="noindent" >The secret keys MUST be generated using a cryptographically-secure random number generator. The corresponding
+public keys are derived using the method in section 6.1 of <span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+</p><!--l. 620--><p class="noindent" ><!--l. 620--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi></mrow></msub 
+> <mo 
+class="MathClass-rel" stretchy="false">=</mo> <mi 
+>X</mi><mn>2</mn><mn>5</mn><mn>5</mn><mn>1</mn><mn>9</mn><mo 
+class="MathClass-open" stretchy="false">(</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi></mrow></msub 
+><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>9</mn><mo 
+class="MathClass-close" stretchy="false">)</mo></math>
+</p><!--l. 622--><p class="noindent" >The writer&#8217;s secret key and the reader&#8217;s public key are used to generate a Diffie-Hellman shared key as described in
+section 6.1 of <span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+</p><!--l. 625--><p class="noindent" ><!--l. 625--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>h</mi></mrow></msub 
+> <mo 
+class="MathClass-rel" stretchy="false">=</mo> <mi 
+>X</mi><mn>2</mn><mn>5</mn><mn>5</mn><mn>1</mn><mn>9</mn><mo 
+class="MathClass-open" stretchy="false">(</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+><mo 
+class="MathClass-punc" stretchy="false">,</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+><mo 
+class="MathClass-close" stretchy="false">)</mo></math>
+</p><!--l. 627--><p class="noindent" >As the X25519 algorithm does not produce a completely uniform bit distribution, and many possible
+<!--l. 628--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">(</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+><mo 
+class="MathClass-punc" stretchy="false">,</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+><mo 
+class="MathClass-close" stretchy="false">)</mo></math> pairs
+can produce the same output, the Diffie-Hellman key is hashed along with the two public keys to produce the final
+shared key. The hash function used to do this is Blake2b, as described in <span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+</p><!--l. 632--><p class="noindent" ><!--l. 632--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+> <mo 
+class="MathClass-rel" stretchy="false">=</mo> <mi 
+>B</mi><mi 
+>l</mi><mi 
+>a</mi><mi 
+>k</mi><mi 
+>e</mi><mn>2</mn><mi 
+>b</mi><mo 
+class="MathClass-open" stretchy="false">(</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>h</mi></mrow></msub 
+><mo 
+class="MathClass-rel" stretchy="false">|</mo><mo 
+class="MathClass-rel" stretchy="false">|</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+><mo 
+class="MathClass-rel" stretchy="false">|</mo><mo 
+class="MathClass-rel" stretchy="false">|</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+><mo 
+class="MathClass-close" stretchy="false">)</mo></math>
+                                                                                         
+                                                                                         
+</p><!--l. 634--><p class="noindent" >As ChaCha20 uses a 32-byte key, only the first 32 bytes of
+<!--l. 634--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+></math> are
+used; the rest are discarded.
+</p><!--l. 636--><p class="noindent" >The header packet type, data and any padding is then encrypted using the method described in the
+chacha20_ietf_poly1305 Encryption section&#x00A0;<span 
+class="cmbx-10">??</span>. Note that header packets are not segmented; they are always
+encrypted in a single block.
+</p><!--l. 640--><p class="noindent" >Finally, the packet length, encryption type, writer&#8217;s public key
+<!--l. 640--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+></math>, the
+nonce <!--l. 641--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>N</mi></math>
+and the encrypted header packet data are combined to make the header packet.
+</p><!--l. 643--><p class="noindent" >For extra security, writers MAY choose to discard the writer&#8217;s secret key
+<!--l. 643--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>
+after use. Due to the symmetry of the Diffie-Hellman algorithm, the holder of either secret key can
+regenerate the shared key as long as the other public key is known. Deleting the writer&#8217;s key
+<!--l. 646--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math> ensures only the holder
+of the reader&#8217;s secret key <!--l. 646--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>
+can decode the header packet. As long as the writer uses randomly-generated keys, it also makes accidental nonce
+reuse very unlikely.
+
+</p>
+<h5 class="subsubsectionHead" id="3.3.2"><span class="titlemark">3.3.2 </span>X25519_chacha20_ietf_poly1305 Decryption <a href="#3.3.2" class="header-anchor">#</a></h5>
+<!--l. 652--><p class="noindent" >To decrypt the header packet, the reader obtains the writer&#8217;s public key
+<!--l. 652--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+></math>
+and the nonce from the beginning of the packet. Also needed are the reader&#8217;s public and secret keys
+(<!--l. 654--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+></math> and
+<!--l. 654--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>).
+</p><!--l. 656--><p class="noindent" >The Diffie-Helman key is obtained using:
+</p><!--l. 658--><p class="noindent" ><!--l. 658--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>h</mi></mrow></msub 
+> <mo 
+class="MathClass-rel" stretchy="false">=</mo> <mi 
+>X</mi><mn>2</mn><mn>5</mn><mn>5</mn><mn>1</mn><mn>9</mn><mo 
+class="MathClass-open" stretchy="false">(</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+><mo 
+class="MathClass-punc" stretchy="false">,</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+><mo 
+class="MathClass-close" stretchy="false">)</mo></math>
+</p><!--l. 660--><p class="noindent" >This is then hashed to obtain the shared key (again only the first 32 bytes are retained):
+</p><!--l. 662--><p class="noindent" ><!--l. 662--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+> <mo 
+class="MathClass-rel" stretchy="false">=</mo> <mi 
+>B</mi><mi 
+>l</mi><mi 
+>a</mi><mi 
+>k</mi><mi 
+>e</mi><mn>2</mn><mi 
+>b</mi><mo 
+class="MathClass-open" stretchy="false">(</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>h</mi></mrow></msub 
+><mo 
+class="MathClass-rel" stretchy="false">|</mo><mo 
+class="MathClass-rel" stretchy="false">|</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+><mo 
+class="MathClass-rel" stretchy="false">|</mo><mo 
+class="MathClass-rel" stretchy="false">|</mo><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>w</mi></mrow></msub 
+><mo 
+class="MathClass-close" stretchy="false">)</mo></math>
+</p><!--l. 664--><p class="noindent" >The resulting key <!--l. 664--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+></math>
+and nonce <!--l. 664--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>N</mi></math>
+are then used to decrypt the remainder of the packet.
+</p><!--l. 666--><p class="noindent" >If the header packet was intended for a different reader, the reader will be unable to decode the header packet as the
+Poly1305 MAC will be incorrect. This should not be considered an error.
+
+</p>
+<h5 class="subsubsectionHead" id="3.3.3"><span class="titlemark">3.3.3 </span>Reading the header <a href="#3.3.3" class="header-anchor">#</a></h5>
+<!--l. 672--><p class="noindent" >The reader should check that the <span 
+class="cmtt-10">magic</span><span 
+class="cmtt-10">_number </span>and <span 
+class="cmtt-10">version </span>in the header match the expected values.
+</p><!--l. 674--><p class="noindent" >It should then attempt to decode all of the header packets, ignoring any that do not decrypt successfully (detected
+by a failure to verify the MAC). At the end of this process the reader should have decoded at least one
+<span 
+class="cmtt-10">data</span><span 
+class="cmtt-10">_encryption</span><span 
+class="cmtt-10">_parameters </span>packet. If no such packet was decoded, it SHOULD report an error. If more than one
+                                                                                         
+                                                                                         
+is present, they should all have the same <span 
+class="cmtt-10">data</span><span 
+class="cmtt-10">_encryption</span><span 
+class="cmtt-10">_method</span>, otherwise the reader SHOULD report an error.
+The reader should store all of the keys that it has decoded in a list for use when decoding the encrypted data
+section.
+</p><!--l. 682--><p class="noindent" >If a <span 
+class="cmtt-10">data</span><span 
+class="cmtt-10">_edit</span><span 
+class="cmtt-10">_list </span>packet is found, the reader should store it for use while processing the data blocks. If more
+than one <span 
+class="cmtt-10">data</span><span 
+class="cmtt-10">_edit</span><span 
+class="cmtt-10">_list </span>packet is present, the file SHOULD be rejected.
+
+</p>
+<h4 class="subsectionHead" id="3.4"><span class="titlemark">3.4 </span>Encrypted Data <a href="#3.4" class="header-anchor">#</a></h4>
+
+<h5 class="subsubsectionHead" id="3.4.1"><span class="titlemark">3.4.1 </span>chacha20_ietf_poly1305 Encryption <a href="#3.4.1" class="header-anchor">#</a></h5>
+<!--l. 688--><p class="noindent" >ChaCha20 is a stream cipher which maps a 256-bit key, nonce and counter to a 512-bit key-stream block. In IETF
+mode the nonce is 96 bits long and the counter is 32 bits. The counter starts at 1, and is incremented by 1 for each
+successive key-stream block. The cipher-text is the plain-text message combined with the key-stream using the
+bit-wise exclusive-or operation.
+</p><!--l. 693--><p class="noindent" >Poly1305 is used to generate a 16-byte message authentication code (MAC) over the cipher-text. As the
+MAC is generated over the entire cipher-text it is not possible to authenticate partially decrypted
+data.
+</p><!--l. 696--><p class="noindent" >ChaCha20 and Poly1305 are combined using the AEAD construction described in section 2.8 of <span class="cite">[<span 
+class="cmbx-10">?</span>]</span>. This
+construction allows additional authenticated data (AAD) to be included in the Poly1305 MAC calculation. For the
+purposes of this format, the AAD is zero bytes long.
+
+</p>
+<h5 class="subsubsectionHead" id="3.4.2"><span class="titlemark">3.4.2 </span>Segmenting the input <a href="#3.4.2" class="header-anchor">#</a></h5>
+<!--l. 702--><p class="noindent" >To allow random access without having to authenticate the entire file, the plain-text is divided into 65536-byte
+(64KiB) segments. If the plain-text is not a multiple of 64KiB long, the last segment will be shorter. Each segment is
+encrypted using the method defined in the header. The nonce used to encrypt the segment is then stored, followed
+by the encrypted data, and then the MAC.
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-8">
+struct&#x00A0;Segment&#x00A0;{
+&#x00A0;&#x00A0;select&#x00A0;(method)&#x00A0;{
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;case&#x00A0;chacha20_ietf_poly1305:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;byte&#x00A0;&#x00A0;&#x00A0;&#x00A0;nonce[12];
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;byte[]&#x00A0;&#x00A0;encrypted_data;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;byte&#x00A0;&#x00A0;&#x00A0;&#x00A0;mac[16];
+&#x00A0;&#x00A0;};
+};</pre>
+<!--l. 717--><p class="nopar" >
+</p><!--l. 719--><p class="noindent" >The addition of the <span 
+class="cmtt-10">nonce </span>and <span 
+class="cmtt-10">mac </span>bytes will expand the data slightly. For chacha20_ietf_poly1305, this expansion
+will be 28 bytes, so a 65536 byte plain-text input will become a 65564 byte encrypted and authenticated cipher-text
+output.
+
+</p>
+<h3 class="sectionHead" id="4"><span class="titlemark">4 </span>Decryption <a href="#4" class="header-anchor">#</a></h3>
+
+<h4 class="subsectionHead" id="4.1"><span class="titlemark">4.1 </span>chacha20_ietf_poly1305 Decryption <a href="#4.1" class="header-anchor">#</a></h4>
+<!--l. 727--><p class="noindent" >The cipher-text is decrypted by authenticating and decrypting the segment(s) enclosing the requested byte range
+<!--l. 727--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mi 
+>P</mi><mo 
+class="MathClass-punc" stretchy="false">;</mo><mi 
+>Q</mi><mo 
+class="MathClass-close" stretchy="false">]</mo></math>, where
+<!--l. 728--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>P</mi> <mo 
+class="MathClass-rel" stretchy="false">&#x003C;</mo> <mi 
+>Q</mi></math>. For a range
+starting at position <!--l. 729--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>P</mi></math>,
+the location of the segment <span 
+class="cmtt-10">seg</span><span 
+class="cmtt-10">_start </span>containing that position must first be found. For the chacha20_ietf_poly1305
+method, when no edit list is in use, this can be done using the formula:
+                                                                                         
+                                                                                         
+</p>
+<pre class="verbatim" id="verbatim-9">
+seg_start&#x00A0;=&#x00A0;header_len&#x00A0;+&#x00A0;floor(P/65536)&#x00A0;*&#x00A0;65564</pre>
+<!--l. 735--><p class="nopar" >
+</p><!--l. 737--><p class="noindent" >For an encrypted segment starting at position <span 
+class="cmtt-10">seg</span><span 
+class="cmtt-10">_start</span>, the nonce, then the 65536 bytes of cipher-text (possibly
+fewer of it was the last segment), and finally the MAC are read.
+</p><!--l. 740--><p class="noindent" >An authentication tag is calculated over the cipher-text from that segment, and bit-wise compared
+to the MAC. The cipher-text is authenticated if and only if the tags match. If more than one key
+(<!--l. 742--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>a</mi></mrow></msub 
+></math>) was
+included in the header, each should be tried in turn until either one authenticates correctly or no keys are left to try.
+An error MUST be reported if the cipher-text is not authenticated.
+</p><!--l. 746--><p class="noindent" >The key <!--l. 746--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>a</mi></mrow></msub 
+></math> and
+nonce <!--l. 746--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>N</mi></math> are then
+used to decrypt the cipher-text for the segment, returning the plain-text. Successive segments are decrypted, until the segment
+containing position <!--l. 747--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Q</mi></math>
+is reached. The plain-text segments are concatenated to form the resulting output, discarding
+<!--l. 748--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>P</mi> <mo 
+class="MathClass-bin" stretchy="false">%</mo> <mn>6</mn><mn>5</mn><mn>5</mn><mn>3</mn><mn>6</mn></math> bytes from the beginning of
+the first segment and retaining <!--l. 749--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Q</mi> <mo 
+class="MathClass-bin" stretchy="false">%</mo> <mn>6</mn><mn>5</mn><mn>5</mn><mn>3</mn><mn>6</mn></math>
+bytes of the last one.
+</p><!--l. 751--><p class="noindent" >If more than one key (<!--l. 751--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>a</mi></mrow></msub 
+></math>)
+is in use, readers can speed up decryption by trying the previous successful key first when attempting to
+authenticate each block. However, this does open up a possible timing attack where an observer watching the
+decoding process can find out where key changes occur due to the extra time needed to select the new key at these
+points. If this is unacceptable, readers could either try each key for every block (although this may still be
+vulnerable to timing attacks which try to detect which key was successful); or simply insist that only one key is used
+for the whole file.
+
+</p>
+<h4 class="subsectionHead" id="4.2"><span class="titlemark">4.2 </span>Edit List <a href="#4.2" class="header-anchor">#</a></h4>
+<!--l. 761--><p class="noindent" >The edit list is designed to assist splicing of encrypted files (for example to remove parts that are not needed for
+later analysis) without having to decrypt and re-encrypt the entire file. It is only possible to splice
+crypt4gh files at the 64K encryption block boundaries. The edit list can be used to work around this
+limitation by describing which parts of the unencrypted blocks should be discarded to give the final desired
+plain-text.
+</p><!--l. 767--><p class="noindent" >The following algorithm describes how to apply the edit list
+<!--l. 767--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>e</mi><mi 
+>d</mi><mi 
+>l</mi><mi 
+>i</mi><mi 
+>s</mi><mi 
+>t</mi></math> to unencrypted
+text <!--l. 767--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>i</mi><mi 
+>n</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math> to
+return the desired edited plain-text. In this algorithm, function <span 
+class="cmcsc-10">I<span 
+class="small-caps">s</span>E<span 
+class="small-caps">m</span><span 
+class="small-caps">p</span><span 
+class="small-caps">t</span><span 
+class="small-caps">y</span> </span>returns true if a list is empty
+and false if not. Function <span 
+class="cmcsc-10">R<span 
+class="small-caps">e</span><span 
+class="small-caps">m</span><span 
+class="small-caps">o</span><span 
+class="small-caps">v</span><span 
+class="small-caps">e</span>F<span 
+class="small-caps">i</span><span 
+class="small-caps">r</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span> </span>removes the first item from a list and returns it. <span 
+class="cmcsc-10"><span 
+class="small-caps">l</span><span 
+class="small-caps">e</span><span 
+class="small-caps">n</span><span 
+class="small-caps">g</span><span 
+class="small-caps">t</span><span 
+class="small-caps">h</span></span>
+returns the length of a string. <span 
+class="cmcsc-10"><span 
+class="small-caps">s</span><span 
+class="small-caps">u</span><span 
+class="small-caps">b</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span><span 
+class="small-caps">r</span> </span>returns part of a string from a given zero-based position and
+with a given length (or shorter if the requested part extends beyond the end of the input string).
+<span 
+class="cmcsc-10">S<span 
+class="small-caps">t</span><span 
+class="small-caps">r</span><span 
+class="small-caps">i</span><span 
+class="small-caps">n</span><span 
+class="small-caps">g</span>C<span 
+class="small-caps">o</span><span 
+class="small-caps">n</span><span 
+class="small-caps">c</span><span 
+class="small-caps">a</span><span 
+class="small-caps">t</span><span 
+class="small-caps">e</span><span 
+class="small-caps">n</span><span 
+class="small-caps">a</span><span 
+class="small-caps">t</span><span 
+class="small-caps">e</span> </span>returns the string concatenation of its input parameters in order from left to
+right.
+</p>
+                                                                                         
+                                                                                         
+<div class="algorithmic">
+       <span class="label-11.99998pt">
+ <span 
+class="cmr-8">1:</span> </span>&#xA0;<span 
+class="algorithmic">&#x00A0;<span 
+class="cmbx-10">function</span>&#x00A0;<span 
+class="cmcsc-10">A<span 
+class="small-caps">p</span><span 
+class="small-caps">p</span><span 
+class="small-caps">l</span><span 
+class="small-caps">y</span>E<span 
+class="small-caps">d</span><span 
+class="small-caps">i</span><span 
+class="small-caps">t</span>L<span 
+class="small-caps">i</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span></span>(<!--l. 777--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>e</mi><mi 
+>d</mi><mi 
+>l</mi><mi 
+>i</mi><mi 
+>s</mi><mi 
+>t</mi><mo 
+class="MathClass-punc" stretchy="false">,</mo><mspace width="0.33em" class="nbsp" /><mi 
+>i</mi><mi 
+>n</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math>)        </span><br class="algorithmic"/><span class="label-11.99998pt">  <span 
+class="cmr-8">2:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;    <span 
+class="cmbx-10">if</span>&#x00A0;<span 
+class="cmcsc-10">I<span 
+class="small-caps">s</span>E<span 
+class="small-caps">m</span><span 
+class="small-caps">p</span><span 
+class="small-caps">t</span><span 
+class="small-caps">y</span></span>(edlist)&#x00A0;<span 
+class="cmbx-10">then</span>        </span><br class="algorithmic"/><span class="label-11.99998pt">  <span 
+class="cmr-8">3:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;         <span 
+class="cmbx-10">return </span><!--l. 779--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>i</mi><mi 
+>n</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math>    <!--l. 779--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mrow  ><mo 
+class="MathClass-bin" stretchy="false">&#x22B3;</mo></mrow></math>    Trivial case with no edit list        </span><br class="algorithmic"/><span class="label-11.99998pt">  <span 
+class="cmr-8">4:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;    <span 
+class="cmbx-10">end</span>&#x00A0;<span 
+class="cmbx-10">if</span>        </span><br class="algorithmic"/><span class="label-11.99998pt">  <span 
+class="cmr-8">5:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;    <!--l. 782--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>o</mi><mi 
+>u</mi><mi 
+>t</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math> <!--l. 782--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    &#8220;&#8221;<!--l. 782--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mrow  ><mo 
+class="MathClass-bin" stretchy="false">&#x22B3;</mo></mrow></math>    Initial output is empty        </span><br class="algorithmic"/><span class="label-11.99998pt">  <span 
+class="cmr-8">6:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;    <!--l. 783--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>p</mi><mi 
+>o</mi><mi 
+>s</mi></math> <!--l. 783--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <!--l. 783--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mn>0</mn></math>    <!--l. 783--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mrow  ><mo 
+class="MathClass-bin" stretchy="false">&#x22B3;</mo></mrow></math>    Current position in the unedited plain-text        </span><br class="algorithmic"/><span class="label-11.99998pt">  <span 
+class="cmr-8">7:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;    <!--l. 784--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>l</mi><mi 
+>e</mi><mi 
+>n</mi></math> <!--l. 784--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <span 
+class="cmcsc-10"><span 
+class="small-caps">l</span><span 
+class="small-caps">e</span><span 
+class="small-caps">n</span><span 
+class="small-caps">g</span><span 
+class="small-caps">t</span><span 
+class="small-caps">h</span></span>(input)<!--l. 784--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mrow  ><mo 
+class="MathClass-bin" stretchy="false">&#x22B3;</mo></mrow></math>    Length of input string        </span><br class="algorithmic"/><span class="label-11.99998pt">  <span 
+class="cmr-8">8:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;    <span 
+class="cmbx-10">repeat</span>        </span><br class="algorithmic"/><span class="label-11.99998pt">  <span 
+class="cmr-8">9:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;         <!--l. 787--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>d</mi><mi 
+>i</mi><mi 
+>s</mi><mi 
+>c</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>d</mi></math> <!--l. 787--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <span 
+class="cmcsc-10">R<span 
+class="small-caps">e</span><span 
+class="small-caps">m</span><span 
+class="small-caps">o</span><span 
+class="small-caps">v</span><span 
+class="small-caps">e</span>F<span 
+class="small-caps">i</span><span 
+class="small-caps">r</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span></span>(edlist)<!--l. 787--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mrow  ><mo 
+class="MathClass-bin" stretchy="false">&#x22B3;</mo></mrow></math>    Pull number of bytes to discard from list        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">10:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;         <!--l. 788--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>p</mi><mi 
+>o</mi><mi 
+>s</mi></math> <!--l. 788--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <!--l. 788--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>p</mi><mi 
+>o</mi><mi 
+>s</mi> <mo 
+class="MathClass-bin" stretchy="false">+</mo> <mi 
+>d</mi><mi 
+>i</mi><mi 
+>s</mi><mi 
+>c</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>d</mi></math>        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">11:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;         <span 
+class="cmbx-10">if</span>&#x00A0;<span 
+class="cmcsc-10">I<span 
+class="small-caps">s</span>E<span 
+class="small-caps">m</span><span 
+class="small-caps">p</span><span 
+class="small-caps">t</span><span 
+class="small-caps">y</span></span>(edlist)&#x00A0;<span 
+class="cmbx-10">then</span>        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">12:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;             <!--l. 791--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>p</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>t</mi></math> <!--l. 791--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <span 
+class="cmcsc-10"><span 
+class="small-caps">s</span><span 
+class="small-caps">u</span><span 
+class="small-caps">b</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span><span 
+class="small-caps">r</span></span>(<!--l. 791--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>i</mi><mi 
+>n</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi><mo 
+class="MathClass-punc" stretchy="false">,</mo><mi 
+>p</mi><mi 
+>o</mi><mi 
+>s</mi><mo 
+class="MathClass-punc" stretchy="false">,</mo><mi 
+>l</mi><mi 
+>e</mi><mi 
+>n</mi> <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mi 
+>p</mi><mi 
+>o</mi><mi 
+>s</mi></math>)    <!--l. 791--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mrow  ><mo 
+class="MathClass-bin" stretchy="false">&#x22B3;</mo></mrow></math>    Append the remainder of <!--l. 791--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>i</mi><mi 
+>n</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math>        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">13:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;             <!--l. 792--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>o</mi><mi 
+>u</mi><mi 
+>t</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math> <!--l. 792--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <span 
+class="cmcsc-10">S<span 
+class="small-caps">t</span><span 
+class="small-caps">r</span><span 
+class="small-caps">i</span><span 
+class="small-caps">n</span><span 
+class="small-caps">g</span>C<span 
+class="small-caps">o</span><span 
+class="small-caps">n</span><span 
+class="small-caps">c</span><span 
+class="small-caps">a</span><span 
+class="small-caps">t</span><span 
+class="small-caps">e</span><span 
+class="small-caps">n</span><span 
+class="small-caps">a</span><span 
+class="small-caps">t</span><span 
+class="small-caps">e</span></span>(<!--l. 792--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>o</mi><mi 
+>u</mi><mi 
+>t</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi><mo 
+class="MathClass-punc" stretchy="false">,</mo><mspace width="0.33em" class="nbsp" /><mi 
+>p</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>t</mi></math>)        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">14:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;         <span 
+class="cmbx-10">else</span>        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">15:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;             <!--l. 795--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>k</mi><mi 
+>e</mi><mi 
+>e</mi><mi 
+>p</mi></math> <!--l. 795--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <span 
+class="cmcsc-10">R<span 
+class="small-caps">e</span><span 
+class="small-caps">m</span><span 
+class="small-caps">o</span><span 
+class="small-caps">v</span><span 
+class="small-caps">e</span>F<span 
+class="small-caps">i</span><span 
+class="small-caps">r</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span></span>(edlist)<!--l. 795--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mrow  ><mo 
+class="MathClass-bin" stretchy="false">&#x22B3;</mo></mrow></math>    Pull number of bytes to keep from the list        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">16:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;             <!--l. 796--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>p</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>t</mi></math> <!--l. 796--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <span 
+class="cmcsc-10"><span 
+class="small-caps">s</span><span 
+class="small-caps">u</span><span 
+class="small-caps">b</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span><span 
+class="small-caps">r</span></span>(<!--l. 796--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>i</mi><mi 
+>n</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi><mo 
+class="MathClass-punc" stretchy="false">,</mo><mi 
+>p</mi><mi 
+>o</mi><mi 
+>s</mi><mo 
+class="MathClass-punc" stretchy="false">,</mo><mi 
+>k</mi><mi 
+>e</mi><mi 
+>e</mi><mi 
+>p</mi></math>)    <!--l. 796--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mrow  ><mo 
+class="MathClass-bin" stretchy="false">&#x22B3;</mo></mrow></math>    Append this part to <!--l. 796--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>o</mi><mi 
+>u</mi><mi 
+>t</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math>                                                                                                                                                                                            </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">17:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;             <!--l. 797--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>o</mi><mi 
+>u</mi><mi 
+>t</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math> <!--l. 797--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <span 
+class="cmcsc-10">S<span 
+class="small-caps">t</span><span 
+class="small-caps">r</span><span 
+class="small-caps">i</span><span 
+class="small-caps">n</span><span 
+class="small-caps">g</span>C<span 
+class="small-caps">o</span><span 
+class="small-caps">n</span><span 
+class="small-caps">c</span><span 
+class="small-caps">a</span><span 
+class="small-caps">t</span><span 
+class="small-caps">e</span><span 
+class="small-caps">n</span><span 
+class="small-caps">a</span><span 
+class="small-caps">t</span><span 
+class="small-caps">e</span></span>(<!--l. 797--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>o</mi><mi 
+>u</mi><mi 
+>t</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi><mo 
+class="MathClass-punc" stretchy="false">,</mo><mspace width="0.33em" class="nbsp" /><mi 
+>p</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>t</mi></math>)        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">18:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;             <!--l. 798--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>p</mi><mi 
+>o</mi><mi 
+>s</mi></math> <!--l. 798--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" > <mo 
+class="MathClass-rel" stretchy="false">&#x2190;</mo></math>    <!--l. 798--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>p</mi><mi 
+>o</mi><mi 
+>s</mi> <mo 
+class="MathClass-bin" stretchy="false">+</mo> <mi 
+>k</mi><mi 
+>e</mi><mi 
+>e</mi><mi 
+>p</mi></math>        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">19:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;         <span 
+class="cmbx-10">end</span>&#x00A0;<span 
+class="cmbx-10">if</span>        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">20:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;    <span 
+class="cmbx-10">until</span>&#x00A0;<span 
+class="cmcsc-10">I<span 
+class="small-caps">s</span>E<span 
+class="small-caps">m</span><span 
+class="small-caps">p</span><span 
+class="small-caps">t</span><span 
+class="small-caps">y</span></span>(edlist)        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">21:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;    <span 
+class="cmbx-10">return </span><!--l. 801--><math   xmlns="http://www.w3.org/1998/Math/MathML"   display="inline" ><mi 
+>o</mi><mi 
+>u</mi><mi 
+>t</mi><mi 
+>p</mi><mi 
+>u</mi><mi 
+>t</mi></math>        </span><br class="algorithmic"/><span class="label-11.99998pt"> <span 
+class="cmr-8">22:</span> </span>&#xA0;<span  class="algorithmic">&#x00A0;<span 
+class="cmbx-10">end</span>&#x00A0;<span 
+class="cmbx-10">function</span></span>
+<!--l. 803--><p class="noindent" ></div>
+
+</p>
+<h5 class="subsubsectionHead" id="4.2.1"><span class="titlemark">4.2.1 </span>Example <a href="#4.2.1" class="header-anchor">#</a></h5>
+<!--l. 807--><p class="noindent" >Imagine that for some reason we have made an encrypted copy of ERR2436651.
+<span class="footnote-mark"><sup class="textsuperscript">1</sup></span><a 
+ id="x1-37001f1"></a><span class="footnote-mark"><a 
+ id="x1-37002x4.2.1"></a><a 
+ id="fn1x0">  <sup class="textsuperscript">1</sup></a></span><span 
+class="cmr-8">The data for this example comes from </span><a 
+href="ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR243/ERR2436651/" class="url" ><span 
+class="cmtt-8">ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR243/ERR2436651/</span></a><span 
+class="cmr-8">.</span>
+</p><!--l. 810--><p class="noindent" >We would like to make a new encrypted file including just the data aligned to ChrII, without having to decrypt and
+re-encrypt the desired data. The new file will need to include the following items (note that byte ranges are
+zero-based inclusive):
+</p><!--l. 814--><p class="noindent" >
+     </p><ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x1-37004x1">
+     <!--l. 815--><p class="noindent" >A crypt4gh header containing the keys needed to decrypt the file.
+     </p></li>
+<li 
+  class="enumerate" id="x1-37006x2">
+     <!--l. 816--><p class="noindent" >The CRAM header (plain-text bytes 0 to 7852).
+     </p></li>
+<li 
+  class="enumerate" id="x1-37008x3">
+     <!--l. 817--><p class="noindent" >ChrII data (plain-text bytes 145110 to 453038).
+     </p></li>
+<li 
+  class="enumerate" id="x1-37010x4">
+     <!--l. 818--><p class="noindent" >The CRAM end-of-file block (plain-text bytes 5485074 to last byte of file at 5485111).</p></li></ol>
+<!--l. 821--><p class="noindent" >None of these byte ranges align with 64K boundaries. To avoid the need to decrypt and re-encrypt the data, an edit
+list can be added to the crypt4gh header and the byte ranges are expanded to complete encrypted blocks. After this
+the list of items to send will be:
+</p><!--l. 826--><p class="noindent" >
+                                                                                         
+                                                                                         
+     </p><ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x1-37012x1">
+     <!--l. 827--><p class="noindent" >A crypt4gh header containing the keys needed to decrypt the file and an edit list.
+     </p></li>
+<li 
+  class="enumerate" id="x1-37014x2">
+     <!--l. 828--><p class="noindent" >The CRAM header (plain-text bytes 0 to 65535).
+     </p></li>
+<li 
+  class="enumerate" id="x1-37016x3">
+     <!--l. 829--><p class="noindent" >ChrII data (plain-text bytes 131072 to 458751).
+     </p></li>
+<li 
+  class="enumerate" id="x1-37018x4">
+     <!--l. 830--><p class="noindent" >The CRAM end-of-file block (plain-text bytes 5439488 to last byte of file at 5485111).</p></li></ol>
+<!--l. 833--><p class="noindent" >These segments will be concatenated to make the new file, so in this case to obtain the desired data the edit list will
+contain the values: </p>
+<div class="center" 
+>
+<!--l. 835--><p class="noindent" >
+</p><!--l. 836--><p class="noindent" ><!--l. 836--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mo 
+class="MathClass-open" stretchy="false">[</mo><mn>0</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>7</mn><mn>8</mn><mn>5</mn><mn>3</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>7</mn><mn>1</mn><mn>7</mn><mn>2</mn><mn>1</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>3</mn><mn>0</mn><mn>7</mn><mn>9</mn><mn>2</mn><mn>9</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>5</mn><mn>1</mn><mn>2</mn><mn>9</mn><mn>9</mn><mo 
+class="MathClass-punc" stretchy="false">,</mo><mn>3</mn><mn>8</mn><mo 
+class="MathClass-close" stretchy="false">]</mo></math></p></div>
+<!--l. 839--><p class="noindent" >Which means:
+</p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 842--><p class="noindent" >Discard zero bytes from the start.
+     </p></li>
+     <li class="itemize">
+     <!--l. 843--><p class="noindent" >Keep 7853 bytes (the CRAM header).
+     </p></li>
+     <li class="itemize">
+     <!--l. 844--><p class="noindent" >Discard 57683 bytes (following the CRAM header) + 14038 bytes (before ChrII data) = 71721 bytes
+     in total.
+     </p></li>
+     <li class="itemize">
+     <!--l. 845--><p class="noindent" >Keep 307929 bytes (ChrII data).
+     </p></li>
+     <li class="itemize">
+     <!--l. 846--><p class="noindent" >Discard 5713 bytes (following ChrII) + 45586 bytes (before the EOF block) = 51299 bytes in total.
+                                                                                         
+                                                                                         
+     </p></li>
+     <li class="itemize">
+     <!--l. 847--><p class="noindent" >Keep 38 bytes (EOF block). This could actually be left out as it extends all the way to the end of the
+     file.</p></li></ul>
+
+<h3 class="sectionHead" id="5"><span class="titlemark">5 </span>Security Considerations <a href="#5" class="header-anchor">#</a></h3>
+
+<h4 class="subsectionHead" id="5.1"><span class="titlemark">5.1 </span>Threat Analysis <a href="#5.1" class="header-anchor">#</a></h4>
+<!--l. 853--><p class="noindent" >This format is primarily designed to protect files at rest and in transport from accidental
+disclosure. Attackers are assumed to have read access to encrypted files. Even if this is the
+case, it should not be possible to decrypt the file without access to the reader&#8217;s secret key
+(<!--l. 856--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math>).
+</p><!--l. 858--><p class="noindent" >Some file formats use supplementary files, for example external indices. In some cases it may be possible to deduce
+information about the data file from the supplementary one. For example, it is usually trivial to determine
+gender from a BAM index, and it may also be possible to detect certain other genetic conditions.
+Where the main data file needs to be encrypted, such supplementary files MUST be encrypted as
+well.
+</p><!--l. 864--><p class="noindent" >While key management is out of scope for this document, it should be noted that it is important that attackers are
+not able to access secret keys. Implementations MUST ensure that secret keys are kept in a secure
+manner.
+</p><!--l. 868--><p class="noindent" >Attackers with write access to files will not be able to make changes to individual blocks as (without access to the
+decryption key) they will not be able to calculate the correct MAC on the new version. Such an attacker can, however,
+make block-level changes such as removing or reordering blocks. An attacker with access to the reader&#8217;s public key
+(<!--l. 871--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+></math>) will
+also be able to add entire blocks by inserting a new data_encryption_parameters packet in the header, and using the
+key stored in it to encrypt the new block.
+</p><!--l. 874--><p class="noindent" >It is expected that files using this format will be decrypted in memory for processing. There is a risk of data being
+leaked either directly or through a side-channel (many of which are difficult to defend against). It is very likely that
+attackers who gain access to machines analysing data in encrypted files will be able to make deductions about the
+file contents, or in the worst case either extract the entire decrypted file or obtain the decryption
+keys.
+</p><!--l. 881--><p class="noindent" >Implementations SHOULD use cryptographic libraries hardened against common side-channel (e.g. timing) attacks.
+Implementations MUST keep secret material as safe as possible. For example, keys should ideally be
+locked into memory to avoid them being paged to a swap file. Keys should also be securely erased as
+soon as they are no longer needed. Any intermediate files written out during processing SHOULD be
+encrypted.
+</p><!--l. 887--><p class="noindent" >Deployments MUST take precautions to prevent attackers from accessing data while it is processed. Note that the
+following list is not exhaustive. </p>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 890--><p class="noindent" >Software MUST be kept up to date for security patches.
+                                                                                         
+                                                                                         
+     </p></li>
+     <li class="itemize">
+     <!--l. 891--><p class="noindent" >Data should not be processed on machines shared by more than one user.
+     </p></li>
+     <li class="itemize">
+     <!--l. 892--><p class="noindent" >Local file systems and swap partitions should be encrypted.
+     </p></li>
+     <li class="itemize">
+     <!--l. 893--><p class="noindent" >Debugging interfaces (for example ptrace) should be disabled.
+     </p></li>
+     <li class="itemize">
+     <!--l. 894--><p class="noindent" >Machines should not be running any unnecessary processes or services.
+     </p></li>
+     <li class="itemize">
+     <!--l. 895--><p class="noindent" >Firewall rules should be used to restrict network access to only sites needed for processing the data.
+     </p></li>
+     <li class="itemize">
+     <!--l. 896--><p class="noindent" >Users should avoid running processes like web browsers that can run arbitrary code downloaded from
+     the Internet (even if the code is run in a sand-box environment) on a machine where encrypted data
+     is being processed.</p></li></ul>
+
+<h4 class="subsectionHead" id="5.2"><span class="titlemark">5.2 </span>Selection of Keys <a href="#5.2" class="header-anchor">#</a></h4>
+<!--l. 901--><p class="noindent" >The security of the format depends on attackers not being able to guess secret keys
+(<!--l. 901--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>r</mi></mrow></msub 
+></math> and
+<!--l. 901--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>) or the data
+encryption key (<!--l. 902--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>d</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>a</mi></mrow></msub 
+></math>).
+The keys MUST be generated using a cryptographically-secure pseudo-random number generator. This makes the
+chance of guessing a key vanishingly small.
+
+</p>
+<h4 class="subsectionHead" id="5.3"><span class="titlemark">5.3 </span>Nonce selection <a href="#5.3" class="header-anchor">#</a></h4>
+<!--l. 907--><p class="noindent" >All header packets encrypted with the same combination of writer&#8217;s secret key
+(<!--l. 907--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>) and reader&#8217;s public key
+(<!--l. 908--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>p</mi><mi 
+>r</mi></mrow></msub 
+></math>) MUST use a unique nonce. If the
+writer uses the same secret key (<!--l. 909--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>)
+for more than one file then all nonces MUST be unique across all files made with that key. As each
+file will only include a few header packets this restriction can be fulfilled by generating each nonce
+using a cryptographically-secure random number generator. If the writer uses a randomly-generated
+<!--l. 913--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>w</mi></mrow></msub 
+></math>
+for each file, or even each header packet, the risk of nonce reuse in the header is almost completely
+eliminated.
+                                                                                         
+                                                                                         
+</p><!--l. 916--><p class="noindent" >All data segments encrypted with the same key MUST use a unique nonce. One way to ensure this is to choose a
+random starting point and then use a counter or linear-feedback shift register to generate the nonce for each
+segment. This method guarantees a unique value even for very long files.
+</p><!--l. 921--><p class="noindent" >For a 96-bit nonce, it may be acceptable to generate each one using a cryptographically-secure pseudo-random
+number generator. Care should be taken to ensure that the random number generator is capable of generating a long
+enough stream of unique values. Due to the birthday problem, this method will have a non-zero (but very small)
+probability of failing. For example, a file of 24 Terabytes will have a reused nonce with probability of approximately
+<!--l. 926--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>1</mn><msup><mrow 
+><mn>0</mn></mrow><mrow 
+><mo 
+class="MathClass-bin" stretchy="false">-</mo><mn>1</mn><mn>2</mn></mrow></msup 
+></math>
+
+</p>
+<h4 class="subsectionHead" id="5.4"><span class="titlemark">5.4 </span>Message Forgery <a href="#5.4" class="header-anchor">#</a></h4>
+<!--l. 929--><p class="noindent" >Using ChaCha20-IETF-Poly1305 authenticates the content of each header packet and each segment of the encrypted
+cipher-text. It does not protect against the addition or removal of header packets, or the addition, removal or
+rearrangement of data segments. crypt4gh files are not signed, so there is no direct way to prove that a file was
+created by a given writer.
+
+</p>
+<h4 class="subsectionHead" id="5.5"><span class="titlemark">5.5 </span>No File Updates Permitted <a href="#5.5" class="header-anchor">#</a></h4>
+<!--l. 936--><p class="noindent" >Implementations MUST NOT update encrypted files. Once written, a section of the file must never be
+altered.
+
+</p>
+<h3 class="sectionHead" id="6"><span class="titlemark">6 </span>References <a href="#6" class="header-anchor">#</a></h3>
+<!--l. 941--><p class="noindent" >
+            
+</p>
+            <h4 class="subsectionHead" id="6.1"><span class="titlemark">6.1 </span>Normative References <a href="#6.1" class="header-anchor">#</a></h4>
+            <div class="thebibliography">
+            <p class="bibitem" ><span class="biblabel">
+ [RFC2119]  <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XRFC2119"></a>Bradner, S.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;Key words for use in RFCs to Indicate Requirement Levels&#8221;, BCP 14, RFC 2119</span>,<br 
+class="newline" /><a 
+href="https://www.rfc-editor.org/info/rfc2119" class="url" ><span 
+class="cmtt-10">https://www.rfc-editor.org/info/rfc2119</span></a>,<br 
+class="newline" />March 1997
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [RFC7693]  <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XRFC7693"></a>Saarinen, M.J., Aumasson, J.P.<br 
+class="newline" /><span 
+class="cmti-10">&#8221;The BLAKE2 Cryptographic Hash and Message Authentication Code (MAC)&#8221;, RFC7693</span>,<br 
+class="newline" /><a 
+href="https://tools.ietf.org/html/rfc7693" class="url" ><span 
+class="cmtt-10">https://tools.ietf.org/html/rfc7693</span></a>,<br 
+class="newline" />November 2015
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [RFC7748]  <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XRFC7748"></a>A. Langley, Google, M. Hamburg, Rambus Cryptography Research, S. Turner, sn3rd,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;Elliptic Curves for Security&#8221;, RFC7748</span>,<br 
+class="newline" /><a 
+href="https://tools.ietf.org/html/rfc7748" class="url" ><span 
+class="cmtt-10">https://tools.ietf.org/html/rfc7748</span></a>,<br 
+class="newline" />January 2016
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [RFC8032]  <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XRFC8032"></a>S. Josefsson, SJD AB, I. Liusvaara,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;Edwards-Curve Digital Signature Algorithm (EdDSA)&#8221;, RFC8032</span>,<br 
+class="newline" /><a 
+href="https://tools.ietf.org/html/rfc8032" class="url" ><span 
+class="cmtt-10">https://tools.ietf.org/html/rfc8032</span></a>,<br 
+class="newline" />January 2017
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [RFC8439]  <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XRFC8439"></a>Y. Nir, Dell EMC, A. Langley, Google, Inc.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;ChaCha20 and Poly1305 for IETF Protocols&#8221;, RFC8439</span>,<br 
+class="newline" /><a 
+href="https://tools.ietf.org/html/rfc8439" class="url" ><span 
+class="cmtt-10">https://tools.ietf.org/html/rfc8439</span></a>,<br 
+class="newline" />June 2018
+            
+</p>
+            <h4 class="subsectionHead" id="6.2"><span class="titlemark">6.2 </span>Informational References <a href="#6.2" class="header-anchor">#</a></h4>
+            <p class="bibitem" ><span class="biblabel">
+ [RFC4880]  <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XRFC4880"></a>Callas, J., PGP Corporation, Donnerhacke, L., IKS GmbH, Finney, H., PGP Corporation, Shaw,
+            D., Thayer, R.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;OpenPGP Message Format&#8221;, RFC 4880</span>,<br 
+class="newline" /><a 
+href="https://www.rfc-editor.org/info/rfc4880" class="url" ><span 
+class="cmtt-10">https://www.rfc-editor.org/info/rfc4880</span></a>,<br 
+class="newline" />November 2007.
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [RFC8446]  <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XRFC8446"></a>Rescorla, E.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;The Transport Layer Security (TLS) Protocol Version 1.3&#8221;, RFC 8446</span>,<br 
+class="newline" /><a 
+href="https://www.rfc-editor.org/info/rfc8446" class="url" ><span 
+class="cmtt-10">https://www.rfc-editor.org/info/rfc8446</span></a>,<br 
+class="newline" />August 2018.
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [RFC8551]  <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XRFC8551"></a>Schaad, J., August Cellars, Ramsdell, B., Brute Squad Labs, Inc., Turner, S.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;Secure/Multipurpose Internet Mail Extensions (S/MIME) Version 4.0 Message Specification&#8221;, RFC</span>
+            <span 
+class="cmti-10">8551</span>,<br 
+class="newline" /><a 
+href="https://www.rfc-editor.org/info/rfc8551" class="url" ><span 
+class="cmtt-10">https://www.rfc-editor.org/info/rfc8551</span></a>,<br 
+class="newline" />April 2019.
+                                                                                         
+                                                                                         
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [AE LIMITS]<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XAE LIMITS"></a>Luykx, A., Paterson, K.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;Limits on Authenticated Encryption Use in TLS&#8221;</span>,<br 
+class="newline" /><a 
+href="http://www.isg.rhul.ac.uk/~kp/TLS-AEbounds.pdf" class="url" ><span 
+class="cmtt-10">http://www.isg.rhul.ac.uk/</span><span 
+class="cmtt-10">~</span><span 
+class="cmtt-10">kp/TLS-AEbounds.pdf</span></a>, August 2017.
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [Curve25519]<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XCurve25519"></a>Bernstein, Daniel J.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;Curve25519: New Diffie-Hellman Speed Records&#8221;</span>,<br 
+class="newline" /><a 
+href="https://doi.org/10.1007%2F11745853_14" class="url" ><span 
+class="cmtt-10">https://doi.org/10.1007</span><span 
+class="cmtt-10">%2F11745853_14</span></a>,<br 
+class="newline" />2006.
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [SafeCurves] <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XSafeCurves"></a>Bernstein, Daniel J., Lange, Tanja,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;SafeCurves: choosing safe curves for elliptic-curve cryptography.&#8221;</span>,<br 
+class="newline" /><a 
+href="https://safecurves.cr.yp.to" class="url" ><span 
+class="cmtt-10">https://safecurves.cr.yp.to</span></a>,<br 
+class="newline" />accessed 22 July 2019.
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [Blake2]    <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XBlake2"></a>Aumasson, J-P., Neves, S., Wilcox-O&#8217;Hearn, Z., Winnerlein, C.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;BLAKE2: simpler, smaller, fast as MD5&#8221;</span>,<br 
+class="newline" /><a 
+href="https://eprint.iacr.org/2013/322.pdf" class="url" ><span 
+class="cmtt-10">https://eprint.iacr.org/2013/322.pdf</span></a>,<br 
+class="newline" />2013.
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [Post-Quantum]<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XPost-Quantum"></a>Alagic, G., Alperin-Sheriff, J., Apon, D., Cooper, D., Dang, Q., Miller, C., Moody, D., Peralta,
+            R., Perlner, R., Robinson, A., Smith-Tone, D, Liu, Y-K.,<br 
+class="newline" /><span 
+class="cmti-10">&#8221;Status Report on the First Round of the NIST Post-Quantum Cryptography Standardization</span>
+            <span 
+class="cmti-10">Process&#8221;</span>,<br 
+class="newline" /><a 
+href="https://doi.org/10.6028/NIST.IR.8240" class="url" ><span 
+class="cmtt-10">https://doi.org/10.6028/NIST.IR.8240</span></a>,<br 
+class="newline" />January 2019.
+            </p>
+            <p class="bibitem" ><span class="biblabel">
+ [htsget]     <span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="Xhtsget"></a>Kelleher, J., Lin, M., Albach, C. H., Birney, E., Davies, R., Gourtovaia, M., Glazer, D., Gonzalez,
+            C. Y., Jackson, D. K., Kemp, A., Marshall, J., Nowak, A., Senf, A., Tovar-Corona, J. M.,
+            Vikhorev, A., Keane, T. M., GA4GH Streaming Task Team <span 
+class="cmti-10">&#8221;htsget: a protocol for securely</span>
+            <span 
+class="cmti-10">streaming genomic data&#8221; </span><a 
+href="https://doi.org/10.1093/bioinformatics/bty492" class="url" ><span 
+class="cmtt-10">https://doi.org/10.1093/bioinformatics/bty492</span></a> June
+            2018.
+</p>
+            </div>
+
+<h3 class="sectionHead"><span class="titlemark">A   </span> <a 
+ id="x1-47000A"></a>Rationale</h3>
+<!--l. 1038--><p class="noindent" >Using authenticated encryption in individual segments mirrors solutions like Transport Layer Security (TLS) as
+described in&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span> and prevents undetected modification of segments. Dividing the file into fixed-size (except at the
+                                                                                         
+                                                                                         
+end) blocks allows random-access into the encrypted file. The format is also designed to allow streaming reads and
+writes; in particular when writing no more than 64 Kbytes of plain-text needs to be known at any
+point.
+</p><!--l. 1044--><p class="noindent" >While the standard allows for multiple encryption methods, only one choice is currently allowed. This
+simplifies implementations while allowing the current choice to be replaced in a future revision if it is
+found to have any vulnerabilities. The criteria for choosing encryption methods included having strong
+security guarantees, good library support and being used in other common standards like TLS version
+1.3.
+
+</p>
+<h4 class="subsectionHead"><span class="titlemark">A.1   </span> <a 
+ id="x1-48000A.1"></a>Symmetric Encryption</h4>
+<!--l. 1052--><p class="noindent" >For symmetric encryption, the main candidates for authenticated encryption were AES-GCM
+and ChaCha20-Poly1305. Both have good security guarantees, and thanks to their use in TLS
+1.3 both have good library support. ChaCha20-Poly1305 was chosen because it allows much
+longer files to be encrypted. See&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span> for a comparison although note that our &#8220;messages&#8221; are
+<!--l. 1055--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>1</mn><mn>6</mn></mrow></msup 
+></math> bytes long, while the
+figures in the paper are for <!--l. 1056--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>1</mn><mn>4</mn></mrow></msup 
+></math>
+bytes.
+</p><!--l. 1058--><p class="noindent" >There are three common ChaCha20-Poly1305 constructions original, ChaCha20-IETF-Poly1305, and
+XChaCha20-Poly1305. The main differences are the length of the nonce and the maximum message size allowed
+using a single nonce. ChaCha20-IETF-Poly1305 was chosen because it has the best library support thanks to its
+use in Internet Engineering Task Force protocols and the nonce length allows a very large number of
+messages to be encrypted under a single key. The message length restriction of ChaCha20-IETF-Poly1305
+(<!--l. 1062--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>6</mn><mn>4</mn> <mo 
+class="MathClass-bin" stretchy="false">*</mo> <msup><mrow 
+><mn>2</mn></mrow><mrow 
+><mn>3</mn><mn>2</mn></mrow></msup 
+> <mo 
+class="MathClass-bin" stretchy="false">-</mo> <mn>6</mn><mn>4</mn></math> bytes)
+is not a problem as our &#8220;messages&#8221; are at most 64 Kbytes long.
+
+</p>
+<h4 class="subsectionHead"><span class="titlemark">A.2   </span> <a 
+ id="x1-49000A.2"></a>Public-key Algorithm</h4>
+<!--l. 1067--><p class="noindent" >For public-key encryption Elliptic Curve Diffie-Hellman using X25519 was chosen. Elliptic Curve Diffie-Hellman is
+faster and uses smaller keys than methods such as RSA or traditional Diffie&#8211;Hellman. X25519 is based on
+Curve25519 which allows fast implementations, has good security properties&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span> and has been constructed to avoid a
+number of possible implementation problems&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span>. X25519 is used in TLS version 1.3, S/MIME 4.0&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span> and many
+other protocols, and has good library support.
+</p><!--l. 1073--><p class="noindent" >X25519 is used to generate a shared key. While this key could be used on its own, its properties are not ideal
+because many secret/public key pairs can generate the same key and the bit distribution across the key is not
+completely uniform. To enhance the key, it is concatenated with the two public keys used in the key exchange and
+then passed through a secure hash function. The chosen hash function (Blake2b) has good library support, is faster
+than SHA-2 and has similar security to that of SHA-3&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+</p><!--l. 1081--><p class="noindent" >The generated shared key <!--l. 1081--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>K</mi></mrow><mrow 
+><mi 
+>s</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>d</mi></mrow></msub 
+></math>
+is used as the secret material for symmetric encryption of the header packet data. As it is already used for
+encrypting the data blocks, the method chosen for this is ChaCha20-IETF-Poly1305.
+</p><!--l. 1084--><p class="noindent" >Like other ECDH schemes, X25519 is not resistant to attack using a quantum computer. At the time of writing,
+quantum-computing resistant algorithms are undergoing standardisation&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span>. A future revision of this specification
+will add quantum-computing resistant algorithms once this process is complete and a suitable replacement becomes
+                                                                                         
+                                                                                         
+widely available.
+
+</p>
+<h4 class="subsectionHead"><span class="titlemark">A.3   </span> <a 
+ id="x1-50000A.3"></a>Other Considerations</h4>
+<!--l. 1091--><p class="noindent" >This specification provides no way of authenticating files by signing them. Implementing such a scheme would also
+involve creating infrastructure for validating the generated signatures. This was deemed to be beyond the
+requirements of the format. If authentication is required, the encrypted file can be signed separately using an
+existing digital signature scheme, for example OpenPGP&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span>.
+</p><!--l. 1097--><p class="noindent" >Dividing the header into individually encrypted &#8220;packets&#8221; allows the data to be decrypted by more than
+one key, and also allows parts of the data to be encrypted using different keys. The former allows
+files to be accessed by more than one user without them having to share keys. The latter allows for
+selective access to parts of a file - although this only works for random access. Trying to stream such a
+file will likely result in an error when the reader reaches a part for which it does not have a suitable
+key.
+</p><!--l. 1104--><p class="noindent" >The data edit list header packets were added to make it easier to serve encrypted files using htsget&#x00A0;<span class="cite">[<span 
+class="cmbx-10">?</span>]</span>. Htsget is
+designed to serve parts of a genomic data file in response to a web request, Htsget servers return a list of file parts
+that should be downloaded and concatenated to give the desired result. Most of these parts can simply be served
+directly from a static file store, allowing the htsget back-end to efficiently handle a large number of
+requests.
+</p><!--l. 1110--><p class="noindent" >Allowing htsget to serve encrypted files would be beneficial as the data in the static file store can be stored in an
+encrypted form. For efficiency (and better security), the htsget server would want to avoid decrypting and
+re-encrypting the file blocks when serving them. This is possible, but there is a complication when the requested
+data does not align to the 64 Kbyte encrypted block boundaries. The partial block would need to be rewritten so
+that it starts in the correct location. As all encrypted blocks except the last must contain exactly
+64 Kbytes, this would pull in data from the next block, which would also have to be rewritten and
+so on until the end of the file. This would essentially involve decrypting and re-encrypted the entire
+region.
+</p><!--l. 1121--><p class="noindent" >A more efficient solution, which is enabled by the data edit list, is to serve the entire misaligned block and
+include information about the parts that should be discarded in the header. The client then discards the
+unwanted data after decryption. Being able to serve the encrypted data directly and avoiding the need to
+handle plain-text should more than compensate for the minor inefficiency of serving slightly more data
+(at most 131070 bytes per region) than requested. The added complication of supporting edit lists
+in client code is also fairly minor compared to other necessary parts of the format (for example key
+handling).
+</p>
+ 
+</body></html> 
+
+                                                                                         
+
+
