@@ -864,25 +864,11 @@ represented.
     <th>Op</th>
     <th>BAM</th>
     <th>Description</th>
-    <th></th>
-    <th></th>
+    <th>Consumes query</th>
+    <th>Consumes reference</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-    <td>query</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    </tr>
-    <tr>
-    <td>reference</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    </tr>
     <tr>
     <td><code>M</code></td>
     <td>0</td>

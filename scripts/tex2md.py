@@ -450,6 +450,12 @@ def main():
         body = re.sub(r'\\cline\{[^}]*\}\s*\n?', '', body)
         # Strip empty multicolumn spacer rows (e.g. \multicolumn{6}{|l|}{}\\[-0.3em])
         body = re.sub(r'\\multicolumn\{\d+\}\{[^}]*\}\{\}\s*\\\\(?:\[[^\]]*\])?\s*\n?', '', body)
+        # Convert \makecell{line1 \\ line2} to "line1 line2" (pandoc doesn't handle makecell)
+        def flatten_makecell(m):
+            content = m.group(1)
+            content = re.sub(r'\s*\\\\\s*', ' ', content)
+            return content
+        body = re.sub(r'\\makecell(?:\[[^\]]*\])?\{([^}]*)\}', flatten_makecell, body)
         # Convert \tnote{marker} (threeparttable note reference) to superscript
         body = re.sub(r'\\tnote\{([^}]*)\}', r'\\textsuperscript{\1}', body)
         # Replace dagger symbols (\dag, \dagger) with Unicode dagger before pandoc

@@ -3411,7 +3411,7 @@ for a single vector, but for genotype values it appears only once before
 the array of genotype field values</td>
 </tr>
 <tr>
-<td>(by fmt type)</td>
+<td>fmt_values (by fmt type)</td>
 <td>Array of values</td>
 <td>The information of each individual is concatenated in the vector. Every
 value is of the same fmt type. Variable-length vectors are padded with
