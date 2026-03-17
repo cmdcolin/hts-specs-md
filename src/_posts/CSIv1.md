@@ -1,5 +1,5 @@
 ---
-title: "/home/cdiesh/src/hts-specs/CSIv1.tex"
+title: "CSIv1.tex"
 commit: 85c048d
 date: 19 Jul 2020
 ---

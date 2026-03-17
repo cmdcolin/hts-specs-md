@@ -1,5 +1,5 @@
 ---
-title: "/home/cdiesh/src/hts-specs/BCFv1_qref.tex"
+title: "BCFv1_qref.tex"
 commit: 39feb09
 date: 20 Nov 2019
 ---

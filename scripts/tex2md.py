@@ -561,6 +561,10 @@ date: {date}
     final_content = re.sub(r'\\\n\n', '\n\n', final_content)   # \<newline><blank> redundant break
     final_content = re.sub(r'^\s*\\$', '', final_content, flags=re.MULTILINE)  # lone \ on a line
 
+    # Fix punctuation separated from a footnote reference by a line break:
+    # pandoc sometimes wraps so [^N] ends a line and the sentence-closing . starts the next
+    final_content = re.sub(r'(\[\^\d+\])\n([.,;:!?])', r'\1\2', final_content)
+
     # Convert runs of 2+ consecutive lines that are each a standalone $...$
     # expression into a $$ display math block with \\, so they render as
     # stacked equations instead of collapsing into one inline paragraph

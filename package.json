@@ -3,8 +3,9 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
+    "predev": "make -B markdown",
     "dev": "astro dev",
-    "start": "astro dev",
+    "prebuild": "make -B markdown",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",

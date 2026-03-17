@@ -11,22 +11,15 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
     <title>{title} - hts-specs-md</title>
     <style is:global>
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-family: "Charter", "Bitstream Charter", "Georgia", serif;
         font-size: 0.95rem;
         line-height: 1.6;
-        max-width: 1100px;
+        max-width: 900px;
         margin: 0 auto;
         padding: 2rem;
-        color: #24292e;
-        background-color: #ffffff;
-      }
-      /* Override MathML serif defaults to match page font */
-      math, math * {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-        font-style: normal !important;
-      }
-      math {
-        font-size: 0.9em;
+        background-color: Canvas;
+        color: CanvasText;
+        color-scheme: light dark;
       }
       .katex-display {
         margin: 1.2em 0;
@@ -52,20 +45,21 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
       code {
         font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
         font-size: 0.85em;
-        background: #f6f8fa;
+        background: light-dark(#f6f8fa, #2d333b);
         padding: 0.2em 0.4em;
         border-radius: 3px;
       }
-      .code-math-block {
-        background-color: #f6f8fa;
+      .code-math-block, .algorithmic {
+        background-color: light-dark(#f6f8fa, #2d333b);
         padding: 1rem;
         border-radius: 6px;
-        border: 1px solid #d1d5da;
-        font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-        font-size: 0.85em;
+        border: 1px solid light-dark(#d1d5da, #444c56);
         overflow-x: auto;
         margin-bottom: 1.5rem;
-        color: #24292e;
+      }
+      .code-math-block {
+        font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+        font-size: 0.85em;
         display: block;
       }
       .code-math-block p {
@@ -73,29 +67,17 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
         white-space: pre;
         line-height: 1.45;
       }
-      /* Ensure math elements in code blocks don't add extra vertical space */
       .code-math-block math {
         font-size: 0.9em;
+      }
+      .algorithmic p {
+        margin: 0.25em 0;
       }
       .smallcaps {
         font-variant: small-caps;
       }
-      .sans-serif {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      }
       .center {
         text-align: center;
-      }
-      .algorithmic {
-        background-color: #f6f8fa;
-        padding: 1rem;
-        border-radius: 6px;
-        border: 1px solid #d1d5da;
-        overflow-x: auto;
-        margin-bottom: 1.5rem;
-      }
-      .algorithmic p {
-        margin: 0.25em 0;
       }
       img {
         max-width: 100%;
@@ -108,12 +90,8 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
         font-size: 0.8em;
         opacity: 0.7;
       }
-      /* Prevent anchor tags used for section links from affecting layout */
-      a[id] {
-        display: block;
-        position: relative;
-        top: -2rem; /* Offset for header/nav if any, though here we just want it to exist */
-        visibility: hidden;
+      :target {
+        scroll-margin-top: 2rem;
       }
       table {
         border-collapse: collapse;
@@ -124,20 +102,20 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
       }
       tfoot.tablenotes td {
         font-size: 0.85em;
-        color: #555;
-        background: #f8f9fa;
-        border-top: 2px solid #bbb;
+        color: GrayText;
+        background: light-dark(#f8f9fa, #2d333b);
+        border-top: 2px solid light-dark(#bbb, #444c56);
       }
       th, td {
-        border: 1px solid #ddd;
+        border: 1px solid light-dark(#ddd, #444c56);
         padding: 8px;
         text-align: left;
       }
       th {
-        background-color: #f8f9fa;
+        background-color: light-dark(#f8f9fa, #2d333b);
       }
       h1, h2, h3, h4 {
-        border-bottom: 1px solid #eaecef;
+        border-bottom: 1px solid light-dark(#eaecef, #444c56);
         padding-bottom: 0.3em;
         margin-top: 1.5rem;
         display: flex;
@@ -146,22 +124,21 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
       }
       .header-anchor {
         text-decoration: none;
-        color: #0366d6;
         font-size: 0.8em;
       }
       .banner {
-        background: #fff8e1;
-        border: 1px solid #ffe082;
+        background: light-dark(#fff8e1, #2d2200);
+        border: 1px solid light-dark(#ffe082, #5a4800);
         border-radius: 6px;
         padding: 0.5rem 0.75rem;
         font-size: 0.85rem;
         margin-bottom: 1rem;
       }
       .toc {
-        background: #f6f8fa;
+        background: light-dark(#f6f8fa, #2d333b);
         padding: 0.5rem 0.75rem;
         border-radius: 6px;
-        border: 1px solid #d1d5da;
+        border: 1px solid light-dark(#d1d5da, #444c56);
         margin-bottom: 1.5rem;
         font-size: 0.8rem;
       }
@@ -188,10 +165,6 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
       .toc .depth-4 {
         padding-left: 1.5rem;
       }
-      .toc a {
-        text-decoration: none;
-        color: #0366d6;
-      }
       .toc a:hover {
         text-decoration: underline;
       }
@@ -199,10 +172,17 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
         display: flex;
         gap: 1rem;
         margin-bottom: 2rem;
+        align-items: center;
       }
-      nav a {
-        text-decoration: none;
-        color: #0366d6;
+      #dark-toggle {
+        margin-left: auto;
+        background: none;
+        border: 1px solid light-dark(#ccc, #555);
+        border-radius: 4px;
+        padding: 0.2rem 0.5rem;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: inherit;
       }
       @media (max-width: 768px) {
         body {
@@ -237,11 +217,6 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
           margin-left: -0.5rem;
           margin-right: -0.5rem;
         }
-        img {
-          max-width: 100% !important;
-          width: auto !important;
-          height: auto !important;
-        }
         nav {
           margin-bottom: 1rem;
         }
@@ -249,9 +224,14 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
     </style>
   </head>
   <body>
+    <script is:inline>
+      const stored = localStorage.getItem('color-scheme');
+      if (stored) document.body.style.colorScheme = stored;
+    </script>
     <nav>
       <a href={base}>hts-specs-md</a>
       <a href={`${base}/about`}>About</a>
+      <button id="dark-toggle" aria-label="Toggle dark mode">🌓</button>
     </nav>
     <main>
       <h1>{title}</h1>
@@ -272,5 +252,13 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 4 && h.slug 
       )}
       <slot />
     </main>
+    <script is:inline>
+      document.getElementById('dark-toggle').addEventListener('click', () => {
+        const current = document.body.style.colorScheme;
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.body.style.colorScheme = next;
+        localStorage.setItem('color-scheme', next);
+      });
+    </script>
   </body>
 </html>
