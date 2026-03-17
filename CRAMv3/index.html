@@ -1,5 +1,8 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>CRAM format specification (version 3.1) - hts-specs-md</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.95rem;line-height:1.6;max-width:1100px;margin:0 auto;padding:2rem;color:#24292e;background-color:#fff}math,math *{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif!important;font-style:normal!important}math{font-size:.9em}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:#f6f8fa;padding:.2em .4em;border-radius:3px}.code-math-block{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;overflow-x:auto;margin-bottom:1.5rem;color:#24292e;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.smallcaps{font-variant:small-caps}.sans-serif{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}.center{text-align:center}.algorithmic{background-color:#f6f8fa;padding:1rem;border-radius:6px;border:1px solid #d1d5da;overflow-x:auto;margin-bottom:1.5rem}.algorithmic p{margin:.25em 0}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}a[id]{display:block;position:relative;top:-2rem;visibility:hidden}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}tfoot.tablenotes td{font-size:.85em;color:#555;background:#f8f9fa;border-top:2px solid #bbb}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f8f9fa}h1,h2,h3,h4{border-bottom:1px solid #eaecef;padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;color:#0366d6;font-size:.8em}.banner{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:#f6f8fa;padding:.5rem .75rem;border-radius:6px;border:1px solid #d1d5da;margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a{text-decoration:none;color:#0366d6}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem}nav a{text-decoration:none;color:#0366d6}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}img{max-width:100%!important;width:auto!important;height:auto!important}nav{margin-bottom:1rem}}
-</style></head> <body> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> </nav> <main> <h1>CRAM format specification (version 3.1)</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/07a4382"><code>07a4382</code></a>, dated 4 Jun 2025.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#2.1">2.1 Logical data types</a> </li><li class="depth-2"> <a href="#2.2">2.2 Reading and writing bits in a bit stream</a> </li><li class="depth-3"> <a href="#2.2.1">2.2.1 Example of writing to bit stream</a> </li><li class="depth-3"> <a href="#2.2.2">2.2.2 Note on reading from and writing to bit stream</a> </li><li class="depth-2"> <a href="#2.3">2.3 Writing bytes to a byte stream</a> </li><li class="depth-2"> <a href="#4.1">4.1 CRC32</a> </li><li class="depth-2"> <a href="#4.2">4.2 CRC32 sum</a> </li><li class="depth-2"> <a href="#7.1">7.1 CRAM header container</a> </li><li class="depth-2"> <a href="#8.1">8.1 Block content types</a> </li><li class="depth-2"> <a href="#8.2">8.2 Block content id</a> </li><li class="depth-3"> <a href="#8.2.1">8.2.1 Data blocks</a> </li><li class="depth-2"> <a href="#8.3">8.3 CRAM header block(s)</a> </li><li class="depth-2"> <a href="#8.4">8.4 Compression header block</a> </li><li class="depth-3"> <a href="#8.4.1">8.4.1 Preservation map</a> </li><li class="depth-3"> <a href="#8.4.2">8.4.2 Data series encodings</a> </li><li class="depth-3"> <a href="#8.4.3">8.4.3 Tag encodings</a> </li><li class="depth-3"> <a href="#8.4.4">8.4.4 Tag values</a> </li><li class="depth-2"> <a href="#8.5">8.5 Slice header block</a> </li><li class="depth-2"> <a href="#8.6">8.6 Core data block</a> </li><li class="depth-2"> <a href="#8.7">8.7 External data blocks</a> </li><li class="depth-2"> <a href="#10.1">10.1 CRAM record</a> </li><li class="depth-3"> <a href="#10.1.1">10.1.1 BAM bit flags (BF data series)</a> </li><li class="depth-3"> <a href="#10.1.2">10.1.2 CRAM bit flags (CF data series)</a> </li><li class="depth-3"> <a href="#10.1.3">10.1.3 Decode pseudocode</a> </li><li class="depth-2"> <a href="#10.2">10.2 CRAM positional data</a> </li><li class="depth-2"> <a href="#10.3">10.3 Read names (RN data series)</a> </li><li class="depth-2"> <a href="#10.4">10.4 Mate records</a> </li><li class="depth-3"> <a href="#10.4.1">10.4.1 Next mate bit flags (MF data series)</a> </li><li class="depth-3"> <a href="#10.4.2">10.4.2 Decode mate pseudocode</a> </li><li class="depth-2"> <a href="#10.5">10.5 Auxiliary tags</a> </li><li class="depth-2"> <a href="#10.6">10.6 Mapped reads</a> </li><li class="depth-3"> <a href="#10.6.1">10.6.1 Read feature records</a> </li><li class="depth-3"> <a href="#10.6.2">10.6.2 Read feature codes</a> </li><li class="depth-3"> <a href="#10.6.3">10.6.3 Base substitution codes (BS data series)</a> </li><li class="depth-3"> <a href="#10.6.4">10.6.4 Substitution Matrix Format</a> </li><li class="depth-3"> <a href="#10.6.5">10.6.5 Substitution Code Assignment</a> </li><li class="depth-3"> <a href="#10.6.6">10.6.6 Decode mapped read pseudocode</a> </li><li class="depth-2"> <a href="#10.7">10.7 Unmapped reads</a> </li><li class="depth-3"> <a href="#12.0.1">12.0.1 General notes</a> </li><li class="depth-3"> <a href="#12.0.2">12.0.2 CRAM index</a> </li><li class="depth-3"> <a href="#12.0.3">12.0.3 BAM index</a> </li><li class="depth-2"> <a href="#13.1">13.1 Introduction</a> </li><li class="depth-3"> <a href="#13.1.1">13.1.1 Offset</a> </li><li class="depth-2"> <a href="#13.2">13.2 EXTERNAL: codec ID 1</a> </li><li class="depth-3"> <a href="#13.2.1">13.2.1 Parameters</a> </li><li class="depth-2"> <a href="#13.3">13.3 Huffman coding: codec ID 3</a> </li><li class="depth-3"> <a href="#13.3.1">13.3.1 Canonical code computation</a> </li><li class="depth-3"> <a href="#13.3.2">13.3.2 Examples</a> </li><li class="depth-3"> <a href="#13.3.3">13.3.3 Parameters</a> </li><li class="depth-2"> <a href="#13.4">13.4 Byte array coding</a> </li><li class="depth-3"> <a href="#13.4.1">13.4.1 BYTE_ARRAY_LEN: codec ID 4</a> </li><li class="depth-3"> <a href="#13.4.2">13.4.2 BYTE_ARRAY_STOP: codec ID 5</a> </li><li class="depth-2"> <a href="#13.5">13.5 Beta coding: codec ID 6</a> </li><li class="depth-3"> <a href="#13.5.1">13.5.1 Definition</a> </li><li class="depth-3"> <a href="#13.5.2">13.5.2 Parameters</a> </li><li class="depth-3"> <a href="#13.5.3">13.5.3 Examples</a> </li><li class="depth-2"> <a href="#13.6">13.6 Subexponential coding: codec ID 7</a> </li><li class="depth-3"> <a href="#13.6.1">13.6.1 Definition</a> </li><li class="depth-3"> <a href="#13.6.2">13.6.2 Encoding</a> </li><li class="depth-3"> <a href="#13.6.3">13.6.3 Decoding</a> </li><li class="depth-3"> <a href="#13.6.4">13.6.4 Examples</a> </li><li class="depth-3"> <a href="#13.6.5">13.6.5 Parameters</a> </li><li class="depth-2"> <a href="#13.7">13.7 Gamma coding: codec ID 9</a> </li><li class="depth-3"> <a href="#13.7.1">13.7.1 Definition</a> </li><li class="depth-3"> <a href="#13.7.2">13.7.2 Encoding</a> </li><li class="depth-3"> <a href="#13.7.3">13.7.3 Decoding</a> </li><li class="depth-3"> <a href="#13.7.4">13.7.4 Examples</a> </li><li class="depth-3"> <a href="#13.7.5">13.7.5 Parameters</a> </li><li class="depth-2"> <a href="#13.8">13.8 DEPRECATED: Golomb coding: codec ID 2</a> </li><li class="depth-3"> <a href="#13.8.1">13.8.1 Definition</a> </li><li class="depth-3"> <a href="#13.8.2">13.8.2 Encoding</a> </li><li class="depth-3"> <a href="#13.8.3">13.8.3 Decoding</a> </li><li class="depth-3"> <a href="#13.8.4">13.8.4 Examples</a> </li><li class="depth-3"> <a href="#13.8.5">13.8.5 Parameters</a> </li><li class="depth-2"> <a href="#13.9">13.9 DEPRECATED: Golomb-Rice coding: codec ID 8</a> </li><li class="depth-2"> <a href="#14.1">14.1 Gzip</a> </li><li class="depth-2"> <a href="#14.2">14.2 Bzip2</a> </li><li class="depth-2"> <a href="#14.3">14.3 LZMA</a> </li><li class="depth-2"> <a href="#14.4">14.4 rANS4x8 codec</a> </li><li class="depth-2"> <a href="#14.5">14.5 rANS4x16 codec</a> </li><li class="depth-2"> <a href="#14.6">14.6 adaptive arithemtic coding</a> </li><li class="depth-2"> <a href="#14.7">14.7 fqzcomp codec</a> </li><li class="depth-2"> <a href="#14.8">14.8 name tokeniser</a> </li><li class="depth-2"> <a href="#15.1">15.1 Choosing the container size</a> </li><li class="depth-2"> <a href="#15.2">15.2 CRAM History</a> </li><li class="depth-3"> <a href="#15.2.1">15.2.1 Pre-CRAM: 2010</a> </li><li class="depth-3"> <a href="#15.2.2">15.2.2 CRAM 0.x: 2011</a> </li><li class="depth-3"> <a href="#15.2.3">15.2.3 CRAM 1.0: 2012</a> </li><li class="depth-3"> <a href="#15.2.4">15.2.4 CRAM 2.0: 2013</a> </li><li class="depth-3"> <a href="#15.2.5">15.2.5 CRAM 2.1: 2014</a> </li><li class="depth-3"> <a href="#15.2.6">15.2.6 CRAM 3.0: 2014</a> </li><li class="depth-3"> <a href="#15.2.7">15.2.7 CRAM 3.1: 2023</a> </li><li class="depth-2"> <a href="#15.3">15.3 Contributors and Acknowledgements</a> </li> </ul> </details>  <p>This specification describes the CRAM 3.0 and 3.1 formats.</p>
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>CRAM format specification (version 3.1) - hts-specs-md</title><style>body{font-family:Charter,Bitstream Charter,Georgia,serif;font-size:.95rem;line-height:1.6;max-width:900px;margin:0 auto;padding:2rem;background-color:Canvas;color:CanvasText;color-scheme:light dark}.katex-display{margin:1.2em 0;overflow-x:auto;overflow-y:hidden}pre{background-color:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:6px;overflow-x:auto;border:1px solid #333;margin-bottom:1.5rem;font-size:.85em;line-height:1.4}pre code{color:inherit;background:transparent!important;padding:0}code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;background:light-dark(#f6f8fa,#2d333b);padding:.2em .4em;border-radius:3px}.code-math-block,.algorithmic{background-color:light-dark(#f6f8fa,#2d333b);padding:1rem;border-radius:6px;border:1px solid light-dark(#d1d5da,#444c56);overflow-x:auto;margin-bottom:1.5rem}.code-math-block{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:.85em;display:block}.code-math-block p{margin:0;white-space:pre;line-height:1.45}.code-math-block math{font-size:.9em}.algorithmic p{margin:.25em 0}.smallcaps{font-variant:small-caps}.center{text-align:center}img{max-width:100%;height:auto;display:block;margin:1rem 0}a[href^=http]:not([href*=localhost]):not([href*="cmdcolin.github.io"]):after{content:" ↗";font-size:.8em;opacity:.7}:target{scroll-margin-top:2rem}table{border-collapse:collapse;width:100%;margin-bottom:1rem;display:block;overflow-x:auto}tfoot.tablenotes td{font-size:.85em;color:GrayText;background:light-dark(#f8f9fa,#2d333b);border-top:2px solid light-dark(#bbb,#444c56)}th,td{border:1px solid light-dark(#ddd,#444c56);padding:2px 8px;text-align:left;line-height:1.3}th{background-color:light-dark(#f8f9fa,#2d333b)}h1,h2,h3,h4{border-bottom:1px solid light-dark(#eaecef,#444c56);padding-bottom:.3em;margin-top:1.5rem;display:flex;align-items:baseline;gap:.5rem}.header-anchor{text-decoration:none;font-size:.8em}.banner{background:light-dark(#fff8e1,#2d2200);border:1px solid light-dark(#ffe082,#5a4800);border-radius:6px;padding:.5rem .75rem;font-size:.85rem;margin-bottom:1rem}.toc{background:light-dark(#f6f8fa,#2d333b);padding:.5rem .75rem;border-radius:6px;border:1px solid light-dark(#d1d5da,#444c56);margin-bottom:1.5rem;font-size:.8rem}.toc summary{cursor:pointer;font-weight:600;font-size:.85rem}.toc ul{list-style:none;padding-left:0;margin:.25rem 0 0;columns:2;column-gap:1.5rem}.toc li{margin:.1rem 0;line-height:1.25;break-inside:avoid}.toc .depth-3{padding-left:.75rem}.toc .depth-4{padding-left:1.5rem}.toc a:hover{text-decoration:underline}nav{display:flex;gap:1rem;margin-bottom:2rem;align-items:center}#dark-toggle{margin-left:auto;background:none;border:1px solid light-dark(#ccc,#555);border-radius:4px;padding:.2rem .5rem;cursor:pointer;font-size:.85rem;color:inherit}@media(max-width:768px){body{padding:.5rem;font-size:.9rem}h1{font-size:1.3rem}h2{font-size:1.1rem}h3{font-size:1rem}pre,.code-math-block,.algorithmic{padding:.5rem;border-radius:0;margin-left:-.5rem;margin-right:-.5rem}table{font-size:.8rem}th,td{padding:4px 6px}.toc ul{columns:1}ul,ol{padding-left:1.2rem}.banner{border-radius:0;margin-left:-.5rem;margin-right:-.5rem}nav{margin-bottom:1rem}}
+</style></head> <body> <script>
+      const stored = localStorage.getItem('color-scheme');
+      if (stored) document.body.style.colorScheme = stored;
+    </script> <nav> <a href="/hts-specs-md">hts-specs-md</a> <a href="/hts-specs-md/about">About</a> <button id="dark-toggle" aria-label="Toggle dark mode">🌓</button> </nav> <main> <h1>CRAM format specification (version 3.1)</h1> <p class="banner"><strong>This is an unofficial HTML rendering of the specification.</strong> The official specification is maintained at <a href="https://github.com/samtools/hts-specs">samtools/hts-specs</a>. This rendering is based on commit <a href="https://github.com/samtools/hts-specs/commit/07a4382"><code>07a4382</code></a>, dated 4 Jun 2025.</p> <details class="toc"> <summary>Table of Contents</summary> <ul> <li class="depth-2"> <a href="#2.1">2.1 Logical data types</a> </li><li class="depth-2"> <a href="#2.2">2.2 Reading and writing bits in a bit stream</a> </li><li class="depth-3"> <a href="#2.2.1">2.2.1 Example of writing to bit stream</a> </li><li class="depth-3"> <a href="#2.2.2">2.2.2 Note on reading from and writing to bit stream</a> </li><li class="depth-2"> <a href="#2.3">2.3 Writing bytes to a byte stream</a> </li><li class="depth-2"> <a href="#4.1">4.1 CRC32</a> </li><li class="depth-2"> <a href="#4.2">4.2 CRC32 sum</a> </li><li class="depth-2"> <a href="#7.1">7.1 CRAM header container</a> </li><li class="depth-2"> <a href="#8.1">8.1 Block content types</a> </li><li class="depth-2"> <a href="#8.2">8.2 Block content id</a> </li><li class="depth-3"> <a href="#8.2.1">8.2.1 Data blocks</a> </li><li class="depth-2"> <a href="#8.3">8.3 CRAM header block(s)</a> </li><li class="depth-2"> <a href="#8.4">8.4 Compression header block</a> </li><li class="depth-3"> <a href="#8.4.1">8.4.1 Preservation map</a> </li><li class="depth-3"> <a href="#8.4.2">8.4.2 Data series encodings</a> </li><li class="depth-3"> <a href="#8.4.3">8.4.3 Tag encodings</a> </li><li class="depth-3"> <a href="#8.4.4">8.4.4 Tag values</a> </li><li class="depth-2"> <a href="#8.5">8.5 Slice header block</a> </li><li class="depth-2"> <a href="#8.6">8.6 Core data block</a> </li><li class="depth-2"> <a href="#8.7">8.7 External data blocks</a> </li><li class="depth-2"> <a href="#10.1">10.1 CRAM record</a> </li><li class="depth-3"> <a href="#10.1.1">10.1.1 BAM bit flags (BF data series)</a> </li><li class="depth-3"> <a href="#10.1.2">10.1.2 CRAM bit flags (CF data series)</a> </li><li class="depth-3"> <a href="#10.1.3">10.1.3 Decode pseudocode</a> </li><li class="depth-2"> <a href="#10.2">10.2 CRAM positional data</a> </li><li class="depth-2"> <a href="#10.3">10.3 Read names (RN data series)</a> </li><li class="depth-2"> <a href="#10.4">10.4 Mate records</a> </li><li class="depth-3"> <a href="#10.4.1">10.4.1 Next mate bit flags (MF data series)</a> </li><li class="depth-3"> <a href="#10.4.2">10.4.2 Decode mate pseudocode</a> </li><li class="depth-2"> <a href="#10.5">10.5 Auxiliary tags</a> </li><li class="depth-2"> <a href="#10.6">10.6 Mapped reads</a> </li><li class="depth-3"> <a href="#10.6.1">10.6.1 Read feature records</a> </li><li class="depth-3"> <a href="#10.6.2">10.6.2 Read feature codes</a> </li><li class="depth-3"> <a href="#10.6.3">10.6.3 Base substitution codes (BS data series)</a> </li><li class="depth-3"> <a href="#10.6.4">10.6.4 Substitution Matrix Format</a> </li><li class="depth-3"> <a href="#10.6.5">10.6.5 Substitution Code Assignment</a> </li><li class="depth-3"> <a href="#10.6.6">10.6.6 Decode mapped read pseudocode</a> </li><li class="depth-2"> <a href="#10.7">10.7 Unmapped reads</a> </li><li class="depth-3"> <a href="#12.0.1">12.0.1 General notes</a> </li><li class="depth-3"> <a href="#12.0.2">12.0.2 CRAM index</a> </li><li class="depth-3"> <a href="#12.0.3">12.0.3 BAM index</a> </li><li class="depth-2"> <a href="#13.1">13.1 Introduction</a> </li><li class="depth-3"> <a href="#13.1.1">13.1.1 Offset</a> </li><li class="depth-2"> <a href="#13.2">13.2 EXTERNAL: codec ID 1</a> </li><li class="depth-3"> <a href="#13.2.1">13.2.1 Parameters</a> </li><li class="depth-2"> <a href="#13.3">13.3 Huffman coding: codec ID 3</a> </li><li class="depth-3"> <a href="#13.3.1">13.3.1 Canonical code computation</a> </li><li class="depth-3"> <a href="#13.3.2">13.3.2 Examples</a> </li><li class="depth-3"> <a href="#13.3.3">13.3.3 Parameters</a> </li><li class="depth-2"> <a href="#13.4">13.4 Byte array coding</a> </li><li class="depth-3"> <a href="#13.4.1">13.4.1 BYTE_ARRAY_LEN: codec ID 4</a> </li><li class="depth-3"> <a href="#13.4.2">13.4.2 BYTE_ARRAY_STOP: codec ID 5</a> </li><li class="depth-2"> <a href="#13.5">13.5 Beta coding: codec ID 6</a> </li><li class="depth-3"> <a href="#13.5.1">13.5.1 Definition</a> </li><li class="depth-3"> <a href="#13.5.2">13.5.2 Parameters</a> </li><li class="depth-3"> <a href="#13.5.3">13.5.3 Examples</a> </li><li class="depth-2"> <a href="#13.6">13.6 Subexponential coding: codec ID 7</a> </li><li class="depth-3"> <a href="#13.6.1">13.6.1 Definition</a> </li><li class="depth-3"> <a href="#13.6.2">13.6.2 Encoding</a> </li><li class="depth-3"> <a href="#13.6.3">13.6.3 Decoding</a> </li><li class="depth-3"> <a href="#13.6.4">13.6.4 Examples</a> </li><li class="depth-3"> <a href="#13.6.5">13.6.5 Parameters</a> </li><li class="depth-2"> <a href="#13.7">13.7 Gamma coding: codec ID 9</a> </li><li class="depth-3"> <a href="#13.7.1">13.7.1 Definition</a> </li><li class="depth-3"> <a href="#13.7.2">13.7.2 Encoding</a> </li><li class="depth-3"> <a href="#13.7.3">13.7.3 Decoding</a> </li><li class="depth-3"> <a href="#13.7.4">13.7.4 Examples</a> </li><li class="depth-3"> <a href="#13.7.5">13.7.5 Parameters</a> </li><li class="depth-2"> <a href="#13.8">13.8 DEPRECATED: Golomb coding: codec ID 2</a> </li><li class="depth-3"> <a href="#13.8.1">13.8.1 Definition</a> </li><li class="depth-3"> <a href="#13.8.2">13.8.2 Encoding</a> </li><li class="depth-3"> <a href="#13.8.3">13.8.3 Decoding</a> </li><li class="depth-3"> <a href="#13.8.4">13.8.4 Examples</a> </li><li class="depth-3"> <a href="#13.8.5">13.8.5 Parameters</a> </li><li class="depth-2"> <a href="#13.9">13.9 DEPRECATED: Golomb-Rice coding: codec ID 8</a> </li><li class="depth-2"> <a href="#14.1">14.1 Gzip</a> </li><li class="depth-2"> <a href="#14.2">14.2 Bzip2</a> </li><li class="depth-2"> <a href="#14.3">14.3 LZMA</a> </li><li class="depth-2"> <a href="#14.4">14.4 rANS4x8 codec</a> </li><li class="depth-2"> <a href="#14.5">14.5 rANS4x16 codec</a> </li><li class="depth-2"> <a href="#14.6">14.6 adaptive arithemtic coding</a> </li><li class="depth-2"> <a href="#14.7">14.7 fqzcomp codec</a> </li><li class="depth-2"> <a href="#14.8">14.8 name tokeniser</a> </li><li class="depth-2"> <a href="#15.1">15.1 Choosing the container size</a> </li><li class="depth-2"> <a href="#15.2">15.2 CRAM History</a> </li><li class="depth-3"> <a href="#15.2.1">15.2.1 Pre-CRAM: 2010</a> </li><li class="depth-3"> <a href="#15.2.2">15.2.2 CRAM 0.x: 2011</a> </li><li class="depth-3"> <a href="#15.2.3">15.2.3 CRAM 1.0: 2012</a> </li><li class="depth-3"> <a href="#15.2.4">15.2.4 CRAM 2.0: 2013</a> </li><li class="depth-3"> <a href="#15.2.5">15.2.5 CRAM 2.1: 2014</a> </li><li class="depth-3"> <a href="#15.2.6">15.2.6 CRAM 3.0: 2014</a> </li><li class="depth-3"> <a href="#15.2.7">15.2.7 CRAM 3.1: 2023</a> </li><li class="depth-2"> <a href="#15.3">15.3 Contributors and Acknowledgements</a> </li> </ul> </details>  <p>This specification describes the CRAM 3.0 and 3.1 formats.</p>
 <p>CRAM has the following major objectives:</p>
 <ol>
 <li>
@@ -616,11 +619,15 @@ compressed size of zero.</p>
 </tr>
 <tr>
 <td>SLICE_HEADER<sup>a</sup></td>
-<td>2
-3</td>
+<td>2</td>
 <td>Slice header block</td>
-<td>See specific section
-reserved</td>
+<td>See specific section</td>
+</tr>
+<tr>
+<td></td>
+<td>3</td>
+<td></td>
+<td>reserved</td>
 </tr>
 <tr>
 <td>EXTERNAL_DATA</td>
@@ -1193,10 +1200,7 @@ and alignment start set to 4542278.</p>
 </thead>
 <tbody>
 <tr>
-<td><em>Container header</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Container header</em></td>
 </tr>
 <tr>
 <td>0f 00 00 00</td>
@@ -1259,10 +1263,7 @@ and alignment start set to 4542278.</p>
 <td>container header CRC32</td>
 </tr>
 <tr>
-<td><em>Compression header block</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Compression header block</em></td>
 </tr>
 <tr>
 <td>00</td>
@@ -1295,10 +1296,7 @@ and alignment start set to 4542278.</p>
 <td>uncompressed size</td>
 </tr>
 <tr>
-<td><em>Compression header</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td colspan="4"><em>Compression header</em></td>
 </tr>
 <tr>
 <td>01</td>
@@ -2088,58 +2086,55 @@ this:</p>
 <th></th>
 <th><strong>Seq. base</strong></th>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Ref. base</strong></td>
-<td><strong>A</strong></td>
-<td><strong>C</strong></td>
-<td><strong>G</strong></td>
-<td><strong>T</strong></td>
+<td><strong>A</strong>
+<strong>C</strong>
+<strong>G</strong>
+<strong>T</strong></td>
 <td><strong>N</strong></td>
 </tr>
 <tr>
 <td>A</td>
-<td>-</td>
-<td>1</td>
-<td>2</td>
-<td>0</td>
+<td>-
+1
+2
+0</td>
 <td>3</td>
 </tr>
 <tr>
 <td>C</td>
-<td>1</td>
-<td>-</td>
-<td>0</td>
-<td>2</td>
+<td>1
+-
+0
+2</td>
 <td>3</td>
 </tr>
 <tr>
 <td>G</td>
-<td>2</td>
-<td>0</td>
-<td>-</td>
-<td>1</td>
+<td>2
+0
+-
+1</td>
 <td>3</td>
 </tr>
 <tr>
 <td>T</td>
-<td>0</td>
-<td>2</td>
-<td>1</td>
-<td>-</td>
+<td>0
+2
+1
+-</td>
 <td>3</td>
 </tr>
 <tr>
 <td>N</td>
-<td>0</td>
-<td>1</td>
-<td>2</td>
-<td>3</td>
+<td>0
+1
+2
+3</td>
 <td>-</td>
 </tr>
 </tbody>
@@ -2174,53 +2169,50 @@ data as above with codes sorted into 0, 1, 2, 3 order.</p>
 <tr>
 <th></th>
 <th><strong>BS Code</strong></th>
-<th></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Ref. base</strong></td>
-<td><strong>0</strong></td>
-<td><strong>1</strong></td>
-<td><strong>2</strong></td>
-<td><strong>3</strong></td>
+<td><strong>0</strong>
+<strong>1</strong>
+<strong>2</strong>
+<strong>3</strong></td>
 </tr>
 <tr>
 <td>A</td>
-<td>T</td>
-<td>C</td>
-<td>G</td>
-<td>N</td>
+<td>T
+C
+G
+N</td>
 </tr>
 <tr>
 <td>C</td>
-<td>G</td>
-<td>A</td>
-<td>T</td>
-<td>N</td>
+<td>G
+A
+T
+N</td>
 </tr>
 <tr>
 <td>G</td>
-<td>C</td>
-<td>T</td>
-<td>A</td>
-<td>N</td>
+<td>C
+T
+A
+N</td>
 </tr>
 <tr>
 <td>T</td>
-<td>A</td>
-<td>G</td>
-<td>C</td>
-<td>N</td>
+<td>A
+G
+C
+N</td>
 </tr>
 <tr>
 <td>N</td>
-<td>A</td>
-<td>C</td>
-<td>G</td>
-<td>T</td>
+<td>A
+C
+G
+T</td>
 </tr>
 </tbody>
 </table>
@@ -3448,4 +3440,11 @@ speed of Huffman coding with compression rate of arithmetic coding</em>,
 <p>Staden IO_Lib 1.13.0 and later HTSlib 0.2.0 <a href="#user-content-fnref-11" data-footnote-backref="" aria-label="Back to reference 11" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
-</section>  </main> </body></html>
+</section>  </main> <script>
+      document.getElementById('dark-toggle').addEventListener('click', () => {
+        const current = document.body.style.colorScheme;
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.body.style.colorScheme = next;
+        localStorage.setItem('color-scheme', next);
+      });
+    </script> </body> </html>
