@@ -8,47 +8,14 @@ const base = import.meta.env.BASE_URL;
     <title>TeX-to-HTML Converter Comparison</title>
     <style>
       body {
-        font-family: system-ui, sans-serif;
-        margin: 0;
-        padding: 1rem;
-        background: #f5f5f5;
+        font-family: "Charter", "Bitstream Charter", "Georgia", serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
       }
-      h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
-      .description { font-size: 0.9rem; color: #555; margin-bottom: 1rem; }
-      .tabs {
-        display: flex;
-        gap: 4px;
-        margin-bottom: 0;
-      }
-      .tab {
-        padding: 8px 16px;
-        background: #ddd;
-        border: 1px solid #ccc;
-        border-bottom: none;
-        border-radius: 6px 6px 0 0;
-        cursor: pointer;
-        font-size: 0.85rem;
-        font-weight: 600;
-      }
-      .tab.active {
-        background: white;
-        border-bottom: 1px solid white;
-        margin-bottom: -1px;
-        z-index: 1;
-      }
-      .frame-container {
-        border: 1px solid #ccc;
-        background: white;
-        border-radius: 0 6px 6px 6px;
-      }
-      iframe {
-        width: 100%;
-        height: 85vh;
-        border: none;
-        display: block;
-      }
-      nav { margin-bottom: 1rem; }
-      nav a { margin-right: 1rem; }
+      nav { display: flex; gap: 1rem; margin-bottom: 2rem; }
+      ul { line-height: 2; }
+      a { color: #0969da; }
     </style>
   </head>
   <body>
@@ -56,29 +23,15 @@ const base = import.meta.env.BASE_URL;
       <a href={base}>hts-specs-md</a>
       <a href={`${base}/about`}>About</a>
     </nav>
-    <h1>TeX-to-HTML Converter Comparison: CRAMv3</h1>
-    <p class="description">
-      Comparing three approaches for converting CRAMv3.tex to HTML:
-      our Pandoc pipeline (TeX &rarr; GFM Markdown &rarr; Astro/HTML),
-      htlatex/tex4ht (direct TeX &rarr; XHTML+MathML),
-      and LaTeXML (TeX &rarr; XML &rarr; HTML5+MathML).
+    <h1>TeX-to-HTML Converter Comparison</h1>
+    <p>
+      Comparing three approaches for converting CRAMv3.tex to HTML.
+      Open each in a new tab to compare side by side.
     </p>
-    <div class="tabs">
-      <div class="tab active" data-src={`${base}/CRAMv3`}>Pandoc (current)</div>
-      <div class="tab" data-src={`${base}/compare/CRAMv3-htlatex.html`}>htlatex (tex4ht)</div>
-      <div class="tab" data-src={`${base}/compare/CRAMv3-latexml.html`}>LaTeXML</div>
-    </div>
-    <div class="frame-container">
-      <iframe id="viewer" src={`${base}/CRAMv3`}></iframe>
-    </div>
-    <script>
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          document.getElementById('viewer').src = tab.dataset.src;
-        });
-      });
-    </script>
+    <ul>
+      <li><a href={`${base}/CRAMv3`} target="_blank">Pandoc (current pipeline)</a> — TeX &rarr; GFM Markdown &rarr; Astro/HTML</li>
+      <li><a href={`${base}/compare/CRAMv3-htlatex.html`} target="_blank">htlatex (tex4ht)</a> — direct TeX &rarr; XHTML + MathML</li>
+      <li><a href={`${base}/compare/CRAMv3-latexml.html`} target="_blank">LaTeXML</a> — TeX &rarr; XML &rarr; HTML5 + MathML</li>
+    </ul>
   </body>
 </html>
